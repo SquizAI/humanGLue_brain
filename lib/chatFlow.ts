@@ -35,6 +35,9 @@ class ChatFlow {
       case 'solution':
         return this.handleSolution(input, userData)
       
+      case 'booking':
+        return this.handleBooking(input, userData)
+      
       default:
         return { 
           message: "I'm here to help you navigate organizational transformation. What would you like to explore?",
@@ -82,7 +85,7 @@ class ChatFlow {
         input
       
       return {
-        message: `As ${role}, you have a unique vantage point on organizational dynamics.\n\nWhat's the primary challenge you're looking to address?`,
+        message: `As ${role}, you have a unique vantage point on organizational dynamics.\n\n**Key insight:** ${role}s who implement Human Glue report 35% improvement in strategic decision-making.\n\nWhat's the primary challenge you're looking to address?`,
         data: { role },
         suggestions: [
           { text: "AI adoption & integration", icon: Brain },
@@ -99,7 +102,7 @@ class ChatFlow {
         input
         
       return {
-        message: `"${challenge}" is a critical area many organizations face today.\n\nHow many employees does ${userData.company} have?`,
+        message: `"${challenge}" is a critical area many organizations face today.\n\n**Note:** 73% of enterprises struggle with ${challenge.toLowerCase()} without proper frameworks.\n\nHow many employees does ${userData.company} have?`,
         nextState: 'assessment',
         data: { challenge },
         suggestions: [
@@ -156,31 +159,63 @@ class ChatFlow {
   }
 
   private handleSolution(input: string, userData: any): ChatResponse {
+    // Check if we're collecting email
+    if (userData.awaitingEmail) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      if (emailRegex.test(input)) {
+        return {
+          message: `Perfect! I've sent a personalized transformation roadmap to ${input}.\n\n**Your Next Steps:**\n1. Check your email for your custom ${userData.company} AI readiness report\n2. Review the 90-day quick wins specific to ${userData.challenge}\n3. Schedule a strategy session with our ${userData.role} specialist\n\n**Important:** Your organization profile indicates potential for 40% productivity gains within 6 months.\n\nWould you like me to schedule a 30-minute executive briefing this week?`,
+          nextState: 'booking',
+          data: { email: input, awaitingEmail: false },
+          suggestions: [
+            { text: "Yes, show me available times", icon: Briefcase },
+            { text: "Tell me more about the process", icon: Target },
+            { text: "What's included in the briefing?", icon: Brain }
+          ]
+        }
+      } else {
+        return {
+          message: "Please provide a valid email address so I can send your personalized insights:",
+          data: { awaitingEmail: true },
+          suggestions: []
+        }
+      }
+    }
+    
     const isPositive = this.detectPositiveIntent(input)
     
-    if (isPositive) {
+    if (isPositive || input.toLowerCase().includes('book') || input.toLowerCase().includes('schedule')) {
       return {
-        message: `Excellent. Let's create a transformative journey for ${userData.company}.\n\nOur team will prepare a comprehensive strategy addressing ${userData.challenge}.\n\nWhat's the best email for your personalized insights?`,
-        nextState: 'booking',
+        message: `Excellent! Let's create your ${userData.company} transformation roadmap.\n\n**Based on your profile:**\n• Organization: ${userData.company}\n• Your role: ${userData.role}\n• Focus area: ${userData.challenge}\n• Scale: ${userData.size}\n\nI'll prepare a comprehensive strategy with:\n✓ 5-dimension organizational assessment\n✓ Custom implementation timeline\n✓ ROI projections for your industry\n✓ Quick wins you can implement immediately\n\nWhat's the best email for your personalized insights?`,
+        data: { awaitingEmail: true },
         suggestions: []
       }
     } else if (input.toLowerCase().includes('case') || input.toLowerCase().includes('roi')) {
       return {
-        message: `Here's what similar organizations achieved:\n\n📈 40% improvement in decision-making speed\n👥 35% increase in employee engagement\n🎯 60% faster AI adoption\n💰 3.2x ROI within 18 months\n\nWould you like specifics for your industry?`,
+        message: `**Human Glue Results for ${userData.companyType || 'Enterprise'} Organizations:**\n\n📈 **Performance Metrics:**\n• 40% improvement in decision-making speed\n• 35% increase in employee engagement\n• 60% faster AI adoption vs. industry average\n• 3.2x ROI within 18 months\n\n💡 **Example:** A ${userData.size} ${userData.companyType || 'company'} addressing ${userData.challenge} achieved:\n• $2.3M in productivity gains (Year 1)\n• 47% reduction in transformation timeline\n• 89% leadership buy-in rate\n\nWould you like to see your projected outcomes?`,
         suggestions: [
-          { text: "Yes, show industry data", icon: BarChart3 },
-          { text: "Schedule a demo", icon: Target },
-          { text: "Download case study", icon: Briefcase }
+          { text: "Yes, calculate my ROI", icon: BarChart3 },
+          { text: "Schedule executive briefing", icon: Target },
+          { text: "Download detailed case study", icon: Briefcase }
+        ]
+      }
+    } else if (input.toLowerCase().includes('timeline') || input.toLowerCase().includes('implement')) {
+      return {
+        message: `**${userData.company} Implementation Timeline:**\n\n**Phase 1 (Weeks 1-4): Discovery & Assessment**\n• AI-powered organizational analysis\n• Leadership alignment sessions\n• Current state documentation\n\n**Phase 2 (Weeks 5-12): Strategic Planning**\n• Custom transformation roadmap\n• Quick win identification\n• Change readiness assessment\n\n**Phase 3 (Weeks 13-24): Implementation**\n• Pilot program launch\n• Skills development workshops\n• Progress tracking & optimization\n\n**Phase 4 (Ongoing): Scale & Sustain**\n• Enterprise-wide rollout\n• Continuous improvement\n• ROI measurement\n\nReady to start your transformation?`,
+        suggestions: [
+          { text: "Yes, let's begin", icon: Zap },
+          { text: "Discuss with my team first", icon: Users },
+          { text: "See pricing options", icon: BarChart3 }
         ]
       }
     } else {
       return {
-        message: `I understand you'd like more information. What would be most valuable for you?`,
+        message: `I understand you need more information about Human Glue's approach to ${userData.challenge}.\n\n**Our Unique Value:**\n• Only platform combining AI assessment + human expertise\n• Proven methodology across 500+ transformations\n• Industry-specific frameworks for ${userData.companyType || 'your sector'}\n• Guaranteed ROI or continued support at no cost\n\nWhat specific aspect would help you make a decision?`,
         suggestions: [
-          { text: "Pricing information", icon: BarChart3 },
-          { text: "Technical capabilities", icon: Brain },
-          { text: "Client testimonials", icon: Users },
-          { text: "Security & compliance", icon: Target }
+          { text: "Pricing & packages", icon: BarChart3 },
+          { text: "Security & compliance", icon: Target },
+          { text: "Integration with our systems", icon: Brain },
+          { text: "Talk to a specialist", icon: Users }
         ]
       }
     }
@@ -199,6 +234,40 @@ class ChatFlow {
     if (input.includes('5,000-20') || input.includes('5000-20')) return 10000
     if (input.includes('20,000') || input.includes('20000')) return 30000
     return 1000
+  }
+
+  private handleBooking(input: string, userData: any): ChatResponse {
+    if (input.toLowerCase().includes('yes') || input.toLowerCase().includes('show') || input.toLowerCase().includes('time')) {
+      return {
+        message: `**Available Executive Briefing Slots:**\n\n📅 **This Week:**\n• Tuesday 2:00 PM - 2:30 PM EST\n• Wednesday 10:00 AM - 10:30 AM EST\n• Thursday 3:00 PM - 3:30 PM EST\n\n📅 **Next Week:**\n• Monday 11:00 AM - 11:30 AM EST\n• Tuesday 1:00 PM - 1:30 PM EST\n• Wednesday 4:00 PM - 4:30 PM EST\n\n**Meeting Agenda:**\n1. Review your ${userData.company} assessment results\n2. Discuss quick wins for ${userData.challenge}\n3. Customize implementation roadmap\n4. Answer your questions\n\nWhich time works best for you?`,
+        suggestions: [
+          { text: "Tuesday 2:00 PM this week", icon: Briefcase },
+          { text: "Wednesday 10:00 AM this week", icon: Briefcase },
+          { text: "Monday 11:00 AM next week", icon: Briefcase },
+          { text: "Different time", icon: Target }
+        ]
+      }
+    } else if (input.toLowerCase().includes('process') || input.toLowerCase().includes('included')) {
+      return {
+        message: `**Executive Briefing Details:**\n\n**Duration:** 30 minutes via video call\n\n**Participants:**\n• You and up to 3 team members\n• Human Glue transformation specialist\n• Industry expert (when applicable)\n\n**What We'll Cover:**\n✓ Your personalized assessment results\n✓ Industry benchmarks & best practices\n✓ Custom transformation roadmap\n✓ Implementation timeline & milestones\n✓ Investment options & ROI projections\n✓ Q&A session\n\n**What You'll Receive:**\n• Executive summary document\n• Detailed transformation plan\n• ROI calculator access\n• 90-day quick wins guide\n\nNo preparation needed - just bring your questions!`,
+        suggestions: [
+          { text: "Schedule the briefing", icon: Briefcase },
+          { text: "Invite my team", icon: Users },
+          { text: "See sample agenda", icon: Target }
+        ]
+      }
+    } else {
+      // Time slot selected
+      return {
+        message: `Perfect! I've scheduled your executive briefing for ${input}.\n\n✅ **Confirmation sent to:** ${userData.email}\n📧 **Calendar invite:** Check your inbox\n🔗 **Video link:** Included in the invite\n\n**Before our call:**\n• Review the assessment summary I've emailed\n• Invite relevant team members\n• Prepare any specific questions\n\n**Your Human Glue specialist:** Sarah Chen, VP of Enterprise Transformation\n\nLooking forward to discussing ${userData.company}'s transformation journey!\n\nIs there anything specific you'd like us to focus on during the briefing?`,
+        suggestions: [
+          { text: "Focus on quick wins", icon: Zap },
+          { text: "Discuss change management", icon: Users },
+          { text: "Review technology integration", icon: Brain },
+          { text: "All set, thank you!", icon: Target }
+        ]
+      }
+    }
   }
 
   private detectPositiveIntent(input: string): boolean {
