@@ -95,14 +95,14 @@ export function MobileLayout({ children, backgroundState = 'default' }: MobileLa
         
         {/* Mobile Header - Just the logo */}
         <header className="fixed top-0 left-0 right-0 z-40 bg-gray-900/90 backdrop-blur-md border-b border-gray-800">
-          <div className="flex items-center justify-center px-4 py-1.5">
+          <div className="flex items-center justify-center px-4 py-3">
             <Link href="/">
               <Image
                 src="/HumanGlue_nobackground.png"
                 alt="Human Glue"
-                width={80}
-                height={32}
-                className="w-20 h-auto"
+                width={100}
+                height={40}
+                className="w-24 h-auto"
                 priority
               />
             </Link>
@@ -112,7 +112,7 @@ export function MobileLayout({ children, backgroundState = 'default' }: MobileLa
 
 
         {/* Main Content */}
-        <main className="flex-grow pt-10 pb-32">
+        <main className="flex-grow pt-16 pb-32">
           <MobileHomePage onStartChat={() => setIsChatOpen(true)} />
         </main>
 
@@ -223,14 +223,14 @@ export function MobileLayout({ children, backgroundState = 'default' }: MobileLa
       
       {/* Mobile Header - Just the logo */}
       <header className="fixed top-0 left-0 right-0 z-40 bg-gray-900/90 backdrop-blur-md border-b border-gray-800">
-        <div className="flex items-center justify-center px-4 py-1.5">
+        <div className="flex items-center justify-center px-4 py-3">
           <Link href="/">
             <Image
               src="/HumanGlue_nobackground.png"
               alt="Human Glue"
-              width={80}
-              height={32}
-              className="w-20 h-auto"
+              width={100}
+              height={40}
+              className="w-24 h-auto"
               priority
             />
           </Link>
@@ -238,7 +238,7 @@ export function MobileLayout({ children, backgroundState = 'default' }: MobileLa
       </header>
 
       {/* Main Content */}
-      <main className="flex-grow pt-10 pb-20">
+      <main className="flex-grow pt-16 pb-20">
         {children}
       </main>
 

@@ -44,16 +44,16 @@ export function MobileHomePage({ onStartChat }: MobileHomePageProps) {
   ]
 
   return (
-    <div className="flex flex-col px-4 py-4">
+    <div className="flex flex-col px-6 py-6 min-h-full">
       {/* Hero Carousel */}
-      <div className="flex-grow flex flex-col justify-center -mx-4 px-4 mb-6">
+      <div className="flex-grow flex flex-col justify-center mb-8">
         <motion.div
           key={currentSlide}
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -20 }}
           transition={{ duration: 0.3 }}
-          className="text-center bg-gray-900/60 backdrop-blur-md rounded-2xl p-5 -mx-2"
+          className="text-center bg-gray-900/70 backdrop-blur-md rounded-2xl p-6 shadow-xl"
         >
           <motion.div
             initial={{ scale: 0 }}
@@ -119,7 +119,7 @@ export function MobileHomePage({ onStartChat }: MobileHomePageProps) {
       </div>
 
       {/* CTA Section - Fixed at bottom */}
-      <div className="space-y-2 bg-gray-900/60 backdrop-blur-md rounded-2xl p-3 -mx-2">
+      <div className="space-y-3 bg-gray-900/70 backdrop-blur-md rounded-2xl p-4 shadow-xl">
         <motion.button
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
