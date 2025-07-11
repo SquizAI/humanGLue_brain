@@ -8,11 +8,11 @@ import dynamic from 'next/dynamic'
 import { Navigation } from '../components/organisms/Navigation'
 import { Footer } from '../components/organisms/Footer'
 import DynamicBackground from '../components/DynamicBackground'
-import { AIInsightsBanner } from '../components/AIInsightsBanner'
+
 import { MobileLayout } from '../components/templates/MobileLayout'
 import { HeroSection } from '../components/templates/HeroSection'
 import { ChatTransitionWrapper } from '../components/templates/ChatTransitionWrapper'
-import { SharedChatInterface } from '../components/templates/SharedChatInterface'
+import { HeroChatInterface } from '../components/templates/HeroChatInterface'
 import { GlobalAIChat } from '../components/templates/GlobalAIChat'
 import { ChatState, UIState } from '../lib/types'
 import { cn } from '../utils/cn'
@@ -37,14 +37,14 @@ import {
 } from 'lucide-react'
 
 // Dynamic content based on user journey
-const dynamicContent = {
+const getDynamicContent = () => ({
   default: {
     headline: "Transform Your Organization",
     subheadline: "with AI-Powered Insights",
     description: "Start a conversation to discover how Human Glue can strengthen your teams and drive measurable outcomes."
   },
   welcoming: {
-    headline: "Welcome to Human Glue",
+    headline: "Welcome",
     subheadline: "Let's explore your challenges",
     description: "We're analyzing your organizational context to provide personalized insights."
   },
@@ -63,7 +63,7 @@ const dynamicContent = {
     subheadline: "Transformation Roadmap",
     description: "Based on our analysis, here's how we can help you achieve your goals."
   }
-}
+})
 
 export default function Home() {
   const [uiState, setUIState] = useState<UIState>('default')
@@ -126,16 +126,30 @@ export default function Home() {
     }
   }
 
-  const content = dynamicContent[uiState]
+  const content = getDynamicContent()[uiState]
 
-  // Track hero visibility for sticky chat
+  // Track hero visibility and scroll direction
   useEffect(() => {
+    let lastScrollY = window.scrollY
+    
     const handleScroll = () => {
       const heroSection = document.getElementById('hero')
+      const currentScrollY = window.scrollY
+      const scrollingUp = currentScrollY < lastScrollY
+      
       if (heroSection) {
         const rect = heroSection.getBoundingClientRect()
-        setIsHeroVisible(rect.bottom > 100)
+        const heroBottom = rect.bottom
+        
+        setIsHeroVisible(heroBottom > 100)
+        
+        // If scrolling up and hero is coming back into view, hide other sections
+        if (scrollingUp && heroBottom > -100 && heroBottom < window.innerHeight) {
+          setActiveSections(['hero'])
+        }
       }
+      
+      lastScrollY = currentScrollY
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true })
@@ -188,18 +202,18 @@ export default function Home() {
       <div className="relative min-h-screen overflow-x-hidden">
         <DynamicBackground 
           state={uiState} 
-          showImage={true} // Re-enable background image
+          showImage={false} // Disable background image
           overlayOpacity={0.7}
           isHero={true}
         />
         <Navigation />
         
-        {/* AI Insights Banner */}
-        <AIInsightsBanner />
+        
 
         {/* Main Content */}
         <main id="main-content" className="transition-all duration-300">
         {/* Hero Section - AI-First Design */}
+        <div id="hero">
         <HeroSection 
           videoSrc="/HumanGlue.mp4"
           overlayOpacity={0.3}
@@ -275,13 +289,13 @@ export default function Home() {
                     </motion.button>
                     
                     {/* Show additional CTA when presenting */}
-                    {uiState === 'presenting' && userData.company ? (
+                    {uiState === 'presenting' && userData.name ? (
                       <motion.button
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                         className="px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg font-semibold hover:shadow-xl transition-all"
                       >
-                        View {userData.company} Transformation Plan
+                        View Your Transformation Plan
                         <ArrowRight className="w-5 h-5 ml-2 inline" />
                       </motion.button>
                     ) : (
@@ -312,8 +326,8 @@ export default function Home() {
                     </motion.div>
                   )}
 
-                  {/* Dynamic user context */}
-                  {userData.company && (
+                  {/* Dynamic user progress - no company/personal info shown */}
+                  {userData.name && uiState !== 'default' && (
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -321,17 +335,15 @@ export default function Home() {
                       className="mt-12 p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10"
                     >
                       <div className="flex items-center justify-between">
-                        <div>
-                          <p className="text-xs text-gray-400 mb-1">Analyzing for</p>
-                          <p className="text-sm font-medium text-white">{userData.company}</p>
-                          {userData.role && <p className="text-xs text-gray-400">{userData.role}</p>}
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                          <p className="text-sm text-gray-300">
+                            {uiState === 'welcoming' && 'Getting to know your needs...'}
+                            {uiState === 'exploring' && 'Understanding your challenges...'}
+                            {uiState === 'analyzing' && 'Analyzing your requirements...'}
+                            {uiState === 'presenting' && 'Your personalized solution is ready'}
+                          </p>
                         </div>
-                        {userData.size && (
-                          <div className="text-right">
-                            <p className="text-xs text-gray-400 mb-1">Organization Size</p>
-                            <p className="text-sm font-medium text-white">{userData.size}</p>
-                          </div>
-                        )}
                       </div>
                     </motion.div>
                   )}
@@ -363,20 +375,16 @@ export default function Home() {
                 
                 {/* Chat container */}
                 <div className="relative">
-                  <SharedChatInterface 
-                    onStateChange={handleChatStateChange}
-                    userData={userData}
-                    messages={messages}
-                    setMessages={setMessages}
-                    suggestions={suggestions}
-                    setSuggestions={setSuggestions}
-                  />
+                                  <HeroChatInterface 
+                  onStateChange={handleChatStateChange}
+                />
                 </div>
               </motion.div>
             )}
           </div>
         </div>
       </HeroSection>
+      </div>
 
       {/* Dynamic Sections - Use min-height to prevent layout shifts */}
       <div className="relative">
@@ -403,14 +411,14 @@ export default function Home() {
                   className="text-center mb-12"
                 >
                   <h2 className="text-4xl font-bold text-white mb-4">
-                    Solutions Tailored to{' '}
+                    {userData?.name ? `${userData.name}, here are solutions for` : 'Solutions Tailored to'}{' '}
                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
                       {userData.challenge || 'Your Needs'}
                     </span>
                   </h2>
                   <p className="text-lg text-gray-300">
-                    {userData.company ? 
-                      `Here's how we can help ${userData.company} overcome ${userData.challenge || 'organizational challenges'}.` :
+                    {userData?.name ? 
+                      `Our integrated approach will help you overcome ${userData.challenge || 'organizational challenges'}.` :
                       'Our integrated approach addresses your specific organizational challenges.'
                     }
                   </p>

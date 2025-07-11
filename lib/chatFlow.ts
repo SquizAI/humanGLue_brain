@@ -14,7 +14,7 @@ interface ChatResponse {
 
 class ChatFlow {
   getGreeting(): string {
-    return "Welcome. I'm your AI transformation advisor.\n\n**Key Insight:** Organizations using Human Glue achieve 40% faster AI adoption and 3.2x ROI within 18 months.\n\nI can help you:\n• Calculate your potential ROI\n• Get a custom implementation timeline\n• Book a strategy session with our experts\n\nPlease provide your name to begin:"
+    return "Welcome. I'm your AI transformation advisor.\n\nI can help you:\n• Calculate your potential ROI\n• Get a custom implementation timeline\n• Book a strategy session with our experts\n\nLet's start with your first name:"
   }
 
   getGreetingSuggestions() {
@@ -22,7 +22,48 @@ class ChatFlow {
   }
 
   processResponse(currentState: ChatState, input: string, userData: any): ChatResponse {
+    console.log('Processing response - State:', currentState, 'Input:', input, 'UserData:', userData)
+    
+    // Check if user wants to schedule a demo at any point
+    if (input.toLowerCase().includes('schedule') && input.toLowerCase().includes('demo')) {
+      if (!userData.email) {
+        return {
+          message: `I'd be happy to schedule a demo for you, ${userData.name || 'there'}! 
+
+To personalize your demo and send you the calendar invite, I'll need your email address.
+
+**What you'll get:**
+• 30-minute executive briefing
+• Custom ROI analysis for your organization
+• Live demonstration of our AI assessment tool
+• Q&A with our transformation experts
+
+Please provide your email address:`,
+          data: { requestingDemoEmail: true },
+          suggestions: []
+        }
+      } else {
+        return this.scheduleDemoWithEmail(userData)
+      }
+    }
+    
+    // Check if we're collecting email for demo
+    if (userData.requestingDemoEmail && !userData.email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      if (emailRegex.test(input)) {
+        const updatedData = { ...userData, email: input, requestingDemoEmail: false }
+        return this.scheduleDemoWithEmail(updatedData)
+      } else {
+        return {
+          message: "Please provide a valid email address so I can send you the demo details:",
+          data: { requestingDemoEmail: true },
+          suggestions: []
+        }
+      }
+    }
+    
     switch (currentState) {
+      case 'initial':
       case 'greeting':
         return this.handleGreeting(input)
       
@@ -38,23 +79,47 @@ class ChatFlow {
       case 'booking':
         return this.handleBooking(input, userData)
       
+      case 'completed':
+        // If user wants to start over
+        if (input.toLowerCase().includes('start') && input.toLowerCase().includes('new')) {
+          return {
+            message: this.getGreeting(),
+            nextState: 'greeting',
+            data: {} // Reset user data
+          }
+        }
+        // Otherwise use AI for general questions
+        return {
+          message: "Thank you for completing the assessment! Feel free to ask me any questions about Human Glue's solutions, or start a new assessment.",
+          suggestions: [
+            { text: "Start a new conversation", icon: Zap },
+            { text: "Tell me about your solutions", icon: Brain },
+            { text: "Show me case studies", icon: BarChart3 }
+          ]
+        }
+      
       default:
+        // If we have a name but no company, continue discovery
+        if (userData?.name && !userData?.company) {
+          return this.handleDiscovery(input, userData)
+        }
         return { 
           message: "I'm here to help you navigate organizational transformation. What would you like to explore?",
           suggestions: [
+            { text: "Schedule a demo", icon: Briefcase },
             { text: "Assess our AI readiness", icon: Brain },
-            { text: "Improve team collaboration", icon: Users },
-            { text: "Transform our culture", icon: Zap }
+            { text: "Improve team collaboration", icon: Users }
           ]
         }
     }
   }
 
   private handleGreeting(name: string): ChatResponse {
+    // Store the name and move to discovery
     return {
       message: `Thank you, ${name}.\n\n**Organization Profile:** Please select your organization type to receive customized ROI projections and implementation timelines.`,
       nextState: 'discovery',
-      data: { name },
+      data: { name: name.trim() },
       suggestions: [
         { text: "Enterprise (5000+ employees)", icon: Building2 },
         { text: "Mid-market (500-5000)", icon: TrendingUp },
@@ -65,18 +130,95 @@ class ChatFlow {
   }
 
   private handleDiscovery(input: string, userData: any): ChatResponse {
-    if (!userData.company) {
-      const companyType = this.detectCompanyType(input)
+    console.log('HandleDiscovery - Input:', input, 'UserData:', userData)
+    
+    // If user hasn't selected company type yet
+    if (!userData.companyType) {
+      // Check if this is a company type selection
+      const companyTypes = {
+        'enterprise': 'Enterprise (5000+ employees)',
+        'mid-market': 'Mid-market (500-5000)',
+        'growth': 'Growth company (<500)',
+        'evaluating': 'Evaluating options'
+      }
+      
+      let selectedType = null
+      for (const [key, value] of Object.entries(companyTypes)) {
+        if (input.toLowerCase().includes(key) || input === value) {
+          selectedType = value
+          break
+        }
+      }
+      
+      if (selectedType) {
+        // User selected company type, now ask for company name
+        return {
+          message: `${selectedType} - excellent choice. What's your company name?`,
+          data: { companyType: selectedType },
+          suggestions: []
+        }
+      } else {
+        // User didn't select a type, remind them
+        return {
+          message: `I need to understand your organization type first. Please select one of the following to receive customized insights:`,
+          suggestions: [
+            { text: "Enterprise (5000+ employees)", icon: Building2 },
+            { text: "Mid-market (500-5000)", icon: TrendingUp },
+            { text: "Growth company (<500)", icon: Briefcase },
+            { text: "Evaluating options", icon: Target }
+          ]
+        }
+      }
+    } else if (!userData.company) {
+      // We have company type, now get company name
       return {
-        message: `${input} - excellent. Understanding your organization's context is crucial.\n\nWhat's your role in the organization?`,
-        data: { company: input, companyType },
-        suggestions: [
-          { text: "Chief Executive Officer", icon: Target },
-          { text: "Chief People Officer", icon: Users },
-          { text: "Head of Transformation", icon: Zap },
-          { text: "VP of Operations", icon: BarChart3 },
-          { text: "Other (type your role)", icon: Building2 }
-        ]
+        message: `Thank you. ${input} - Understanding your specific organization is crucial.\n\nWhat's your company's website URL? This helps me provide more personalized insights.`,
+        data: { company: input },
+        suggestions: []
+      }
+    } else if (!userData.companyUrl) {
+      // Check if input looks like a URL
+      const urlRegex = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/
+      const isUrl = urlRegex.test(input) || input.includes('.com') || input.includes('.org') || input.includes('.net')
+      
+      if (isUrl) {
+        // Clean up the URL
+        let cleanUrl = input.trim()
+        if (!cleanUrl.startsWith('http://') && !cleanUrl.startsWith('https://')) {
+          cleanUrl = 'https://' + cleanUrl
+        }
+        
+        return {
+          message: `Great! I'll analyze ${userData.company}'s digital presence at ${cleanUrl} to provide tailored recommendations.\n\nWhat's your role in the organization?`,
+          data: { companyUrl: cleanUrl, urlToScrape: cleanUrl },
+          suggestions: [
+            { text: "Chief Executive Officer", icon: Target },
+            { text: "Chief People Officer", icon: Users },
+            { text: "Head of Transformation", icon: Zap },
+            { text: "VP of Operations", icon: BarChart3 },
+            { text: "Other (type your role)", icon: Building2 }
+          ]
+        }
+      } else {
+        // If they didn't provide a URL, ask again or skip
+        if (input.toLowerCase().includes('skip') || input.toLowerCase().includes("don't have")) {
+          return {
+            message: `No problem! Let's continue.\n\nWhat's your role in the organization?`,
+            data: { companyUrl: 'not provided' },
+            suggestions: [
+              { text: "Chief Executive Officer", icon: Target },
+              { text: "Chief People Officer", icon: Users },
+              { text: "Head of Transformation", icon: Zap },
+              { text: "VP of Operations", icon: BarChart3 },
+              { text: "Other (type your role)", icon: Building2 }
+            ]
+          }
+        } else {
+          return {
+            message: `Please provide your company's website URL (e.g., example.com) or type 'skip' if you prefer not to share:`,
+            suggestions: []
+          }
+        }
       }
     } else if (!userData.role) {
       // Store the role and continue
@@ -237,6 +379,19 @@ class ChatFlow {
   }
 
   private handleBooking(input: string, userData: any): ChatResponse {
+    // Check if this is the final thank you
+    if (input.toLowerCase().includes('all set') || input.toLowerCase().includes('thank you')) {
+      return {
+        message: `Thank you for your time, ${userData.name}! I'm excited about ${userData.company}'s transformation journey.\n\n**Quick Summary:**\n• Your briefing is scheduled\n• Check your email for resources\n• Our team will follow up within 24 hours\n\nFeel free to explore our website or reach out if you have any questions before our call.\n\nHave a great day!`,
+        nextState: 'completed' as ChatState,
+        suggestions: [
+          { text: "Start a new conversation", icon: Zap },
+          { text: "Explore our solutions", icon: Brain },
+          { text: "View success stories", icon: TrendingUp }
+        ]
+      }
+    }
+    
     if (input.toLowerCase().includes('yes') || input.toLowerCase().includes('show') || input.toLowerCase().includes('time')) {
       return {
         message: `**Available Executive Briefing Slots:**\n\n📅 **This Week:**\n• Tuesday 2:00 PM - 2:30 PM EST\n• Wednesday 10:00 AM - 10:30 AM EST\n• Thursday 3:00 PM - 3:30 PM EST\n\n📅 **Next Week:**\n• Monday 11:00 AM - 11:30 AM EST\n• Tuesday 1:00 PM - 1:30 PM EST\n• Wednesday 4:00 PM - 4:30 PM EST\n\n**Meeting Agenda:**\n1. Review your ${userData.company} assessment results\n2. Discuss quick wins for ${userData.challenge}\n3. Customize implementation roadmap\n4. Answer your questions\n\nWhich time works best for you?`,
@@ -273,6 +428,42 @@ class ChatFlow {
   private detectPositiveIntent(input: string): boolean {
     const positive = ['yes', 'sure', 'absolutely', 'definitely', 'interested', 'please', 'ok', 'okay', 'book', 'schedule', 'roadmap', 'proposal']
     return positive.some(word => input.toLowerCase().includes(word))
+  }
+
+  private scheduleDemoWithEmail(userData: any): ChatResponse {
+    return {
+      message: `Perfect! I've scheduled your personalized demo, ${userData.name || 'there'}!
+
+✅ **Demo Scheduled**
+📧 **Confirmation sent to:** ${userData.email}
+📅 **Date:** Tuesday, January 14th at 2:00 PM EST
+⏱️ **Duration:** 30 minutes
+🔗 **Meeting link:** Sent to your email
+
+**Your Demo Agenda:**
+1. Review of your organization's profile
+2. Live demonstration of our AI assessment tool
+3. Custom ROI projections for ${userData.company || 'your organization'}
+4. Implementation roadmap discussion
+5. Q&A session
+
+**Before the demo:**
+• Check your email for preparation materials
+• Invite key stakeholders who should attend
+• Prepare any specific questions
+
+Looking forward to showing you how Human Glue can transform ${userData.company || 'your organization'}!
+
+Is there anything specific you'd like us to focus on during the demo?`,
+      nextState: 'booking',
+      data: { email: userData.email, demoScheduled: true },
+      suggestions: [
+        { text: "Focus on ROI metrics", icon: BarChart3 },
+        { text: "Show integration options", icon: Brain },
+        { text: "Discuss implementation timeline", icon: Target },
+        { text: "All set, thank you!", icon: Zap }
+      ]
+    }
   }
 }
 

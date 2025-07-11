@@ -5,6 +5,12 @@ export type ChatState =
   | 'assessment'
   | 'solution'
   | 'booking'
+  | 'completed'
+  | 'collectingBasicInfo'
+  | 'collectingCompanyInfo'
+  | 'collectingChallenges'
+  | 'collectingContactInfo'
+  | 'performingAnalysis'
 
 export type UIState = 
   | 'default'

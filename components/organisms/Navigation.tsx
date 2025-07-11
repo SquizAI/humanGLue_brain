@@ -8,6 +8,7 @@ import { cn } from '../../utils/cn'
 import { Button } from '../atoms'
 import { Menu, X } from 'lucide-react'
 import { useState, useEffect } from 'react'
+import { useChat } from '../../lib/contexts/ChatContext'
 
 export interface NavigationProps {
   className?: string
@@ -23,6 +24,7 @@ export function Navigation({ className }: NavigationProps) {
   const pathname = usePathname()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const { userData } = useChat()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -56,9 +58,9 @@ export function Navigation({ className }: NavigationProps) {
         )}
       >
         <nav className={cn("container max-w-7xl mx-auto px-4 sm:px-6", navHeight, "flex items-center")}>
-          <div className="flex items-center justify-between w-full">
+          <div className="flex items-center justify-between w-full relative">
             {/* Logo */}
-            <Link href="/">
+            <Link href="/" className="flex-shrink-0">
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 transition={{ type: "spring", stiffness: 400, damping: 25 }}
@@ -75,9 +77,9 @@ export function Navigation({ className }: NavigationProps) {
               </motion.div>
             </Link>
 
-            {/* Desktop Navigation */}
+            {/* Desktop Navigation - Centered */}
             <motion.div 
-              className="hidden md:flex items-center gap-6 lg:gap-8"
+              className="hidden md:flex items-center gap-6 lg:gap-8 absolute left-1/2 -translate-x-1/2"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3 }}
@@ -102,12 +104,20 @@ export function Navigation({ className }: NavigationProps) {
                   </motion.span>
                 </Link>
               ))}
-              
-              {/* CTA Button */}
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
+            </motion.div>
+            
+            {/* CTA Button or Welcome Message - Right side */}
+            <motion.div
+              className="hidden md:flex items-center gap-4 flex-shrink-0"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+            >
+              {userData?.name ? (
+                <div className="text-sm text-gray-300">
+                  Welcome back, <span className="text-white font-medium">{userData.name}</span>
+                </div>
+              ) : (
                 <Link href="/#chat">
                   <Button 
                     variant="gradient"
@@ -117,7 +127,7 @@ export function Navigation({ className }: NavigationProps) {
                     Get Started
                   </Button>
                 </Link>
-              </motion.div>
+              )}
             </motion.div>
             
             {/* Mobile menu button */}

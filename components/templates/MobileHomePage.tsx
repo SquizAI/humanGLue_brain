@@ -44,9 +44,9 @@ export function MobileHomePage({ onStartChat }: MobileHomePageProps) {
   ]
 
   return (
-    <div className="flex flex-col px-4 py-4 min-h-full safe-area-padding">
+    <div className="flex flex-col px-4 pb-4 min-h-screen">
       {/* Hero Carousel */}
-      <div className="flex-grow flex flex-col justify-center mb-6">
+      <div className="flex-grow flex flex-col justify-center mb-4">
         <motion.div
           key={currentSlide}
           initial={{ opacity: 0, x: 20 }}
@@ -97,7 +97,7 @@ export function MobileHomePage({ onStartChat }: MobileHomePageProps) {
         </div>
 
         {/* Key Benefits */}
-        <div className="space-y-2 mb-6 bg-gray-900/50 backdrop-blur-sm rounded-xl p-3">
+        <div className="space-y-2 mb-4 bg-gray-900/50 backdrop-blur-sm rounded-xl p-3">
           {[
             "AI-powered organizational assessment",
             "Expert-facilitated workshops",
@@ -109,10 +109,10 @@ export function MobileHomePage({ onStartChat }: MobileHomePageProps) {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.4 + i * 0.1 }}
-              className="flex items-center gap-2 text-sm"
+              className="flex items-center gap-2"
             >
-              <CheckCircle className="w-3.5 h-3.5 text-green-400 flex-shrink-0" />
-              <span className="text-gray-100 text-xs">{benefit}</span>
+              <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
+              <span className="text-gray-100 text-sm">{benefit}</span>
             </motion.div>
           ))}
         </div>

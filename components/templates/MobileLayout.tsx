@@ -31,7 +31,7 @@ interface MobileLayoutProps {
 
 export function MobileLayout({ children, backgroundState = 'default' }: MobileLayoutProps) {
   const [isChatOpen, setIsChatOpen] = useState(false)
-  const pathname = usePathname()
+  const pathname = usePathname() as string
   const chatRef = useRef<SharedChatInterfaceRef>(null)
   const [viewportHeight, setViewportHeight] = useState('100vh')
   const [keyboardHeight, setKeyboardHeight] = useState(0)
@@ -184,8 +184,8 @@ export function MobileLayout({ children, backgroundState = 'default' }: MobileLa
         {/* Main Content */}
         <main 
           className={`flex-grow overflow-y-auto overflow-x-hidden ${
-            isIOS && !isStandalone ? 'pt-20' : 'pt-16'
-          } pb-32`}
+            isIOS && !isStandalone ? 'pt-16' : 'pt-14'
+          } pb-24`}
           style={{
             WebkitOverflowScrolling: 'touch',
             overscrollBehavior: 'none'
@@ -251,13 +251,7 @@ export function MobileLayout({ children, backgroundState = 'default' }: MobileLa
               {/* Home */}
               <Link
                 href="/"
-                className={`
-                  flex flex-col items-center gap-1 py-3 transition-all active:bg-gray-800/50
-                  ${pathname === '/' 
-                    ? 'text-blue-400' 
-                    : 'text-gray-400 active:text-white'
-                  }
-                `}
+                className="flex flex-col items-center gap-1 py-3 transition-all active:bg-gray-800/50 text-blue-400"
               >
                 <Home className="w-5 h-5" />
                 <span className="text-xs font-medium">Home</span>
@@ -266,13 +260,7 @@ export function MobileLayout({ children, backgroundState = 'default' }: MobileLa
               {/* Solutions */}
               <Link
                 href="/solutions"
-                className={`
-                  flex flex-col items-center gap-1 py-3 transition-all active:bg-gray-800/50
-                  ${pathname === '/solutions' 
-                    ? 'text-blue-400' 
-                    : 'text-gray-400 active:text-white'
-                  }
-                `}
+                className="flex flex-col items-center gap-1 py-3 transition-all active:bg-gray-800/50 text-gray-400 active:text-white"
               >
                 <Brain className="w-5 h-5" />
                 <span className="text-xs font-medium">Solutions</span>
@@ -302,13 +290,7 @@ export function MobileLayout({ children, backgroundState = 'default' }: MobileLa
               {/* Process */}
               <Link
                 href="/process"
-                className={`
-                  flex flex-col items-center gap-1 py-3 transition-all active:bg-gray-800/50
-                  ${pathname === '/process' 
-                    ? 'text-blue-400' 
-                    : 'text-gray-400 active:text-white'
-                  }
-                `}
+                className="flex flex-col items-center gap-1 py-3 transition-all active:bg-gray-800/50 text-gray-400 active:text-white"
               >
                 <Users className="w-5 h-5" />
                 <span className="text-xs font-medium">Process</span>
@@ -317,13 +299,7 @@ export function MobileLayout({ children, backgroundState = 'default' }: MobileLa
               {/* Results */}
               <Link
                 href="/results"
-                className={`
-                  flex flex-col items-center gap-1 py-3 transition-all active:bg-gray-800/50
-                  ${pathname === '/results' 
-                    ? 'text-blue-400' 
-                    : 'text-gray-400 active:text-white'
-                  }
-                `}
+                className="flex flex-col items-center gap-1 py-3 transition-all active:bg-gray-800/50 text-gray-400 active:text-white"
               >
                 <TrendingUp className="w-5 h-5" />
                 <span className="text-xs font-medium">Results</span>

@@ -12,27 +12,29 @@ import {
   ArrowRight,
   Calendar
 } from 'lucide-react'
+import { useChat } from '../../lib/contexts/ChatContext'
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
+  const { userData } = useChat()
 
   const footerLinks = {
     solutions: [
-      { name: 'AI Assessment Tool', href: '/solutions#assessment' },
-      { name: 'Strategic Workshops', href: '/solutions#workshops' },
-      { name: 'Human Glue Toolbox', href: '/solutions#toolbox' }
+      { name: 'AI Assessment Tool', href: '/solutions' },
+      { name: 'Strategic Workshops', href: '/solutions' },
+      { name: 'Human Glue Toolbox', href: '/solutions' }
     ],
     company: [
-      { name: 'About Us', href: '/about' },
+      { name: 'Our Solutions', href: '/solutions' },
       { name: 'Our Process', href: '/process' },
       { name: 'Results', href: '/results' },
-      { name: 'Contact', href: '/#chat' }
+      { name: 'Start Chat', href: '/#chat' }
     ],
     resources: [
-      { name: 'Case Studies', href: '/case-studies' },
-      { name: 'Blog', href: '/blog' },
-      { name: 'Research', href: '/research' },
-      { name: 'FAQ', href: '/faq' }
+      { name: 'Case Studies', href: '/results' },
+      { name: 'Schedule Demo', href: '/#chat' },
+      { name: 'Get Started', href: '/#chat' },
+      { name: 'Contact Us', href: '/#chat' }
     ]
   }
 
@@ -45,10 +47,16 @@ export function Footer() {
             <div className="grid md:grid-cols-2 gap-8 items-center">
               <div>
                 <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
-                  Ready to Transform Your Organization?
+                  {userData?.name 
+                    ? `${userData.name}, Ready to Transform Your Organization?`
+                    : 'Ready to Transform Your Organization?'
+                  }
                 </h3>
                 <p className="text-gray-300 mb-6">
-                  Start with our AI-powered assessment to uncover your organization's hidden potential.
+                  {userData?.name
+                    ? `Continue with our AI-powered assessment to uncover your organization's hidden potential.`
+                    : 'Start with our AI-powered assessment to uncover your organization\'s hidden potential.'
+                  }
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Link href="/#chat">

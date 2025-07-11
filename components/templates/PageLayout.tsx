@@ -6,7 +6,7 @@ import { Footer } from '../organisms/Footer'
 import DynamicBackground from '../DynamicBackground'
 import { motion } from 'framer-motion'
 import { GlobalAIChat } from './GlobalAIChat'
-import { AIInsightsBanner } from '../AIInsightsBanner'
+
 
 interface PageLayoutProps {
   children: ReactNode
@@ -25,8 +25,7 @@ export function PageLayout({ children, backgroundState = 'default', heroBackgrou
         />
         <Navigation />
         
-        {/* AI Insights Banner */}
-        <AIInsightsBanner />
+        
         
         <motion.div
           initial={{ opacity: 0, y: 20 }}
