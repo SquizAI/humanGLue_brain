@@ -30,18 +30,18 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://humanglue.ai'),
+  metadataBase: new URL('https://hmnglue.com'),
   alternates: {
     canonical: '/',
   },
   openGraph: {
     title: 'Human Glue - AI-Powered Organizational Transformation',
     description: 'Transform your organization with AI-powered insights. Strengthen the human connections that drive performance, innovation, and resilience.',
-    url: 'https://humanglue.ai',
+    url: 'https://hmnglue.com',
     siteName: 'Human Glue',
     images: [
       {
-        url: 'https://humanglue.ai/og-image.png',
+        url: 'https://hmnglue.com/og-image.png',
         width: 1200,
         height: 630,
         alt: 'Human Glue - Transforming Organizations with AI',
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Human Glue - AI-Powered Organizational Transformation',
     description: 'Transform your organization with AI-powered insights. Strengthen human connections that drive performance.',
-    images: ['https://humanglue.ai/twitter-image.png'],
+    images: ['https://hmnglue.com/twitter-image.png'],
     creator: '@humanglue',
   },
   robots: {
@@ -108,8 +108,8 @@ export default function RootLayout({
               '@context': 'https://schema.org',
               '@type': 'Organization',
               name: 'Human Glue',
-              url: 'https://humanglue.ai',
-              logo: 'https://humanglue.ai/logo.png',
+              url: 'https://hmnglue.com',
+              logo: 'https://hmnglue.com/logo.png',
               description: 'AI-powered organizational transformation platform',
               sameAs: [
                 'https://twitter.com/humanglue',
@@ -133,7 +133,7 @@ export default function RootLayout({
               '@context': 'https://schema.org',
               '@type': 'WebApplication',
               name: 'Human Glue AI Assistant',
-              url: 'https://humanglue.ai',
+              url: 'https://hmnglue.com',
               applicationCategory: 'BusinessApplication',
               operatingSystem: 'All',
               offers: {

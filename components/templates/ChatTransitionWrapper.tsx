@@ -44,67 +44,9 @@ export function ChatTransitionWrapper({
     }
   }, [isHeroVisible, isChatOpen])
 
-  // Calculate position for hero chat
-  useEffect(() => {
-    if (isHeroVisible) {
-      // Find the #chat element and position the hero chat there
-      const chatElement = document.querySelector('#chat')
-      if (chatElement) {
-        const rect = chatElement.getBoundingClientRect()
-        const heroChatElement = document.querySelector('#hero-chat-container') as HTMLElement
-        if (heroChatElement) {
-          heroChatElement.style.position = 'fixed'
-          heroChatElement.style.top = `${rect.top}px`
-          heroChatElement.style.left = `${rect.left}px`
-          heroChatElement.style.width = `${rect.width}px`
-          heroChatElement.style.height = `${rect.height}px`
-        }
-      }
-    }
-  }, [isHeroVisible])
-
   return (
     <>
-      {/* Hero Chat - Positioned absolutely in the hero section */}
-      {isHeroVisible && (
-        <div id="hero-chat-container" className="z-20 pointer-events-auto">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="relative z-10 min-h-[500px] lg:min-h-[600px]"
-          >
-            {/* Animated glow effect */}
-            <motion.div 
-              className="absolute -inset-4 bg-gradient-to-r from-blue-500/20 to-purple-500/20 blur-2xl"
-              animate={{ 
-                scale: [1, 1.1, 1],
-                opacity: [0.5, 0.7, 0.5]
-              }}
-              transition={{ 
-                duration: 4,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-            />
-            
-            {/* Chat container */}
-            <div className="relative">
-              <SharedChatInterface 
-                ref={chatRef}
-                onStateChange={onStateChange}
-                userData={userData}
-                messages={messages}
-                setMessages={setMessages}
-                suggestions={suggestions}
-                setSuggestions={setSuggestions}
-              />
-            </div>
-          </motion.div>
-        </div>
-      )}
-
-      {/* Sticky Chat - Full height right sidebar */}
+      {/* Sticky Chat - Full height right sidebar (only when not in hero) */}
       <AnimatePresence>
         {!isHeroVisible && isChatOpen && (
           <motion.div

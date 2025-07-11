@@ -11,24 +11,9 @@ import DynamicBackground from '../components/DynamicBackground'
 import { AIInsightsBanner } from '../components/AIInsightsBanner'
 import { MobileLayout } from '../components/templates/MobileLayout'
 import { HeroSection } from '../components/templates/HeroSection'
-
-// Lazy load the chat component to improve initial page load
-const ChatTransitionWrapper = dynamic(
-  () => import('../components/templates/ChatTransitionWrapper').then(mod => ({ default: mod.ChatTransitionWrapper })),
-  { 
-    ssr: true,
-    loading: () => (
-      <div className="w-full max-w-4xl mx-auto">
-        <div className="relative rounded-2xl overflow-hidden border border-white/10 backdrop-blur-xl bg-gray-900/40 h-[500px] animate-pulse">
-          <div className="p-6">
-            <div className="h-4 bg-gray-700 rounded w-3/4 mb-4"></div>
-            <div className="h-4 bg-gray-700 rounded w-1/2"></div>
-          </div>
-        </div>
-      </div>
-    )
-  }
-)
+import { ChatTransitionWrapper } from '../components/templates/ChatTransitionWrapper'
+import { SharedChatInterface } from '../components/templates/SharedChatInterface'
+import { GlobalAIChat } from '../components/templates/GlobalAIChat'
 import { ChatState, UIState } from '../lib/types'
 import { cn } from '../utils/cn'
 import { 
@@ -352,10 +337,41 @@ export default function Home() {
               </AnimatePresence>
             </motion.div>
 
-            {/* Right side - Chat Interface */}
-            <div id="chat">
-              {/* The ChatTransitionWrapper component is now rendered outside the main content */}
-            </div>
+            {/* Right side - Chat Interface for Hero */}
+            {isHeroVisible && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="relative z-10 min-h-[500px] lg:min-h-[600px]"
+              >
+                {/* Animated glow effect */}
+                <motion.div 
+                  className="absolute -inset-4 bg-gradient-to-r from-blue-500/20 to-purple-500/20 blur-2xl"
+                  animate={{ 
+                    scale: [1, 1.1, 1],
+                    opacity: [0.5, 0.7, 0.5]
+                  }}
+                  transition={{ 
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                />
+                
+                {/* Chat container */}
+                <div className="relative">
+                  <SharedChatInterface 
+                    onStateChange={handleChatStateChange}
+                    userData={userData}
+                    messages={messages}
+                    setMessages={setMessages}
+                    suggestions={suggestions}
+                    setSuggestions={setSuggestions}
+                  />
+                </div>
+              </motion.div>
+            )}
           </div>
         </div>
       </HeroSection>
