@@ -191,7 +191,6 @@ export default function Home() {
           showImage={true} // Re-enable background image
           overlayOpacity={0.7}
           isHero={true}
-          videoSrc="/HumanGlue.mp4" // Add the video source
         />
         <Navigation />
         

@@ -31,18 +31,18 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://hmnglue.com'),
+  metadataBase: new URL('https://humanglue.netlify.app'),
   alternates: {
     canonical: '/',
   },
   openGraph: {
     title: 'Human Glue - AI-Powered Organizational Transformation',
     description: 'Transform your organization with AI-powered insights. Strengthen the human connections that drive performance, innovation, and resilience.',
-    url: 'https://hmnglue.com',
+    url: 'https://humanglue.netlify.app',
     siteName: 'Human Glue',
     images: [
       {
-        url: 'https://hmnglue.com/og-image.png',
+        url: 'https://humanglue.netlify.app/og-image.png',
         width: 1200,
         height: 630,
         alt: 'Human Glue - Transforming Organizations with AI',
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Human Glue - AI-Powered Organizational Transformation',
     description: 'Transform your organization with AI-powered insights. Strengthen human connections that drive performance.',
-    images: ['https://hmnglue.com/twitter-image.png'],
+    images: ['https://humanglue.netlify.app/twitter-image.png'],
     creator: '@humanglue',
   },
   robots: {
@@ -109,8 +109,8 @@ export default function RootLayout({
               '@context': 'https://schema.org',
               '@type': 'Organization',
               name: 'Human Glue',
-              url: 'https://hmnglue.com',
-              logo: 'https://hmnglue.com/logo.png',
+              url: 'https://humanglue.netlify.app',
+              logo: 'https://humanglue.netlify.app/logo.png',
               description: 'AI-powered organizational transformation platform',
               sameAs: [
                 'https://twitter.com/humanglue',
@@ -134,7 +134,7 @@ export default function RootLayout({
               '@context': 'https://schema.org',
               '@type': 'WebApplication',
               name: 'Human Glue AI Assistant',
-              url: 'https://hmnglue.com',
+              url: 'https://humanglue.netlify.app',
               applicationCategory: 'BusinessApplication',
               operatingSystem: 'All',
               offers: {
@@ -156,8 +156,12 @@ export default function RootLayout({
         <link rel="preconnect" href="https://images.unsplash.com" />
         {/* Theme color */}
         <meta name="theme-color" content="#1e293b" />
-        {/* Viewport */}
-        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+        {/* Viewport - Optimized for mobile */}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+        {/* iOS specific */}
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="format-detection" content="telephone=no" />
       </head>
       <body className={`${inter.className} bg-gray-900 text-white antialiased`}>
         <ChatProvider>

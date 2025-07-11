@@ -44,16 +44,16 @@ export function MobileHomePage({ onStartChat }: MobileHomePageProps) {
   ]
 
   return (
-    <div className="flex flex-col px-6 py-6 min-h-full">
+    <div className="flex flex-col px-4 py-4 min-h-full safe-area-padding">
       {/* Hero Carousel */}
-      <div className="flex-grow flex flex-col justify-center mb-8">
+      <div className="flex-grow flex flex-col justify-center mb-6">
         <motion.div
           key={currentSlide}
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -20 }}
           transition={{ duration: 0.3 }}
-          className="text-center bg-gray-900/70 backdrop-blur-md rounded-2xl p-6 shadow-xl"
+          className="text-center bg-gray-900/70 backdrop-blur-md rounded-2xl p-6 shadow-xl touch-manipulation"
         >
           <motion.div
             initial={{ scale: 0 }}

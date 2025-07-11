@@ -42,6 +42,8 @@ export const SharedChatInterface = forwardRef<SharedChatInterfaceRef, SharedChat
   const [currentState, setCurrentState] = useState<ChatState>('initial')
   const [selectedModel, setSelectedModel] = useState<AIModel>('claude-sonnet-4')
   const [error, setError] = useState<{ message: string; code?: string } | null>(null)
+  const [isMobile, setIsMobile] = useState(false)
+  const [isIOS, setIsIOS] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const messagesContainerRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -52,6 +54,20 @@ export const SharedChatInterface = forwardRef<SharedChatInterfaceRef, SharedChat
   useEffect(() => {
     localUserData.current = userData
   }, [userData])
+
+  // Detect mobile and iOS
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    
+    const userAgent = window.navigator.userAgent.toLowerCase()
+    setIsIOS(/iphone|ipad|ipod/.test(userAgent))
+    
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   const scrollToBottom = () => {
     // Scroll the messages container instead of using scrollIntoView
