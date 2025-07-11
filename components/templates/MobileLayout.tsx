@@ -15,7 +15,8 @@ import {
   MessageCircle,
   Send,
   ChevronUp,
-  ChevronDown
+  ChevronDown,
+  Sparkles
 } from 'lucide-react'
 import DynamicBackground from '../DynamicBackground'
 import { MobileHomePage } from './MobileHomePage'
@@ -241,59 +242,94 @@ export function MobileLayout({ children, backgroundState = 'default' }: MobileLa
           )}
         </AnimatePresence>
 
-        {/* Sticky Chat Bar - Only show when chat is closed */}
+        {/* Bottom Navigation with Prominent Chat Button */}
         {!isChatOpen && (
-          <div className={`fixed bottom-0 left-0 right-0 z-30 ${
-            isIOS ? 'pb-safe' : ''
+          <nav className={`fixed bottom-0 left-0 right-0 bg-gray-900 border-t border-gray-800 z-30 ${
+            isIOS ? 'pb-safe' : 'pb-2'
           }`}>
-            <motion.div
-              initial={{ y: 100 }}
-              animate={{ y: 0 }}
-              className="bg-gray-900/95 backdrop-blur-md border-t border-gray-800"
-            >
-              <button
-                onClick={() => setIsChatOpen(true)}
-                className="w-full px-4 py-4 flex items-center justify-between group active:bg-gray-800/50 transition-colors"
-                aria-label="Open AI chat assistant"
+            <div className="grid grid-cols-5 items-end">
+              {/* Home */}
+              <Link
+                href="/"
+                className={`
+                  flex flex-col items-center gap-1 py-3 transition-all active:bg-gray-800/50
+                  ${pathname === '/' 
+                    ? 'text-blue-400' 
+                    : 'text-gray-400 active:text-white'
+                  }
+                `}
               >
-                <div className="flex items-center gap-3">
-                  <div className="relative">
-                    <MessageCircle className="w-6 h-6 text-blue-400" />
-                    <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full animate-pulse" />
-                  </div>
-                  <div className="text-left">
-                    <p className="text-white font-medium">Chat with AI Assistant</p>
-                    <p className="text-xs text-gray-400">Get instant answers about Human Glue</p>
-                  </div>
-                </div>
-                <ChevronUp className="w-5 h-5 text-gray-400 group-active:text-white transition-colors" />
-              </button>
-            </motion.div>
-
-            {/* Bottom Navigation */}
-            <nav className={`bg-gray-900 border-t border-gray-800 ${
-              isIOS ? 'pb-safe' : 'pb-2'
-            }`}>
-              <div className="grid grid-cols-4 gap-1">
-                {navItems.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className={`
-                      flex flex-col items-center gap-1 py-3 transition-all active:bg-gray-800/50
-                      ${pathname === item.href 
-                        ? 'text-blue-400' 
-                        : 'text-gray-400 active:text-white'
-                      }
-                    `}
-                  >
-                    <item.icon className="w-5 h-5" />
-                    <span className="text-xs font-medium">{item.label}</span>
-                  </Link>
-                ))}
+                <Home className="w-5 h-5" />
+                <span className="text-xs font-medium">Home</span>
+              </Link>
+              
+              {/* Solutions */}
+              <Link
+                href="/solutions"
+                className={`
+                  flex flex-col items-center gap-1 py-3 transition-all active:bg-gray-800/50
+                  ${pathname === '/solutions' 
+                    ? 'text-blue-400' 
+                    : 'text-gray-400 active:text-white'
+                  }
+                `}
+              >
+                <Brain className="w-5 h-5" />
+                <span className="text-xs font-medium">Solutions</span>
+              </Link>
+              
+              {/* AI Chat - Center Button */}
+              <div className="relative -mt-6">
+                <motion.button
+                  onClick={() => setIsChatOpen(true)}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="relative bg-gradient-to-r from-blue-500 to-purple-500 rounded-full p-4 shadow-lg active:shadow-xl transition-all"
+                  aria-label="Open AI chat assistant"
+                >
+                                <MessageCircle className="w-7 h-7 text-white" />
+              <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full animate-pulse" />
+              <Sparkles className="absolute -bottom-1 -left-1 w-4 h-4 text-yellow-300" />
+                  <motion.div
+                    animate={{ scale: [1, 1.2, 1] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                    className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 opacity-30"
+                  />
+                </motion.button>
+                <span className="text-xs font-medium text-blue-400 mt-1 block text-center">AI Chat</span>
               </div>
-            </nav>
-          </div>
+              
+              {/* Process */}
+              <Link
+                href="/process"
+                className={`
+                  flex flex-col items-center gap-1 py-3 transition-all active:bg-gray-800/50
+                  ${pathname === '/process' 
+                    ? 'text-blue-400' 
+                    : 'text-gray-400 active:text-white'
+                  }
+                `}
+              >
+                <Users className="w-5 h-5" />
+                <span className="text-xs font-medium">Process</span>
+              </Link>
+              
+              {/* Results */}
+              <Link
+                href="/results"
+                className={`
+                  flex flex-col items-center gap-1 py-3 transition-all active:bg-gray-800/50
+                  ${pathname === '/results' 
+                    ? 'text-blue-400' 
+                    : 'text-gray-400 active:text-white'
+                  }
+                `}
+              >
+                <TrendingUp className="w-5 h-5" />
+                <span className="text-xs font-medium">Results</span>
+              </Link>
+            </div>
+          </nav>
         )}
       </div>
     )
@@ -348,29 +384,141 @@ export function MobileLayout({ children, backgroundState = 'default' }: MobileLa
         {children}
       </main>
 
-      {/* Bottom Navigation */}
+      {/* Bottom Navigation with Prominent Chat Button */}
       <nav className={`fixed bottom-0 left-0 right-0 bg-gray-900 border-t border-gray-800 z-30 ${
         isIOS ? 'pb-safe' : 'pb-2'
       }`}>
-        <div className="grid grid-cols-4 gap-1">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`
-                flex flex-col items-center gap-1 py-3 transition-all active:bg-gray-800/50
-                ${pathname === item.href 
-                  ? 'text-blue-400' 
-                  : 'text-gray-400 active:text-white'
-                }
-              `}
+        <div className="grid grid-cols-5 items-end">
+          {/* Home */}
+          <Link
+            href="/"
+            className={`
+              flex flex-col items-center gap-1 py-3 transition-all active:bg-gray-800/50
+              ${pathname === '/' 
+                ? 'text-blue-400' 
+                : 'text-gray-400 active:text-white'
+              }
+            `}
+          >
+            <Home className="w-5 h-5" />
+            <span className="text-xs font-medium">Home</span>
+          </Link>
+          
+          {/* Solutions */}
+          <Link
+            href="/solutions"
+            className={`
+              flex flex-col items-center gap-1 py-3 transition-all active:bg-gray-800/50
+              ${pathname === '/solutions' 
+                ? 'text-blue-400' 
+                : 'text-gray-400 active:text-white'
+              }
+            `}
+          >
+            <Brain className="w-5 h-5" />
+            <span className="text-xs font-medium">Solutions</span>
+          </Link>
+          
+          {/* AI Chat - Center Button */}
+          <div className="relative -mt-6">
+            <motion.button
+              onClick={() => setIsChatOpen(true)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="relative bg-gradient-to-r from-blue-500 to-purple-500 rounded-full p-4 shadow-lg active:shadow-xl transition-all"
+              aria-label="Open AI chat assistant"
             >
-              <item.icon className="w-5 h-5" />
-              <span className="text-xs font-medium">{item.label}</span>
-            </Link>
-          ))}
+              <MessageCircle className="w-7 h-7 text-white" />
+              <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full animate-pulse" />
+              <Sparkles className="absolute -bottom-1 -left-1 w-4 h-4 text-yellow-300" />
+              <motion.div
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
+                className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 opacity-30"
+              />
+            </motion.button>
+            <span className="text-xs font-medium text-blue-400 mt-1 block text-center">AI Chat</span>
+          </div>
+          
+          {/* Process */}
+          <Link
+            href="/process"
+            className={`
+              flex flex-col items-center gap-1 py-3 transition-all active:bg-gray-800/50
+              ${pathname === '/process' 
+                ? 'text-blue-400' 
+                : 'text-gray-400 active:text-white'
+              }
+            `}
+          >
+            <Users className="w-5 h-5" />
+            <span className="text-xs font-medium">Process</span>
+          </Link>
+          
+          {/* Results */}
+          <Link
+            href="/results"
+            className={`
+              flex flex-col items-center gap-1 py-3 transition-all active:bg-gray-800/50
+              ${pathname === '/results' 
+                ? 'text-blue-400' 
+                : 'text-gray-400 active:text-white'
+              }
+            `}
+          >
+            <TrendingUp className="w-5 h-5" />
+            <span className="text-xs font-medium">Results</span>
+          </Link>
         </div>
       </nav>
+
+      {/* Full-Screen Chat Interface */}
+      <AnimatePresence>
+        {isChatOpen && (
+          <motion.div
+            initial={{ y: '100%' }}
+            animate={{ y: 0 }}
+            exit={{ y: '100%' }}
+            transition={{ type: 'spring', damping: 25 }}
+            className="fixed inset-0 z-50 bg-gray-900 flex flex-col"
+            style={{ 
+              height: viewportHeight,
+              paddingBottom: keyboardHeight > 0 ? `${keyboardHeight}px` : '0'
+            }}
+          >
+            {/* Chat Header */}
+            <div className={`flex items-center justify-between px-4 py-2 border-b border-gray-800 bg-gray-900/95 backdrop-blur-sm ${
+              isIOS && !isStandalone ? 'pt-safe' : ''
+            }`}>
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                <span className="text-white font-medium">AI Assistant</span>
+              </div>
+              <button
+                onClick={() => setIsChatOpen(false)}
+                className="p-3 -mr-2 text-gray-400 hover:text-white transition-colors"
+                aria-label="Close chat"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Chat Interface - Full height */}
+            <div className="flex-grow overflow-hidden">
+              <SharedChatInterface 
+                ref={chatRef}
+                onStateChange={handleChatStateChange}
+                userData={userData}
+                messages={messages}
+                setMessages={setMessages}
+                suggestions={suggestions}
+                setSuggestions={setSuggestions}
+                isCompact={false}
+              />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 } 
