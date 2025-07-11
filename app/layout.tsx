@@ -1,6 +1,7 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import { ChatProvider } from '../lib/contexts/ChatContext'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -159,7 +160,9 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
       </head>
       <body className={`${inter.className} bg-gray-900 text-white antialiased`}>
-        {children}
+        <ChatProvider>
+          {children}
+        </ChatProvider>
       </body>
     </html>
   )

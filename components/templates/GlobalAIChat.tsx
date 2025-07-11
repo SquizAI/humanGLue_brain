@@ -7,6 +7,7 @@ import { SharedChatInterface, SharedChatInterfaceRef } from './SharedChatInterfa
 import { ChatState } from '../../lib/types'
 import { cn } from '../../utils/cn'
 import { usePathname } from 'next/navigation'
+import { useChat } from '../../lib/contexts/ChatContext'
 
 interface GlobalAIChatProps {
   userData?: any
@@ -41,15 +42,34 @@ const pageContextPrompts = {
   ]
 }
 
-export function GlobalAIChat({ userData, onStateChange }: GlobalAIChatProps) {
+export function GlobalAIChat({ userData: propsUserData, onStateChange: propsOnStateChange }: GlobalAIChatProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [isMinimized, setIsMinimized] = useState(false)
-  const [messages, setMessages] = useState<any[]>([])
-  const [suggestions, setSuggestions] = useState<any[]>([])
   const [hasInteracted, setHasInteracted] = useState(false)
   const [pulseAnimation, setPulseAnimation] = useState(true)
   const chatRef = useRef<SharedChatInterfaceRef>(null)
   const pathname = usePathname()
+  
+  // Use shared context
+  const { 
+    messages, 
+    setMessages, 
+    userData: contextUserData, 
+    setUserData, 
+    chatState, 
+    setChatState,
+    suggestions,
+    setSuggestions 
+  } = useChat()
+  
+  // Use props if provided, otherwise use context
+  const userData = propsUserData || contextUserData
+  const onStateChange = propsOnStateChange || ((state: ChatState, data?: any) => {
+    setChatState(state)
+    if (data) {
+      setUserData(data)
+    }
+  })
   
   // Don't show on homepage - it has its own chat
   if (pathname === '/') {

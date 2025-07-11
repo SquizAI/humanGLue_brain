@@ -16,6 +16,7 @@ import { SharedChatInterface } from '../components/templates/SharedChatInterface
 import { GlobalAIChat } from '../components/templates/GlobalAIChat'
 import { ChatState, UIState } from '../lib/types'
 import { cn } from '../utils/cn'
+import { useChat } from '../lib/contexts/ChatContext'
 import { 
   ArrowRight, 
   Brain, 
@@ -65,21 +66,23 @@ const dynamicContent = {
 }
 
 export default function Home() {
-  const [chatState, setChatState] = useState<ChatState>('initial')
   const [uiState, setUIState] = useState<UIState>('default')
-  const [userData, setUserData] = useState({
-    name: '',
-    company: '',
-    role: '',
-    challenge: '',
-    size: '',
-  })
   const [showVideo, setShowVideo] = useState(false)
   const [activeSections, setActiveSections] = useState<string[]>(['hero'])
   const [isHeroVisible, setIsHeroVisible] = useState(true)
-  const [messages, setMessages] = useState<any[]>([])
-  const [suggestions, setSuggestions] = useState<any[]>([])
   const [isMobile, setIsMobile] = useState<boolean | null>(null)
+  
+  // Use shared chat context
+  const { 
+    messages, 
+    setMessages, 
+    userData, 
+    setUserData, 
+    chatState, 
+    setChatState,
+    suggestions,
+    setSuggestions 
+  } = useChat()
 
   // Detect mobile
   useEffect(() => {

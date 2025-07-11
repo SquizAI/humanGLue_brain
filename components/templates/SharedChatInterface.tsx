@@ -95,12 +95,20 @@ export const SharedChatInterface = forwardRef<SharedChatInterfaceRef, SharedChat
   }))
 
   useEffect(() => {
+    // Only start conversation if there are no messages at all
     if (!hasStarted.current && messages.length === 0) {
       setTimeout(() => {
         startConversation()
       }, 1500)
+    } else if (messages.length > 0) {
+      // If there are existing messages, mark as started
+      hasStarted.current = true
+      // Set the current state based on the last conversation state
+      if (currentState === 'initial' && userData.name) {
+        setCurrentState('greeting')
+      }
     }
-  }, [])
+  }, [messages.length])
 
   const handleSend = async (inputText?: string) => {
     const messageText = inputText || input
