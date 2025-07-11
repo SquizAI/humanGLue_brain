@@ -9,7 +9,7 @@ const EMAIL_CONFIG = {
   secure: true,
   auth: {
     user: process.env.EMAIL_USER || 'hmnglue@prjctcode.ai',
-    pass: process.env.EMAIL_PASS || 'H)1552@@2;[D'
+    pass: process.env.EMAIL_PASS || '@6^62zb21&1b'
   }
 }
 
