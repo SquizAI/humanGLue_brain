@@ -159,8 +159,9 @@ export default function RootLayout({
         <meta name="theme-color" content="#1e293b" />
         {/* Viewport - Optimized for mobile */}
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-        {/* iOS specific - Updated to modern standards */}
+        {/* iOS specific */}
         <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="format-detection" content="telephone=no" />
         {/* PWA meta tags */}

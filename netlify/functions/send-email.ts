@@ -3,12 +3,12 @@ import * as nodemailer from 'nodemailer'
 
 // Email configuration
 const EMAIL_CONFIG = {
-  host: 'mail.prjctcode.ai',
-  port: 465,
+  host: process.env.EMAIL_HOST || 'mail.prjctcode.ai',
+  port: parseInt(process.env.EMAIL_PORT || '465'),
   secure: true, // true for 465, false for other ports
   auth: {
-    user: 'hmnglue@prjctcode.ai',
-    pass: 'H)1552@@2;[D'
+    user: process.env.EMAIL_USER || 'hmnglue@prjctcode.ai',
+    pass: process.env.EMAIL_PASS || '@6^62zb21&1b'
   }
 }
 
