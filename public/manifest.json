@@ -1,0 +1,56 @@
+{
+  "name": "Human Glue - AI-Powered Organizational Transformation",
+  "short_name": "Human Glue",
+  "description": "Transform your organization with AI-powered insights. Strengthen the human connections that drive performance, innovation, and resilience.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#111827",
+  "theme_color": "#1e293b",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshot-desktop.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "/screenshot-mobile.png",
+      "sizes": "375x812",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ],
+  "categories": ["business", "productivity"],
+  "shortcuts": [
+    {
+      "name": "Start Chat",
+      "short_name": "Chat",
+      "description": "Start AI transformation assessment",
+      "url": "/#chat",
+      "icons": [{ "src": "/chat-icon.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Solutions",
+      "short_name": "Solutions",
+      "description": "View our solutions",
+      "url": "/solutions",
+      "icons": [{ "src": "/solutions-icon.png", "sizes": "96x96" }]
+    }
+  ],
+  "prefer_related_applications": false
+}

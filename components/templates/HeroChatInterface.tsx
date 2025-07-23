@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Sparkles, Send, Brain } from 'lucide-react'
 import { Text } from '../atoms'
-import { Card, QuickResponse } from '../molecules'
+import { Card, QuickResponse, TypingIndicator } from '../molecules'
 import { ChatMessage } from '../organisms'
 import { Message, ChatState } from '../../lib/types'
 import { EnhancedChatFlow } from '../../lib/enhancedChatFlow'
@@ -121,9 +121,11 @@ export function HeroChatInterface({ onStateChange }: HeroChatInterfaceProps) {
   }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault()
-      handleSend()
+    if (e.key === 'Enter') {
+      if (!e.shiftKey || e.ctrlKey || e.metaKey) {
+        e.preventDefault()
+        handleSend()
+      }
     }
   }
 
@@ -187,20 +189,11 @@ export function HeroChatInterface({ onStateChange }: HeroChatInterfaceProps) {
           </AnimatePresence>
           
           {isTyping && (
-            <motion.div 
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="flex items-center gap-3 mb-4"
-            >
-              <div className="flex items-center gap-2 px-4 py-3 rounded-2xl bg-gray-800/70 backdrop-blur-sm border border-gray-700/50">
-                <div className="flex gap-1">
-                  <span className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                  <span className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                  <span className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
-                </div>
-                <Text size="sm" className="text-gray-400 font-medium">AI is thinking...</Text>
-              </div>
-            </motion.div>
+            <TypingIndicator 
+              variant="chat" 
+              className="mb-4"
+              message="Analyzing your response..."
+            />
           )}
 
           {suggestions.length > 0 && !isTyping && messages.length > 0 && (
@@ -221,7 +214,7 @@ export function HeroChatInterface({ onStateChange }: HeroChatInterfaceProps) {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="Type your message..."
+              placeholder="Type your message... (Enter to send)"
               disabled={isTyping}
               className={cn(
                 'flex-1 px-4 py-3 rounded-xl text-sm font-medium',
