@@ -35,6 +35,42 @@ export function HeroChatInterface({ onStateChange }: HeroChatInterfaceProps) {
     }
   }
 
+  const saveProfile = async (userData: any, analysis: any) => {
+    try {
+      // Create the full profile object
+      const profile = {
+        ...userData,
+        id: `profile_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        firstContact: new Date(),
+        lastContact: new Date(),
+        totalInteractions: messages.length,
+        pagesVisited: ['homepage'],
+        leadScore: analysis.scoring.fitScore,
+        leadStage: analysis.scoring.fitScore > 80 ? 'hot' : 
+                   analysis.scoring.fitScore > 60 ? 'warm' : 'cold',
+        estimatedDealSize: analysis.predictions.dealSize,
+        probabilityToClose: analysis.predictions.successProbability
+      }
+
+      // Save to API
+      const response = await fetch('/api/profile', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(profile),
+      })
+
+      if (response.ok) {
+        console.log('Profile saved and assessment email sent to:', profile.email)
+      } else {
+        console.error('Failed to save profile:', await response.text())
+      }
+    } catch (error) {
+      console.error('Error saving profile:', error)
+    }
+  }
+
   useEffect(() => {
     if (hasStarted.current && messages.length > 0) {
       scrollToBottom()
@@ -112,6 +148,11 @@ export function HeroChatInterface({ onStateChange }: HeroChatInterfaceProps) {
           const updatedUserData = { ...localUserData.current, ...response.data }
           localUserData.current = updatedUserData
           onStateChange(currentState, updatedUserData)
+        }
+        
+        // Save profile when analysis is complete
+        if (response.profileAnalysis && response.data?.analysis) {
+          saveProfile(localUserData.current, response.profileAnalysis)
         }
       }, 1500)
     } catch (error) {
