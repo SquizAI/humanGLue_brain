@@ -161,31 +161,33 @@ export function MobileLayout({ children, backgroundState = 'default' }: MobileLa
         
         {/* Mobile Header - iOS-optimized */}
         <header 
-          className={`fixed top-0 left-0 right-0 z-40 bg-gray-900/90 backdrop-blur-md border-b border-gray-800 ${
+          className={`fixed top-0 left-0 right-0 z-40 bg-gray-900/95 backdrop-blur-md border-b border-gray-800 ${
             isIOS && !isStandalone ? 'pt-safe' : ''
           }`}
         >
-          <div className="flex items-center justify-center px-4 py-3">
-            <Link href="/">
+          <div className="flex items-center justify-between px-4 py-2">
+            <Link href="/" className="flex items-center">
               <Image
                 src="/HumanGlue_nobackground.png"
                 alt="Human Glue"
-                width={100}
-                height={40}
-                className="w-24 h-auto"
+                width={90}
+                height={36}
+                className="w-20 h-auto"
                 priority
               />
             </Link>
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+              <span className="text-xs text-gray-400">AI Ready</span>
+            </div>
           </div>
         </header>
 
-
-
         {/* Main Content */}
         <main 
-          className={`flex-grow overflow-y-auto overflow-x-hidden ${
-            isIOS && !isStandalone ? 'pt-16' : 'pt-14'
-          } pb-24`}
+          className={`flex-grow overflow-hidden ${
+            isIOS && !isStandalone ? 'pt-14' : 'pt-12'
+          }`}
           style={{
             WebkitOverflowScrolling: 'touch',
             overscrollBehavior: 'none'
@@ -244,65 +246,63 @@ export function MobileLayout({ children, backgroundState = 'default' }: MobileLa
 
         {/* Bottom Navigation with Prominent Chat Button */}
         {!isChatOpen && (
-          <nav className={`fixed bottom-0 left-0 right-0 bg-gray-900 border-t border-gray-800 z-30 ${
-            isIOS ? 'pb-safe' : 'pb-2'
+          <nav className={`fixed bottom-0 left-0 right-0 bg-gray-900/95 backdrop-blur-md border-t border-gray-800 z-30 ${
+            isIOS ? 'pb-safe' : ''
           }`}>
-            <div className="grid grid-cols-5 items-end">
+            <div className="grid grid-cols-5 items-end h-16">
               {/* Home */}
               <Link
                 href="/"
-                className="flex flex-col items-center gap-1 py-3 transition-all active:bg-gray-800/50 text-blue-400"
+                className="flex flex-col items-center justify-center h-full gap-0.5 transition-all active:bg-gray-800/50 text-blue-400"
               >
                 <Home className="w-5 h-5" />
-                <span className="text-xs font-medium">Home</span>
+                <span className="text-[10px] font-medium">Home</span>
               </Link>
               
               {/* Solutions */}
               <Link
                 href="/solutions"
-                className="flex flex-col items-center gap-1 py-3 transition-all active:bg-gray-800/50 text-gray-400 active:text-white"
+                className="flex flex-col items-center justify-center h-full gap-0.5 transition-all active:bg-gray-800/50 text-gray-400 active:text-white"
               >
                 <Brain className="w-5 h-5" />
-                <span className="text-xs font-medium">Solutions</span>
+                <span className="text-[10px] font-medium">Solutions</span>
               </Link>
               
               {/* AI Chat - Center Button */}
-              <div className="relative -mt-6">
+              <div className="relative flex items-center justify-center">
                 <motion.button
                   onClick={() => setIsChatOpen(true)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="relative bg-gradient-to-r from-blue-500 to-purple-500 rounded-full p-4 shadow-lg active:shadow-xl transition-all"
+                  className="absolute -top-5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full p-3 shadow-lg active:shadow-xl transition-all"
                   aria-label="Open AI chat assistant"
                 >
-                                <MessageCircle className="w-7 h-7 text-white" />
-              <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full animate-pulse" />
-              <Sparkles className="absolute -bottom-1 -left-1 w-4 h-4 text-yellow-300" />
+                  <MessageCircle className="w-6 h-6 text-white" />
+                  <div className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-green-400 rounded-full animate-pulse" />
                   <motion.div
                     animate={{ scale: [1, 1.2, 1] }}
                     transition={{ duration: 2, repeat: Infinity }}
                     className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 opacity-30"
                   />
                 </motion.button>
-                <span className="text-xs font-medium text-blue-400 mt-1 block text-center">AI Chat</span>
               </div>
               
               {/* Process */}
               <Link
                 href="/process"
-                className="flex flex-col items-center gap-1 py-3 transition-all active:bg-gray-800/50 text-gray-400 active:text-white"
+                className="flex flex-col items-center justify-center h-full gap-0.5 transition-all active:bg-gray-800/50 text-gray-400 active:text-white"
               >
                 <Users className="w-5 h-5" />
-                <span className="text-xs font-medium">Process</span>
+                <span className="text-[10px] font-medium">Process</span>
               </Link>
               
               {/* Results */}
               <Link
                 href="/results"
-                className="flex flex-col items-center gap-1 py-3 transition-all active:bg-gray-800/50 text-gray-400 active:text-white"
+                className="flex flex-col items-center justify-center h-full gap-0.5 transition-all active:bg-gray-800/50 text-gray-400 active:text-white"
               >
                 <TrendingUp className="w-5 h-5" />
-                <span className="text-xs font-medium">Results</span>
+                <span className="text-[10px] font-medium">Results</span>
               </Link>
             </div>
           </nav>
