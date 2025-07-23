@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Human Glue - Offline</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #111827;
+            color: #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            text-align: center;
+            max-width: 500px;
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 30px;
+            background: linear-gradient(135deg, #3b82f6, #a855f7);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            font-weight: bold;
+        }
+        
+        h1 {
+            font-size: 32px;
+            margin-bottom: 16px;
+            color: #f3f4f6;
+        }
+        
+        p {
+            font-size: 18px;
+            color: #9ca3af;
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .primary {
+            background: linear-gradient(135deg, #3b82f6, #a855f7);
+            color: white;
+        }
+        
+        .primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+        }
+        
+        .secondary {
+            background: #374151;
+            color: #f3f4f6;
+            border: 1px solid #4b5563;
+        }
+        
+        .secondary:hover {
+            background: #4b5563;
+        }
+        
+        .status {
+            margin-top: 40px;
+            padding: 16px;
+            background: #1f2937;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #9ca3af;
+        }
+        
+        @media (prefers-color-scheme: light) {
+            body {
+                background-color: #f9fafb;
+                color: #111827;
+            }
+            
+            h1 {
+                color: #111827;
+            }
+            
+            p {
+                color: #6b7280;
+            }
+            
+            .secondary {
+                background: #e5e7eb;
+                color: #111827;
+                border-color: #d1d5db;
+            }
+            
+            .secondary:hover {
+                background: #d1d5db;
+            }
+            
+            .status {
+                background: #f3f4f6;
+                color: #6b7280;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">HG</div>
+        <h1>You're Offline</h1>
+        <p>It looks like you've lost your internet connection. Human Glue needs an internet connection to provide AI-powered insights and transformation tools.</p>
+        
+        <div class="buttons">
+            <button class="primary" onclick="window.location.reload()">
+                Try Again
+            </button>
+            <button class="secondary" onclick="history.back()">
+                Go Back
+            </button>
+        </div>
+        
+        <div class="status">
+            <p>While offline, you can still:</p>
+            <ul style="list-style: none; margin-top: 8px;">
+                <li>✓ View previously cached pages</li>
+                <li>✓ Access your saved conversation history</li>
+                <li>✓ Review downloaded resources</li>
+            </ul>
+        </div>
+    </div>
+    
+    <script>
+        // Check connection status periodically
+        setInterval(() => {
+            if (navigator.onLine) {
+                window.location.reload();
+            }
+        }, 5000);
+        
+        // Listen for online event
+        window.addEventListener('online', () => {
+            window.location.reload();
+        });
+    </script>
+</body>
+</html>

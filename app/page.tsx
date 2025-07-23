@@ -219,8 +219,8 @@ export default function Home() {
           overlayOpacity={0.3}
           minHeight="100vh"
         >
-        {/* Animated gradient orbs */}
-        <div className="absolute inset-0 overflow-hidden">
+        {/* Animated gradient orbs - with pointer-events-none to prevent click blocking */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500/20 rounded-full blur-3xl animate-pulse" />
           <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
         </div>
@@ -272,16 +272,18 @@ export default function Home() {
                   </p>
 
                   {/* Primary CTAs - Always visible */}
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start relative z-20">
                     <motion.button
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => setShowVideo(true)}
-                      className="group px-8 py-4 bg-white text-gray-900 rounded-lg font-semibold hover:bg-gray-50 transition-all inline-flex items-center gap-3 shadow-lg"
+                      className="group px-8 py-4 bg-white text-gray-900 rounded-lg font-semibold hover:bg-gray-50 transition-all inline-flex items-center gap-3 shadow-lg relative z-30"
+                      style={{ position: 'relative', pointerEvents: 'auto' }}
                     >
                       <motion.div
                         animate={{ scale: [1, 1.2, 1] }}
                         transition={{ duration: 2, repeat: Infinity }}
+                        style={{ pointerEvents: 'none' }}
                       >
                         <Play className="w-5 h-5" />
                       </motion.div>

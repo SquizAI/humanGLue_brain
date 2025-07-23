@@ -3,6 +3,7 @@ export { IconButton } from './IconButton'
 export { Card } from './Card'
 export { TypingDots } from './TypingDots'
 export { QuickResponse } from './QuickResponse'
+export { TypingIndicator } from './TypingIndicator'
 
 export type { InputFieldProps } from './InputField'
 export type { IconButtonProps } from './IconButton'

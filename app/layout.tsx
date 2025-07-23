@@ -2,6 +2,7 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { ChatProvider } from '../lib/contexts/ChatContext'
+import { PWARegister } from '../components/PWARegister'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -85,7 +86,7 @@ export const metadata: Metadata = {
       },
     ],
   },
-  manifest: '/site.webmanifest',
+  manifest: '/manifest.json',
   verification: {
     google: 'google-site-verification-code',
     yandex: 'yandex-verification-code',
@@ -158,14 +159,18 @@ export default function RootLayout({
         <meta name="theme-color" content="#1e293b" />
         {/* Viewport - Optimized for mobile */}
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-        {/* iOS specific */}
-        <meta name="apple-mobile-web-app-capable" content="yes" />
+        {/* iOS specific - Updated to modern standards */}
+        <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="format-detection" content="telephone=no" />
+        {/* PWA meta tags */}
+        <meta name="application-name" content="Human Glue" />
+        <meta name="apple-mobile-web-app-title" content="Human Glue" />
       </head>
       <body className={`${inter.className} bg-gray-900 text-white antialiased`}>
         <ChatProvider>
           {children}
+          <PWARegister />
         </ChatProvider>
       </body>
     </html>
