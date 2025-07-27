@@ -128,7 +128,7 @@ export function EnhancedHomepage({ userData, chatState, onChatStateChange }: Enh
             <source src="/HumanGlue.mp4" type="video/mp4" />
           </video>
           {/* Dark overlay */}
-          <div className="absolute inset-0 bg-gray-900 transition-opacity duration-700" style={{ opacity: 0.3 }} />
+          <div className="absolute inset-0 bg-gray-900 transition-opacity duration-700" style={{ opacity: 0.6 }} />
           
           {/* Animated gradient orbs */}
           <motion.div
@@ -170,7 +170,7 @@ export function EnhancedHomepage({ userData, chatState, onChatStateChange }: Enh
                 Transform Your
                 <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
-                  Organization
+                  Organization{userData?.name && `, ${userData.name}`}
                 </span>
               </h1>
 
@@ -226,11 +226,9 @@ export function EnhancedHomepage({ userData, chatState, onChatStateChange }: Enh
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
                 className="relative"
+                id="hero-chat-container"
               >
-                <UnifiedChatSystem 
-                  onStateChange={onChatStateChange} 
-                  isHeroVisible={true}
-                />
+                {/* Chat will be portaled here when in hero mode */}
               </motion.div>
             )}
           </div>
@@ -362,13 +360,12 @@ export function EnhancedHomepage({ userData, chatState, onChatStateChange }: Enh
         </div>
       </section>
 
-      {/* Unified Chat System - Sidebar Mode */}
-      {!isHeroVisible && (
-        <UnifiedChatSystem 
-          onStateChange={onChatStateChange} 
-          isHeroVisible={false}
-        />
-      )}
+      {/* Unified Chat System - Single Instance */}
+      <UnifiedChatSystem 
+        onStateChange={onChatStateChange} 
+        isHeroVisible={isHeroVisible}
+        userData={userData}
+      />
     </div>
   )
 } 
