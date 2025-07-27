@@ -3,11 +3,11 @@
 
 [build.environment]
   NEXT_PUBLIC_SITE_URL = "https://hmnglue.com"
-  NODE_VERSION = "18"
+  NODE_VERSION = "20"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
-
+  
 [functions]
   directory = "netlify/functions"
   node_bundler = "esbuild"
