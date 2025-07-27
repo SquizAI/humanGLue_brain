@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Sparkles, Send, Brain, X, Minimize2, Maximize2 } from 'lucide-react'
 import { Text } from '../atoms'
@@ -13,10 +14,11 @@ import { cn } from '../../utils/cn'
 export interface UnifiedChatSystemProps {
   onStateChange: (state: ChatState, data?: any) => void
   isHeroVisible: boolean
+  userData?: any
   className?: string
 }
 
-export function UnifiedChatSystem({ onStateChange, isHeroVisible, className }: UnifiedChatSystemProps) {
+export function UnifiedChatSystem({ onStateChange, isHeroVisible, userData, className }: UnifiedChatSystemProps) {
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
   const [isTyping, setIsTyping] = useState(false)
@@ -187,15 +189,25 @@ export function UnifiedChatSystem({ onStateChange, isHeroVisible, className }: U
     }
   }
 
-  // Hero Chat Layout
-  if (isHeroVisible) {
-    return (
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className={cn("w-full max-w-4xl mx-auto", className)}
-      >
+  const [portalContainer, setPortalContainer] = useState<HTMLElement | null>(null)
+
+  // Find the portal container when switching modes
+  useEffect(() => {
+    if (isHeroVisible) {
+      const container = document.getElementById('hero-chat-container')
+      setPortalContainer(container)
+    } else {
+      setPortalContainer(null)
+    }
+  }, [isHeroVisible])
+
+  const heroChat = (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className={cn("w-full max-w-4xl mx-auto", className)}
+    >
         <div className="relative rounded-3xl overflow-hidden border border-white/10 backdrop-blur-2xl bg-gray-900/30 shadow-2xl">
           <div className="border-b border-white/10 px-6 py-4 bg-gradient-to-r from-gray-900/50 to-gray-800/50 backdrop-blur-xl">
             <div className="flex items-center justify-between">
@@ -312,11 +324,10 @@ export function UnifiedChatSystem({ onStateChange, isHeroVisible, className }: U
           </div>
         </div>
       </motion.div>
-    )
-  }
+  )
 
   // Sidebar Chat Layout
-  return (
+  const sidebarChat = (
     <motion.div
       initial={{ x: 480 }}
       animate={{ x: 0 }}
@@ -437,4 +448,14 @@ export function UnifiedChatSystem({ onStateChange, isHeroVisible, className }: U
       </AnimatePresence>
     </motion.div>
   )
+
+  // Return the appropriate chat based on visibility and portal availability
+  if (isHeroVisible && portalContainer) {
+    return createPortal(heroChat, portalContainer)
+  } else if (!isHeroVisible) {
+    return sidebarChat
+  }
+  
+  // During transition or if portal not ready, return null
+  return null
 } 
