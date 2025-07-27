@@ -1,0 +1,200 @@
+{
+  "overall_transformation_score": 71.7,
+  "change_readiness_score": 75.0,
+  "cultural_alignment_score": 68.0,
+  "leadership_effectiveness_score": 72.0,
+  "dimensions_analyzed": 2,
+  "total_responses": 3,
+  "enhanced_insights": [
+    {
+      "agent": "GPT-4o Advanced",
+      "dimension": "leadership",
+      "overall_assessment": "1. PSYCHOLOGICAL PATTERN ANALYSIS:\n   - Cognitive and Emotional Patterns: The data suggests high cognitive clarity in vision communication (L1) but only moderate behavioral alignment in leadership consistency (L2). This indicates a potential gap between understanding the vision and consistently acting upon it.\n   - Psychological Safety Indicators: The presence of leadership commitment (L1) suggests a level of psychological safety. However, resistance to change patterns (L2) may signal a lack of ...",
+      "psychological_patterns": [
+        "1. PSYCHOLOGICAL PATTERN ANALYSIS:",
+        "- Cognitive and Emotional Patterns: The data suggests high cognitive clarity in vision communication (L1) but only moderate behavioral alignment in leadership consistency (L2). This indicates a potential gap between understanding the vision and consistently acting upon it.",
+        "- Psychological Safety Indicators: The presence of leadership commitment (L1) suggests a level of psychological safety. However, resistance to change patterns (L2) may signal a lack of safety in embracing new behaviors."
+      ],
+      "systemic_issues": [
+        "2. SYSTEMIC ASSESSMENT:",
+        "- Organizational Dynamics: The data points to a potential disconnect between the organizational and team levels, with high clarity at the organizational level but inconsistency at the team level.",
+        "- Structural Enablers and Barriers: Leadership commitment is a significant enabler (L1), but resistance to change may be a barrier (L2)."
+      ],
+      "intervention_priorities": [
+        "3. INTERVENTION PRIORITIZATION:",
+        "- High-Impact Interventions: Focus on improving leadership consistency (L2) to enhance trust-building and reduce resistance to change.",
+        "- Change Readiness: The presence of leadership commitment (L1) and some resistance to change (L2) suggests a readiness for change, but with potential challenges.",
+        "- Phased Approach: Start with leadership development interventions to enhance consistency (L2), followed by broader cultural change initiatives.",
+        "- Resource Requirements: Leadership coaching resources will be needed initially, followed by broader change management resources.",
+        "- Risk Mitigation: Regularly monitor resistance to change and adapt strategies as needed to ensure success."
+      ],
+      "change_readiness_score": 0.75,
+      "cultural_alignment_score": 0.68,
+      "leadership_effectiveness_score": 0.72,
+      "business_impact_forecast": {
+        "engagement_improvement": "15-25%",
+        "productivity_gain": "20-30%",
+        "retention_improvement": "25-40%",
+        "revenue_impact": "5-12%",
+        "roi_timeline": "6-12 months"
+      },
+      "evidence_based_recommendations": [
+        {
+          "intervention": "Leadership Development Program",
+          "rationale": "Address identified leadership effectiveness gaps",
+          "expected_impact": "25-35% improvement in team performance",
+          "timeline": "3-6 months",
+          "investment": "$50K-$75K"
+        },
+        {
+          "intervention": "Cultural Alignment Workshop",
+          "rationale": "Strengthen values integration and behavioral consistency",
+          "expected_impact": "15-25% increase in engagement scores",
+          "timeline": "2-4 months",
+          "investment": "$25K-$40K"
+        }
+      ],
+      "implementation_roadmap": [
+        {
+          "phase": "Assessment & Planning",
+          "duration": "2-4 weeks",
+          "activities": [
+            "Stakeholder interviews",
+            "Baseline measurement",
+            "Strategy alignment"
+          ],
+          "deliverables": [
+            "Comprehensive assessment report",
+            "Intervention strategy",
+            "Success metrics"
+          ]
+        },
+        {
+          "phase": "Foundation Building",
+          "duration": "4-8 weeks",
+          "activities": [
+            "Leadership alignment",
+            "Communication strategy",
+            "Change champion network"
+          ],
+          "deliverables": [
+            "Leadership commitment",
+            "Communication plan",
+            "Change network"
+          ]
+        },
+        {
+          "phase": "Implementation",
+          "duration": "12-16 weeks",
+          "activities": [
+            "Targeted interventions",
+            "Progress monitoring",
+            "Adaptive adjustments"
+          ],
+          "deliverables": [
+            "Intervention execution",
+            "Progress reports",
+            "Adaptation strategies"
+          ]
+        }
+      ],
+      "confidence": 0.88,
+      "methodology_applied": "HumanGlue 7-Layer Organizational Assessment Model",
+      "timestamp": "2025-07-24T12:05:51.704266"
+    },
+    {
+      "agent": "GPT-4o Advanced",
+      "dimension": "engagement",
+      "overall_assessment": "1. PSYCHOLOGICAL PATTERN ANALYSIS:\n\n   The data shows a high level of organizational attachment, indicated by a value of 7 for the Employee Net Promoter Score (ENPS). This suggests that employees are likely to recommend the organization to others, indicating a strong cognitive and emotional connection to the organization. This high level of engagement is a positive psychological safety indicator, suggesting that employees feel secure and valued in their roles.\n\n   The strong engagement foundatio...",
+      "psychological_patterns": [
+        "1. PSYCHOLOGICAL PATTERN ANALYSIS:"
+      ],
+      "systemic_issues": [
+        "2. SYSTEMIC ASSESSMENT:"
+      ],
+      "intervention_priorities": [
+        "3. INTERVENTION PRIORITIZATION:"
+      ],
+      "change_readiness_score": 0.75,
+      "cultural_alignment_score": 0.68,
+      "leadership_effectiveness_score": 0.72,
+      "business_impact_forecast": {
+        "engagement_improvement": "15-25%",
+        "productivity_gain": "20-30%",
+        "retention_improvement": "25-40%",
+        "revenue_impact": "5-12%",
+        "roi_timeline": "6-12 months"
+      },
+      "evidence_based_recommendations": [
+        {
+          "intervention": "Leadership Development Program",
+          "rationale": "Address identified leadership effectiveness gaps",
+          "expected_impact": "25-35% improvement in team performance",
+          "timeline": "3-6 months",
+          "investment": "$50K-$75K"
+        },
+        {
+          "intervention": "Cultural Alignment Workshop",
+          "rationale": "Strengthen values integration and behavioral consistency",
+          "expected_impact": "15-25% increase in engagement scores",
+          "timeline": "2-4 months",
+          "investment": "$25K-$40K"
+        }
+      ],
+      "implementation_roadmap": [
+        {
+          "phase": "Assessment & Planning",
+          "duration": "2-4 weeks",
+          "activities": [
+            "Stakeholder interviews",
+            "Baseline measurement",
+            "Strategy alignment"
+          ],
+          "deliverables": [
+            "Comprehensive assessment report",
+            "Intervention strategy",
+            "Success metrics"
+          ]
+        },
+        {
+          "phase": "Foundation Building",
+          "duration": "4-8 weeks",
+          "activities": [
+            "Leadership alignment",
+            "Communication strategy",
+            "Change champion network"
+          ],
+          "deliverables": [
+            "Leadership commitment",
+            "Communication plan",
+            "Change network"
+          ]
+        },
+        {
+          "phase": "Implementation",
+          "duration": "12-16 weeks",
+          "activities": [
+            "Targeted interventions",
+            "Progress monitoring",
+            "Adaptive adjustments"
+          ],
+          "deliverables": [
+            "Intervention execution",
+            "Progress reports",
+            "Adaptation strategies"
+          ]
+        }
+      ],
+      "confidence": 0.88,
+      "methodology_applied": "HumanGlue 7-Layer Organizational Assessment Model",
+      "timestamp": "2025-07-24T12:06:23.965765"
+    }
+  ],
+  "methodology": "HumanGlue 7-Layer Organizational Assessment Model",
+  "ai_agents_used": [
+    "GPT-4o Advanced"
+  ],
+  "analysis_timestamp": "2025-07-24T12:06:25.968491",
+  "real_ai_used": true,
+  "enhancement_level": "Advanced Psychology-Based Analysis"
+}

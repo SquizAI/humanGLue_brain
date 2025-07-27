@@ -116,9 +116,21 @@ export function EnhancedHomepage({ userData, chatState, onChatStateChange }: Enh
 
       {/* Hero Section with Chat */}
       <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Animated Background */}
+        {/* Video Background */}
         <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-950 to-black" />
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover"
+          >
+            <source src="/HumanGlue.mp4" type="video/mp4" />
+          </video>
+          {/* Dark overlay */}
+          <div className="absolute inset-0 bg-gray-900 transition-opacity duration-700" style={{ opacity: 0.3 }} />
+          
+          {/* Animated gradient orbs */}
           <motion.div
             className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500/20 rounded-full blur-3xl"
             animate={{

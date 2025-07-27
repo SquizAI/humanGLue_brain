@@ -1,0 +1,49 @@
+{
+  "mcpServers": {
+    "sequential-thinking": {
+      "command": "/Users/mattysquarzoni/.nvm/versions/node/v24.4.1/bin/npx",
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
+    },
+    "puppeteer": {
+      "command": "/Users/mattysquarzoni/.nvm/versions/node/v24.4.1/bin/npx",
+      "args": ["-y", "@modelcontextprotocol/server-puppeteer"]
+    },
+    "supabase-mcp-server": {
+      "command": "/Users/mattysquarzoni/.nvm/versions/node/v24.4.1/bin/npx",
+      "args": ["-y", "@supabase/mcp-server-supabase@latest", "--access-token", "sbp_7fe234f01d83baf98e33439358447099d8bf7fc4"]
+    },
+    "notion-mcp-server": {
+      "command": "/Users/mattysquarzoni/.nvm/versions/node/v24.4.1/bin/npx",
+      "args": ["-y", "@notionhq/notion-mcp-server"],
+      "env": {
+        "OPENAPI_MCP_HEADERS": "{\"Authorization\": \"Bearer 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\", \"Notion-Version\": \"2022-06-28\"}"
+      }
+    },
+    "mcp-server-firecrawl": {
+      "command": "/Users/mattysquarzoni/.nvm/versions/node/v24.4.1/bin/npx",
+      "args": ["-y", "firecrawl-mcp"],
+      "env": {
+        "FIRECRAWL_API_KEY": "fc-9ac6f2aa762943ff98b747c18b546539"
+      }
+    },
+    "netlify": {
+      "command": "/Users/mattysquarzoni/.nvm/versions/node/v24.4.1/bin/npx",
+      "args": ["-y", "@netlify/mcp"],
+      "env": {
+        "NETLIFY_PERSONAL_ACCESS_TOKEN": "nfp_hA1HK7f8AJVrE6FX2CNeQAu1nVJ32MMc1e64"
+      }
+    },
+    "mcp-playwright": {
+      "command": "/Users/mattysquarzoni/.nvm/versions/node/v24.4.1/bin/npx",
+      "args": ["-y", "@executeautomation/playwright-mcp-server"]
+    },
+    "filesystem": {
+      "command": "/Users/mattysquarzoni/.nvm/versions/node/v24.4.1/bin/npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/Users/mattysquarzoni/Documents/HumanGlue_website/humanGLue_brain"]
+    },
+    "git": {
+      "command": "/Users/mattysquarzoni/.nvm/versions/node/v24.4.1/bin/npx",
+      "args": ["-y", "@modelcontextprotocol/server-git", "--repository", "/Users/mattysquarzoni/Documents/HumanGlue_website/humanGLue_brain"]
+    }
+  }
+}

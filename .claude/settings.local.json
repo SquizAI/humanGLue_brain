@@ -32,7 +32,18 @@
       "Bash(git push:*)",
       "mcp__netlify__netlify-project-services",
       "mcp__netlify__netlify-deploy-services",
-      "Bash(netlify:*)"
+      "Bash(netlify:*)",
+      "Bash(ls:*)",
+      "Bash(OPENAPI_MCP_HEADERS='{\"\"Authorization\"\": \"\"Bearer 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\"\", \"\"Notion-Version\"\": \"\"2022-06-28\"\"}' claude mcp add notion-mcp-server npx -- -y @notionhq/notion-mcp-server)",
+      "Bash(FIRECRAWL_API_KEY=fc-9ac6f2aa762943ff98b747c18b546539 claude mcp add mcp-server-firecrawl npx -- -y firecrawl-mcp)",
+      "mcp__notion-mcp-server__API-post-search",
+      "mcp__notion-mcp-server__API-get-self",
+      "Bash(pip install:*)",
+      "Bash(source:*)",
+      "Bash(python:*)",
+      "mcp__mcp-server-firecrawl__firecrawl_search",
+      "mcp__mcp-server-firecrawl__firecrawl_scrape",
+      "mcp__filesystem__create_directory"
     ],
     "deny": []
   }
