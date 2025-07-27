@@ -3,6 +3,7 @@ export type ChatState =
   | 'greeting'
   | 'discovery'
   | 'assessment'
+  | 'voiceAssessment'
   | 'solution'
   | 'booking'
   | 'completed'

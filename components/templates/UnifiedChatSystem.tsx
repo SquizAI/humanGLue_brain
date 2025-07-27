@@ -3,12 +3,13 @@
 import { useState, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Sparkles, Send, Brain, X, Minimize2, Maximize2 } from 'lucide-react'
+import { Sparkles, Send, Brain, X, Minimize2, Maximize2, Mic, MessageSquare } from 'lucide-react'
 import { Text } from '../atoms'
 import { Card, QuickResponse } from '../molecules'
-import { ChatMessage } from '../organisms'
+import { ChatMessage, VoiceAssessment } from '../organisms'
 import { Message, ChatState } from '../../lib/types'
 import { EnhancedChatFlow } from '../../lib/enhancedChatFlow'
+import { assessmentDimensions } from '../../lib/assessment/dimensions'
 import { cn } from '../../utils/cn'
 
 export interface UnifiedChatSystemProps {
@@ -26,6 +27,7 @@ export function UnifiedChatSystem({ onStateChange, isHeroVisible, userData, clas
   const [suggestions, setSuggestions] = useState<any[]>([])
   const [isMinimized, setIsMinimized] = useState(false)
   const [hasTransitioned, setHasTransitioned] = useState(false)
+  const [showVoiceToggle, setShowVoiceToggle] = useState(false)
   
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const messagesContainerRef = useRef<HTMLDivElement>(null)
@@ -37,6 +39,44 @@ export function UnifiedChatSystem({ onStateChange, isHeroVisible, userData, clas
   useEffect(() => {
     localUserData.current = userData || {}
   }, [userData])
+
+  // Show voice toggle when reaching assessment state
+  useEffect(() => {
+    setShowVoiceToggle(currentState === 'assessment')
+  }, [currentState])
+
+  const handleVoiceAssessmentComplete = (responses: Map<string, any>) => {
+    // Convert voice responses to assessment data
+    const assessmentData: any = {}
+    responses.forEach((value, key) => {
+      assessmentData[key] = value
+    })
+
+    // Add a message about completing voice assessment
+    const completionMessage: Message = {
+      id: Date.now().toString(),
+      role: 'assistant',
+      content: 'Thank you for completing the voice assessment! I\'m now analyzing your responses to provide personalized recommendations.',
+      timestamp: new Date()
+    }
+
+    setMessages(prev => [...prev, completionMessage])
+    setCurrentState('performingAnalysis')
+    
+    // Update user data with assessment results
+    const updatedUserData = { ...localUserData.current, voiceAssessmentData: assessmentData }
+    localUserData.current = updatedUserData
+    onStateChange('performingAnalysis', updatedUserData)
+  }
+
+  const handleVoiceAssessmentCancel = () => {
+    setCurrentState('assessment')
+  }
+
+  const switchToVoiceAssessment = () => {
+    setCurrentState('voiceAssessment')
+    onStateChange('voiceAssessment', localUserData.current)
+  }
 
   const scrollToBottom = () => {
     if (messagesContainerRef.current) {
@@ -114,7 +154,7 @@ export function UnifiedChatSystem({ onStateChange, isHeroVisible, userData, clas
     setSuggestions([])
 
     try {
-      const response = chatFlow.current.processResponse(currentState, messageText, localUserData.current)
+      const response = await chatFlow.current.processResponse(currentState, messageText, localUserData.current)
       
       setTimeout(() => {
         const assistantMessage: Message = {
@@ -229,27 +269,51 @@ export function UnifiedChatSystem({ onStateChange, isHeroVisible, userData, clas
                   <p className="text-xs text-gray-400 font-medium">Organizational Transformation Expert</p>
                 </div>
               </div>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                <span className="text-xs text-gray-400 font-medium">Online</span>
+              <div className="flex items-center gap-4">
+                {showVoiceToggle && (
+                  <button
+                    onClick={switchToVoiceAssessment}
+                    className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 transition-colors text-xs font-medium"
+                  >
+                    <Mic className="w-3 h-3" />
+                    Voice Assessment
+                  </button>
+                )}
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                  <span className="text-xs text-gray-400 font-medium">Online</span>
+                </div>
               </div>
             </div>
           </div>
 
           <div ref={messagesContainerRef} className="h-[400px] overflow-y-auto px-6 py-6 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent">
-            {messages.length === 0 && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="text-center py-8"
-              >
-                <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center shadow-2xl">
-                  <Brain className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="text-xl font-bold text-white mb-2">Welcome to Human Glue AI</h3>
-                <p className="text-gray-400 mb-8 text-sm leading-relaxed">I'm here to help transform your organization. Let's start with your name.</p>
-              </motion.div>
-            )}
+            {currentState === 'voiceAssessment' ? (
+              <VoiceAssessment
+                dimensions={assessmentDimensions}
+                onComplete={handleVoiceAssessmentComplete}
+                onCancel={handleVoiceAssessmentCancel}
+                userData={{
+                  name: localUserData.current.name,
+                  company: localUserData.current.company,
+                  email: localUserData.current.email
+                }}
+              />
+            ) : (
+              <>
+                {messages.length === 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="text-center py-8"
+                  >
+                    <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center shadow-2xl">
+                      <Brain className="w-8 h-8 text-white" />
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-2">Welcome to Human Glue AI</h3>
+                    <p className="text-gray-400 mb-8 text-sm leading-relaxed">I'm here to help transform your organization. Let's start with your name.</p>
+                  </motion.div>
+                )}
 
             <AnimatePresence initial={false}>
               {messages.map((message, index) => (
@@ -290,12 +354,15 @@ export function UnifiedChatSystem({ onStateChange, isHeroVisible, userData, clas
               />
             )}
             
-            <div ref={messagesEndRef} />
+                <div ref={messagesEndRef} />
+              </>
+            )}
           </div>
 
-          <div className="border-t border-gray-800 px-6 py-4 bg-gray-900/50 backdrop-blur-sm">
-            <div className="flex items-center gap-2">
-              <input
+          {currentState !== 'voiceAssessment' && (
+            <div className="border-t border-gray-800 px-6 py-4 bg-gray-900/50 backdrop-blur-sm">
+              <div className="flex items-center gap-2">
+                <input
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
@@ -326,7 +393,8 @@ export function UnifiedChatSystem({ onStateChange, isHeroVisible, userData, clas
                 <Send className="w-4 h-4 text-white" />
               </motion.button>
             </div>
-          </div>
+            </div>
+          )}
         </div>
       </motion.div>
   )
