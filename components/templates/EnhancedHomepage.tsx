@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { UnifiedChatSystem } from './UnifiedChatSystem'
 import { DynamicRoadmap } from '../organisms/DynamicRoadmap'
 import { ROICalculator } from '../organisms/ROICalculator'
+import { Navigation } from '../organisms/Navigation'
+import { Footer } from '../organisms/Footer'
 import { 
   ArrowRight, 
   Brain, 
@@ -108,13 +110,21 @@ export function EnhancedHomepage({ userData, chatState, onChatStateChange }: Enh
 
   return (
     <div className="min-h-screen bg-gray-950">
+      {/* Navigation */}
+      <Navigation />
+      
       {/* Progress Bar */}
       <motion.div
-        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-purple-500 z-50"
+        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-purple-500 z-[51]"
         style={{ scaleX: scrollProgress, transformOrigin: '0% 0%' }}
       />
 
-      {/* Hero Section with Chat */}
+      {/* Main Content - Adjust margin when sidebar is visible */}
+      <div className={cn(
+        "transition-all duration-300",
+        !isHeroVisible ? "mr-[480px]" : ""
+      )}>
+        {/* Hero Section with Chat */}
       <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* Video Background */}
         <div className="absolute inset-0">
@@ -360,7 +370,11 @@ export function EnhancedHomepage({ userData, chatState, onChatStateChange }: Enh
         </div>
       </section>
 
-      {/* Unified Chat System - Single Instance */}
+      {/* Footer */}
+      <Footer />
+      </div>
+
+      {/* Unified Chat System - Single Instance - Outside of main content */}
       <UnifiedChatSystem 
         onStateChange={onChatStateChange} 
         isHeroVisible={isHeroVisible}
