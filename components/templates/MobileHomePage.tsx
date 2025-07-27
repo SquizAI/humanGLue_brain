@@ -163,7 +163,7 @@ export function MobileHomePage({ onStartChat }: MobileHomePageProps) {
             <div>
               <Zap className="w-5 h-5 text-green-400 mx-auto mb-1" />
               <div className="text-xs text-gray-400">Deploy Time</div>
-              <div className="text-sm font-semibold text-white">< 30 days</div>
+              <div className="text-sm font-semibold text-white">&lt; 30 days</div>
             </div>
           </div>
         </div>

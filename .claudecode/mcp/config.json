@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/Users/mattysquarzoni/Documents/HumanGlue_website/humanGLue_brain"]
+    },
+    "web-search": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-web-search"]
+    },
+    "git": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-git", "--repository", "/Users/mattysquarzoni/Documents/HumanGlue_website/humanGLue_brain"]
+    }
+  }
+}

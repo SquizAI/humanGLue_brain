@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HumanGlue AI Chatbot - Dr. Sarah Chen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="conversational_assessment.js"></script>
+    <style>
+        .chat-message {
+            animation: fadeInUp 0.5s ease-out;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .typing-indicator {
+            animation: pulse 1.5s infinite;
+        }
+        .ai-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="ai-gradient text-white shadow-lg">
+        <div class="max-w-6xl mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="bg-white/20 rounded-full p-3">
+                        <i class="fas fa-robot text-2xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold">Dr. Sarah Chen</h1>
+                        <p class="text-purple-100 text-sm">HumanGlue AI Expert & Organizational Psychologist</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+                        <span class="text-sm">AI Online</span>
+                    </div>
+                    <a href="/" class="bg-white/20 backdrop-blur text-white px-4 py-2 rounded-lg font-semibold hover:bg-white/30 transition">
+                        <i class="fas fa-chart-line mr-2"></i>Assessment
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Chat Container -->
+    <div class="max-w-4xl mx-auto px-4 py-6">
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+            <!-- Welcome Message -->
+            <div class="bg-gradient-to-r from-blue-50 to-purple-50 p-6 border-b">
+                <div class="flex items-start space-x-4">
+                    <div class="bg-purple-100 rounded-full p-3">
+                        <i class="fas fa-user-md text-purple-600 text-xl"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-semibold text-gray-800 mb-2">Welcome to HumanGlue AI Consultation</h3>
+                        <p class="text-gray-600 text-sm">
+                            I'm Dr. Sarah Chen, your AI organizational psychology expert. I specialize in the HumanGlue 7-Layer 
+                            Assessment Model and can help with leadership development, cultural transformation, employee engagement, 
+                            and strategic organizational change. 
+                        </p>
+                        <p class="text-purple-600 text-sm font-medium mt-2">
+                            💬 Ask me questions or say "start assessment" for a guided conversational evaluation!
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Messages -->
+            <div id="chatMessages" class="h-96 overflow-y-auto p-6 space-y-4">
+                <!-- Messages will be added here dynamically -->
+            </div>
+
+            <!-- Typing Indicator -->
+            <div id="typingIndicator" class="px-6 pb-2 hidden">
+                <div class="flex items-center space-x-2 text-gray-500">
+                    <div class="bg-gray-200 rounded-full p-2">
+                        <i class="fas fa-robot text-sm"></i>
+                    </div>
+                    <div class="typing-indicator">Dr. Sarah Chen is thinking...</div>
+                </div>
+            </div>
+
+            <!-- Chat Input -->
+            <div class="border-t bg-gray-50 p-4">
+                <div class="flex space-x-3">
+                    <textarea 
+                        id="chatInput" 
+                        placeholder="Ask me about leadership, culture, engagement, or any organizational challenge..."
+                        class="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none"
+                        rows="2"
+                    ></textarea>
+                    <button 
+                        id="sendButton" 
+                        class="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition font-semibold"
+                    >
+                        <i class="fas fa-paper-plane mr-2"></i>Send
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="border-t bg-gray-50 p-4">
+                <div class="flex flex-wrap gap-2">
+                    <button class="quick-action bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm hover:bg-blue-200 transition">
+                        <i class="fas fa-users mr-1"></i>Leadership Development
+                    </button>
+                    <button class="quick-action bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm hover:bg-green-200 transition">
+                        <i class="fas fa-heart mr-1"></i>Employee Engagement
+                    </button>
+                    <button class="quick-action bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm hover:bg-purple-200 transition">
+                        <i class="fas fa-building mr-1"></i>Cultural Transformation
+                    </button>
+                    <button class="quick-action bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-sm hover:bg-orange-200 transition">
+                        <i class="fas fa-chart-line mr-1"></i>Change Management
+                    </button>
+                    <button class="quick-action bg-teal-100 text-teal-700 px-3 py-1 rounded-full text-sm hover:bg-teal-200 transition">
+                        <i class="fas fa-cogs mr-1"></i>Process Improvement
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class HumanGlueChatbot {
+            constructor() {
+                this.chatMessages = document.getElementById('chatMessages');
+                this.chatInput = document.getElementById('chatInput');
+                this.sendButton = document.getElementById('sendButton');
+                this.typingIndicator = document.getElementById('typingIndicator');
+                
+                // Initialize conversational assessment
+                this.assessment = new ConversationalAssessment(this);
+                
+                this.initializeEventListeners();
+            }
+
+            initializeEventListeners() {
+                // Send button click
+                this.sendButton.addEventListener('click', () => this.sendMessage());
+                
+                // Enter key press (but not Shift+Enter)
+                this.chatInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        this.sendMessage();
+                    }
+                });
+
+                // Quick action buttons
+                document.querySelectorAll('.quick-action').forEach(button => {
+                    button.addEventListener('click', () => {
+                        const topic = button.textContent.trim();
+                        this.chatInput.value = `I'd like to discuss ${topic.toLowerCase()}. Can you provide insights and best practices?`;
+                        this.sendMessage();
+                    });
+                });
+                
+                // Add assessment trigger button
+                this.addAssessmentTrigger();
+            }
+
+            async sendMessage() {
+                const message = this.chatInput.value.trim();
+                if (!message) return;
+
+                // Check if assessment is currently active
+                if (this.assessment.isAssessmentActive) {
+                    // Don't allow regular chat during assessment
+                    this.addMessage('Please complete the current assessment before sending other messages.', 'ai');
+                    this.chatInput.value = '';
+                    return;
+                }
+
+                // Check for assessment triggers
+                if (this.isAssessmentTrigger(message)) {
+                    this.addMessage(message, 'user');
+                    this.chatInput.value = '';
+                    this.startConversationalAssessment();
+                    return;
+                }
+
+                // Add user message to chat
+                this.addMessage(message, 'user');
+                this.chatInput.value = '';
+
+                // Show typing indicator
+                this.showTyping();
+
+                try {
+                    // Send to AI backend
+                    const response = await fetch('/api/chat', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ message })
+                    });
+
+                    const result = await response.json();
+                    
+                    // Hide typing indicator
+                    this.hideTyping();
+
+                    if (result.success) {
+                        // Add AI response to chat
+                        this.addMessage(result.response, 'ai');
+                        
+                        // Suggest assessment if relevant
+                        if (this.shouldSuggestAssessment(message, result.response)) {
+                            this.suggestAssessment();
+                        }
+                    } else {
+                        this.addMessage('I apologize, but I encountered an issue processing your request. Please try again.', 'ai', true);
+                    }
+                } catch (error) {
+                    this.hideTyping();
+                    this.addMessage('I apologize, but I\'m experiencing technical difficulties. Please ensure the AI server is running and try again.', 'ai', true);
+                    console.error('Chat error:', error);
+                }
+            }
+
+            addMessage(content, sender, isError = false) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `chat-message flex ${sender === 'user' ? 'justify-end' : 'justify-start'}`;
+
+                const bubble = document.createElement('div');
+                bubble.className = `max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
+                    sender === 'user' 
+                        ? 'bg-purple-600 text-white' 
+                        : isError 
+                            ? 'bg-red-100 text-red-700 border border-red-200' 
+                            : 'bg-gray-200 text-gray-800'
+                }`;
+
+                if (sender === 'ai') {
+                    // Add Dr. Sarah Chen avatar for AI messages
+                    const avatarDiv = document.createElement('div');
+                    avatarDiv.className = 'flex items-start space-x-3';
+                    
+                    const avatar = document.createElement('div');
+                    avatar.className = 'bg-purple-100 rounded-full p-2 mt-1';
+                    avatar.innerHTML = '<i class="fas fa-user-md text-purple-600"></i>';
+                    
+                    bubble.innerHTML = content;
+                    
+                    avatarDiv.appendChild(avatar);
+                    avatarDiv.appendChild(bubble);
+                    messageDiv.appendChild(avatarDiv);
+                } else {
+                    bubble.innerHTML = content;
+                    messageDiv.appendChild(bubble);
+                }
+
+                this.chatMessages.appendChild(messageDiv);
+                this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
+            }
+
+            showTyping() {
+                this.typingIndicator.classList.remove('hidden');
+                this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
+            }
+
+            hideTyping() {
+                this.typingIndicator.classList.add('hidden');
+            }
+            
+            // Assessment-related methods
+            isAssessmentTrigger(message) {
+                const triggers = [
+                    'start assessment', 'begin assessment', 'take assessment', 'assessment',
+                    'evaluate my organization', 'organizational assessment', 'check our health',
+                    'analyze my company', 'evaluate our team', 'assessment tool',
+                    'start evaluation', 'organizational analysis', 'company analysis'
+                ];
+                
+                const lowerMessage = message.toLowerCase();
+                return triggers.some(trigger => lowerMessage.includes(trigger));
+            }
+            
+            shouldSuggestAssessment(userMessage, aiResponse) {
+                const suggestKeywords = [
+                    'leadership challenges', 'cultural issues', 'engagement problems',
+                    'performance concerns', 'team dynamics', 'organizational problems',
+                    'change management', 'transformation', 'improvement'
+                ];
+                
+                const combined = (userMessage + ' ' + aiResponse).toLowerCase();
+                return suggestKeywords.some(keyword => combined.includes(keyword));
+            }
+            
+            startConversationalAssessment() {
+                const startMsg = `Perfect! I'll guide you through our HumanGlue 7-Layer Assessment. This is a comprehensive, conversational evaluation that will help us understand your organization's health across multiple dimensions.`;
+                this.addMessage(startMsg, 'ai');
+                
+                setTimeout(() => {
+                    this.assessment.startAssessment();
+                }, 1000);
+            }
+            
+            suggestAssessment() {
+                setTimeout(() => {
+                    const suggestion = `
+                        <div class="bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-lg p-4 mt-3">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-lightbulb text-blue-500 mr-2"></i>
+                                <span class="font-semibold text-blue-800">Assessment Suggestion</span>
+                            </div>
+                            <p class="text-blue-700 text-sm mb-3">
+                                Based on our conversation, it sounds like a comprehensive organizational assessment could provide valuable insights. 
+                                Would you like to take our 7-Layer HumanGlue Assessment?
+                            </p>
+                            <div class="flex space-x-2">
+                                <button 
+                                    class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition"
+                                    onclick="this.parentElement.parentElement.parentElement.remove(); window.chatbot.startConversationalAssessment();"
+                                >
+                                    🚀 Yes, Start Assessment
+                                </button>
+                                <button 
+                                    class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm hover:bg-gray-400 transition"
+                                    onclick="this.parentElement.parentElement.parentElement.remove();"
+                                >
+                                    Maybe Later
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    this.addMessage(suggestion, 'ai');
+                }, 2000);
+            }
+            
+            addAssessmentTrigger() {
+                // Add assessment button to quick actions
+                const quickActionsContainer = document.querySelector('.flex.flex-wrap.gap-2');
+                if (quickActionsContainer) {
+                    const assessmentButton = document.createElement('button');
+                    assessmentButton.className = 'quick-action bg-gradient-to-r from-purple-100 to-blue-100 text-purple-700 px-3 py-1 rounded-full text-sm hover:from-purple-200 hover:to-blue-200 transition font-semibold border border-purple-200';
+                    assessmentButton.innerHTML = '<i class="fas fa-chart-line mr-1"></i>🧠 Start Assessment';
+                    assessmentButton.addEventListener('click', () => {
+                        this.startConversationalAssessment();
+                    });
+                    
+                    // Insert at the beginning
+                    quickActionsContainer.insertBefore(assessmentButton, quickActionsContainer.firstChild);
+                }
+            }
+        }
+
+        // Initialize chatbot when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            window.chatbot = new HumanGlueChatbot();
+        });
+    </script>
+</body>
+</html> 

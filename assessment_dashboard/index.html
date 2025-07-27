@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HumanGlue AI Assessment Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .ai-pulse { animation: aiPulse 2s ease-in-out infinite; }
+        @keyframes aiPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.05); } }
+        .typing-dots::after { content: ''; animation: typing 1.5s steps(4, end) infinite; }
+        @keyframes typing { 0% { content: ''; } 25% { content: '.'; } 50% { content: '..'; } 75% { content: '...'; } }
+        .agent-active { box-shadow: 0 0 20px rgba(102, 126, 234, 0.4); }
+        .insight-card { transition: all 0.3s ease; }
+        .insight-card:hover { transform: translateY(-4px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="gradient-bg text-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 bg-white/20 backdrop-blur rounded-xl flex items-center justify-center">
+                        <i class="fas fa-brain text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold">HumanGlue AI Enhanced</h1>
+                        <p class="text-purple-100 text-sm">7-Layer Psychology-Based Assessment Platform</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-6">
+                    <div class="bg-white/10 backdrop-blur rounded-lg px-4 py-2">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-2 h-2 bg-green-400 rounded-full ai-pulse"></div>
+                            <span class="text-sm font-medium">3 AI Agents Active</span>
+                        </div>
+                    </div>
+                    <div class="flex space-x-3">
+                        <a href="chatbot.html" class="bg-white/20 backdrop-blur text-white px-4 py-2 rounded-lg font-semibold hover:bg-white/30 transition">
+                            <i class="fas fa-robot mr-2"></i>AI Chatbot
+                        </a>
+                        <a href="chatbot.html" class="bg-white text-purple-600 px-6 py-2 rounded-lg font-semibold hover:bg-purple-50 transition shadow-lg">
+                            <i class="fas fa-rocket mr-2"></i>Start Conversational Assessment
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- AI Agent Status Panel -->
+    <div class="border-b bg-white shadow-sm">
+        <div class="container mx-auto px-6 py-4">
+            <div class="grid grid-cols-3 gap-6">
+                <div id="geminiAgent" class="flex items-center space-x-3 p-3 rounded-lg bg-blue-50 border border-blue-200">
+                    <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-atom text-white"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-semibold text-blue-800">Gemini 2.5 Pro</h3>
+                        <p class="text-xs text-blue-600">Advanced Pattern Analysis</p>
+                        <div class="flex items-center mt-1">
+                            <div class="w-2 h-2 bg-gray-300 rounded-full mr-2"></div>
+                            <span class="text-xs text-gray-500">Standby</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="gptAgent" class="flex items-center space-x-3 p-3 rounded-lg bg-green-50 border border-green-200">
+                    <div class="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-network-wired text-white"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-semibold text-green-800">GPT-4o</h3>
+                        <p class="text-xs text-green-600">Leadership & Culture Analysis</p>
+                        <div class="flex items-center mt-1">
+                            <div class="w-2 h-2 bg-gray-300 rounded-full mr-2"></div>
+                            <span class="text-xs text-gray-500">Standby</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="claudeAgent" class="flex items-center space-x-3 p-3 rounded-lg bg-purple-50 border border-purple-200">
+                    <div class="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-microscope text-white"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-semibold text-purple-800">Claude Sonnet 4</h3>
+                        <p class="text-xs text-purple-600">Deep Insights & Recommendations</p>
+                        <div class="flex items-center mt-1">
+                            <div class="w-2 h-2 bg-gray-300 rounded-full mr-2"></div>
+                            <span class="text-xs text-gray-500">Standby</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-6 py-8">
+        <!-- Welcome Screen -->
+        <div id="welcomeScreen" class="max-w-4xl mx-auto text-center space-y-8">
+            <div class="bg-white rounded-2xl shadow-xl p-12">
+                <div class="w-24 h-24 bg-gradient-to-br from-purple-600 to-blue-600 rounded-2xl mx-auto mb-8 flex items-center justify-center">
+                    <i class="fas fa-brain text-white text-3xl"></i>
+                </div>
+                <h1 class="text-4xl font-bold text-gray-800 mb-4">AI-Powered Organizational Assessment</h1>
+                                       <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+                           <strong>🤖 CONVERSATIONAL AI ASSESSMENT:</strong> Experience our revolutionary chatbot-based assessment where Dr. Sarah Chen guides you through a personalized evaluation. 
+                           The AI asks questions one by one, provides context, and offers precanned responses for quick selection. 
+                           Powered by GPT-4o Advanced with the HumanGlue 7-Layer methodology for deep psychological insights.
+                       </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-blue-50 rounded-xl p-6">
+                        <i class="fas fa-comments text-blue-600 text-2xl mb-3"></i>
+                        <h3 class="font-semibold text-blue-800 mb-2">Conversational Format</h3>
+                        <p class="text-sm text-blue-600">AI guides you through questions with precanned response options</p>
+                    </div>
+                    <div class="bg-green-50 rounded-xl p-6">
+                        <i class="fas fa-user-md text-green-600 text-2xl mb-3"></i>
+                        <h3 class="font-semibold text-green-800 mb-2">Dr. Sarah Chen AI</h3>
+                        <p class="text-sm text-green-600">Expert organizational psychologist AI with 7-Layer methodology</p>
+                    </div>
+                    <div class="bg-purple-50 rounded-xl p-6">
+                        <i class="fas fa-brain text-purple-600 text-2xl mb-3"></i>
+                        <h3 class="font-semibold text-purple-800 mb-2">Real-Time Analysis</h3>
+                        <p class="text-sm text-purple-600">GPT-4o Advanced provides instant insights and recommendations</p>
+                    </div>
+                </div>
+
+                <a href="chatbot.html" class="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:from-purple-700 hover:to-blue-700 transition shadow-lg inline-block">
+                    Start Conversational Assessment <i class="fas fa-comment-dots ml-2"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Assessment Interface -->
+        <div id="assessmentInterface" class="hidden space-y-8">
+            <!-- Progress Header -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-2xl font-bold text-gray-800">Organizational Assessment</h2>
+                    <div class="text-right">
+                        <div class="text-sm text-gray-600">Progress</div>
+                        <div class="text-lg font-bold text-purple-600"><span id="currentStep">1</span> of 6</div>
+                    </div>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-3">
+                    <div id="progressBar" class="bg-gradient-to-r from-purple-600 to-blue-600 h-3 rounded-full transition-all duration-500" style="width: 16.67%"></div>
+                </div>
+                <div class="mt-3 text-sm text-gray-600" id="dimensionTitle">Leadership Effectiveness Assessment</div>
+            </div>
+
+            <!-- Current Question -->
+            <div class="bg-white rounded-xl shadow-lg p-8">
+                <div id="questionContainer">
+                    <!-- Questions will be loaded here -->
+                </div>
+            </div>
+
+            <!-- AI Processing Status -->
+            <div id="aiProcessing" class="hidden bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6 border border-blue-200">
+                <div class="flex items-center space-x-4">
+                    <div class="flex space-x-2">
+                        <div class="w-3 h-3 bg-blue-500 rounded-full ai-pulse"></div>
+                        <div class="w-3 h-3 bg-green-500 rounded-full ai-pulse" style="animation-delay: 0.2s"></div>
+                        <div class="w-3 h-3 bg-purple-500 rounded-full ai-pulse" style="animation-delay: 0.4s"></div>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-800">AI Agents Processing Your Responses</h3>
+                        <p class="text-sm text-gray-600 typing-dots" id="processingText">Analyzing patterns</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Dashboard -->
+        <div id="resultsInterface" class="hidden space-y-8">
+            <!-- Overall Score -->
+            <div class="bg-white rounded-xl shadow-lg p-8 text-center">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">AI Assessment Results</h2>
+                <div class="relative inline-block">
+                    <svg class="w-40 h-40" viewBox="0 0 160 160">
+                        <circle cx="80" cy="80" r="70" fill="none" stroke="#e5e7eb" stroke-width="12"/>
+                        <circle id="overallScoreCircle" cx="80" cy="80" r="70" fill="none" stroke="#8b5cf6" stroke-width="12" stroke-linecap="round" transform="rotate(-90 80 80)"/>
+                    </svg>
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <div>
+                            <div id="overallScore" class="text-4xl font-bold text-gray-800">--</div>
+                            <div class="text-sm text-gray-600">Overall Score</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dimension Scores -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white rounded-xl shadow-lg p-6 insight-card">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-semibold text-gray-800">Leadership Effectiveness</h3>
+                        <i class="fas fa-crown text-yellow-500"></i>
+                    </div>
+                    <div class="text-3xl font-bold text-blue-600 mb-2" id="leadershipScore">--</div>
+                    <div class="text-sm text-gray-600 mb-3">Industry Average: 68</div>
+                    <div class="bg-gray-200 rounded-full h-2">
+                        <div id="leadershipBar" class="bg-blue-500 h-2 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 insight-card">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-semibold text-gray-800">Employee Engagement</h3>
+                        <i class="fas fa-heart text-red-500"></i>
+                    </div>
+                    <div class="text-3xl font-bold text-green-600 mb-2" id="engagementScore">--</div>
+                    <div class="text-sm text-gray-600 mb-3">Industry Average: 72</div>
+                    <div class="bg-gray-200 rounded-full h-2">
+                        <div id="engagementBar" class="bg-green-500 h-2 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 insight-card">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-semibold text-gray-800">Cultural Alignment</h3>
+                        <i class="fas fa-users text-purple-500"></i>
+                    </div>
+                    <div class="text-3xl font-bold text-purple-600 mb-2" id="cultureScore">--</div>
+                    <div class="text-sm text-gray-600 mb-3">Industry Average: 65</div>
+                    <div class="bg-gray-200 rounded-full h-2">
+                        <div id="cultureBar" class="bg-purple-500 h-2 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 insight-card">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-semibold text-gray-800">Communication Patterns</h3>
+                        <i class="fas fa-comments text-blue-500"></i>
+                    </div>
+                    <div class="text-3xl font-bold text-indigo-600 mb-2" id="communicationScore">--</div>
+                    <div class="text-sm text-gray-600 mb-3">Industry Average: 63</div>
+                    <div class="bg-gray-200 rounded-full h-2">
+                        <div id="communicationBar" class="bg-indigo-500 h-2 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 insight-card">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-semibold text-gray-800">Innovation Capability</h3>
+                        <i class="fas fa-lightbulb text-yellow-500"></i>
+                    </div>
+                    <div class="text-3xl font-bold text-orange-600 mb-2" id="innovationScore">--</div>
+                    <div class="text-sm text-gray-600 mb-3">Industry Average: 59</div>
+                    <div class="bg-gray-200 rounded-full h-2">
+                        <div id="innovationBar" class="bg-orange-500 h-2 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 insight-card">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-semibold text-gray-800">Organizational Agility</h3>
+                        <i class="fas fa-bolt text-yellow-500"></i>
+                    </div>
+                    <div class="text-3xl font-bold text-teal-600 mb-2" id="agilityScore">--</div>
+                    <div class="text-sm text-gray-600 mb-3">Industry Average: 61</div>
+                    <div class="bg-gray-200 rounded-full h-2">
+                        <div id="agilityBar" class="bg-teal-500 h-2 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Insights -->
+            <div class="bg-white rounded-xl shadow-lg p-8">
+                <h3 class="text-xl font-bold text-gray-800 mb-6">AI-Generated Insights</h3>
+                <div id="aiInsights" class="space-y-4">
+                    <!-- Insights will be populated here -->
+                </div>
+            </div>
+
+            <!-- ROI Projection -->
+            <div class="bg-gradient-to-r from-green-50 to-blue-50 rounded-xl shadow-lg p-8">
+                <h3 class="text-xl font-bold text-gray-800 mb-6">ROI Projection</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-green-600" id="yearOneROI">--</div>
+                        <div class="text-sm text-gray-600">Year 1 ROI</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-blue-600" id="threeYearROI">--</div>
+                        <div class="text-sm text-gray-600">3-Year ROI</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-purple-600" id="projectedSavings">--</div>
+                        <div class="text-sm text-gray-600">Annual Savings</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Human Glue Toolbox Recommendations -->
+            <div class="bg-white rounded-xl shadow-lg p-8">
+                <h3 class="text-xl font-bold text-gray-800 mb-6">Human Glue Toolbox Recommendations</h3>
+                <div id="toolboxRecommendations" class="space-y-6">
+                    <!-- Toolbox recommendations will be populated here -->
+                </div>
+            </div>
+
+            <!-- Next Steps -->
+            <div class="bg-white rounded-xl shadow-lg p-8">
+                <h3 class="text-xl font-bold text-gray-800 mb-6">Recommended Implementation Path</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="border border-purple-200 rounded-lg p-6 bg-purple-50">
+                        <h4 class="font-semibold text-purple-800 mb-3">
+                            <i class="fas fa-users mr-2"></i>Strategy Workshop (Week 1-2)
+                        </h4>
+                        <p class="text-sm text-purple-600 mb-4">
+                            Validate findings with key stakeholders and prioritize interventions using Human Glue methodology
+                        </p>
+                        <div class="text-xs text-purple-500 mb-3">
+                            • Assessment results presentation<br>
+                            • Stakeholder validation exercises<br>
+                            • Priority matrix development<br>
+                            • Implementation roadmap creation
+                        </div>
+                        <button class="bg-purple-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-purple-700 transition">
+                            Schedule Workshop
+                        </button>
+                    </div>
+                    <div class="border border-blue-200 rounded-lg p-6 bg-blue-50">
+                        <h4 class="font-semibold text-blue-800 mb-3">
+                            <i class="fas fa-toolbox mr-2"></i>Toolbox Implementation (Week 3-12)
+                        </h4>
+                        <p class="text-sm text-blue-600 mb-4">
+                            Deploy targeted tools and interventions based on your priority areas
+                        </p>
+                        <div class="text-xs text-blue-500 mb-3">
+                            • Leadership development programs<br>
+                            • Organizational structure optimization<br>
+                            • Employee engagement initiatives<br>
+                            • Culture and values integration
+                        </div>
+                        <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition">
+                            Explore Toolbox
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- ROI Timeline -->
+                <div class="mt-8 p-6 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg border border-green-200">
+                    <h4 class="font-semibold text-gray-800 mb-4">Expected ROI Timeline</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div class="text-center">
+                            <div class="text-lg font-bold text-green-600" id="paybackPeriod">6</div>
+                            <div class="text-xs text-gray-600">Months to Payback</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-lg font-bold text-blue-600" id="quarterlyGains">15%</div>
+                            <div class="text-xs text-gray-600">Quarterly Improvement</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-lg font-bold text-purple-600" id="retentionImpact">25%</div>
+                            <div class="text-xs text-gray-600">Turnover Reduction</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-lg font-bold text-orange-600" id="engagementLift">18%</div>
+                            <div class="text-xs text-gray-600">Engagement Increase</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Chat Assistant -->
+    <div class="fixed bottom-6 right-6 z-50">
+        <div id="aiChat" class="hidden bg-white rounded-lg shadow-2xl border w-80 mb-4">
+            <div class="bg-gradient-to-r from-purple-600 to-blue-600 text-white p-4 rounded-t-lg">
+                <h3 class="font-semibold">AI Assessment Assistant</h3>
+            </div>
+            <div id="chatMessages" class="h-64 overflow-y-auto p-4 space-y-3">
+                <!-- Chat messages will appear here -->
+            </div>
+            <div class="p-4 border-t">
+                <div class="flex space-x-2">
+                    <input type="text" id="chatInput" placeholder="Ask about your results..." class="flex-1 border rounded-lg px-3 py-2 text-sm">
+                    <button id="chatSend" class="bg-purple-600 text-white px-3 py-2 rounded-lg">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <button id="chatToggle" class="w-14 h-14 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full shadow-lg flex items-center justify-center text-white hover:from-purple-700 hover:to-blue-700 transition">
+            <i class="fas fa-robot text-xl"></i>
+        </button>
+    </div>
+
+    <script src="assessment.js"></script>
+</body>
+</html> 
