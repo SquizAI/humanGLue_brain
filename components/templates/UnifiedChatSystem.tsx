@@ -30,8 +30,13 @@ export function UnifiedChatSystem({ onStateChange, isHeroVisible, userData, clas
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const messagesContainerRef = useRef<HTMLDivElement>(null)
   const hasStarted = useRef(false)
-  const localUserData = useRef({})
+  const localUserData = useRef(userData || {})
   const chatFlow = useRef(new EnhancedChatFlow())
+  
+  // Update local userData when prop changes
+  useEffect(() => {
+    localUserData.current = userData || {}
+  }, [userData])
 
   const scrollToBottom = () => {
     if (messagesContainerRef.current) {
