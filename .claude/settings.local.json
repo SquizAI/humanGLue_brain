@@ -43,7 +43,18 @@
       "Bash(python:*)",
       "mcp__mcp-server-firecrawl__firecrawl_search",
       "mcp__mcp-server-firecrawl__firecrawl_scrape",
-      "mcp__filesystem__create_directory"
+      "mcp__filesystem__create_directory",
+      "Bash(npx @modelcontextprotocol/create-server:*)",
+      "Bash(VAPI_API_KEY=0be862d8-7e91-4f40-b559-5a25b33525c0 claude mcp add vapi npx -- -y @vapi-ai/mcp-server)",
+      "WebFetch(domain:docs.vapi.ai)",
+      "Bash(npm search:*)",
+      "mcp__vapi-mcp__list_assistants",
+      "mcp__vapi-mcp__list_tools",
+      "mcp__vapi-mcp__create_assistant",
+      "mcp__vapi-mcp__create_tool",
+      "mcp__vapi-mcp__update_assistant",
+      "mcp__vapi-mcp__list_phone_numbers",
+      "Bash(npm run:*)"
     ],
     "deny": []
   }
