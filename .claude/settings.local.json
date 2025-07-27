@@ -54,7 +54,8 @@
       "mcp__vapi-mcp__create_tool",
       "mcp__vapi-mcp__update_assistant",
       "mcp__vapi-mcp__list_phone_numbers",
-      "Bash(npm run:*)"
+      "Bash(npm run:*)",
+      "Bash(npx netlify-cli deploy:*)"
     ],
     "deny": []
   }
