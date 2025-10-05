@@ -1,0 +1,98 @@
+[
+  {
+    "id": "feature-001",
+    "type": "feature",
+    "title": "AI-Powered Assessment Engine",
+    "content": "Our proprietary assessment engine evaluates your organization's AI readiness across five dimensions: Strategy Alignment, Data Infrastructure, Technical Capability, People & Culture, and Governance & Ethics. The assessment uses advanced AI algorithms to analyze your responses and generate personalized insights. Key capabilities include multi-dimensional scoring with detailed breakdowns, industry and size-based benchmarking, gap analysis and prioritization, automated recommendation engine, progress tracking over time, and team collaboration features. The assessment typically takes 20-30 minutes to complete and generates an executive summary report with actionable next steps. Use this to baseline your current state and track transformation progress.",
+    "metadata": {
+      "category": "platform-feature",
+      "tags": ["Assessment", "AI Engine", "Analytics", "Benchmarking", "Dashboard"],
+      "level": "All Levels",
+      "url": "/dashboard/assessments"
+    }
+  },
+  {
+    "id": "feature-002",
+    "type": "feature",
+    "title": "Interactive Dashboard and Analytics",
+    "content": "Access real-time insights into your transformation journey through our comprehensive analytics dashboard. The dashboard provides transformation progress tracking with visual timeline, maturity score trends and improvements, initiative status and completion rates, resource utilization and allocation, team engagement and participation metrics, ROI tracking and financial impact, and comparative analytics against peers. Customize your view with filters for time periods, departments, initiatives, and metrics. Export reports for executive presentations or board meetings. The dashboard integrates data from assessments, learning activities, workshop participation, and expert engagements to provide a holistic view of your transformation.",
+    "metadata": {
+      "category": "platform-feature",
+      "tags": ["Dashboard", "Analytics", "Reporting", "Metrics", "Visualization", "Progress Tracking"],
+      "level": "All Levels",
+      "url": "/dashboard"
+    }
+  },
+  {
+    "id": "feature-003",
+    "type": "feature",
+    "title": "Curated Learning Platform",
+    "content": "Access masterclass-quality courses designed specifically for AI transformation. Our learning platform offers 50+ expert-led courses across six categories: AI Adoption & Strategy, Change Management, Leadership & Culture, Data & AI Technical, Human Skills & Coaching, and AI Ethics & Governance. Features include live and on-demand course options, interactive exercises and assignments, peer discussion forums, progress tracking and certificates, personalized learning recommendations based on your assessment, integration with professional development plans, and mobile-friendly access. Courses are taught by industry practitioners with proven transformation experience. Average course ratings exceed 4.7/5 stars.",
+    "metadata": {
+      "category": "platform-feature",
+      "tags": ["Learning", "Courses", "Training", "Education", "Professional Development"],
+      "level": "All Levels",
+      "url": "/dashboard/learning"
+    }
+  },
+  {
+    "id": "feature-004",
+    "type": "feature",
+    "title": "Workshop Catalog and Registration",
+    "content": "Join live, interactive workshops covering our three-pillar methodology: Adaptability, Coaching, and Marketplace. Our workshop catalog offers beginner, intermediate, and advanced levels, live and hybrid formats with replay access, small cohorts for personalized attention (typically 25-75 participants), hands-on exercises and group activities, networking opportunities with peers, post-workshop resources and templates, and early-bird pricing discounts. Workshops run 2-6 hours and include certificates of completion. Popular workshops fill quickly, so early registration is recommended. View upcoming schedule and register directly through the platform.",
+    "metadata": {
+      "category": "platform-feature",
+      "tags": ["Workshops", "Live Training", "Interactive Learning", "Cohorts", "Certification"],
+      "level": "All Levels",
+      "url": "/workshops"
+    }
+  },
+  {
+    "id": "feature-005",
+    "type": "feature",
+    "title": "Expert Talent Marketplace",
+    "content": "Connect with vetted transformation experts for personalized guidance and support. Our talent marketplace features 50+ experts across industries and specializations, detailed profiles with success metrics and client testimonials, verified transformation impact scores (transformation success rate, behavior change score, client retention), flexible engagement models (hourly, project-based, retainer), secure messaging and video consultation, streamlined contracting and payment, and quality assurance and satisfaction guarantees. All experts are thoroughly vetted with proven track records of embedding transformation, not just advising. Filter by industry, expertise, transformation stage, coaching style, and availability. Most experts respond within 24 hours.",
+    "metadata": {
+      "category": "platform-feature",
+      "tags": ["Experts", "Marketplace", "Consulting", "Coaching", "Talent", "One-on-One"],
+      "level": "All Levels",
+      "url": "/talent"
+    }
+  },
+  {
+    "id": "feature-006",
+    "type": "feature",
+    "title": "AI Transformation Advisor Chat",
+    "content": "Get instant, personalized guidance from our AI Transformation Advisor. This intelligent chat assistant understands your assessment results and provides context-aware recommendations. Capabilities include answering questions about your maturity scores, recommending specific courses and workshops, suggesting relevant experts for your challenges, creating prioritized action plans, calculating ROI for initiatives, explaining platform features and resources, providing change management advice, and offering 24/7 availability. For authenticated users, the advisor has full context of your assessment data, learning history, and transformation progress. Conversations are private and can be saved for later reference.",
+    "metadata": {
+      "category": "platform-feature",
+      "tags": ["AI Chat", "Virtual Advisor", "Recommendations", "Personalization", "Support"],
+      "level": "All Levels",
+      "url": "/dashboard"
+    }
+  },
+  {
+    "id": "feature-007",
+    "type": "feature",
+    "title": "Resource Library and Templates",
+    "content": "Access our comprehensive library of transformation resources, templates, and tools. The library includes transformation roadmap templates, change management playbooks, stakeholder communication templates, ROI and business case calculators, governance framework documents, best practices and case studies, research reports and whitepapers, video tutorials and webinars, and downloadable worksheets and checklists. All resources are searchable and filterable by topic, industry, and transformation stage. New content is added monthly based on latest research and client feedback. Premium members get early access to new releases and exclusive content.",
+    "metadata": {
+      "category": "platform-feature",
+      "tags": ["Resources", "Templates", "Tools", "Library", "Knowledge Base", "Downloads"],
+      "level": "All Levels",
+      "url": "/dashboard/resources"
+    }
+  },
+  {
+    "id": "feature-008",
+    "type": "feature",
+    "title": "Team Collaboration and Sharing",
+    "content": "Transform together with powerful team collaboration features. Invite team members and stakeholders to join your organization's account, share assessment results and insights across teams, collaborate on transformation roadmaps and action plans, assign and track initiatives and responsibilities, comment and discuss on shared resources, create custom learning paths for different roles, and generate consolidated reporting across teams. Set role-based permissions for different access levels (Admin, Manager, Member, Viewer). Track team engagement and participation. Export team progress reports for leadership reviews. Support for unlimited team members on Enterprise plans.",
+    "metadata": {
+      "category": "platform-feature",
+      "tags": ["Collaboration", "Team Management", "Sharing", "Permissions", "Multi-user"],
+      "level": "Intermediate",
+      "url": "/dashboard/team"
+    }
+  }
+]

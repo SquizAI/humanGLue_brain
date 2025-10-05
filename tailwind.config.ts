@@ -8,6 +8,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        'gendy': ['Gendy', 'sans-serif'],
+        'diatype': ['ABCDiatype', 'sans-serif'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -41,6 +45,13 @@ const config: Config = {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
+        },
+        'brand': {
+          'cyan': '#61D8FE',
+          'purple': '#544AE9',
+          'dark': '#1D212A',
+          'gray': '#4D4D4D',
+          'light': '#F2F2F2',
         },
         'humanglue-blue': '#4285F4',
         'humanglue-green': '#34A853',

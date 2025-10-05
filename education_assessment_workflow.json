@@ -1,0 +1,185 @@
+{
+  "assistant": {
+    "id": "0fda58ce-6ad6-464d-995b-4bf57bdda974",
+    "name": "Dr. Sarah - Education AI Specialist",
+    "description": "Educational AI Assessment Specialist with Psychology Background",
+    "voice": {
+      "provider": "11labs",
+      "voiceId": "XB0fDUnXU5powFXDhCwa",
+      "description": "Charlotte - warm, professional, approachable female voice"
+    }
+  },
+  "assessment": {
+    "duration": "20-25 minutes",
+    "structure": {
+      "introduction": {
+        "duration": "1-2 minutes",
+        "objectives": [
+          "Build rapport",
+          "Establish credibility",
+          "Set expectations",
+          "Gather basic information"
+        ]
+      },
+      "institutionOverview": {
+        "duration": "2-3 minutes",
+        "questions": [
+          "Institution type (K-12, Higher Ed, Corporate)",
+          "Size (students/learners)",
+          "Current challenges",
+          "Leadership priorities"
+        ]
+      },
+      "coreAssessment": {
+        "duration": "10-12 minutes",
+        "domains": {
+          "infrastructure": {
+            "weight": 0.2,
+            "questions": [
+              "Device access percentage",
+              "Internet connectivity quality",
+              "LMS capabilities",
+              "System integration level",
+              "Data analytics capability"
+            ]
+          },
+          "teachingLearning": {
+            "weight": 0.25,
+            "questions": [
+              "Lesson planning methods",
+              "Content creation tools",
+              "Assessment practices",
+              "Personalization level",
+              "Student support systems"
+            ]
+          },
+          "administrative": {
+            "weight": 0.15,
+            "questions": [
+              "Scheduling processes",
+              "Resource allocation",
+              "Enrollment management",
+              "Communication systems"
+            ]
+          },
+          "stakeholder": {
+            "weight": 0.15,
+            "questions": [
+              "Parent communication",
+              "Student support services",
+              "Professional development",
+              "Community engagement"
+            ]
+          },
+          "aiAdoption": {
+            "weight": 0.2,
+            "questions": [
+              "Current AI tools in use",
+              "Staff AI usage percentage",
+              "Curriculum integration",
+              "Staff attitudes",
+              "Governance policies"
+            ]
+          },
+          "outcomes": {
+            "weight": 0.05,
+            "questions": [
+              "Learning outcome trends",
+              "Retention/graduation rates",
+              "Innovation initiatives",
+              "Success metrics"
+            ]
+          }
+        }
+      },
+      "deepDive": {
+        "duration": "3-5 minutes",
+        "focus": "Top 2-3 pain points",
+        "approach": "Empathetic exploration with solution hints"
+      },
+      "visionGoals": {
+        "duration": "2-3 minutes",
+        "topics": [
+          "3-year vision",
+          "Priority outcomes",
+          "Budget flexibility",
+          "Change readiness"
+        ]
+      },
+      "summary": {
+        "duration": "2 minutes",
+        "deliverables": [
+          "Maturity level (0-10)",
+          "Top 3 opportunities",
+          "Quick wins",
+          "Next steps"
+        ]
+      }
+    }
+  },
+  "scoringSystem": {
+    "levels": {
+      "0-1": {
+        "name": "Traditional/Digital Foundations",
+        "characteristics": "Minimal technology, paper-based",
+        "recommendations": "Basic infrastructure, digital literacy"
+      },
+      "2-3": {
+        "name": "AI Exploration/Intelligent Support",
+        "characteristics": "Basic AI tools, some automation",
+        "recommendations": "Teacher training, pilot programs"
+      },
+      "4-5": {
+        "name": "Collaborative/Department Intelligence",
+        "characteristics": "Active AI adoption, integrated systems",
+        "recommendations": "Scale successful pilots, predictive analytics"
+      },
+      "6-7": {
+        "name": "Orchestration/Strategic Intelligence",
+        "characteristics": "Advanced transformation, AI-led innovation",
+        "recommendations": "Custom solutions, thought leadership"
+      },
+      "8-10": {
+        "name": "Creative Ecosystems/Transcendent",
+        "characteristics": "Innovation leaders, new paradigms",
+        "recommendations": "Research partnerships, market creation"
+      }
+    }
+  },
+  "psychologyTechniques": {
+    "rapportBuilding": [
+      "Active listening",
+      "Mirroring language",
+      "Acknowledging challenges",
+      "Celebrating successes"
+    ],
+    "changeManagement": [
+      "Address fears directly",
+      "Focus on benefits",
+      "Use peer examples",
+      "Small wins strategy"
+    ],
+    "motivationalFraming": [
+      "Student success stories",
+      "Teacher empowerment",
+      "Future readiness",
+      "Competitive advantage"
+    ]
+  },
+  "followUp": {
+    "immediate": {
+      "email": "Assessment summary within 24 hours",
+      "dashboard": "Interactive results portal access",
+      "resources": "Relevant case studies and guides"
+    },
+    "scheduled": {
+      "executiveBriefing": "Within 3-5 days",
+      "proposalDelivery": "Within 1 week",
+      "pilotDiscussion": "Within 2 weeks"
+    }
+  },
+  "phoneNumbers": {
+    "primary": "eb3b2751-1c4d-4dcd-85a4-0bfce22686d0",
+    "backup": null
+  }
+}

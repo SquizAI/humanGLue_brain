@@ -16,7 +16,7 @@ export interface NavigationProps {
 
 const navItems = [
   { href: '/solutions', label: 'Solutions' },
-  { href: '/process', label: 'Process' },
+  { href: '/purpose', label: 'Purpose' },
   { href: '/results', label: 'Results' }
 ]
 
@@ -40,24 +40,19 @@ export function Navigation({ className }: NavigationProps) {
   }, [pathname])
 
   // Get the height of the navigation for proper spacing
-  const navHeight = 'h-16 md:h-20'
+  const navHeight = 'h-14 md:h-16'
 
   return (
     <>
-      {/* Spacer to prevent content from going under fixed header */}
-      <div className={navHeight} />
-      
-      <motion.header 
+      <motion.header
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-          scrolled ? "backdrop-blur-xl bg-gray-900/80 shadow-lg" : "backdrop-blur-md bg-gray-900/50",
-          "border-b border-white/10",
           className
         )}
       >
-        <nav className={cn("container max-w-7xl mx-auto px-4 sm:px-6", navHeight, "flex items-center")}>
+        <nav className={cn("container max-w-7xl mx-auto px-6", navHeight, "flex items-center")}>
           <div className="flex items-center justify-between w-full relative">
             {/* Logo */}
             <Link href="/" className="flex-shrink-0">
@@ -67,11 +62,11 @@ export function Navigation({ className }: NavigationProps) {
                 className="relative"
               >
                 <Image
-                  src="/HumanGlue_nobackground.png"
+                  src="/HumnaGlue_logo_white_blue.png"
                   alt="Human Glue"
-                  width={120}
-                  height={48}
-                  className="w-24 sm:w-28 cursor-pointer"
+                  width={160}
+                  height={42}
+                  className="w-28 sm:w-32 cursor-pointer"
                   priority
                 />
               </motion.div>
@@ -86,19 +81,19 @@ export function Navigation({ className }: NavigationProps) {
             >
               {navItems.map((item) => (
                 <Link key={item.href} href={item.href}>
-                  <motion.span 
+                  <motion.span
                     className={cn(
-                      "text-sm font-medium transition-all relative group cursor-pointer inline-block",
-                      pathname === item.href 
-                        ? "text-white" 
-                        : "text-gray-400 hover:text-white"
+                      "text-sm font-medium transition-all relative group cursor-pointer inline-block font-gendy",
+                      pathname === item.href
+                        ? "text-white"
+                        : "text-white/80 hover:text-white"
                     )}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
                     {item.label}
                     <span className={cn(
-                      "absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 transition-transform origin-left",
+                      "absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-brand-cyan to-brand-purple transition-transform origin-left",
                       pathname === item.href ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
                     )} />
                   </motion.span>
@@ -108,25 +103,46 @@ export function Navigation({ className }: NavigationProps) {
             
             {/* CTA Button or Welcome Message - Right side */}
             <motion.div
-              className="hidden md:flex items-center gap-4 flex-shrink-0"
+              className="hidden md:flex items-center gap-3 flex-shrink-0"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4 }}
             >
-              {userData?.name ? (
-                <div className="text-sm text-gray-300">
-                  Welcome back, <span className="text-white font-medium">{userData.name}</span>
-                </div>
+              {userData?.authenticated ? (
+                <>
+                  <div className="text-sm text-white/80 font-diatype">
+                    Welcome, <span className="text-white font-medium">{userData.name || userData.email}</span>
+                  </div>
+                  <Link href="/dashboard">
+                    <Button
+                      variant="gradient"
+                      size="sm"
+                      className="shadow-lg"
+                    >
+                      Dashboard
+                    </Button>
+                  </Link>
+                </>
               ) : (
-                <Link href="/#chat">
-                  <Button 
-                    variant="gradient"
-                    size="sm"
-                    className="shadow-lg"
-                  >
-                    Get Started
-                  </Button>
-                </Link>
+                <>
+                  <Link href="/login">
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                    >
+                      Login
+                    </Button>
+                  </Link>
+                  <Link href="/signup">
+                    <Button
+                      variant="gradient"
+                      size="sm"
+                      className="shadow-lg"
+                    >
+                      Sign Up
+                    </Button>
+                  </Link>
+                </>
               )}
             </motion.div>
             
@@ -149,11 +165,11 @@ export function Navigation({ className }: NavigationProps) {
         {/* Mobile Navigation - Full Screen Overlay */}
         <motion.div
           initial={false}
-          animate={{ 
+          animate={{
             opacity: mobileMenuOpen ? 1 : 0,
             pointerEvents: mobileMenuOpen ? 'auto' : 'none'
           }}
-          className="md:hidden fixed inset-0 top-16 bg-gray-900 backdrop-blur-xl z-40"
+          className="md:hidden fixed inset-0 top-14 bg-gray-900 backdrop-blur-xl z-40"
           style={{ display: mobileMenuOpen ? 'block' : 'none' }}
         >
           <div className="container mx-auto px-6 py-8">

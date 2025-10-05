@@ -1,0 +1,238 @@
+{
+  "name": "HumanGlue Education AI Assessment",
+  "globalPrompt": "You are an AI assistant specializing in educational technology assessment. Be transparent that you are AI-powered. Never pretend to have personal experiences, credentials, or a PhD. Maintain a warm, professional tone while focusing on helping educators understand their AI readiness and opportunities for improvement. Build trust through expertise and empathy, not false credentials. Focus on student outcomes and equity. Address AI concerns about replacing teachers immediately.",
+  "nodes": [
+    {
+      "name": "introduction_stakeholder",
+      "type": "conversation",
+      "isStart": true,
+      "prompt": "Start with warm introduction as HumanGlue's Education AI Assessment assistant. Be clear you're AI-powered but designed by education experts. Build rapport with educational context. Ask for their name, role, and institution. MUST use identify_education_stakeholder tool to capture: name, role, institution type, size, decision authority, and top priorities.",
+      "messagePlan": {
+        "firstMessage": "Hello! I'm your HumanGlue AI assessment assistant, designed to help educational institutions evaluate their technology readiness and identify opportunities for AI transformation. While I'm AI-powered, I've been trained on extensive educational research and best practices to provide you with expert guidance. This assessment takes about 20-25 minutes and will help us understand your current state and provide personalized recommendations. To get started, may I have your name and your role at your institution?"
+      },
+      "toolIds": ["c3ddccbe-7848-4cb9-bf0c-b086915aa5db"],
+      "metadata": {
+        "position": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      "variableExtractionPlan": {
+        "output": [
+          {
+            "type": "string",
+            "title": "stakeholder_name",
+            "description": "Name of the person being assessed"
+          },
+          {
+            "type": "string",
+            "title": "role",
+            "description": "Their role in the institution"
+          },
+          {
+            "type": "string",
+            "title": "institution_type",
+            "description": "Type of educational institution"
+          }
+        ]
+      }
+    },
+    {
+      "name": "infrastructure_assessment",
+      "type": "conversation",
+      "prompt": "Transition: 'Great! Now I'd like to understand your technology infrastructure.' Cover device access, connectivity, LMS capabilities, system integration, data analytics, and cybersecurity. Use assess_education_infrastructure tool. Ask questions conversationally, not as checklist. Be sensitive to budget constraints.",
+      "toolIds": ["4b1ad92c-bb3a-4816-9a28-7bbbdcaf5c7a"],
+      "metadata": {
+        "position": {
+          "x": 0,
+          "y": 300
+        }
+      },
+      "variableExtractionPlan": {
+        "output": [
+          {
+            "type": "string",
+            "title": "device_access",
+            "description": "Percentage of students with device access"
+          },
+          {
+            "type": "string",
+            "title": "connectivity_quality",
+            "description": "Internet connectivity level"
+          },
+          {
+            "type": "string",
+            "title": "infrastructure_score",
+            "description": "Overall infrastructure readiness (0-10)"
+          }
+        ]
+      }
+    },
+    {
+      "name": "teaching_learning_assessment",
+      "type": "conversation",
+      "prompt": "Transition: 'Let's talk about how teaching and learning happens at your institution.' Discuss lesson planning, content creation tools, assessment methods, personalization level, and student support. Use assess_teaching_learning_innovation tool. Focus on pedagogical innovation. Address concerns about AI replacing teachers - emphasize AI as a tool to empower educators.",
+      "toolIds": ["0cca8e3f-d558-46eb-b6ef-506e981869df"],
+      "metadata": {
+        "position": {
+          "x": 0,
+          "y": 600
+        }
+      },
+      "variableExtractionPlan": {
+        "output": [
+          {
+            "type": "string",
+            "title": "ai_tools_usage",
+            "description": "Percentage of teachers using AI tools"
+          },
+          {
+            "type": "string",
+            "title": "personalization_level",
+            "description": "Current level of learning personalization"
+          },
+          {
+            "type": "string",
+            "title": "teaching_score",
+            "description": "Teaching and learning innovation score (0-10)"
+          }
+        ]
+      }
+    },
+    {
+      "name": "stakeholder_readiness_assessment",
+      "type": "conversation",
+      "prompt": "Transition: 'Now I'd like to understand the readiness of your community.' Assess teacher attitudes, professional development, leadership vision, change readiness, parent communication, and budget allocation. Use assess_education_stakeholder_readiness tool. Be empathetic about resistance and concerns.",
+      "toolIds": ["faa96607-b914-4d61-a337-e34a4f666085"],
+      "metadata": {
+        "position": {
+          "x": 0,
+          "y": 900
+        }
+      },
+      "variableExtractionPlan": {
+        "output": [
+          {
+            "type": "string",
+            "title": "teacher_attitudes",
+            "description": "General teacher attitude toward AI"
+          },
+          {
+            "type": "string",
+            "title": "change_readiness",
+            "description": "Overall readiness for change (1-10)"
+          },
+          {
+            "type": "string",
+            "title": "stakeholder_score",
+            "description": "Stakeholder readiness score (0-10)"
+          }
+        ]
+      }
+    },
+    {
+      "name": "outcomes_equity_assessment",
+      "type": "conversation",
+      "prompt": "Transition: 'Let's discuss your educational outcomes and equity measures.' Cover learning outcome trends, achievement gaps, retention rates, digital divide, special needs support, and college/career readiness. Use assess_education_outcomes_equity tool. Be particularly sensitive about equity issues.",
+      "toolIds": ["50881c28-aeeb-4847-942d-d1939cd60ff7"],
+      "metadata": {
+        "position": {
+          "x": 0,
+          "y": 1200
+        }
+      },
+      "variableExtractionPlan": {
+        "output": [
+          {
+            "type": "string",
+            "title": "achievement_gap",
+            "description": "Size of achievement gap percentage"
+          },
+          {
+            "type": "string",
+            "title": "digital_divide",
+            "description": "Percentage lacking home technology access"
+          },
+          {
+            "type": "string",
+            "title": "outcomes_score",
+            "description": "Educational outcomes score (0-10)"
+          }
+        ]
+      }
+    },
+    {
+      "name": "calculate_maturity_score",
+      "type": "conversation",
+      "prompt": "Use calculate_education_maturity_score tool with all collected scores. Present their maturity level (0-10), explain what this means for their institution, highlight top 3 opportunities, identify quick wins, and explain next steps. Be encouraging and specific about their potential.",
+      "toolIds": ["2b6dbd8d-470e-4f0f-b139-d613e5e0df8b"],
+      "metadata": {
+        "position": {
+          "x": 0,
+          "y": 1500
+        }
+      },
+      "variableExtractionPlan": {
+        "output": [
+          {
+            "type": "string",
+            "title": "overall_maturity_level",
+            "description": "Final maturity score (0-10)"
+          },
+          {
+            "type": "string",
+            "title": "top_opportunities",
+            "description": "Top 3 improvement opportunities"
+          },
+          {
+            "type": "string",
+            "title": "contact_email",
+            "description": "Email for sending results"
+          }
+        ]
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "introduction_stakeholder",
+      "to": "infrastructure_assessment",
+      "condition": {
+        "type": "ai",
+        "prompt": "Stakeholder information has been collected and recorded using the tool"
+      }
+    },
+    {
+      "from": "infrastructure_assessment",
+      "to": "teaching_learning_assessment",
+      "condition": {
+        "type": "ai",
+        "prompt": "Infrastructure assessment is complete with all key areas covered"
+      }
+    },
+    {
+      "from": "teaching_learning_assessment",
+      "to": "stakeholder_readiness_assessment",
+      "condition": {
+        "type": "ai",
+        "prompt": "Teaching and learning assessment is complete"
+      }
+    },
+    {
+      "from": "stakeholder_readiness_assessment",
+      "to": "outcomes_equity_assessment",
+      "condition": {
+        "type": "ai",
+        "prompt": "Stakeholder readiness assessment is complete"
+      }
+    },
+    {
+      "from": "outcomes_equity_assessment",
+      "to": "calculate_maturity_score",
+      "condition": {
+        "type": "ai",
+        "prompt": "Outcomes and equity assessment is complete"
+      }
+    }
+  ]
+}

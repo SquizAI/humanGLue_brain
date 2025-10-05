@@ -1,11 +1,11 @@
 // Service Worker for Human Glue PWA
-const CACHE_NAME = 'humanglue-v1';
+const CACHE_NAME = 'humanglue-v2';
 const urlsToCache = [
   '/',
   '/offline.html',
   '/favicon.ico',
-  '/icon-192x192.png',
-  '/icon-512x512.png'
+  '/android-chrome-192x192.png',
+  '/android-chrome-512x512.png'
 ];
 
 // Install event
@@ -47,15 +47,22 @@ self.addEventListener('fetch', (event) => {
     event.respondWith(
       fetch(request)
         .then((response) => {
-          // Clone the response before caching
-          const responseToCache = response.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(request, responseToCache);
-          });
+          // Only cache GET requests (POST/PUT/DELETE cannot be cached)
+          if (request.method === 'GET') {
+            const responseToCache = response.clone();
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(request, responseToCache);
+            });
+          }
           return response;
         })
         .catch(() => {
-          return caches.match(request);
+          // Only try to retrieve from cache for GET requests
+          if (request.method === 'GET') {
+            return caches.match(request);
+          }
+          // For POST/PUT/DELETE, return a network error
+          return new Response('Network error', { status: 503 });
         })
     );
     return;
@@ -125,8 +132,8 @@ async function syncMessages() {
 self.addEventListener('push', (event) => {
   const options = {
     body: event.data ? event.data.text() : 'New update from Human Glue',
-    icon: '/icon-192x192.png',
-    badge: '/badge-72x72.png',
+    icon: '/android-chrome-192x192.png',
+    badge: '/favcon_HG.png',
     vibrate: [100, 50, 100],
     data: {
       dateOfArrival: Date.now(),

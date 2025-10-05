@@ -1,10 +1,11 @@
-export type AIModel = 
+export type AIModel =
   | 'gemini-2.5-pro'
   | 'gemini-2.5-flash'
   | 'gpt-4o-latest'
   | 'o3'
   | 'claude-opus-4'
   | 'claude-sonnet-4'
+  | 'claude-sonnet-4.5'
 
 export interface MCPRequest {
   method: string

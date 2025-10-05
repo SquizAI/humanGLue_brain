@@ -7,6 +7,10 @@
 
 # testing
 /coverage
+/test-results
+playwright-report/
+*.spec.ts-snapshots/
+trace.zip
 
 # next.js
 /.next/
@@ -33,5 +37,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
 # Local Netlify folder
 .netlify
+
+# Claude Code settings (contains API keys)
+.claudecode/

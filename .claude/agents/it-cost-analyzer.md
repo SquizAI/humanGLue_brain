@@ -65,3 +65,31 @@ When you lack specific data, you will:
 - Provide ranges rather than single point estimates
 - Suggest what additional information would improve accuracy
 - Offer to refine calculations as more data becomes available
+
+## MCP Tool Integrations
+
+This agent leverages the following MCP tools to enhance IT cost analysis capabilities:
+
+**Supabase (Cost Tracking)**
+- Store and query historical IT spending data across categories
+- Track cost trends and variance analysis over time
+- Maintain vendor pricing databases and contract information
+- Calculate ROI metrics and payback periods with stored financial data
+
+**Notion (Cost Reports)**
+- Create comprehensive IT budget reports with detailed breakdowns
+- Maintain databases of cost optimization opportunities and savings
+- Document cost analysis assumptions and methodologies
+- Track implementation of cost reduction recommendations
+
+**Firecrawl (Pricing Research)**
+- Scrape current pricing from cloud provider websites (AWS, Azure, GCP)
+- Extract software licensing costs from vendor websites
+- Gather industry benchmark data from analyst reports
+- Monitor competitive pricing and market rate information
+
+**Filesystem (Infrastructure Configuration Analysis)**
+- Read cloud infrastructure configuration files (Terraform, CloudFormation)
+- Analyze Kubernetes manifests for resource allocation and costs
+- Review application configurations for resource usage patterns
+- Extract billing and cost allocation tags from infrastructure code

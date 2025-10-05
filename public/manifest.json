@@ -26,36 +26,6 @@
       "type": "image/x-icon"
     }
   ],
-  "screenshots": [
-    {
-      "src": "/screenshot-desktop.png",
-      "sizes": "1920x1080",
-      "type": "image/png",
-      "form_factor": "wide"
-    },
-    {
-      "src": "/screenshot-mobile.png",
-      "sizes": "375x812",
-      "type": "image/png",
-      "form_factor": "narrow"
-    }
-  ],
   "categories": ["business", "productivity"],
-  "shortcuts": [
-    {
-      "name": "Start Chat",
-      "short_name": "Chat",
-      "description": "Start AI transformation assessment",
-      "url": "/#chat",
-      "icons": [{ "src": "/chat-icon.png", "sizes": "96x96" }]
-    },
-    {
-      "name": "Solutions",
-      "short_name": "Solutions",
-      "description": "View our solutions",
-      "url": "/solutions",
-      "icons": [{ "src": "/solutions-icon.png", "sizes": "96x96" }]
-    }
-  ],
   "prefer_related_applications": false
 }

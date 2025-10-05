@@ -6,6 +6,14 @@ Building on Microsoft's Frontier Firm concept and industry best practices, this 
 
 ---
 
+# HumanGlue AI Maturity Framework: 10 Levels of Business Transformation
+
+## Executive Summary
+
+Building on Microsoft's Frontier Firm concept and industry best practices, this framework defines 10 distinct levels of AI maturity across business units. Each level represents a significant leap in capability, from zero AI usage to fully autonomous, living intelligence systems.
+
+---
+
 ## The 10 Levels of AI Maturity
 
 ### Level 0: AI Unaware (Pre-Digital)

@@ -111,12 +111,17 @@ export function DynamicRoadmap({ currentStep, userData, className }: DynamicRoad
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
+        transition={{
+          type: "tween",
+          duration: 0.5,
+          ease: [0.25, 0.1, 0.25, 1]
+        }}
         className="text-center mb-12"
       >
-        <h2 className="text-4xl font-bold text-white mb-4">
+        <h2 className="text-4xl font-bold text-white mb-4 font-gendy">
           Your AI Transformation Roadmap
         </h2>
-        <p className="text-xl text-gray-400">
+        <p className="text-xl text-gray-400 font-diatype">
           {userData?.company ? `Customized for ${userData.company}` : 'A proven path to AI excellence'}
         </p>
       </motion.div>
@@ -129,7 +134,11 @@ export function DynamicRoadmap({ currentStep, userData, className }: DynamicRoad
               className="h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"
               initial={{ width: 0 }}
               animate={{ width: `${(currentStep / (steps.length - 1)) * 100}%` }}
-              transition={{ duration: 1, ease: "easeOut" }}
+              transition={{
+                type: "tween",
+                duration: 0.8,
+                ease: [0.25, 0.1, 0.25, 1]
+              }}
             />
           </div>
         </div>
@@ -138,17 +147,37 @@ export function DynamicRoadmap({ currentStep, userData, className }: DynamicRoad
             <motion.div
               key={step.id}
               className="flex flex-col items-center"
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: index * 0.1 }}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                type: "tween",
+                delay: index * 0.08,
+                duration: 0.4,
+                ease: [0.25, 0.1, 0.25, 1]
+              }}
             >
-              <div
+              <motion.div
                 className={cn(
-                  "w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer",
+                  "w-12 h-12 rounded-full flex items-center justify-center cursor-pointer",
                   step.status === 'completed' ? "bg-green-500" :
-                  step.status === 'current' ? "bg-gradient-to-r from-blue-500 to-purple-500 animate-pulse" :
+                  step.status === 'current' ? "bg-gradient-to-r from-blue-500 to-purple-500" :
                   "bg-gray-800 border-2 border-gray-700"
                 )}
+                whileHover={{
+                  scale: 1.1,
+                  transition: { type: "tween", duration: 0.2, ease: "easeOut" }
+                }}
+                animate={step.status === 'current' ? {
+                  boxShadow: [
+                    "0 0 0 0 rgba(59, 130, 246, 0.4)",
+                    "0 0 0 10px rgba(59, 130, 246, 0)",
+                  ]
+                } : {}}
+                transition={step.status === 'current' ? {
+                  repeat: Infinity,
+                  duration: 1.5,
+                  ease: "easeOut"
+                } : {}}
                 onMouseEnter={() => setHoveredStep(step.id)}
                 onMouseLeave={() => setHoveredStep(null)}
               >
@@ -159,9 +188,9 @@ export function DynamicRoadmap({ currentStep, userData, className }: DynamicRoad
                 ) : (
                   <Lock className="w-5 h-5 text-gray-500" />
                 )}
-              </div>
+              </motion.div>
               <span className={cn(
-                "mt-2 text-sm font-medium",
+                "mt-2 text-sm font-medium font-diatype",
                 step.status === 'locked' ? "text-gray-600" : "text-white"
               )}>
                 {step.duration}
@@ -173,25 +202,33 @@ export function DynamicRoadmap({ currentStep, userData, className }: DynamicRoad
 
       {/* Step Details */}
       <div className="grid gap-6 mb-12">
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="sync">
           {steps.map((step, index) => (
             <motion.div
               key={step.id}
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ 
-                opacity: step.status !== 'locked' ? 1 : 0.3,
-                x: 0
+              initial={{ opacity: 0, y: 20 }}
+              animate={{
+                opacity: step.status !== 'locked' ? 1 : 0.4,
+                y: 0
               }}
-              exit={{ opacity: 0, x: 50 }}
-              transition={{ delay: index * 0.1 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{
+                type: "tween",
+                delay: index * 0.06,
+                duration: 0.4,
+                ease: [0.25, 0.1, 0.25, 1]
+              }}
+              whileHover={{
+                y: -4,
+                transition: { type: "tween", duration: 0.2, ease: "easeOut" }
+              }}
               className={cn(
-                "relative overflow-hidden rounded-2xl border transition-all duration-300",
-                step.status === 'current' ? 
+                "relative overflow-hidden rounded-2xl border",
+                step.status === 'current' ?
                   "border-blue-500/50 bg-gradient-to-r from-blue-500/10 to-purple-500/10" :
-                step.status === 'completed' ? 
+                step.status === 'completed' ?
                   "border-green-500/30 bg-green-500/5" :
-                  "border-gray-800 bg-gray-900/50",
-                hoveredStep === step.id && "transform scale-[1.02]"
+                  "border-gray-800 bg-gray-900/50"
               )}
               onMouseEnter={() => setHoveredStep(step.id)}
               onMouseLeave={() => setHoveredStep(null)}
@@ -199,60 +236,108 @@ export function DynamicRoadmap({ currentStep, userData, className }: DynamicRoad
               <div className="p-6">
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-4">
-                    <div className={cn(
-                      "p-3 rounded-xl",
-                      step.status === 'current' ? 
-                        "bg-gradient-to-br from-blue-500 to-purple-500" :
-                      step.status === 'completed' ? 
-                        "bg-green-500" :
-                        "bg-gray-800"
-                    )}>
+                    <motion.div
+                      className={cn(
+                        "p-3 rounded-xl",
+                        step.status === 'current' ?
+                          "bg-gradient-to-br from-blue-500 to-purple-500" :
+                        step.status === 'completed' ?
+                          "bg-green-500" :
+                          "bg-gray-800"
+                      )}
+                      whileHover={{
+                        scale: 1.05,
+                        rotate: [0, -5, 5, 0],
+                        transition: { type: "tween", duration: 0.3, ease: "easeInOut" }
+                      }}
+                    >
                       <step.icon className="w-6 h-6 text-white" />
-                    </div>
+                    </motion.div>
                     <div>
-                      <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                      <h3 className="text-xl font-bold text-white flex items-center gap-2 font-gendy">
                         {step.title}
                         {step.status === 'current' && (
-                          <span className="text-xs px-2 py-1 rounded-full bg-blue-500/20 text-blue-400">
+                          <motion.span
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ type: "tween", duration: 0.3 }}
+                            className="text-xs px-2 py-1 rounded-full bg-blue-500/20 text-blue-400 font-diatype"
+                          >
                             In Progress
-                          </span>
+                          </motion.span>
                         )}
                       </h3>
-                      <p className="text-gray-400 mt-1">{step.description}</p>
+                      <p className="text-gray-400 mt-1 font-diatype">{step.description}</p>
                     </div>
                   </div>
                   {step.status === 'completed' && (
-                    <CheckCircle2 className="w-6 h-6 text-green-500" />
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ type: "tween", duration: 0.3, ease: "easeOut" }}
+                    >
+                      <CheckCircle2 className="w-6 h-6 text-green-500" />
+                    </motion.div>
                   )}
                 </div>
 
                 {/* Metrics */}
                 {step.metrics && step.status !== 'locked' && (
-                  <motion.div 
+                  <motion.div
                     className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6"
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2 }}
+                    transition={{
+                      type: "tween",
+                      delay: 0.15,
+                      duration: 0.3,
+                      ease: [0.25, 0.1, 0.25, 1]
+                    }}
                   >
                     {step.metrics.map((metric, idx) => (
-                      <div key={idx} className="text-center p-3 rounded-lg bg-gray-800/50">
-                        <div className="text-2xl font-bold text-white">
+                      <motion.div
+                        key={idx}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                          type: "tween",
+                          delay: 0.2 + idx * 0.05,
+                          duration: 0.3,
+                          ease: "easeOut"
+                        }}
+                        whileHover={{
+                          y: -2,
+                          transition: { type: "tween", duration: 0.2, ease: "easeOut" }
+                        }}
+                        className="text-center p-3 rounded-lg bg-gray-800/50"
+                      >
+                        <div className="text-2xl font-bold text-white font-gendy">
                           {metric.value}
                         </div>
-                        <div className="text-xs text-gray-400 mt-1">
+                        <div className="text-xs text-gray-400 mt-1 font-diatype">
                           {metric.label}
                         </div>
-                      </div>
+                      </motion.div>
                     ))}
                   </motion.div>
                 )}
 
                 {/* Progress indicator for current step */}
                 {step.status === 'current' && (
-                  <div className="mt-4">
+                  <motion.div
+                    className="mt-4"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      type: "tween",
+                      delay: 0.3,
+                      duration: 0.3,
+                      ease: "easeOut"
+                    }}
+                  >
                     <div className="flex justify-between text-sm mb-2">
-                      <span className="text-gray-400">Progress</span>
-                      <span className="text-white">
+                      <span className="text-gray-400 font-diatype">Progress</span>
+                      <span className="text-white font-diatype">
                         {Math.round((animatedMetrics[step.id] || 0))}%
                       </span>
                     </div>
@@ -261,16 +346,31 @@ export function DynamicRoadmap({ currentStep, userData, className }: DynamicRoad
                         className="h-full bg-gradient-to-r from-blue-500 to-purple-500"
                         initial={{ width: 0 }}
                         animate={{ width: `${animatedMetrics[step.id] || 0}%` }}
-                        transition={{ duration: 1, ease: "easeOut" }}
+                        transition={{
+                          type: "tween",
+                          duration: 1.2,
+                          ease: [0.25, 0.1, 0.25, 1]
+                        }}
                       />
                     </div>
-                  </div>
+                  </motion.div>
                 )}
               </div>
 
               {/* Decorative elements */}
               {step.status === 'current' && (
-                <div className="absolute -right-20 -top-20 w-40 h-40 bg-blue-500/20 rounded-full blur-3xl" />
+                <motion.div
+                  className="absolute -right-20 -top-20 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl"
+                  animate={{
+                    scale: [1, 1.2, 1],
+                    opacity: [0.3, 0.5, 0.3]
+                  }}
+                  transition={{
+                    repeat: Infinity,
+                    duration: 3,
+                    ease: "easeInOut"
+                  }}
+                />
               )}
             </motion.div>
           ))}
@@ -282,17 +382,34 @@ export function DynamicRoadmap({ currentStep, userData, className }: DynamicRoad
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
+          transition={{
+            type: "tween",
+            delay: 0.4,
+            duration: 0.4,
+            ease: [0.25, 0.1, 0.25, 1]
+          }}
           className="text-center"
         >
-          <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-white font-medium">
+          <motion.div
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-white font-medium cursor-pointer font-diatype"
+            whileHover={{
+              scale: 1.05,
+              boxShadow: "0 10px 40px rgba(59, 130, 246, 0.3)",
+              transition: { type: "tween", duration: 0.2, ease: "easeOut" }
+            }}
+            whileTap={{
+              scale: 0.98,
+              transition: { type: "tween", duration: 0.1 }
+            }}
+          >
             <Sparkles className="w-5 h-5" />
             <span>
-              {currentStep === steps.length - 1 
-                ? 'Transformation Complete!' 
+              {currentStep === steps.length - 1
+                ? 'Transformation Complete!'
                 : `${steps.length - currentStep - 1} steps remaining`}
             </span>
             <ArrowRight className="w-5 h-5" />
-          </div>
+          </motion.div>
         </motion.div>
       )}
     </div>

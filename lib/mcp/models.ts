@@ -48,5 +48,13 @@ export const modelConfigs: Record<AIModel, ModelConfig> = {
     description: 'Balanced performance and efficiency',
     capabilities: ['balanced', 'coding', 'analysis', 'creative'],
     maxTokens: 200000
+  },
+  'claude-sonnet-4.5': {
+    name: 'Claude Sonnet 4.5',
+    provider: 'anthropic',
+    modelId: 'claude-sonnet-4-5-20250929',
+    description: 'Latest Sonnet with enhanced reasoning and speed',
+    capabilities: ['reasoning', 'coding', 'analysis', 'creative', 'fast-response'],
+    maxTokens: 200000
   }
 }

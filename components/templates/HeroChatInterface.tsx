@@ -122,8 +122,8 @@ export function HeroChatInterface({ onStateChange }: HeroChatInterfaceProps) {
     setSuggestions([])
 
     try {
-      const response = chatFlow.current.processResponse(currentState, messageText, localUserData.current)
-      
+      const response = await chatFlow.current.processResponse(currentState, messageText, localUserData.current)
+
       setTimeout(() => {
         const assistantMessage: Message = {
           id: (Date.now() + 1).toString(),

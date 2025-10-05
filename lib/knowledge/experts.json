@@ -1,0 +1,114 @@
+[
+  {
+    "id": "expert-001",
+    "type": "expert",
+    "title": "Dr. Sarah Chen - AI Transformation Architect",
+    "content": "Dr. Sarah Chen is an AI Transformation Architect leading Fortune 500 organizations through AI-driven cultural transformation. With 15 years of experience and 92% transformation success rate, she specializes in AI Strategy & Implementation, Cultural Transformation, Executive Coaching, Change Leadership, and Technology Adoption. She has transformed 47 clients and reframed over 12,000 employees across Technology, Finance, and Healthcare industries. Her approach covers all transformation stages: assess, reframe, embed, and scale using a hybrid coaching style.",
+    "metadata": {
+      "category": "transformation",
+      "tags": ["AI Strategy", "Cultural Transformation", "Executive Coaching", "Change Leadership"],
+      "expertise": ["AI Strategy & Implementation", "Cultural Transformation", "Executive Coaching", "Change Leadership", "Technology Adoption"],
+      "industry": ["Technology", "Finance", "Healthcare"],
+      "url": "/talent/talent-001",
+      "availability": "limited"
+    }
+  },
+  {
+    "id": "expert-002",
+    "type": "expert",
+    "title": "Marcus Thompson - Change Management Specialist",
+    "content": "Marcus Thompson is a Change Management Specialist embedding sustainable behavior change in manufacturing and operations. With 87% transformation success rate and 91% behavior change score, he specializes in Manufacturing Transformation, Lean AI Integration, Workforce Retraining, Process Optimization, and Team Coaching. He has transformed 34 clients and reframed 8,500 employees in Manufacturing, Automotive, and Logistics industries, focusing on embed and scale transformation stages with a directive coaching approach.",
+    "metadata": {
+      "category": "manufacturing",
+      "tags": ["Manufacturing", "Change Management", "Workforce Training", "Process Optimization"],
+      "expertise": ["Manufacturing Transformation", "Lean AI Integration", "Workforce Retraining", "Process Optimization", "Team Coaching"],
+      "industry": ["Manufacturing", "Automotive", "Logistics"],
+      "url": "/talent/talent-002",
+      "availability": "available"
+    }
+  },
+  {
+    "id": "expert-003",
+    "type": "expert",
+    "title": "Dr. Priya Patel - Healthcare Transformation Expert",
+    "content": "Dr. Priya Patel specializes in humanizing AI adoption in clinical and care delivery settings. With 90% transformation success rate and 93% behavior change score, she excels in Healthcare AI Ethics, Clinical Workflow Design, Provider Coaching, Patient Experience, and Regulatory Navigation. She has transformed 28 clients and reframed 6,200 employees across Healthcare, Biotech, and Pharma industries. Her facilitative coaching style focuses on assess, reframe, and embed stages of transformation.",
+    "metadata": {
+      "category": "healthcare",
+      "tags": ["Healthcare", "AI Ethics", "Clinical Workflow", "Provider Coaching"],
+      "expertise": ["Healthcare AI Ethics", "Clinical Workflow Design", "Provider Coaching", "Patient Experience", "Regulatory Navigation"],
+      "industry": ["Healthcare", "Biotech", "Pharma"],
+      "url": "/talent/talent-003",
+      "availability": "available"
+    }
+  },
+  {
+    "id": "expert-004",
+    "type": "expert",
+    "title": "Kenji Yamamoto - Leadership Development Architect",
+    "content": "Kenji Yamamoto builds adaptive leadership capabilities for the AI era. With 18 years of experience and 85% transformation success rate, he specializes in Executive Leadership, Strategic Thinking, Decision-Making Frameworks, Team Dynamics, and Innovation Culture. He has transformed 62 clients and reframed 15,000 employees in Technology, Consulting, and Finance industries. His hybrid coaching approach focuses on reframe, embed, and scale transformation stages.",
+    "metadata": {
+      "category": "leadership",
+      "tags": ["Executive Leadership", "Strategic Thinking", "Decision Making", "Innovation Culture"],
+      "expertise": ["Executive Leadership", "Strategic Thinking", "Decision-Making Frameworks", "Team Dynamics", "Innovation Culture"],
+      "industry": ["Technology", "Consulting", "Finance"],
+      "url": "/talent/talent-004",
+      "availability": "limited"
+    }
+  },
+  {
+    "id": "expert-005",
+    "type": "expert",
+    "title": "Aisha Mohamed - Culture Transformation Specialist",
+    "content": "Aisha Mohamed creates psychologically safe environments for AI experimentation. With 88% transformation success rate and exceptional 95% behavior change score, she specializes in Organizational Culture, Psychological Safety, Fear to Confidence transitions, Team Coaching, and Diversity & Inclusion. She has transformed 39 clients and reframed 9,800 employees across Media, Technology, and Retail industries using a facilitative coaching style focused on assess, reframe, and embed stages.",
+    "metadata": {
+      "category": "culture",
+      "tags": ["Organizational Culture", "Psychological Safety", "Team Coaching", "Diversity & Inclusion"],
+      "expertise": ["Organizational Culture", "Psychological Safety", "Fear to Confidence", "Team Coaching", "Diversity & Inclusion"],
+      "industry": ["Media", "Technology", "Retail"],
+      "url": "/talent/talent-005",
+      "availability": "available"
+    }
+  },
+  {
+    "id": "expert-006",
+    "type": "expert",
+    "title": "Carlos Rivera - Retail & Customer Experience Expert",
+    "content": "Carlos Rivera transforms frontline teams to deliver AI-enhanced service. Specializing in Customer Experience, Retail Operations, Frontline Coaching, Service Design, and Technology Training, he has transformed 26 clients and reframed 11,000 employees across Retail, Hospitality, and E-commerce industries. His directive coaching approach focuses on embed and scale transformation stages with 83% transformation success rate.",
+    "metadata": {
+      "category": "retail",
+      "tags": ["Customer Experience", "Retail Operations", "Frontline Coaching", "Service Design"],
+      "expertise": ["Customer Experience", "Retail Operations", "Frontline Coaching", "Service Design", "Technology Training"],
+      "industry": ["Retail", "Hospitality", "E-commerce"],
+      "url": "/talent/talent-006",
+      "availability": "available"
+    }
+  },
+  {
+    "id": "expert-007",
+    "type": "expert",
+    "title": "Sofia Andersson - Agile Transformation Coach",
+    "content": "Sofia Andersson builds adaptive, self-organizing teams in AI-native organizations. With 89% transformation success rate and 92% behavior change score, she specializes in Agile Methodologies, Team Coaching, Scrum & Kanban, Product Management, and Remote Collaboration. She has transformed 45 clients and reframed 10,500 employees in Technology, SaaS, and Startups. Her facilitative coaching style focuses on embed and scale transformation stages.",
+    "metadata": {
+      "category": "agile",
+      "tags": ["Agile", "Team Coaching", "Scrum", "Product Management", "Remote Work"],
+      "expertise": ["Agile Methodologies", "Team Coaching", "Scrum & Kanban", "Product Management", "Remote Collaboration"],
+      "industry": ["Technology", "SaaS", "Startups"],
+      "url": "/talent/talent-009",
+      "availability": "available"
+    }
+  },
+  {
+    "id": "expert-008",
+    "type": "expert",
+    "title": "Yuki Tanaka - Data Science Enablement Expert",
+    "content": "Yuki Tanaka democratizes data literacy and AI capabilities across organizations. With 90% transformation success rate, she specializes in Data Science, Analytics Strategy, ML Operations, Training & Enablement, and BI Platforms. She has transformed 37 clients and reframed 8,900 employees in Technology, E-commerce, and SaaS industries. Her hybrid coaching approach covers reframe, embed, and scale transformation stages.",
+    "metadata": {
+      "category": "data-science",
+      "tags": ["Data Science", "Analytics", "ML Operations", "Training", "BI Platforms"],
+      "expertise": ["Data Science", "Analytics Strategy", "ML Operations", "Training & Enablement", "BI Platforms"],
+      "industry": ["Technology", "E-commerce", "SaaS"],
+      "url": "/talent/talent-014",
+      "availability": "limited"
+    }
+  }
+]

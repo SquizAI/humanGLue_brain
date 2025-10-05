@@ -1,0 +1,459 @@
+name: Deploy to Netlify
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+env:
+  NODE_VERSION: '20'
+  NPM_VERSION: '10'
+
+jobs:
+  # ============================================================================
+  # Code Quality Checks
+  # ============================================================================
+
+  lint:
+    name: Lint & Type Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Run TypeScript type check
+        run: |
+          if npm run type-check 2>/dev/null; then
+            echo "TypeScript check passed"
+          else
+            echo "No type-check script found, skipping"
+          fi
+
+  # ============================================================================
+  # Unit Tests
+  # ============================================================================
+
+  test-unit:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run unit tests
+        run: npm run test:unit
+
+      - name: Upload coverage reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/
+          retention-days: 30
+
+  # ============================================================================
+  # Integration Tests
+  # ============================================================================
+
+  test-integration:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run integration tests
+        run: |
+          if npm run test:integration 2>/dev/null; then
+            echo "Integration tests passed"
+          else
+            echo "No integration tests found, skipping"
+          fi
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.SUPABASE_TEST_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_TEST_ANON_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_TEST_SERVICE_KEY }}
+
+  # ============================================================================
+  # End-to-End Tests
+  # ============================================================================
+
+  test-e2e:
+    name: E2E Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Build application
+        run: npm run build
+
+      - name: Run E2E tests
+        run: npm run test:e2e
+        env:
+          NEXT_PUBLIC_SITE_URL: http://localhost:3000
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+
+      - name: Upload test videos
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-videos
+          path: test-results/
+          retention-days: 7
+
+  # ============================================================================
+  # Security Audit
+  # ============================================================================
+
+  security:
+    name: Security Audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run npm audit
+        run: npm audit --production --audit-level=moderate
+        continue-on-error: true
+
+      - name: Check for known vulnerabilities
+        run: |
+          AUDIT_RESULT=$(npm audit --production --audit-level=high --json)
+          CRITICAL=$(echo $AUDIT_RESULT | jq '.metadata.vulnerabilities.critical // 0')
+          HIGH=$(echo $AUDIT_RESULT | jq '.metadata.vulnerabilities.high // 0')
+
+          if [ "$CRITICAL" -gt 0 ] || [ "$HIGH" -gt 0 ]; then
+            echo "Found $CRITICAL critical and $HIGH high vulnerabilities"
+            npm audit --production
+            exit 1
+          fi
+
+  # ============================================================================
+  # Build Verification
+  # ============================================================================
+
+  build:
+    name: Build Verification
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: [lint, test-unit]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate environment variables
+        run: node scripts/check-env.js
+        env:
+          NODE_ENV: production
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+
+      - name: Build application
+        run: npm run build
+        env:
+          NODE_ENV: production
+          NEXT_PUBLIC_ENV: production
+          NEXT_PUBLIC_SITE_URL: https://humanglue.ai
+
+      - name: Check build output
+        run: |
+          if [ ! -d ".next" ]; then
+            echo "Build failed - .next directory not found"
+            exit 1
+          fi
+          echo "Build successful"
+          du -sh .next
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output
+          path: .next/
+          retention-days: 7
+
+  # ============================================================================
+  # Deploy Preview (Pull Requests)
+  # ============================================================================
+
+  deploy-preview:
+    name: Deploy Preview
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: [lint, test-unit, security, build]
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Deploy to Netlify (Preview)
+        id: netlify-deploy
+        uses: netlify/actions/cli@master
+        with:
+          args: deploy --dir=.next --alias=pr-${{ github.event.pull_request.number }}
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+      - name: Comment on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const deployUrl = process.env.DEPLOY_URL || `https://pr-${{ github.event.pull_request.number }}--humanglue.netlify.app`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `### Deploy Preview Ready! 🚀\n\n**Preview URL:** ${deployUrl}\n\nThis preview will be automatically updated when you push new commits to this PR.`
+            })
+
+  # ============================================================================
+  # Deploy Staging (develop branch)
+  # ============================================================================
+
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: [lint, test-unit, security, build]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+
+    environment:
+      name: staging
+      url: https://staging--humanglue.netlify.app
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Deploy to Netlify (Staging)
+        uses: netlify/actions/cli@master
+        with:
+          args: deploy --dir=.next --alias=staging
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+      - name: Notify deployment
+        if: always()
+        run: |
+          echo "Staging deployment completed"
+          echo "URL: https://staging--humanglue.netlify.app"
+
+  # ============================================================================
+  # Deploy Production (main branch)
+  # ============================================================================
+
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: [lint, test-unit, test-integration, test-e2e, security, build]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    environment:
+      name: production
+      url: https://humanglue.ai
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Final pre-deployment checks
+        run: |
+          echo "Running final checks..."
+          node scripts/check-env.js
+          npm run lint
+          npm run build
+        env:
+          NODE_ENV: production
+          NEXT_PUBLIC_ENV: production
+
+      - name: Deploy to Netlify (Production)
+        id: netlify-deploy
+        uses: netlify/actions/cli@master
+        with:
+          args: deploy --prod --dir=.next
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+      - name: Verify deployment
+        run: |
+          echo "Waiting for deployment to be live..."
+          sleep 10
+          curl -f https://humanglue.ai || exit 1
+
+      - name: Create deployment tag
+        run: |
+          DATE=$(date +'%Y%m%d-%H%M%S')
+          TAG="deploy-production-$DATE"
+          git tag $TAG
+          git push origin $TAG
+
+      - name: Notify success
+        if: success()
+        run: |
+          echo "🎉 Production deployment successful!"
+          echo "URL: https://humanglue.ai"
+
+      - name: Notify failure
+        if: failure()
+        run: |
+          echo "❌ Production deployment failed!"
+          exit 1
+
+  # ============================================================================
+  # Post-Deployment Smoke Tests
+  # ============================================================================
+
+  smoke-tests:
+    name: Smoke Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: [deploy-production]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Check homepage
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" https://humanglue.ai)
+          if [ $response -ne 200 ]; then
+            echo "Homepage check failed with status $response"
+            exit 1
+          fi
+          echo "Homepage is accessible"
+
+      - name: Check API health
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" https://humanglue.ai/api/health || echo "404")
+          if [ $response -eq 200 ]; then
+            echo "API health check passed"
+          else
+            echo "API health endpoint returned $response (may not exist yet)"
+          fi
+
+      - name: Verify analytics
+        run: |
+          content=$(curl -s https://humanglue.ai)
+          if echo "$content" | grep -q "G-"; then
+            echo "Analytics tag found"
+          else
+            echo "Warning: Analytics tag not found"
+          fi

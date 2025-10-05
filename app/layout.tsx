@@ -2,7 +2,11 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { ChatProvider } from '../lib/contexts/ChatContext'
+import { CartProvider } from '../lib/contexts/CartContext'
+import { SocialProvider } from '../lib/contexts/SocialContext'
+import { BillingProvider } from '../lib/contexts/BillingContext'
 import { PWARegister } from '../components/PWARegister'
+import { GlobalAIChat } from '../components/templates/GlobalAIChat'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -72,17 +76,19 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/favicon.ico' },
-      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
-      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/HG_icon.png', type: 'image/png' },
+      { url: '/HG_icon.png', sizes: '16x16', type: 'image/png' },
+      { url: '/HG_icon.png', sizes: '32x32', type: 'image/png' },
+      { url: '/HG_icon.png', sizes: '192x192', type: 'image/png' },
+      { url: '/HG_icon.png', sizes: '512x512', type: 'image/png' },
     ],
     apple: [
-      { url: '/apple-touch-icon.png' },
+      { url: '/HG_icon.png' },
     ],
     other: [
       {
         rel: 'mask-icon',
-        url: '/safari-pinned-tab.svg',
+        url: '/HG_icon.png',
       },
     ],
   },
@@ -170,8 +176,15 @@ export default function RootLayout({
       </head>
       <body className={`${inter.className} bg-gray-900 text-white antialiased`}>
         <ChatProvider>
-          {children}
-          <PWARegister />
+          <BillingProvider>
+            <CartProvider>
+              <SocialProvider>
+                {children}
+                <GlobalAIChat />
+                <PWARegister />
+              </SocialProvider>
+            </CartProvider>
+          </BillingProvider>
         </ChatProvider>
       </body>
     </html>

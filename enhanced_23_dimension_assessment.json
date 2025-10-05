@@ -1,0 +1,819 @@
+{
+  "assessmentMetadata": {
+    "version": "2.0",
+    "totalDimensions": 23,
+    "questionCount": "45-65 adaptive",
+    "duration": "25-35 minutes",
+    "methodology": "Warren Berger + Adaptive Intelligence"
+  },
+  
+  "adaptiveRouting": {
+    "classifierQuestions": [
+      {
+        "id": "CLASSIFY_1",
+        "question": "Let's start with you. What's your role in the organization?",
+        "routing": {
+          "C-Suite Executive": "executive_path",
+          "Department Head": "leader_path",
+          "Technical Leader": "technical_path",
+          "Individual Contributor": "contributor_path"
+        }
+      },
+      {
+        "id": "CLASSIFY_2",
+        "question": "How would you describe your organization's relationship with AI today - just getting started, actively using it, or leading with it?",
+        "routing": {
+          "just getting started": "foundational_depth",
+          "actively using it": "operational_depth",
+          "leading with it": "strategic_depth"
+        }
+      },
+      {
+        "id": "CLASSIFY_3",
+        "question": "What's your biggest priority right now - improving efficiency, driving innovation, or transforming the business?",
+        "routing": {
+          "improving efficiency": "operational_focus",
+          "driving innovation": "innovation_focus",
+          "transforming the business": "transformation_focus"
+        }
+      }
+    ]
+  },
+
+  "dimensions": {
+    
+    "TECHNICAL_INFRASTRUCTURE": {
+      "1_DATA_INFRASTRUCTURE": {
+        "dimension": "Data Infrastructure & Quality",
+        "category": "Technical",
+        "weight": 0.08,
+        "questions": {
+          "safety": [
+            {
+              "id": "DATA_S1",
+              "text": "Walk me through how data moves through your organization today. Where does it live and who can access it?",
+              "followUp": "What frustrates you most about your current data situation?"
+            },
+            {
+              "id": "DATA_S2",
+              "text": "Tell me about a time when bad data caused a problem. How did you discover it?",
+              "followUp": "How often does this kind of thing happen?"
+            }
+          ],
+          "challenge": [
+            {
+              "id": "DATA_C1",
+              "text": "If you could see any data in real-time right now to make better decisions, what would it be and why?",
+              "followUp": "What's stopping you from having that visibility today?"
+            },
+            {
+              "id": "DATA_C2",
+              "text": "How do you know if your data is trustworthy? Give me a specific example.",
+              "followUp": "Who owns data quality in your organization?"
+            }
+          ],
+          "transformation": [
+            {
+              "id": "DATA_T1",
+              "text": "Imagine your data could predict problems before they happen. What would you want it to predict first?",
+              "followUp": "How would that change your business model?"
+            }
+          ]
+        }
+      },
+
+      "2_SYSTEMS_INTEGRATION": {
+        "dimension": "Systems Integration & APIs",
+        "category": "Technical",
+        "weight": 0.06,
+        "questions": {
+          "safety": [
+            {
+              "id": "SYSTEMS_S1",
+              "text": "How many different systems do you log into on a typical day? Walk me through them.",
+              "followUp": "Which ones talk to each other?"
+            },
+            {
+              "id": "SYSTEMS_S2",
+              "text": "Tell me about a time when systems not talking to each other caused issues.",
+              "followUp": "How did you work around it?"
+            }
+          ],
+          "challenge": [
+            {
+              "id": "SYSTEMS_C1",
+              "text": "If all your systems could share data instantly, what would become possible that isn't today?",
+              "followUp": "What's the biggest barrier to making that happen?"
+            }
+          ],
+          "transformation": [
+            {
+              "id": "SYSTEMS_T1",
+              "text": "Describe your ideal technology ecosystem where everything just works together.",
+              "followUp": "How far away are you from that vision?"
+            }
+          ]
+        }
+      },
+
+      "3_SECURITY_COMPLIANCE": {
+        "dimension": "Security & Compliance Architecture",
+        "category": "Technical",
+        "weight": 0.07,
+        "questions": {
+          "safety": [
+            {
+              "id": "SECURITY_S1",
+              "text": "What keeps you up at night when it comes to AI and security?",
+              "followUp": "Have you had any close calls?"
+            },
+            {
+              "id": "SECURITY_S2",
+              "text": "How do you ensure sensitive data doesn't end up in AI systems where it shouldn't?",
+              "followUp": "Walk me through your process."
+            }
+          ],
+          "challenge": [
+            {
+              "id": "SECURITY_C1",
+              "text": "Tell me about your AI governance. Who decides what's safe to automate?",
+              "followUp": "How do you document those decisions?"
+            }
+          ],
+          "transformation": [
+            {
+              "id": "SECURITY_T1",
+              "text": "If security wasn't a constraint, how would you use AI differently?",
+              "followUp": "What would it take to get there safely?"
+            }
+          ]
+        }
+      },
+
+      "4_CLOUD_EDGE_COMPUTING": {
+        "dimension": "Cloud & Edge Computing Readiness",
+        "category": "Technical",
+        "weight": 0.05,
+        "questions": {
+          "safety": [
+            {
+              "id": "CLOUD_S1",
+              "text": "Where does your AI processing happen today - on premises, in the cloud, or somewhere else?",
+              "followUp": "How did you decide on that approach?"
+            }
+          ],
+          "challenge": [
+            {
+              "id": "CLOUD_C1",
+              "text": "What would need to change for you to run AI everywhere it's needed, not just where it's convenient?",
+              "followUp": "What's the business case for that?"
+            }
+          ],
+          "transformation": [
+            {
+              "id": "CLOUD_T1",
+              "text": "Imagine AI running at the edge of your operations in real-time. What becomes possible?",
+              "followUp": "How would that transform your industry?"
+            }
+          ]
+        }
+      },
+
+      "5_DEVELOPMENT_OPERATIONS": {
+        "dimension": "Development & DevOps Maturity",
+        "category": "Technical",
+        "weight": 0.05,
+        "questions": {
+          "safety": [
+            {
+              "id": "DEVOPS_S1",
+              "text": "How long does it take to go from AI idea to deployed solution in your organization?",
+              "followUp": "Walk me through a recent example."
+            }
+          ],
+          "challenge": [
+            {
+              "id": "DEVOPS_C1",
+              "text": "What's your process for testing and deploying AI models? Who's involved?",
+              "followUp": "Where does that process break down?"
+            }
+          ],
+          "transformation": [
+            {
+              "id": "DEVOPS_T1",
+              "text": "If you could deploy AI updates as easily as updating an app, what would you build first?",
+              "followUp": "What impact would that velocity have?"
+            }
+          ]
+        }
+      }
+    },
+
+    "BUSINESS_STRATEGY": {
+      "6_FINANCIAL_MANAGEMENT": {
+        "dimension": "Financial Impact & ROI Modeling",
+        "category": "Business",
+        "weight": 0.08,
+        "questions": {
+          "safety": [
+            {
+              "id": "FINANCIAL_S1",
+              "text": "How do you currently measure the value of AI investments? Give me a specific example.",
+              "followUp": "Are you happy with those metrics?"
+            },
+            {
+              "id": "FINANCIAL_S2",
+              "text": "Tell me about an AI investment that didn't pay off as expected. What happened?",
+              "followUp": "What did you learn from that?"
+            }
+          ],
+          "challenge": [
+            {
+              "id": "FINANCIAL_C1",
+              "text": "If AI could increase your margins by 20%, where would that improvement come from?",
+              "followUp": "What would it take to capture that value?"
+            }
+          ],
+          "transformation": [
+            {
+              "id": "FINANCIAL_T1",
+              "text": "Imagine AI creating entirely new revenue streams for you. What might those look like?",
+              "followUp": "How much could that be worth?"
+            }
+          ]
+        }
+      },
+
+      "7_MARKET_INTELLIGENCE": {
+        "dimension": "Market & Competitive Intelligence",
+        "category": "Business",
+        "weight": 0.06,
+        "questions": {
+          "safety": [
+            {
+              "id": "MARKET_S1",
+              "text": "How are your competitors using AI differently than you? What have you noticed?",
+              "followUp": "Does that worry you or excite you?"
+            }
+          ],
+          "challenge": [
+            {
+              "id": "MARKET_C1",
+              "text": "If you could know one thing about how your competitors use AI, what would it be?",
+              "followUp": "How would that knowledge change your strategy?"
+            }
+          ],
+          "transformation": [
+            {
+              "id": "MARKET_T1",
+              "text": "How could AI help you create a market that doesn't exist today?",
+              "followUp": "What would make you the obvious leader in that market?"
+            }
+          ]
+        }
+      },
+
+      "8_CUSTOMER_EXPERIENCE": {
+        "dimension": "Customer Experience & Engagement",
+        "category": "Business",
+        "weight": 0.07,
+        "questions": {
+          "safety": [
+            {
+              "id": "CUSTOMER_S1",
+              "text": "Where does AI currently touch your customer's journey? Walk me through it.",
+              "followUp": "How do customers feel about those interactions?"
+            },
+            {
+              "id": "CUSTOMER_S2",
+              "text": "Tell me about a time AI improved a customer interaction. What made it better?",
+              "followUp": "Could you replicate that elsewhere?"
+            }
+          ],
+          "challenge": [
+            {
+              "id": "CUSTOMER_C1",
+              "text": "What do your customers wish you could do that seems impossible today?",
+              "followUp": "How might AI make that possible?"
+            }
+          ],
+          "transformation": [
+            {
+              "id": "CUSTOMER_T1",
+              "text": "If AI could perfectly predict what each customer needs before they ask, how would your business change?",
+              "followUp": "What would that do to customer loyalty?"
+            }
+          ]
+        }
+      },
+
+      "9_OPERATIONS_EXCELLENCE": {
+        "dimension": "Supply Chain & Operations",
+        "category": "Business",
+        "weight": 0.06,
+        "questions": {
+          "safety": [
+            {
+              "id": "OPERATIONS_S1",
+              "text": "Which parts of your operations would benefit most from being smarter? Why those?",
+              "followUp": "What's stopping you from starting there?"
+            }
+          ],
+          "challenge": [
+            {
+              "id": "OPERATIONS_C1",
+              "text": "If AI could eliminate your biggest operational headache, what would that be?",
+              "followUp": "What would you do with the time saved?"
+            }
+          ],
+          "transformation": [
+            {
+              "id": "OPERATIONS_T1",
+              "text": "Describe your operations if they were completely autonomous. What role would humans play?",
+              "followUp": "How would that change your competitive position?"
+            }
+          ]
+        }
+      },
+
+      "10_INNOVATION_PIPELINE": {
+        "dimension": "Product & Service Innovation",
+        "category": "Business",
+        "weight": 0.05,
+        "questions": {
+          "safety": [
+            {
+              "id": "INNOVATION_S1",
+              "text": "How is AI changing what you offer to customers? Give me an example.",
+              "followUp": "Is that incremental or transformational?"
+            }
+          ],
+          "challenge": [
+            {
+              "id": "INNOVATION_C1",
+              "text": "What product or service could you create with AI that you couldn't before?",
+              "followUp": "What's preventing you from building it?"
+            }
+          ],
+          "transformation": [
+            {
+              "id": "INNOVATION_T1",
+              "text": "If AI could invent your next breakthrough product, what problem would it solve?",
+              "followUp": "How would that redefine your industry?"
+            }
+          ]
+        }
+      }
+    },
+
+    "HUMAN_CAPITAL": {
+      "11_LEADERSHIP_READINESS": {
+        "dimension": "Leadership Digital Fluency",
+        "category": "Human",
+        "weight": 0.07,
+        "questions": {
+          "safety": [
+            {
+              "id": "LEADERSHIP_S1",
+              "text": "How do your senior leaders talk about AI? Give me an example from a recent meeting.",
+              "followUp": "Do they walk the talk?"
+            },
+            {
+              "id": "LEADERSHIP_S2",
+              "text": "Tell me about a leader in your organization who really 'gets' AI. What makes them different?",
+              "followUp": "How do you spread that mindset?"
+            }
+          ],
+          "challenge": [
+            {
+              "id": "LEADERSHIP_C1",
+              "text": "What would need to change for every leader to be an AI champion?",
+              "followUp": "Who would resist and why?"
+            }
+          ],
+          "transformation": [
+            {
+              "id": "LEADERSHIP_T1",
+              "text": "Imagine your leadership team thinking AI-first in every decision. What becomes possible?",
+              "followUp": "How would that change your culture?"
+            }
+          ]
+        }
+      },
+
+      "12_SKILLS_CAPABILITIES": {
+        "dimension": "Skills & Capability Mapping",
+        "category": "Human",
+        "weight": 0.06,
+        "questions": {
+          "safety": [
+            {
+              "id": "SKILLS_S1",
+              "text": "What AI skills do your teams have today versus what they need? Be specific.",
+              "followUp": "How are you closing that gap?"
+            }
+          ],
+          "challenge": [
+            {
+              "id": "SKILLS_C1",
+              "text": "If you could instantly give your team one AI superpower, what would it be?",
+              "followUp": "What would they do with it?"
+            }
+          ],
+          "transformation": [
+            {
+              "id": "SKILLS_T1",
+              "text": "Describe your workforce when everyone is AI-fluent. What changes?",
+              "followUp": "How do roles evolve?"
+            }
+          ]
+        }
+      },
+
+      "13_LEARNING_SYSTEMS": {
+        "dimension": "Learning & Development Systems",
+        "category": "Human",
+        "weight": 0.05,
+        "questions": {
+          "safety": [
+            {
+              "id": "LEARNING_S1",
+              "text": "How are people in your organization learning about AI? Is it working?",
+              "followUp": "What would make it better?"
+            }
+          ],
+          "challenge": [
+            {
+              "id": "LEARNING_C1",
+              "text": "What's the gap between AI training and actual AI usage in daily work?",
+              "followUp": "How do you bridge that?"
+            }
+          ],
+          "transformation": [
+            {
+              "id": "LEARNING_T1",
+              "text": "If learning was continuous and AI-powered, how would your organization evolve?",
+              "followUp": "What would that unlock?"
+            }
+          ]
+        }
+      },
+
+      "14_PERFORMANCE_EVOLUTION": {
+        "dimension": "Performance Management Evolution",
+        "category": "Human",
+        "weight": 0.04,
+        "questions": {
+          "safety": [
+            {
+              "id": "PERFORMANCE_S1",
+              "text": "How has AI changed how you measure and reward performance?",
+              "followUp": "Is that creating the right behaviors?"
+            }
+          ],
+          "challenge": [
+            {
+              "id": "PERFORMANCE_C1",
+              "text": "If AI could measure performance in real-time, what would you track differently?",
+              "followUp": "How would that change motivation?"
+            }
+          ],
+          "transformation": [
+            {
+              "id": "PERFORMANCE_T1",
+              "text": "Imagine performance management that predicts and develops potential. What would that look like?",
+              "followUp": "How would that transform your talent?"
+            }
+          ]
+        }
+      },
+
+      "15_CULTURE_CHANGE": {
+        "dimension": "Culture & Change Management",
+        "category": "Human",
+        "weight": 0.06,
+        "questions": {
+          "safety": [
+            {
+              "id": "CULTURE_S1",
+              "text": "How would you describe your culture's relationship with AI - fearful, curious, or excited?",
+              "followUp": "What shaped that attitude?"
+            }
+          ],
+          "challenge": [
+            {
+              "id": "CULTURE_C1",
+              "text": "What cultural beliefs would need to shift for AI to truly thrive here?",
+              "followUp": "How do you change those beliefs?"
+            }
+          ],
+          "transformation": [
+            {
+              "id": "CULTURE_T1",
+              "text": "Describe your culture when AI augmentation is just how work gets done.",
+              "followUp": "What values drive that culture?"
+            }
+          ]
+        }
+      }
+    },
+
+    "GOVERNANCE_ETHICS": {
+      "16_AI_ETHICS": {
+        "dimension": "AI Ethics & Responsibility",
+        "category": "Governance",
+        "weight": 0.06,
+        "questions": {
+          "safety": [
+            {
+              "id": "ETHICS_S1",
+              "text": "Tell me about a time you had to make an ethical decision about AI use. What guided you?",
+              "followUp": "Do you have clear principles for these decisions?"
+            }
+          ],
+          "challenge": [
+            {
+              "id": "ETHICS_C1",
+              "text": "How do you ensure AI decisions are fair and unbiased? Give me an example.",
+              "followUp": "How do you validate that?"
+            }
+          ],
+          "transformation": [
+            {
+              "id": "ETHICS_T1",
+              "text": "What would ethical AI leadership look like in your industry?",
+              "followUp": "How could you set that standard?"
+            }
+          ]
+        }
+      },
+
+      "17_REGULATORY_COMPLIANCE": {
+        "dimension": "Regulatory & Compliance Readiness",
+        "category": "Governance",
+        "weight": 0.05,
+        "questions": {
+          "safety": [
+            {
+              "id": "REGULATORY_S1",
+              "text": "Which AI regulations affect your business? How are you preparing?",
+              "followUp": "What worries you most?"
+            }
+          ],
+          "challenge": [
+            {
+              "id": "REGULATORY_C1",
+              "text": "How do you balance innovation speed with compliance requirements?",
+              "followUp": "Where does that tension show up?"
+            }
+          ],
+          "transformation": [
+            {
+              "id": "REGULATORY_T1",
+              "text": "If you could shape AI regulation for your industry, what would you prioritize?",
+              "followUp": "How would that enable innovation?"
+            }
+          ]
+        }
+      },
+
+      "18_VENDOR_ECOSYSTEM": {
+        "dimension": "Vendor & Partnership Ecosystem",
+        "category": "Governance",
+        "weight": 0.04,
+        "questions": {
+          "safety": [
+            {
+              "id": "VENDOR_S1",
+              "text": "Walk me through your AI vendor landscape. Who are your key partners?",
+              "followUp": "How do you evaluate them?"
+            }
+          ],
+          "challenge": [
+            {
+              "id": "VENDOR_C1",
+              "text": "What capabilities do you wish your AI vendors offered that they don't today?",
+              "followUp": "Have you told them?"
+            }
+          ],
+          "transformation": [
+            {
+              "id": "VENDOR_T1",
+              "text": "If you could design the perfect AI partner ecosystem, what would it include?",
+              "followUp": "How would that accelerate your transformation?"
+            }
+          ]
+        }
+      },
+
+      "19_RISK_MANAGEMENT": {
+        "dimension": "Risk Management",
+        "category": "Governance",
+        "weight": 0.05,
+        "questions": {
+          "safety": [
+            {
+              "id": "RISK_S1",
+              "text": "What's the biggest risk of NOT adopting AI fast enough?",
+              "followUp": "How do you balance that with adoption risks?"
+            }
+          ],
+          "challenge": [
+            {
+              "id": "RISK_C1",
+              "text": "Tell me about an AI risk that materialized. How did you handle it?",
+              "followUp": "What would you do differently?"
+            }
+          ],
+          "transformation": [
+            {
+              "id": "RISK_T1",
+              "text": "How could AI help you predict and prevent risks before they happen?",
+              "followUp": "What would that mean for your resilience?"
+            }
+          ]
+        }
+      }
+    },
+
+    "CROSS_FUNCTIONAL": {
+      "20_ORGANIZATIONAL_ALIGNMENT": {
+        "dimension": "Organizational Alignment",
+        "category": "Cross-Functional",
+        "weight": 0.05,
+        "questions": {
+          "safety": [
+            {
+              "id": "ALIGNMENT_S1",
+              "text": "How aligned is your organization on the AI vision? Give me evidence.",
+              "followUp": "Where do you see disconnect?"
+            }
+          ],
+          "challenge": [
+            {
+              "id": "ALIGNMENT_C1",
+              "text": "What would need to happen for everyone to row in the same AI direction?",
+              "followUp": "Who needs to lead that?"
+            }
+          ],
+          "transformation": [
+            {
+              "id": "ALIGNMENT_T1",
+              "text": "Describe your organization when AI strategy and execution are perfectly synchronized.",
+              "followUp": "What makes that possible?"
+            }
+          ]
+        }
+      },
+
+      "21_COLLABORATION_NETWORKS": {
+        "dimension": "Collaboration Networks",
+        "category": "Cross-Functional",
+        "weight": 0.04,
+        "questions": {
+          "safety": [
+            {
+              "id": "COLLABORATION_S1",
+              "text": "How do teams share AI learnings and successes? Give me an example.",
+              "followUp": "Is that systematic or ad-hoc?"
+            }
+          ],
+          "challenge": [
+            {
+              "id": "COLLABORATION_C1",
+              "text": "What breaks down when teams try to collaborate on AI initiatives?",
+              "followUp": "How do you fix that?"
+            }
+          ],
+          "transformation": [
+            {
+              "id": "COLLABORATION_T1",
+              "text": "Imagine AI orchestrating perfect collaboration across all teams. What becomes possible?",
+              "followUp": "How does that change your velocity?"
+            }
+          ]
+        }
+      },
+
+      "22_ADAPTABILITY_QUOTIENT": {
+        "dimension": "Adaptability Quotient",
+        "category": "Cross-Functional",
+        "weight": 0.04,
+        "questions": {
+          "safety": [
+            {
+              "id": "ADAPTABILITY_S1",
+              "text": "How quickly can your organization pivot when AI creates new opportunities? Give me an example.",
+              "followUp": "What slows you down?"
+            }
+          ],
+          "challenge": [
+            {
+              "id": "ADAPTABILITY_C1",
+              "text": "What would need to change for you to adapt as fast as AI evolves?",
+              "followUp": "Is that change happening?"
+            }
+          ],
+          "transformation": [
+            {
+              "id": "ADAPTABILITY_T1",
+              "text": "Describe your organization as a living system that evolves with AI. What does that look like?",
+              "followUp": "How do you build that capability?"
+            }
+          ]
+        }
+      },
+
+      "23_TRANSFORMATION_READINESS": {
+        "dimension": "Transformation Readiness",
+        "category": "Cross-Functional",
+        "weight": 0.05,
+        "questions": {
+          "safety": [
+            {
+              "id": "TRANSFORMATION_S1",
+              "text": "On a scale of 1-10, how ready is your organization for AI transformation? Why that number?",
+              "followUp": "What would make it a 10?"
+            }
+          ],
+          "challenge": [
+            {
+              "id": "TRANSFORMATION_C1",
+              "text": "What's the gap between where you are and where you need to be with AI?",
+              "followUp": "What's your plan to close it?"
+            }
+          ],
+          "transformation": [
+            {
+              "id": "TRANSFORMATION_T1",
+              "text": "When you've fully transformed with AI, what will be fundamentally different about your organization?",
+              "followUp": "How will the world know you've succeeded?"
+            }
+          ]
+        }
+      }
+    }
+  },
+
+  "scoringRubric": {
+    "voiceResponseMapping": {
+      "level_0_2": {
+        "indicators": ["we don't", "not yet", "haven't started", "don't know", "not sure", "maybe someday"],
+        "characteristics": "Defensive, avoidant, or unaware responses"
+      },
+      "level_3_4": {
+        "indicators": ["exploring", "starting to", "some teams", "piloting", "testing", "looking into"],
+        "characteristics": "Exploratory, experimental responses"
+      },
+      "level_5_6": {
+        "indicators": ["we measure", "implemented across", "most departments", "seeing results", "ROI positive"],
+        "characteristics": "Operational, systematic responses"
+      },
+      "level_7_8": {
+        "indicators": ["transformed how we", "competitive advantage", "industry leading", "others learn from us"],
+        "characteristics": "Strategic, leadership responses"
+      },
+      "level_9_10": {
+        "indicators": ["invented new", "first in industry", "created a market", "fundamentally different"],
+        "characteristics": "Transformational, visionary responses"
+      }
+    }
+  },
+
+  "deliveryInstructions": {
+    "conversationalBridges": {
+      "betweenDimensions": [
+        "That's helpful context about [previous topic]. Now let's shift to [next topic]...",
+        "Building on what you just shared, I'm curious about [related area]...",
+        "That gives me a good picture of [area]. Let's explore how that connects to [next area]..."
+      ],
+      "encouragement": [
+        "That's exactly the kind of insight I was hoping for...",
+        "You're painting a clear picture here...",
+        "This is valuable - tell me more about that..."
+      ],
+      "clarification": [
+        "Let me make sure I understand - you're saying...",
+        "So if I'm hearing you correctly...",
+        "That's interesting because it suggests..."
+      ]
+    },
+    
+    "adaptiveLogic": {
+      "skipRules": [
+        "If maturity > 6, skip all safety questions",
+        "If time > 30 minutes, move to wrap-up",
+        "If engagement < 0.3, simplify questions",
+        "If role = technical, emphasize technical dimensions",
+        "If industry = regulated, emphasize governance dimensions"
+      ],
+      
+      "depthRules": [
+        "If response_length > 50 words, ask follow-up",
+        "If uncertainty detected, provide example",
+        "If enthusiasm detected, go deeper",
+        "If resistance detected, acknowledge and reframe"
+      ]
+    }
+  }
+}

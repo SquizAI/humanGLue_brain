@@ -3,6 +3,7 @@
 import { ReactNode } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
+import { DigitalWave } from '../organisms/DigitalWave'
 
 interface HeroSectionProps {
   children: ReactNode
@@ -10,6 +11,7 @@ interface HeroSectionProps {
   videoSrc?: string
   overlayOpacity?: number
   minHeight?: string
+  useDigitalWave?: boolean
 }
 
 const defaultBackgrounds = {
@@ -24,15 +26,21 @@ export function HeroSection({
   backgroundImage,
   videoSrc,
   overlayOpacity = 0.3,
-  minHeight = '80vh'
+  minHeight = '80vh',
+  useDigitalWave = false
 }: HeroSectionProps) {
   return (
     <section 
       className={`relative flex items-center justify-center px-4 sm:px-6 overflow-hidden`}
       style={{ minHeight }}
     >
+      {/* Digital Wave Background */}
+      {useDigitalWave && (
+        <DigitalWave className="absolute inset-0" />
+      )}
+
       {/* Video Background */}
-      {videoSrc && (
+      {videoSrc && !useDigitalWave && (
         <div className="absolute inset-0">
           <video
             autoPlay
@@ -63,8 +71,8 @@ export function HeroSection({
         </div>
       )}
       
-      {/* Background Image (only if no video) */}
-      {backgroundImage && !videoSrc && (
+      {/* Background Image (only if no video or digital wave) */}
+      {backgroundImage && !videoSrc && !useDigitalWave && (
         <div className="absolute inset-0">
           <Image
             src={backgroundImage}

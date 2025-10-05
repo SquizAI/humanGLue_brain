@@ -14,6 +14,7 @@ import { modelConfigs } from '../../lib/mcp/models'
 import { cn } from '../../utils/cn'
 import { firecrawlService, CompanyInsights } from '../../services/firecrawl'
 import { APIError } from '../../services/api'
+import { retrieveContext, initializeRAG } from '../../lib/rag'
 
 export interface SharedChatInterfaceProps {
   onStateChange: (state: ChatState, data?: any) => void
@@ -27,6 +28,7 @@ export interface SharedChatInterfaceProps {
 
 export interface SharedChatInterfaceRef {
   startConversation: () => void
+  sendMessage: (message: string) => void
 }
 
 export const SharedChatInterface = forwardRef<SharedChatInterfaceRef, SharedChatInterfaceProps>(({
@@ -47,25 +49,40 @@ export const SharedChatInterface = forwardRef<SharedChatInterfaceRef, SharedChat
   const [isAnalyzingWebsite, setIsAnalyzingWebsite] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const [isIOS, setIsIOS] = useState(false)
+  const [citations, setCitations] = useState<Array<{ title: string; type: string; url: string }>>([])
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const messagesContainerRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const hasStarted = useRef(false)
   const localUserData = useRef(userData)
+  const ragInitialized = useRef(false)
 
   useEffect(() => {
     localUserData.current = userData
   }, [userData])
+
+  // Initialize RAG system
+  useEffect(() => {
+    if (!ragInitialized.current) {
+      try {
+        initializeRAG()
+        ragInitialized.current = true
+        console.log('RAG system initialized')
+      } catch (error) {
+        console.error('Failed to initialize RAG:', error)
+      }
+    }
+  }, [])
 
   // Detect mobile and iOS
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768)
     }
-    
+
     const userAgent = window.navigator.userAgent.toLowerCase()
     setIsIOS(/iphone|ipad|ipod/.test(userAgent))
-    
+
     checkMobile()
     window.addEventListener('resize', checkMobile)
     return () => window.removeEventListener('resize', checkMobile)
@@ -89,10 +106,25 @@ export const SharedChatInterface = forwardRef<SharedChatInterfaceRef, SharedChat
   const startConversation = () => {
     if (hasStarted.current) return
     hasStarted.current = true
-    
+
     setIsTyping(true)
     setTimeout(() => {
-      const greeting = chatFlow.getGreeting()
+      const isAuthenticated = localUserData.current.authenticated === true
+
+      const greeting = isAuthenticated
+        ? `👋 Hi ${localUserData.current.name || 'there'}! I'm your AI Transformation Advisor.
+
+I have access to your assessment results${localUserData.current.maturityScore ? ` (${localUserData.current.maturityScore}% maturity)` : ''} and can help you:
+
+• Interpret your scores and identify priority actions
+• Create implementation roadmaps
+• Recommend specific platform resources
+• Calculate ROI for initiatives
+• Navigate your transformation journey
+
+What would you like to work on today?`
+        : chatFlow.getGreeting()
+
       setMessages([{
         id: '1',
         role: 'assistant',
@@ -107,7 +139,8 @@ export const SharedChatInterface = forwardRef<SharedChatInterfaceRef, SharedChat
   }
 
   useImperativeHandle(ref, () => ({
-    startConversation
+    startConversation,
+    sendMessage: (message: string) => handleSend(message)
   }))
 
   useEffect(() => {
@@ -209,10 +242,77 @@ This analysis helps me provide more personalized recommendations for your transf
           }
         }, 1500)
       } else {
-        const systemPrompt = `You are a Human Glue AI consultant specializing exclusively in organizational transformation using the Human Glue platform and methodology.
+        // Different system prompts for authenticated vs unauthenticated users
+        const isAuthenticated = localUserData.current.authenticated === true
+
+        // Retrieve relevant context from knowledge base
+        let knowledgeContext = ''
+        let retrievedCitations: Array<{ title: string; type: string; url: string }> = []
+
+        try {
+          const { context, citations } = retrieveContext(messageText, 5)
+          knowledgeContext = context
+          retrievedCitations = citations
+          setCitations(citations)
+        } catch (error) {
+          console.error('Failed to retrieve context:', error)
+        }
+
+        const authenticatedSystemPrompt = `You are an AI Transformation Advisor with deep expertise in AI maturity assessment, organizational change management, and strategic AI implementation. You have access to the user's assessment data and can provide highly personalized, actionable guidance.
+
+USER CONTEXT:
+- Name: ${localUserData.current.name || 'User'}
+- Company: ${localUserData.current.company || 'Organization'}
+- Role: ${localUserData.current.role || 'Not specified'}
+- Department: ${localUserData.current.department || 'Not specified'}
+
+ASSESSMENT DATA (if available):
+- Overall AI Maturity Score: ${localUserData.current.maturityScore || 'Not yet assessed'}
+- Maturity Level: ${localUserData.current.maturityLevel || 'Not yet determined'}
+- Strategy Alignment: ${localUserData.current.strategyScore || 'N/A'}/100
+- Data Infrastructure: ${localUserData.current.dataScore || 'N/A'}/100
+- Technical Capability: ${localUserData.current.technicalScore || 'N/A'}/100
+- People & Culture: ${localUserData.current.cultureScore || 'N/A'}/100
+- Governance & Ethics: ${localUserData.current.governanceScore || 'N/A'}/100
+
+KEY CAPABILITIES:
+1. Interpret assessment results and explain what scores mean in practical terms
+2. Prioritize recommendations based on their assessment gaps
+3. Create concrete action plans with timelines and resource requirements
+4. Recommend specific courses, workshops, and resources from the platform
+5. Connect gaps to industry benchmarks and best practices
+6. Provide change management strategies tailored to their culture score
+7. Calculate ROI for suggested initiatives
+8. Help navigate the platform and find relevant content
+
+COMMUNICATION STYLE:
+- Be direct and actionable - they're here to transform, not explore
+- Reference their specific scores and gaps when making recommendations
+- Prioritize quick wins that build momentum
+- Use their maturity level to calibrate advice (don't overwhelm Level 2 with Level 8 strategies)
+- Connect every recommendation to business outcomes
+- Be strategic - you're advising on multi-million dollar transformations
+
+When users ask questions:
+- Always ground answers in their specific assessment data when available
+- Recommend specific platform resources (courses, workshops, frameworks)
+- Create prioritized action plans, not generic advice
+- Quantify impact where possible (time saved, efficiency gains, risk reduction)
+- Identify dependencies and prerequisites for recommendations
+
+You have access to their full platform - assessments, learning content, workshops, resources, analytics, and talent network. Help them maximize value from their investment.
+
+${knowledgeContext ? `
+RELEVANT PLATFORM CONTENT FOR THIS QUERY:
+${knowledgeContext}
+
+Use the above content to provide specific, actionable recommendations. Reference specific courses, workshops, experts, or resources by name when relevant.
+` : ''}`
+
+        const publicSystemPrompt = `You are a Human Glue AI consultant specializing exclusively in organizational transformation using the Human Glue platform and methodology.
 
 CONTEXT:
-- User: ${localUserData.current.name || 'Guest'} 
+- User: ${localUserData.current.name || 'Guest'}
 - Company: ${localUserData.current.company || 'Not specified'}
 - Role: ${localUserData.current.role || 'Not specified'}
 - Organization Size: ${localUserData.current.size || 'Not specified'}
@@ -225,7 +325,16 @@ Company Insights from website analysis:
 - Key Insights: ${companyInsights.keyInsights?.join('; ')}
 ` : ''}
 
+${knowledgeContext ? `
+RELEVANT PLATFORM CONTENT FOR THIS QUERY:
+${knowledgeContext}
+
+Use the above content to provide specific, helpful recommendations from our platform.
+` : ''}
+
 Provide helpful, personalized advice about organizational transformation.`
+
+        const systemPrompt = isAuthenticated ? authenticatedSystemPrompt : publicSystemPrompt
 
         const response = await api.sendChatMessage({
           model: selectedModel,
@@ -247,7 +356,13 @@ Provide helpful, personalized advice about organizational transformation.`
         setMessages(prev => [...prev, assistantMessage])
         setIsTyping(false)
 
-        const contextualSuggestions = [
+        // Different suggestions for authenticated vs unauthenticated users
+        const contextualSuggestions = isAuthenticated ? [
+          { text: "Explain my assessment scores" },
+          { text: "What should I prioritize?" },
+          { text: "Create an action plan" },
+          { text: "Show relevant resources" }
+        ] : [
           { text: "Calculate ROI for our organization" },
           { text: "Show implementation timeline" },
           { text: "Schedule executive briefing" },
@@ -405,7 +520,33 @@ Provide helpful, personalized advice about organizational transformation.`
               className="mb-4"
             />
           )}
-          
+
+          {citations.length > 0 && !isTyping && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-4 p-4 rounded-xl bg-blue-500/10 border border-blue-500/20"
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <Brain className="w-4 h-4 text-blue-400" />
+                <Text size="xs" className="text-blue-300 font-semibold">Based on platform content:</Text>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {citations.map((citation, i) => (
+                  <a
+                    key={i}
+                    href={citation.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3 py-1.5 rounded-lg bg-blue-500/20 text-blue-200 text-xs hover:bg-blue-500/30 transition-colors border border-blue-500/30"
+                  >
+                    {citation.title}
+                  </a>
+                ))}
+              </div>
+            </motion.div>
+          )}
+
           <div ref={messagesEndRef} />
         </div>
 
@@ -562,7 +703,33 @@ Provide helpful, personalized advice about organizational transformation.`
               className="mb-4"
             />
           )}
-          
+
+          {citations.length > 0 && !isTyping && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-4 p-4 rounded-xl bg-blue-500/10 border border-blue-500/20 backdrop-blur-sm"
+            >
+              <div className="flex items-center gap-2 mb-3">
+                <Brain className="w-4 h-4 text-blue-400" />
+                <Text size="sm" className="text-blue-300 font-semibold">Based on platform content:</Text>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {citations.map((citation, i) => (
+                  <a
+                    key={i}
+                    href={citation.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3 py-1.5 rounded-lg bg-blue-500/20 text-blue-200 text-xs hover:bg-blue-500/30 transition-colors border border-blue-500/30"
+                  >
+                    {citation.title}
+                  </a>
+                ))}
+              </div>
+            </motion.div>
+          )}
+
           <div ref={messagesEndRef} />
         </div>
 

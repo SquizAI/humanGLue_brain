@@ -1,9 +1,8 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Sparkles, Send, Brain, X, Minimize2, Maximize2, Mic, MessageSquare } from 'lucide-react'
+import { Sparkles, Send, Brain, X, Minimize2, Maximize2, Mic, MessageSquare, RotateCcw } from 'lucide-react'
 import { Text } from '../atoms'
 import { Card, QuickResponse } from '../molecules'
 import { ChatMessage, VoiceAssessment } from '../organisms'
@@ -11,6 +10,8 @@ import { Message, ChatState } from '../../lib/types'
 import { EnhancedChatFlow } from '../../lib/enhancedChatFlow'
 import { assessmentDimensions } from '../../lib/assessment/dimensions'
 import { cn } from '../../utils/cn'
+import { AIChatService } from '../../lib/aiChatService'
+import { AIToolHandler } from '../../lib/aiToolHandler'
 
 export interface UnifiedChatSystemProps {
   onStateChange: (state: ChatState, data?: any) => void
@@ -26,14 +27,33 @@ export function UnifiedChatSystem({ onStateChange, isHeroVisible, userData, clas
   const [currentState, setCurrentState] = useState<ChatState>('initial')
   const [suggestions, setSuggestions] = useState<any[]>([])
   const [isMinimized, setIsMinimized] = useState(false)
+  const [isExpanded, setIsExpanded] = useState(false)
   const [hasTransitioned, setHasTransitioned] = useState(false)
   const [showVoiceToggle, setShowVoiceToggle] = useState(false)
+  const [hasStartedChat, setHasStartedChat] = useState(false)
   
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const messagesContainerRef = useRef<HTMLDivElement>(null)
   const hasStarted = useRef(false)
   const localUserData = useRef(userData || {})
   const chatFlow = useRef(new EnhancedChatFlow())
+  const aiChatService = useRef(new AIChatService())
+  const aiToolHandler = useRef(new AIToolHandler({
+    onShowROI: () => {
+      // TODO: Implement ROI calculator modal
+      console.log('Show ROI Calculator')
+    },
+    onScheduleDemo: () => {
+      window.open('https://calendly.com/humanglue/demo', '_blank')
+    },
+    onStartAssessment: () => {
+      setCurrentState('greeting')
+      startConversation()
+    },
+    onNavigate: (page: string) => {
+      window.location.href = `/${page}`
+    }
+  }))
   
   // Update local userData when prop changes
   useEffect(() => {
@@ -78,12 +98,29 @@ export function UnifiedChatSystem({ onStateChange, isHeroVisible, userData, clas
     onStateChange('voiceAssessment', localUserData.current)
   }
 
+  const resetConversation = () => {
+    setMessages([])
+    setInput('')
+    setIsTyping(false)
+    setCurrentState('initial')
+    setSuggestions([])
+    hasStarted.current = false
+    setHasStartedChat(false)
+    localUserData.current = {}
+    onStateChange('initial', {})
+  }
+
   const scrollToBottom = () => {
     if (messagesContainerRef.current) {
-      messagesContainerRef.current.scrollTo({
-        top: messagesContainerRef.current.scrollHeight,
-        behavior: 'smooth'
-      })
+      // Small delay to ensure DOM has updated
+      setTimeout(() => {
+        if (messagesContainerRef.current) {
+          messagesContainerRef.current.scrollTo({
+            top: messagesContainerRef.current.scrollHeight,
+            behavior: 'smooth'
+          })
+        }
+      }, 100)
     }
   }
 
@@ -93,14 +130,21 @@ export function UnifiedChatSystem({ onStateChange, isHeroVisible, userData, clas
     }
   }, [messages, suggestions])
 
-  // Start conversation automatically
+  // Also scroll when typing state changes (to show new content)
   useEffect(() => {
-    if (!hasStarted.current && messages.length === 0) {
-      setTimeout(() => {
-        startConversation()
-      }, 1500)
+    if (!isTyping) {
+      scrollToBottom()
     }
-  }, [])
+  }, [isTyping])
+
+  // Start conversation automatically - DISABLED
+  // useEffect(() => {
+  //   if (!hasStarted.current && messages.length === 0) {
+  //     setTimeout(() => {
+  //       startConversation()
+  //     }, 1500)
+  //   }
+  // }, [])
 
   // Handle transition from hero to sidebar
   useEffect(() => {
@@ -155,12 +199,44 @@ export function UnifiedChatSystem({ onStateChange, isHeroVisible, userData, clas
 
     try {
       const response = await chatFlow.current.processResponse(currentState, messageText, localUserData.current)
-      
+
+      // Detect and handle tool calls if this is an AI response
+      let finalMessage = response.message
+      let toolExecuted = false
+
+      if (response.isAIResponse) {
+        const toolDetection = aiChatService.current.detectToolCall(response.message)
+
+        if (toolDetection.hasTool && toolDetection.tool) {
+          // Execute the tool
+          const toolResult = await aiToolHandler.current.executeTool({
+            name: toolDetection.tool,
+            params: toolDetection.params
+          })
+
+          // Use cleaned response (without tool syntax)
+          finalMessage = toolDetection.cleanedResponse
+          toolExecuted = true
+
+          // If tool has data to display, add it to the message
+          if (toolResult.data) {
+            // Format the tool data nicely
+            if (toolResult.action === 'explain_solution') {
+              const solution = toolResult.data
+              finalMessage += `\n\n**${solution.title}**\n\n${solution.description}\n\n**Key Benefits:**\n${solution.benefits.map((b: string) => `• ${b}`).join('\n')}\n\n**Timeline:** ${solution.timeline}\n**Pricing:** ${solution.pricing}`
+            } else if (toolResult.action === 'show_case_study') {
+              const caseStudy = toolResult.data
+              finalMessage += `\n\n**${caseStudy.title}**\n\n**Company:** ${caseStudy.company}\n**Challenge:** ${caseStudy.challenge}\n**Solution:** ${caseStudy.solution}\n\n**Results:**\n${caseStudy.results.map((r: string) => `✓ ${r}`).join('\n')}`
+            }
+          }
+        }
+      }
+
       setTimeout(() => {
         const assistantMessage: Message = {
           id: (Date.now() + 1).toString(),
           role: 'assistant',
-          content: response.message,
+          content: finalMessage,
           timestamp: new Date()
         }
 
@@ -176,14 +252,56 @@ export function UnifiedChatSystem({ onStateChange, isHeroVisible, userData, clas
           const updatedUserData = { ...localUserData.current, ...response.data }
           localUserData.current = updatedUserData
           onStateChange(response.nextState, updatedUserData)
+
+          // Auto-trigger analysis after showing loading animation
+          if (response.nextState === 'performingAnalysis') {
+            setTimeout(async () => {
+              setIsTyping(true)
+              try {
+                const analysisResponse = await chatFlow.current.processResponse(
+                  'performingAnalysis',
+                  'analyze',
+                  updatedUserData
+                )
+
+                setTimeout(() => {
+                  const analysisMessage: Message = {
+                    id: (Date.now() + 2).toString(),
+                    role: 'assistant',
+                    content: analysisResponse.message,
+                    timestamp: new Date()
+                  }
+
+                  setMessages(prev => [...prev, analysisMessage])
+                  setIsTyping(false)
+
+                  if (analysisResponse.suggestions) {
+                    setSuggestions(analysisResponse.suggestions)
+                  }
+
+                  if (analysisResponse.nextState) {
+                    setCurrentState(analysisResponse.nextState)
+                  }
+
+                  // Save profile when analysis is complete
+                  if (analysisResponse.profileAnalysis && analysisResponse.data?.analysis) {
+                    saveProfile(updatedUserData, analysisResponse.profileAnalysis)
+                  }
+                }, 1000)
+              } catch (error) {
+                console.error('Analysis error:', error)
+                setIsTyping(false)
+              }
+            }, 3500) // Wait for loading animation to complete
+          }
         } else if (response.data) {
           const updatedUserData = { ...localUserData.current, ...response.data }
           localUserData.current = updatedUserData
           onStateChange(currentState, updatedUserData)
         }
 
-        // Save profile when analysis is complete
-        if (response.profileAnalysis && response.data?.analysis) {
+        // Save profile when analysis is complete (for non-performingAnalysis states)
+        if (response.profileAnalysis && response.data?.analysis && response.nextState !== 'performingAnalysis') {
           saveProfile(localUserData.current, response.profileAnalysis)
         }
       }, 1500)
@@ -195,6 +313,9 @@ export function UnifiedChatSystem({ onStateChange, isHeroVisible, userData, clas
 
   const saveProfile = async (userData: any, analysis: any) => {
     try {
+      // Generate unique assessment ID
+      const assessmentId = `assessment_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+
       const profile = {
         ...userData,
         id: `profile_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
@@ -203,13 +324,26 @@ export function UnifiedChatSystem({ onStateChange, isHeroVisible, userData, clas
         totalInteractions: messages.length,
         pagesVisited: ['homepage'],
         leadScore: analysis.scoring.fitScore,
-        leadStage: analysis.scoring.fitScore > 80 ? 'hot' : 
+        leadStage: analysis.scoring.fitScore > 80 ? 'hot' :
                    analysis.scoring.fitScore > 60 ? 'warm' : 'cold',
         estimatedDealSize: analysis.predictions.dealSize,
         probabilityToClose: analysis.predictions.successProbability
       }
 
-      const response = await fetch('/api/profile', {
+      // Create full assessment object for results page
+      const assessmentData = {
+        id: assessmentId,
+        userData,
+        analysis,
+        createdAt: new Date().toISOString(),
+        messages: messages.length
+      }
+
+      // Save to localStorage for immediate access
+      localStorage.setItem(`assessment_${assessmentId}`, JSON.stringify(assessmentData))
+
+      // Save profile to backend
+      const profileResponse = await fetch('/api/profile', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -217,11 +351,39 @@ export function UnifiedChatSystem({ onStateChange, isHeroVisible, userData, clas
         body: JSON.stringify(profile),
       })
 
-      if (response.ok) {
-        console.log('Profile saved and assessment email sent to:', profile.email)
+      if (profileResponse.ok) {
+        console.log('Profile saved successfully')
       } else {
-        console.error('Failed to save profile:', await response.text())
+        console.error('Failed to save profile:', await profileResponse.text())
       }
+
+      // Send assessment email notification (via Netlify function)
+      if (userData.email) {
+        try {
+          const resultsUrl = `${window.location.origin}/results/${assessmentId}`
+          await fetch('/.netlify/functions/send-assessment-email', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              to: userData.email,
+              name: userData.name,
+              company: userData.company,
+              assessmentId,
+              score: analysis.scoring.fitScore,
+              resultsUrl
+            }),
+          })
+          console.log('Assessment email sent to:', userData.email)
+        } catch (emailError) {
+          console.error('Failed to send email:', emailError)
+          // Continue even if email fails - user can still access results
+        }
+      }
+
+      // Redirect to results page
+      window.location.href = `/results/${assessmentId}`
     } catch (error) {
       console.error('Error saving profile:', error)
     }
@@ -234,135 +396,195 @@ export function UnifiedChatSystem({ onStateChange, isHeroVisible, userData, clas
     }
   }
 
-  const [portalContainer, setPortalContainer] = useState<HTMLElement | null>(null)
+  // Shared chat content component
+  const chatContent = (
+    <>
+      {currentState === 'voiceAssessment' ? (
+        <VoiceAssessment
+          dimensions={assessmentDimensions}
+          onComplete={handleVoiceAssessmentComplete}
+          onCancel={handleVoiceAssessmentCancel}
+          userData={{
+            name: localUserData.current.name,
+            company: localUserData.current.company,
+            email: localUserData.current.email
+          }}
+        />
+      ) : (
+        <>
+          {messages.length === 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="py-6 space-y-3"
+            >
+              <p className="text-white text-base font-medium font-diatype">
+                Welcome to HumanGlue. We guide Fortune 1000 companies of tomorrow, today.
+              </p>
+              <p className="text-gray-400 text-sm font-diatype">
+                Let's start with your first name
+              </p>
+            </motion.div>
+          )}
 
-  // Find the portal container when switching modes
-  useEffect(() => {
-    if (isHeroVisible) {
-      const container = document.getElementById('hero-chat-container')
-      setPortalContainer(container)
-    } else {
-      setPortalContainer(null)
-    }
-  }, [isHeroVisible])
-
-  const heroChat = (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className={cn("w-full max-w-4xl mx-auto", className)}
-    >
-        <div className="relative rounded-3xl overflow-hidden border border-white/10 backdrop-blur-2xl bg-gray-900/30 shadow-2xl">
-          <div className="border-b border-white/10 px-6 py-4 bg-gradient-to-r from-gray-900/50 to-gray-800/50 backdrop-blur-xl">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <motion.div 
-                  className="p-2.5 rounded-xl bg-gradient-to-br from-blue-500 to-purple-500 shadow-lg"
-                  whileHover={{ scale: 1.1, rotate: 180 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <Sparkles className="w-5 h-5 text-white" />
-                </motion.div>
-                <div>
-                  <h2 className="text-lg font-bold text-white">Human Glue AI Assistant</h2>
-                  <p className="text-xs text-gray-400 font-medium">Organizational Transformation Expert</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-4">
-                {showVoiceToggle && (
-                  <button
-                    onClick={switchToVoiceAssessment}
-                    className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 transition-colors text-xs font-medium"
-                  >
-                    <Mic className="w-3 h-3" />
-                    Voice Assessment
-                  </button>
-                )}
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                  <span className="text-xs text-gray-400 font-medium">Online</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div ref={messagesContainerRef} className="h-[400px] overflow-y-auto px-6 py-6 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent">
-            {currentState === 'voiceAssessment' ? (
-              <VoiceAssessment
-                dimensions={assessmentDimensions}
-                onComplete={handleVoiceAssessmentComplete}
-                onCancel={handleVoiceAssessmentCancel}
-                userData={{
-                  name: localUserData.current.name,
-                  company: localUserData.current.company,
-                  email: localUserData.current.email
-                }}
-              />
-            ) : (
-              <>
-                {messages.length === 0 && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="text-center py-8"
-                  >
-                    <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center shadow-2xl">
-                      <Brain className="w-8 h-8 text-white" />
-                    </div>
-                    <h3 className="text-xl font-bold text-white mb-2">Welcome to Human Glue AI</h3>
-                    <p className="text-gray-400 mb-8 text-sm leading-relaxed">I'm here to help transform your organization. Let's start with your name.</p>
-                  </motion.div>
-                )}
-
-            <AnimatePresence initial={false}>
-              {messages.map((message, index) => (
-                <motion.div
-                  key={message.id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.05 }}
-                  className="mb-6"
-                >
-                  <ChatMessage message={message} />
-                </motion.div>
-              ))}
-            </AnimatePresence>
-            
-            {isTyping && (
-              <motion.div 
+          <AnimatePresence initial={false}>
+            {messages.map((message, index) => (
+              <motion.div
+                key={message.id}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="flex items-center gap-3 mb-4"
+                transition={{ delay: index * 0.05 }}
+                className="mb-6"
               >
-                <div className="flex items-center gap-2 px-4 py-3 rounded-2xl bg-gray-800/70 backdrop-blur-sm border border-gray-700/50">
-                  <div className="flex gap-1">
-                    <span className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                    <span className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                    <span className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
-                  </div>
-                  <Text size="sm" className="text-gray-400 font-medium">AI is thinking...</Text>
-                </div>
+                <ChatMessage message={message} />
               </motion.div>
-            )}
+            ))}
+          </AnimatePresence>
 
-            {suggestions.length > 0 && !isTyping && messages.length > 0 && (
-              <QuickResponse
-                suggestions={suggestions}
-                onSelect={handleSend}
-                className="mb-4"
-              />
-            )}
-            
-                <div ref={messagesEndRef} />
-              </>
-            )}
-          </div>
+          {isTyping && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex items-center gap-3 mb-4"
+            >
+              <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-800/50 border border-gray-700/30">
+                <div className="flex gap-1">
+                  <span className="w-2 h-2 bg-brand-cyan rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                  <span className="w-2 h-2 bg-brand-cyan rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                  <span className="w-2 h-2 bg-brand-cyan rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                </div>
+                <Text size="sm" className="text-gray-400 font-diatype">Thinking...</Text>
+              </div>
+            </motion.div>
+          )}
 
-          {currentState !== 'voiceAssessment' && (
-            <div className="border-t border-gray-800 px-6 py-4 bg-gray-900/50 backdrop-blur-sm">
+          {suggestions.length > 0 && !isTyping && messages.length > 0 && (
+            <QuickResponse
+              suggestions={suggestions}
+              onSelect={handleSend}
+              className="mb-4"
+            />
+          )}
+
+          <div ref={messagesEndRef} />
+        </>
+      )}
+    </>
+  )
+
+  return (
+    <motion.div
+      initial={false}
+      animate={{
+        position: 'fixed',
+        right: isHeroVisible ? 24 : 0,
+        bottom: isHeroVisible ? 24 : 0,
+        top: isHeroVisible ? 'auto' : 0,
+        width: isHeroVisible ? 384 : 480,
+        height: isHeroVisible ? 'auto' : '100vh',
+        zIndex: isHeroVisible ? 40 : 60
+      }}
+      transition={{
+        type: "tween",
+        duration: 0.3,
+        ease: "easeInOut"
+      }}
+      className={cn(className)}
+    >
+      <div
+        className={cn(
+          "relative shadow-2xl flex flex-col",
+          isHeroVisible
+            ? "rounded-2xl border border-white/20 backdrop-blur-2xl bg-gray-900/90 h-auto"
+            : "h-full bg-gray-900/95 backdrop-blur-xl border-l border-gray-800"
+        )}
+      >
+        {/* Header */}
+        <div
+          className={cn(
+            "flex items-center justify-between border-b border-white/10 flex-shrink-0",
+            isHeroVisible ? "px-4 py-3" : "p-4 bg-gray-900/80"
+          )}
+        >
+          {isHeroVisible ? (
+            <>
               <div className="flex items-center gap-2">
-                <input
+                <button
+                  onClick={() => setIsExpanded(!isExpanded)}
+                  className="text-gray-400 hover:text-white transition-colors"
+                  aria-label={isExpanded ? "Collapse" : "Expand"}
+                >
+                  {isExpanded ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
+                </button>
+                <button
+                  onClick={resetConversation}
+                  className="text-gray-400 hover:text-white transition-colors"
+                  aria-label="Reset conversation"
+                >
+                  <RotateCcw className="w-4 h-4" />
+                </button>
+              </div>
+              <button
+                onClick={() => setIsMinimized(true)}
+                className="text-gray-400 hover:text-white transition-colors"
+                aria-label="Close"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </>
+          ) : (
+            <>
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-lg bg-gradient-to-br from-blue-500 to-purple-500">
+                  <Sparkles className="w-4 h-4 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-semibold text-white font-diatype">AI Assistant</h3>
+                  <p className="text-xs text-gray-400 font-diatype">Always here to help</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={resetConversation}
+                  className="p-2 rounded-lg hover:bg-gray-800 transition-colors"
+                  aria-label="Reset conversation"
+                >
+                  <RotateCcw className="w-4 h-4 text-gray-400" />
+                </button>
+                <button
+                  onClick={() => setIsMinimized(!isMinimized)}
+                  className="p-2 rounded-lg hover:bg-gray-800 transition-colors"
+                >
+                  {isMinimized ? <Maximize2 className="w-4 h-4 text-gray-400" /> : <Minimize2 className="w-4 h-4 text-gray-400" />}
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* Messages Container */}
+        <div
+          ref={messagesContainerRef}
+          className={cn(
+            "overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent flex-1 min-h-0",
+            isHeroVisible
+              ? cn("px-5 pb-4", isExpanded ? "max-h-[500px]" : "max-h-[280px]")
+              : "p-4"
+          )}
+        >
+          {chatContent}
+        </div>
+
+        {/* Input Area */}
+        {currentState !== 'voiceAssessment' && (
+          <div
+            className={cn(
+              "border-t border-white/10 bg-gray-900/80 flex-shrink-0",
+              isHeroVisible ? "px-5 py-3 backdrop-blur-sm" : "p-4"
+            )}
+          >
+            <div className="flex items-center gap-2">
+              <input
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
@@ -370,12 +592,13 @@ export function UnifiedChatSystem({ onStateChange, isHeroVisible, userData, clas
                 placeholder="Type your message..."
                 disabled={isTyping}
                 className={cn(
-                  'flex-1 px-4 py-3 rounded-xl text-sm font-medium',
-                  'bg-gray-800/70 backdrop-blur-sm border border-gray-700/50',
-                  'focus:outline-none focus:border-blue-500/50 focus:bg-gray-800',
+                  'flex-1 rounded-lg text-sm font-diatype',
+                  'bg-gray-800/50 border border-gray-700/50',
+                  'focus:outline-none focus:border-brand-cyan/50 focus:bg-gray-800',
                   'placeholder:text-gray-500 text-white',
-                  'transition-all duration-300',
-                  'disabled:opacity-50 disabled:cursor-not-allowed'
+                  'transition-all duration-200',
+                  'disabled:opacity-50 disabled:cursor-not-allowed',
+                  isHeroVisible ? 'px-4 py-2.5' : 'px-3 py-2'
                 )}
               />
               <motion.button
@@ -384,151 +607,19 @@ export function UnifiedChatSystem({ onStateChange, isHeroVisible, userData, clas
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className={cn(
-                  'p-3 rounded-xl transition-all duration-200',
-                  'bg-gradient-to-r from-blue-500 to-purple-500',
-                  'hover:shadow-lg hover:shadow-blue-500/25',
-                  'disabled:opacity-50 disabled:cursor-not-allowed'
+                  'rounded-lg transition-all duration-200',
+                  'bg-gradient-to-r from-brand-cyan to-brand-purple',
+                  'hover:shadow-lg hover:shadow-brand-cyan/25',
+                  'disabled:opacity-50 disabled:cursor-not-allowed',
+                  isHeroVisible ? 'p-2.5' : 'p-2'
                 )}
               >
-                <Send className="w-4 h-4 text-white" />
+                <Send className={cn('text-white', isHeroVisible ? 'w-4 h-4' : 'w-3 h-3')} />
               </motion.button>
             </div>
-            </div>
-          )}
-        </div>
-      </motion.div>
-  )
-
-  // Sidebar Chat Layout
-  const sidebarChat = (
-    <motion.div
-      initial={{ x: 480 }}
-      animate={{ x: 0 }}
-      transition={{ type: "spring", damping: 25, stiffness: 120 }}
-      className={cn(
-        "fixed right-0 top-0 h-full w-[480px] bg-gray-900/95 backdrop-blur-xl shadow-2xl z-[60] border-l border-gray-800",
-        className
-      )}
-    >
-      {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-gray-800 bg-gray-900/80">
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-lg bg-gradient-to-br from-blue-500 to-purple-500">
-            <Sparkles className="w-4 h-4 text-white" />
           </div>
-          <div>
-            <h3 className="text-sm font-semibold text-white">AI Assistant</h3>
-            <p className="text-xs text-gray-400">Always here to help</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => setIsMinimized(!isMinimized)}
-            className="p-2 rounded-lg hover:bg-gray-800 transition-colors"
-          >
-            {isMinimized ? <Maximize2 className="w-4 h-4 text-gray-400" /> : <Minimize2 className="w-4 h-4 text-gray-400" />}
-          </button>
-        </div>
-      </div>
-
-      {/* Chat Content */}
-      <AnimatePresence>
-        {!isMinimized && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "calc(100% - 64px)", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            className="flex flex-col"
-          >
-            {/* Messages */}
-            <div ref={messagesContainerRef} className="flex-1 overflow-y-auto p-4 space-y-4">
-              {messages.map((message, index) => (
-                <motion.div
-                  key={message.id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.05 }}
-                >
-                  <ChatMessage message={message} />
-                </motion.div>
-              ))}
-              
-              {isTyping && (
-                <motion.div 
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="flex items-center gap-2"
-                >
-                  <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-800/70 border border-gray-700/50">
-                    <div className="flex gap-1">
-                      <span className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                      <span className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                      <span className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
-                    </div>
-                    <Text size="xs" className="text-gray-400">AI is thinking...</Text>
-                  </div>
-                </motion.div>
-              )}
-
-              {suggestions.length > 0 && !isTyping && (
-                <QuickResponse
-                  suggestions={suggestions}
-                  onSelect={handleSend}
-                  className="mt-4"
-                />
-              )}
-              
-              <div ref={messagesEndRef} />
-            </div>
-
-            {/* Input */}
-            <div className="p-4 border-t border-gray-800 bg-gray-900/80">
-              <div className="flex items-center gap-2">
-                <input
-                  type="text"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  placeholder="Ask me anything..."
-                  disabled={isTyping}
-                  className={cn(
-                    'flex-1 px-3 py-2 rounded-lg text-sm',
-                    'bg-gray-800/70 border border-gray-700/50',
-                    'focus:outline-none focus:border-blue-500/50',
-                    'placeholder:text-gray-500 text-white',
-                    'transition-all duration-200',
-                    'disabled:opacity-50 disabled:cursor-not-allowed'
-                  )}
-                />
-                <motion.button
-                  onClick={() => handleSend()}
-                  disabled={isTyping || !input.trim()}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className={cn(
-                    'p-2 rounded-lg transition-all duration-200',
-                    'bg-gradient-to-r from-blue-500 to-purple-500',
-                    'hover:shadow-lg hover:shadow-blue-500/25',
-                    'disabled:opacity-50 disabled:cursor-not-allowed'
-                  )}
-                >
-                  <Send className="w-3 h-3 text-white" />
-                </motion.button>
-              </div>
-            </div>
-          </motion.div>
         )}
-      </AnimatePresence>
+      </div>
     </motion.div>
   )
-
-  // Return the appropriate chat based on visibility and portal availability
-  if (isHeroVisible && portalContainer) {
-    return createPortal(heroChat, portalContainer)
-  } else if (!isHeroVisible) {
-    return sidebarChat
-  }
-  
-  // During transition or if portal not ready, return null
-  return null
 } 

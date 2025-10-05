@@ -1,28 +1,26 @@
 'use client'
 
-import { ResponsiveLayout } from '../../components/templates/ResponsiveLayout'
-import { HeroSection } from '../../components/templates/HeroSection'
 import { motion } from 'framer-motion'
-import { 
-  Brain, 
-  Users, 
-  Layers, 
-  CheckCircle, 
-  ArrowRight, 
-  Sparkles, 
-  Target, 
+import {
+  Brain,
+  Users,
+  Layers,
+  CheckCircle,
+  ArrowRight,
+  Sparkles,
+  Target,
   Shield,
-  BarChart3,
-  Zap,
   Building2,
-  Lightbulb,
   Heart,
   Network,
   Settings
 } from 'lucide-react'
 import Image from 'next/image'
-import { LazyImage } from '../../components/LazyImage'
 import Link from 'next/link'
+import { Navigation } from '@/components/organisms/Navigation'
+import { Footer } from '@/components/organisms/Footer'
+import { Button } from '@/components/atoms'
+import { AskAIButton, AskAboutSolution } from '@/components/molecules'
 
 const solutions = [
   {
@@ -153,60 +151,83 @@ const toolboxCategories = [
 
 export default function SolutionsPage() {
   return (
-    <ResponsiveLayout backgroundState="exploring">
-      {/* Hero Section with unique background */}
-      <HeroSection 
-        backgroundImage="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2560"
-        overlayOpacity={0.3}
-      >
-        {/* Animated Background */}
-        <div className="absolute inset-0">
-          <motion.div
-            animate={{ 
-              scale: [1, 1.5, 1],
-              rotate: [0, 180, 360]
-            }}
-            transition={{ 
-              duration: 20,
-              repeat: Infinity,
-              ease: "linear"
-            }}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px]"
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-green-500/5 rounded-full blur-3xl" />
-          </motion.div>
-        </div>
+    <div className="min-h-screen bg-gray-950">
+      <Navigation />
 
-        <div className="container max-w-7xl mx-auto text-center relative z-10">
+      {/* Hero Section */}
+      <section className="relative pt-32 pb-20 overflow-hidden">
+        {/* Background Effects */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(139,92,246,0.15),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_60%,rgba(59,130,246,0.1),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:4rem_4rem]" />
+
+        {/* Animated Orbs */}
+        <motion.div
+          className="absolute top-20 left-10 w-96 h-96 bg-purple-500/20 rounded-full blur-[120px]"
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.3, 0.5, 0.3],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+        <motion.div
+          className="absolute bottom-20 right-10 w-96 h-96 bg-blue-500/20 rounded-full blur-[120px]"
+          animate={{
+            scale: [1.2, 1, 1.2],
+            opacity: [0.3, 0.5, 0.3],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1,
+          }}
+        />
+
+        <div className="container max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
+            className="max-w-4xl mx-auto text-center"
           >
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 mb-6"
-            >
-              <Sparkles className="w-4 h-4 text-blue-400" />
-              <span className="text-sm text-blue-300">Integrated AI + Human Approach</span>
-            </motion.div>
-            
-            <h1 className="text-6xl lg:text-8xl font-bold text-white mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/10 backdrop-blur-sm border border-purple-500/20 mb-6">
+              <Sparkles className="w-4 h-4 text-purple-400" />
+              <span className="text-sm text-purple-300 font-diatype">Integrated AI + Human Approach</span>
+            </div>
+
+            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 font-gendy leading-tight">
               Our Solutions
             </h1>
-            <p className="text-xl lg:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
-              Three powerful components that work together to strengthen the human connections 
-              driving your organization's performance, innovation, and resilience
+
+            <p className="text-xl md:text-2xl text-gray-300 mb-8 font-diatype max-w-3xl mx-auto">
+              Three powerful components that work together to strengthen the human connections driving your organization's performance, innovation, and resilience
             </p>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link href="/signup">
+                <Button variant="gradient" size="lg" className="shadow-lg">
+                  Start Free Trial
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </Button>
+              </Link>
+              <Link href="/?chat=true">
+                <Button variant="secondary" size="lg">
+                  Take Assessment
+                </Button>
+              </Link>
+            </div>
           </motion.div>
         </div>
-      </HeroSection>
+      </section>
 
       {/* Solutions Grid */}
-      <section className="py-20 px-6">
-        <div className="container max-w-7xl mx-auto">
+      <section className="py-20">
+        <div className="container max-w-7xl mx-auto px-4 sm:px-6">
           {solutions.map((solution, index) => (
             <motion.div
               key={index}
@@ -221,19 +242,19 @@ export default function SolutionsPage() {
                 <div className={index % 2 === 1 ? 'lg:col-start-2' : ''}>
                   <motion.div
                     whileHover={{ scale: 1.05 }}
-                    className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 mb-8"
+                    className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-purple-500/20 to-blue-500/20 mb-8"
                   >
-                    <solution.icon className="w-10 h-10 text-blue-400" />
+                    <solution.icon className="w-10 h-10 text-purple-400" />
                   </motion.div>
-                  
-                  <h2 className="text-5xl font-bold text-white mb-4">{solution.title}</h2>
-                  <p className="text-2xl text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 mb-6">
+
+                  <h2 className="text-5xl font-bold text-white mb-4 font-gendy">{solution.title}</h2>
+                  <p className="text-2xl bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-6 font-gendy">
                     {solution.tagline}
                   </p>
-                  <p className="text-lg text-gray-300 mb-8 leading-relaxed">
+                  <p className="text-lg text-gray-300 mb-8 leading-relaxed font-diatype">
                     {solution.description}
                   </p>
-                  
+
                   {/* Key Features */}
                   <div className="space-y-6 mb-8">
                     {solution.keyFeatures.map((feature, i) => (
@@ -244,46 +265,60 @@ export default function SolutionsPage() {
                         transition={{ delay: i * 0.1 }}
                         className="flex gap-4"
                       >
-                        <div className="flex-shrink-0 w-6 h-6 rounded-full bg-gradient-to-br from-green-400 to-blue-400 flex items-center justify-center mt-0.5">
+                        <div className="flex-shrink-0 w-6 h-6 rounded-full bg-gradient-to-br from-purple-400 to-blue-400 flex items-center justify-center mt-0.5">
                           <CheckCircle className="w-4 h-4 text-white" />
                         </div>
                         <div>
-                          <h4 className="text-white font-semibold mb-1">{feature.title}</h4>
-                          <p className="text-gray-400 text-sm">{feature.description}</p>
+                          <h4 className="text-white font-semibold mb-1 font-gendy">{feature.title}</h4>
+                          <p className="text-gray-400 text-sm font-diatype">{feature.description}</p>
                         </div>
                       </motion.div>
                     ))}
                   </div>
-                  
+
                   {/* Capabilities */}
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-2 mb-8">
                     {solution.capabilities.map((capability, i) => (
                       <motion.span
                         key={i}
                         whileHover={{ scale: 1.05 }}
-                        className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-gray-300"
+                        className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-gray-300 font-diatype"
                       >
                         {capability}
                       </motion.span>
                     ))}
                   </div>
+
+                  {/* Ask AI About This Solution */}
+                  <div className="flex gap-3">
+                    <AskAboutSolution
+                      solutionId={index === 0 ? 'assessment' : index === 1 ? 'workshops' : 'toolbox'}
+                    />
+                    <AskAIButton
+                      topic={solution.title}
+                      question="How much does this solution cost and what's the typical ROI?"
+                      context={{ page: 'solutions', solutionId: solution.title }}
+                      variant="inline"
+                      label="Ask about pricing"
+                    />
+                  </div>
                 </div>
-                
+
                 {/* Image */}
                 <motion.div
                   className={index % 2 === 1 ? 'lg:col-start-1' : ''}
                   whileHover={{ scale: 1.02 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <div className="relative h-[600px] rounded-2xl overflow-hidden">
+                  <div className="relative h-[600px] rounded-2xl overflow-hidden border border-white/10">
                     <Image
                       src={solution.image}
                       alt={solution.title}
                       fill
                       className="object-cover"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/50 to-transparent" />
-                    
+                    <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/50 to-transparent" />
+
                     {/* Floating Stats */}
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
@@ -291,13 +326,13 @@ export default function SolutionsPage() {
                       transition={{ delay: 0.5 }}
                       className="absolute bottom-8 left-8 right-8"
                     >
-                      <div className="bg-gray-900/90 backdrop-blur-md rounded-xl p-6 border border-white/10">
+                      <div className="bg-gray-900/90 backdrop-blur-xl rounded-xl p-6 border border-white/10">
                         <div className="flex items-center justify-between">
                           <div>
-                            <p className="text-sm text-gray-400 mb-1">Enhanced with</p>
-                            <p className="text-lg font-semibold text-white">Human Glue AI</p>
+                            <p className="text-sm text-gray-400 mb-1 font-diatype">Enhanced with</p>
+                            <p className="text-lg font-semibold text-white font-gendy">Human Glue AI</p>
                           </div>
-                          <Brain className="w-8 h-8 text-blue-400" />
+                          <Brain className="w-8 h-8 text-purple-400" />
                         </div>
                       </div>
                     </motion.div>
@@ -310,8 +345,10 @@ export default function SolutionsPage() {
       </section>
 
       {/* Toolbox Deep Dive */}
-      <section className="py-20 px-6 bg-gradient-to-b from-transparent via-gray-800/30 to-transparent">
-        <div className="container max-w-7xl mx-auto">
+      <section className="py-20 relative">
+        <div className="absolute inset-0 bg-gradient-to-b from-purple-950/10 via-transparent to-transparent" />
+
+        <div className="container max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -320,10 +357,10 @@ export default function SolutionsPage() {
             className="text-center mb-16"
           >
             <Layers className="w-16 h-16 mx-auto mb-6 text-purple-400" />
-            <h2 className="text-4xl font-bold text-white mb-4">
+            <h2 className="text-4xl font-bold text-white mb-4 font-gendy">
               The Human Glue Toolbox
             </h2>
-            <p className="text-lg text-gray-300 max-w-3xl mx-auto">
+            <p className="text-lg text-gray-300 max-w-3xl mx-auto font-diatype">
               60+ practical tools organized into 5 categories to address every aspect of organizational transformation
             </p>
           </motion.div>
@@ -336,18 +373,18 @@ export default function SolutionsPage() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ delay: i * 0.1 }}
                 viewport={{ once: true }}
-                whileHover={{ y: -10 }}
-                className="bg-gradient-to-br from-gray-800/50 to-gray-700/30 rounded-2xl p-6 border border-gray-700 hover:border-purple-500/50 transition-all"
+                whileHover={{ y: -4 }}
+                className="bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-white/10 hover:border-purple-500/30 transition-all hover:shadow-[0_0_40px_rgba(168,85,247,0.15)]"
               >
                 <div className="flex items-center gap-4 mb-4">
                   <div className="p-3 rounded-xl bg-gradient-to-br from-purple-500/20 to-blue-500/20">
                     <category.icon className="w-6 h-6 text-purple-400" />
                   </div>
-                  <h3 className="text-lg font-semibold text-white">{category.title}</h3>
+                  <h3 className="text-lg font-semibold text-white font-gendy">{category.title}</h3>
                 </div>
                 <ul className="space-y-2">
                   {category.tools.map((tool, j) => (
-                    <li key={j} className="flex items-center gap-2 text-sm text-gray-300">
+                    <li key={j} className="flex items-center gap-2 text-sm text-gray-300 font-diatype">
                       <div className="w-1.5 h-1.5 rounded-full bg-purple-400" />
                       {tool}
                     </li>
@@ -360,8 +397,8 @@ export default function SolutionsPage() {
       </section>
 
       {/* Integration Section */}
-      <section className="py-20 px-6">
-        <div className="container max-w-7xl mx-auto">
+      <section className="py-20">
+        <div className="container max-w-7xl mx-auto px-4 sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -369,11 +406,11 @@ export default function SolutionsPage() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <Shield className="w-16 h-16 mx-auto mb-6 text-green-400" />
-            <h2 className="text-4xl font-bold text-white mb-4">
+            <Shield className="w-16 h-16 mx-auto mb-6 text-purple-400" />
+            <h2 className="text-4xl font-bold text-white mb-4 font-gendy">
               The Power of Integration
             </h2>
-            <p className="text-lg text-gray-300 max-w-3xl mx-auto">
+            <p className="text-lg text-gray-300 max-w-3xl mx-auto font-diatype">
               Our solutions work together seamlessly to create a comprehensive transformation ecosystem
             </p>
           </motion.div>
@@ -388,7 +425,7 @@ export default function SolutionsPage() {
                   icon: Brain
                 },
                 {
-                  step: "2", 
+                  step: "2",
                   title: "Align",
                   description: "Workshops build consensus and commitment",
                   icon: Users
@@ -411,12 +448,12 @@ export default function SolutionsPage() {
                   <motion.div
                     whileHover={{ scale: 1.1, rotate: 360 }}
                     transition={{ duration: 0.5 }}
-                    className="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center border-2 border-blue-500/30"
+                    className="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-br from-purple-500/20 to-blue-500/20 flex items-center justify-center border-2 border-purple-500/30"
                   >
-                    <span className="text-3xl font-bold text-white">{item.step}</span>
+                    <span className="text-3xl font-bold text-white font-gendy">{item.step}</span>
                   </motion.div>
-                  <h3 className="text-2xl font-semibold text-white mb-3">{item.title}</h3>
-                  <p className="text-gray-300">{item.description}</p>
+                  <h3 className="text-2xl font-semibold text-white mb-3 font-gendy">{item.title}</h3>
+                  <p className="text-gray-300 font-diatype">{item.description}</p>
                 </motion.div>
               ))}
             </div>
@@ -425,32 +462,46 @@ export default function SolutionsPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="container max-w-4xl mx-auto text-center"
-        >
-          <h2 className="text-4xl font-bold text-white mb-4">
-            Experience the Human Glue Difference
-          </h2>
-          <p className="text-lg text-gray-300 mb-8">
-            Discover how our integrated solutions can transform your organization
-          </p>
-          <Link href="/#chat">
-            <motion.button
-              whileHover={{ scale: 1.05, boxShadow: '0 20px 40px rgba(59, 130, 246, 0.3)' }}
-              whileTap={{ scale: 0.95 }}
-              className="px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-xl font-semibold hover:shadow-xl transition-all inline-flex items-center gap-3"
-            >
-              Start Your Assessment
-              <ArrowRight className="w-5 h-5" />
-            </motion.button>
-          </Link>
-        </motion.div>
+      <section className="py-20">
+        <div className="container max-w-7xl mx-auto px-4 sm:px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="relative bg-gradient-to-br from-purple-900/30 to-blue-900/30 backdrop-blur-xl rounded-3xl border border-white/10 p-12 md:p-16 overflow-hidden"
+          >
+            {/* Background Pattern */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(168,85,247,0.1),transparent_70%)]" />
+
+            <div className="relative z-10 text-center max-w-3xl mx-auto">
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 font-gendy">
+                Experience the Human Glue Difference
+              </h2>
+
+              <p className="text-xl text-gray-300 mb-8 font-diatype">
+                Discover how our integrated solutions can transform your organization
+              </p>
+
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <Link href="/signup">
+                  <Button variant="gradient" size="lg" className="shadow-lg">
+                    Start Free Trial
+                    <ArrowRight className="w-5 h-5 ml-2" />
+                  </Button>
+                </Link>
+                <Link href="/?chat=true">
+                  <Button variant="secondary" size="lg">
+                    Take Assessment
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </motion.div>
+        </div>
       </section>
-    </ResponsiveLayout>
+
+      <Footer />
+    </div>
   )
 }

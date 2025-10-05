@@ -1,25 +1,25 @@
 'use client'
 
-import { useState } from 'react'
-import { EnhancedHomepage } from '../components/templates/EnhancedHomepage'
-import { ChatState } from '../lib/types'
+import { EnhancedHomepage } from '@/components/templates/EnhancedHomepage'
+import { ChatProvider, useChat } from '@/lib/contexts/ChatContext'
+import { Metadata } from 'next'
 
-export default function HomePage() {
-  const [userData, setUserData] = useState({})
-  const [chatState, setChatState] = useState<ChatState>('initial')
-
-  const handleChatStateChange = (state: ChatState, data?: any) => {
-    setChatState(state)
-    if (data) {
-      setUserData(prev => ({ ...prev, ...data }))
-    }
-  }
+function HomeContent() {
+  const { userData, chatState, onChatStateChange } = useChat()
 
   return (
-    <EnhancedHomepage 
+    <EnhancedHomepage
       userData={userData}
       chatState={chatState}
-      onChatStateChange={handleChatStateChange}
+      onChatStateChange={onChatStateChange}
     />
+  )
+}
+
+export default function HomePage() {
+  return (
+    <ChatProvider>
+      <HomeContent />
+    </ChatProvider>
   )
 }

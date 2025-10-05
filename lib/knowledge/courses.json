@@ -1,0 +1,92 @@
+[
+  {
+    "id": "course-001",
+    "type": "course",
+    "title": "AI Transformation for Executives",
+    "content": "Lead your organization through AI transformation with proven frameworks and real-world case studies. This executive-level course provides comprehensive training on AI Strategy, Change Leadership, ROI Planning, and Stakeholder Management. Learn to develop effective AI transformation strategies, lead organizational change initiatives, calculate and present ROI for AI investments, and manage diverse stakeholder expectations during transformation.",
+    "metadata": {
+      "category": "ai-adoption",
+      "tags": ["AI Strategy", "Change Leadership", "ROI Planning", "Stakeholder Management", "Executive Training"],
+      "level": "Executive",
+      "url": "/dashboard/learning/1",
+      "instructor": "Sarah Chen",
+      "duration": "6 hours",
+      "price": 299
+    }
+  },
+  {
+    "id": "course-002",
+    "type": "course",
+    "title": "Building Psychologically Safe Teams for AI",
+    "content": "Create environments where teams can experiment, fail safely, and embrace AI-driven change. This comprehensive course covers Team Dynamics, Culture Building, Fear Management, and Innovation. Master techniques for building trust in AI-augmented environments, managing resistance and fear, fostering experimental mindsets, and creating sustainable cultural change that supports AI adoption.",
+    "metadata": {
+      "category": "leadership",
+      "tags": ["Team Dynamics", "Culture Building", "Fear Management", "Innovation", "Psychological Safety"],
+      "level": "All Levels",
+      "url": "/dashboard/learning/2",
+      "instructor": "Aisha Mohamed",
+      "duration": "4 hours",
+      "price": 199
+    }
+  },
+  {
+    "id": "course-003",
+    "type": "course",
+    "title": "Data-Driven Decision Making for Leaders",
+    "content": "Master data analytics and AI-powered insights to make better strategic decisions faster. Learn Analytics, Data Literacy, AI Tools, and Business Intelligence. Develop skills in interpreting data and metrics, using AI tools for analysis, making evidence-based decisions, and communicating insights effectively to stakeholders and teams.",
+    "metadata": {
+      "category": "data-ai",
+      "tags": ["Analytics", "Data Literacy", "AI Tools", "Business Intelligence", "Decision Making"],
+      "level": "Intermediate",
+      "url": "/dashboard/learning/3",
+      "instructor": "Marcus Thompson",
+      "duration": "8 hours",
+      "price": 349
+    }
+  },
+  {
+    "id": "course-004",
+    "type": "course",
+    "title": "AI Ethics & Responsible Innovation",
+    "content": "Navigate ethical challenges in AI deployment while building trust with stakeholders. Comprehensive training in AI Ethics, Governance, Risk Management, and Compliance. Learn frameworks for ethical AI decision-making, governance structures and policies, risk assessment and mitigation strategies, and regulatory compliance requirements for AI systems.",
+    "metadata": {
+      "category": "ethics",
+      "tags": ["AI Ethics", "Governance", "Risk Management", "Compliance", "Responsible AI"],
+      "level": "All Levels",
+      "url": "/dashboard/learning/4",
+      "instructor": "Priya Patel",
+      "duration": "5 hours",
+      "price": 249
+    }
+  },
+  {
+    "id": "course-005",
+    "type": "course",
+    "title": "Change Management Mastery",
+    "content": "Advanced frameworks for leading organizational transformation in the AI era. Master Change Strategy, Resistance Management, Communication, and Measurement. Learn to design comprehensive change strategies, overcome resistance and blockers, develop effective communication plans, and measure transformation success with meaningful metrics.",
+    "metadata": {
+      "category": "change-management",
+      "tags": ["Change Strategy", "Resistance Management", "Communication", "Measurement", "Transformation"],
+      "level": "Advanced",
+      "url": "/dashboard/learning/5",
+      "instructor": "Kenji Yamamoto",
+      "duration": "10 hours",
+      "price": 399
+    }
+  },
+  {
+    "id": "course-006",
+    "type": "course",
+    "title": "Coaching Teams Through AI Adoption",
+    "content": "Practical coaching techniques to help teams embrace AI tools and overcome adoption fears. Learn Coaching, Team Development, Active Listening, and Behavior Change methodologies. Master one-on-one and group coaching techniques, identifying and addressing team blockers, building trust and psychological safety, and facilitating sustainable behavior change.",
+    "metadata": {
+      "category": "human-skills",
+      "tags": ["Coaching", "Team Development", "Active Listening", "Behavior Change", "AI Adoption"],
+      "level": "Intermediate",
+      "url": "/dashboard/learning/6",
+      "instructor": "Carlos Rivera",
+      "duration": "6 hours",
+      "price": 279
+    }
+  }
+]

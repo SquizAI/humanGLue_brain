@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { User, Bot, CheckCircle, AlertCircle, TrendingUp, Users, Calendar, DollarSign, BarChart3, FileText, Lightbulb, ArrowRight } from 'lucide-react'
 import { Icon, Text, Badge } from '../atoms'
+import { AnalysisLoader } from '../atoms/AnalysisLoader'
 import { Card } from '../molecules'
 import { Message } from '../../lib/types'
 import { cn } from '../../utils/cn'
@@ -135,7 +136,7 @@ function StructuredContentRenderer({ section }: { section: StructuredContent }) 
                     <CheckCircle className="w-5 h-5 text-green-400 group-hover:scale-110 transition-transform" />
                   )}
                 </div>
-                <span className="text-gray-100 leading-relaxed flex-1">{item}</span>
+                <span className="text-gray-100 leading-relaxed flex-1 font-diatype">{item}</span>
               </motion.li>
             ))}
           </ul>
@@ -161,7 +162,7 @@ function StructuredContentRenderer({ section }: { section: StructuredContent }) 
                   <div className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                     {metric.value}
                   </div>
-                  <div className="text-sm text-gray-300">{metric.label}</div>
+                  <div className="text-sm text-gray-300 font-diatype">{metric.label}</div>
                 </div>
               </div>
             </motion.div>
@@ -185,7 +186,7 @@ function StructuredContentRenderer({ section }: { section: StructuredContent }) 
               <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center">
                 <Calendar className="w-4 h-4 text-blue-400" />
               </div>
-              <div className="flex-1">
+              <div className="flex-1 font-diatype">
                 <span className="font-medium text-blue-400">{action.verb}</span>
                 <span className="text-gray-200 ml-2">{action.task}</span>
               </div>
@@ -205,7 +206,7 @@ function StructuredContentRenderer({ section }: { section: StructuredContent }) 
         >
           <div className="flex items-start gap-3">
             <Lightbulb className="w-5 h-5 text-amber-400 mt-0.5" />
-            <div>
+            <div className="font-diatype">
               <div className="font-semibold text-amber-400 text-sm mb-1">{section.content.label}</div>
               <div className="text-gray-100 leading-relaxed">{section.content.text}</div>
             </div>
@@ -216,10 +217,10 @@ function StructuredContentRenderer({ section }: { section: StructuredContent }) 
     case 'text':
     default:
       return (
-        <motion.p 
+        <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="text-gray-100 leading-relaxed my-2"
+          className="text-gray-100 leading-relaxed my-2 font-diatype"
         >
           {section.content}
         </motion.p>
@@ -229,57 +230,57 @@ function StructuredContentRenderer({ section }: { section: StructuredContent }) 
 
 export function ChatMessage({ message, modelName }: ChatMessageProps) {
   const isUser = message.role === 'user'
-  
+
+  // Check if this is an analysis loading message
+  const isAnalysisMessage = !isUser && message.content.includes("I'm now analyzing your profile")
+
+  // Extract company name from analysis message
+  const companyName = useMemo(() => {
+    if (isAnalysisMessage) {
+      const match = message.content.match(/Analyzing (.+?)'s digital presence/)
+      return match ? match[1] : undefined
+    }
+    return undefined
+  }, [isAnalysisMessage, message.content])
+
   // Parse structured content for assistant messages
   const structuredSections = useMemo(() => {
-    if (isUser) return null
+    if (isUser || isAnalysisMessage) return null
     return parseStructuredContent(message.content)
-  }, [message.content, isUser])
+  }, [message.content, isUser, isAnalysisMessage])
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20, scale: 0.95 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: -10, scale: 0.95 }}
-      transition={{ 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+      transition={{
         type: "spring",
         stiffness: 500,
         damping: 30
       }}
-      className={cn('flex gap-3', isUser ? 'justify-end' : 'justify-start')}
+      className={cn('flex', isUser ? 'justify-end' : 'justify-start')}
     >
-      {!isUser && (
-        <div className="flex-shrink-0">
-          <motion.div 
-            className="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center shadow-lg"
-            whileHover={{ scale: 1.1, rotate: 360 }}
-            transition={{ duration: 0.5 }}
-            initial={{ scale: 0, rotate: -180 }}
-            animate={{ scale: 1, rotate: 0 }}
-          >
-            <Bot className="w-5 h-5 text-white" />
-          </motion.div>
-        </div>
-      )}
-      
       <div className={cn('max-w-lg flex flex-col gap-1', isUser && 'items-end')}>
         <motion.div
           className={cn(
-            'px-5 py-4 rounded-2xl shadow-xl',
+            'px-4 py-3 rounded-2xl',
             isUser
-              ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-br-sm'
-              : 'bg-gray-800/90 backdrop-blur-md text-white rounded-bl-sm border border-gray-700'
+              ? 'bg-brand-cyan text-gray-900 rounded-br-sm'
+              : 'text-white'
           )}
-          whileHover={{ scale: 1.01, boxShadow: '0 20px 40px rgba(0,0,0,0.4)' }}
-          transition={{ type: "spring", stiffness: 400, damping: 25 }}
+          initial={{ scale: 0.95 }}
+          animate={{ scale: 1 }}
         >
           {isUser ? (
-            <Text 
-              size="sm" 
-              className="text-white font-medium leading-relaxed"
+            <Text
+              size="sm"
+              className="text-gray-900 font-medium leading-relaxed font-diatype"
             >
               {message.content}
             </Text>
+          ) : isAnalysisMessage ? (
+            <AnalysisLoader companyName={companyName} />
           ) : (
             <div className="space-y-1">
               {structuredSections?.map((section, index) => (
@@ -288,34 +289,20 @@ export function ChatMessage({ message, modelName }: ChatMessageProps) {
             </div>
           )}
         </motion.div>
-        
+
         {/* Timestamp */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
-          className={cn("text-xs text-gray-500 mt-1", isUser && "text-right")}
+          className={cn("text-xs text-gray-500 mt-1 font-diatype", isUser && "text-right")}
         >
-          {new Date(message.timestamp).toLocaleTimeString([], { 
-            hour: '2-digit', 
-            minute: '2-digit' 
+          {new Date(message.timestamp).toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit'
           })}
         </motion.div>
       </div>
-      
-      {isUser && (
-        <div className="flex-shrink-0">
-          <motion.div 
-            className="w-10 h-10 rounded-2xl bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center shadow-lg"
-            whileHover={{ scale: 1.1 }}
-            transition={{ type: "spring", stiffness: 400, damping: 25 }}
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-          >
-            <User className="w-5 h-5 text-gray-300" />
-          </motion.div>
-        </div>
-      )}
     </motion.div>
   )
 }

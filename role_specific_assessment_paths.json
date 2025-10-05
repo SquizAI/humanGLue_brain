@@ -1,0 +1,427 @@
+{
+  "roleBasedAssessmentPaths": {
+    
+    "CEO_PATH": {
+      "role": "Chief Executive Officer",
+      "focusDimensions": [
+        "Market & Competitive Intelligence",
+        "Financial Impact & ROI Modeling",
+        "Organizational Alignment",
+        "Leadership Digital Fluency",
+        "Transformation Readiness"
+      ],
+      "questionSequence": [
+        {
+          "phase": "Vision Setting",
+          "questions": [
+            "Where do you see AI taking your company in the next 3 years?",
+            "What would happen if your biggest competitor got AI right before you did?",
+            "If AI could solve one strategic challenge for you, what would it be?"
+          ]
+        },
+        {
+          "phase": "Value Creation",
+          "questions": [
+            "How do you know if AI investments are paying off?",
+            "What new revenue streams could AI unlock for you?",
+            "Where's the biggest opportunity to disrupt your own business model?"
+          ]
+        },
+        {
+          "phase": "Organizational Readiness",
+          "questions": [
+            "How aligned is your leadership team on AI strategy?",
+            "What cultural shifts need to happen for AI to succeed here?",
+            "How ready is your organization to be transformed?"
+          ]
+        }
+      ],
+      "outputFocus": "Strategic roadmap, board presentation, investor narrative"
+    },
+
+    "COO_PATH": {
+      "role": "Chief Operating Officer",
+      "focusDimensions": [
+        "Supply Chain & Operations",
+        "Systems Integration & APIs",
+        "Development & DevOps Maturity",
+        "Performance Management Evolution",
+        "Adaptability Quotient"
+      ],
+      "questionSequence": [
+        {
+          "phase": "Operational Excellence",
+          "questions": [
+            "Walk me through your most manual, painful process. Why hasn't it been automated?",
+            "Where do operational bottlenecks cost you the most money?",
+            "How would autonomous operations change your business?"
+          ]
+        },
+        {
+          "phase": "Integration & Flow",
+          "questions": [
+            "How well do your systems talk to each other?",
+            "What would real-time operational visibility enable?",
+            "Where does lack of integration hurt the most?"
+          ]
+        },
+        {
+          "phase": "Performance & Scale",
+          "questions": [
+            "How has AI changed your operational KPIs?",
+            "What would 10x operational efficiency look like?",
+            "How fast can you scale operations with AI?"
+          ]
+        }
+      ],
+      "outputFocus": "Operational transformation plan, automation roadmap, efficiency metrics"
+    },
+
+    "CFO_PATH": {
+      "role": "Chief Financial Officer",
+      "focusDimensions": [
+        "Financial Impact & ROI Modeling",
+        "Risk Management",
+        "Regulatory & Compliance Readiness",
+        "Data Infrastructure & Quality",
+        "Vendor & Partnership Ecosystem"
+      ],
+      "questionSequence": [
+        {
+          "phase": "Financial Impact",
+          "questions": [
+            "How do you measure AI ROI today? Is it working?",
+            "What's the business case for your next big AI investment?",
+            "Where could AI most impact your margins?"
+          ]
+        },
+        {
+          "phase": "Risk & Compliance",
+          "questions": [
+            "What financial risks does AI create? How do you manage them?",
+            "How do you ensure AI compliance with financial regulations?",
+            "What's your biggest AI-related financial exposure?"
+          ]
+        },
+        {
+          "phase": "Investment Strategy",
+          "questions": [
+            "How much should you invest in AI versus other priorities?",
+            "What's the optimal pace of AI investment?",
+            "When will AI investments become self-funding?"
+          ]
+        }
+      ],
+      "outputFocus": "ROI models, investment framework, risk assessment, budget allocation"
+    },
+
+    "CTO_PATH": {
+      "role": "Chief Technology Officer",
+      "focusDimensions": [
+        "Data Infrastructure & Quality",
+        "Systems Integration & APIs",
+        "Cloud & Edge Computing Readiness",
+        "Development & DevOps Maturity",
+        "Security & Compliance Architecture"
+      ],
+      "questionSequence": [
+        {
+          "phase": "Technical Architecture",
+          "questions": [
+            "Describe your current AI tech stack. What's missing?",
+            "How do you manage data quality for AI applications?",
+            "What technical debt prevents AI adoption?"
+          ]
+        },
+        {
+          "phase": "Development & Deployment",
+          "questions": [
+            "How long from AI prototype to production?",
+            "What's your MLOps maturity level?",
+            "How do you ensure AI model reliability?"
+          ]
+        },
+        {
+          "phase": "Innovation & Scale",
+          "questions": [
+            "What emerging AI technologies excite you most?",
+            "How do you build vs buy vs partner for AI?",
+            "What would a fully AI-native architecture enable?"
+          ]
+        }
+      ],
+      "outputFocus": "Technical architecture, implementation roadmap, tool selection, skills requirements"
+    },
+
+    "CHRO_PATH": {
+      "role": "Chief Human Resources Officer",
+      "focusDimensions": [
+        "Leadership Digital Fluency",
+        "Skills & Capability Mapping",
+        "Learning & Development Systems",
+        "Performance Management Evolution",
+        "Culture & Change Management"
+      ],
+      "questionSequence": [
+        {
+          "phase": "Workforce Readiness",
+          "questions": [
+            "How AI-ready is your workforce? What's the gap?",
+            "Which roles will AI transform most in your organization?",
+            "How are you reskilling for an AI future?"
+          ]
+        },
+        {
+          "phase": "Culture & Change",
+          "questions": [
+            "What cultural barriers exist to AI adoption?",
+            "How do you address AI anxiety in the workforce?",
+            "What does AI-human collaboration look like here?"
+          ]
+        },
+        {
+          "phase": "Talent Strategy",
+          "questions": [
+            "How do you attract AI talent?",
+            "What new capabilities do you need to build vs buy?",
+            "How will AI change your talent strategy?"
+          ]
+        }
+      ],
+      "outputFocus": "Workforce transformation plan, skills matrix, change management strategy, culture roadmap"
+    },
+
+    "CMO_PATH": {
+      "role": "Chief Marketing Officer",
+      "focusDimensions": [
+        "Customer Experience & Engagement",
+        "Market & Competitive Intelligence",
+        "Product & Service Innovation",
+        "Data Infrastructure & Quality",
+        "AI Ethics & Responsibility"
+      ],
+      "questionSequence": [
+        {
+          "phase": "Customer Intelligence",
+          "questions": [
+            "How well do you really know each customer? What would perfect knowledge enable?",
+            "Where does AI currently enhance customer experience?",
+            "What customer experience would differentiate you?"
+          ]
+        },
+        {
+          "phase": "Market Position",
+          "questions": [
+            "How is AI changing customer expectations in your market?",
+            "What's your AI-powered competitive advantage?",
+            "How could AI help you create new markets?"
+          ]
+        },
+        {
+          "phase": "Marketing Evolution",
+          "questions": [
+            "How has AI transformed your marketing operations?",
+            "What would hyper-personalization at scale look like?",
+            "How do you balance AI automation with human creativity?"
+          ]
+        }
+      ],
+      "outputFocus": "Customer experience strategy, personalization roadmap, martech stack, competitive positioning"
+    },
+
+    "CIO_PATH": {
+      "role": "Chief Innovation Officer",
+      "focusDimensions": [
+        "Product & Service Innovation",
+        "Market & Competitive Intelligence",
+        "Transformation Readiness",
+        "Collaboration Networks",
+        "Vendor & Partnership Ecosystem"
+      ],
+      "questionSequence": [
+        {
+          "phase": "Innovation Pipeline",
+          "questions": [
+            "How is AI accelerating your innovation cycle?",
+            "What breakthrough innovations could AI enable?",
+            "Where do you see AI creating new business models?"
+          ]
+        },
+        {
+          "phase": "Innovation Culture",
+          "questions": [
+            "How do you foster AI experimentation?",
+            "What kills innovation here and how could AI help?",
+            "How do you measure innovation success?"
+          ]
+        },
+        {
+          "phase": "Future Vision",
+          "questions": [
+            "What impossible problem could AI make solvable?",
+            "How might AI redefine your entire industry?",
+            "What's your moonshot AI project?"
+          ]
+        }
+      ],
+      "outputFocus": "Innovation strategy, R&D priorities, partnership opportunities, disruption scenarios"
+    },
+
+    "CSO_PATH": {
+      "role": "Chief Strategy Officer",
+      "focusDimensions": [
+        "Market & Competitive Intelligence",
+        "Organizational Alignment",
+        "Transformation Readiness",
+        "Financial Impact & ROI Modeling",
+        "Risk Management"
+      ],
+      "questionSequence": [
+        {
+          "phase": "Strategic Positioning",
+          "questions": [
+            "How does AI change your strategic options?",
+            "What strategic moves are only possible with AI?",
+            "Where could AI create sustainable competitive advantage?"
+          ]
+        },
+        {
+          "phase": "Strategic Execution",
+          "questions": [
+            "How aligned is AI investment with strategic priorities?",
+            "What strategic risks does slow AI adoption create?",
+            "How do you balance short-term wins with long-term transformation?"
+          ]
+        },
+        {
+          "phase": "Future Strategy",
+          "questions": [
+            "What does winning with AI look like in your industry?",
+            "How might AI change the rules of competition?",
+            "What strategic pivots might AI require?"
+          ]
+        }
+      ],
+      "outputFocus": "Strategic options, scenario planning, competitive analysis, transformation roadmap"
+    },
+
+    "CAIO_PATH": {
+      "role": "Chief AI Officer",
+      "focusDimensions": [
+        "AI Ethics & Responsibility",
+        "Security & Compliance Architecture",
+        "Data Infrastructure & Quality",
+        "Development & DevOps Maturity",
+        "Vendor & Partnership Ecosystem",
+        "All Cross-Functional Dimensions"
+      ],
+      "questionSequence": [
+        {
+          "phase": "AI Governance",
+          "questions": [
+            "How do you govern AI across the enterprise?",
+            "What's your framework for responsible AI?",
+            "How do you ensure AI quality and reliability?"
+          ]
+        },
+        {
+          "phase": "AI Operations",
+          "questions": [
+            "Describe your AI platform strategy",
+            "How do you orchestrate multiple AI initiatives?",
+            "What's your approach to AI talent and partnerships?"
+          ]
+        },
+        {
+          "phase": "AI Evolution",
+          "questions": [
+            "How do you stay ahead of AI advances?",
+            "What's your vision for AI maturity progression?",
+            "How will you know when you've succeeded?"
+          ]
+        }
+      ],
+      "outputFocus": "AI governance framework, platform architecture, capability roadmap, maturity progression plan"
+    },
+
+    "DEPARTMENT_HEAD_PATH": {
+      "role": "Department Head / Director",
+      "focusDimensions": [
+        "Team-specific operational dimensions",
+        "Skills & Capability Mapping",
+        "Performance Management Evolution",
+        "Collaboration Networks",
+        "Adaptability Quotient"
+      ],
+      "questionSequence": [
+        {
+          "phase": "Departmental Readiness",
+          "questions": [
+            "How is your team currently using AI?",
+            "What's the biggest opportunity for AI in your department?",
+            "What would need to change for AI to thrive here?"
+          ]
+        },
+        {
+          "phase": "Team Impact",
+          "questions": [
+            "How ready is your team for AI transformation?",
+            "What skills gaps worry you most?",
+            "How would AI change your team's daily work?"
+          ]
+        },
+        {
+          "phase": "Departmental Vision",
+          "questions": [
+            "What would world-class AI adoption look like for your team?",
+            "How would you measure AI success?",
+            "What support do you need from leadership?"
+          ]
+        }
+      ],
+      "outputFocus": "Departmental action plan, skills development needs, quick wins, resource requirements"
+    }
+  },
+
+  "adaptivePathSelection": {
+    "rules": [
+      {
+        "condition": "If multiple C-suite on assessment",
+        "action": "Run individual paths, then synthesis session"
+      },
+      {
+        "condition": "If no CAIO exists",
+        "action": "Distribute CAIO questions across CTO and CSO paths"
+      },
+      {
+        "condition": "If startup or small company",
+        "action": "Use CEO path with selected technical questions"
+      },
+      {
+        "condition": "If highly technical organization",
+        "action": "Weight technical dimensions 40% higher"
+      },
+      {
+        "condition": "If highly regulated industry",
+        "action": "Add 5-7 additional compliance questions"
+      }
+    ]
+  },
+
+  "crossRoleInsights": {
+    "synthesisPoints": [
+      "Where do different roles see different opportunities?",
+      "What risks does one role see that others miss?",
+      "How aligned are investment priorities across roles?",
+      "What dependencies exist between role-specific initiatives?",
+      "Where could better collaboration accelerate progress?"
+    ],
+    
+    "conflictResolution": [
+      "When CTO and CFO priorities conflict, focus on ROI-justified pilots",
+      "When CHRO and COO pace differs, prioritize change management",
+      "When CMO and CIO innovation views diverge, test with customers",
+      "When CEO vision and readiness gap exists, phase implementation"
+    ]
+  }
+}

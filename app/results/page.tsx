@@ -1,9 +1,7 @@
 'use client'
 
-import { ResponsiveLayout } from '../../components/templates/ResponsiveLayout'
-import { HeroSection } from '../../components/templates/HeroSection'
 import { motion } from 'framer-motion'
-import { 
+import {
   TrendingUp,
   Building2,
   Users,
@@ -18,14 +16,15 @@ import {
   Activity,
   Globe,
   Shield,
-  Clock,
   Heart,
   Rocket,
   Search,
   DollarSign
 } from 'lucide-react'
 import Link from 'next/link'
-import Image from 'next/image'
+import { Navigation } from '@/components/organisms/Navigation'
+import { Footer } from '@/components/organisms/Footer'
+import { Button } from '@/components/atoms'
 
 const expectedOutcomes = [
   {
@@ -136,65 +135,83 @@ const industryApplications = [
 
 export default function ResultsPage() {
   return (
-    <ResponsiveLayout backgroundState="presenting">
-      {/* Hero Section with unique background */}
-      <HeroSection 
-        backgroundImage="https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=2560"
-        overlayOpacity={0.3}
-      >
-        {/* Animated particles */}
-        <div className="absolute inset-0">
-          {[...Array(20)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-2 h-2 bg-blue-400/20 rounded-full"
-              initial={{ 
-                x: Math.random() * 1000,
-                y: Math.random() * 1000
-              }}
-              animate={{
-                x: Math.random() * 1000,
-                y: Math.random() * 1000
-              }}
-              transition={{
-                duration: Math.random() * 20 + 20,
-                repeat: Infinity,
-                repeatType: "reverse"
-              }}
-            />
-          ))}
-        </div>
+    <div className="min-h-screen bg-gray-950">
+      <Navigation />
 
-        <div className="container max-w-7xl mx-auto text-center relative z-10">
+      {/* Hero Section */}
+      <section className="relative pt-32 pb-20 overflow-hidden">
+        {/* Background Effects */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(139,92,246,0.15),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_60%,rgba(59,130,246,0.1),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:4rem_4rem]" />
+
+        {/* Animated Orbs */}
+        <motion.div
+          className="absolute top-20 left-10 w-96 h-96 bg-purple-500/20 rounded-full blur-[120px]"
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.3, 0.5, 0.3],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+        <motion.div
+          className="absolute bottom-20 right-10 w-96 h-96 bg-blue-500/20 rounded-full blur-[120px]"
+          animate={{
+            scale: [1.2, 1, 1.2],
+            opacity: [0.3, 0.5, 0.3],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1,
+          }}
+        />
+
+        <div className="container max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
+            className="max-w-4xl mx-auto text-center"
           >
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/10 border border-green-500/20 mb-6"
-            >
-              <Award className="w-4 h-4 text-green-400" />
-              <span className="text-sm text-green-300">Measurable Transformation</span>
-            </motion.div>
-            
-            <h1 className="text-6xl lg:text-8xl font-bold text-white mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/10 backdrop-blur-sm border border-purple-500/20 mb-6">
+              <Award className="w-4 h-4 text-purple-400" />
+              <span className="text-sm text-purple-300 font-diatype">Measurable Transformation</span>
+            </div>
+
+            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 font-gendy leading-tight">
               Expected Results
             </h1>
-            <p className="text-xl lg:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
-              Discover what's possible when AI-powered insights meet 
-              expert implementation to transform your organization
+
+            <p className="text-xl md:text-2xl text-gray-300 mb-8 font-diatype max-w-3xl mx-auto">
+              Discover what's possible when AI-powered insights meet expert implementation to transform your organization
             </p>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link href="/signup">
+                <Button variant="gradient" size="lg" className="shadow-lg">
+                  Start Free Trial
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </Button>
+              </Link>
+              <Link href="/?chat=true">
+                <Button variant="secondary" size="lg">
+                  Take Assessment
+                </Button>
+              </Link>
+            </div>
           </motion.div>
         </div>
-      </HeroSection>
+      </section>
 
       {/* Transformation Journey */}
-      <section className="py-20 px-6">
-        <div className="container max-w-7xl mx-auto">
+      <section className="py-20">
+        <div className="container max-w-7xl mx-auto px-4 sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -202,10 +219,10 @@ export default function ResultsPage() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl font-bold text-white mb-4">
+            <h2 className="text-4xl font-bold text-white mb-4 font-gendy">
               Your Transformation Journey
             </h2>
-            <p className="text-lg text-gray-300 max-w-3xl mx-auto">
+            <p className="text-lg text-gray-300 max-w-3xl mx-auto font-diatype">
               A proven path from insight to impact, tailored to your organization's unique needs
             </p>
           </motion.div>
@@ -213,7 +230,7 @@ export default function ResultsPage() {
           {/* Journey Timeline */}
           <div className="relative">
             {/* Connection line */}
-            <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-500 via-purple-500 to-green-500 hidden lg:block" />
+            <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-purple-500 via-blue-500 to-cyan-500 hidden lg:block" />
 
             <div className="space-y-16">
               {transformationStages.map((stage, index) => (
@@ -229,7 +246,7 @@ export default function ResultsPage() {
                   <motion.div
                     whileHover={{ scale: 1.2, rotate: 360 }}
                     transition={{ duration: 0.5 }}
-                    className="absolute left-1/2 -translate-x-1/2 w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold z-10"
+                    className="absolute left-1/2 -translate-x-1/2 w-12 h-12 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full flex items-center justify-center text-white font-bold z-10 font-gendy"
                   >
                     {index + 1}
                   </motion.div>
@@ -238,22 +255,22 @@ export default function ResultsPage() {
                   <div className={`flex-1 ${index % 2 === 0 ? 'text-right' : 'text-left'}`}>
                     <motion.div
                       whileHover={{ scale: 1.02 }}
-                      className="bg-gradient-to-br from-gray-800/50 to-gray-700/30 rounded-2xl p-8 border border-gray-700"
+                      className="bg-white/5 backdrop-blur-xl rounded-2xl p-8 border border-white/10 hover:border-purple-500/30 transition-all"
                     >
                       <div className={`flex items-center gap-4 mb-4 ${index % 2 === 0 ? 'justify-end' : ''}`}>
-                        <h3 className="text-2xl font-bold text-white">{stage.stage}</h3>
+                        <h3 className="text-2xl font-bold text-white font-gendy">{stage.stage}</h3>
                         <motion.div
                           whileHover={{ rotate: 360 }}
                           transition={{ duration: 0.5 }}
-                          className="p-3 rounded-xl bg-gradient-to-br from-blue-500/20 to-purple-500/20"
+                          className="p-3 rounded-xl bg-gradient-to-br from-purple-500/20 to-blue-500/20"
                         >
-                          <stage.icon className="w-6 h-6 text-blue-400" />
+                          <stage.icon className="w-6 h-6 text-purple-400" />
                         </motion.div>
                       </div>
-                      <p className="text-gray-300 mb-4">{stage.description}</p>
+                      <p className="text-gray-300 mb-4 font-diatype">{stage.description}</p>
                       <div className={`flex flex-wrap gap-2 ${index % 2 === 0 ? 'justify-end' : ''}`}>
                         {stage.outcomes.map((outcome, i) => (
-                          <span key={i} className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-gray-300">
+                          <span key={i} className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-gray-300 font-diatype">
                             {outcome}
                           </span>
                         ))}
@@ -481,34 +498,46 @@ export default function ResultsPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="container max-w-4xl mx-auto text-center"
-        >
-          <Sparkles className="w-16 h-16 mx-auto mb-6 text-yellow-400" />
-          <h2 className="text-4xl font-bold text-white mb-4">
-            Your Transformation Starts Today
-          </h2>
-          <p className="text-lg text-gray-300 mb-8">
-            Join forward-thinking organizations using AI-powered insights to build stronger, 
-            more resilient cultures
-          </p>
-          <Link href="/#chat">
-            <motion.button
-              whileHover={{ scale: 1.05, boxShadow: '0 20px 40px rgba(59, 130, 246, 0.3)' }}
-              whileTap={{ scale: 0.95 }}
-              className="px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-xl font-semibold hover:shadow-xl transition-all inline-flex items-center gap-3"
-            >
-              Calculate Your ROI
-              <ArrowRight className="w-5 h-5" />
-            </motion.button>
-          </Link>
-        </motion.div>
+      <section className="py-20">
+        <div className="container max-w-7xl mx-auto px-4 sm:px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="relative bg-gradient-to-br from-purple-900/30 to-blue-900/30 backdrop-blur-xl rounded-3xl border border-white/10 p-12 md:p-16 overflow-hidden"
+          >
+            {/* Background Pattern */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(168,85,247,0.1),transparent_70%)]" />
+
+            <div className="relative z-10 text-center max-w-3xl mx-auto">
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 font-gendy">
+                Your Transformation Starts Today
+              </h2>
+
+              <p className="text-xl text-gray-300 mb-8 font-diatype">
+                Join forward-thinking organizations using AI-powered insights to build stronger, more resilient cultures
+              </p>
+
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <Link href="/signup">
+                  <Button variant="gradient" size="lg" className="shadow-lg">
+                    Calculate Your ROI
+                    <ArrowRight className="w-5 h-5 ml-2" />
+                  </Button>
+                </Link>
+                <Link href="/?chat=true">
+                  <Button variant="secondary" size="lg">
+                    Take Assessment
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </motion.div>
+        </div>
       </section>
-    </ResponsiveLayout>
+
+      <Footer />
+    </div>
   )
 }

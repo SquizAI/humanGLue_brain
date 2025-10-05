@@ -1,5 +1,6 @@
 import { ChatState } from './types'
 import { UserProfileBuilder, ProfileAnalysis } from './userProfile'
+import { AIChatService } from './aiChatService'
 import { Building2, Users, Target, TrendingUp, Briefcase, BarChart3, Zap, Brain, Phone, Mail, Globe, Calendar } from 'lucide-react'
 
 interface ChatResponse {
@@ -12,45 +13,142 @@ interface ChatResponse {
     action?: string
   }>
   profileAnalysis?: ProfileAnalysis
+  isAIResponse?: boolean
 }
 
 export class EnhancedChatFlow {
   private profileBuilder: UserProfileBuilder
-  
+  private aiService: AIChatService
+  private conversationHistory: Array<{ role: 'user' | 'assistant'; content: string }> = []
+
   constructor(initialData?: any) {
     this.profileBuilder = new UserProfileBuilder(initialData)
+    this.aiService = new AIChatService()
   }
-  
+
   getGreeting(): string {
-    return "Welcome to Human Glue! I'm your AI transformation advisor.\n\nI'll help you discover how AI can transform your organization with a personalized assessment.\n\nLet's start with your first name:"
+    return "Welcome to HumanGlue. We guide Fortune 1000 companies of tomorrow, today.\n\nLet's start with your first name"
   }
-  
-  processResponse(currentState: ChatState, input: string, userData: any): ChatResponse {
+
+  /**
+   * Detect if the input is a question/general query vs a direct answer to assessment
+   */
+  private isGeneralQuestion(input: string, currentState: ChatState): boolean {
+    const lower = input.toLowerCase().trim()
+
+    // Always treat question marks as questions
+    if (input.includes('?')) {
+      return true
+    }
+
+    // Question starters - these indicate informational queries
+    const questionStarters = ['what', 'how', 'why', 'when', 'where', 'who', 'can', 'could', 'would', 'should', 'tell me', 'explain', 'show me', 'describe', 'is there', 'are there', 'do you', 'does']
+    if (questionStarters.some(start => lower.startsWith(start))) {
+      return true
+    }
+
+    // Check for assessment-specific response patterns
+    // If the user is clearly answering with expected formats, it's NOT a question
+    const assessmentPatterns = [
+      /^\d+[-\+]?\s*(employees?|people|staff)?$/i, // "500 employees", "1000+", etc.
+      /^(under|over|less than|more than)?\s*\$?\d+[km]?/i, // "$10M", "Under $100K", etc.
+      /^\d+\s*(years?|months?)/i, // "5 years", "2 months"
+      /^(yes|no|skip|none|prefer not to)/i, // Common short answers
+      /^https?:\/\//i, // URLs
+      /@.+\..+/, // Email addresses
+      /^\+?\d[\d\s\-\(\)]+$/, // Phone numbers
+    ]
+
+    if (assessmentPatterns.some(pattern => pattern.test(input.trim()))) {
+      return false // It's an assessment answer
+    }
+
+    // Short responses (< 4 words) during assessment are likely answers, not questions
+    const wordCount = input.split(/\s+/).length
+    if (wordCount <= 3 && currentState !== 'initial' && currentState !== 'greeting') {
+      // However, check if it looks like a question anyway
+      if (!questionStarters.some(start => lower.startsWith(start))) {
+        return false // Likely an answer
+      }
+    }
+
+    // During initial/greeting, most inputs are names (answers)
+    if ((currentState === 'initial' || currentState === 'greeting') && wordCount <= 3) {
+      // Unless they're explicitly asking a question
+      if (!questionStarters.some(start => lower.startsWith(start))) {
+        return false
+      }
+    }
+
+    // Long conversational responses (> 15 words) that don't match assessment patterns
+    // are likely questions or discussions
+    if (wordCount > 15) {
+      return true
+    }
+
+    return false
+  }
+
+  async processResponse(currentState: ChatState, input: string, userData: any): Promise<ChatResponse> {
     // Update profile builder with any existing data
     if (userData) {
       this.profileBuilder = new UserProfileBuilder(userData)
     }
-    
+
+    // Detect if this is a general question vs an assessment answer
+    // Allow general questions during initial states or when explicitly asking
+    if (this.isGeneralQuestion(input, currentState)) {
+      // Add user message to conversation history
+      this.conversationHistory.push({
+        role: 'user',
+        content: input
+      })
+
+      // Generate AI response with user context
+      const aiResponse = await this.aiService.generateResponse(
+        input,
+        this.conversationHistory,
+        userData
+      )
+
+      // Add AI response to conversation history
+      this.conversationHistory.push({
+        role: 'assistant',
+        content: aiResponse
+      })
+
+      // Generate contextual suggestions based on the conversation
+      const suggestions = this.aiService.generateSuggestions(currentState, userData)
+
+      return {
+        message: aiResponse,
+        data: userData, // Keep current state
+        suggestions: suggestions.map(text => ({ text })),
+        isAIResponse: true
+      }
+    }
+
+    // Otherwise, continue with hardcoded assessment flow
     switch (currentState) {
       case 'initial':
       case 'greeting':
         return this.collectName(input)
-      
+
       case 'collectingBasicInfo':
         return this.collectBasicInfo(input, userData)
-      
+
       case 'collectingCompanyInfo':
         return this.collectCompanyInfo(input, userData)
-      
+
       case 'collectingChallenges':
         return this.collectChallenges(input, userData)
-      
+
       case 'collectingContactInfo':
         return this.collectContactInfo(input, userData)
-      
+
       case 'performingAnalysis':
         return this.performAnalysis(input, userData)
-      
+
       default:
         return this.handleGeneralQuery(input, userData)
     }
@@ -58,44 +156,43 @@ export class EnhancedChatFlow {
   
   private collectName(firstName: string): ChatResponse {
     this.profileBuilder.collectBasicInfo({ name: firstName.trim() })
-    
+
     return {
-      message: `Nice to meet you, ${firstName}! To provide the most relevant insights, I'd like to learn about your professional background.\n\nWhat's your current job title?`,
+      message: `${firstName} - that's a crucial role for organizational adaptation.\n\nWhich department do you primarily work with?`,
       nextState: 'collectingBasicInfo',
-      data: { name: firstName.trim(), stage: 'role' },
+      data: { name: firstName.trim(), stage: 'department' },
       suggestions: [
-        { text: "Chief Executive Officer", icon: Target },
-        { text: "Chief Technology Officer", icon: Brain },
-        { text: "Chief People Officer", icon: Users },
-        { text: "VP of Operations", icon: BarChart3 },
-        { text: "Director of Innovation", icon: Zap }
+        { text: "Executive Leadership" },
+        { text: "Human Resources" },
+        { text: "Technology/IT" },
+        { text: "Innovation/Strategy" }
       ]
     }
   }
   
   private collectBasicInfo(input: string, userData: any): ChatResponse {
     const stage = userData.stage
-    
+
     switch (stage) {
-      case 'role':
-        this.profileBuilder.collectProfessionalInfo({ role: input })
-        return {
-          message: `${input} - that's a crucial role for organizational transformation!\n\nWhich department do you primarily work with?`,
-          data: { ...userData, role: input, stage: 'department' },
-          suggestions: [
-            { text: "Executive Leadership", icon: Target },
-            { text: "Technology/IT", icon: Brain },
-            { text: "Human Resources", icon: Users },
-            { text: "Operations", icon: BarChart3 },
-            { text: "Innovation/Strategy", icon: Zap }
-          ]
-        }
-      
       case 'department':
         this.profileBuilder.collectProfessionalInfo({ department: input })
         return {
-          message: `Great! How many years have you been in your current role as ${userData.role}?`,
-          data: { ...userData, department: input, stage: 'yearsInRole' },
+          message: `Perfect. ${input} is essential for modern organizational transformation.\n\nWhat's your current role or job title?`,
+          data: { ...userData, department: input, stage: 'role' },
+          suggestions: [
+            { text: "Chief Executive Officer" },
+            { text: "Chief Technology Officer" },
+            { text: "Chief People Officer" },
+            { text: "VP of Operations" },
+            { text: "Director of Innovation" }
+          ]
+        }
+
+      case 'role':
+        this.profileBuilder.collectProfessionalInfo({ role: input })
+        return {
+          message: `Great. How many years have you been in ${input} or similar leadership roles?`,
+          data: { ...userData, role: input, stage: 'yearsInRole' },
           suggestions: [
             { text: "Less than 1 year" },
             { text: "1-2 years" },
@@ -104,7 +201,7 @@ export class EnhancedChatFlow {
             { text: "10+ years" }
           ]
         }
-      
+
       case 'yearsInRole':
         const years = this.parseYears(input)
         this.profileBuilder.collectProfessionalInfo({ yearsInRole: years })
@@ -122,34 +219,63 @@ export class EnhancedChatFlow {
   
   private collectCompanyInfo(input: string, userData: any): ChatResponse {
     const stage = userData.stage || 'company'
-    
+
     switch (stage) {
       case 'company':
         this.profileBuilder.collectCompanyInfo({ company: input })
+
         return {
           message: `${input} - I'd love to learn more about your organization.\n\nWhat's your company's website? This helps me provide industry-specific insights.`,
           data: { ...userData, company: input, stage: 'companyUrl' },
           suggestions: []
         }
-      
+
       case 'companyUrl':
         const url = this.cleanUrl(input)
         this.profileBuilder.collectCompanyInfo({ companyUrl: url })
-        
-        // Trigger website analysis
+
+        // Trigger enrichment and website analysis
         if (url && url !== 'skip') {
           this.profileBuilder.enrichFromWebsite(url)
+
+          // Trigger background enrichment via API
+          fetch('/api/enrich-profile', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              companyName: userData.company,
+              personName: userData.name,
+              companyUrl: url
+            })
+          })
+            .then(res => res.json())
+            .then(enrichedData => {
+              if (enrichedData && enrichedData.enriched) {
+                console.log('Company enriched:', enrichedData)
+                // Store enriched data for later use
+                this.profileBuilder.collectCompanyInfo({
+                  enrichedLocation: enrichedData.location,
+                  enrichedIndustry: enrichedData.industry,
+                  enrichedEmployeeCount: enrichedData.employeeCount,
+                  enrichedInsights: enrichedData.insights
+                })
+              }
+            })
+            .catch(err => console.error('Enrichment failed:', err))
         }
-        
+
+        // Build contextual message - Note: enriched data will be available later
+        let message = `Perfect! I'm analyzing ${url} to provide tailored recommendations.`
+
         return {
-          message: `Perfect! I'll analyze ${url} to provide tailored recommendations.\n\nHow many employees does ${userData.company} have?`,
+          message: message + `\n\nHow many employees does ${userData.company} have?`,
           data: { ...userData, companyUrl: url, stage: 'companySize' },
           suggestions: [
-            { text: "1-50 employees", icon: Briefcase },
-            { text: "50-500 employees", icon: Building2 },
-            { text: "500-5,000 employees", icon: TrendingUp },
-            { text: "5,000-20,000 employees", icon: Target },
-            { text: "20,000+ employees", icon: Globe }
+            { text: "1-50 employees" },
+            { text: "50-500 employees" },
+            { text: "500-5,000 employees" },
+            { text: "5,000-20,000 employees" },
+            { text: "20,000+ employees" }
           ]
         }
       
@@ -170,25 +296,49 @@ export class EnhancedChatFlow {
       
       case 'revenue':
         this.profileBuilder.collectCompanyInfo({ companyRevenue: input })
+
+        // Check if we have enriched location data to confirm
+        let locationQuestion = `Thank you for sharing. Where is ${userData.company} headquartered?`
+        const enrichedLocation = userData.enrichedLocation
+
+        if (enrichedLocation) {
+          locationQuestion = `Thank you for sharing. I found that ${userData.company} is based in ${enrichedLocation}. Is that correct?`
+        }
+
         return {
-          message: `Thank you for sharing. Where is ${userData.company} headquartered?`,
+          message: locationQuestion,
           data: { ...userData, companyRevenue: input, stage: 'location' },
-          suggestions: []
+          suggestions: enrichedLocation ? [
+            { text: `Yes, ${enrichedLocation}` },
+            { text: "No, different location" }
+          ] : []
         }
       
       case 'location':
         this.profileBuilder.collectCompanyInfo({ companyLocation: input })
+
+        // Build contextual message based on enriched data if available
+        let locationMessage = `${input} - excellent.`
+
+        // Add industry-specific context if we have it
+        const enrichedIndustry = userData.enrichedIndustry
+        if (enrichedIndustry && !userData.confirmedIndustry) {
+          locationMessage += ` I see ${userData.company} is in the ${enrichedIndustry} sector.`
+        }
+
+        locationMessage += ` Now let's discuss your transformation goals.\n\nWhat's the primary challenge you're looking to address with AI?`
+
         return {
-          message: `${input} - excellent. Now let's discuss your transformation goals.\n\nWhat's the primary challenge you're looking to address with AI?`,
+          message: locationMessage,
           nextState: 'collectingChallenges',
           data: { ...userData, companyLocation: input, stage: 'primaryChallenge' },
           suggestions: [
-            { text: "AI adoption & integration", icon: Brain },
-            { text: "Employee productivity", icon: Users },
-            { text: "Digital transformation", icon: Zap },
-            { text: "Data-driven decisions", icon: BarChart3 },
-            { text: "Process automation", icon: Target },
-            { text: "Customer experience", icon: Globe }
+            { text: "AI adoption & integration" },
+            { text: "Employee productivity" },
+            { text: "Digital transformation" },
+            { text: "Data-driven decisions" },
+            { text: "Process automation" },
+            { text: "Customer experience" }
           ]
         }
       

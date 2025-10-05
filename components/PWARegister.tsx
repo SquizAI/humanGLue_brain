@@ -36,25 +36,25 @@ export function PWARegister() {
         })
     }
 
-    // Listen for install prompt
-    const handleBeforeInstallPrompt = (e: any) => {
-      e.preventDefault()
-      setDeferredPrompt(e)
-      
-      // Check if app is already installed
-      if (!window.matchMedia('(display-mode: standalone)').matches) {
-        // Show install prompt after a delay
-        setTimeout(() => {
-          setShowInstallPrompt(true)
-        }, 30000) // 30 seconds
-      }
-    }
+    // Listen for install prompt - DISABLED FOR NOW (app coming in future)
+    // const handleBeforeInstallPrompt = (e: any) => {
+    //   e.preventDefault()
+    //   setDeferredPrompt(e)
+    //
+    //   // Check if app is already installed
+    //   if (!window.matchMedia('(display-mode: standalone)').matches) {
+    //     // Show install prompt after a delay
+    //     setTimeout(() => {
+    //       setShowInstallPrompt(true)
+    //     }, 30000) // 30 seconds
+    //   }
+    // }
 
-    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt)
+    // window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt)
 
-    return () => {
-      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt)
-    }
+    // return () => {
+    //   window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt)
+    // }
   }, [])
 
   const handleInstall = async () => {

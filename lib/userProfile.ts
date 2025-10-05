@@ -131,8 +131,24 @@ export class UserProfileBuilder {
     industry?: string;
     companyRevenue?: string;
     companyLocation?: string;
+    enrichedLocation?: string;
+    enrichedIndustry?: string;
+    enrichedEmployeeCount?: string;
+    enrichedInsights?: string[];
   }) {
     Object.assign(this.profile, data)
+    // Store enriched data in customFields for analysis
+    if (data.enrichedInsights || data.enrichedLocation || data.enrichedIndustry) {
+      this.profile.customFields = {
+        ...this.profile.customFields,
+        enrichedData: {
+          location: data.enrichedLocation,
+          industry: data.enrichedIndustry,
+          employeeCount: data.enrichedEmployeeCount,
+          insights: data.enrichedInsights
+        }
+      }
+    }
     return this
   }
   
@@ -313,42 +329,86 @@ export class UserProfileBuilder {
       nextBestActions: [],
       personalizedContent: []
     }
-    
-    // Generate summary
-    insights.summary = `${this.profile.name} is a ${this.profile.role} at ${this.profile.company}, 
-    a ${this.profile.companyType || 'company'} with ${this.profile.companySize || 'unknown'} employees. 
-    They are focused on ${this.profile.challenge} and have shown 
+
+    // Get enriched data if available
+    const enrichedData = this.profile.customFields?.enrichedData
+
+    // Generate enhanced summary with enriched data
+    const location = enrichedData?.location || this.profile.companyLocation
+    const industry = enrichedData?.industry || this.profile.industry
+    const employeeCount = enrichedData?.employeeCount || this.profile.companySize
+
+    insights.summary = `${this.profile.name} is a ${this.profile.role} at ${this.profile.company}${location ? `, headquartered in ${location}` : ''},
+    a ${industry || 'company'} organization with ${employeeCount || 'unknown size'}.
+    They are focused on ${this.profile.challenge} and have shown
     ${this.calculateEngagementScore() > 70 ? 'high' : 'moderate'} engagement.`
-    
-    // Key findings
+
+    // Add enriched insights as key findings
+    if (enrichedData?.insights && enrichedData.insights.length > 0) {
+      enrichedData.insights.forEach((insight: string) => {
+        insights.keyFindings.push(insight)
+      })
+    }
+
+    // AI readiness analysis
     if (this.profile.aiReadinessScore && this.profile.aiReadinessScore < 50) {
-      insights.keyFindings.push('Low AI readiness score indicates significant transformation opportunity')
+      insights.keyFindings.push('🎯 Low AI readiness score indicates significant transformation opportunity')
+    } else if (this.profile.aiReadinessScore && this.profile.aiReadinessScore >= 70) {
+      insights.keyFindings.push('🚀 High AI readiness - ready for advanced implementation')
     }
-    
+
+    // Authority insights
     if (this.calculateAuthorityScore() > 80) {
-      insights.keyFindings.push('High decision-making authority - direct path to purchase')
+      insights.keyFindings.push('⭐ High decision-making authority - direct path to implementation')
     }
-    
-    // Recommendations
-    insights.recommendations.push(`Focus on ${this.profile.challenge} solutions`)
-    insights.recommendations.push(`Highlight ROI for ${this.profile.companyType} organizations`)
-    
+
+    // Industry-specific insights
+    if (industry) {
+      insights.keyFindings.push(`💡 ${industry} sector presents unique AI transformation opportunities`)
+    }
+
+    // Budget alignment
+    const budgetScore = this.calculateBudgetScore()
+    if (budgetScore > 80) {
+      insights.keyFindings.push('💰 Budget alignment indicates strong investment capacity')
+    }
+
+    // Urgency insights
+    const urgencyScore = this.calculateUrgencyScore()
+    if (urgencyScore > 70) {
+      insights.keyFindings.push('⚡ High urgency detected - immediate engagement recommended')
+    }
+
+    // Strategic recommendations based on profile
+    insights.recommendations.push(`Prioritize ${this.profile.challenge} solutions with proven ROI`)
+
+    if (industry) {
+      insights.recommendations.push(`Leverage ${industry}-specific AI use cases and benchmarks`)
+    }
+
+    if (employeeCount) {
+      insights.recommendations.push(`Scale implementation strategy for ${employeeCount} organization size`)
+    }
+
+    insights.recommendations.push(`Deploy phased transformation roadmap with quick wins`)
+
     // Next best actions
-    if (!this.profile.phone) {
-      insights.nextBestActions.push('Collect phone number for direct outreach')
+    insights.nextBestActions.push('📅 Schedule 30-min executive briefing with transformation specialist')
+    insights.nextBestActions.push('📊 Review personalized AI maturity assessment report')
+    insights.nextBestActions.push('💼 Explore industry-specific success stories and case studies')
+
+    if (this.calculateFitScore() > 70) {
+      insights.nextBestActions.push('🎯 Fast-track to proof-of-concept phase')
     }
-    
-    if (!this.profile.budget) {
-      insights.nextBestActions.push('Qualify budget in next conversation')
+
+    // Personalized content recommendations
+    if (industry) {
+      insights.personalizedContent.push(`${industry} AI Transformation Playbook`)
     }
-    
-    insights.nextBestActions.push('Schedule executive briefing')
-    
-    // Personalized content
-    insights.personalizedContent.push(`${this.profile.industry || 'Industry'} transformation guide`)
-    insights.personalizedContent.push(`${this.profile.challenge} solution brief`)
-    insights.personalizedContent.push(`ROI calculator for ${this.profile.companySize} companies`)
-    
+    insights.personalizedContent.push(`${this.profile.challenge} Solution Brief with ROI Calculator`)
+    insights.personalizedContent.push(`Executive Guide: AI Maturity Framework for ${employeeCount || 'Your Organization'}`)
+    insights.personalizedContent.push(`${this.profile.companyRevenue || 'Enterprise'} Budget Planning Template`)
+
     return insights
   }
   

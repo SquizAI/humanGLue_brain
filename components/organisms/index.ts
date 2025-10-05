@@ -9,5 +9,7 @@ export { AssessmentProgress } from './AssessmentProgress'
 export { AssessmentQuestion } from './AssessmentQuestion'
 export { MaturityLevelDisplay } from './MaturityLevelDisplay'
 export { VoiceAssessment } from './VoiceAssessment'
+export { DigitalWave } from './DigitalWave'
+export { AnimatedWave } from './AnimatedWave'
 
 export type { ChatMessageProps } from './ChatMessage'

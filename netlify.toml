@@ -1,86 +1,388 @@
+# ============================================================================
+# HumanGlue Platform - Production Netlify Configuration
+# ============================================================================
+# This configuration is optimized for Next.js 14 with App Router on Netlify
+
 [build]
   command = "npm run build"
-  publish = "out"
+  publish = ".next"
+  functions = "netlify/functions"
 
 [build.environment]
-  NEXT_PUBLIC_SITE_URL = "https://hmnglue.com"
   NODE_VERSION = "20"
+  NPM_VERSION = "10"
+  # Enable build cache for faster deployments
+  NPM_FLAGS = "--prefer-offline --no-audit"
+  # Disable Next.js telemetry for faster builds
+  NEXT_TELEMETRY_DISABLED = "1"
 
-[functions]
-  directory = "netlify/functions"
-  node_bundler = "esbuild"
+# ============================================================================
+# Build Processing & Optimization
+# ============================================================================
 
-# SPA fallback for Next.js routing
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-  force = false
+[build.processing]
+  skip_processing = false
 
+[build.processing.css]
+  bundle = true
+  minify = true
+
+[build.processing.js]
+  bundle = true
+  minify = true
+
+[build.processing.html]
+  pretty_urls = true
+
+[build.processing.images]
+  compress = true
+
+# ============================================================================
+# Security Headers
+# ============================================================================
+
+# Main security headers for all pages
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # Prevent clickjacking attacks
+    X-Frame-Options = "DENY"
+
+    # Prevent MIME type sniffing
+    X-Content-Type-Options = "nosniff"
+
+    # Enable XSS protection
+    X-XSS-Protection = "1; mode=block"
+
+    # Referrer policy for privacy
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+    # Permissions policy to restrict features
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+
+    # Strict Transport Security (HSTS)
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+
+    # Content Security Policy (CSP)
+    Content-Security-Policy = """
+      default-src 'self';
+      script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://js.stripe.com;
+      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+      img-src 'self' data: https: blob:;
+      font-src 'self' https://fonts.gstatic.com;
+      connect-src 'self' https://*.supabase.co https://api.stripe.com https://www.google-analytics.com wss://*.supabase.co;
+      frame-src 'self' https://js.stripe.com;
+      object-src 'none';
+      base-uri 'self';
+      form-action 'self';
+      frame-ancestors 'none';
+      upgrade-insecure-requests;
+    """
+
+# ============================================================================
+# Performance Headers - Static Assets
+# ============================================================================
+
+# Next.js static chunks with immutable cache
 [[headers]]
   for = "/_next/static/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
+# Next.js CSS files
 [[headers]]
   for = "/_next/static/css/*"
   [headers.values]
     Content-Type = "text/css"
     Cache-Control = "public, max-age=31536000, immutable"
 
+# Next.js JavaScript chunks
 [[headers]]
   for = "/_next/static/chunks/*"
   [headers.values]
     Content-Type = "application/javascript"
     Cache-Control = "public, max-age=31536000, immutable"
 
+# Next.js media files
 [[headers]]
   for = "/_next/static/media/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
+# Images with long cache
 [[headers]]
-  for = "/*"
+  for = "/images/*"
   [headers.values]
-    X-Frame-Options = "DENY"
-    X-XSS-Protection = "1; mode=block"
-    X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "strict-origin-when-cross-origin"
+    Cache-Control = "public, max-age=31536000, immutable"
 
+# PNG images
 [[headers]]
   for = "/*.png"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
     Content-Type = "image/png"
 
+# JPEG images
 [[headers]]
   for = "/*.jpg"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
     Content-Type = "image/jpeg"
 
+# WebP images
+[[headers]]
+  for = "/*.webp"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "image/webp"
+
+# AVIF images
+[[headers]]
+  for = "/*.avif"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "image/avif"
+
+# SVG images
+[[headers]]
+  for = "/*.svg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "image/svg+xml"
+
+# Video files
 [[headers]]
   for = "/*.mp4"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
     Content-Type = "video/mp4"
 
+# Font files
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Favicon with shorter cache
+[[headers]]
+  for = "/favicon.ico"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+    Content-Type = "image/x-icon"
+
+# OpenGraph images with daily cache
 [[headers]]
   for = "/og-image.png"
   [headers.values]
     Cache-Control = "public, max-age=86400"
     Content-Type = "image/png"
 
+# Twitter card images
 [[headers]]
   for = "/twitter-image.png"
   [headers.values]
     Cache-Control = "public, max-age=86400"
     Content-Type = "image/png"
 
+# Manifest file
+[[headers]]
+  for = "/manifest.json"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+    Content-Type = "application/json"
+
+# robots.txt
+[[headers]]
+  for = "/robots.txt"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+    Content-Type = "text/plain"
+
+# sitemap.xml
+[[headers]]
+  for = "/sitemap.xml"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+    Content-Type = "application/xml"
+
+# ============================================================================
+# API Headers
+# ============================================================================
+
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    # No caching for API responses by default
+    Cache-Control = "no-store, no-cache, must-revalidate, private"
+    # CORS headers (will be overridden by API if needed)
+    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type, Authorization"
+
+# ============================================================================
+# Redirects & Rewrites
+# ============================================================================
+
+# Note: API routes are handled by @netlify/plugin-nextjs automatically
+# Do not redirect /api/* as it will conflict with Next.js routing
+
+# Legacy route redirects (examples - adjust as needed)
 [[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/:splat"
-  status = 200
+  from = "/old-workshops"
+  to = "/workshops"
+  status = 301
+
+[[redirects]]
+  from = "/assessment"
+  to = "/assessments"
+  status = 301
+
+# WWW to non-WWW redirect (optional)
+[[redirects]]
+  from = "https://www.humanglue.ai/*"
+  to = "https://humanglue.ai/:splat"
+  status = 301
+  force = true
+
+# ============================================================================
+# Edge Functions (Optional - for geolocation, A/B testing, etc.)
+# ============================================================================
+
+# Example: Geolocation edge function
+# [[edge_functions]]
+#   function = "geolocation"
+#   path = "/api/location/*"
+
+# Example: A/B testing edge function
+# [[edge_functions]]
+#   function = "ab-test"
+#   path = "/workshops/*"
+
+# ============================================================================
+# Plugins
+# ============================================================================
+
+# Essential Next.js Runtime plugin
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+# Submit sitemap to search engines after deploy
+[[plugins]]
+  package = "netlify-plugin-submit-sitemap"
+  [plugins.inputs]
+    baseUrl = "https://humanglue.ai"
+    sitemapPath = "/sitemap.xml"
+    providers = [
+      "google",
+      "bing"
+    ]
+
+# Optimize images during build
+[[plugins]]
+  package = "netlify-plugin-image-optim"
+
+# Lighthouse CI for performance monitoring
+[[plugins]]
+  package = "@netlify/plugin-lighthouse"
+  [plugins.inputs]
+    output_path = "lighthouse-reports"
+
+    [[plugins.inputs.audits]]
+      path = "/"
+      thresholds.performance = 0.9
+      thresholds.accessibility = 0.9
+      thresholds.best-practices = 0.9
+      thresholds.seo = 0.9
+
+    [[plugins.inputs.audits]]
+      path = "/workshops"
+      thresholds.performance = 0.85
+      thresholds.accessibility = 0.9
+
+    [[plugins.inputs.audits]]
+      path = "/admin/dashboard"
+      thresholds.performance = 0.85
+
+# ============================================================================
+# Context-Specific Configurations
+# ============================================================================
+
+# Production environment
+[context.production]
+  command = "npm run build"
+
+  [context.production.environment]
+    NEXT_PUBLIC_ENV = "production"
+    NEXT_PUBLIC_SITE_URL = "https://humanglue.ai"
+    NODE_ENV = "production"
+    # Enable all production features
+    NEXT_PUBLIC_ENABLE_ANALYTICS = "true"
+    NEXT_PUBLIC_ENABLE_ERROR_TRACKING = "true"
+
+# Deploy preview (PR deployments)
+[context.deploy-preview]
+  command = "npm run build"
+
+  [context.deploy-preview.environment]
+    NEXT_PUBLIC_ENV = "preview"
+    NODE_ENV = "production"
+    # Disable analytics in preview
+    NEXT_PUBLIC_ENABLE_ANALYTICS = "false"
+
+# Branch deploys (non-PR branches)
+[context.branch-deploy]
+  command = "npm run build"
+
+  [context.branch-deploy.environment]
+    NEXT_PUBLIC_ENV = "staging"
+    NODE_ENV = "production"
+    NEXT_PUBLIC_ENABLE_ANALYTICS = "false"
+
+# Development context (local Netlify dev)
+[context.dev]
+  command = "npm run dev"
+
+  [context.dev.environment]
+    NEXT_PUBLIC_ENV = "development"
+    NODE_ENV = "development"
+
+# ============================================================================
+# Functions Configuration
+# ============================================================================
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+  # Set timeout to 26 seconds (Netlify max is 26s for Pro)
+  # For free tier, max is 10s
+  included_files = ["lib/**", "utils/**"]
+
+# Individual function configuration
+[functions."webhook-stripe"]
+  # Stripe webhooks need more time
+  timeout = 26
+
+[functions."ai-chat"]
+  # AI responses may take longer
+  timeout = 26
+
+# ============================================================================
+# Dev Configuration
+# ============================================================================
 
 [dev]
+  command = "npm run dev"
+  port = 5040
+  targetPort = 5040
+  framework = "#custom"
+  autoLaunch = true
   functions = "netlify/functions"
+
+# ============================================================================
+# Form Handling (if using Netlify Forms)
+# ============================================================================
+
+# [form]
+#   # Spam filtering
+#   spam_filter = true
+#   # Email notifications
+#   # email = "notifications@humanglue.ai"

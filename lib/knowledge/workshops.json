@@ -1,0 +1,227 @@
+[
+  {
+    "id": "workshop-001",
+    "type": "workshop",
+    "title": "AI Adaptability Fundamentals",
+    "content": "Build your foundation in AI literacy and organizational change. Learn to navigate the transformation from fear to confidence in the age of intelligent machines. This beginner-level workshop covers understanding the AI transformation landscape and its impact on work, developing a personal AI adaptability roadmap, building confidence in working alongside AI systems, and creating your first AI-assisted workflow. Master AI Literacy, Change Management, Mindset shifts, and Getting Started with AI in your organization.",
+    "metadata": {
+      "category": "adaptability",
+      "tags": ["AI Literacy", "Change Management", "Mindset", "Getting Started", "Beginner"],
+      "level": "beginner",
+      "url": "/workshops/adapt-101",
+      "instructor": "Sarah Chen",
+      "duration": "2 hours",
+      "price": 299
+    }
+  },
+  {
+    "id": "workshop-002",
+    "type": "workshop",
+    "title": "Leading AI-Driven Teams",
+    "content": "Master the art of leading hybrid human-AI teams. Transform your leadership approach to thrive in an AI-augmented workplace. Learn to design effective human-AI collaboration frameworks, navigate team dynamics during AI integration, build psychological safety in AI-augmented teams, and measure and optimize hybrid team performance. Covers Team Leadership, AI Integration, and Performance Management.",
+    "metadata": {
+      "category": "adaptability",
+      "tags": ["Team Leadership", "AI Integration", "Performance Management", "Intermediate"],
+      "level": "intermediate",
+      "url": "/workshops/adapt-201",
+      "instructor": "Marcus Thompson",
+      "duration": "3 hours",
+      "price": 449
+    }
+  },
+  {
+    "id": "workshop-003",
+    "type": "workshop",
+    "title": "AI Strategy & Organizational Design",
+    "content": "Architect enterprise-wide AI transformation. Design org structures that maximize human-AI synergy while maintaining resilience and adaptability. Develop comprehensive AI transformation roadmaps, design adaptive organizational structures, create governance frameworks for AI integration, and build measurement systems for transformation success. Advanced training in Strategy, Org Design, Governance for executives.",
+    "metadata": {
+      "category": "adaptability",
+      "tags": ["Strategy", "Org Design", "Governance", "Executive", "Advanced"],
+      "level": "advanced",
+      "url": "/workshops/adapt-301",
+      "instructor": "Dr. Elena Rodriguez",
+      "duration": "4 hours",
+      "price": 799
+    }
+  },
+  {
+    "id": "workshop-004",
+    "type": "workshop",
+    "title": "Foundations of AI-Era Coaching",
+    "content": "Learn to coach in the age of AI. Develop skills to guide individuals through technological change and unlock their potential. Master core coaching competencies for AI transformation, build trust and psychological safety in coaching relationships, guide clients from fear to confidence with AI, and create personalized growth plans for the AI era. Covers Coaching Basics, Career Development, and Mindset Shifts.",
+    "metadata": {
+      "category": "coaching",
+      "tags": ["Coaching Basics", "Career Development", "Mindset Shifts", "Beginner"],
+      "level": "beginner",
+      "url": "/workshops/coach-101",
+      "instructor": "Jennifer Park",
+      "duration": "2.5 hours",
+      "price": 349
+    }
+  },
+  {
+    "id": "workshop-005",
+    "type": "workshop",
+    "title": "Advanced Coaching Techniques for Transformation",
+    "content": "Elevate your coaching practice with advanced frameworks for navigating complex organizational change and AI adoption. Apply advanced coaching models to AI transformation, navigate resistance and build buy-in, coach leaders through strategic decision-making, and measure coaching impact on business outcomes. Covers Advanced Coaching, Leadership, and Change Management.",
+    "metadata": {
+      "category": "coaching",
+      "tags": ["Advanced Coaching", "Leadership", "Change Management", "Intermediate"],
+      "level": "intermediate",
+      "url": "/workshops/coach-201",
+      "instructor": "David Kumar",
+      "duration": "3 hours",
+      "price": 549
+    }
+  },
+  {
+    "id": "workshop-006",
+    "type": "workshop",
+    "title": "Building High-Performance Coaching Cultures",
+    "content": "Create a coaching culture that drives continuous learning and adaptation. Learn to embed coaching throughout your organization. Design organization-wide coaching programs, train managers to become effective coaches, build systems that reinforce coaching behaviors, and measure cultural transformation through coaching. Covers Culture, Manager Training, and Learning Organization principles.",
+    "metadata": {
+      "category": "coaching",
+      "tags": ["Culture", "Manager Training", "Learning Organization", "Beginner"],
+      "level": "beginner",
+      "url": "/workshops/coach-102",
+      "instructor": "Michael Chen",
+      "duration": "2 hours",
+      "price": 399
+    }
+  },
+  {
+    "id": "workshop-007",
+    "type": "workshop",
+    "title": "Personal Branding in the AI Economy",
+    "content": "Stand out in the talent marketplace. Build a compelling personal brand that showcases your unique human capabilities. Define your unique value proposition in the AI era, build an authentic and compelling personal brand, create visibility through strategic content, and network effectively in digital-first environments. Covers Personal Branding, Career Growth, and Networking.",
+    "metadata": {
+      "category": "marketplace",
+      "tags": ["Personal Branding", "Career Growth", "Networking", "Beginner"],
+      "level": "beginner",
+      "url": "/workshops/market-101",
+      "instructor": "Rachel Foster",
+      "duration": "2 hours",
+      "price": 249
+    }
+  },
+  {
+    "id": "workshop-008",
+    "type": "workshop",
+    "title": "Talent Marketplace Mastery",
+    "content": "Navigate internal and external talent marketplaces with confidence. Position yourself for the opportunities that matter. Understand how AI is reshaping talent markets, position yourself for high-value opportunities, build strategic relationships with decision-makers, and negotiate effectively in the new economy. Covers Career Strategy, Talent Markets, and Negotiation.",
+    "metadata": {
+      "category": "marketplace",
+      "tags": ["Career Strategy", "Talent Markets", "Negotiation", "Intermediate"],
+      "level": "intermediate",
+      "url": "/workshops/market-201",
+      "instructor": "Alex Rivera",
+      "duration": "2.5 hours",
+      "price": 399
+    }
+  },
+  {
+    "id": "workshop-009",
+    "type": "workshop",
+    "title": "Building Internal Talent Marketplaces",
+    "content": "Design and implement talent marketplaces that unlock human potential across your organization. Create systems for opportunity and growth. Design talent marketplace platforms and processes, build skills taxonomies and opportunity matching, create governance and measurement frameworks, and drive adoption and cultural change. Advanced training in HR Technology, Talent Strategy, and Platform Design for executives.",
+    "metadata": {
+      "category": "marketplace",
+      "tags": ["HR Technology", "Talent Strategy", "Platform Design", "Executive", "Advanced"],
+      "level": "advanced",
+      "url": "/workshops/market-301",
+      "instructor": "Dr. Patricia Wong",
+      "duration": "4 hours",
+      "price": 699
+    }
+  },
+  {
+    "id": "workshop-010",
+    "type": "workshop",
+    "title": "The Complete AI Transformation Journey",
+    "content": "A comprehensive workshop covering all three pillars: adaptability, coaching, and marketplace. Your complete guide to thriving in the AI era. Master the three pillars of AI-era success, create your personal transformation roadmap, build networks with fellow transformation leaders, and access ongoing community and resources. This is our flagship comprehensive program covering All Pillars with Community access.",
+    "metadata": {
+      "category": "comprehensive",
+      "tags": ["Comprehensive", "All Pillars", "Community", "Flagship", "Beginner"],
+      "level": "beginner",
+      "url": "/workshops/transform-101",
+      "instructor": "The HumanGlue Team",
+      "duration": "6 hours",
+      "price": 999
+    }
+  },
+  {
+    "id": "workshop-011",
+    "type": "workshop",
+    "title": "AI Skills for Non-Technical Leaders",
+    "content": "Demystify AI technology. Build the technical fluency needed to lead AI initiatives without becoming a data scientist. Understand key AI concepts and terminology, evaluate AI solutions and vendors effectively, communicate technical concepts to stakeholders, and make informed decisions about AI investments. Covers AI Literacy, Leadership for Non-Technical professionals.",
+    "metadata": {
+      "category": "adaptability",
+      "tags": ["AI Literacy", "Leadership", "Non-Technical", "Intermediate"],
+      "level": "intermediate",
+      "url": "/workshops/adapt-skill-building",
+      "instructor": "Tom Anderson",
+      "duration": "3 hours",
+      "price": 399
+    }
+  },
+  {
+    "id": "workshop-012",
+    "type": "workshop",
+    "title": "AI-Powered Assessment & Coaching",
+    "content": "Leverage AI tools to enhance your coaching practice. Learn to use assessments and AI insights to accelerate client growth. Master AI-powered coaching assessment tools, interpret and act on assessment insights, integrate technology into coaching workflows, and maintain ethical standards with AI tools. Covers Assessments, Technology, and Coaching Tools.",
+    "metadata": {
+      "category": "coaching",
+      "tags": ["Assessments", "Technology", "Coaching Tools", "Intermediate"],
+      "level": "intermediate",
+      "url": "/workshops/coach-assessment",
+      "instructor": "Lisa Martinez",
+      "duration": "2.5 hours",
+      "price": 449
+    }
+  },
+  {
+    "id": "workshop-013",
+    "type": "workshop",
+    "title": "Building Your Skills Portfolio",
+    "content": "Create a dynamic skills portfolio that showcases your capabilities and opens doors to new opportunities in the AI economy. Build a comprehensive skills inventory, create compelling project portfolios, validate and showcase your expertise, and connect skills to market opportunities. Covers Skills, Portfolio, Career Development. Available On-Demand.",
+    "metadata": {
+      "category": "marketplace",
+      "tags": ["Skills", "Portfolio", "Career Development", "On-Demand", "Beginner"],
+      "level": "beginner",
+      "url": "/workshops/market-skills-portfolio",
+      "instructor": "Jordan Lee",
+      "duration": "2 hours",
+      "price": 199
+    }
+  },
+  {
+    "id": "workshop-014",
+    "type": "workshop",
+    "title": "Emotional Intelligence in AI-Augmented Work",
+    "content": "Develop the EQ skills that matter most when working alongside AI. Coach others to build empathy, connection, and human leadership. Assess and develop emotional intelligence competencies, coach clients to build stronger relationships, navigate AI-human collaboration challenges, and build team cultures of empathy and trust. Covers Emotional Intelligence, Soft Skills, and Team Building.",
+    "metadata": {
+      "category": "coaching",
+      "tags": ["Emotional Intelligence", "Soft Skills", "Team Building", "Intermediate"],
+      "level": "intermediate",
+      "url": "/workshops/coach-emotional-intelligence",
+      "instructor": "Dr. Samantha Brooks",
+      "duration": "3 hours",
+      "price": 499
+    }
+  },
+  {
+    "id": "workshop-015",
+    "type": "workshop",
+    "title": "Future-Proofing Your Career",
+    "content": "Identify and develop the skills that will remain valuable as AI evolves. Build a career resilient to technological change. Identify skills resistant to AI automation, build a future-focused learning roadmap, develop meta-skills for continuous adaptation, and position yourself for emerging opportunities. Covers Future Skills, Career Planning, and Lifelong Learning.",
+    "metadata": {
+      "category": "marketplace",
+      "tags": ["Future Skills", "Career Planning", "Lifelong Learning", "Beginner"],
+      "level": "beginner",
+      "url": "/workshops/market-future-skills",
+      "instructor": "Kevin Zhang",
+      "duration": "2 hours",
+      "price": 299
+    }
+  }
+]

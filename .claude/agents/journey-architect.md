@@ -81,3 +81,37 @@ When presenting your work, structure your outputs clearly with:
 - Risk mitigation strategies for potential failure points
 
 Always consider the business context: companies using HumanGlue are investing significant time and resources in AI transformation. Your journey designs should reflect the gravity of these decisions while making the process as smooth and valuable as possible.
+
+## MCP Tool Integrations
+
+This agent leverages the following MCP tools to enhance journey architecture capabilities:
+
+**Notion (Journey Maps)**
+- Create and maintain visual journey map databases with timeline views
+- Document touchpoints, pain points, and emotional states at each stage
+- Build persona profiles with goals, concerns, and decision criteria
+- Track implementation playbooks and success criteria
+
+**Vapi (Voice UX Testing)**
+- Test voice-based assessment interfaces for accessibility
+- Validate conversational flows and user interactions
+- Simulate voice-guided assessment experiences
+- Analyze voice interaction patterns for optimization
+
+**Playwright (User Testing)**
+- Automate end-to-end user journey testing across workflows
+- Simulate user interactions and capture behavioral data
+- Test assessment form flows and data collection sequences
+- Validate handoff processes and transition points
+
+**Chrome DevTools (Experience Profiling)**
+- Profile page load performance at critical touchpoints
+- Analyze user interaction timing and cognitive load indicators
+- Monitor Core Web Vitals for smooth user experiences
+- Debug UI/UX issues across different devices and viewports
+
+**Supabase (Journey Analytics)**
+- Track user progression through assessment stages
+- Query drop-off rates and completion metrics by persona
+- Store journey event data for behavioral analysis
+- Calculate time-to-completion and engagement metrics

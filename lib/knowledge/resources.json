@@ -1,0 +1,98 @@
+[
+  {
+    "id": "resource-001",
+    "type": "resource",
+    "title": "AI Maturity Assessment Framework",
+    "content": "Our comprehensive AI Maturity Assessment evaluates your organization across five critical dimensions: Strategy Alignment, Data Infrastructure, Technical Capability, People & Culture, and Governance & Ethics. This framework provides actionable insights into your current AI readiness and identifies specific gaps and opportunities. The assessment generates a detailed maturity score (0-100) with dimension-specific breakdowns, prioritized recommendations based on your industry and size, implementation roadmaps with timelines and resource requirements, and ROI projections for suggested initiatives. Use this to benchmark against industry standards and create data-driven transformation plans.",
+    "metadata": {
+      "category": "assessment",
+      "tags": ["Assessment", "AI Maturity", "Transformation Planning", "Benchmarking", "Strategy"],
+      "level": "All Levels",
+      "url": "/dashboard/assessments"
+    }
+  },
+  {
+    "id": "resource-002",
+    "type": "resource",
+    "title": "Human Glue Three-Pillar Methodology",
+    "content": "The Human Glue methodology is built on three interconnected pillars: Adaptability, Coaching, and Marketplace. Adaptability focuses on building organizational and individual capacity to thrive alongside AI through AI literacy training, change management frameworks, leadership development for AI-driven teams, and psychological safety building. The Coaching pillar develops capabilities to guide individuals and teams through AI adoption via AI-era coaching competencies, behavior change techniques, fear-to-confidence transformation methods, and performance coaching for hybrid human-AI teams. The Marketplace pillar prepares individuals and organizations for talent dynamics in the AI economy through personal branding strategies, skills portfolio development, internal talent marketplace design, and career resilience building. This integrated approach ensures sustainable transformation.",
+    "metadata": {
+      "category": "methodology",
+      "tags": ["Methodology", "Three Pillars", "Adaptability", "Coaching", "Marketplace", "Framework"],
+      "level": "All Levels",
+      "url": "/manifesto"
+    }
+  },
+  {
+    "id": "resource-003",
+    "type": "resource",
+    "title": "Transformation Roadmap Templates",
+    "content": "Access proven transformation roadmap templates designed for different organization sizes and industries. Our templates include 90-day quick start plans for immediate impact initiatives, 6-month foundational transformation programs, 1-year comprehensive transformation journeys, and 3-year enterprise-wide scaling strategies. Each template provides phase-by-phase activities and milestones, resource allocation guidelines, stakeholder engagement plans, risk mitigation strategies, success metrics and KPIs, and change management communications. Templates are customizable based on your maturity level, industry vertical, organization size, and specific transformation goals. Start with a proven framework and adapt to your unique context.",
+    "metadata": {
+      "category": "planning",
+      "tags": ["Roadmap", "Planning", "Templates", "Strategy", "Implementation"],
+      "level": "Intermediate",
+      "url": "/dashboard/resources"
+    }
+  },
+  {
+    "id": "resource-004",
+    "type": "resource",
+    "title": "Change Management Playbook",
+    "content": "Our comprehensive Change Management Playbook provides battle-tested strategies for leading AI transformation. It includes stakeholder analysis and mapping techniques, communication strategy frameworks, resistance management approaches, cultural assessment tools, training and enablement programs, measurement and reporting dashboards, and quick-win identification methods. The playbook addresses common transformation challenges like executive alignment issues, middle management resistance, frontline adoption barriers, cross-functional coordination, and sustaining momentum over time. Each section includes templates, scripts, and real-world examples from successful transformations.",
+    "metadata": {
+      "category": "change-management",
+      "tags": ["Change Management", "Stakeholder Management", "Communication", "Resistance", "Culture"],
+      "level": "All Levels",
+      "url": "/dashboard/resources"
+    }
+  },
+  {
+    "id": "resource-005",
+    "type": "resource",
+    "title": "ROI Calculator and Business Case Builder",
+    "content": "Build compelling business cases for AI transformation initiatives using our interactive ROI Calculator. The tool helps you quantify efficiency gains and time savings, productivity improvements, quality enhancements, cost reductions, revenue opportunities, and risk mitigation benefits. Input your organization's specific data to generate customized financial projections, payback period analysis, NPV and IRR calculations, sensitivity analysis for key assumptions, and executive-ready presentation materials. The calculator includes industry benchmarks for realistic estimates and scenario planning capabilities to model different investment levels. Use this to secure executive buy-in and funding for your transformation initiatives.",
+    "metadata": {
+      "category": "business-case",
+      "tags": ["ROI", "Business Case", "Financial Analysis", "Executive Buy-in", "Metrics"],
+      "level": "Intermediate",
+      "url": "/dashboard/tools/roi-calculator"
+    }
+  },
+  {
+    "id": "resource-006",
+    "type": "resource",
+    "title": "Best Practices Library",
+    "content": "Access our curated library of AI transformation best practices organized by industry, transformation stage, and challenge area. The library includes case studies from successful transformations, lessons learned from common pitfalls, proven frameworks and methodologies, implementation checklists and templates, expert insights and thought leadership, and video interviews with transformation leaders. Topics cover executive alignment and sponsorship, pilot program design and execution, scaling from pilot to enterprise, measuring and communicating impact, building internal capabilities, and sustaining transformation momentum. Filter by your industry, organization size, and maturity level to find the most relevant content.",
+    "metadata": {
+      "category": "best-practices",
+      "tags": ["Best Practices", "Case Studies", "Lessons Learned", "Implementation", "Knowledge Base"],
+      "level": "All Levels",
+      "url": "/dashboard/resources/best-practices"
+    }
+  },
+  {
+    "id": "resource-007",
+    "type": "resource",
+    "title": "AI Ethics and Governance Framework",
+    "content": "Navigate the complex ethical and governance challenges of AI adoption with our comprehensive framework. This resource covers ethical AI principles and guidelines, governance structures and decision-making processes, risk assessment and mitigation strategies, bias detection and fairness testing, transparency and explainability requirements, privacy and data protection, regulatory compliance across jurisdictions, and stakeholder engagement on ethical issues. The framework includes practical tools like ethical review checklists, governance committee templates, risk assessment matrices, audit and monitoring procedures, incident response protocols, and policy templates. Build trust and manage risk while accelerating AI adoption.",
+    "metadata": {
+      "category": "ethics",
+      "tags": ["Ethics", "Governance", "Risk Management", "Compliance", "Trust", "Responsible AI"],
+      "level": "Advanced",
+      "url": "/dashboard/resources/ethics-governance"
+    }
+  },
+  {
+    "id": "resource-008",
+    "type": "resource",
+    "title": "Skills Development and Learning Paths",
+    "content": "Accelerate your AI transformation by developing the right capabilities across your organization. Our skills development resources include role-based learning paths for executives, managers, individual contributors, and technical specialists. Competency frameworks for the AI era cover AI literacy fundamentals, data and analytics skills, change leadership capabilities, coaching and mentoring skills, technical AI/ML knowledge, and ethical decision-making. Each learning path provides recommended courses and workshops, self-paced learning resources, hands-on projects and exercises, assessment and certification options, and mentoring and peer learning opportunities. Build a learning culture that supports continuous adaptation.",
+    "metadata": {
+      "category": "learning",
+      "tags": ["Skills Development", "Learning Paths", "Competencies", "Training", "Capability Building"],
+      "level": "All Levels",
+      "url": "/dashboard/learning"
+    }
+  }
+]
