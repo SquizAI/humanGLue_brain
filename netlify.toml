@@ -159,9 +159,28 @@
 
 # Font files
 [[headers]]
-  for = "/fonts/*"
+  for = "/fonts/*.otf"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "font/otf"
+
+[[headers]]
+  for = "/fonts/*.ttf"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "font/ttf"
+
+[[headers]]
+  for = "/fonts/*.woff"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "font/woff"
+
+[[headers]]
+  for = "/fonts/*.woff2"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "font/woff2"
 
 # Favicon with shorter cache
 [[headers]]
