@@ -43,3 +43,9 @@ next-env.d.ts
 
 # Claude Code settings (contains API keys)
 .claudecode/
+
+# Claude settings with secrets
+.claude/settings.local.json
+
+# Security reports with sensitive data
+SECURITY_AUDIT_REPORT.md
