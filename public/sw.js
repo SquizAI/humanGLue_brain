@@ -1,5 +1,5 @@
 // Service Worker for Human Glue PWA
-const CACHE_NAME = 'humanglue-v2';
+const CACHE_NAME = 'humanglue-v3';
 const urlsToCache = [
   '/',
   '/offline.html',
@@ -76,8 +76,13 @@ self.addEventListener('fetch', (event) => {
           return response;
         }
         return fetch(request).then((response) => {
-          // Don't cache non-successful responses
+          // Don't cache non-successful responses or non-http(s) schemes
           if (!response || response.status !== 200 || response.type !== 'basic') {
+            return response;
+          }
+
+          // Only cache http/https requests (skip chrome-extension://, etc.)
+          if (!url.protocol.startsWith('http')) {
             return response;
           }
 
