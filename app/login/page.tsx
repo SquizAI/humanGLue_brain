@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { LogIn, Mail, Lock, ArrowRight, Sparkles } from 'lucide-react'
 import { Navigation } from '@/components/organisms/Navigation'
+import { PasswordInput } from '@/components/atoms/PasswordInput'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -61,35 +62,35 @@ export default function LoginPage() {
 
     const credentials = demoCredentials[role]
 
-    // Auto-fill the form fields
+    // Set the form fields
     setEmail(credentials.email)
     setPassword(credentials.password)
 
-    // Auto-submit after a brief delay to show the filled fields
-    setTimeout(() => {
-      setError('')
-      setIsLoading(true)
+    // Use the normal login flow
+    setError('')
+    setIsLoading(true)
 
-      fetch('/api/auth/login', {
+    try {
+      const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(credentials),
       })
-        .then(res => res.json())
-        .then(data => {
-          if (!data.success) {
-            throw new Error(data.error?.message || 'Login failed')
-          }
-          router.push(data.data.redirectPath)
-          router.refresh()
-        })
-        .catch((err: any) => {
-          setError(err.message || 'Login failed. Please try again.')
-        })
-        .finally(() => {
-          setIsLoading(false)
-        })
-    }, 300)
+
+      const data = await response.json()
+
+      if (!data.success) {
+        throw new Error(data.error?.message || 'Login failed')
+      }
+
+      // Redirect based on user role
+      router.push(data.data.redirectPath)
+      router.refresh()
+    } catch (err: any) {
+      setError(err.message || 'Login failed. Please try again.')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -139,14 +140,17 @@ export default function LoginPage() {
                   Email Address
                 </label>
                 <div className="relative">
-                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 pointer-events-none" />
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="you@company.com"
                     required
+                    autoComplete="email"
+                    inputMode="email"
                     className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype"
+                    style={{ fontSize: '16px' }}
                   />
                 </div>
               </div>
@@ -156,17 +160,15 @@ export default function LoginPage() {
                 <label className="block text-sm font-medium text-gray-300 mb-2 font-diatype">
                   Password
                 </label>
-                <div className="relative">
-                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
-                  <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="••••••••"
-                    required
-                    className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype"
-                  />
-                </div>
+                <PasswordInput
+                  value={password}
+                  onChange={setPassword}
+                  placeholder="••••••••"
+                  required
+                  autoComplete="current-password"
+                  id="password"
+                  name="password"
+                />
               </div>
 
               {/* Remember & Forgot */}

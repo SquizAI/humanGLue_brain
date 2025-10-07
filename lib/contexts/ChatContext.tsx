@@ -17,6 +17,7 @@ interface ChatContextType {
   isChatOpen: boolean
   setIsChatOpen: (open: boolean) => void
   openChatWithMessage: (message?: string, context?: any) => void
+  authLoading: boolean
 }
 
 const ChatContext = createContext<ChatContextType | undefined>(undefined)
@@ -34,29 +35,8 @@ export function ChatProvider({ children }: { children: ReactNode }) {
 
   // Sync authenticated user data with chat context
   useEffect(() => {
-    // Check for demo user first
-    const demoUser = localStorage.getItem('demoUser')
-
-    if (demoUser) {
-      try {
-        const parsedDemoUser = JSON.parse(demoUser)
-        setUserData({
-          userId: parsedDemoUser.id,
-          email: parsedDemoUser.email,
-          fullName: parsedDemoUser.name,
-          role: parsedDemoUser.role,
-          isInstructor: parsedDemoUser.role === 'instructor',
-          isDemo: true,
-          isAuthenticated: true,
-          authenticated: true, // Add both for compatibility
-        })
-        return
-      } catch (error) {
-        console.error('Error parsing demo user:', error)
-      }
-    }
-
     if (!authLoading && user && profile) {
+      console.log('[ChatContext] Setting user data from Supabase')
       setUserData((prev: any) => ({
         ...prev,
         userId: user.id,
@@ -64,12 +44,14 @@ export function ChatProvider({ children }: { children: ReactNode }) {
         fullName: profile.full_name,
         role: profile.role,
         isInstructor: profile.is_instructor,
+        isAdmin: profile.role === 'admin',
         organizationId: profile.organization_id,
         isAuthenticated: true,
-        authenticated: true, // Add both for compatibility
+        authenticated: true,
       }))
     } else if (!authLoading && !user) {
       // User is not authenticated - clear sensitive data but preserve chat state
+      console.log('[ChatContext] No user found, clearing userData')
       setUserData((prev: any) => ({
         initialMessage: prev.initialMessage, // Keep any initial message
         isAuthenticated: false,
@@ -150,7 +132,8 @@ export function ChatProvider({ children }: { children: ReactNode }) {
         onChatStateChange,
         isChatOpen,
         setIsChatOpen,
-        openChatWithMessage
+        openChatWithMessage,
+        authLoading
       }}
     >
       {children}

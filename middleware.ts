@@ -7,6 +7,8 @@
  * - Secure cookie management
  * - Automatic redirects for unauthorized access
  * - Auth callback handling
+ *
+ * Note: RLS policies must be enabled on profiles table
  */
 
 import { createServerClient } from '@supabase/ssr'
@@ -15,7 +17,7 @@ import { NextResponse, type NextRequest } from 'next/server'
 // Define route access rules
 const ROUTE_RULES = {
   // Public routes (no auth required)
-  public: ['/', '/login', '/signup', '/reset-password', '/about', '/pricing', '/contact'],
+  public: ['/', '/login', '/signup', '/reset-password', '/about', '/pricing', '/contact', '/solutions', '/purpose', '/results'],
 
   // Auth routes (redirect to dashboard if already logged in)
   authPages: ['/login', '/signup'],
@@ -36,7 +38,8 @@ export async function middleware(request: NextRequest) {
   if (
     pathname.startsWith('/_next') ||
     pathname.startsWith('/api') ||
-    pathname.match(/\.(svg|png|jpg|jpeg|gif|webp|ico|css|js)$/)
+    pathname.startsWith('/fonts') ||
+    pathname.match(/\.(svg|png|jpg|jpeg|gif|webp|ico|css|js|otf|ttf|woff|woff2|json)$/)
   ) {
     return NextResponse.next()
   }
@@ -99,9 +102,6 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  // Check for demo user in cookies (set by client-side)
-  const demoUser = request.cookies.get('demoUser')?.value
-
   // Helper function to redirect with return URL
   const redirectToLogin = () => {
     const redirectUrl = new URL('/login', request.url)
@@ -123,24 +123,31 @@ export async function middleware(request: NextRequest) {
     return response
   }
 
-  // If no user and no demo user and route is not public, redirect to login
-  if (!user && !demoUser && !isPublicRoute) {
+  // If no user and route is not public, redirect to login
+  if (!user && !isPublicRoute) {
     return redirectToLogin()
   }
 
-  // If user or demo user is logged in and trying to access auth pages, redirect to dashboard
-  if ((user || demoUser) && ROUTE_RULES.authPages.includes(pathname)) {
+  // If user is logged in and trying to access auth pages, redirect to dashboard
+  if (user && ROUTE_RULES.authPages.includes(pathname)) {
     return redirectToDashboard()
   }
 
   // If user exists and route requires role check
   if (user) {
-    // Fetch user profile and role
-    const { data: profile } = await supabase
-      .from('users')
+    // Use the existing supabase client which already has auth context from cookies
+    // Fetch user profile and role (RLS policies allow authenticated users to read)
+    const { data: profile, error: profileError } = await supabase
+      .from('profiles')
       .select('role')
       .eq('id', user.id)
       .single()
+
+    console.log('[Middleware Profile]', {
+      profile,
+      profileError: profileError?.message,
+      userId: user.id
+    })
 
     // Check if user has instructor profile
     const { data: instructorProfile } = await supabase
@@ -157,11 +164,16 @@ export async function middleware(request: NextRequest) {
       appRole = 'instructor'
     }
 
+    console.log('[Middleware] User accessing:', pathname, '| User role:', appRole)
+
     // Check admin routes
     if (ROUTE_RULES.admin.some(route => pathname.startsWith(route))) {
+      console.log('[Middleware] Admin route detected, user role:', appRole)
       if (appRole !== 'admin') {
+        console.log('[Middleware] Redirecting non-admin user to /dashboard')
         return NextResponse.redirect(new URL('/dashboard', request.url))
       }
+      console.log('[Middleware] Admin user allowed to proceed')
     }
 
     // Check instructor routes
@@ -191,7 +203,9 @@ export const config = {
      * - favicon.ico (favicon file)
      * - public folder
      * - api routes (handled separately)
+     * - fonts
+     * - static assets
      */
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico|fonts|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|css|js|otf|ttf|woff|woff2|json)$).*)',
   ],
 }
