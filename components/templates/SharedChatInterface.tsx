@@ -550,7 +550,7 @@ Provide helpful, personalized advice about organizational transformation.`
           <div ref={messagesEndRef} />
         </div>
 
-        <div className="border-t border-gray-800 px-4 py-4 bg-gray-900/50 backdrop-blur-sm">
+        <div className="border-t border-gray-800 px-4 py-4 pb-safe bg-gray-900/50 backdrop-blur-sm safe-area-bottom">
           <div className="flex items-center gap-2">
             <input
               ref={inputRef}
@@ -560,22 +560,30 @@ Provide helpful, personalized advice about organizational transformation.`
               onKeyDown={handleKeyDown}
               placeholder="Type your message..."
               disabled={isTyping}
+              inputMode="text"
+              autoComplete="off"
+              autoCorrect="off"
+              autoCapitalize="sentences"
               className={cn(
-                'flex-1 px-4 py-3 rounded-xl text-sm font-medium',
+                'flex-1 px-4 py-3 rounded-xl font-medium',
+                'text-base sm:text-sm',
                 'bg-gray-800/70 backdrop-blur-sm border border-gray-700/50',
                 'focus:outline-none focus:border-blue-500/50 focus:bg-gray-800',
                 'placeholder:text-gray-500 text-white',
                 'transition-all duration-300',
                 'disabled:opacity-50 disabled:cursor-not-allowed'
               )}
+              style={{ fontSize: '16px' }}
             />
             <motion.button
               onClick={() => handleSend()}
               disabled={isTyping || !input.trim()}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              aria-label="Send message"
               className={cn(
                 'p-3 rounded-xl transition-all duration-200',
+                'min-w-[48px] min-h-[48px] flex items-center justify-center',
                 'bg-gradient-to-r from-blue-500 to-purple-500',
                 'hover:shadow-lg hover:shadow-blue-500/25',
                 'disabled:opacity-50 disabled:cursor-not-allowed'

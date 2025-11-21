@@ -157,7 +157,7 @@ export function useAuth() {
             .single()
 
           const userProfile: UserProfile = {
-            ...profile,
+            ...(profile as UserProfile),
             is_instructor: !!instructorProfile,
           }
 

@@ -28,16 +28,19 @@ export function ChatTransitionWrapper({
   const chatRef = useRef<SharedChatInterfaceRef>(null)
   const [isChatOpen, setIsChatOpen] = useState(true)
 
-  // Add effect to manage body padding when chat is open
+  // Add effect to manage body padding when chat is open (desktop only)
   useEffect(() => {
-    if (!isHeroVisible && isChatOpen) {
+    // Only apply padding on desktop (lg breakpoint and above)
+    const isDesktop = window.matchMedia('(min-width: 1024px)').matches
+
+    if (!isHeroVisible && isChatOpen && isDesktop) {
       document.documentElement.style.setProperty('--chat-width', '480px')
       document.body.classList.add('chat-open')
     } else {
       document.documentElement.style.setProperty('--chat-width', '0px')
       document.body.classList.remove('chat-open')
     }
-    
+
     return () => {
       document.documentElement.style.setProperty('--chat-width', '0px')
       document.body.classList.remove('chat-open')
@@ -54,7 +57,7 @@ export function ChatTransitionWrapper({
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: 480, opacity: 0 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="fixed right-0 top-0 bottom-0 w-[480px] z-[9999] bg-gray-900/95 backdrop-blur-xl border-l border-white/10 shadow-2xl"
+            className="fixed right-0 top-0 bottom-0 w-full lg:w-[480px] z-[9999] bg-gray-900/95 backdrop-blur-xl lg:border-l border-white/10 shadow-2xl"
             style={{ isolation: 'isolate' }}
           >
             <div className="h-full flex flex-col">
@@ -63,9 +66,10 @@ export function ChatTransitionWrapper({
                 <h3 className="text-lg font-semibold text-white">AI Assistant</h3>
                 <button
                   onClick={() => setIsChatOpen(false)}
-                  className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                  className="p-3 hover:bg-white/10 rounded-lg transition-colors min-w-[48px] min-h-[48px] flex items-center justify-center"
+                  aria-label="Close chat"
                 >
-                  <X className="w-4 h-4 text-gray-400" />
+                  <X className="w-5 h-5 text-gray-400" />
                 </button>
               </div>
 
