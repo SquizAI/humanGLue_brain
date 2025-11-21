@@ -21,20 +21,24 @@ import { useChat } from '@/lib/contexts/ChatContext'
 
 export default function DashboardPage() {
   const router = useRouter()
-  const { userData } = useChat()
+  const { userData, authLoading } = useChat()
 
   useEffect(() => {
-    if (!userData || !userData.authenticated) {
+    if (!authLoading && (!userData || !userData.authenticated)) {
       router.push('/login')
     }
-  }, [userData, router])
+  }, [userData, router, authLoading])
 
-  if (!userData || !userData.authenticated) {
+  if (authLoading) {
     return (
       <div className="min-h-screen bg-gray-950 flex items-center justify-center">
-        <div className="text-white text-xl">Loading...</div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500"></div>
       </div>
     )
+  }
+
+  if (!userData || !userData.authenticated) {
+    return null
   }
 
   const handleLogout = () => {
@@ -104,7 +108,7 @@ export default function DashboardPage() {
     <div className="min-h-screen bg-gray-950">
       <DashboardSidebar onLogout={handleLogout} />
 
-      <div className="ml-0 lg:ml-[var(--sidebar-width,280px)] transition-all">
+      <div className="lg:ml-[var(--sidebar-width,280px)] transition-all">
         <main className="p-4 sm:p-6 lg:p-8 space-y-6 lg:space-y-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

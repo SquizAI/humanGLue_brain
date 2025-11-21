@@ -41,6 +41,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
         ...prev,
         userId: user.id,
         email: user.email,
+        name: profile.full_name,
         fullName: profile.full_name,
         role: profile.role,
         isInstructor: profile.is_instructor,

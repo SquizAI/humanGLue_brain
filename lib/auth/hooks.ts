@@ -42,31 +42,66 @@ export function useAuth() {
   })
 
   useEffect(() => {
+    console.log('[useAuth] Starting auth initialization')
     const supabase = createClient()
 
-    // Get initial session
+    // Get initial session by decoding cookie directly
     const initAuth = async () => {
+      console.log('[useAuth] initAuth called')
       try {
-        const { data: { session }, error: sessionError } = await supabase.auth.getSession()
+        // Try to get user from cookie directly first
+        let userId: string | null = null
+        let userEmail: string | null = null
 
-        if (sessionError) throw sessionError
+        if (typeof window !== 'undefined') {
+          const match = document.cookie.match(/sb-egqqdscvxvtwcdwknbnt-auth-token=base64-([^;]+)/)
+          if (match) {
+            try {
+              const decoded = JSON.parse(atob(match[1]))
+              userId = decoded.user?.id
+              userEmail = decoded.user?.email
+              console.log('[useAuth] Decoded user from cookie:', userId)
+            } catch (e) {
+              console.error('[useAuth] Failed to decode cookie:', e)
+            }
+          }
+        }
 
-        if (session?.user) {
-          // Fetch user profile from database
-          const { data: profile, error: profileError } = await supabase
-            .from('users')
-            .select('*')
-            .eq('id', session.user.id)
-            .single()
+        if (userId) {
+          // Fetch profile using direct API call
+          const decoded = JSON.parse(atob(document.cookie.match(/sb-egqqdscvxvtwcdwknbnt-auth-token=base64-([^;]+)/)![1]))
+          const accessToken = decoded.access_token
+          const apiKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+          const url = process.env.NEXT_PUBLIC_SUPABASE_URL!
 
-          if (profileError) throw profileError
+          const profileRes = await fetch(
+            `${url}/rest/v1/profiles?id=eq.${userId}&select=*`,
+            {
+              headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'apikey': apiKey,
+              },
+            }
+          )
+          const profiles = await profileRes.json()
+          const profile = profiles[0]
+
+          console.log('[useAuth] Profile:', profile)
+
+          if (!profile) throw new Error('Profile not found')
 
           // Check if user has instructor profile
-          const { data: instructorProfile } = await supabase
-            .from('instructor_profiles')
-            .select('id')
-            .eq('user_id', session.user.id)
-            .single()
+          const instructorRes = await fetch(
+            `${url}/rest/v1/instructor_profiles?user_id=eq.${userId}&select=id`,
+            {
+              headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'apikey': apiKey,
+              },
+            }
+          )
+          const instructorProfiles = await instructorRes.json()
+          const instructorProfile = instructorProfiles[0]
 
           const userProfile: UserProfile = {
             ...profile,
@@ -74,9 +109,9 @@ export function useAuth() {
           }
 
           setState({
-            user: session.user,
+            user: { id: userId, email: userEmail } as User,
             profile: userProfile,
-            session,
+            session: null,
             loading: false,
             error: null,
           })
@@ -90,6 +125,7 @@ export function useAuth() {
           })
         }
       } catch (error) {
+        console.error('[useAuth] Error:', error)
         setState({
           user: null,
           profile: null,
@@ -107,7 +143,7 @@ export function useAuth() {
       if (session?.user) {
         try {
           const { data: profile, error: profileError } = await supabase
-            .from('users')
+            .from('profiles')
             .select('*')
             .eq('id', session.user.id)
             .single()

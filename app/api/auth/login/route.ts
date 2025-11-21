@@ -4,10 +4,31 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase/server'
+import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { loginSchema, validateData } from '@/lib/validation/auth-schemas'
 
 export async function POST(request: NextRequest) {
+  const response = NextResponse.next()
+
+  // Create Supabase client that can set cookies on the response
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        get(name: string) {
+          return request.cookies.get(name)?.value
+        },
+        set(name: string, value: string, options: CookieOptions) {
+          response.cookies.set({ name, value, ...options })
+        },
+        remove(name: string, options: CookieOptions) {
+          response.cookies.set({ name, value: '', ...options })
+        },
+      },
+    }
+  )
+
   try {
     const body = await request.json()
 
@@ -28,8 +49,6 @@ export async function POST(request: NextRequest) {
     }
 
     const { email, password } = validation.data
-
-    const supabase = createClient()
 
     // Authenticate with Supabase
     const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
@@ -116,7 +135,7 @@ export async function POST(request: NextRequest) {
       redirectPath = '/client'
     }
 
-    return NextResponse.json({
+    const jsonResponse = NextResponse.json({
       success: true,
       data: {
         user: {
@@ -129,6 +148,13 @@ export async function POST(request: NextRequest) {
         redirectPath,
       },
     })
+
+    // Copy cookies from the supabase response to the final response
+    response.cookies.getAll().forEach(cookie => {
+      jsonResponse.cookies.set(cookie)
+    })
+
+    return jsonResponse
   } catch (error) {
     console.error('Login error:', error)
     return NextResponse.json(

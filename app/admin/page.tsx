@@ -28,7 +28,7 @@ import { useChat } from '@/lib/contexts/ChatContext'
 
 export default function AdminDashboard() {
   const router = useRouter()
-  const { userData } = useChat()
+  const { userData, authLoading } = useChat()
   const [stats, setStats] = useState({
     totalCourses: 6,
     totalExperts: 6,
@@ -38,12 +38,27 @@ export default function AdminDashboard() {
     completionRate: 87,
   })
 
+  // Debug logging
+  useEffect(() => {
+    console.log('[AdminPage] authLoading:', authLoading, 'userData:', userData)
+  }, [authLoading, userData])
+
   // Check admin access
   useEffect(() => {
-    if (!userData?.isAdmin) {
+    if (!authLoading && !userData?.isAdmin) {
+      console.log('[AdminPage] Redirecting to login - no admin access')
       router.push('/login')
     }
-  }, [userData, router])
+  }, [userData, router, authLoading])
+
+  if (authLoading) {
+    console.log('[AdminPage] Showing loading spinner')
+    return (
+      <div className="min-h-screen bg-slate-900 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500"></div>
+      </div>
+    )
+  }
 
   if (!userData?.isAdmin) {
     return null
