@@ -4,7 +4,7 @@
  */
 
 export { assessmentService, AssessmentService, type AssessmentData } from './assessment'
-export { workshopService, WorkshopService, type WorkshopData } from './workshop'
+export { workshopService, WorkshopService, type Workshop } from './workshop'
 export { toolboxService, ToolboxService, type Tool } from './toolbox'
 export { analyticsService, AnalyticsService, type TransformationMetrics, type MetricData } from './analytics'
 export { orchestrator, ServiceOrchestrator, type OrganizationJourney } from './orchestrator'

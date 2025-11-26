@@ -40,9 +40,11 @@ export class ServiceOrchestrator {
     size: string
     challenges: string[]
     goals: string[]
-  }): Promise<OrganizationJourney> {
+  }, userId: string): Promise<OrganizationJourney> {
     // 1. Start assessment
-    const { assessmentId } = await assessmentService.startAssessment(organizationData)
+    const { assessmentId } = await assessmentService.startAssessment(userId, {
+      metadata: organizationData
+    })
     
     // 2. Track initial metrics
     await analyticsService.trackMetric({
@@ -73,21 +75,14 @@ export class ServiceOrchestrator {
       case 'assessment':
         // Get assessment results
         const results = await assessmentService.getAssessmentResults(journey.assessmentId!)
-        
-        // Schedule workshop based on results
-        const workshop = await workshopService.scheduleWorkshop({
-          title: 'AI Transformation Workshop',
-          description: 'Executive workshop based on assessment results',
-          duration: 8,
-          participants: 10,
-          objectives: ['Align on AI strategy', 'Define transformation roadmap'],
-          deliverables: ['Action plan', 'Priority matrix', 'Timeline']
-        })
-        
+
+        // TODO: Schedule workshop based on results
+        // This requires implementing scheduleWorkshop in WorkshopService
+
         return {
           ...journey,
           currentPhase: 'workshop',
-          workshopId: workshop.workshopId
+          workshopId: undefined // Will be set when workshop scheduling is implemented
         }
         
       case 'workshop':

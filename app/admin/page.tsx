@@ -66,12 +66,33 @@ export default function AdminDashboard() {
   }
 
   const handleLogout = async () => {
-    await signOut()
-    localStorage.removeItem('humanglue_user')
-    localStorage.removeItem('demoUser')
-    // Clear demo user cookie
-    document.cookie = 'demoUser=; path=/; max-age=0'
-    router.push('/login')
+    try {
+      // Call API logout endpoint to clear server-side session
+      await fetch('/api/auth/logout', {
+        method: 'POST',
+        credentials: 'include',
+      })
+
+      // Call Supabase signOut to clear client-side auth
+      await signOut()
+
+      // Clear any localStorage items
+      localStorage.removeItem('humanglue_user')
+      localStorage.removeItem('demoUser')
+
+      // Clear demo user cookie
+      document.cookie = 'demoUser=; path=/; max-age=0'
+
+      // Clear Supabase auth token from localStorage
+      localStorage.removeItem('sb-egqqdscvxvtwcdwknbnt-auth-token')
+
+      // Redirect to login and force a full refresh
+      window.location.href = '/login'
+    } catch (error) {
+      console.error('Logout error:', error)
+      // Even if there's an error, redirect to login
+      window.location.href = '/login'
+    }
   }
 
   const quickActions = [

@@ -45,12 +45,31 @@ export default function InstructorDashboard() {
     return null
   }
 
-  const handleLogout = () => {
-    localStorage.removeItem('humanglue_user')
-    localStorage.removeItem('demoUser')
-    // Clear demo user cookie
-    document.cookie = 'demoUser=; path=/; max-age=0'
-    router.push('/login')
+  const handleLogout = async () => {
+    try {
+      // Call API logout endpoint to clear server-side session
+      await fetch('/api/auth/logout', {
+        method: 'POST',
+        credentials: 'include',
+      })
+
+      // Clear any localStorage items
+      localStorage.removeItem('humanglue_user')
+      localStorage.removeItem('demoUser')
+
+      // Clear demo user cookie
+      document.cookie = 'demoUser=; path=/; max-age=0'
+
+      // Clear Supabase auth token from localStorage
+      localStorage.removeItem('sb-egqqdscvxvtwcdwknbnt-auth-token')
+
+      // Redirect to login and force a full refresh
+      window.location.href = '/login'
+    } catch (error) {
+      console.error('Logout error:', error)
+      // Even if there's an error, redirect to login
+      window.location.href = '/login'
+    }
   }
 
   const quickActions = [
