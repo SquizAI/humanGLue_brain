@@ -9,7 +9,7 @@ import Stripe from 'stripe'
 import { createClient } from '@supabase/supabase-js'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2025-09-30.clover',
+  apiVersion: '2025-10-29.clover',
 })
 
 const supabase = createClient(
@@ -85,26 +85,113 @@ export const handler: Handler = async (event, context) => {
       }
     }
 
-    // Record payment in database
-    const { data: payment, error: paymentError } = await supabase
+    // Check for duplicate payment record
+    const { data: existingPayment } = await supabase
       .from('payments')
-      .insert({
-        user_id: user.id,
-        amount: paymentIntent.amount / 100,
-        currency: paymentIntent.currency.toUpperCase(),
-        provider: 'stripe',
-        transaction_id: paymentIntent.id,
-        status: 'succeeded',
-        payment_type: workshopId ? 'workshop' : 'engagement',
-        related_entity_id: workshopId || engagementId,
-      })
-      .select()
+      .select('*')
+      .eq('transaction_id', paymentIntent.id)
       .single()
 
-    if (paymentError) throw paymentError
+    let payment = existingPayment
+
+    if (!existingPayment) {
+      // Record payment in database
+      const { data: newPayment, error: paymentError } = await supabase
+        .from('payments')
+        .insert({
+          user_id: user.id,
+          amount: paymentIntent.amount / 100,
+          currency: paymentIntent.currency.toUpperCase(),
+          provider: 'stripe',
+          transaction_id: paymentIntent.id,
+          provider_customer_id: paymentIntent.customer as string | null,
+          status: 'succeeded',
+          processed_at: new Date().toISOString(),
+          payment_type: workshopId ? 'workshop' : 'engagement',
+          related_entity_id: workshopId || engagementId,
+          metadata: paymentIntent.metadata,
+        })
+        .select()
+        .single()
+
+      if (paymentError) {
+        console.error('Failed to create payment record:', paymentError)
+        throw paymentError
+      }
+      payment = newPayment
+    } else if (existingPayment.status !== 'succeeded') {
+      // Update existing payment record
+      const { data: updatedPayment, error: updateError } = await supabase
+        .from('payments')
+        .update({
+          status: 'succeeded',
+          processed_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', existingPayment.id)
+        .select()
+        .single()
+
+      if (updateError) {
+        console.error('Failed to update payment record:', updateError)
+        throw updateError
+      }
+      payment = updatedPayment
+    }
+
+    // Verify user owns this payment
+    if (payment.user_id !== user.id) {
+      return {
+        statusCode: 403,
+        headers,
+        body: JSON.stringify({ error: 'Unauthorized - payment belongs to another user' }),
+      }
+    }
 
     // Process workshop registration
     if (workshopId) {
+      // Check if already registered
+      const { data: existingReg } = await supabase
+        .from('workshop_registrations')
+        .select('id, status')
+        .eq('workshop_id', workshopId)
+        .eq('user_id', user.id)
+        .single()
+
+      if (existingReg?.status === 'registered') {
+        // Already registered, return existing registration
+        const { data: registration } = await supabase
+          .from('workshop_registrations')
+          .select(`
+            *,
+            workshop:workshops(
+              id,
+              title,
+              schedule_date,
+              schedule_time,
+              instructor:users!workshops_instructor_id_fkey(
+                id,
+                full_name,
+                email
+              )
+            )
+          `)
+          .eq('id', existingReg.id)
+          .single()
+
+        return {
+          statusCode: 200,
+          headers,
+          body: JSON.stringify({
+            success: true,
+            message: 'Already registered for this workshop',
+            registration,
+            payment,
+            alreadyRegistered: true,
+          }),
+        }
+      }
+
       const { data: workshop, error: workshopError } = await supabase
         .from('workshops')
         .select('capacity_remaining, title')
@@ -119,7 +206,15 @@ export const handler: Handler = async (event, context) => {
         }
       }
 
-      // Update or create registration
+      if (workshop.capacity_remaining <= 0) {
+        return {
+          statusCode: 400,
+          headers,
+          body: JSON.stringify({ error: 'Workshop is now sold out' }),
+        }
+      }
+
+      // Create or update registration
       const { data: registration, error: regError } = await supabase
         .from('workshop_registrations')
         .upsert({
@@ -128,6 +223,8 @@ export const handler: Handler = async (event, context) => {
           status: 'registered',
           price_paid: paymentIntent.amount / 100,
           payment_id: payment.id,
+        }, {
+          onConflict: 'workshop_id,user_id',
         })
         .select(`
           *,
@@ -145,15 +242,19 @@ export const handler: Handler = async (event, context) => {
         `)
         .single()
 
-      if (regError) throw regError
+      if (regError) {
+        console.error('Failed to create/update registration:', regError)
+        throw regError
+      }
 
-      // Decrement capacity
-      const { error: capacityError } = await supabase
-        .from('workshops')
-        .update({ capacity_remaining: workshop.capacity_remaining - 1 })
-        .eq('id', workshopId)
+      // Note: Capacity is automatically decremented by the database trigger
+      // when status is 'registered'
 
-      if (capacityError) throw capacityError
+      console.log('Workshop registration successful:', {
+        registrationId: registration.id,
+        workshopId,
+        userId: user.id,
+      })
 
       return {
         statusCode: 200,

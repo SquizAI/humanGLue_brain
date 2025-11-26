@@ -9,7 +9,7 @@ import Stripe from 'stripe'
 import { createClient } from '@supabase/supabase-js'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2025-09-30.clover',
+  apiVersion: '2025-10-29.clover',
 })
 
 const supabase = createClient(
@@ -65,10 +65,23 @@ export const handler: Handler = async (event, context) => {
     const body = JSON.parse(event.body || '{}')
     const { workshopId, engagementId, metadata } = body
 
+    // Get user profile for customer creation
+    const { data: userProfile, error: profileError } = await supabase
+      .from('users')
+      .select('full_name, email')
+      .eq('id', user.id)
+      .single()
+
+    if (profileError || !userProfile) {
+      console.warn('Could not fetch user profile, continuing without customer data')
+    }
+
     let amount = 0
     let description = ''
     let paymentMetadata: Record<string, string> = {
       userId: user.id,
+      userEmail: user.email || userProfile?.email || '',
+      userName: userProfile?.full_name || '',
       ...metadata,
     }
 
@@ -97,11 +110,51 @@ export const handler: Handler = async (event, context) => {
         }
       }
 
-      amount = Math.round((workshop.price_early_bird || workshop.price_amount) * 100)
+      // Validate amount
+      const priceToUse = workshop.price_early_bird || workshop.price_amount
+      if (!priceToUse || priceToUse <= 0) {
+        return {
+          statusCode: 400,
+          headers,
+          body: JSON.stringify({ error: 'Invalid workshop price' }),
+        }
+      }
+
+      amount = Math.round(priceToUse * 100)
       description = `Workshop: ${workshop.title}`
       paymentMetadata.workshopId = workshopId
       paymentMetadata.workshopTitle = workshop.title
       paymentMetadata.paymentType = 'workshop'
+
+      // Check for duplicate pending payment
+      const { data: existingPayment } = await supabase
+        .from('payments')
+        .select('id, transaction_id')
+        .eq('user_id', user.id)
+        .eq('payment_type', 'workshop')
+        .eq('related_entity_id', workshopId)
+        .in('status', ['pending', 'processing'])
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .single()
+
+      if (existingPayment?.transaction_id) {
+        // Return existing payment intent
+        const existingIntent = await stripe.paymentIntents.retrieve(existingPayment.transaction_id)
+        if (existingIntent.status !== 'succeeded' && existingIntent.status !== 'canceled') {
+          return {
+            statusCode: 200,
+            headers,
+            body: JSON.stringify({
+              success: true,
+              clientSecret: existingIntent.client_secret,
+              paymentIntentId: existingIntent.id,
+              amount: amount / 100,
+              existing: true,
+            }),
+          }
+        }
+      }
     } else if (engagementId) {
       // Engagement payment
       const { data: engagement, error: engagementError } = await supabase
@@ -115,6 +168,15 @@ export const handler: Handler = async (event, context) => {
           statusCode: 404,
           headers,
           body: JSON.stringify({ error: 'Engagement not found' }),
+        }
+      }
+
+      // Validate amount
+      if (!engagement.hourly_rate || !engagement.hours_total || engagement.hourly_rate <= 0 || engagement.hours_total <= 0) {
+        return {
+          statusCode: 400,
+          headers,
+          body: JSON.stringify({ error: 'Invalid engagement pricing' }),
         }
       }
 
@@ -132,16 +194,83 @@ export const handler: Handler = async (event, context) => {
       }
     }
 
+    // Validate minimum amount ($0.50)
+    if (amount < 50) {
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({ error: 'Payment amount must be at least $0.50' }),
+      }
+    }
+
+    // Get or create Stripe customer
+    let customerId: string | undefined
+    try {
+      // Check if user already has a Stripe customer ID
+      const { data: existingCustomer } = await supabase
+        .from('payments')
+        .select('provider_customer_id')
+        .eq('user_id', user.id)
+        .eq('provider', 'stripe')
+        .not('provider_customer_id', 'is', null)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .single()
+
+      if (existingCustomer?.provider_customer_id) {
+        customerId = existingCustomer.provider_customer_id
+      } else if (userProfile?.email) {
+        // Create new Stripe customer
+        const customer = await stripe.customers.create({
+          email: userProfile.email,
+          name: userProfile.full_name || undefined,
+          metadata: {
+            userId: user.id,
+          },
+        })
+        customerId = customer.id
+      }
+    } catch (error) {
+      console.warn('Failed to create/retrieve Stripe customer:', error)
+      // Continue without customer - not critical for payment
+    }
+
     // Create Payment Intent
     const paymentIntent = await stripe.paymentIntents.create({
       amount,
       currency: 'usd',
       description,
       metadata: paymentMetadata,
+      customer: customerId,
+      receipt_email: userProfile?.email || user.email || undefined,
       automatic_payment_methods: {
         enabled: true,
       },
     })
+
+    // Record pending payment in database
+    const { error: recordError } = await supabase
+      .from('payments')
+      .insert({
+        user_id: user.id,
+        amount: amount / 100,
+        currency: 'USD',
+        provider: 'stripe',
+        transaction_id: paymentIntent.id,
+        provider_customer_id: customerId,
+        status: 'pending',
+        payment_type: paymentMetadata.paymentType as 'workshop' | 'engagement',
+        related_entity_id: workshopId || engagementId,
+        metadata: {
+          description,
+          ...paymentMetadata,
+        },
+      })
+
+    if (recordError) {
+      console.error('Failed to record payment in database:', recordError)
+      // Don't fail the request - webhook will handle it
+    }
 
     return {
       statusCode: 200,
