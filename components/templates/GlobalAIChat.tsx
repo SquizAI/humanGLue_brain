@@ -176,33 +176,56 @@ const adminPagePrompts = {
 }
 
 export function GlobalAIChat({ userData: propsUserData, onStateChange: propsOnStateChange }: GlobalAIChatProps) {
-  const [isOpen, setIsOpen] = useState(false)
-  const [isMinimized, setIsMinimized] = useState(false)
-  const [hasInteracted, setHasInteracted] = useState(false)
-  const [pulseAnimation, setPulseAnimation] = useState(true)
-  const [isExpanded, setIsExpanded] = useState(false)
-  const [showHistory, setShowHistory] = useState(false)
-  const [chatSessions, setChatSessions] = useState<ChatSession[]>([])
-  const [currentSessionId, setCurrentSessionId] = useState<string>('')
-  const chatRef = useRef<SharedChatInterfaceRef>(null)
   const pathname = usePathname()
-  
-  // Use shared context
   const {
     messages,
     setMessages,
-    userData: contextUserData,
-    setUserData,
     chatState,
     setChatState,
     suggestions,
     setSuggestions,
     isChatOpen,
-    setIsChatOpen
+    setIsChatOpen,
+    userData: contextUserData,
+    setUserData
   } = useChat()
 
-  // Use props if provided, otherwise use context
+  const [isMinimized, setIsMinimized] = useState(false)
+  const [hasInteracted, setHasInteracted] = useState(true) // Changed to true to prevent initial proactive message
+  const [pulseAnimation, setPulseAnimation] = useState(false) // Changed to false to prevent initial pulse
+  const [isExpanded, setIsExpanded] = useState(false)
+  const [showHistory, setShowHistory] = useState(false)
+  const [chatSessions, setChatSessions] = useState<ChatSession[]>([])
+  const [currentSessionId, setCurrentSessionId] = useState<string>('')
+
+  const chatRef = useRef<SharedChatInterfaceRef>(null)
   const userData = propsUserData || contextUserData
+
+  // Get context-aware suggestions based on authentication, role, and current page
+  const isAuthenticated = userData?.authenticated === true
+  const isAdmin = userData?.isAdmin || userData?.role === 'admin' || userData?.userType === 'admin'
+  const isInstructor = userData?.isInstructor || userData?.role === 'instructor' || userData?.userType === 'instructor'
+
+  // Determine which prompt set to use based on role
+  let pagePrompts: Record<string, string[]> = publicPagePrompts
+  let defaultPrompts = publicPagePrompts['/']
+
+  if (isAuthenticated) {
+    if (isAdmin) {
+      pagePrompts = adminPagePrompts
+      defaultPrompts = adminPagePrompts['/admin']
+    } else if (isInstructor) {
+      pagePrompts = instructorPagePrompts
+      defaultPrompts = instructorPagePrompts['/instructor']
+    } else {
+      pagePrompts = dashboardPagePrompts
+      defaultPrompts = dashboardPagePrompts['/dashboard']
+    }
+  }
+
+  const currentSuggestions = pagePrompts[pathname as keyof typeof pagePrompts] || defaultPrompts
+
+  // Use props if provided, otherwise use context
   const onStateChange = propsOnStateChange || ((state: ChatState, data?: any) => {
     setChatState(state)
     if (data) {
@@ -212,6 +235,8 @@ export function GlobalAIChat({ userData: propsUserData, onStateChange: propsOnSt
 
   // Load chat sessions and current messages from localStorage on mount
   useEffect(() => {
+    if (pathname === '/') return
+
     // Load all chat sessions
     const savedSessions = localStorage.getItem('humanglue_chat_sessions')
     if (savedSessions) {
@@ -241,10 +266,12 @@ export function GlobalAIChat({ userData: propsUserData, onStateChange: propsOnSt
         console.error('Failed to load chat history:', error)
       }
     }
-  }, [])
+  }, [pathname])
 
   // Save current chat to localStorage and update current session
   useEffect(() => {
+    if (pathname === '/') return
+
     if (messages.length > 0) {
       localStorage.setItem('humanglue_chat_history', JSON.stringify(messages))
 
@@ -257,7 +284,7 @@ export function GlobalAIChat({ userData: propsUserData, onStateChange: propsOnSt
         localStorage.setItem('humanglue_current_session_id', currentSessionId)
       }
     }
-  }, [messages, currentSessionId])
+  }, [messages, currentSessionId, pathname])
 
   // Save current chat as a session
   const saveCurrentSession = () => {
@@ -342,8 +369,10 @@ export function GlobalAIChat({ userData: propsUserData, onStateChange: propsOnSt
 
   // Sync context isChatOpen with local isOpen state
   useEffect(() => {
-    if (isChatOpen && !isOpen) {
-      handleOpen()
+    if (pathname === '/') return
+
+    if (isChatOpen) { // Changed from isOpen
+      setIsMinimized(false)
 
       // Check if there's an initial message to send
       if (userData.initialMessage && chatRef.current) {
@@ -357,11 +386,13 @@ export function GlobalAIChat({ userData: propsUserData, onStateChange: propsOnSt
         }, 500)
       }
     }
-  }, [isChatOpen])
+  }, [isChatOpen, pathname, userData]) // Changed from isOpen
 
   // Add effect to manage body padding when chat is open
   useEffect(() => {
-    if (isOpen && !isMinimized) {
+    if (pathname === '/') return
+
+    if (isChatOpen && !isMinimized) { // Changed from isOpen
       // Add padding to body to shift content - wider when expanded
       const chatWidth = isExpanded ? '720px' : '480px'
       document.documentElement.style.setProperty('--chat-width', chatWidth)
@@ -375,41 +406,19 @@ export function GlobalAIChat({ userData: propsUserData, onStateChange: propsOnSt
       document.documentElement.style.setProperty('--chat-width', '0px')
       document.body.classList.remove('chat-open')
     }
-  }, [isOpen, isMinimized, isExpanded])
-
-  // Get context-aware suggestions based on authentication, role, and current page
-  const isAuthenticated = userData?.authenticated === true
-  const isAdmin = userData?.isAdmin || userData?.role === 'admin' || userData?.userType === 'admin'
-  const isInstructor = userData?.isInstructor || userData?.role === 'instructor' || userData?.userType === 'instructor'
-
-  // Determine which prompt set to use based on role
-  let pagePrompts: Record<string, string[]> = publicPagePrompts
-  let defaultPrompts = publicPagePrompts['/']
-
-  if (isAuthenticated) {
-    if (isAdmin) {
-      pagePrompts = adminPagePrompts
-      defaultPrompts = adminPagePrompts['/admin']
-    } else if (isInstructor) {
-      pagePrompts = instructorPagePrompts
-      defaultPrompts = instructorPagePrompts['/instructor']
-    } else {
-      pagePrompts = dashboardPagePrompts
-      defaultPrompts = dashboardPagePrompts['/dashboard']
-    }
-  }
-
-  const currentSuggestions = pagePrompts[pathname as keyof typeof pagePrompts] || defaultPrompts
+  }, [isChatOpen, isMinimized, isExpanded, pathname]) // Changed from isOpen
 
   // Show proactive greeting after a delay
   useEffect(() => {
-    if (!hasInteracted && !isOpen) {
+    if (pathname === '/') return
+
+    if (!hasInteracted && !isChatOpen) { // Changed from isOpen
       const timer = setTimeout(() => {
         setPulseAnimation(true)
       }, 5000)
       return () => clearTimeout(timer)
     }
-  }, [hasInteracted, isOpen])
+  }, [hasInteracted, isChatOpen, pathname]) // Changed from isOpen
 
   // Update suggestions when page changes
   useEffect(() => {
@@ -422,11 +431,11 @@ export function GlobalAIChat({ userData: propsUserData, onStateChange: propsOnSt
   }, [pathname])
 
   const handleOpen = () => {
-    setIsOpen(true)
+    setIsChatOpen(true)
     setIsMinimized(false)
     setHasInteracted(true)
     setPulseAnimation(false)
-    
+
     // Start conversation if not already started
     if (messages.length === 0 && chatRef.current) {
       setTimeout(() => {
@@ -436,17 +445,18 @@ export function GlobalAIChat({ userData: propsUserData, onStateChange: propsOnSt
   }
 
   const handleClose = () => {
-    setIsOpen(false)
-    setIsMinimized(false)
     setIsChatOpen(false)
+    setIsMinimized(false)
   }
 
   const handleMinimize = () => {
     setIsMinimized(!isMinimized)
   }
 
-  // Don't show on homepage - it has its own chat
-  if (pathname === '/') {
+  // Determine if chat should be hidden
+  const shouldHideChat = pathname === '/' || pathname === '/login' || pathname === '/signup' || pathname?.startsWith('/admin')
+
+  if (shouldHideChat) {
     return null
   }
 
@@ -454,12 +464,14 @@ export function GlobalAIChat({ userData: propsUserData, onStateChange: propsOnSt
     <>
       {/* Floating AI Button - Always Visible */}
       <AnimatePresence>
-        {!isOpen && (
-          <motion.div
+        {!isChatOpen && (
+          <motion.button
+            onClick={handleOpen}
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0, opacity: 0 }}
-            className="fixed bottom-6 right-6 z-[9998]"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="fixed bottom-6 right-6 z-50 p-4 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/25 group"
           >
             {/* Proactive message bubble */}
             {pulseAnimation && !hasInteracted && (
@@ -478,11 +490,11 @@ export function GlobalAIChat({ userData: propsUserData, onStateChange: propsOnSt
                       </p>
                       <p className="text-xs opacity-90 mt-1">
                         {isAdmin ? "Need help managing the platform?" :
-                         isInstructor ? "Need help with your courses?" :
-                         pathname === '/solutions' ? "Discover the right solution for your organization" :
-                         pathname === '/process' ? "Get your custom implementation timeline" :
-                         pathname === '/results' ? "Calculate your potential ROI" :
-                         "Schedule a strategic consultation"}
+                          isInstructor ? "Need help with your courses?" :
+                            pathname === '/solutions' ? "Discover the right solution for your organization" :
+                              pathname === '/process' ? "Get your custom implementation timeline" :
+                                pathname === '/results' ? "Calculate your potential ROI" :
+                                  "Schedule a strategic consultation"}
                       </p>
                     </div>
                   </div>
@@ -491,47 +503,47 @@ export function GlobalAIChat({ userData: propsUserData, onStateChange: propsOnSt
               </motion.div>
             )}
 
-            <motion.button
-              onClick={handleOpen}
-              className="relative group"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              {/* Subtle pulse animation */}
-              {pulseAnimation && (
-                <span className="absolute inset-0 rounded-full bg-blue-600 animate-pulse opacity-30" />
-              )}
-              
-              {/* Button */}
-              <div className="relative w-16 h-16 bg-blue-600 rounded-full shadow-xl flex items-center justify-center group-hover:bg-blue-700 transition-all">
-                <MessageCircle className="w-7 h-7 text-white relative z-10" />
-                
-                {/* AI indicator */}
-                <motion.div
-                  className="absolute -top-1 -right-1 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center"
-                  animate={{ scale: [1, 1.2, 1] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                >
-                  <Zap className="w-3 h-3 text-white" />
-                </motion.div>
-              </div>
-            </motion.button>
-          </motion.div>
+            {/* Subtle pulse animation */}
+            {pulseAnimation && (
+              <span className="absolute inset-0 rounded-full bg-blue-600 animate-pulse opacity-30" />
+            )}
+
+            {/* Button */}
+            <div className="relative w-16 h-16 bg-blue-600 rounded-full shadow-xl flex items-center justify-center group-hover:bg-blue-700 transition-all">
+              <MessageCircle className="w-7 h-7 text-white relative z-10" />
+
+              {/* AI indicator */}
+              <motion.div
+                className="absolute -top-1 -right-1 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center"
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                <Zap className="w-3 h-3 text-white" />
+              </motion.div>
+            </div>
+          </motion.button>
         )}
       </AnimatePresence>
 
       {/* AI Chat Panel */}
       <AnimatePresence>
-        {isOpen && (
+        {isChatOpen && (
           <motion.div
-            initial={{ x: isExpanded ? 720 : 480, opacity: 0 }}
-            animate={{ x: 0, opacity: 1, width: isExpanded ? 720 : 480 }}
-            exit={{ x: isExpanded ? 720 : 480, opacity: 0 }}
-            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            animate={{
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              height: isMinimized ? 'auto' : (isExpanded ? '85vh' : '600px'),
+              width: isMinimized ? 'auto' : (isExpanded ? '800px' : '400px')
+            }}
+            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            transition={{ duration: 0.2 }}
             className={cn(
-              "fixed right-0 top-0 bottom-0 z-[9999]",
-              "bg-gray-900/95 backdrop-blur-xl border-l border-white/10 shadow-2xl",
-              isMinimized && "hidden"
+              "fixed z-50 shadow-2xl overflow-hidden flex flex-col border border-white/10 backdrop-blur-xl",
+              isMinimized
+                ? "bottom-6 right-6 rounded-2xl bg-gray-900"
+                : "bottom-6 right-6 rounded-2xl bg-gray-900/95"
             )}
           >
             <div className="h-full flex flex-col">
@@ -696,8 +708,9 @@ export function GlobalAIChat({ userData: propsUserData, onStateChange: propsOnSt
                 <div className="flex-1 overflow-hidden">
                   <SharedChatInterface
                     ref={chatRef}
-                    onStateChange={onStateChange || (() => {})}
+                    onStateChange={onStateChange || (() => { })}
                     userData={userData || {}}
+                    chatState={chatState}
                     messages={messages}
                     setMessages={setMessages}
                     suggestions={suggestions}

@@ -8,6 +8,7 @@ import { X, MessageCircle } from 'lucide-react'
 
 interface ChatTransitionWrapperProps {
   onStateChange: (state: ChatState, data?: any) => void
+  chatState: ChatState
   userData: any
   isHeroVisible: boolean
   messages: Message[]
@@ -18,6 +19,7 @@ interface ChatTransitionWrapperProps {
 
 export function ChatTransitionWrapper({
   onStateChange,
+  chatState,
   userData,
   isHeroVisible,
   messages,
@@ -78,6 +80,7 @@ export function ChatTransitionWrapper({
                 <SharedChatInterface
                   ref={chatRef}
                   onStateChange={onStateChange}
+                  chatState={chatState}
                   userData={userData}
                   messages={messages}
                   setMessages={setMessages}

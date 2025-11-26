@@ -11,13 +11,14 @@ components/
 ├── atoms/          # Basic building blocks (Button, Text, Input, Icon, Badge)
 ├── molecules/      # Combined atoms (InputField, Card, IconButton, TypingDots)
 ├── organisms/      # Complex components (ChatMessage, ModelSelector, ChatInput)
-└── templates/      # Page-level components (ChatInterface)
+└── templates/      # Page-level components
 ```
 
 ### Key Technologies
 
-- **Framework**: Next.js 14 with App Router
-- **Styling**: Tailwind CSS + Framer Motion
+- **AI Integration**: Powered by Claude Sonnet 4.5 (via Anthropic API)
+- **State Management**: React Context + LocalStorage
+- **Styling**: Tailwind CSS + Custom Animations
 - **Deployment**: Netlify with serverless functions
 - **AI Models**: Multiple providers via unified API
   - Google Gemini 2.5 (Pro & Flash)

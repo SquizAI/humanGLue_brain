@@ -4,7 +4,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase/server'
+import { createClient, createAdminClient } from '@/lib/supabase/server'
 import { signupSchema, validateData } from '@/lib/validation/auth-schemas'
 
 export async function POST(request: NextRequest) {
@@ -30,6 +30,7 @@ export async function POST(request: NextRequest) {
     const { email, password, fullName, role, organizationId } = validation.data
 
     const supabase = createClient()
+    const supabaseAdmin = createAdminClient()
 
     // Create Supabase auth user
     const { data: authData, error: authError } = await supabase.auth.signUp({
@@ -67,30 +68,30 @@ export async function POST(request: NextRequest) {
     }
 
     // Determine database role based on application role
-    let dbRole: 'admin' | 'org_admin' | 'team_lead' | 'member' = 'member'
-    if (role === 'instructor') {
-      // Instructors are 'member' in users table but have instructor_profiles entry
-      dbRole = 'member'
-    }
+    // The profiles table expects 'client', 'instructor', or 'admin'
+    // The validation schema ensures role is 'client' or 'instructor'
+    const dbRole = role
 
     // Create user profile in database
-    const { error: profileError } = await supabase.from('users').insert({
+    // Use admin client to bypass RLS since the user might not have a session yet
+    const { error: profileError } = await supabaseAdmin.from('profiles').insert({
       id: authData.user.id,
       email,
       full_name: fullName,
       role: dbRole,
-      organization_id: organizationId || null,
+      // organization_id removed as it doesn't exist in schema
     })
 
     if (profileError) {
+      console.error('Profile creation error:', profileError)
       // Rollback: delete auth user if profile creation fails
-      await supabase.auth.admin.deleteUser(authData.user.id)
+      await supabaseAdmin.auth.admin.deleteUser(authData.user.id)
       throw profileError
     }
 
     // If instructor, create instructor profile
     if (role === 'instructor') {
-      const { error: instructorError } = await supabase
+      const { error: instructorError } = await supabaseAdmin
         .from('instructor_profiles')
         .insert({
           user_id: authData.user.id,
@@ -104,7 +105,7 @@ export async function POST(request: NextRequest) {
       }
 
       // Create instructor settings
-      await supabase.from('instructor_settings').insert({
+      await supabaseAdmin.from('instructor_settings').insert({
         user_id: authData.user.id,
       })
     }

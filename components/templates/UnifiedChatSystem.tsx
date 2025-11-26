@@ -12,53 +12,64 @@ import { assessmentDimensions } from '../../lib/assessment/dimensions'
 import { cn } from '../../utils/cn'
 import { AIChatService } from '../../lib/aiChatService'
 import { AIToolHandler } from '../../lib/aiToolHandler'
+import { useChat } from '../../lib/contexts/ChatContext'
 
 export interface UnifiedChatSystemProps {
-  onStateChange: (state: ChatState, data?: any) => void
   isHeroVisible: boolean
-  userData?: any
   className?: string
+  onShowROI?: () => void
+  onShowRoadmap?: () => void
 }
 
-export function UnifiedChatSystem({ onStateChange, isHeroVisible, userData, className }: UnifiedChatSystemProps) {
-  const [messages, setMessages] = useState<Message[]>([])
+export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowRoadmap }: UnifiedChatSystemProps) {
+  const {
+    messages,
+    setMessages,
+    chatState: currentState,
+    onChatStateChange,
+    suggestions,
+    setSuggestions,
+    userData: contextUserData
+  } = useChat()
+
   const [input, setInput] = useState('')
   const [isTyping, setIsTyping] = useState(false)
-  const [currentState, setCurrentState] = useState<ChatState>('initial')
-  const [suggestions, setSuggestions] = useState<any[]>([])
+  // currentState, messages, suggestions are now from context
   const [isMinimized, setIsMinimized] = useState(false)
   const [isExpanded, setIsExpanded] = useState(false)
   const [hasTransitioned, setHasTransitioned] = useState(false)
   const [showVoiceToggle, setShowVoiceToggle] = useState(false)
   const [hasStartedChat, setHasStartedChat] = useState(false)
-  
+
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const messagesContainerRef = useRef<HTMLDivElement>(null)
   const hasStarted = useRef(false)
-  const localUserData = useRef(userData || {})
+  const localUserData = useRef(contextUserData || {})
   const chatFlow = useRef(new EnhancedChatFlow())
   const aiChatService = useRef(new AIChatService())
   const aiToolHandler = useRef(new AIToolHandler({
     onShowROI: () => {
-      // TODO: Implement ROI calculator modal
       console.log('Show ROI Calculator')
+      onShowROI?.()
     },
     onScheduleDemo: () => {
+      console.log('Schedule Demo')
       window.open('https://calendly.com/humanglue/demo', '_blank')
     },
     onStartAssessment: () => {
-      setCurrentState('greeting')
-      startConversation()
+      console.log('Start Assessment')
+      onShowRoadmap?.()
+      onChatStateChange('greeting')
     },
     onNavigate: (page: string) => {
       window.location.href = `/${page}`
     }
   }))
-  
+
   // Update local userData when prop changes
   useEffect(() => {
-    localUserData.current = userData || {}
-  }, [userData])
+    localUserData.current = contextUserData || {}
+  }, [contextUserData])
 
   // Show voice toggle when reaching assessment state
   useEffect(() => {
@@ -81,33 +92,30 @@ export function UnifiedChatSystem({ onStateChange, isHeroVisible, userData, clas
     }
 
     setMessages(prev => [...prev, completionMessage])
-    setCurrentState('performingAnalysis')
-    
+
     // Update user data with assessment results
     const updatedUserData = { ...localUserData.current, voiceAssessmentData: assessmentData }
     localUserData.current = updatedUserData
-    onStateChange('performingAnalysis', updatedUserData)
+    onChatStateChange('performingAnalysis', updatedUserData)
   }
 
   const handleVoiceAssessmentCancel = () => {
-    setCurrentState('assessment')
+    onChatStateChange('assessment')
   }
 
   const switchToVoiceAssessment = () => {
-    setCurrentState('voiceAssessment')
-    onStateChange('voiceAssessment', localUserData.current)
+    onChatStateChange('voiceAssessment', localUserData.current)
   }
 
   const resetConversation = () => {
     setMessages([])
     setInput('')
     setIsTyping(false)
-    setCurrentState('initial')
     setSuggestions([])
     hasStarted.current = false
     setHasStartedChat(false)
     localUserData.current = {}
-    onStateChange('initial', {})
+    onChatStateChange('initial', {})
   }
 
   const scrollToBottom = () => {
@@ -164,7 +172,7 @@ export function UnifiedChatSystem({ onStateChange, isHeroVisible, userData, clas
   const startConversation = () => {
     if (hasStarted.current) return
     hasStarted.current = true
-    
+
     setIsTyping(true)
     setTimeout(() => {
       const greeting = chatFlow.current.getGreeting()
@@ -175,8 +183,7 @@ export function UnifiedChatSystem({ onStateChange, isHeroVisible, userData, clas
         timestamp: new Date()
       }])
       setIsTyping(false)
-      setCurrentState('greeting')
-      onStateChange('greeting')
+      onChatStateChange('greeting')
       setSuggestions([])
     }, 2000)
   }
@@ -226,7 +233,7 @@ export function UnifiedChatSystem({ onStateChange, isHeroVisible, userData, clas
               finalMessage += `\n\n**${solution.title}**\n\n${solution.description}\n\n**Key Benefits:**\n${solution.benefits.map((b: string) => `• ${b}`).join('\n')}\n\n**Timeline:** ${solution.timeline}\n**Pricing:** ${solution.pricing}`
             } else if (toolResult.action === 'show_case_study') {
               const caseStudy = toolResult.data
-              finalMessage += `\n\n**${caseStudy.title}**\n\n**Company:** ${caseStudy.company}\n**Challenge:** ${caseStudy.challenge}\n**Solution:** ${caseStudy.solution}\n\n**Results:**\n${caseStudy.results.map((r: string) => `✓ ${r}`).join('\n')}`
+              finalMessage += `\n\n**Company:** ${caseStudy.company}\n**Challenge:** ${caseStudy.challenge}\n**Solution:** ${caseStudy.solution}\n\n**Results:**\n${caseStudy.results.map((r: string) => `✓ ${r}`).join('\n')}`
             }
           }
         }
@@ -248,10 +255,10 @@ export function UnifiedChatSystem({ onStateChange, isHeroVisible, userData, clas
         }
 
         if (response.nextState) {
-          setCurrentState(response.nextState)
+          onChatStateChange(response.nextState)
           const updatedUserData = { ...localUserData.current, ...response.data }
           localUserData.current = updatedUserData
-          onStateChange(response.nextState, updatedUserData)
+          onChatStateChange(response.nextState, updatedUserData)
 
           // Auto-trigger analysis after showing loading animation
           if (response.nextState === 'performingAnalysis') {
@@ -280,7 +287,7 @@ export function UnifiedChatSystem({ onStateChange, isHeroVisible, userData, clas
                   }
 
                   if (analysisResponse.nextState) {
-                    setCurrentState(analysisResponse.nextState)
+                    onChatStateChange(analysisResponse.nextState)
                   }
 
                   // Save profile when analysis is complete
@@ -297,8 +304,9 @@ export function UnifiedChatSystem({ onStateChange, isHeroVisible, userData, clas
         } else if (response.data) {
           const updatedUserData = { ...localUserData.current, ...response.data }
           localUserData.current = updatedUserData
-          onStateChange(currentState, updatedUserData)
+          onChatStateChange(currentState, updatedUserData)
         }
+
 
         // Save profile when analysis is complete (for non-performingAnalysis states)
         if (response.profileAnalysis && response.data?.analysis && response.nextState !== 'performingAnalysis') {
@@ -325,7 +333,7 @@ export function UnifiedChatSystem({ onStateChange, isHeroVisible, userData, clas
         pagesVisited: ['homepage'],
         leadScore: analysis.scoring.fitScore,
         leadStage: analysis.scoring.fitScore > 80 ? 'hot' :
-                   analysis.scoring.fitScore > 60 ? 'warm' : 'cold',
+          analysis.scoring.fitScore > 60 ? 'warm' : 'cold',
         estimatedDealSize: analysis.predictions.dealSize,
         probabilityToClose: analysis.predictions.successProbability
       }

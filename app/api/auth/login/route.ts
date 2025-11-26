@@ -132,7 +132,7 @@ export async function POST(request: NextRequest) {
     } else if (role === 'instructor') {
       redirectPath = '/instructor'
     } else {
-      redirectPath = '/client'
+      redirectPath = '/dashboard'
     }
 
     const jsonResponse = NextResponse.json({

@@ -18,8 +18,14 @@ export class AnthropicProvider {
     const systemMessage = messages.find(m => m.role === 'system')?.content
     const conversationMessages = messages.filter(m => m.role !== 'system') as Array<{ role: 'user' | 'assistant'; content: string }>
 
-    const modelId = model === 'claude-opus-4' ? 'claude-3-opus-20240229' : 'claude-3-5-sonnet-20241022'
-    
+    let modelId = 'claude-sonnet-4-5-20250929' // Default fallback
+
+    if (model === 'claude-opus-4') {
+      modelId = 'claude-opus-4-20250514'
+    } else if (model === 'claude-sonnet-4.5') {
+      modelId = 'claude-sonnet-4-5-20250929'
+    }
+
     const response = await this.anthropic.messages.create({
       model: modelId,
       max_tokens: maxTokens || 4096,

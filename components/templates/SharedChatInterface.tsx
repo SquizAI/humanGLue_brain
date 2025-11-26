@@ -19,6 +19,7 @@ import { retrieveContext, initializeRAG } from '../../lib/rag'
 export interface SharedChatInterfaceProps {
   onStateChange: (state: ChatState, data?: any) => void
   userData: any
+  chatState: ChatState
   messages: Message[]
   setMessages: (messages: Message[] | ((prev: Message[]) => Message[])) => void
   suggestions: any[]
@@ -34,6 +35,7 @@ export interface SharedChatInterfaceRef {
 export const SharedChatInterface = forwardRef<SharedChatInterfaceRef, SharedChatInterfaceProps>(({
   onStateChange,
   userData,
+  chatState,
   messages,
   setMessages,
   suggestions,
@@ -42,7 +44,6 @@ export const SharedChatInterface = forwardRef<SharedChatInterfaceRef, SharedChat
 }, ref) => {
   const [input, setInput] = useState('')
   const [isTyping, setIsTyping] = useState(false)
-  const [currentState, setCurrentState] = useState<ChatState>('initial')
   const [selectedModel, setSelectedModel] = useState<AIModel>('claude-sonnet-4')
   const [error, setError] = useState<{ message: string; code?: string } | null>(null)
   const [companyInsights, setCompanyInsights] = useState<CompanyInsights | null>(null)
@@ -132,7 +133,6 @@ What would you like to work on today?`
         timestamp: new Date()
       }])
       setIsTyping(false)
-      setCurrentState('greeting')
       onStateChange('greeting')
       setSuggestions([])
     }, 2000)
@@ -150,19 +150,19 @@ What would you like to work on today?`
       }, 1500)
     } else if (messages.length > 0) {
       hasStarted.current = true
-      if (currentState === 'initial' && userData.name) {
-        setCurrentState('greeting')
+      if (chatState === 'initial' && userData.name) {
+        onStateChange('greeting')
       }
     }
-  }, [messages.length])
+  }, [messages.length, chatState, userData.name])
 
   const analyzeCompanyWebsite = async (url: string, companyName: string) => {
     setIsAnalyzingWebsite(true)
-    
+
     try {
       const insights = await firecrawlService.analyzeCompanyWebsite(url, companyName)
       setCompanyInsights(insights)
-      
+
       const analysisMessage: Message = {
         id: Date.now().toString(),
         role: 'assistant',
@@ -180,7 +180,7 @@ ${insights.recommendations?.slice(0, 3).map(rec => `• ${rec}`).join('\n')}
 This analysis helps me provide more personalized recommendations for your transformation journey.`,
         timestamp: new Date()
       }
-      
+
       setMessages(prev => [...prev, analysisMessage])
     } catch (error) {
       console.error('Website analysis error:', error)
@@ -207,9 +207,9 @@ This analysis helps me provide more personalized recommendations for your transf
     setError(null)
 
     try {
-      if (currentState === 'initial' || currentState === 'greeting' || currentState === 'discovery' || currentState === 'assessment' || currentState === 'solution' || currentState === 'booking' || currentState === 'completed') {
-        const response = chatFlow.processResponse(currentState, messageText, localUserData.current)
-        
+      if (chatState === 'initial' || chatState === 'greeting' || chatState === 'discovery' || chatState === 'assessment' || chatState === 'solution' || chatState === 'booking' || chatState === 'completed') {
+        const response = chatFlow.processResponse(chatState, messageText, localUserData.current)
+
         setTimeout(() => {
           const assistantMessage: Message = {
             id: (Date.now() + 1).toString(),
@@ -226,15 +226,14 @@ This analysis helps me provide more personalized recommendations for your transf
           }
 
           if (response.nextState) {
-            setCurrentState(response.nextState)
             const updatedUserData = { ...localUserData.current, ...response.data }
             localUserData.current = updatedUserData
             onStateChange(response.nextState, updatedUserData)
           } else if (response.data) {
             const updatedUserData = { ...localUserData.current, ...response.data }
             localUserData.current = updatedUserData
-            onStateChange(currentState, updatedUserData)
-            
+            onStateChange(chatState, updatedUserData)
+
             // Check if we have a URL to scrape
             if (response.data.urlToScrape && !companyInsights) {
               analyzeCompanyWebsite(response.data.urlToScrape, response.data.company || userData.company)
@@ -373,13 +372,13 @@ Provide helpful, personalized advice about organizational transformation.`
     } catch (error) {
       console.error('Chat error:', error)
       setIsTyping(false)
-      
+
       if (error instanceof APIError) {
         setError({
           message: error.message,
           code: error.code
         })
-        
+
         if (error.code === 'NETWORK_ERROR' || error.code === 'SERVICE_UNAVAILABLE') {
           return
         }
@@ -389,16 +388,16 @@ Provide helpful, personalized advice about organizational transformation.`
           code: 'UNKNOWN_ERROR'
         })
       }
-      
+
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        content: error instanceof APIError && error.code === 'AUTH_ERROR' 
+        content: error instanceof APIError && error.code === 'AUTH_ERROR'
           ? 'I\'m having trouble connecting to the AI service. Please ensure the API keys are properly configured.'
           : 'I apologize for the technical issue. Please try again in a moment, or rephrase your question.',
         timestamp: new Date()
       }
-      
+
       setMessages(prev => [...prev, errorMessage])
     }
   }
@@ -449,7 +448,7 @@ Provide helpful, personalized advice about organizational transformation.`
             </div>
           </motion.div>
         )}
-        
+
         <div ref={messagesContainerRef} className="flex-1 overflow-y-auto px-4 py-6 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent">
           {messages.length === 0 && (
             <motion.div
@@ -478,9 +477,9 @@ Provide helpful, personalized advice about organizational transformation.`
               </motion.div>
             ))}
           </AnimatePresence>
-          
+
           {isTyping && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               className="flex items-center gap-3 mb-4"
@@ -495,7 +494,7 @@ Provide helpful, personalized advice about organizational transformation.`
               </div>
             </motion.div>
           )}
-          
+
           {isAnalyzingWebsite && (
             <motion.div
               initial={{ opacity: 0, y: 10 }}
@@ -609,7 +608,7 @@ Provide helpful, personalized advice about organizational transformation.`
         <div className="border-b border-white/10 px-6 py-4 bg-gradient-to-r from-gray-900/50 to-gray-800/50 backdrop-blur-xl">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <motion.div 
+              <motion.div
                 className="p-2.5 rounded-xl bg-gradient-to-br from-blue-500 to-purple-500 shadow-lg"
                 whileHover={{ scale: 1.1, rotate: 180 }}
                 transition={{ duration: 0.5 }}
@@ -669,9 +668,9 @@ Provide helpful, personalized advice about organizational transformation.`
               </motion.div>
             ))}
           </AnimatePresence>
-          
+
           {isTyping && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               className="flex items-center gap-3 mb-4"
@@ -686,7 +685,7 @@ Provide helpful, personalized advice about organizational transformation.`
               </div>
             </motion.div>
           )}
-          
+
           {isAnalyzingWebsite && (
             <motion.div
               initial={{ opacity: 0, y: 10 }}
@@ -774,7 +773,7 @@ Provide helpful, personalized advice about organizational transformation.`
                 <Send className="w-4 h-4 text-blue-400" />
               </button>
             </div>
-            
+
             <motion.button
               whileHover={{ scale: 1.1, backgroundColor: 'rgba(255,255,255,0.1)' }}
               whileTap={{ scale: 0.9 }}
@@ -783,7 +782,7 @@ Provide helpful, personalized advice about organizational transformation.`
             >
               <Mic className="w-4 h-4 text-gray-400 hover:text-blue-400 transition-colors" />
             </motion.button>
-            
+
             <motion.button
               whileHover={{ scale: 1.1, backgroundColor: 'rgba(255,255,255,0.1)' }}
               whileTap={{ scale: 0.9 }}
@@ -793,7 +792,7 @@ Provide helpful, personalized advice about organizational transformation.`
               <Paperclip className="w-4 h-4 text-gray-400 hover:text-purple-400 transition-colors" />
             </motion.button>
           </div>
-          
+
           <div className="flex items-center justify-center mt-3 text-xs text-gray-400">
             <span>Powered by Human Glue AI</span>
           </div>

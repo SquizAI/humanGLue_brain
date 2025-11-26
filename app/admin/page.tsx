@@ -25,6 +25,7 @@ import {
 } from 'lucide-react'
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
 import { useChat } from '@/lib/contexts/ChatContext'
+import { signOut } from '@/lib/auth/hooks'
 
 export default function AdminDashboard() {
   const router = useRouter()
@@ -64,7 +65,8 @@ export default function AdminDashboard() {
     return null
   }
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await signOut()
     localStorage.removeItem('humanglue_user')
     localStorage.removeItem('demoUser')
     // Clear demo user cookie
