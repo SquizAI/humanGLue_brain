@@ -28,11 +28,15 @@ export default function LoginPage() {
 
       const data = await response.json()
 
+      console.log('[handleLogin] Full response:', data)
+      console.log('[handleLogin] Redirect path:', data.data?.redirectPath)
+
       if (!data.success) {
         throw new Error(data.error?.message || 'Login failed')
       }
 
       // Redirect based on user role
+      console.log('[handleLogin] Executing router.push to:', data.data.redirectPath)
       router.push(data.data.redirectPath)
       router.refresh()
     } catch (err: any) {
@@ -78,11 +82,16 @@ export default function LoginPage() {
 
       const data = await response.json()
 
+      console.log('[handleDemoLogin] Role:', role)
+      console.log('[handleDemoLogin] Full response:', data)
+      console.log('[handleDemoLogin] Redirect path:', data.data?.redirectPath)
+
       if (!data.success) {
         throw new Error(data.error?.message || 'Login failed')
       }
 
       // Redirect based on user role
+      console.log('[handleDemoLogin] Executing router.push to:', data.data.redirectPath)
       router.push(data.data.redirectPath)
       router.refresh()
     } catch (err: any) {
