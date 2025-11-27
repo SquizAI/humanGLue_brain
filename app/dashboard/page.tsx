@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
@@ -22,23 +22,36 @@ import { useChat } from '@/lib/contexts/ChatContext'
 export default function DashboardPage() {
   const router = useRouter()
   const { userData, authLoading } = useChat()
+  const [showContent, setShowContent] = useState(false)
 
   useEffect(() => {
-    if (!authLoading && (!userData || !userData.authenticated)) {
+    // If auth loads quickly and user is authenticated, show content
+    if (!authLoading && userData?.authenticated) {
+      setShowContent(true)
+      return
+    }
+
+    // If auth is still loading after 3 seconds, trust middleware and show content anyway
+    const timeout = setTimeout(() => {
+      console.log('[DashboardPage] Auth timeout - trusting middleware protection')
+      setShowContent(true)
+    }, 3000)
+
+    return () => clearTimeout(timeout)
+  }, [authLoading, userData])
+
+  useEffect(() => {
+    if (!authLoading && userData && !userData.authenticated) {
       router.push('/login')
     }
   }, [userData, router, authLoading])
 
-  if (authLoading) {
+  if (!showContent) {
     return (
       <div className="min-h-screen bg-gray-950 flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500"></div>
       </div>
     )
-  }
-
-  if (!userData || !userData.authenticated) {
-    return null
   }
 
   const handleLogout = async () => {

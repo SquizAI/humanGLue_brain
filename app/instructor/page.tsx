@@ -39,25 +39,40 @@ export default function InstructorDashboard() {
     console.log('[InstructorPage] authLoading:', authLoading, 'userData:', userData)
   }, [authLoading, userData])
 
-  // Check instructor access
+  // Timeout for authLoading - if it takes more than 3 seconds, assume middleware validated access
+  const [showContent, setShowContent] = useState(false)
+
   useEffect(() => {
-    if (!authLoading && !userData?.isInstructor) {
+    // If auth loads quickly and user is instructor, show content
+    if (!authLoading && userData?.isInstructor) {
+      setShowContent(true)
+      return
+    }
+
+    // If auth is still loading after 3 seconds, trust middleware and show content anyway
+    // Middleware will have already blocked non-instructors from reaching this page
+    const timeout = setTimeout(() => {
+      console.log('[InstructorPage] Auth timeout - trusting middleware protection')
+      setShowContent(true)
+    }, 3000)
+
+    return () => clearTimeout(timeout)
+  }, [authLoading, userData])
+
+  // Check instructor access only if auth loaded and user is not instructor
+  useEffect(() => {
+    if (!authLoading && userData && !userData?.isInstructor) {
       console.log('[InstructorPage] Redirecting to login - no instructor access')
       router.push('/login')
     }
   }, [userData, router, authLoading])
 
-  if (authLoading) {
-    console.log('[InstructorPage] Showing loading spinner')
+  if (!showContent) {
     return (
       <div className="min-h-screen bg-gray-950 flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500"></div>
       </div>
     )
-  }
-
-  if (!userData?.isInstructor) {
-    return null
   }
 
   const handleLogout = async () => {

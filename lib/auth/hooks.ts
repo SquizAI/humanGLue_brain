@@ -46,6 +46,15 @@ export function useAuth() {
     const supabase = createClient()
     let mounted = true
 
+    // Set a maximum timeout for auth loading
+    // If auth doesn't load within 5 seconds, assume no session and stop loading
+    const maxLoadTimeout = setTimeout(() => {
+      console.log('[useAuth] Max load timeout reached - stopping loading state')
+      if (mounted) {
+        setState(prev => ({ ...prev, loading: false }))
+      }
+    }, 5000)
+
     const getProfile = async (userId: string) => {
       try {
         const { data: profile, error: profileError } = await supabase
@@ -82,6 +91,7 @@ export function useAuth() {
           const profile = await getProfile(session.user.id)
 
           if (mounted) {
+            clearTimeout(maxLoadTimeout)
             setState({
               user: session.user,
               profile,
@@ -91,11 +101,13 @@ export function useAuth() {
             })
           }
         } else if (mounted) {
+          clearTimeout(maxLoadTimeout)
           setState(prev => ({ ...prev, loading: false }))
         }
       } catch (error) {
         console.error('[useAuth] Session init error:', error)
         if (mounted) {
+          clearTimeout(maxLoadTimeout)
           setState(prev => ({
             ...prev,
             loading: false,
@@ -137,6 +149,7 @@ export function useAuth() {
 
     return () => {
       mounted = false
+      clearTimeout(maxLoadTimeout)
       subscription.unsubscribe()
     }
   }, [])
