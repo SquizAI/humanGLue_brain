@@ -196,34 +196,6 @@ const nextConfig = {
   // Power Mode (for faster builds in development)
   // ============================================================================
   poweredByHeader: false,
-
-  // ============================================================================
-  // Sentry Configuration
-  // ============================================================================
-  // Automatically inject Sentry configuration files
-  sentry: {
-    // Hide source maps from being publicly accessible
-    hideSourceMaps: true,
-
-    // Disable Sentry during development builds
-    disableServerWebpackPlugin: process.env.NODE_ENV !== 'production',
-    disableClientWebpackPlugin: process.env.NODE_ENV !== 'production',
-
-    // Automatically tree-shake Sentry logger statements to reduce bundle size
-    widenClientFileUpload: true,
-
-    // Transpile SDK to be compatible with older browsers
-    transpileClientSDK: true,
-
-    // Route browser requests to Sentry through a Next.js proxy
-    tunnelRoute: '/monitoring-tunnel',
-
-    // Automatically instrument serverless functions
-    autoInstrumentServerFunctions: true,
-
-    // Automatically instrument middleware and edge functions
-    autoInstrumentMiddleware: true,
-  },
 }
 
 // Sentry plugin options
