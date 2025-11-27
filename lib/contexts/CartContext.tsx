@@ -57,10 +57,17 @@ const VALID_DISCOUNT_CODES: Record<string, DiscountCode> = {
 const TAX_RATE = 0.08 // 8% tax
 
 export function CartProvider({ children }: { children: ReactNode }) {
+  // Skip state initialization during SSR to prevent build errors
   const [items, setItems] = useState<CartItem[]>([])
   const [discountCode, setDiscountCode] = useState<DiscountCode | null>(null)
   const [isCartOpen, setIsCartOpen] = useState(false)
   const [isLoaded, setIsLoaded] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
+
+  // Detect client-side mount
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   // Load cart from localStorage on mount
   useEffect(() => {
@@ -207,6 +214,26 @@ export function CartProvider({ children }: { children: ReactNode }) {
 export function useCart() {
   const context = useContext(CartContext)
   if (context === undefined) {
+    // During SSR/build time, return a fallback with empty values
+    // This prevents prerender errors in Next.js 16
+    if (typeof window === 'undefined') {
+      return {
+        items: [],
+        addToCart: () => {},
+        removeFromCart: () => {},
+        updateQuantity: () => {},
+        clearCart: () => {},
+        itemCount: 0,
+        subtotal: 0,
+        tax: 0,
+        total: 0,
+        discountCode: null,
+        applyDiscountCode: () => false,
+        removeDiscountCode: () => {},
+        isCartOpen: false,
+        setIsCartOpen: () => {},
+      }
+    }
     throw new Error('useCart must be used within a CartProvider')
   }
   return context

@@ -1,13 +1,13 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, useAnimation } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '../../utils/cn'
 import { Button } from '../atoms'
 import { Menu, X } from 'lucide-react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useChat } from '../../lib/contexts/ChatContext'
 
 export interface NavigationProps {
@@ -26,13 +26,89 @@ export function Navigation({ className }: NavigationProps) {
   const [scrolled, setScrolled] = useState(false)
   const { userData } = useChat()
 
+  // Smart Navigation Show/Hide State
+  const [isVisible, setIsVisible] = useState(true)
+  const [isAtTop, setIsAtTop] = useState(true)
+  const lastScrollY = useRef(0)
+  const scrollThreshold = 50 // Minimum scroll movement to trigger
+  const rafId = useRef<number>()
+
+  const controls = useAnimation()
+
+  /**
+   * Smart Navigation Show/Hide Logic
+   * - Hide on scroll down
+   * - Show on scroll up
+   * - Always show when at top of page
+   * - Minimum 50px movement before triggering
+   */
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 10)
+      if (rafId.current) {
+        cancelAnimationFrame(rafId.current)
+      }
+
+      rafId.current = requestAnimationFrame(() => {
+        const currentScrollY = window.scrollY
+
+        // Check if at top of page
+        const atTop = currentScrollY < 10
+        setIsAtTop(atTop)
+
+        // Always show when at top
+        if (atTop) {
+          setIsVisible(true)
+          setScrolled(false)
+          controls.start({
+            y: 0,
+            opacity: 1,
+            transition: { duration: 0.3, ease: 'easeOut' }
+          })
+          return
+        }
+
+        // Only trigger if scrolled past threshold
+        const scrollDelta = Math.abs(currentScrollY - lastScrollY.current)
+
+        if (scrollDelta > scrollThreshold) {
+          const scrollingDown = currentScrollY > lastScrollY.current
+
+          if (scrollingDown) {
+            // Scrolling down - hide navigation
+            setIsVisible(false)
+            controls.start({
+              y: -100,
+              opacity: 0,
+              transition: { duration: 0.3, ease: 'easeIn' }
+            })
+          } else {
+            // Scrolling up - show navigation
+            setIsVisible(true)
+            controls.start({
+              y: 0,
+              opacity: 1,
+              transition: { duration: 0.3, ease: 'easeOut' }
+            })
+          }
+
+          lastScrollY.current = currentScrollY
+        }
+
+        // Track if page has been scrolled (for backdrop blur effect)
+        setScrolled(currentScrollY > 10)
+      })
     }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll() // Initial check
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      if (rafId.current) {
+        cancelAnimationFrame(rafId.current)
+      }
+    }
+  }, [controls])
 
   // Close mobile menu on route change
   useEffect(() => {
@@ -45,10 +121,11 @@ export function Navigation({ className }: NavigationProps) {
   return (
     <>
       <motion.header
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 1, y: 0 }}
+        animate={controls}
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+          scrolled && "backdrop-blur-xl bg-gray-900/80",
           className
         )}
       >
@@ -73,7 +150,7 @@ export function Navigation({ className }: NavigationProps) {
             </Link>
 
             {/* Desktop Navigation - Centered */}
-            <motion.div 
+            <motion.div
               className="hidden md:flex items-center gap-6 lg:gap-8 absolute left-1/2 -translate-x-1/2"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -100,7 +177,7 @@ export function Navigation({ className }: NavigationProps) {
                 </Link>
               ))}
             </motion.div>
-            
+
             {/* CTA Button or Welcome Message - Right side */}
             <motion.div
               className="hidden md:flex items-center gap-3 flex-shrink-0"
@@ -145,7 +222,7 @@ export function Navigation({ className }: NavigationProps) {
                 </>
               )}
             </motion.div>
-            
+
             {/* Mobile menu button */}
             <motion.button
               className="md:hidden p-2 rounded-lg bg-white/5 border border-white/10"
@@ -180,8 +257,8 @@ export function Navigation({ className }: NavigationProps) {
                     whileTap={{ scale: 0.95 }}
                     className={cn(
                       "block py-3 text-lg font-medium transition-colors",
-                      pathname === item.href 
-                        ? "text-white" 
+                      pathname === item.href
+                        ? "text-white"
                         : "text-gray-400 hover:text-white"
                     )}
                   >
@@ -190,7 +267,7 @@ export function Navigation({ className }: NavigationProps) {
                 </Link>
               ))}
               <Link href="/#chat">
-                <Button 
+                <Button
                   variant="gradient"
                   size="md"
                   className="w-full mt-8"

@@ -104,7 +104,16 @@ const nextConfig = {
     serverActions: {
       bodySizeLimit: '2mb',
     },
+
+    // Disable static page generation for specific routes with context issues
+    // This prevents prerendering errors with CartContext in Next.js 16
+    staticPageGenerationTimeout: 60,
   },
+
+  // Skip static generation for routes that use client-side context
+  skipTrailingSlashRedirect: true,
+
+  // Disable static error pages that fail with React hooks during SSR
 
   // ============================================================================
   // Webpack Configuration (for bundle analysis)

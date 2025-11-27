@@ -49,3 +49,5 @@ next-env.d.ts
 
 # Security reports with sensitive data
 SECURITY_AUDIT_REPORT.md
+.env.local.bak
+*.zip

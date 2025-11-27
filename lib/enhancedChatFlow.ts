@@ -27,7 +27,7 @@ export class EnhancedChatFlow {
   }
 
   getGreeting(): string {
-    return "Welcome to HumanGlue. We guide Fortune 1000 companies of tomorrow, today.\n\nLet's start with your first name"
+    return "Welcome to HumanGlue. We guide Fortune 1000 companies of tomorrow, today.\n\nWhat is your name?"
   }
 
   /**

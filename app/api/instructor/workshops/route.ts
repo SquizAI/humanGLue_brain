@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
   try {
     // Authenticate and authorize
     const { instructorId } = await requireInstructor(request)
-    const supabase = createClient()
+    const supabase = await createClient()
 
     // Parse and validate query parameters
     const searchParams = request.nextUrl.searchParams
@@ -162,7 +162,7 @@ export async function POST(request: NextRequest) {
   try {
     // Authenticate and authorize
     const { instructorId, user } = await requireInstructor(request)
-    const supabase = createClient()
+    const supabase = await createClient()
 
     // Parse and validate request body
     const body = await request.json()

@@ -40,7 +40,7 @@ export async function GET(request: NextRequest) {
     }
 
     const filters = validation.data
-    const supabase = createClient()
+    const supabase = await createClient()
 
     // Build query
     let query = supabase
@@ -123,7 +123,7 @@ export async function POST(request: NextRequest) {
     }
 
     const assessmentData = validation.data
-    const supabase = createClient()
+    const supabase = await createClient()
 
     // Create assessment
     const { data, error } = await supabase

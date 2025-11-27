@@ -49,8 +49,6 @@ function extractClientInfo(request: NextRequest | Request): {
     ipAddress = forwardedFor.split(',')[0].trim()
   } else if (realIp) {
     ipAddress = realIp
-  } else if ('ip' in request) {
-    ipAddress = (request as NextRequest).ip || 'unknown'
   }
 
   return { ipAddress, userAgent }
@@ -64,7 +62,7 @@ export async function logAuthEvent(
   request?: NextRequest | Request
 ): Promise<void> {
   try {
-    const supabase = createClient()
+    const supabase = await createClient()
 
     // Extract client info if request is provided
     let clientInfo = { ipAddress: 'unknown', userAgent: 'unknown' }
@@ -312,7 +310,7 @@ export async function getUserAuditLogs(
   limit: number = 100
 ): Promise<any[]> {
   try {
-    const supabase = createClient()
+    const supabase = await createClient()
 
     const { data, error } = await supabase
       .from('auth_audit_log')
@@ -338,7 +336,7 @@ export async function getAuditLogsByEventType(
   limit: number = 100
 ): Promise<any[]> {
   try {
-    const supabase = createClient()
+    const supabase = await createClient()
 
     const { data, error } = await supabase
       .from('auth_audit_log')
@@ -361,7 +359,7 @@ export async function getAuditLogsByEventType(
  */
 export async function getRecentFailedLogins(minutes: number = 60): Promise<any[]> {
   try {
-    const supabase = createClient()
+    const supabase = await createClient()
     const since = new Date(Date.now() - minutes * 60 * 1000).toISOString()
 
     const { data, error } = await supabase

@@ -42,7 +42,7 @@ export async function GET(request: NextRequest) {
     }
 
     const filters = validation.data
-    const supabase = createClient()
+    const supabase = await createClient()
 
     // Build query
     let query = supabase
@@ -156,7 +156,7 @@ export async function POST(request: NextRequest) {
     const userData = validation.data
 
     // Use admin client to create user
-    const supabaseAdmin = createAdminClient()
+    const supabaseAdmin = await createAdminClient()
 
     // Create auth user
     const { data: authData, error: authError } = await supabaseAdmin.auth.admin.createUser({

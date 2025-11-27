@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url)
     const status = searchParams.get('status')
 
-    const supabase = createClient()
+    const supabase = await createClient()
 
     let query = supabase
       .from('workshop_registrations')

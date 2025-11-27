@@ -20,16 +20,16 @@ import { enforceRateLimit } from '@/lib/api/rate-limit'
  */
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id: workshopId } = params
+    const { id: workshopId } = await params
     const user = await requireAuth()
 
     // Enforce rate limit
     await enforceRateLimit(request, 'standard', user.id)
 
-    const supabase = createClient()
+    const supabase = await createClient()
 
     // Get workshop details
     const { data: workshop, error: workshopError } = await supabase

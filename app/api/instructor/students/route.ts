@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
   try {
     // Authenticate and authorize
     const { instructorId } = await requireInstructor(request)
-    const supabase = createClient()
+    const supabase = await createClient()
 
     // Parse and validate query parameters
     const searchParams = request.nextUrl.searchParams

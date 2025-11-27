@@ -23,12 +23,12 @@ import { enforceRateLimit } from '@/lib/api/rate-limit'
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params
+    const { id } = await params
     const user = await requireAuth()
-    const supabase = createClient()
+    const supabase = await createClient()
 
     // Check if user can access this profile
     const canAccess = await checkResourceOwnership(user.id, id)
@@ -78,12 +78,12 @@ export async function GET(
  */
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params
+    const { id } = await params
     const user = await requireAuth()
-    const supabase = createClient()
+    const supabase = await createClient()
 
     // Enforce rate limit
     await enforceRateLimit(request, 'standard', user.id)
@@ -174,14 +174,14 @@ export async function PUT(
  */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params
+    const { id } = await params
     const user = await requireAuth()
 
     // Only admins can delete users
-    const supabase = createClient()
+    const supabase = await createClient()
     const { data: roleData } = await supabase
       .from('user_roles')
       .select('role')
@@ -221,7 +221,7 @@ export async function DELETE(
     }
 
     // Use admin client to delete auth user
-    const supabaseAdmin = createAdminClient()
+    const supabaseAdmin = await createAdminClient()
 
     // Delete auth user (this will cascade to profile due to foreign key)
     const { error: deleteError } = await supabaseAdmin.auth.admin.deleteUser(id)

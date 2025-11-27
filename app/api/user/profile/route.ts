@@ -23,7 +23,7 @@ import { enforceRateLimit } from '@/lib/api/rate-limit'
 export async function GET(request: NextRequest) {
   try {
     const user = await requireAuth()
-    const supabase = createClient()
+    const supabase = await createClient()
 
     const { data, error } = await supabase
       .from('users')
@@ -76,7 +76,7 @@ export async function PATCH(request: NextRequest) {
     }
 
     const updates = validation.data
-    const supabase = createClient()
+    const supabase = await createClient()
 
     // Build update object
     const updateData: Record<string, unknown> = {

@@ -23,11 +23,11 @@ import { enforceRateLimit } from '@/lib/api/rate-limit'
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params
-    const supabase = createClient()
+    const { id } = await params
+    const supabase = await createClient()
 
     const { data, error } = await supabase
       .from('courses')
@@ -73,12 +73,12 @@ export async function GET(
  */
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params
+    const { id } = await params
     const user = await requireAuth()
-    const supabase = createClient()
+    const supabase = await createClient()
 
     // Enforce rate limit
     await enforceRateLimit(request, 'standard', user.id)
@@ -167,12 +167,12 @@ export async function PUT(
  */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params
+    const { id } = await params
     const user = await requireAuth()
-    const supabase = createClient()
+    const supabase = await createClient()
 
     // Get course to verify ownership
     const { data: course, error: fetchError } = await supabase

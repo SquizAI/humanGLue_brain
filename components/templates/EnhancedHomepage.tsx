@@ -177,37 +177,67 @@ export function EnhancedHomepage() {
     }
   }, [showRoadmap])
 
-  // Handle video loading
+  // Handle video loading with enhanced reliability
   useEffect(() => {
     const video = videoRef.current
     if (!video) return
 
+    let retryTimeout: NodeJS.Timeout | null = null
+
     const handleLoadedData = () => {
       setVideoLoaded(true)
       setVideoError(false)
+      console.log('[Video] Successfully loaded')
     }
 
     const handleError = () => {
       setVideoError(true)
       setVideoLoaded(false)
-      console.warn('Video failed to load, falling back to static image')
+      console.warn('[Video] Failed to load, falling back to static image')
+    }
+
+    const handleCanPlay = () => {
+      // Video is ready to play
+      setVideoLoaded(true)
+      console.log('[Video] Ready to play')
     }
 
     video.addEventListener('loadeddata', handleLoadedData)
+    video.addEventListener('canplay', handleCanPlay)
     video.addEventListener('error', handleError)
+
+    // Force load the video
+    video.load()
 
     // Attempt to play the video
     const playPromise = video.play()
     if (playPromise !== undefined) {
-      playPromise.catch((error) => {
-        console.warn('Video autoplay failed:', error)
-        // Autoplay was prevented, but this is okay - video will still be there
-      })
+      playPromise
+        .then(() => {
+          console.log('[Video] Autoplay started successfully')
+        })
+        .catch((error) => {
+          console.warn('[Video] Autoplay prevented:', error.message)
+          // Autoplay was prevented, but video will still be visible when user interacts
+          // This is common on mobile and some browsers - not an error
+        })
     }
+
+    // Fallback: If video doesn't load within 5 seconds, show error
+    // We use a timeout to prevent waiting forever if video loading stalls
+    retryTimeout = setTimeout(() => {
+      // Check the video's readyState to determine if it loaded
+      if (video.readyState < 2) { // HAVE_CURRENT_DATA or higher means loaded
+        console.warn('[Video] Loading timeout (readyState:', video.readyState + ') - falling back to static image')
+        setVideoError(true)
+      }
+    }, 5000)
 
     return () => {
       video.removeEventListener('loadeddata', handleLoadedData)
+      video.removeEventListener('canplay', handleCanPlay)
       video.removeEventListener('error', handleError)
+      if (retryTimeout) clearTimeout(retryTimeout)
     }
   }, [])
 
@@ -361,13 +391,13 @@ export function EnhancedHomepage() {
           </div>
 
           <div className="relative z-10 container max-w-7xl mx-auto px-4 sm:px-6 pt-24 sm:pt-32 md:pt-40 lg:pt-48 pb-20 lg:pb-20 pb-32">
-            <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
-              {/* Left Content */}
+            <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
+              {/* Left Content - Takes all available space */}
               <motion.div
                 initial={{ opacity: 0, x: -50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8 }}
-                className="max-w-2xl"
+                className="flex-1 max-w-2xl"
               >
               <motion.div
                 initial={{ scale: 0.8, opacity: 0 }}
@@ -457,11 +487,12 @@ export function EnhancedHomepage() {
               </motion.div>
 
               {/* Right Content - Unified Chat System in hero mode (DESKTOP ONLY) */}
+              {/* Fixed width to prevent pushing left content when chat expands */}
               <motion.div
                 initial={{ opacity: 0, x: 50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="hidden lg:flex justify-center items-start pt-8 lg:pt-8"
+                className="hidden lg:flex justify-center items-start pt-8 lg:pt-8 flex-shrink-0 w-auto"
               >
                 {isHeroVisible && (
                   <ChatErrorBoundary>

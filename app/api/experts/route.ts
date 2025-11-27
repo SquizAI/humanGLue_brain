@@ -39,7 +39,7 @@ export async function GET(request: NextRequest) {
     }
 
     const filters = validation.data
-    const supabase = createClient()
+    const supabase = await createClient()
 
     // Build query - only show public profiles accepting clients
     let query = supabase
@@ -157,7 +157,7 @@ export async function POST(request: NextRequest) {
     }
 
     const profileData = validation.data
-    const supabase = createClient()
+    const supabase = await createClient()
 
     // Check if user already has a talent profile
     const { data: existingProfile } = await supabase

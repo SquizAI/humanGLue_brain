@@ -29,8 +29,8 @@ export async function POST(request: NextRequest) {
 
     const { email, password, fullName, role, organizationId } = validation.data
 
-    const supabase = createClient()
-    const supabaseAdmin = createAdminClient()
+    const supabase = await createClient()
+    const supabaseAdmin = await createAdminClient()
 
     // Create Supabase auth user
     const { data: authData, error: authError } = await supabase.auth.signUp({

@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
 
     const { password } = validation.data
 
-    const supabase = createClient()
+    const supabase = await createClient()
 
     // Update password
     const { error } = await supabase.auth.updateUser({

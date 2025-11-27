@@ -97,12 +97,12 @@ function generateRecommendations(scores: {
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params
+    const { id } = await params
     const user = await requireAuth()
-    const supabase = createClient()
+    const supabase = await createClient()
 
     const { data: assessment, error } = await supabase
       .from('assessments')

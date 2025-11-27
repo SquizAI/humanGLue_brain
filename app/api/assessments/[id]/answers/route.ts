@@ -52,10 +52,10 @@ function calculateDimensionScores(answers: Array<{
  */
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id: assessmentId } = params
+    const { id: assessmentId } = await params
     const user = await requireAuth()
 
     // Enforce rate limit
@@ -73,7 +73,7 @@ export async function POST(
     }
 
     const { answers } = validation.data
-    const supabase = createClient()
+    const supabase = await createClient()
 
     // Get assessment to verify ownership and status
     const { data: assessment, error: fetchError } = await supabase

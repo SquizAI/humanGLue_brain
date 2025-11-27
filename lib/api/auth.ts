@@ -12,7 +12,7 @@ import type { User } from '@supabase/supabase-js'
  * Get authenticated user from request
  */
 export async function getAuthUser(): Promise<User> {
-  const supabase = createClient()
+  const supabase = await createClient()
   const { data: { user }, error } = await supabase.auth.getUser()
 
   if (error || !user) {
@@ -29,7 +29,7 @@ export async function checkUserRole(
   userId: string,
   allowedRoles: string[]
 ): Promise<{ hasRole: boolean; role?: string }> {
-  const supabase = createClient()
+  const supabase = await createClient()
 
   const { data: userRole, error } = await supabase
     .from('user_roles')
@@ -128,7 +128,7 @@ export function extractBearerToken(request: NextRequest): string | null {
  * Verify Supabase auth token
  */
 export async function verifyAuthToken(token: string): Promise<User> {
-  const supabase = createClient()
+  const supabase = await createClient()
 
   const { data: { user }, error } = await supabase.auth.getUser(token)
 

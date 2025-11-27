@@ -32,7 +32,7 @@ export interface UserProfile {
  * Returns null if no session
  */
 export async function getSession() {
-  const supabase = createClient()
+  const supabase = await createClient()
   const { data: { session }, error } = await supabase.auth.getSession()
 
   if (error) {
@@ -47,7 +47,7 @@ export async function getSession() {
  * Returns null if not authenticated
  */
 export async function getCurrentUser(): Promise<{ user: User; profile: UserProfile } | null> {
-  const supabase = createClient()
+  const supabase = await createClient()
 
   const { data: { user }, error: userError } = await supabase.auth.getUser()
 

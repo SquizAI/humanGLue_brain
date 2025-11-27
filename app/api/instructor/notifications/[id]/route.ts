@@ -9,10 +9,10 @@ import { createClient } from '@/lib/supabase/server'
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const supabase = createClient()
+    const supabase = await createClient()
 
     // Verify authentication
     const { data: { user }, error: authError } = await supabase.auth.getUser()
@@ -30,7 +30,7 @@ export async function PUT(
       )
     }
 
-    const { id } = params
+    const { id } = await params
     const body = await request.json()
     const { action } = body // 'read' or 'unread'
 
@@ -115,10 +115,10 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const supabase = createClient()
+    const supabase = await createClient()
 
     // Verify authentication
     const { data: { user }, error: authError } = await supabase.auth.getUser()
@@ -136,7 +136,7 @@ export async function DELETE(
       )
     }
 
-    const { id } = params
+    const { id } = await params
 
     // Verify ownership before deleting
     const { data: notification, error: checkError } = await supabase

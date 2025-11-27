@@ -5,6 +5,7 @@ export { TypingDots } from './TypingDots'
 export { QuickResponse } from './QuickResponse'
 export { TypingIndicator } from './TypingIndicator'
 export { AskAIButton, AskAboutSolution } from './AskAIButton'
+export { LiveSocialProof } from './LiveSocialProof'
 
 export type { InputFieldProps } from './InputField'
 export type { IconButtonProps } from './IconButton'

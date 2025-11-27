@@ -19,7 +19,7 @@ import { requireAuth } from '@/lib/api/auth'
 export async function GET(request: NextRequest) {
   try {
     const user = await requireAuth()
-    const supabase = createClient()
+    const supabase = await createClient()
 
     const { data: assessments, error } = await supabase
       .from('assessments')

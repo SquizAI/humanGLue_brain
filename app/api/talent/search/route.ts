@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
     }
 
     const filters = validation.data
-    const supabase = createClient()
+    const supabase = await createClient()
 
     if (!filters.search) {
       return NextResponse.json(

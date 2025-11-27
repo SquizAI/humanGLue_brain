@@ -29,7 +29,7 @@ export interface AuthenticatedInstructor {
 export async function getAuthenticatedUser(
   request: NextRequest
 ): Promise<User> {
-  const supabase = createClient()
+  const supabase = await createClient()
   const { data: { user }, error } = await supabase.auth.getUser()
 
   if (error || !user) {
@@ -46,7 +46,7 @@ export async function requireInstructor(
   request: NextRequest
 ): Promise<AuthenticatedInstructor> {
   const user = await getAuthenticatedUser(request)
-  const supabase = createClient()
+  const supabase = await createClient()
 
   // Check if user has instructor role in the database
   // For HumanGlue, instructors are identified by having courses they created
@@ -83,7 +83,7 @@ export async function requireResourceOwnership(
   resourceType: 'course' | 'workshop',
   resourceId: string
 ): Promise<void> {
-  const supabase = createClient()
+  const supabase = await createClient()
 
   if (resourceType === 'course') {
     const { data, error } = await supabase
@@ -132,7 +132,7 @@ export async function requireStudentAccess(
   instructorId: string,
   studentId: string
 ): Promise<void> {
-  const supabase = createClient()
+  const supabase = await createClient()
 
   // Check if student is enrolled in any of the instructor's courses
   const { data, error } = await supabase

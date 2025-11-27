@@ -14,17 +14,19 @@ import { handleAPIError, successResponse, logError, APIErrors } from '@/lib/api/
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { studentId: string } }
+  { params }: { params: Promise<{ studentId: string }> }
 ) {
+  let studentId: string | undefined
   try {
     // Authenticate and authorize
     const { instructorId } = await requireInstructor(request)
-    const { studentId } = params
+    const resolvedParams = await params
+    studentId = resolvedParams.studentId
 
     // Verify instructor has access to this student
     await requireStudentAccess(instructorId, studentId)
 
-    const supabase = createClient()
+    const supabase = await createClient()
 
     // Get student basic info
     const { data: student, error: studentError } = await supabase
@@ -263,7 +265,7 @@ export async function GET(
   } catch (error) {
     logError(error, {
       endpoint: 'GET /api/instructor/students/:studentId',
-      studentId: params.studentId,
+      studentId,
     })
     return handleAPIError(error)
   }

@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
     }
 
     const contactData = validation.data
-    const supabase = createClient()
+    const supabase = await createClient()
 
     // Get talent profile to verify it exists and get expert user ID
     const { data: talentProfile, error: talentError } = await supabase

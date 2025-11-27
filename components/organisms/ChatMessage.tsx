@@ -220,7 +220,7 @@ function StructuredContentRenderer({ section }: { section: StructuredContent }) 
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="text-gray-100 leading-relaxed my-2 font-diatype"
+          className="text-gray-100 leading-relaxed my-2 font-diatype whitespace-pre-line"
         >
           {section.content}
         </motion.p>
@@ -233,6 +233,13 @@ export function ChatMessage({ message, modelName }: ChatMessageProps) {
 
   // Check if this is an analysis loading message
   const isAnalysisMessage = !isUser && message.content.includes("I'm now analyzing your profile")
+
+  // Check if this is the name question (to highlight it)
+  const isNameQuestion = !isUser && (
+    message.content.toLowerCase().includes("first name") ||
+    message.content.toLowerCase().includes("what's your name") ||
+    message.content.toLowerCase().includes("what is your name")
+  )
 
   // Extract company name from analysis message
   const companyName = useMemo(() => {
@@ -267,6 +274,8 @@ export function ChatMessage({ message, modelName }: ChatMessageProps) {
             'px-4 py-3 rounded-2xl',
             isUser
               ? 'bg-brand-cyan text-gray-900 rounded-br-sm'
+              : isNameQuestion
+              ? 'bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-400/30 backdrop-blur-sm'
               : 'text-white'
           )}
           initial={{ scale: 0.95 }}
@@ -281,6 +290,48 @@ export function ChatMessage({ message, modelName }: ChatMessageProps) {
             </Text>
           ) : isAnalysisMessage ? (
             <AnalysisLoader companyName={companyName} />
+          ) : isNameQuestion ? (
+            // Special rendering for name question with highlighted text
+            <div className="space-y-1">
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="text-white leading-relaxed font-diatype"
+              >
+                {message.content.split('\n').map((line, idx) => {
+                  const lineLower = line.toLowerCase()
+                  let highlightText = ''
+                  let highlightIndex = -1
+                  let highlightLength = 0
+
+                  if (lineLower.includes('first name')) {
+                    highlightText = 'first name'
+                    highlightIndex = lineLower.indexOf('first name')
+                    highlightLength = 10
+                  } else if (lineLower.includes('your name')) {
+                    highlightText = 'your name'
+                    highlightIndex = lineLower.indexOf('your name')
+                    highlightLength = 9
+                  }
+
+                  return (
+                    <span key={idx} className="block">
+                      {highlightIndex !== -1 ? (
+                        <>
+                          {line.substring(0, highlightIndex)}
+                          <span className="font-semibold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                            {line.substring(highlightIndex, highlightIndex + highlightLength)}
+                          </span>
+                          {line.substring(highlightIndex + highlightLength)}
+                        </>
+                      ) : (
+                        line
+                      )}
+                    </span>
+                  )
+                })}
+              </motion.p>
+            </div>
           ) : (
             <div className="space-y-1">
               {structuredSections?.map((section, index) => (

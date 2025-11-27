@@ -22,9 +22,10 @@ export interface UnifiedChatSystemProps {
   className?: string
   onShowROI?: () => void
   onShowRoadmap?: () => void
+  isMobileSticky?: boolean
 }
 
-export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowRoadmap }: UnifiedChatSystemProps) {
+export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowRoadmap, isMobileSticky = false }: UnifiedChatSystemProps) {
   const {
     messages,
     setMessages,
@@ -44,7 +45,12 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
   const [showVoiceToggle, setShowVoiceToggle] = useState(false)
   const [hasStartedChat, setHasStartedChat] = useState(false)
   const [showChatPrompt, setShowChatPrompt] = useState(false)
-  const [personalizedGreeting, setPersonalizedGreeting] = useState(getPersonalizedGreeting())
+  // Initialize with default greeting to avoid hydration mismatch
+  const [personalizedGreeting, setPersonalizedGreeting] = useState({
+    greeting: "Welcome to HumanGlue. We guide Fortune 1000 companies of tomorrow, today.",
+    context: "What is your name?",
+    suggestions: []
+  })
   const [showRecoveryPrompt, setShowRecoveryPrompt] = useState(false)
 
   const messagesEndRef = useRef<HTMLDivElement>(null)
@@ -88,6 +94,11 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
   useEffect(() => {
     localUserData.current = contextUserData || {}
   }, [contextUserData])
+
+  // Set personalized greeting after hydration (client-side only)
+  useEffect(() => {
+    setPersonalizedGreeting(getPersonalizedGreeting())
+  }, [])
 
   // Show voice toggle when reaching assessment state
   useEffect(() => {
@@ -222,17 +233,20 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
     }
   }, [messages.length, hasStarted])
 
-  // Check for saved progress on mount
+  // Check for saved progress on mount - only once per session
   useEffect(() => {
-    const savedProgress = loadProgress()
-    if (savedProgress && savedProgress.messages.length > 0) {
-      setShowRecoveryPrompt(true)
-      trackEngagement('chat_recovery_offered', {
-        savedMessages: savedProgress.messages.length,
-        savedState: savedProgress.currentState
-      })
+    // Only show recovery prompt if this is a fresh page load and hero is visible
+    if (isHeroVisible && !hasStarted.current && messages.length === 0) {
+      const savedProgress = loadProgress()
+      if (savedProgress && savedProgress.messages.length > 0) {
+        setShowRecoveryPrompt(true)
+        trackEngagement('chat_recovery_offered', {
+          savedMessages: savedProgress.messages.length,
+          savedState: savedProgress.currentState
+        })
+      }
     }
-  }, [])
+  }, []) // Only run once on mount
 
   // Handle abandonment detection
   useEffect(() => {
@@ -246,7 +260,17 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
 
   // Handle transition from hero to sidebar
   useEffect(() => {
-    if (!isHeroVisible && !hasTransitioned && messages.length > 0) {
+    // Only show transition message when:
+    // 1. Hero becomes invisible (user scrolled down)
+    // 2. Haven't shown the transition message yet
+    // 3. There are existing messages (user has started chatting)
+    // 4. NOT during active question sequences (assessment, analysis states)
+    const isInActiveQuestionSequence = currentState === 'assessment' ||
+                                       currentState === 'performingAnalysis' ||
+                                       currentState === 'voiceAssessment' ||
+                                       currentState === 'waitingForAnalysis'
+
+    if (!isHeroVisible && !hasTransitioned && messages.length > 0 && !isInActiveQuestionSequence) {
       setHasTransitioned(true)
       // Add a transition message when moving to sidebar
       const transitionMessage: Message = {
@@ -257,36 +281,33 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
       }
       setMessages(prev => [...prev, transitionMessage])
     }
-  }, [isHeroVisible, hasTransitioned, messages.length])
+  }, [isHeroVisible, hasTransitioned, currentState])
 
   const startConversation = () => {
     if (hasStarted.current) return
     hasStarted.current = true
     setHasStartedChat(true)
 
-    setIsTyping(true)
-    setTimeout(() => {
-      const greeting = personalizedGreeting.greeting
-      setMessages([{
-        id: '1',
-        role: 'assistant',
-        content: greeting,
-        timestamp: new Date()
-      }])
-      setIsTyping(false)
-      onChatStateChange('greeting')
+    // Show greeting immediately without typing indicator
+    const greeting = personalizedGreeting.greeting
+    setMessages([{
+      id: '1',
+      role: 'assistant',
+      content: greeting,
+      timestamp: new Date()
+    }])
+    onChatStateChange('greeting')
 
-      // Set personalized suggestions if available
-      if (personalizedGreeting.suggestions.length > 0) {
-        setSuggestions(personalizedGreeting.suggestions)
-      } else {
-        setSuggestions([])
-      }
+    // Set personalized suggestions if available
+    if (personalizedGreeting.suggestions.length > 0) {
+      setSuggestions(personalizedGreeting.suggestions)
+    } else {
+      setSuggestions([])
+    }
 
-      trackEngagement('conversation_started', {
-        greetingType: personalizedGreeting.greeting
-      })
-    }, 2000)
+    trackEngagement('conversation_started', {
+      greetingType: personalizedGreeting.greeting
+    })
   }
 
   const handleRecoverChat = (action: 'continue' | 'email' | 'browse') => {
@@ -485,6 +506,18 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
           const updatedUserData = { ...localUserData.current, ...response.data }
           localUserData.current = updatedUserData
           onChatStateChange(response.nextState, updatedUserData)
+
+          // Auto-scroll to assessment cards after second question (discovery state)
+          // This happens after user provides name and moves to company selection
+          if (response.nextState === 'discovery' && isHeroVisible) {
+            setTimeout(() => {
+              const assessmentSection = document.getElementById('ai-transformation')
+              if (assessmentSection) {
+                assessmentSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                trackEngagement('auto_scrolled_to_assessment')
+              }
+            }, 1500) // Wait for animation to complete
+          }
 
           // Auto-trigger analysis after showing loading animation
           if (response.nextState === 'performingAnalysis') {
@@ -780,6 +813,57 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
     </>
   )
 
+  // Mobile sticky footer mode
+  if (isMobileSticky) {
+    return (
+      <div className="w-full bg-gray-900/95 backdrop-blur-xl border-t border-white/10 shadow-2xl">
+        <div className="max-w-2xl mx-auto p-4">
+          <div className="space-y-4">
+            {chatContent}
+
+            {/* Chat Input */}
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder={
+                  currentState === 'waitingForAnalysis'
+                    ? 'Analysis in progress...'
+                    : 'Type your message...'
+                }
+                disabled={isTyping || currentState === 'waitingForAnalysis'}
+                className={cn(
+                  'flex-1 px-4 py-3 rounded-xl font-diatype',
+                  'bg-gray-800/50 border border-gray-700/50',
+                  'text-white placeholder:text-gray-500',
+                  'focus:outline-none focus:border-brand-cyan/50',
+                  'disabled:opacity-50 disabled:cursor-not-allowed',
+                  'transition-colors'
+                )}
+              />
+              <button
+                onClick={() => handleSend()}
+                disabled={!input.trim() || isTyping || currentState === 'waitingForAnalysis'}
+                className={cn(
+                  'px-4 py-3 rounded-xl font-medium font-diatype',
+                  'bg-brand-cyan text-gray-900',
+                  'hover:bg-brand-cyan/90',
+                  'disabled:opacity-50 disabled:cursor-not-allowed',
+                  'transition-colors'
+                )}
+              >
+                Send
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // Desktop mode (existing behavior)
   return (
     <motion.div
       initial={false}
@@ -788,8 +872,8 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
         right: isHeroVisible ? 'auto' : 0,
         bottom: isHeroVisible ? 'auto' : 0,
         top: isHeroVisible ? 'auto' : 0,
-        width: isHeroVisible ? '100%' : 480,
-        maxWidth: isHeroVisible ? 540 : 'none',
+        width: isHeroVisible ? '100%' : '100%',
+        maxWidth: isHeroVisible ? 600 : 480, // Hero: 600px, Sidebar: 480px (responsive on mobile: 100%)
         height: isHeroVisible ? 'auto' : '100vh',
         zIndex: isHeroVisible ? 10 : 60
       }}
@@ -799,7 +883,7 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
         ease: "easeInOut"
       }}
       className={cn(
-        isHeroVisible ? 'mx-auto' : '',
+        isHeroVisible ? 'mx-auto' : 'w-full sm:w-auto', // Full width on mobile, auto on larger screens
         className
       )}
     >
@@ -892,7 +976,7 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
 
       <div
         className={cn(
-          "relative flex flex-col transition-all duration-300",
+          "relative flex flex-col transition-all duration-300 overflow-hidden",
           isHeroVisible
             ? "rounded-3xl border border-white/10 backdrop-blur-3xl bg-gray-900/60 shadow-2xl shadow-purple-500/10 h-auto"
             : "h-full bg-gray-900/95 backdrop-blur-xl border-l border-gray-800 shadow-2xl"
@@ -970,8 +1054,8 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
           className={cn(
             "overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent flex-1 min-h-0",
             isHeroVisible
-              ? cn("px-6 py-5", isExpanded ? "max-h-[600px]" : "max-h-[420px]")
-              : "p-4"
+              ? cn("px-4 sm:px-6 py-4 sm:py-5", isExpanded ? "max-h-[600px]" : "max-h-[320px] sm:max-h-[420px]")
+              : "p-3 sm:p-4"
           )}
         >
           {chatContent}
@@ -982,7 +1066,7 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
           <div
             className={cn(
               "border-t border-white/10 bg-gray-900/80 flex-shrink-0",
-              isHeroVisible ? "px-5 py-3 backdrop-blur-sm" : "p-4"
+              isHeroVisible ? "px-3 sm:px-5 py-2.5 sm:py-3 backdrop-blur-sm" : "p-3 sm:p-4"
             )}
           >
             <div className="flex items-center gap-2">
@@ -1000,7 +1084,7 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
                   'placeholder:text-gray-500 text-white',
                   'transition-all duration-200',
                   'disabled:opacity-50 disabled:cursor-not-allowed',
-                  isHeroVisible ? 'px-4 py-2.5' : 'px-3 py-2'
+                  isHeroVisible ? 'px-3 sm:px-4 py-2 sm:py-2.5' : 'px-3 py-2'
                 )}
               />
               <motion.button
@@ -1013,10 +1097,10 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
                   'bg-gradient-to-r from-brand-cyan to-brand-purple',
                   'hover:shadow-lg hover:shadow-brand-cyan/25',
                   'disabled:opacity-50 disabled:cursor-not-allowed',
-                  isHeroVisible ? 'p-2.5' : 'p-2'
+                  isHeroVisible ? 'p-2 sm:p-2.5' : 'p-2'
                 )}
               >
-                <Send className={cn('text-white', isHeroVisible ? 'w-4 h-4' : 'w-3 h-3')} />
+                <Send className={cn('text-white', isHeroVisible ? 'w-4 h-4' : 'w-4 h-4')} />
               </motion.button>
             </div>
           </div>
