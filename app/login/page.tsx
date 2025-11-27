@@ -20,6 +20,16 @@ export default function LoginPage() {
     setIsLoading(true)
 
     try {
+      // Clear any stale auth data before attempting login
+      if (typeof window !== 'undefined') {
+        const authKey = 'sb-egqqdscvxvtwcdwknbnt-auth-token'
+        const existingAuth = localStorage.getItem(authKey)
+        if (existingAuth) {
+          console.log('[handleLogin] Clearing existing auth data before login')
+          localStorage.removeItem(authKey)
+        }
+      }
+
       const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -74,6 +84,16 @@ export default function LoginPage() {
     setIsLoading(true)
 
     try {
+      // Clear any stale auth data before attempting login
+      if (typeof window !== 'undefined') {
+        const authKey = 'sb-egqqdscvxvtwcdwknbnt-auth-token'
+        const existingAuth = localStorage.getItem(authKey)
+        if (existingAuth) {
+          console.log('[handleDemoLogin] Clearing existing auth data before login')
+          localStorage.removeItem(authKey)
+        }
+      }
+
       const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

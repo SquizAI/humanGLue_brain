@@ -59,5 +59,36 @@ export function createClient() {
     },
   })
 
+  // Handle refresh token errors by clearing the session
+  client.auth.onAuthStateChange((event, session) => {
+    if (event === 'TOKEN_REFRESHED') {
+      console.log('[Supabase] Token refreshed successfully')
+    } else if (event === 'SIGNED_OUT') {
+      console.log('[Supabase] User signed out')
+      // Clear localStorage on sign out
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('sb-egqqdscvxvtwcdwknbnt-auth-token')
+      }
+    }
+  })
+
+  // Add global error handler for auth errors
+  const originalSignInWithPassword = client.auth.signInWithPassword.bind(client.auth)
+  client.auth.signInWithPassword = async (credentials: any) => {
+    try {
+      return await originalSignInWithPassword(credentials)
+    } catch (error: any) {
+      // If refresh token error, clear the session
+      if (error?.message?.includes('refresh') || error?.message?.includes('Invalid Refresh Token')) {
+        console.warn('[Supabase] Clearing invalid session')
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('sb-egqqdscvxvtwcdwknbnt-auth-token')
+        }
+        await client?.auth.signOut()
+      }
+      throw error
+    }
+  }
+
   return client
 }
