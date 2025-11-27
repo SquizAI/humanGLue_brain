@@ -58,7 +58,7 @@ export function useAuth() {
     const getProfile = async (userId: string) => {
       try {
         const { data: profile, error: profileError } = await supabase
-          .from('profiles')
+          .from('users')  // Fixed: Changed from 'profiles' to 'users'
           .select('*')
           .eq('id', userId)
           .single()

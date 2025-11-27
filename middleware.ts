@@ -138,7 +138,7 @@ export async function middleware(request: NextRequest) {
     // Use the existing supabase client which already has auth context from cookies
     // Fetch user profile and role (RLS policies allow authenticated users to read)
     const { data: profile, error: profileError } = await supabase
-      .from('profiles')
+      .from('users')  // Fixed: Changed from 'profiles' to 'users'
       .select('role')
       .eq('id', user.id)
       .single()
