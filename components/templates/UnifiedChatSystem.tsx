@@ -1,8 +1,8 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Sparkles, Send, Brain, X, Minimize2, Maximize2, Mic, MessageSquare, RotateCcw, ArrowDown } from 'lucide-react'
+import { Sparkles, Send, Brain, X, Minimize2, Maximize2, Mic, MessageSquare, RotateCcw, ArrowDown, ChevronDown, ChevronUp } from 'lucide-react'
 import { Text } from '../atoms'
 import { Card, QuickResponse } from '../molecules'
 import { ChatMessage, VoiceAssessment } from '../organisms'
@@ -814,53 +814,88 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
 
   // Mobile sticky footer mode
   if (isMobileSticky) {
+    const [isMobileExpanded, setIsMobileExpanded] = React.useState(true)
+
     return (
       <div className="w-full bg-gray-900/95 backdrop-blur-xl border-t border-white/10 shadow-2xl">
-        <div className="max-w-2xl mx-auto p-4">
-          <div className="space-y-3">
-            {/* Scrollable messages area with max height */}
-            <div className="max-h-[40vh] overflow-y-auto overscroll-contain scroll-smooth">
-              {chatContent}
-            </div>
-
-            {/* Chat Input - Fixed at bottom */}
-            <div className="flex gap-2">
-              <input
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder={
-                  currentState === 'performingAnalysis'
-                    ? 'Analysis in progress...'
-                    : 'Type your message...'
-                }
-                disabled={isTyping || currentState === 'performingAnalysis'}
-                className={cn(
-                  'flex-1 px-4 py-3 rounded-xl font-diatype',
-                  'bg-gray-800/50 border border-gray-700/50',
-                  'text-white placeholder:text-gray-500',
-                  'focus:outline-none focus:border-brand-cyan/50',
-                  'disabled:opacity-50 disabled:cursor-not-allowed',
-                  'transition-colors'
-                )}
-              />
-              <button
-                onClick={() => handleSend()}
-                disabled={!input.trim() || isTyping || currentState === 'performingAnalysis'}
-                className={cn(
-                  'px-4 py-3 rounded-xl font-medium font-diatype',
-                  'bg-brand-cyan text-gray-900',
-                  'hover:bg-brand-cyan/90',
-                  'disabled:opacity-50 disabled:cursor-not-allowed',
-                  'transition-colors'
-                )}
-              >
-                Send
-              </button>
-            </div>
+        {/* Mobile Chat Header - Always visible */}
+        <div
+          className="flex items-center justify-between px-4 py-3 border-b border-white/10 cursor-pointer"
+          onClick={() => setIsMobileExpanded(!isMobileExpanded)}
+        >
+          <div className="flex items-center gap-3">
+            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+            <Text size="sm" className="font-medium text-white font-diatype">
+              {currentState === 'performingAnalysis' ? 'Analyzing...' : 'AI Assessment'}
+            </Text>
           </div>
+          <button className="text-gray-400 hover:text-white transition-colors">
+            {isMobileExpanded ? (
+              <ChevronDown className="w-5 h-5" />
+            ) : (
+              <ChevronUp className="w-5 h-5" />
+            )}
+          </button>
         </div>
+
+        {/* Expandable Chat Content */}
+        <AnimatePresence>
+          {isMobileExpanded && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="overflow-hidden"
+            >
+              <div className="max-w-2xl mx-auto p-4">
+                <div className="space-y-3">
+                  {/* Scrollable messages area with max height */}
+                  <div className="max-h-[30vh] overflow-y-auto overscroll-contain scroll-smooth">
+                    {chatContent}
+                  </div>
+
+                  {/* Chat Input - Fixed at bottom */}
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={input}
+                      onChange={(e) => setInput(e.target.value)}
+                      onKeyDown={handleKeyDown}
+                      placeholder={
+                        currentState === 'performingAnalysis'
+                          ? 'Analysis in progress...'
+                          : 'Type your message...'
+                      }
+                      disabled={isTyping || currentState === 'performingAnalysis'}
+                      className={cn(
+                        'flex-1 px-4 py-3 rounded-xl font-diatype',
+                        'bg-gray-800/50 border border-gray-700/50',
+                        'text-white placeholder:text-gray-500',
+                        'focus:outline-none focus:border-brand-cyan/50',
+                        'disabled:opacity-50 disabled:cursor-not-allowed',
+                        'transition-colors'
+                      )}
+                    />
+                    <button
+                      onClick={() => handleSend()}
+                      disabled={!input.trim() || isTyping || currentState === 'performingAnalysis'}
+                      className={cn(
+                        'px-4 py-3 rounded-xl font-medium font-diatype',
+                        'bg-brand-cyan text-gray-900',
+                        'hover:bg-brand-cyan/90',
+                        'disabled:opacity-50 disabled:cursor-not-allowed',
+                        'transition-colors'
+                      )}
+                    >
+                      Send
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     )
   }

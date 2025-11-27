@@ -263,7 +263,7 @@ export function EnhancedHomepage() {
       <div className={cn(
         "transition-all duration-300",
         !isHeroVisible ? "mr-[480px]" : "",
-        "pb-[50vh] lg:pb-0" // Add bottom padding on mobile for chat footer
+        "pb-24 lg:pb-0" // Add bottom padding on mobile for collapsible chat footer
       )}>
         {/* Hero Section with Chat */}
         <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
