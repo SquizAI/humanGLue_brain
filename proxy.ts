@@ -1,5 +1,5 @@
 /**
- * Next.js Middleware for Authentication and Authorization
+ * Next.js Proxy for Authentication and Authorization
  *
  * Security Features:
  * - Session refresh and validation
@@ -31,7 +31,7 @@ const ROUTE_RULES = {
   authenticated: ['/dashboard', '/profile', '/settings'],
 }
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
 
   // Skip middleware for static files, API routes, and public assets

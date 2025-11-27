@@ -104,9 +104,6 @@
   scrollbar-width: none;  /* Firefox */
 }
 
-/* Import mobile-specific styles */
-@import '../styles/mobile.css' screen and (max-width: 768px);
-
 /* Prevent body scroll when modal is open */
 body.modal-open {
   overflow: hidden;

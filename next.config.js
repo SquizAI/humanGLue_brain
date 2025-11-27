@@ -6,9 +6,6 @@ const nextConfig = {
   // Strict mode for better error detection
   reactStrictMode: true,
 
-  // Enable SWC minification for better performance
-  swcMinify: true,
-
   // Compiler options
   compiler: {
     // Remove console.log in production
@@ -142,16 +139,6 @@ const nextConfig = {
   typescript: {
     // Don't run type checking during build (run in CI/CD instead)
     ignoreBuildErrors: false,
-  },
-
-  // ============================================================================
-  // ESLint Configuration
-  // ============================================================================
-  eslint: {
-    // Run ESLint in these directories during build
-    dirs: ['app', 'components', 'lib', 'utils'],
-    // Don't fail build on lint errors (handle in CI/CD)
-    ignoreDuringBuilds: false,
   },
 
   // ============================================================================

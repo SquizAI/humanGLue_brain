@@ -5,7 +5,7 @@
 
 [build]
   command = "npm run build"
-  # publish directory is auto-handled by @netlify/plugin-nextjs
+  publish = ".next"
   functions = "netlify/functions"
 
 [build.environment]
@@ -281,8 +281,9 @@
 # ============================================================================
 
 # Essential Next.js Runtime plugin
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
+# TEMPORARILY DISABLED TO ALLOW CLI DEPLOYMENT
+# [[plugins]]
+#   package = "@netlify/plugin-nextjs"
 
 # Submit sitemap to search engines after deploy
 # TEMPORARILY DISABLED FOR DEBUGGING

@@ -8,16 +8,23 @@ import { ROICalculator } from '../organisms/ROICalculator'
 import { Navigation } from '../organisms/Navigation'
 import { AnimatedWave } from '../organisms/AnimatedWave'
 import { Footer } from '../organisms/Footer'
+import { ExitIntentModal } from '../organisms/ExitIntentModal'
 import {
-  Sparkles
+  Sparkles,
+  ArrowRight,
+  CheckCircle,
+  Clock,
+  Shield,
+  Play
 } from 'lucide-react'
 import { cn } from '../../utils/cn'
 import { useChat } from '../../lib/contexts/ChatContext'
 import { ChatState } from '../../lib/types'
+import { useExitIntent } from '../../lib/hooks/useExitIntent'
 import Image from 'next/image'
 
 export function EnhancedHomepage() {
-  const { userData, chatState, onChatStateChange } = useChat()
+  const { userData, chatState, onChatStateChange, setIsChatOpen, setChatState } = useChat()
   const [showRoadmap, setShowRoadmap] = useState(false)
   const [showROI, setShowROI] = useState(false)
   const [currentRoadmapStep, setCurrentRoadmapStep] = useState(-1)
@@ -29,6 +36,10 @@ export function EnhancedHomepage() {
   const roiRef = useRef<HTMLDivElement>(null)
   const heroRef = useRef<HTMLDivElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
+
+  // Exit Intent Detection - only enable if user hasn't started assessment
+  const shouldShowExitIntent = chatState === 'initial' || chatState === 'greeting'
+  const { showExitIntent, closeExitIntent } = useExitIntent(shouldShowExitIntent)
 
   // Track hero visibility
   useEffect(() => {
@@ -132,6 +143,13 @@ export function EnhancedHomepage() {
       video.removeEventListener('error', handleError)
     }
   }, [])
+
+  // Handler to start assessment (open chat and set to greeting state)
+  const handleStartAssessment = () => {
+    setChatState('greeting')
+    setIsChatOpen(true)
+    closeExitIntent() // Close exit intent modal if open
+  }
 
   return (
     <div className="min-h-screen bg-gray-950">
@@ -300,6 +318,74 @@ export function EnhancedHomepage() {
                   What you do next matters.
                 </h2>
               </div>
+
+              {/* Hero CTAs - Above the fold */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+                className="mt-8 sm:mt-10 space-y-6"
+              >
+                {/* Primary & Secondary CTAs */}
+                <div className="flex flex-col sm:flex-row gap-4">
+                  {/* Primary CTA - Start Assessment */}
+                  <motion.button
+                    onClick={handleStartAssessment}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className={cn(
+                      'group px-8 py-4 rounded-full font-semibold text-white',
+                      'bg-gradient-to-r from-blue-600 to-purple-600',
+                      'hover:from-blue-500 hover:to-purple-500',
+                      'transition-all duration-300',
+                      'hover:shadow-xl hover:shadow-blue-500/30',
+                      'flex items-center justify-center gap-2',
+                      'font-diatype text-lg'
+                    )}
+                  >
+                    Start Free Assessment
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </motion.button>
+
+                  {/* Secondary CTA - Watch Demo */}
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className={cn(
+                      'group px-8 py-4 rounded-full font-semibold',
+                      'border-2 border-white/30 backdrop-blur-sm bg-white/5',
+                      'text-white hover:bg-white/10 hover:border-white/50',
+                      'transition-all duration-300',
+                      'flex items-center justify-center gap-2',
+                      'font-diatype text-lg'
+                    )}
+                  >
+                    <Play className="w-5 h-5" />
+                    Watch Demo
+                  </motion.button>
+                </div>
+
+                {/* Trust Indicators */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.6 }}
+                  className="flex flex-wrap items-center gap-4 sm:gap-6 text-sm text-white/70"
+                >
+                  <div className="flex items-center gap-2 font-diatype">
+                    <CheckCircle className="w-4 h-4 text-green-400" />
+                    <span>No credit card required</span>
+                  </div>
+                  <div className="flex items-center gap-2 font-diatype">
+                    <Clock className="w-4 h-4 text-blue-400" />
+                    <span>5 minutes to complete</span>
+                  </div>
+                  <div className="flex items-center gap-2 font-diatype">
+                    <Shield className="w-4 h-4 text-purple-400" />
+                    <span>Enterprise secure</span>
+                  </div>
+                </motion.div>
+              </motion.div>
             </motion.div>
 
           </div>
@@ -630,6 +716,13 @@ export function EnhancedHomepage() {
         isHeroVisible={isHeroVisible}
         onShowROI={() => setShowROI(true)}
         onShowRoadmap={() => setShowRoadmap(true)}
+      />
+
+      {/* Exit Intent Modal */}
+      <ExitIntentModal
+        isOpen={showExitIntent}
+        onClose={closeExitIntent}
+        onStartAssessment={handleStartAssessment}
       />
     </div>
   )
