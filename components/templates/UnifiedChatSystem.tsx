@@ -13,7 +13,7 @@ import { cn } from '../../utils/cn'
 import { AIChatService } from '../../lib/aiChatService'
 import { AIToolHandler } from '../../lib/aiToolHandler'
 import { useChat } from '../../lib/contexts/ChatContext'
-import { getPersonalizedGreeting, trackEngagement } from '../../lib/utils/personalization'
+import { getPersonalizedGreeting, trackEngagement, PersonalizedGreeting } from '../../lib/utils/personalization'
 import { useChatProgress } from '../../lib/hooks/useChatProgress'
 import { useDataEnrichment } from '../../lib/hooks/useDataEnrichment'
 
@@ -46,10 +46,10 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
   const [hasStartedChat, setHasStartedChat] = useState(false)
   const [showChatPrompt, setShowChatPrompt] = useState(false)
   // Initialize with default greeting to avoid hydration mismatch
-  const [personalizedGreeting, setPersonalizedGreeting] = useState({
+  const [personalizedGreeting, setPersonalizedGreeting] = useState<PersonalizedGreeting>({
     greeting: "Welcome to HumanGlue. We guide Fortune 1000 companies of tomorrow, today.",
     context: "What is your name?",
-    suggestions: []
+    suggestions: [] as string[]
   })
   const [showRecoveryPrompt, setShowRecoveryPrompt] = useState(false)
 
@@ -267,8 +267,7 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
     // 4. NOT during active question sequences (assessment, analysis states)
     const isInActiveQuestionSequence = currentState === 'assessment' ||
                                        currentState === 'performingAnalysis' ||
-                                       currentState === 'voiceAssessment' ||
-                                       currentState === 'waitingForAnalysis'
+                                       currentState === 'voiceAssessment'
 
     if (!isHeroVisible && !hasTransitioned && messages.length > 0 && !isInActiveQuestionSequence) {
       setHasTransitioned(true)
@@ -829,11 +828,11 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder={
-                  currentState === 'waitingForAnalysis'
+                  currentState === 'performingAnalysis'
                     ? 'Analysis in progress...'
                     : 'Type your message...'
                 }
-                disabled={isTyping || currentState === 'waitingForAnalysis'}
+                disabled={isTyping || currentState === 'performingAnalysis'}
                 className={cn(
                   'flex-1 px-4 py-3 rounded-xl font-diatype',
                   'bg-gray-800/50 border border-gray-700/50',
@@ -845,7 +844,7 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
               />
               <button
                 onClick={() => handleSend()}
-                disabled={!input.trim() || isTyping || currentState === 'waitingForAnalysis'}
+                disabled={!input.trim() || isTyping || currentState === 'performingAnalysis'}
                 className={cn(
                   'px-4 py-3 rounded-xl font-medium font-diatype',
                   'bg-brand-cyan text-gray-900',
