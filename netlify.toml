@@ -5,7 +5,7 @@
 
 [build]
   command = "npm run build"
-  publish = ".next"
+  # publish directory is auto-handled by @netlify/plugin-nextjs
   functions = "netlify/functions"
 
 [build.environment]
@@ -285,41 +285,44 @@
   package = "@netlify/plugin-nextjs"
 
 # Submit sitemap to search engines after deploy
-[[plugins]]
-  package = "netlify-plugin-submit-sitemap"
-  [plugins.inputs]
-    baseUrl = "https://humanglue.ai"
-    sitemapPath = "/sitemap.xml"
-    providers = [
-      "google",
-      "bing"
-    ]
+# TEMPORARILY DISABLED FOR DEBUGGING
+# [[plugins]]
+#   package = "netlify-plugin-submit-sitemap"
+#   [plugins.inputs]
+#     baseUrl = "https://humanglue.ai"
+#     sitemapPath = "/sitemap.xml"
+#     providers = [
+#       "google",
+#       "bing"
+#     ]
 
 # Optimize images during build
-[[plugins]]
-  package = "netlify-plugin-image-optim"
+# TEMPORARILY DISABLED FOR DEBUGGING
+# [[plugins]]
+#   package = "netlify-plugin-image-optim"
 
 # Lighthouse CI for performance monitoring
-[[plugins]]
-  package = "@netlify/plugin-lighthouse"
-  [plugins.inputs]
-    output_path = "lighthouse-reports"
-
-    [[plugins.inputs.audits]]
-      path = "/"
-      thresholds.performance = 0.9
-      thresholds.accessibility = 0.9
-      thresholds.best-practices = 0.9
-      thresholds.seo = 0.9
-
-    [[plugins.inputs.audits]]
-      path = "/workshops"
-      thresholds.performance = 0.85
-      thresholds.accessibility = 0.9
-
-    [[plugins.inputs.audits]]
-      path = "/admin/dashboard"
-      thresholds.performance = 0.85
+# TEMPORARILY DISABLED FOR DEBUGGING - This can hang deployments
+# [[plugins]]
+#   package = "@netlify/plugin-lighthouse"
+#   [plugins.inputs]
+#     output_path = "lighthouse-reports"
+#
+#     [[plugins.inputs.audits]]
+#       path = "/"
+#       thresholds.performance = 0.9
+#       thresholds.accessibility = 0.9
+#       thresholds.best-practices = 0.9
+#       thresholds.seo = 0.9
+#
+#     [[plugins.inputs.audits]]
+#       path = "/workshops"
+#       thresholds.performance = 0.85
+#       thresholds.accessibility = 0.9
+#
+#     [[plugins.inputs.audits]]
+#       path = "/admin/dashboard"
+#       thresholds.performance = 0.85
 
 # ============================================================================
 # Context-Specific Configurations
