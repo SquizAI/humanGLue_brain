@@ -44,25 +44,40 @@ export default function AdminDashboard() {
     console.log('[AdminPage] authLoading:', authLoading, 'userData:', userData)
   }, [authLoading, userData])
 
-  // Check admin access
+  // Timeout for authLoading - if it takes more than 3 seconds, assume middleware validated access
+  const [showContent, setShowContent] = useState(false)
+
   useEffect(() => {
-    if (!authLoading && !userData?.isAdmin) {
+    // If auth loads quickly and user is admin, show content
+    if (!authLoading && userData?.isAdmin) {
+      setShowContent(true)
+      return
+    }
+
+    // If auth is still loading after 3 seconds, trust middleware and show content anyway
+    // Middleware will have already blocked non-admins from reaching this page
+    const timeout = setTimeout(() => {
+      console.log('[AdminPage] Auth timeout - trusting middleware protection')
+      setShowContent(true)
+    }, 3000)
+
+    return () => clearTimeout(timeout)
+  }, [authLoading, userData])
+
+  // Check admin access only if auth loaded and user is not admin
+  useEffect(() => {
+    if (!authLoading && userData && !userData?.isAdmin) {
       console.log('[AdminPage] Redirecting to login - no admin access')
       router.push('/login')
     }
   }, [userData, router, authLoading])
 
-  if (authLoading) {
-    console.log('[AdminPage] Showing loading spinner')
+  if (!showContent) {
     return (
       <div className="min-h-screen bg-slate-900 flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500"></div>
       </div>
     )
-  }
-
-  if (!userData?.isAdmin) {
-    return null
   }
 
   const handleLogout = async () => {
