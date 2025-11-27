@@ -8,7 +8,9 @@ import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { loginSchema, validateData } from '@/lib/validation/auth-schemas'
 
 export async function POST(request: NextRequest) {
-  const response = NextResponse.next()
+  // Create arrays to collect cookies that Supabase wants to set
+  const cookiesToSet: Array<{ name: string; value: string; options: CookieOptions }> = []
+  const cookiesToRemove: Array<{ name: string; options: CookieOptions }> = []
 
   // Create Supabase client that can set cookies on the response
   const supabase = createServerClient(
@@ -20,10 +22,10 @@ export async function POST(request: NextRequest) {
           return request.cookies.get(name)?.value
         },
         set(name: string, value: string, options: CookieOptions) {
-          response.cookies.set({ name, value, ...options })
+          cookiesToSet.push({ name, value, options })
         },
         remove(name: string, options: CookieOptions) {
-          response.cookies.set({ name, value: '', ...options })
+          cookiesToRemove.push({ name, options })
         },
       },
     }
@@ -149,9 +151,12 @@ export async function POST(request: NextRequest) {
       },
     })
 
-    // Copy cookies from the supabase response to the final response
-    response.cookies.getAll().forEach(cookie => {
-      jsonResponse.cookies.set(cookie)
+    // Apply all cookies that Supabase wanted to set
+    cookiesToSet.forEach(({ name, value, options }) => {
+      jsonResponse.cookies.set(name, value, options)
+    })
+    cookiesToRemove.forEach(({ name, options }) => {
+      jsonResponse.cookies.set(name, '', options)
     })
 
     return jsonResponse
