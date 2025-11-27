@@ -817,10 +817,13 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
     return (
       <div className="w-full bg-gray-900/95 backdrop-blur-xl border-t border-white/10 shadow-2xl">
         <div className="max-w-2xl mx-auto p-4">
-          <div className="space-y-4">
-            {chatContent}
+          <div className="space-y-3">
+            {/* Scrollable messages area with max height */}
+            <div className="max-h-[40vh] overflow-y-auto overscroll-contain scroll-smooth">
+              {chatContent}
+            </div>
 
-            {/* Chat Input */}
+            {/* Chat Input - Fixed at bottom */}
             <div className="flex gap-2">
               <input
                 type="text"

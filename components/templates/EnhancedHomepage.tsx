@@ -259,10 +259,11 @@ export function EnhancedHomepage() {
         style={{ scaleX: scrollProgress, transformOrigin: '0% 0%' }}
       />
 
-      {/* Main Content - Adjust margin when sidebar is visible */}
+      {/* Main Content - Adjust margin when sidebar is visible, padding-bottom for mobile chat */}
       <div className={cn(
         "transition-all duration-300",
-        !isHeroVisible ? "mr-[480px]" : ""
+        !isHeroVisible ? "mr-[480px]" : "",
+        "pb-[50vh] lg:pb-0" // Add bottom padding on mobile for chat footer
       )}>
         {/* Hero Section with Chat */}
         <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
