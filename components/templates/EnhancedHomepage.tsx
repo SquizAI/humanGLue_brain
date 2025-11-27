@@ -23,9 +23,12 @@ export function EnhancedHomepage() {
   const [currentRoadmapStep, setCurrentRoadmapStep] = useState(-1)
   const [scrollProgress, setScrollProgress] = useState(0)
   const [isHeroVisible, setIsHeroVisible] = useState(true)
+  const [videoLoaded, setVideoLoaded] = useState(false)
+  const [videoError, setVideoError] = useState(false)
   const roadmapRef = useRef<HTMLDivElement>(null)
   const roiRef = useRef<HTMLDivElement>(null)
   const heroRef = useRef<HTMLDivElement>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
 
   // Track hero visibility
   useEffect(() => {
@@ -96,6 +99,40 @@ export function EnhancedHomepage() {
     }
   }, [showRoadmap])
 
+  // Handle video loading
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+
+    const handleLoadedData = () => {
+      setVideoLoaded(true)
+      setVideoError(false)
+    }
+
+    const handleError = () => {
+      setVideoError(true)
+      setVideoLoaded(false)
+      console.warn('Video failed to load, falling back to static image')
+    }
+
+    video.addEventListener('loadeddata', handleLoadedData)
+    video.addEventListener('error', handleError)
+
+    // Attempt to play the video
+    const playPromise = video.play()
+    if (playPromise !== undefined) {
+      playPromise.catch((error) => {
+        console.warn('Video autoplay failed:', error)
+        // Autoplay was prevented, but this is okay - video will still be there
+      })
+    }
+
+    return () => {
+      video.removeEventListener('loadeddata', handleLoadedData)
+      video.removeEventListener('error', handleError)
+    }
+  }, [])
+
   return (
     <div className="min-h-screen bg-gray-950">
       {/* Navigation */}
@@ -114,15 +151,109 @@ export function EnhancedHomepage() {
       )}>
         {/* Hero Section with Chat */}
         <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
-          {/* Hero Background Image */}
+          {/* Hero Background Video */}
           <div className="absolute inset-0">
-            <Image
-              src="/herobackground.png"
-              alt="Background"
-              fill
-              className="object-cover"
-              priority
-            />
+            {!videoError ? (
+              <>
+                <video
+                  ref={videoRef}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="auto"
+                  className={cn(
+                    "w-full h-full object-cover transition-opacity duration-700",
+                    videoLoaded ? "opacity-100" : "opacity-0"
+                  )}
+                  poster="/optimized/herobackground-desktop.jpg"
+                >
+                  <source
+                    src="https://framerusercontent.com/assets/bA94l9akR9HvaEC25OtLJwJuocU.mp4"
+                    type="video/mp4"
+                  />
+                </video>
+                {/* Loading state - show optimized poster image while video loads */}
+                {!videoLoaded && (
+                  <div className="absolute inset-0">
+                    <picture>
+                      <source
+                        media="(max-width: 640px)"
+                        type="image/avif"
+                        srcSet="/optimized/herobackground-mobile.avif"
+                      />
+                      <source
+                        media="(max-width: 640px)"
+                        type="image/webp"
+                        srcSet="/optimized/herobackground-mobile.webp"
+                      />
+                      <source
+                        media="(max-width: 1280px)"
+                        type="image/avif"
+                        srcSet="/optimized/herobackground-tablet.avif"
+                      />
+                      <source
+                        media="(max-width: 1280px)"
+                        type="image/webp"
+                        srcSet="/optimized/herobackground-tablet.webp"
+                      />
+                      <source
+                        type="image/avif"
+                        srcSet="/optimized/herobackground-desktop.avif"
+                      />
+                      <source
+                        type="image/webp"
+                        srcSet="/optimized/herobackground-desktop.webp"
+                      />
+                      <img
+                        src="/optimized/herobackground-desktop.jpg"
+                        alt="HumanGlue Platform Background"
+                        className="absolute inset-0 w-full h-full object-cover"
+                      />
+                    </picture>
+                  </div>
+                )}
+              </>
+            ) : (
+              // Fallback optimized image if video fails to load
+              <div className="absolute inset-0">
+                <picture>
+                  <source
+                    media="(max-width: 640px)"
+                    type="image/avif"
+                    srcSet="/optimized/herobackground-mobile.avif"
+                  />
+                  <source
+                    media="(max-width: 640px)"
+                    type="image/webp"
+                    srcSet="/optimized/herobackground-mobile.webp"
+                  />
+                  <source
+                    media="(max-width: 1280px)"
+                    type="image/avif"
+                    srcSet="/optimized/herobackground-tablet.avif"
+                  />
+                  <source
+                    media="(max-width: 1280px)"
+                    type="image/webp"
+                    srcSet="/optimized/herobackground-tablet.webp"
+                  />
+                  <source
+                    type="image/avif"
+                    srcSet="/optimized/herobackground-desktop.avif"
+                  />
+                  <source
+                    type="image/webp"
+                    srcSet="/optimized/herobackground-desktop.webp"
+                  />
+                  <img
+                    src="/optimized/herobackground-desktop.jpg"
+                    alt="HumanGlue Platform Background"
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                </picture>
+              </div>
+            )}
           </div>
 
           {/* Large HumanGlue Logo Branding */}

@@ -1,47 +1,42 @@
 import { Handler } from '@netlify/functions'
+import { createClient } from '@supabase/supabase-js'
 
-// Assessment dimensions mapping
-const dimensionCategories = {
-  technical: ['tech_infrastructure', 'data_quality', 'security_compliance', 'integration_capability', 'scalability'],
-  human: ['leadership_vision', 'culture_change', 'skills_talent', 'collaboration', 'employee_experience'],
-  business: ['strategy_alignment', 'process_optimization', 'customer_centricity', 'innovation_capability', 'financial_performance', 'partner_ecosystem', 'risk_management'],
-  ai_adoption: ['ai_use_cases', 'ml_operations', 'ai_governance', 'data_science_maturity', 'automation_level', 'ai_infrastructure']
+// Initialize Supabase
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+)
+
+// Assessment dimensions for HumanGlue (5 core dimensions)
+const DIMENSIONS = {
+  individual: 'Individual Adaptability',
+  leadership: 'Leadership Alignment',
+  cultural: 'Cultural Readiness',
+  embedding: 'Embedding Capability',
+  velocity: 'Velocity (Speed of Change)'
 }
 
 interface MaturityResults {
-  organizationId: string
-  overallMaturityLevel: number
-  categoryScores: {
-    technical: number
-    human: number
-    business: number
-    ai_adoption: number
+  assessmentId: string
+  overallScore: number
+  dimensionScores: {
+    individual: number
+    leadership: number
+    cultural: number
+    embedding: number
+    velocity: number
   }
-  dimensionScores: Record<string, number>
-  topStrengths: string[]
-  criticalGaps: string[]
-  recommendations: {
-    immediate: string[]
-    shortTerm: string[]
-    longTerm: string[]
-  }
-  roadmap: Array<{
-    phase: number
-    name: string
+  maturityLevel: string // 'emerging' | 'developing' | 'maturing' | 'advanced' | 'leading'
+  topStrengths: Array<{ dimension: string; score: number; insight: string }>
+  criticalGaps: Array<{ dimension: string; score: number; insight: string }>
+  velocityInsight: string
+  embeddingInsight: string
+  transformationReadiness: {
+    level: string
     description: string
-    duration: string
-    priority: string
-    investment: string
-  }>
-  estimatedROI: {
-    year1: number
-    year3: number
-    year5: number
+    nextSteps: string[]
   }
 }
-
-// Mock assessment data access (replace with actual database)
-const assessmentData = new Map<string, any[]>()
 
 export const handler: Handler = async (event, context) => {
   const headers = {
@@ -63,97 +58,72 @@ export const handler: Handler = async (event, context) => {
   }
 
   try {
-    const { organizationId, includeRecommendations = true, includeRoadmap = true } = JSON.parse(event.body || '{}')
+    const { assessmentId } = JSON.parse(event.body || '{}')
 
-    if (!organizationId) {
+    if (!assessmentId) {
       return {
         statusCode: 400,
         headers,
-        body: JSON.stringify({ error: 'organizationId is required' })
+        body: JSON.stringify({ error: 'assessmentId is required' })
       }
     }
 
-    // Get assessment data for organization
-    const orgData = assessmentData.get(organizationId) || []
-    
-    if (orgData.length === 0) {
+    // Get assessment with scores
+    const { data: assessment, error: assessmentError } = await supabase
+      .from('assessments')
+      .select('*')
+      .eq('id', assessmentId)
+      .single()
+
+    if (assessmentError || !assessment) {
       return {
         statusCode: 404,
         headers,
-        body: JSON.stringify({ error: 'No assessment data found for organization' })
+        body: JSON.stringify({ error: 'Assessment not found' })
       }
     }
 
-    // Calculate dimension scores
-    const dimensionScores: Record<string, number> = {}
-    const dimensionCounts: Record<string, number> = {}
-
-    orgData.forEach(dataPoint => {
-      const { dimensionId, scoreValue } = dataPoint
-      if (!dimensionScores[dimensionId]) {
-        dimensionScores[dimensionId] = 0
-        dimensionCounts[dimensionId] = 0
-      }
-      dimensionScores[dimensionId] += scoreValue
-      dimensionCounts[dimensionId]++
-    })
-
-    // Average scores per dimension
-    Object.keys(dimensionScores).forEach(dim => {
-      dimensionScores[dim] = dimensionScores[dim] / dimensionCounts[dim]
-    })
-
-    // Calculate category scores
-    const categoryScores = {
-      technical: calculateCategoryAverage('technical', dimensionScores),
-      human: calculateCategoryAverage('human', dimensionScores),
-      business: calculateCategoryAverage('business', dimensionScores),
-      ai_adoption: calculateCategoryAverage('ai_adoption', dimensionScores)
+    // Extract dimension scores
+    const dimensionScores = {
+      individual: assessment.individual_score || 0,
+      leadership: assessment.leadership_score || 0,
+      cultural: assessment.cultural_score || 0,
+      embedding: assessment.embedding_score || 0,
+      velocity: assessment.velocity_score || 0
     }
 
-    // Calculate overall maturity level (0-9)
-    const overallMaturityLevel = Math.round(
-      (categoryScores.technical + categoryScores.human + categoryScores.business + categoryScores.ai_adoption) / 4
-    )
+    const overallScore = assessment.overall_score || 0
+
+    // Calculate maturity level
+    const maturityLevel = calculateMaturityLevel(overallScore)
 
     // Identify strengths and gaps
-    const topStrengths = Object.entries(dimensionScores)
-      .filter(([_, score]) => score >= 7)
-      .sort(([,a], [,b]) => b - a)
-      .slice(0, 3)
-      .map(([dim, score]) => `${dim.replace(/_/g, ' ')} (${score.toFixed(1)}/10)`)
+    const { topStrengths, criticalGaps } = identifyStrengthsAndGaps(dimensionScores)
 
-    const criticalGaps = Object.entries(dimensionScores)
-      .filter(([_, score]) => score <= 4)
-      .sort(([,a], [,b]) => a - b)
-      .slice(0, 3)
-      .map(([dim, score]) => `${dim.replace(/_/g, ' ')} (${score.toFixed(1)}/10)`)
+    // Generate specific insights
+    const velocityInsight = generateVelocityInsight(dimensionScores.velocity, dimensionScores)
+    const embeddingInsight = generateEmbeddingInsight(dimensionScores.embedding, dimensionScores)
 
-    // Generate recommendations
-    const recommendations = generateRecommendations(overallMaturityLevel, dimensionScores)
-    
-    // Generate roadmap
-    const roadmap = includeRoadmap ? generateRoadmap(overallMaturityLevel) : []
-
-    // Estimate ROI
-    const estimatedROI = calculateROI(overallMaturityLevel)
+    // Determine transformation readiness
+    const transformationReadiness = assessTransformationReadiness(overallScore, dimensionScores)
 
     const results: MaturityResults = {
-      organizationId,
-      overallMaturityLevel,
-      categoryScores,
+      assessmentId,
+      overallScore,
       dimensionScores,
+      maturityLevel,
       topStrengths,
       criticalGaps,
-      recommendations,
-      roadmap,
-      estimatedROI
+      velocityInsight,
+      embeddingInsight,
+      transformationReadiness
     }
 
-    console.log(`Maturity calculated for ${organizationId}:`, {
-      overallLevel: overallMaturityLevel,
-      categoryScores,
-      dataPointsAnalyzed: orgData.length
+    console.log(`Maturity calculated for assessment ${assessmentId}:`, {
+      overallScore,
+      maturityLevel,
+      strengthsCount: topStrengths.length,
+      gapsCount: criticalGaps.length
     })
 
     return {
@@ -167,7 +137,7 @@ export const handler: Handler = async (event, context) => {
     return {
       statusCode: 500,
       headers,
-      body: JSON.stringify({ 
+      body: JSON.stringify({
         error: 'Failed to calculate maturity scores',
         details: error instanceof Error ? error.message : 'Unknown error'
       })
@@ -175,101 +145,165 @@ export const handler: Handler = async (event, context) => {
   }
 }
 
-function calculateCategoryAverage(category: keyof typeof dimensionCategories, dimensionScores: Record<string, number>): number {
-  const categoryDimensions = dimensionCategories[category]
-  const scores = categoryDimensions
-    .map(dim => dimensionScores[dim])
-    .filter(score => score !== undefined)
-  
-  return scores.length > 0 ? scores.reduce((sum, score) => sum + score, 0) / scores.length : 0
+/**
+ * Calculate maturity level from overall score
+ * HumanGlue 0-100 scale mapped to maturity levels
+ */
+function calculateMaturityLevel(overallScore: number): string {
+  if (overallScore >= 85) return 'leading' // Industry leader in adaptability
+  if (overallScore >= 70) return 'advanced' // Strong adaptability, ready for complex transformation
+  if (overallScore >= 55) return 'maturing' // Growing adaptability, ready for structured change
+  if (overallScore >= 40) return 'developing' // Basic adaptability, needs foundational work
+  return 'emerging' // Early stage, requires significant development
 }
 
-function generateRecommendations(maturityLevel: number, dimensionScores: Record<string, number>) {
-  const immediate: string[] = []
-  const shortTerm: string[] = []
-  const longTerm: string[] = []
+/**
+ * Identify top strengths and critical gaps
+ */
+function identifyStrengthsAndGaps(dimensionScores: any) {
+  const dimensions = Object.entries(dimensionScores) as [keyof typeof DIMENSIONS, number][]
 
-  // Immediate actions (0-3 months)
-  if (maturityLevel < 3) {
-    immediate.push('Establish AI governance framework and leadership commitment')
-    immediate.push('Conduct comprehensive skills gap analysis')
-    immediate.push('Define AI strategy aligned with business objectives')
+  // Sort by score
+  const sorted = dimensions.sort(([,a], [,b]) => b - a)
+
+  // Top strengths (70+)
+  const topStrengths = sorted
+    .filter(([, score]) => score >= 70)
+    .slice(0, 3)
+    .map(([dim, score]) => ({
+      dimension: DIMENSIONS[dim],
+      score,
+      insight: generateStrengthInsight(dim, score)
+    }))
+
+  // Critical gaps (below 60)
+  const criticalGaps = sorted
+    .filter(([, score]) => score < 60)
+    .sort(([,a], [,b]) => a - b) // Lowest first
+    .slice(0, 3)
+    .map(([dim, score]) => ({
+      dimension: DIMENSIONS[dim],
+      score,
+      insight: generateGapInsight(dim, score)
+    }))
+
+  return { topStrengths, criticalGaps }
+}
+
+/**
+ * Generate insight for a strength
+ */
+function generateStrengthInsight(dimension: keyof typeof DIMENSIONS, score: number): string {
+  const insights: Record<keyof typeof DIMENSIONS, string> = {
+    individual: 'Strong individual adaptability provides a solid foundation for organizational change.',
+    leadership: 'Leadership alignment enables clear direction and sustained transformation momentum.',
+    cultural: 'Positive cultural readiness reduces resistance and accelerates adoption.',
+    embedding: 'Effective embedding practices ensure changes stick and become part of daily operations.',
+    velocity: 'High velocity indicates the organization can rapidly respond to change and opportunity.'
   }
+  return insights[dimension]
+}
 
-  Object.entries(dimensionScores).forEach(([dim, score]) => {
-    if (score < 3) {
-      immediate.push(`Address critical gaps in ${dim.replace(/_/g, ' ')}`)
+/**
+ * Generate insight for a gap
+ */
+function generateGapInsight(dimension: keyof typeof DIMENSIONS, score: number): string {
+  const insights: Record<keyof typeof DIMENSIONS, string> = {
+    individual: 'Low individual adaptability may create resistance and slow transformation efforts.',
+    leadership: 'Weak leadership alignment can lead to mixed messages and fragmented initiatives.',
+    cultural: 'Cultural barriers can undermine even well-designed transformation programs.',
+    embedding: 'Poor embedding means changes may not stick, leading to backsliding and wasted effort.',
+    velocity: 'Low velocity suggests the organization struggles to keep pace with change requirements.'
+  }
+  return insights[dimension]
+}
+
+/**
+ * Generate velocity-specific insight
+ */
+function generateVelocityInsight(velocityScore: number, allScores: any): string {
+  if (velocityScore >= 80) {
+    return 'Excellent velocity - your organization can move fast and adapt quickly to new challenges and opportunities.'
+  } else if (velocityScore >= 70) {
+    return 'Good velocity - you can implement changes at a sustainable pace, though there may be room to accelerate in key areas.'
+  } else if (velocityScore >= 55) {
+    return 'Moderate velocity - changes take time to implement. Focus on reducing decision cycles and removing bottlenecks.'
+  } else if (velocityScore >= 40) {
+    return 'Low velocity - slow pace of change could cause you to fall behind. Prioritize streamlining processes and empowering decision-making.'
+  } else {
+    return 'Critical velocity gap - the organization struggles to implement change at the speed required. This needs immediate attention.'
+  }
+}
+
+/**
+ * Generate embedding-specific insight
+ */
+function generateEmbeddingInsight(embeddingScore: number, allScores: any): string {
+  if (embeddingScore >= 80) {
+    return 'Strong embedding capability - changes become part of your organizational DNA, leading to lasting transformation.'
+  } else if (embeddingScore >= 70) {
+    return 'Good embedding - most changes stick, though some may require reinforcement to become fully integrated.'
+  } else if (embeddingScore >= 55) {
+    return 'Moderate embedding - about half of changes stick. You need better reinforcement mechanisms and follow-through.'
+  } else if (embeddingScore >= 40) {
+    return 'Weak embedding - changes often fade over time. Invest in coaching, practice, and accountability systems.'
+  } else {
+    return 'Critical embedding gap - new behaviors and practices rarely stick. This severely limits transformation success.'
+  }
+}
+
+/**
+ * Assess overall transformation readiness
+ */
+function assessTransformationReadiness(overallScore: number, dimensionScores: any) {
+  const leadership = dimensionScores.leadership
+  const cultural = dimensionScores.cultural
+  const velocity = dimensionScores.velocity
+  const embedding = dimensionScores.embedding
+
+  // Readiness requires balance, not just high scores
+  const hasFoundation = leadership >= 60 && cultural >= 60
+  const canExecute = velocity >= 55 && embedding >= 55
+
+  if (overallScore >= 75 && hasFoundation && canExecute) {
+    return {
+      level: 'ready',
+      description: 'Your organization is ready for major transformation initiatives.',
+      nextSteps: [
+        'Launch high-impact AI transformation initiatives',
+        'Scale successful practices across the organization',
+        'Build advanced capabilities for sustained competitive advantage'
+      ]
     }
-  })
-
-  // Short-term actions (3-12 months)
-  shortTerm.push('Launch AI pilot projects in high-impact areas')
-  shortTerm.push('Implement data governance and quality improvements')
-  shortTerm.push('Build AI training and upskilling programs')
-
-  // Long-term actions (1-3 years)
-  longTerm.push('Scale successful AI initiatives across organization')
-  longTerm.push('Develop advanced AI capabilities and infrastructure')
-  longTerm.push('Achieve AI-driven business transformation')
-
-  return { immediate, shortTerm, longTerm }
-}
-
-function generateRoadmap(maturityLevel: number) {
-  const roadmap = []
-
-  // Phase 1: Foundation
-  if (maturityLevel < 4) {
-    roadmap.push({
-      phase: 1,
-      name: 'AI Foundation',
-      description: 'Establish AI readiness and governance',
-      duration: '3-6 months',
-      priority: 'critical',
-      investment: '$50K-$200K'
-    })
-  }
-
-  // Phase 2: Pilot
-  roadmap.push({
-    phase: 2,
-    name: 'AI Pilot Projects',
-    description: 'Launch targeted AI initiatives',
-    duration: '6-12 months',
-    priority: 'high',
-    investment: '$200K-$500K'
-  })
-
-  // Phase 3: Scale
-  roadmap.push({
-    phase: 3,
-    name: 'AI Scaling',
-    description: 'Scale successful pilots enterprise-wide',
-    duration: '12-18 months',
-    priority: 'high',
-    investment: '$500K-$2M'
-  })
-
-  // Phase 4: Transform
-  roadmap.push({
-    phase: 4,
-    name: 'AI Transformation',
-    description: 'Achieve AI-native operations',
-    duration: '18-36 months',
-    priority: 'medium',
-    investment: '$2M-$10M'
-  })
-
-  return roadmap
-}
-
-function calculateROI(maturityLevel: number) {
-  const baseEfficiency = 0.1 // 10% efficiency gain per level
-  const revenueImpact = 0.05 // 5% revenue impact per level
-  
-  return {
-    year1: Math.round(maturityLevel * baseEfficiency * 1000000),
-    year3: Math.round(maturityLevel * (baseEfficiency + revenueImpact) * 3000000),
-    year5: Math.round(maturityLevel * (baseEfficiency + revenueImpact * 2) * 5000000)
+  } else if (overallScore >= 60 && hasFoundation) {
+    return {
+      level: 'developing',
+      description: 'You have the foundation but need to build execution capabilities.',
+      nextSteps: [
+        'Start with pilot programs to build confidence and capability',
+        'Strengthen velocity and embedding through agile practices',
+        'Create clear success metrics and feedback loops'
+      ]
+    }
+  } else if (hasFoundation) {
+    return {
+      level: 'building',
+      description: 'Leadership and culture are aligned, but need broader organizational readiness.',
+      nextSteps: [
+        'Expand adaptability skills throughout the organization',
+        'Build change management and embedding practices',
+        'Start small with high-visibility quick wins'
+      ]
+    }
+  } else {
+    return {
+      level: 'foundation',
+      description: 'Focus first on building the foundational elements for transformation.',
+      nextSteps: [
+        'Secure leadership alignment and commitment',
+        'Address cultural barriers and build readiness',
+        'Invest in change management capabilities before scaling initiatives'
+      ]
+    }
   }
 }

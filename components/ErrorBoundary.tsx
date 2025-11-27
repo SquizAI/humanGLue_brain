@@ -3,16 +3,19 @@
 import React, { Component, ReactNode } from 'react'
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react'
 import Link from 'next/link'
+import * as Sentry from '@sentry/nextjs'
 
 interface Props {
   children: ReactNode
   fallback?: ReactNode
+  onError?: (error: Error, errorInfo: React.ErrorInfo) => void
 }
 
 interface State {
   hasError: boolean
   error: Error | null
   errorInfo: React.ErrorInfo | null
+  eventId?: string
 }
 
 export class ErrorBoundary extends Component<Props, State> {
@@ -27,20 +30,36 @@ export class ErrorBoundary extends Component<Props, State> {
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     console.error('ErrorBoundary caught an error:', error, errorInfo)
-    
-    // Log to error tracking service in production
-    if (process.env.NODE_ENV === 'production' && process.env.NEXT_PUBLIC_SENTRY_DSN) {
-      // Sentry.captureException(error, { contexts: { react: { componentStack: errorInfo.componentStack } } })
-    }
-    
+
+    // Report to Sentry
+    const eventId = Sentry.captureException(error, {
+      contexts: {
+        react: {
+          componentStack: errorInfo.componentStack,
+        },
+      },
+    })
+
     this.setState({
       error,
-      errorInfo
+      errorInfo,
+      eventId,
     })
+
+    // Call custom error handler if provided
+    if (this.props.onError) {
+      this.props.onError(error, errorInfo)
+    }
   }
 
   handleReset = () => {
-    this.setState({ hasError: false, error: null, errorInfo: null })
+    this.setState({ hasError: false, error: null, errorInfo: null, eventId: undefined })
+  }
+
+  handleFeedback = () => {
+    if (this.state.eventId) {
+      Sentry.showReportDialog({ eventId: this.state.eventId })
+    }
   }
 
   render() {
@@ -65,6 +84,12 @@ export class ErrorBoundary extends Component<Props, State> {
                 We encountered an unexpected error. Don't worry, our team has been notified.
               </p>
 
+              {this.state.eventId && (
+                <p className="text-sm text-gray-500 mb-6">
+                  Error ID: <code className="text-gray-400 font-mono text-xs">{this.state.eventId}</code>
+                </p>
+              )}
+
               {process.env.NODE_ENV === 'development' && this.state.error && (
                 <div className="mb-6 p-4 bg-gray-900/50 rounded-lg text-left">
                   <p className="text-xs text-gray-500 mb-2">Error details (dev only):</p>
@@ -82,7 +107,7 @@ export class ErrorBoundary extends Component<Props, State> {
                   <RefreshCw className="w-4 h-4" />
                   Try Again
                 </button>
-                
+
                 <Link
                   href="/"
                   className="px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-medium transition-colors inline-flex items-center justify-center gap-2"
@@ -90,6 +115,15 @@ export class ErrorBoundary extends Component<Props, State> {
                   <Home className="w-4 h-4" />
                   Go Home
                 </Link>
+
+                {this.state.eventId && (
+                  <button
+                    onClick={this.handleFeedback}
+                    className="px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-medium transition-colors"
+                  >
+                    Report Feedback
+                  </button>
+                )}
               </div>
             </div>
           </div>

@@ -20,9 +20,7 @@
  * ============================================================================
  */
 
-// import * as Sentry from '@sentry/nextjs'
-// NOTE: Sentry is currently not installed. These are stub implementations.
-// To enable Sentry, install @sentry/nextjs and uncomment the import above.
+import * as Sentry from '@sentry/nextjs'
 
 /**
  * Initialize Sentry with configuration
@@ -30,8 +28,83 @@
  * This should be called once at application startup
  */
 export function initSentry() {
-  // Stub implementation - Sentry not installed
-  console.log('Sentry not configured - error tracking disabled')
+  const dsn = process.env.NEXT_PUBLIC_SENTRY_DSN || process.env.SENTRY_DSN
+
+  // Only initialize if DSN is provided and not in development (unless explicitly enabled)
+  const isProduction = process.env.NODE_ENV === 'production'
+  const isDevelopment = process.env.NODE_ENV === 'development'
+  const enableInDev = process.env.SENTRY_ENABLE_IN_DEV === 'true'
+
+  if (!dsn) {
+    console.warn('Sentry DSN not configured - error tracking disabled')
+    return
+  }
+
+  if (isDevelopment && !enableInDev) {
+    console.log('Sentry disabled in development - set SENTRY_ENABLE_IN_DEV=true to enable')
+    return
+  }
+
+  const environment = process.env.SENTRY_ENVIRONMENT || process.env.NEXT_PUBLIC_ENV || process.env.NODE_ENV || 'development'
+
+  Sentry.init({
+    dsn,
+    environment,
+
+    // Adjust this value in production, or use tracesSampler for greater control
+    tracesSampleRate: getTracesSampleRate(environment),
+
+    // Session Replay
+    replaysSessionSampleRate: getReplaysSampleRate(environment),
+    replaysOnErrorSampleRate: parseFloat(process.env.SENTRY_REPLAYS_ON_ERROR_SAMPLE_RATE || '1.0'),
+
+    // Enable debug mode in non-production environments
+    debug: !isProduction,
+
+    // Release tracking
+    release: process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA || process.env.COMMIT_REF,
+
+    // Automatically set user context from Supabase auth
+    beforeSend(event, hint) {
+      // Add custom logic here if needed
+      return event
+    },
+
+    // Filter out known noise
+    ignoreErrors: [
+      // Browser extensions
+      'top.GLOBALS',
+      'chrome-extension://',
+      'moz-extension://',
+      // Network errors
+      'NetworkError',
+      'Failed to fetch',
+      'Load failed',
+      // Intentional aborts
+      'AbortError',
+      'The operation was aborted',
+    ],
+
+    // Set up breadcrumbs
+    beforeBreadcrumb(breadcrumb) {
+      // Filter or modify breadcrumbs if needed
+      if (breadcrumb.category === 'console') {
+        return null // Don't capture console logs as breadcrumbs
+      }
+      return breadcrumb
+    },
+
+    // Integration configuration
+    integrations: [
+      Sentry.replayIntegration({
+        maskAllText: false,
+        blockAllMedia: false,
+        maskAllInputs: true, // Protect sensitive input data
+      }),
+    ],
+  })
+
+  console.log(`Sentry initialized in ${environment} environment`)
 }
 
 /**
@@ -110,8 +183,11 @@ export function captureException(
   error: Error,
   context?: any
 ) {
-  // Stub implementation - Sentry not installed
-  console.error('Error captured:', error, context)
+  if (typeof Sentry !== 'undefined' && Sentry.captureException) {
+    Sentry.captureException(error, context)
+  } else {
+    console.error('Error captured (Sentry not initialized):', error, context)
+  }
 }
 
 /**
@@ -124,10 +200,13 @@ export function captureException(
  */
 export function captureMessage(
   message: string,
-  level?: string
+  level?: Sentry.SeverityLevel
 ) {
-  // Stub implementation - Sentry not installed
-  console.log(`[${level || 'info'}] ${message}`)
+  if (typeof Sentry !== 'undefined' && Sentry.captureMessage) {
+    Sentry.captureMessage(message, level)
+  } else {
+    console.log(`[${level || 'info'}] ${message}`)
+  }
 }
 
 /**
@@ -143,9 +222,12 @@ export function captureMessage(
  * })
  * ```
  */
-export function addBreadcrumb(breadcrumb: any) {
-  // Stub implementation - Sentry not installed
-  console.log('Breadcrumb:', breadcrumb)
+export function addBreadcrumb(breadcrumb: Sentry.Breadcrumb) {
+  if (typeof Sentry !== 'undefined' && Sentry.addBreadcrumb) {
+    Sentry.addBreadcrumb(breadcrumb)
+  } else {
+    console.log('Breadcrumb:', breadcrumb)
+  }
 }
 
 /**
@@ -156,9 +238,12 @@ export function addBreadcrumb(breadcrumb: any) {
  * setUser({ id: '123', email: 'user@example.com' })
  * ```
  */
-export function setUser(user: any) {
-  // Stub implementation - Sentry not installed
-  console.log('User context:', user)
+export function setUser(user: Sentry.User | null) {
+  if (typeof Sentry !== 'undefined' && Sentry.setUser) {
+    Sentry.setUser(user)
+  } else {
+    console.log('User context:', user)
+  }
 }
 
 /**
@@ -173,9 +258,12 @@ export function setUser(user: any) {
  * })
  * ```
  */
-export function setContext(key: string, context: Record<string, any>) {
-  // Stub implementation - Sentry not installed
-  console.log(`Context ${key}:`, context)
+export function setContext(key: string, context: Record<string, any> | null) {
+  if (typeof Sentry !== 'undefined' && Sentry.setContext) {
+    Sentry.setContext(key, context)
+  } else {
+    console.log(`Context ${key}:`, context)
+  }
 }
 
 /**
@@ -186,9 +274,12 @@ export function setContext(key: string, context: Record<string, any>) {
  * setTag('feature_flag', 'new_checkout_enabled')
  * ```
  */
-export function setTag(key: string, value: string) {
-  // Stub implementation - Sentry not installed
-  console.log(`Tag ${key}:`, value)
+export function setTag(key: string, value: string | number | boolean) {
+  if (typeof Sentry !== 'undefined' && Sentry.setTag) {
+    Sentry.setTag(key, value)
+  } else {
+    console.log(`Tag ${key}:`, value)
+  }
 }
 
 /**
@@ -235,15 +326,20 @@ export function withSentry<T extends (...args: any[]) => Promise<any>>(
  * ```
  */
 export function startTransaction(
-  context: any
-): any {
-  // Stub implementation - Sentry not installed
-  console.log('Transaction started:', context)
-  return {
-    finish: () => console.log('Transaction finished'),
-    setStatus: (status: string) => console.log('Transaction status:', status)
+  context: { name: string; op: string }
+): any | null {
+  if (typeof Sentry !== 'undefined' && Sentry.startSpan) {
+    return Sentry.startSpan(context, (span) => span)
+  } else {
+    console.log('Transaction started:', context)
+    return null
   }
 }
+
+/**
+ * Export Sentry for direct access to advanced features
+ */
+export { Sentry }
 
 // Auto-initialize if running in browser
 if (typeof window !== 'undefined') {

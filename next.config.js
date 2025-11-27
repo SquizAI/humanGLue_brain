@@ -1,3 +1,6 @@
+// Import Sentry webpack plugin for source maps
+const { withSentryConfig } = require('@sentry/nextjs')
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Strict mode for better error detection
@@ -185,14 +188,59 @@ const nextConfig = {
   },
 
   // ============================================================================
-  // Production Source Maps (optional - can slow down builds)
+  // Production Source Maps (required for Sentry)
   // ============================================================================
-  productionBrowserSourceMaps: false,
+  productionBrowserSourceMaps: true,
 
   // ============================================================================
   // Power Mode (for faster builds in development)
   // ============================================================================
   poweredByHeader: false,
+
+  // ============================================================================
+  // Sentry Configuration
+  // ============================================================================
+  // Automatically inject Sentry configuration files
+  sentry: {
+    // Hide source maps from being publicly accessible
+    hideSourceMaps: true,
+
+    // Disable Sentry during development builds
+    disableServerWebpackPlugin: process.env.NODE_ENV !== 'production',
+    disableClientWebpackPlugin: process.env.NODE_ENV !== 'production',
+
+    // Automatically tree-shake Sentry logger statements to reduce bundle size
+    widenClientFileUpload: true,
+
+    // Transpile SDK to be compatible with older browsers
+    transpileClientSDK: true,
+
+    // Route browser requests to Sentry through a Next.js proxy
+    tunnelRoute: '/monitoring-tunnel',
+
+    // Automatically instrument serverless functions
+    autoInstrumentServerFunctions: true,
+
+    // Automatically instrument middleware and edge functions
+    autoInstrumentMiddleware: true,
+  },
 }
 
-module.exports = nextConfig
+// Sentry plugin options
+const sentryWebpackPluginOptions = {
+  // Additional config options for the Sentry webpack plugin
+  silent: true, // Suppresses all logs
+
+  // Upload source maps to Sentry during build
+  // Requires SENTRY_AUTH_TOKEN environment variable
+  org: process.env.SENTRY_ORG,
+  project: process.env.SENTRY_PROJECT,
+
+  // Auth token is automatically read from SENTRY_AUTH_TOKEN env var
+
+  // Disable uploading source maps when auth token is not available
+  dryRun: !process.env.SENTRY_AUTH_TOKEN,
+}
+
+// Export the configuration wrapped with Sentry
+module.exports = withSentryConfig(nextConfig, sentryWebpackPluginOptions)

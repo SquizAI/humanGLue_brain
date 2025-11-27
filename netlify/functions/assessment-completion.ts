@@ -1,24 +1,38 @@
 import { Handler } from '@netlify/functions'
-import nodemailer from 'nodemailer'
+import { createClient } from '@supabase/supabase-js'
+import { AnthropicProvider } from '../../lib/mcp/providers/anthropic'
 
-interface ContactInfo {
-  name: string
-  email: string
-  phone?: string
-  company: string
-  role?: string
+// Initialize Supabase
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+)
+
+// Initialize AI provider
+const aiProvider = process.env.ANTHROPIC_API_KEY
+  ? new AnthropicProvider(process.env.ANTHROPIC_API_KEY)
+  : null
+
+interface DimensionScores {
+  individual: number
+  leadership: number
+  cultural: number
+  embedding: number
+  velocity: number
 }
 
-interface CompletionRequest {
-  organizationId: string
-  contactInfo: ContactInfo
-  deliveryMethod: 'email' | 'call' | 'meeting'
-  priority: 'urgent' | 'high' | 'normal' | 'low'
+interface AssessmentInsights {
+  insights: string[]
+  strengths: string[]
+  gaps: string[]
 }
 
-// Mock data access (replace with actual database)
-const assessmentData = new Map<string, any[]>()
-const completedAssessments = new Map<string, any>()
+interface Recommendation {
+  type: 'immediate' | 'short-term' | 'long-term'
+  title: string
+  description: string
+  priority: 'low' | 'medium' | 'high' | 'critical'
+}
 
 export const handler: Handler = async (event, context) => {
   const headers = {
@@ -40,77 +54,111 @@ export const handler: Handler = async (event, context) => {
   }
 
   try {
-    const request: CompletionRequest = JSON.parse(event.body || '{}')
+    const { assessmentId } = JSON.parse(event.body || '{}')
 
-    // Validate required fields
-    if (!request.organizationId || !request.contactInfo || !request.deliveryMethod) {
+    if (!assessmentId) {
       return {
         statusCode: 400,
         headers,
-        body: JSON.stringify({ 
-          error: 'Missing required fields: organizationId, contactInfo, deliveryMethod' 
-        })
+        body: JSON.stringify({ error: 'assessmentId is required' })
       }
     }
 
-    if (!request.contactInfo.name || !request.contactInfo.email || !request.contactInfo.company) {
+    // Get assessment and verify it's in progress
+    const { data: assessment, error: assessmentError } = await supabase
+      .from('assessments')
+      .select('*')
+      .eq('id', assessmentId)
+      .single()
+
+    if (assessmentError || !assessment) {
+      return {
+        statusCode: 404,
+        headers,
+        body: JSON.stringify({ error: 'Assessment not found' })
+      }
+    }
+
+    if (assessment.status === 'completed') {
       return {
         statusCode: 400,
         headers,
-        body: JSON.stringify({ 
-          error: 'Missing required contact info: name, email, company' 
-        })
+        body: JSON.stringify({ error: 'Assessment already completed' })
       }
     }
 
-    // Store completion data
-    const completionData = {
-      ...request,
-      completedAt: new Date().toISOString(),
-      status: 'completed',
-      reportGenerated: false
+    // Get all answers for the assessment
+    const { data: answers, error: answersError } = await supabase
+      .from('assessment_answers')
+      .select('*')
+      .eq('assessment_id', assessmentId)
+
+    if (answersError) {
+      throw new Error(`Failed to fetch answers: ${answersError.message}`)
     }
 
-    completedAssessments.set(request.organizationId, completionData)
-
-    // Generate assessment summary for email
-    const orgData = assessmentData.get(request.organizationId) || []
-    const assessmentSummary = generateAssessmentSummary(orgData)
-
-    // Send email based on delivery method
-    if (request.deliveryMethod === 'email') {
-      try {
-        await sendAssessmentReport(request.contactInfo, assessmentSummary)
-        completionData.reportGenerated = true
-      } catch (emailError) {
-        console.error('Email sending failed:', emailError)
-        // Continue with success response but note email failure
+    if (!answers || answers.length === 0) {
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({ error: 'No answers found for assessment' })
       }
     }
 
-    // Log completion for follow-up processing
-    console.log(`Assessment completed for ${request.organizationId}:`, {
-      contact: request.contactInfo.name,
-      company: request.contactInfo.company,
-      deliveryMethod: request.deliveryMethod,
-      priority: request.priority,
-      dataPoints: orgData.length
+    // Calculate dimension scores (already calculated by triggers, but we'll verify)
+    const dimensionScores: Partial<DimensionScores> = {
+      individual: assessment.individual_score || 0,
+      leadership: assessment.leadership_score || 0,
+      cultural: assessment.cultural_score || 0,
+      embedding: assessment.embedding_score || 0,
+      velocity: assessment.velocity_score || 0
+    }
+
+    // Calculate overall score
+    const overallScore = assessment.overall_score || 0
+
+    // Generate AI insights based on responses
+    const insights = await generateAIInsights(answers, dimensionScores, overallScore)
+
+    // Generate recommendations
+    const recommendations = await generateRecommendations(dimensionScores, insights, overallScore)
+
+    // Update assessment with completion data
+    const { data: updatedAssessment, error: updateError } = await supabase
+      .from('assessments')
+      .update({
+        status: 'completed',
+        completed_at: new Date().toISOString(),
+        results: insights,
+        recommendations: recommendations
+      })
+      .eq('id', assessmentId)
+      .select()
+      .single()
+
+    if (updateError) {
+      throw new Error(`Failed to update assessment: ${updateError.message}`)
+    }
+
+    console.log(`Assessment ${assessmentId} completed successfully:`, {
+      overallScore,
+      dimensionScores,
+      insightsCount: insights.insights.length,
+      recommendationsCount: recommendations.length
     })
-
-    // Schedule follow-up based on priority
-    const followUpSchedule = scheduleFollowUp(request.priority, request.deliveryMethod)
 
     return {
       statusCode: 200,
       headers,
       body: JSON.stringify({
-        success: true,
-        message: 'Assessment completed successfully',
-        organizationId: request.organizationId,
-        deliveryMethod: request.deliveryMethod,
-        reportGenerated: completionData.reportGenerated,
-        followUpScheduled: followUpSchedule,
-        nextSteps: getNextSteps(request.deliveryMethod, request.priority)
+        id: updatedAssessment.id,
+        userId: updatedAssessment.user_id,
+        status: updatedAssessment.status,
+        overallScore,
+        dimensionScores,
+        results: insights,
+        recommendations,
+        completedAt: updatedAssessment.completed_at
       })
     }
 
@@ -119,7 +167,7 @@ export const handler: Handler = async (event, context) => {
     return {
       statusCode: 500,
       headers,
-      body: JSON.stringify({ 
+      body: JSON.stringify({
         error: 'Failed to complete assessment',
         details: error instanceof Error ? error.message : 'Unknown error'
       })
@@ -127,112 +175,225 @@ export const handler: Handler = async (event, context) => {
   }
 }
 
-function generateAssessmentSummary(orgData: any[]) {
-  if (orgData.length === 0) {
-    return {
-      dataPointsCollected: 0,
-      dimensionsAssessed: 0,
-      preliminaryFindings: 'Insufficient data for analysis'
-    }
+/**
+ * Generate AI-powered insights based on assessment responses
+ */
+async function generateAIInsights(
+  answers: any[],
+  dimensionScores: Partial<DimensionScores>,
+  overallScore: number
+): Promise<AssessmentInsights> {
+  if (!aiProvider) {
+    // Fallback to rule-based insights if AI provider not available
+    return generateRuleBasedInsights(answers, dimensionScores, overallScore)
   }
 
-  const dimensionsAssessed = new Set(orgData.map(d => d.dimensionId)).size
-  const avgScore = orgData.reduce((sum, d) => sum + d.scoreValue, 0) / orgData.length
+  try {
+    // Prepare context for AI
+    const answerSummary = answers.map(a => ({
+      dimension: a.dimension,
+      question: a.question_text,
+      value: a.answer_value,
+      text: a.answer_text
+    }))
 
-  return {
-    dataPointsCollected: orgData.length,
-    dimensionsAssessed,
-    preliminaryMaturityLevel: Math.round(avgScore),
-    assessmentDate: new Date().toISOString().split('T')[0]
+    const prompt = `You are an AI transformation expert analyzing an organization's adaptability assessment.
+
+Assessment Results:
+- Overall Score: ${overallScore}/100
+- Individual Adaptability: ${dimensionScores.individual}/100
+- Leadership Alignment: ${dimensionScores.leadership}/100
+- Cultural Readiness: ${dimensionScores.cultural}/100
+- Embedding Capability: ${dimensionScores.embedding}/100
+- Velocity (Speed of Change): ${dimensionScores.velocity}/100
+
+Answer Details:
+${JSON.stringify(answerSummary, null, 2)}
+
+Based on this assessment, provide:
+1. 3-5 key insights about the organization's adaptability and transformation readiness
+2. 2-3 top strengths (areas scoring 70+)
+3. 2-3 critical gaps that need immediate attention (areas scoring below 60)
+
+Return as JSON with keys: insights (array of strings), strengths (array of strings), gaps (array of strings).
+Keep each insight concise (1-2 sentences). Focus on actionable observations.`
+
+    const response = await aiProvider.generateResponse(
+      'claude-sonnet-4.5' as any,
+      [{ role: 'user', content: prompt }],
+      0.7,
+      1500
+    )
+
+    const parsed = JSON.parse(response.content)
+    return {
+      insights: parsed.insights || [],
+      strengths: parsed.strengths || [],
+      gaps: parsed.gaps || []
+    }
+  } catch (error) {
+    console.error('AI insights generation failed, falling back to rule-based:', error)
+    return generateRuleBasedInsights(answers, dimensionScores, overallScore)
   }
 }
 
-async function sendAssessmentReport(contactInfo: ContactInfo, summary: any) {
-  // Configure email transporter (use environment variables for production)
-  const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST || 'smtp.gmail.com',
-    port: 587,
-    secure: false,
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS
+/**
+ * Generate rule-based insights when AI is not available
+ */
+function generateRuleBasedInsights(
+  answers: any[],
+  dimensionScores: Partial<DimensionScores>,
+  overallScore: number
+): AssessmentInsights {
+  const insights: string[] = []
+  const strengths: string[] = []
+  const gaps: string[] = []
+
+  // Overall assessment
+  if (overallScore >= 80) {
+    insights.push('Your organization demonstrates strong adaptability and is well-positioned for AI transformation.')
+  } else if (overallScore >= 60) {
+    insights.push('Your organization shows moderate adaptability with clear opportunities for improvement.')
+  } else {
+    insights.push('Your organization faces significant adaptability challenges that require immediate attention.')
+  }
+
+  // Analyze each dimension
+  const dimensions = [
+    { name: 'Individual Adaptability', key: 'individual' as keyof DimensionScores },
+    { name: 'Leadership Alignment', key: 'leadership' as keyof DimensionScores },
+    { name: 'Cultural Readiness', key: 'cultural' as keyof DimensionScores },
+    { name: 'Embedding Capability', key: 'embedding' as keyof DimensionScores },
+    { name: 'Velocity', key: 'velocity' as keyof DimensionScores }
+  ]
+
+  dimensions.forEach(dim => {
+    const score = dimensionScores[dim.key] || 0
+    if (score >= 70) {
+      strengths.push(`${dim.name} (${score}/100) - Strong foundation for transformation`)
+    } else if (score < 60) {
+      gaps.push(`${dim.name} (${score}/100) - Requires focused improvement`)
     }
   })
 
-  const emailContent = `
-Dear ${contactInfo.name},
+  // Pattern detection
+  const avgScore = Object.values(dimensionScores).reduce((a, b) => a + b, 0) / 5
+  const variance = Object.values(dimensionScores).reduce((sum, score) => sum + Math.pow(score - avgScore, 2), 0) / 5
 
-Thank you for completing the HumanGlue AI Maturity Assessment for ${contactInfo.company}.
-
-ASSESSMENT SUMMARY:
-- Dimensions Assessed: ${summary.dimensionsAssessed}/23
-- Data Points Collected: ${summary.dataPointsCollected}
-- Preliminary Maturity Level: ${summary.preliminaryMaturityLevel}/10
-- Assessment Date: ${summary.assessmentDate}
-
-NEXT STEPS:
-1. Our AI transformation specialists will analyze your detailed responses
-2. You'll receive a comprehensive report within 24 hours
-3. A follow-up consultation will be scheduled to discuss recommendations
-
-WHAT'S INCLUDED IN YOUR FULL REPORT:
-✓ Detailed maturity scores across all 23 dimensions
-✓ Category analysis (Technical, Human, Business, AI Adoption)
-✓ Personalized transformation roadmap
-✓ ROI projections and investment recommendations
-✓ Implementation timeline and milestones
-
-Questions? Reply to this email or call us at +1 (817) 761-5671.
-
-Best regards,
-The HumanGlue AI Transformation Team
-
----
-This assessment was conducted using our proprietary 23-dimension AI maturity framework.
-Visit https://hmnglue.com to learn more about our AI transformation solutions.
-`
-
-  const mailOptions = {
-    from: process.env.FROM_EMAIL || 'noreply@hmnglue.com',
-    to: contactInfo.email,
-    subject: `${contactInfo.company} - AI Maturity Assessment Results`,
-    text: emailContent,
-    html: emailContent.replace(/\n/g, '<br>')
+  if (variance > 400) {
+    insights.push('Significant variation across dimensions suggests uneven transformation readiness.')
+  } else {
+    insights.push('Consistent scores across dimensions indicate balanced organizational development.')
   }
 
-  await transporter.sendMail(mailOptions)
+  // Specific patterns
+  if ((dimensionScores.leadership || 0) > 70 && (dimensionScores.cultural || 0) < 60) {
+    insights.push('Leadership commitment is strong, but cultural readiness needs development to match.')
+  }
+
+  if ((dimensionScores.velocity || 0) < 60) {
+    insights.push('Low velocity indicates the organization may struggle with the pace of change required for AI adoption.')
+  }
+
+  return { insights, strengths, gaps }
 }
 
-function scheduleFollowUp(priority: string, deliveryMethod: string) {
-  const schedule = {
-    urgent: '4 hours',
-    high: '24 hours',
-    normal: '48 hours',
-    low: '1 week'
+/**
+ * Generate actionable recommendations based on assessment
+ */
+async function generateRecommendations(
+  dimensionScores: Partial<DimensionScores>,
+  insights: AssessmentInsights,
+  overallScore: number
+): Promise<Recommendation[]> {
+  const recommendations: Recommendation[] = []
+
+  // Immediate actions (0-3 months)
+  if (overallScore < 60) {
+    recommendations.push({
+      type: 'immediate',
+      title: 'Establish AI Transformation Foundation',
+      description: 'Create a clear AI vision, secure executive sponsorship, and form a cross-functional transformation team.',
+      priority: 'critical'
+    })
   }
 
-  return {
-    timeframe: schedule[priority as keyof typeof schedule] || '48 hours',
-    method: deliveryMethod,
-    scheduled: true
+  insights.gaps.forEach(gap => {
+    if (gap.includes('Individual')) {
+      recommendations.push({
+        type: 'immediate',
+        title: 'Launch Adaptability Skills Program',
+        description: 'Implement training programs focused on growth mindset, learning agility, and change resilience.',
+        priority: 'high'
+      })
+    }
+    if (gap.includes('Leadership')) {
+      recommendations.push({
+        type: 'immediate',
+        title: 'Align Leadership on AI Strategy',
+        description: 'Conduct executive workshops to build shared understanding and commitment to AI transformation.',
+        priority: 'critical'
+      })
+    }
+    if (gap.includes('Cultural')) {
+      recommendations.push({
+        type: 'immediate',
+        title: 'Address Cultural Barriers',
+        description: 'Identify and address cultural blockers through targeted change management initiatives.',
+        priority: 'high'
+      })
+    }
+  })
+
+  // Short-term actions (3-12 months)
+  if ((dimensionScores.embedding || 0) < 70) {
+    recommendations.push({
+      type: 'short-term',
+      title: 'Develop Embedding Practices',
+      description: 'Create structured programs to embed new AI capabilities through practice, coaching, and reinforcement.',
+      priority: 'high'
+    })
   }
-}
 
-function getNextSteps(deliveryMethod: string, priority: string) {
-  const baseSteps = [
-    'Detailed analysis of your responses is being conducted',
-    'Comprehensive report generation in progress',
-    'AI transformation roadmap being customized for your organization'
-  ]
-
-  if (deliveryMethod === 'email') {
-    baseSteps.push('Report will be delivered via email within 24 hours')
-    baseSteps.push('Follow-up consultation call will be scheduled')
-  } else if (deliveryMethod === 'call') {
-    baseSteps.push('Follow-up consultation call will be scheduled within ' + (priority === 'urgent' ? '4 hours' : '24 hours'))
-  } else if (deliveryMethod === 'meeting') {
-    baseSteps.push('In-person or virtual meeting will be arranged to review results')
+  if ((dimensionScores.velocity || 0) < 70) {
+    recommendations.push({
+      type: 'short-term',
+      title: 'Accelerate Change Velocity',
+      description: 'Implement agile practices, reduce decision cycles, and create fast-feedback loops.',
+      priority: 'medium'
+    })
   }
 
-  return baseSteps
+  recommendations.push({
+    type: 'short-term',
+    title: 'Launch Pilot AI Initiatives',
+    description: 'Start with 2-3 high-impact, low-risk AI projects to build confidence and capability.',
+    priority: 'high'
+  })
+
+  // Long-term actions (1-3 years)
+  recommendations.push({
+    type: 'long-term',
+    title: 'Scale AI Across Organization',
+    description: 'Systematically expand successful AI initiatives across departments and functions.',
+    priority: 'medium'
+  })
+
+  if (overallScore >= 70) {
+    recommendations.push({
+      type: 'long-term',
+      title: 'Become AI-Native Organization',
+      description: 'Transform core processes and culture to be inherently adaptive and AI-enabled.',
+      priority: 'medium'
+    })
+  }
+
+  recommendations.push({
+    type: 'long-term',
+    title: 'Continuous Adaptability Development',
+    description: 'Establish ongoing assessment and development cycles to maintain transformation momentum.',
+    priority: 'low'
+  })
+
+  return recommendations
 }
