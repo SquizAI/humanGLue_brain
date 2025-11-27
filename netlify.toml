@@ -70,8 +70,9 @@
       style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
       img-src 'self' data: https: blob:;
       font-src 'self' https://fonts.gstatic.com;
-      connect-src 'self' https://*.supabase.co https://api.stripe.com https://www.google-analytics.com wss://*.supabase.co;
+      connect-src 'self' https://*.supabase.co https://api.stripe.com https://www.google-analytics.com wss://*.supabase.co https://framerusercontent.com;
       frame-src 'self' https://js.stripe.com;
+      media-src 'self' https://framerusercontent.com;
       object-src 'none';
       base-uri 'self';
       form-action 'self';

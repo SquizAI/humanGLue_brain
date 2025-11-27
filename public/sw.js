@@ -91,17 +91,27 @@ self.addEventListener('fetch', (event) => {
             const responseToCache = response.clone();
             caches.open(CACHE_NAME).then((cache) => {
               cache.put(request, responseToCache);
+            }).catch(() => {
+              // Silently fail cache writes (e.g., quota exceeded)
             });
           }
 
           return response;
+        }).catch((error) => {
+          // Network error or CSP violation - fail silently for non-navigation requests
+          if (request.mode === 'navigate') {
+            return caches.match('/offline.html');
+          }
+          // Return undefined to allow the browser to handle the error
+          return undefined;
         });
       })
-      .catch(() => {
-        // Return offline page for navigation requests
+      .catch((error) => {
+        // Cache match error - return offline page for navigation
         if (request.mode === 'navigate') {
           return caches.match('/offline.html');
         }
+        return undefined;
       })
   );
 });
