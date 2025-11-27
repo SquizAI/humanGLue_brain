@@ -1,8 +1,11 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { UnifiedChatSystem } from './UnifiedChatSystem'
+import { ChatErrorBoundary } from './ChatErrorBoundary'
+import { HeroChat } from '../organisms/HeroChat'
+import { DynamicAssessmentCards } from '../organisms/DynamicAssessmentCards'
 import { DynamicRoadmap } from '../organisms/DynamicRoadmap'
 import { ROICalculator } from '../organisms/ROICalculator'
 import { Navigation } from '../organisms/Navigation'
@@ -15,12 +18,14 @@ import {
   CheckCircle,
   Clock,
   Shield,
-  Play
+  Play,
+  X
 } from 'lucide-react'
 import { cn } from '../../utils/cn'
 import { useChat } from '../../lib/contexts/ChatContext'
 import { ChatState } from '../../lib/types'
 import { useExitIntent } from '../../lib/hooks/useExitIntent'
+import { useScrollTriggers } from '../../lib/hooks/useScrollTriggers'
 import Image from 'next/image'
 
 export function EnhancedHomepage() {
@@ -37,9 +42,71 @@ export function EnhancedHomepage() {
   const heroRef = useRef<HTMLDivElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
 
-  // Exit Intent Detection - only enable if user hasn't started assessment
+  // Exit Intent Detection - Fixed with refs instead of state
   const shouldShowExitIntent = chatState === 'initial' || chatState === 'greeting'
   const { showExitIntent, closeExitIntent } = useExitIntent(shouldShowExitIntent)
+
+  // Scroll Triggers - Fixed with proper memoization
+  const shouldEnableScrollTriggers = chatState === 'initial' || chatState === 'greeting'
+
+  // Memoize options to prevent infinite re-renders
+  const scrollTriggerOptions = useMemo(() => ({
+    enabled: shouldEnableScrollTriggers,
+    persistTriggers: true,
+  }), [shouldEnableScrollTriggers])
+
+  const { metrics, hasTrigger } = useScrollTriggers(scrollTriggerOptions)
+
+  // Contextual CTA state based on scroll triggers
+  const [showScrollCTA, setShowScrollCTA] = useState<{
+    visible: boolean
+    message: string
+    variant: 'scroll-50' | 'scroll-75' | 'bounce' | null
+  }>({
+    visible: false,
+    message: '',
+    variant: null,
+  })
+
+  // Show contextual CTAs based on scroll triggers
+  useEffect(() => {
+    if (!shouldEnableScrollTriggers) return
+
+    // Priority order: bounce > scroll-75 > scroll-50
+    // Show CTA for 8 seconds then hide
+
+    if (hasTrigger('bounce') && !showScrollCTA.visible) {
+      setShowScrollCTA({
+        visible: true,
+        message: 'Still have questions? Start the assessment',
+        variant: 'bounce',
+      })
+
+      setTimeout(() => {
+        setShowScrollCTA((prev) => ({ ...prev, visible: false }))
+      }, 8000)
+    } else if (hasTrigger('scroll-75') && !showScrollCTA.visible && !hasTrigger('bounce')) {
+      setShowScrollCTA({
+        visible: true,
+        message: 'Join companies transforming with AI',
+        variant: 'scroll-75',
+      })
+
+      setTimeout(() => {
+        setShowScrollCTA((prev) => ({ ...prev, visible: false }))
+      }, 8000)
+    } else if (hasTrigger('scroll-50') && !showScrollCTA.visible && !hasTrigger('scroll-75') && !hasTrigger('bounce')) {
+      setShowScrollCTA({
+        visible: true,
+        message: 'Ready to see your AI readiness score?',
+        variant: 'scroll-50',
+      })
+
+      setTimeout(() => {
+        setShowScrollCTA((prev) => ({ ...prev, visible: false }))
+      }, 8000)
+    }
+  }, [hasTrigger, shouldEnableScrollTriggers, showScrollCTA.visible])
 
   // Track hero visibility
   useEffect(() => {
@@ -293,14 +360,15 @@ export function EnhancedHomepage() {
             </motion.div>
           </div>
 
-          <div className="relative z-10 container max-w-7xl mx-auto px-4 sm:px-6 pt-32 sm:pt-40 md:pt-48 lg:pt-56 pb-20">
-            {/* Left Content */}
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              className="max-w-2xl"
-            >
+          <div className="relative z-10 container max-w-7xl mx-auto px-4 sm:px-6 pt-24 sm:pt-32 md:pt-40 lg:pt-48 pb-20 lg:pb-20 pb-32">
+            <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+              {/* Left Content */}
+              <motion.div
+                initial={{ opacity: 0, x: -50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+                className="max-w-2xl"
+              >
               <motion.div
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
@@ -386,10 +454,60 @@ export function EnhancedHomepage() {
                   </div>
                 </motion.div>
               </motion.div>
-            </motion.div>
+              </motion.div>
 
+              {/* Right Content - Unified Chat System in hero mode (DESKTOP ONLY) */}
+              <motion.div
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="hidden lg:flex justify-center items-start pt-8 lg:pt-8"
+              >
+                {isHeroVisible && (
+                  <ChatErrorBoundary>
+                    <UnifiedChatSystem
+                      isHeroVisible={isHeroVisible}
+                      onShowROI={() => setShowROI(true)}
+                      onShowRoadmap={() => setShowRoadmap(true)}
+                    />
+                  </ChatErrorBoundary>
+                )}
+              </motion.div>
+            </div>
           </div>
         </section>
+
+        {/* Mobile Sticky Footer Chat - Only visible on mobile */}
+        <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50">
+          <ChatErrorBoundary>
+            <UnifiedChatSystem
+              isHeroVisible={isHeroVisible}
+              onShowROI={() => setShowROI(true)}
+              onShowRoadmap={() => setShowRoadmap(true)}
+              isMobileSticky={true}
+            />
+          </ChatErrorBoundary>
+        </div>
+
+        {/* Dynamic Assessment Cards - Appear as user progresses through chat */}
+        <AnimatePresence>
+          {chatState !== 'initial' && (
+            <motion.section
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="relative py-12 bg-gradient-to-b from-gray-900 to-gray-900/50"
+              id="ai-transformation"
+            >
+              <div className="container max-w-7xl mx-auto px-4 sm:px-6">
+                <DynamicAssessmentCards
+                  chatState={chatState}
+                  userData={userData}
+                />
+              </div>
+            </motion.section>
+          )}
+        </AnimatePresence>
 
         {/* Dynamic Roadmap Section */}
         <AnimatePresence>
@@ -711,12 +829,16 @@ export function EnhancedHomepage() {
         <Footer />
       </div>
 
-      {/* Unified Chat System - Single Instance - Outside of main content */}
-      <UnifiedChatSystem
-        isHeroVisible={isHeroVisible}
-        onShowROI={() => setShowROI(true)}
-        onShowRoadmap={() => setShowRoadmap(true)}
-      />
+      {/* Unified Chat System - Transitions to sidebar when scrolled */}
+      {!isHeroVisible && (
+        <ChatErrorBoundary>
+          <UnifiedChatSystem
+            isHeroVisible={isHeroVisible}
+            onShowROI={() => setShowROI(true)}
+            onShowRoadmap={() => setShowRoadmap(true)}
+          />
+        </ChatErrorBoundary>
+      )}
 
       {/* Exit Intent Modal */}
       <ExitIntentModal
@@ -724,6 +846,66 @@ export function EnhancedHomepage() {
         onClose={closeExitIntent}
         onStartAssessment={handleStartAssessment}
       />
+
+      {/* Scroll-Triggered Contextual CTA */}
+      <AnimatePresence>
+        {showScrollCTA.visible && !showExitIntent && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 50, scale: 0.9 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+            className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40 max-w-md w-full px-4"
+          >
+            <motion.div
+              className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl shadow-2xl border border-white/20 overflow-hidden"
+              whileHover={{ scale: 1.02 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+            >
+              <div className="p-5 backdrop-blur-xl bg-white/10">
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex-1">
+                    <p className="text-white font-semibold text-base mb-2">
+                      {showScrollCTA.message}
+                    </p>
+                    <p className="text-white/80 text-sm">
+                      Free 5-minute assessment • No credit card required
+                    </p>
+                  </div>
+                  <motion.button
+                    onClick={handleStartAssessment}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="px-6 py-3 bg-white text-blue-600 rounded-xl font-semibold text-sm shadow-lg hover:shadow-xl transition-shadow whitespace-nowrap"
+                  >
+                    Start Now
+                    <ArrowRight className="w-4 h-4 inline-block ml-2" />
+                  </motion.button>
+                </div>
+
+                {/* Progress indicator for scroll depth */}
+                <div className="mt-3 w-full bg-white/20 h-1 rounded-full overflow-hidden">
+                  <motion.div
+                    className="h-full bg-white"
+                    initial={{ width: 0 }}
+                    animate={{ width: `${metrics.scrollDepth}%` }}
+                    transition={{ duration: 0.3 }}
+                  />
+                </div>
+              </div>
+
+              {/* Close button */}
+              <button
+                onClick={() => setShowScrollCTA((prev) => ({ ...prev, visible: false }))}
+                className="absolute top-2 right-2 p-1 rounded-full bg-white/20 hover:bg-white/30 transition-colors"
+                aria-label="Close"
+              >
+                <X className="w-4 h-4 text-white" />
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 } 
