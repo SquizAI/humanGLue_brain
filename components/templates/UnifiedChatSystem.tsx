@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Sparkles, Send, Brain, X, Minimize2, Maximize2, Mic, MessageSquare, RotateCcw } from 'lucide-react'
+import { Sparkles, Send, Brain, X, Minimize2, Maximize2, Mic, MessageSquare, RotateCcw, ArrowDown } from 'lucide-react'
 import { Text } from '../atoms'
 import { Card, QuickResponse } from '../molecules'
 import { ChatMessage, VoiceAssessment } from '../organisms'
@@ -13,6 +13,9 @@ import { cn } from '../../utils/cn'
 import { AIChatService } from '../../lib/aiChatService'
 import { AIToolHandler } from '../../lib/aiToolHandler'
 import { useChat } from '../../lib/contexts/ChatContext'
+import { getPersonalizedGreeting, trackEngagement } from '../../lib/utils/personalization'
+import { useChatProgress } from '../../lib/hooks/useChatProgress'
+import { useDataEnrichment } from '../../lib/hooks/useDataEnrichment'
 
 export interface UnifiedChatSystemProps {
   isHeroVisible: boolean
@@ -40,6 +43,9 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
   const [hasTransitioned, setHasTransitioned] = useState(false)
   const [showVoiceToggle, setShowVoiceToggle] = useState(false)
   const [hasStartedChat, setHasStartedChat] = useState(false)
+  const [showChatPrompt, setShowChatPrompt] = useState(false)
+  const [personalizedGreeting, setPersonalizedGreeting] = useState(getPersonalizedGreeting())
+  const [showRecoveryPrompt, setShowRecoveryPrompt] = useState(false)
 
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const messagesContainerRef = useRef<HTMLDivElement>(null)
@@ -65,6 +71,18 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
       window.location.href = `/${page}`
     }
   }))
+
+  // Chat progress hook
+  const {
+    saveProgress,
+    loadProgress,
+    clearProgress,
+    abandonmentDetected,
+    resetAbandonmentFlag
+  } = useChatProgress(messages, localUserData.current, currentState)
+
+  // Data enrichment hook
+  const { enrich, loading: enrichmentLoading, enrichedData } = useDataEnrichment()
 
   // Update local userData when prop changes
   useEffect(() => {
@@ -108,6 +126,7 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
   }
 
   const resetConversation = () => {
+    // Clear all chat state
     setMessages([])
     setInput('')
     setIsTyping(false)
@@ -115,7 +134,26 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
     hasStarted.current = false
     setHasStartedChat(false)
     localUserData.current = {}
+
+    // Clear all stored data
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('humanglue_chat_progress')
+      localStorage.removeItem('humanglue_engagement_events')
+      sessionStorage.removeItem('humanglue_exit_intent_shown')
+
+      // Clear any assessment data
+      Object.keys(localStorage).forEach(key => {
+        if (key.startsWith('assessment_')) {
+          localStorage.removeItem(key)
+        }
+      })
+    }
+
+    // Reset to initial state
     onChatStateChange('initial', {})
+    resetAbandonmentFlag()
+
+    console.log('[Chat] Reset: All data cleared, starting fresh')
   }
 
   const scrollToBottom = () => {
@@ -145,14 +183,66 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
     }
   }, [isTyping])
 
-  // Start conversation automatically - DISABLED
-  // useEffect(() => {
-  //   if (!hasStarted.current && messages.length === 0) {
-  //     setTimeout(() => {
-  //       startConversation()
-  //     }, 1500)
-  //   }
-  // }, [])
+  // Smart auto-start with timing and visibility checks
+  useEffect(() => {
+    if (!hasStarted.current && messages.length === 0) {
+      const autoStartTimer = setTimeout(() => {
+        // Only start if user is still on page, hero is visible, and page has focus
+        if (isHeroVisible && typeof document !== 'undefined' && document.hasFocus()) {
+          startConversation()
+          trackEngagement('chat_auto_started', { greeting: personalizedGreeting.greeting })
+        }
+      }, 3500) // 3.5 seconds after page load
+
+      return () => clearTimeout(autoStartTimer)
+    }
+  }, [isHeroVisible])
+
+  // Chat discovery prompt - show after 6 seconds if auto-start didn't trigger
+  useEffect(() => {
+    if (messages.length === 0 && !hasStarted.current) {
+      const promptTimer = setTimeout(() => {
+        // Only show if auto-start didn't succeed (check again after delay)
+        if (!hasStarted.current && messages.length === 0) {
+          setShowChatPrompt(true)
+          trackEngagement('chat_prompt_shown')
+
+          // Auto-dismiss after 8 seconds
+          const dismissTimer = setTimeout(() => {
+            setShowChatPrompt(false)
+          }, 8000)
+
+          return () => clearTimeout(dismissTimer)
+        }
+      }, 6000) // Increased to 6s to give auto-start time to complete
+
+      return () => clearTimeout(promptTimer)
+    } else {
+      setShowChatPrompt(false)
+    }
+  }, [messages.length, hasStarted])
+
+  // Check for saved progress on mount
+  useEffect(() => {
+    const savedProgress = loadProgress()
+    if (savedProgress && savedProgress.messages.length > 0) {
+      setShowRecoveryPrompt(true)
+      trackEngagement('chat_recovery_offered', {
+        savedMessages: savedProgress.messages.length,
+        savedState: savedProgress.currentState
+      })
+    }
+  }, [])
+
+  // Handle abandonment detection
+  useEffect(() => {
+    if (abandonmentDetected && messages.length > 0) {
+      trackEngagement('chat_abandonment_detected', {
+        messageCount: messages.length,
+        state: currentState
+      })
+    }
+  }, [abandonmentDetected])
 
   // Handle transition from hero to sidebar
   useEffect(() => {
@@ -172,10 +262,11 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
   const startConversation = () => {
     if (hasStarted.current) return
     hasStarted.current = true
+    setHasStartedChat(true)
 
     setIsTyping(true)
     setTimeout(() => {
-      const greeting = chatFlow.current.getGreeting()
+      const greeting = personalizedGreeting.greeting
       setMessages([{
         id: '1',
         role: 'assistant',
@@ -184,8 +275,72 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
       }])
       setIsTyping(false)
       onChatStateChange('greeting')
-      setSuggestions([])
+
+      // Set personalized suggestions if available
+      if (personalizedGreeting.suggestions.length > 0) {
+        setSuggestions(personalizedGreeting.suggestions)
+      } else {
+        setSuggestions([])
+      }
+
+      trackEngagement('conversation_started', {
+        greetingType: personalizedGreeting.greeting
+      })
     }, 2000)
+  }
+
+  const handleRecoverChat = (action: 'continue' | 'email' | 'browse') => {
+    const savedProgress = loadProgress()
+    if (!savedProgress) return
+
+    switch (action) {
+      case 'continue':
+        // Restore saved state
+        setMessages(savedProgress.messages)
+        localUserData.current = savedProgress.userData
+        onChatStateChange(savedProgress.currentState, savedProgress.userData)
+        setShowRecoveryPrompt(false)
+        hasStarted.current = true
+        setHasStartedChat(true)
+        trackEngagement('chat_recovered', {
+          messageCount: savedProgress.messages.length
+        })
+        break
+
+      case 'email':
+        // TODO: Implement email link functionality
+        setShowRecoveryPrompt(false)
+        clearProgress()
+        trackEngagement('chat_recovery_email_requested')
+        break
+
+      case 'browse':
+        // Clear saved progress and start fresh
+        setShowRecoveryPrompt(false)
+        clearProgress()
+        trackEngagement('chat_recovery_declined')
+        break
+    }
+  }
+
+  const handleAbandonmentAction = (action: 'continue' | 'email' | 'browse') => {
+    resetAbandonmentFlag()
+
+    if (action === 'email') {
+      // Add a message asking for email
+      const emailMessage: Message = {
+        id: Date.now().toString(),
+        role: 'assistant',
+        content: "I'd be happy to send you a link to continue this conversation later. What's your email address?",
+        timestamp: new Date()
+      }
+      setMessages(prev => [...prev, emailMessage])
+      trackEngagement('abandonment_email_requested')
+    } else if (action === 'browse') {
+      trackEngagement('abandonment_browsing_continued')
+    } else {
+      trackEngagement('abandonment_continue_now')
+    }
   }
 
   const handleSend = async (inputText?: string) => {
@@ -239,7 +394,7 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
         }
       }
 
-      setTimeout(() => {
+      setTimeout(async () => {
         const assistantMessage: Message = {
           id: (Date.now() + 1).toString(),
           role: 'assistant',
@@ -252,6 +407,77 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
 
         if (response.suggestions) {
           setSuggestions(response.suggestions)
+        }
+
+        // Attempt data enrichment after email is collected
+        if (response.data?.email && response.data?.stage === 'phone') {
+          try {
+            const enrichmentResult = await enrich(response.data.email)
+
+            if (enrichmentResult?.found && enrichmentResult.company) {
+              // Add enrichment confirmation message
+              setTimeout(() => {
+                const enrichmentMessage: Message = {
+                  id: (Date.now() + 2).toString(),
+                  role: 'assistant',
+                  content: `I found that you're with **${enrichmentResult.company}**${enrichmentResult.industry ? ` in the ${enrichmentResult.industry} industry` : ''}${enrichmentResult.size ? ` (${enrichmentResult.size})` : ''}. Is that correct?`,
+                  timestamp: new Date()
+                }
+
+                setMessages(prev => [...prev, enrichmentMessage])
+
+                // Update suggestions for confirmation
+                setSuggestions([
+                  { text: "Yes, that's right" },
+                  { text: "No, different company" }
+                ])
+
+                // Merge enriched data into user data
+                const enrichedUserData = {
+                  ...response.data,
+                  company: enrichmentResult.company,
+                  industry: enrichmentResult.industry,
+                  companySize: enrichmentResult.size,
+                  enrichmentSource: enrichmentResult.source
+                }
+                localUserData.current = enrichedUserData
+                onChatStateChange(currentState, enrichedUserData)
+
+                trackEngagement('data_enrichment_success', {
+                  source: enrichmentResult.source,
+                  company: enrichmentResult.company
+                })
+              }, 1000)
+            } else {
+              // Enrichment failed - ask for company name manually
+              console.log('[Enrichment] No data found for domain, asking manually')
+              setTimeout(() => {
+                const fallbackMessage: Message = {
+                  id: (Date.now() + 2).toString(),
+                  role: 'assistant',
+                  content: "I couldn't automatically find your company information. What's the name of your company?",
+                  timestamp: new Date()
+                }
+                setMessages(prev => [...prev, fallbackMessage])
+                onChatStateChange('collectingCompanyInfo')
+                trackEngagement('data_enrichment_fallback', { reason: 'no_data_found' })
+              }, 1000)
+            }
+          } catch (error) {
+            console.error('[Enrichment] Error:', error)
+            // Enrichment error - ask for company name manually
+            setTimeout(() => {
+              const errorFallbackMessage: Message = {
+                id: (Date.now() + 2).toString(),
+                role: 'assistant',
+                content: "What's the name of your company?",
+                timestamp: new Date()
+              }
+              setMessages(prev => [...prev, errorFallbackMessage])
+              onChatStateChange('collectingCompanyInfo')
+              trackEngagement('data_enrichment_fallback', { reason: 'error' })
+            }, 1000)
+          }
         }
 
         if (response.nextState) {
@@ -424,14 +650,42 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="py-6 space-y-3"
+              className="py-6 space-y-4"
             >
-              <p className="text-white text-base font-medium font-diatype">
-                Welcome to HumanGlue. We guide Fortune 1000 companies of tomorrow, today.
-              </p>
-              <p className="text-gray-400 text-sm font-diatype">
-                Let's start with your first name
-              </p>
+              <div className="space-y-3">
+                <p className="text-white text-base font-medium font-diatype">
+                  {personalizedGreeting.greeting}
+                </p>
+                <p className="text-gray-400 text-sm font-diatype">
+                  {personalizedGreeting.context}
+                </p>
+              </div>
+
+              {/* Quick action buttons for personalized suggestions */}
+              {personalizedGreeting.suggestions.length > 0 && (
+                <div className="flex flex-wrap gap-2 pt-2">
+                  {personalizedGreeting.suggestions.map((suggestion, index) => (
+                    <motion.button
+                      key={index}
+                      onClick={() => handleSend(suggestion)}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className={cn(
+                        'px-3 py-1.5 rounded-lg text-xs font-medium font-diatype',
+                        'bg-gray-800/50 border border-gray-700/50',
+                        'text-gray-300 hover:text-white',
+                        'hover:border-brand-cyan/50 hover:bg-gray-800',
+                        'transition-all duration-200'
+                      )}
+                    >
+                      {suggestion}
+                    </motion.button>
+                  ))}
+                </div>
+              )}
             </motion.div>
           )}
 
@@ -474,6 +728,52 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
             />
           )}
 
+          {/* Abandonment recovery prompt */}
+          <AnimatePresence>
+            {abandonmentDetected && messages.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                className="mb-4 p-4 rounded-xl bg-gradient-to-br from-brand-cyan/10 to-brand-purple/10 border border-brand-cyan/20"
+              >
+                <div className="flex items-start gap-3">
+                  <Sparkles className="w-5 h-5 text-brand-cyan flex-shrink-0 mt-0.5" />
+                  <div className="flex-1 space-y-3">
+                    <div>
+                      <p className="text-white text-sm font-medium font-diatype mb-1">
+                        Still there?
+                      </p>
+                      <p className="text-gray-400 text-xs font-diatype">
+                        I noticed you might need a moment. How would you like to continue?
+                      </p>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      <button
+                        onClick={() => handleAbandonmentAction('continue')}
+                        className="px-3 py-1.5 rounded-lg text-xs font-medium font-diatype bg-brand-cyan/20 text-brand-cyan hover:bg-brand-cyan/30 transition-colors"
+                      >
+                        Continue now
+                      </button>
+                      <button
+                        onClick={() => handleAbandonmentAction('email')}
+                        className="px-3 py-1.5 rounded-lg text-xs font-medium font-diatype bg-gray-800/50 text-gray-300 hover:text-white hover:bg-gray-800 transition-colors"
+                      >
+                        Send me the link
+                      </button>
+                      <button
+                        onClick={() => handleAbandonmentAction('browse')}
+                        className="px-3 py-1.5 rounded-lg text-xs font-medium font-diatype text-gray-400 hover:text-gray-300 transition-colors"
+                      >
+                        I'm just browsing
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
           <div ref={messagesEndRef} />
         </>
       )}
@@ -484,28 +784,122 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
     <motion.div
       initial={false}
       animate={{
-        position: 'fixed',
-        right: isHeroVisible ? 24 : 0,
-        bottom: isHeroVisible ? 24 : 0,
+        position: isHeroVisible ? 'relative' : 'fixed',
+        right: isHeroVisible ? 'auto' : 0,
+        bottom: isHeroVisible ? 'auto' : 0,
         top: isHeroVisible ? 'auto' : 0,
-        width: isHeroVisible ? 384 : 480,
+        width: isHeroVisible ? '100%' : 480,
+        maxWidth: isHeroVisible ? 540 : 'none',
         height: isHeroVisible ? 'auto' : '100vh',
-        zIndex: isHeroVisible ? 40 : 60
+        zIndex: isHeroVisible ? 10 : 60
       }}
       transition={{
         type: "tween",
         duration: 0.3,
         ease: "easeInOut"
       }}
-      className={cn(className)}
+      className={cn(
+        isHeroVisible ? 'mx-auto' : '',
+        className
+      )}
     >
+      {/* Chat Discovery Prompt - appears above chat */}
+      <AnimatePresence>
+        {showChatPrompt && isHeroVisible && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            className="absolute -top-24 right-0 z-50"
+          >
+            <div className="relative bg-gradient-to-br from-brand-cyan/20 to-brand-purple/20 backdrop-blur-xl border border-brand-cyan/30 rounded-xl p-4 shadow-2xl max-w-[280px]">
+              <button
+                onClick={() => setShowChatPrompt(false)}
+                className="absolute top-2 right-2 text-gray-400 hover:text-white transition-colors"
+              >
+                <X className="w-3 h-3" />
+              </button>
+              <div className="flex items-start gap-3">
+                <Sparkles className="w-5 h-5 text-brand-cyan flex-shrink-0 mt-0.5" />
+                <div className="space-y-2">
+                  <p className="text-white text-sm font-semibold font-diatype">
+                    Get AI-Powered Insights
+                  </p>
+                  <p className="text-gray-300 text-xs font-diatype leading-relaxed">
+                    Chat with me to get your personalized transformation roadmap in just 5 minutes
+                  </p>
+                </div>
+              </div>
+              {/* Arrow pointer */}
+              <div className="absolute -bottom-2 right-8 w-4 h-4 bg-gradient-to-br from-brand-cyan/20 to-brand-purple/20 border-r border-b border-brand-cyan/30 transform rotate-45" />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Chat Recovery Prompt - modal overlay */}
+      <AnimatePresence>
+        {showRecoveryPrompt && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 z-50 flex items-center justify-center bg-gray-900/80 backdrop-blur-sm rounded-2xl"
+          >
+            <motion.div
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 20 }}
+              className="bg-gradient-to-br from-gray-800 to-gray-900 border border-brand-cyan/30 rounded-xl p-6 max-w-[320px] shadow-2xl"
+            >
+              <div className="flex items-start gap-3 mb-4">
+                <div className="p-2 rounded-lg bg-brand-cyan/20">
+                  <Sparkles className="w-5 h-5 text-brand-cyan" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-white text-base font-semibold font-diatype mb-1">
+                    Welcome back!
+                  </h3>
+                  <p className="text-gray-400 text-sm font-diatype">
+                    I found your previous conversation. Would you like to continue where you left off?
+                  </p>
+                </div>
+              </div>
+              <div className="space-y-2">
+                <button
+                  onClick={() => handleRecoverChat('continue')}
+                  className="w-full px-4 py-2.5 rounded-lg bg-gradient-to-r from-brand-cyan to-brand-purple text-white text-sm font-medium font-diatype hover:shadow-lg hover:shadow-brand-cyan/25 transition-all"
+                >
+                  Continue conversation
+                </button>
+                <button
+                  onClick={() => handleRecoverChat('email')}
+                  className="w-full px-4 py-2.5 rounded-lg bg-gray-800/50 border border-gray-700/50 text-gray-300 hover:text-white hover:bg-gray-800 text-sm font-medium font-diatype transition-all"
+                >
+                  Email me the link
+                </button>
+                <button
+                  onClick={() => handleRecoverChat('browse')}
+                  className="w-full px-4 py-2 text-gray-400 hover:text-gray-300 text-xs font-diatype transition-colors"
+                >
+                  Start fresh
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <div
         className={cn(
-          "relative shadow-2xl flex flex-col",
+          "relative flex flex-col transition-all duration-300",
           isHeroVisible
-            ? "rounded-2xl border border-white/20 backdrop-blur-2xl bg-gray-900/90 h-auto"
-            : "h-full bg-gray-900/95 backdrop-blur-xl border-l border-gray-800"
+            ? "rounded-3xl border border-white/10 backdrop-blur-3xl bg-gray-900/60 shadow-2xl shadow-purple-500/10 h-auto"
+            : "h-full bg-gray-900/95 backdrop-blur-xl border-l border-gray-800 shadow-2xl"
         )}
+        style={isHeroVisible ? {
+          boxShadow: '0 0 80px rgba(139, 92, 246, 0.15), 0 0 40px rgba(59, 130, 246, 0.1), inset 0 1px 1px rgba(255, 255, 255, 0.1)'
+        } : undefined}
       >
         {/* Header */}
         <div
@@ -576,7 +970,7 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
           className={cn(
             "overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent flex-1 min-h-0",
             isHeroVisible
-              ? cn("px-5 pb-4", isExpanded ? "max-h-[500px]" : "max-h-[280px]")
+              ? cn("px-6 py-5", isExpanded ? "max-h-[600px]" : "max-h-[420px]")
               : "p-4"
           )}
         >
