@@ -105,9 +105,6 @@ const nextConfig = {
       bodySizeLimit: '2mb',
     },
 
-    // Disable static page generation for specific routes with context issues
-    // This prevents prerendering errors with CartContext in Next.js 16
-    staticPageGenerationTimeout: 60,
   },
 
   // Skip static generation for routes that use client-side context

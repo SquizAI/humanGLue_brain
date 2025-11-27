@@ -24,7 +24,7 @@ import { useChat } from '@/lib/contexts/ChatContext'
 
 export default function InstructorDashboard() {
   const router = useRouter()
-  const { userData } = useChat()
+  const { userData, authLoading } = useChat()
   const [stats, setStats] = useState({
     totalStudents: 156,
     activeCourses: 3,
@@ -34,12 +34,27 @@ export default function InstructorDashboard() {
     completionRate: 89,
   })
 
+  // Debug logging
+  useEffect(() => {
+    console.log('[InstructorPage] authLoading:', authLoading, 'userData:', userData)
+  }, [authLoading, userData])
+
   // Check instructor access
   useEffect(() => {
-    if (!userData?.isInstructor) {
+    if (!authLoading && !userData?.isInstructor) {
+      console.log('[InstructorPage] Redirecting to login - no instructor access')
       router.push('/login')
     }
-  }, [userData, router])
+  }, [userData, router, authLoading])
+
+  if (authLoading) {
+    console.log('[InstructorPage] Showing loading spinner')
+    return (
+      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500"></div>
+      </div>
+    )
+  }
 
   if (!userData?.isInstructor) {
     return null
