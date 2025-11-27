@@ -45,10 +45,9 @@ export default function LoginPage() {
         throw new Error(data.error?.message || 'Login failed')
       }
 
-      // Redirect based on user role
-      console.log('[handleLogin] Executing router.push to:', data.data.redirectPath)
-      router.push(data.data.redirectPath)
-      router.refresh()
+      // Redirect based on user role - use window.location to ensure cookies are set
+      console.log('[handleLogin] Executing window.location.href to:', data.data.redirectPath)
+      window.location.href = data.data.redirectPath
     } catch (err: any) {
       setError(err.message || 'Login failed. Please try again.')
     } finally {
@@ -110,10 +109,9 @@ export default function LoginPage() {
         throw new Error(data.error?.message || 'Login failed')
       }
 
-      // Redirect based on user role
-      console.log('[handleDemoLogin] Executing router.push to:', data.data.redirectPath)
-      router.push(data.data.redirectPath)
-      router.refresh()
+      // Redirect based on user role - use window.location to ensure cookies are set
+      console.log('[handleDemoLogin] Executing window.location.href to:', data.data.redirectPath)
+      window.location.href = data.data.redirectPath
     } catch (err: any) {
       setError(err.message || 'Login failed. Please try again.')
     } finally {
