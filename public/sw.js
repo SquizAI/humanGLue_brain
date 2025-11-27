@@ -86,10 +86,13 @@ self.addEventListener('fetch', (event) => {
             return response;
           }
 
-          const responseToCache = response.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(request, responseToCache);
-          });
+          // Only cache GET requests (POST/PUT/DELETE cannot be cached)
+          if (request.method === 'GET') {
+            const responseToCache = response.clone();
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(request, responseToCache);
+            });
+          }
 
           return response;
         });
