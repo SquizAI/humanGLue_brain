@@ -70,13 +70,13 @@ export async function POST(request: NextRequest) {
     // Determine database role based on application role
     // Map application roles to database user_role ENUM values
     // Schema: user_role AS ENUM ('admin', 'org_admin', 'team_lead', 'member')
+    // Note: Validation schema only allows 'client' or 'instructor', not 'admin'
+    // Admin users must be created directly in database
     let dbRole: 'admin' | 'org_admin' | 'team_lead' | 'member' = 'member'
-    if (role === 'admin') {
-      dbRole = 'admin'
-    } else if (role === 'instructor') {
+    if (role === 'instructor') {
       dbRole = 'team_lead' // Instructors get team_lead role in database
     } else {
-      dbRole = 'member' // Default for regular users
+      dbRole = 'member' // Regular users get member role
     }
 
     // Create user profile in database (users table, not profiles)
