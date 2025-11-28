@@ -14,8 +14,11 @@ import {
   CheckCircle2,
 } from 'lucide-react'
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
+
 export default function AnalyticsPage() {
-  const router = useRouter()  const handleLogout = () => {
+  const router = useRouter()
+
+  const handleLogout = () => {
     localStorage.removeItem('humanglue_user')
     router.push('/login')
   }

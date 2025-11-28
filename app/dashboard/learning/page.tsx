@@ -187,7 +187,9 @@ export default function LearningPlatform() {
     setToastMessage(`${course.title} added to cart!`)
     setShowToast(true)
     setTimeout(() => setShowToast(false), 3000)
-  }  return (
+  }
+
+  return (
     <div className="min-h-screen bg-gray-950">
       <DashboardSidebar onLogout={handleLogout} />
 

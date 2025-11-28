@@ -28,9 +28,11 @@ interface Resource {
 
 export default function ResourcesPage() {
   const router = useRouter()
-    const [searchQuery, setSearchQuery] = useState('')
+  const [searchQuery, setSearchQuery] = useState('')
   const [selectedType, setSelectedType] = useState('all')
-  const [selectedCategory, setSelectedCategory] = useState('all')  const handleLogout = () => {
+  const [selectedCategory, setSelectedCategory] = useState('all')
+
+  const handleLogout = () => {
     localStorage.removeItem('humanglue_user')
     router.push('/login')
   }
