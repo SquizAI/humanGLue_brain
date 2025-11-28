@@ -53,7 +53,7 @@ const solutions = [
       "Benchmark Comparison",
       "Custom Reporting"
     ],
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070"
+    image: "/solutions/ai-assessment-gemini.png"
   },
   {
     icon: Users,
@@ -85,7 +85,7 @@ const solutions = [
       "Change Readiness",
       "Consensus Building"
     ],
-    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070"
+    image: "/solutions/strategic-workshops-gemini.png"
   },
   {
     icon: Layers,
@@ -117,7 +117,7 @@ const solutions = [
       "Change Playbooks",
       "Progress Tracking"
     ],
-    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2070"
+    image: "/solutions/toolbox-gemini.png"
   }
 ]
 

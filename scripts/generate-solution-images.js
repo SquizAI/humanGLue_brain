@@ -1,6 +1,6 @@
 /**
  * Generate custom images for Solutions page using:
- * - Gemini Nano Banana 2.0 (gemini-2.5-flash-image)
+ * - Gemini 2.0 Flash (imagen-3.0-generate-002) - Native image generation
  * - OpenAI GPT Image 1 (gpt-image-1)
  */
 
@@ -31,14 +31,15 @@ Dark environment with a modern office silhouette in the background. The display 
   },
   {
     name: 'strategic-workshops',
-    prompt: `A dynamic strategic workshop session in a modern glass-walled meeting room. Show:
-- A diverse group of 15-20 business professionals collaborating around a large table
-- Colorful sticky notes organized on a massive whiteboard showing a 6-phase methodology
-- An expert facilitator presenting to engaged stakeholders
-- Impact vs effort priority mapping visible on a digital screen
-- 90-day roadmap timeline visible on the wall
-- People actively discussing, pointing at charts, building consensus
-Purple and blue accent lighting. Professional, collaborative energy. Natural daylight mixing with modern LED lighting. Shot from a dynamic angle showing both the people and their planning artifacts. Photorealistic corporate photography style. No text readable.`,
+    prompt: `A high-tech strategic workshop session in a modern executive boardroom. Show:
+- A diverse group of 8-12 business professionals collaborating around a sleek conference table
+- A massive 85-inch curved display screen on the wall showing organizational data visualizations, heat maps, and AI-generated insights
+- Tablets and laptops on the table displaying synchronized data dashboards
+- An expert facilitator gesturing toward the digital screen showing a transformation roadmap
+- Multiple smaller screens showing real-time analytics and metrics
+- Clean, minimalist modern design with NO sticky notes, NO whiteboards, NO paper
+- Glass walls, ambient LED lighting strips in purple and blue
+Professional, tech-forward atmosphere. Natural daylight mixing with modern LED accent lighting. Shot from a cinematic angle emphasizing the technology. Photorealistic, premium corporate tech environment. No text readable.`,
   },
   {
     name: 'toolbox',
@@ -59,17 +60,86 @@ if (!fs.existsSync(outputDir)) {
 }
 
 /**
- * Generate image using Gemini Nano Banana 2.0
+ * Generate image using Imagen 3 via Gemini API
  */
 async function generateWithGemini(prompt, filename) {
-  console.log(`\n🟣 Generating with Gemini Nano Banana 2.0: ${filename}...`);
+  console.log(`\n🟣 Generating with Imagen 3 (Gemini): ${filename}...`);
 
-  const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent';
+  // Use Imagen 3 model for native image generation
+  const url = 'https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict';
+
+  const requestBody = {
+    instances: [
+      {
+        prompt: prompt
+      }
+    ],
+    parameters: {
+      sampleCount: 1,
+      aspectRatio: "16:9",
+      personGeneration: "allow_adult"
+    }
+  };
+
+  try {
+    const response = await fetch(`${url}?key=${GEMINI_API_KEY}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestBody),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      // If Imagen 3 fails, fall back to gemini-2.0-flash-exp with image generation
+      console.log('Imagen 3 not available, trying Gemini 2.0 Flash...');
+      return await generateWithGeminiFlash(prompt, filename);
+    }
+
+    const data = await response.json();
+
+    // Debug: log the response structure
+    console.log('Imagen 3 response:', JSON.stringify(data, null, 2).substring(0, 500));
+
+    // Extract base64 image data from Imagen response
+    const predictions = data.predictions;
+    if (!predictions || predictions.length === 0) {
+      throw new Error('No predictions in response: ' + JSON.stringify(data));
+    }
+
+    const imageData = predictions[0].bytesBase64Encoded;
+    if (!imageData) {
+      throw new Error('No image data in prediction: ' + JSON.stringify(predictions[0]));
+    }
+
+    const imageBuffer = Buffer.from(imageData, 'base64');
+
+    // Save image
+    const filepath = path.join(outputDir, `${filename}-gemini.png`);
+    fs.writeFileSync(filepath, imageBuffer);
+
+    console.log(`✅ Saved: ${filepath}`);
+    return filepath;
+  } catch (error) {
+    console.error(`❌ Imagen 3 generation failed for ${filename}:`, error.message);
+    // Try fallback
+    return await generateWithGeminiFlash(prompt, filename);
+  }
+}
+
+/**
+ * Fallback: Generate image using Gemini 2.0 Flash experimental
+ */
+async function generateWithGeminiFlash(prompt, filename) {
+  console.log(`\n🟣 Fallback: Generating with Gemini 2.0 Flash: ${filename}...`);
+
+  const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent';
 
   const requestBody = {
     contents: [{
       parts: [
-        { text: prompt }
+        { text: `Generate a high-quality image: ${prompt}` }
       ]
     }],
     generationConfig: {
@@ -88,21 +158,20 @@ async function generateWithGemini(prompt, filename) {
 
     if (!response.ok) {
       const errorText = await response.text();
-      throw new Error(`Gemini API error: ${response.status} - ${errorText}`);
+      throw new Error(`Gemini Flash API error: ${response.status} - ${errorText}`);
     }
 
     const data = await response.json();
 
     // Debug: log the response structure
-    console.log('Gemini response:', JSON.stringify(data, null, 2).substring(0, 500));
+    console.log('Gemini Flash response:', JSON.stringify(data, null, 2).substring(0, 500));
 
-    // Extract base64 image data - handle different response structures
+    // Extract base64 image data
     const candidate = data.candidates?.[0];
     if (!candidate) {
       throw new Error('No candidates in response: ' + JSON.stringify(data));
     }
 
-    // Find the image part in the response
     const parts = candidate.content?.parts || [];
     const imagePart = parts.find(p => p.inlineData);
 
@@ -120,7 +189,7 @@ async function generateWithGemini(prompt, filename) {
     console.log(`✅ Saved: ${filepath}`);
     return filepath;
   } catch (error) {
-    console.error(`❌ Gemini generation failed for ${filename}:`, error.message);
+    console.error(`❌ Gemini Flash generation failed for ${filename}:`, error.message);
     throw error;
   }
 }
@@ -223,7 +292,7 @@ async function main() {
   console.log('📊 GENERATION SUMMARY');
   console.log('='.repeat(60));
 
-  console.log(`\n✅ Gemini Nano Banana 2.0: ${results.gemini.length}/${imagePrompts.length} images generated`);
+  console.log(`\n✅ Imagen 3 (Gemini): ${results.gemini.length}/${imagePrompts.length} images generated`);
   results.gemini.forEach(({ name, path }) => {
     console.log(`   - ${name}: ${path}`);
   });
