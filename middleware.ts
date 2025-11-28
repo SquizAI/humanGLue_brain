@@ -136,35 +136,33 @@ export async function middleware(request: NextRequest) {
   // If user exists and route requires role check
   if (user) {
     // Use the existing supabase client which already has auth context from cookies
-    // Fetch user profile and role (RLS policies allow authenticated users to read)
-    const { data: profile, error: profileError } = await supabase
-      .from('users')  // Fixed: Changed from 'profiles' to 'users'
+    // Fetch user roles from user_roles junction table (RLS policies allow authenticated users to read their own roles)
+    const { data: userRoles, error: rolesError } = await supabase
+      .from('user_roles')
       .select('role')
-      .eq('id', user.id)
-      .single()
+      .eq('user_id', user.id)
 
-    console.log('[Middleware Profile]', {
-      profile,
-      profileError: profileError?.message,
+    console.log('[Middleware Roles]', {
+      userRoles,
+      rolesError: rolesError?.message,
       userId: user.id
     })
 
-    // Check if user has instructor profile
-    const { data: instructorProfile } = await supabase
-      .from('instructor_profiles')
-      .select('id')
-      .eq('user_id', user.id)
-      .single()
+    // Extract role names from the array of role records
+    const roles = userRoles?.map(r => r.role) || []
 
-    // Determine application role
+    // Determine application role (priority: admin > instructor > client)
     let appRole: 'admin' | 'instructor' | 'client' = 'client'
-    if (profile?.role === 'admin') {
+    if (roles.includes('admin')) {
       appRole = 'admin'
-    } else if (instructorProfile) {
+    } else if (roles.includes('instructor')) {
       appRole = 'instructor'
+    } else if (roles.includes('expert')) {
+      appRole = 'instructor' // Treat expert as instructor for dashboard purposes
     }
+    // else defaults to 'client'
 
-    console.log('[Middleware] User accessing:', pathname, '| User role:', appRole)
+    console.log('[Middleware] User accessing:', pathname, '| User roles:', roles, '| App role:', appRole)
 
     // Check admin routes
     if (ROUTE_RULES.admin.some(route => pathname.startsWith(route))) {

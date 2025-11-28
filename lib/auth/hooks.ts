@@ -57,23 +57,38 @@ export function useAuth() {
 
     const getProfile = async (userId: string) => {
       try {
+        // Fetch user base profile
         const { data: profile, error: profileError } = await supabase
-          .from('users')  // Fixed: Changed from 'profiles' to 'users'
+          .from('users')
           .select('*')
           .eq('id', userId)
           .single()
 
         if (profileError) throw profileError
 
-        const { data: instructorProfile } = await supabase
-          .from('instructor_profiles')
-          .select('id')
+        // Fetch user roles from user_roles junction table
+        const { data: userRoles } = await supabase
+          .from('user_roles')
+          .select('role')
           .eq('user_id', userId)
-          .single()
+
+        // Extract role names
+        const roles = userRoles?.map(r => r.role) || []
+
+        // Determine primary role (priority: admin > instructor > client)
+        let primaryRole: 'admin' | 'org_admin' | 'team_lead' | 'member' = 'member'
+        if (roles.includes('admin')) {
+          primaryRole = 'admin'
+        } else if (roles.includes('instructor')) {
+          primaryRole = 'team_lead' // Map instructor to team_lead for UserProfile type
+        } else if (roles.includes('expert')) {
+          primaryRole = 'team_lead' // Map expert to team_lead for UserProfile type
+        }
 
         return {
-          ...(profile as UserProfile),
-          is_instructor: !!instructorProfile,
+          ...(profile as Omit<UserProfile, 'role' | 'is_instructor'>),
+          role: primaryRole,
+          is_instructor: roles.includes('instructor') || roles.includes('expert'),
         }
       } catch (error) {
         console.error('[useAuth] Error fetching profile:', error)
