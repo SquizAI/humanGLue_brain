@@ -136,33 +136,38 @@ export async function middleware(request: NextRequest) {
   // If user exists and route requires role check
   if (user) {
     // Use the existing supabase client which already has auth context from cookies
-    // Fetch user roles from user_roles junction table (RLS policies allow authenticated users to read their own roles)
-    const { data: userRoles, error: rolesError } = await supabase
-      .from('user_roles')
+    // Fetch user profile with role from users table (RLS policies allow authenticated users to read their own profile)
+    const { data: profile, error: profileError } = await supabase
+      .from('users')
       .select('role')
-      .eq('user_id', user.id)
+      .eq('id', user.id)
+      .single()
 
-    console.log('[Middleware Roles]', {
-      userRoles,
-      rolesError: rolesError?.message,
+    console.log('[Middleware Profile]', {
+      profile,
+      profileError: profileError?.message,
       userId: user.id
     })
 
-    // Extract role names from the array of role records
-    const roles = userRoles?.map(r => r.role) || []
+    // Check if user has instructor profile
+    const { data: instructorProfile } = await supabase
+      .from('instructor_profiles')
+      .select('id')
+      .eq('user_id', user.id)
+      .single()
 
-    // Determine application role (priority: admin > instructor > client)
+    // Determine application role based on users.role column
     let appRole: 'admin' | 'instructor' | 'client' = 'client'
-    if (roles.includes('admin')) {
+    if (profile?.role === 'admin') {
       appRole = 'admin'
-    } else if (roles.includes('instructor')) {
+    } else if (instructorProfile) {
       appRole = 'instructor'
-    } else if (roles.includes('expert')) {
-      appRole = 'instructor' // Treat expert as instructor for dashboard purposes
+    } else if (profile?.role === 'org_admin' || profile?.role === 'team_lead') {
+      // org_admin and team_lead are client roles with elevated permissions
+      appRole = 'client'
     }
-    // else defaults to 'client'
 
-    console.log('[Middleware] User accessing:', pathname, '| User roles:', roles, '| App role:', appRole)
+    console.log('[Middleware] User accessing:', pathname, '| DB role:', profile?.role, '| App role:', appRole, '| Has instructor profile:', !!instructorProfile)
 
     // Check admin routes
     if (ROUTE_RULES.admin.some(route => pathname.startsWith(route))) {
