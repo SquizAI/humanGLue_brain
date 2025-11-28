@@ -281,6 +281,11 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
   const isAdmin = userData?.isAdmin || userData?.role === 'admin' || userData?.userType === 'admin'
   const isInstructor = userData?.isInstructor || userData?.role === 'instructor' || userData?.userType === 'instructor'
 
+  // Debug logging
+  console.log('[DashboardSidebar] userData:', userData)
+  console.log('[DashboardSidebar] isAdmin:', isAdmin, '| userData.isAdmin:', userData?.isAdmin, '| userData.role:', userData?.role)
+  console.log('[DashboardSidebar] isInstructor:', isInstructor, '| userData.isInstructor:', userData?.isInstructor)
+
   // Get portal title and navigation based on role
   const getPortalConfig = () => {
     if (isAdmin) {
