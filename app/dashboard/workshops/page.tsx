@@ -63,10 +63,11 @@ export default function WorkshopsPage() {
     return () => clearTimeout(timeout)
   }, [authLoading, userData])
 
-  // Check auth only if auth loaded and user is not authenticated
+  // Only redirect if we're certain user is not authenticated
+  // Don't redirect on empty userData - trust middleware protection
   useEffect(() => {
-    if (!authLoading && userData && !userData.authenticated) {
-      console.log('[WorkshopsPage] Redirecting to login - not authenticated')
+    if (!authLoading && userData?.authenticated === false) {
+      console.log('[WorkshopsPage] Redirecting to login - explicitly not authenticated')
       router.push('/login')
     }
   }, [userData, router, authLoading])

@@ -40,8 +40,10 @@ export default function DashboardPage() {
     return () => clearTimeout(timeout)
   }, [authLoading, userData])
 
+  // Only redirect if we're certain user is not authenticated
+  // Don't redirect on empty userData - trust middleware protection
   useEffect(() => {
-    if (!authLoading && userData && !userData.authenticated) {
+    if (!authLoading && userData?.authenticated === false) {
       router.push('/login')
     }
   }, [userData, router, authLoading])
