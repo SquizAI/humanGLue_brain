@@ -1,111 +1,167 @@
-const sharp = require('sharp');
-const fs = require('fs').promises;
+const fs = require('fs');
 const path = require('path');
 
+// Create a simple HTML canvas approach using sharp if available
+const sharp = require('sharp');
+
 async function generateSEOImages() {
-  const logoPath = path.join(__dirname, '../public/HumanGlue_nobackground.png');
-  const publicDir = path.join(__dirname, '../public');
+  const logoPath = path.join(__dirname, '../public/HumnaGlue_logo_white_blue.png');
+  
+  // OG Image dimensions: 1200x630
+  const ogImageSVG = `
+    <svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#1e293b;stop-opacity:1" />
+          <stop offset="50%" style="stop-color:#0f172a;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#1e293b;stop-opacity:1" />
+        </linearGradient>
+        <radialGradient id="accentGradient1" cx="30%" cy="30%">
+          <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:0.3" />
+          <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:0" />
+        </radialGradient>
+        <radialGradient id="accentGradient2" cx="70%" cy="70%">
+          <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:0.2" />
+          <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:0" />
+        </radialGradient>
+      </defs>
+      
+      <!-- Background -->
+      <rect width="1200" height="630" fill="url(#bgGradient)"/>
+      <rect width="1200" height="630" fill="url(#accentGradient1)"/>
+      <rect width="1200" height="630" fill="url(#accentGradient2)"/>
+      
+      <!-- Grid pattern -->
+      <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+      </pattern>
+      <rect width="1200" height="630" fill="url(#grid)"/>
+      
+      <!-- Content -->
+      <text x="600" y="280" font-family="Arial, sans-serif" font-size="64" font-weight="bold" fill="#ffffff" text-anchor="middle">
+        AI-Powered Organizational
+      </text>
+      <text x="600" y="360" font-family="Arial, sans-serif" font-size="64" font-weight="bold" fill="#ffffff" text-anchor="middle">
+        Transformation
+      </text>
+      
+      <!-- Subtitle -->
+      <text x="600" y="440" font-family="Arial, sans-serif" font-size="28" fill="#94a3b8" text-anchor="middle">
+        Strengthen the human connections that drive performance
+      </text>
+      
+      <!-- Bottom accent line -->
+      <rect x="400" y="520" width="400" height="4" fill="url(#accentGradient1)" rx="2"/>
+    </svg>
+  `;
+
+  // Twitter Image dimensions: 1200x600
+  const twitterImageSVG = `
+    <svg width="1200" height="600" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#1e293b;stop-opacity:1" />
+          <stop offset="50%" style="stop-color:#0f172a;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#1e293b;stop-opacity:1" />
+        </linearGradient>
+        <radialGradient id="accentGradient1" cx="30%" cy="30%">
+          <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:0.3" />
+          <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:0" />
+        </radialGradient>
+        <radialGradient id="accentGradient2" cx="70%" cy="70%">
+          <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:0.2" />
+          <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:0" />
+        </radialGradient>
+      </defs>
+      
+      <!-- Background -->
+      <rect width="1200" height="600" fill="url(#bgGradient)"/>
+      <rect width="1200" height="600" fill="url(#accentGradient1)"/>
+      <rect width="1200" height="600" fill="url(#accentGradient2)"/>
+      
+      <!-- Grid pattern -->
+      <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+      </pattern>
+      <rect width="1200" height="600" fill="url(#grid)"/>
+      
+      <!-- Content -->
+      <text x="600" y="260" font-family="Arial, sans-serif" font-size="60" font-weight="bold" fill="#ffffff" text-anchor="middle">
+        AI-Powered Organizational
+      </text>
+      <text x="600" y="340" font-family="Arial, sans-serif" font-size="60" font-weight="bold" fill="#ffffff" text-anchor="middle">
+        Transformation
+      </text>
+      
+      <!-- Subtitle -->
+      <text x="600" y="420" font-family="Arial, sans-serif" font-size="26" fill="#94a3b8" text-anchor="middle">
+        Strengthen the human connections that drive performance
+      </text>
+      
+      <!-- Bottom accent line -->
+      <rect x="400" y="500" width="400" height="4" fill="url(#accentGradient1)" rx="2"/>
+    </svg>
+  `;
 
   try {
-    // Read the original logo
-    const logoBuffer = await fs.readFile(logoPath);
+    // Check if sharp is available
+    const sharpModule = require('sharp');
     
-    // Create og-image.png (1200x630) with gradient background
-    console.log('Creating og-image.png...');
-    
-    // Create gradient background
-    const gradientSvg = `
-      <svg width="1200" height="630">
-        <defs>
-          <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style="stop-color:#1e293b;stop-opacity:1" />
-            <stop offset="50%" style="stop-color:#1e3a8a;stop-opacity:1" />
-            <stop offset="100%" style="stop-color:#312e81;stop-opacity:1" />
-          </linearGradient>
-        </defs>
-        <rect width="1200" height="630" fill="url(#grad)"/>
-      </svg>
-    `;
-    
-    await sharp(Buffer.from(gradientSvg))
-      .composite([
-        {
-          input: await sharp(logoBuffer)
-            .resize(500, 500, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
-            .toBuffer(),
-          top: 65,
-          left: 350
-        }
-      ])
+    // Generate OG Image
+    await sharpModule(Buffer.from(ogImageSVG))
       .png()
-      .toFile(path.join(publicDir, 'og-image.png'));
-
-    // Create twitter-image.png (same as og-image for consistency)
-    console.log('Creating twitter-image.png...');
-    await fs.copyFile(
-      path.join(publicDir, 'og-image.png'),
-      path.join(publicDir, 'twitter-image.png')
+      .toFile(path.join(__dirname, '../public/og-image.png'));
+    
+    console.log('✓ Generated og-image.png');
+    
+    // Generate Twitter Image
+    await sharpModule(Buffer.from(twitterImageSVG))
+      .png()
+      .toFile(path.join(__dirname, '../public/twitter-image.png'));
+    
+    console.log('✓ Generated twitter-image.png');
+    
+    // Now composite the logo on top
+    const logo = await sharpModule(logoPath).resize(300, null, { fit: 'contain' }).toBuffer();
+    
+    // Composite logo onto OG image
+    await sharpModule(path.join(__dirname, '../public/og-image.png'))
+      .composite([{
+        input: logo,
+        top: 80,
+        left: 450
+      }])
+      .toFile(path.join(__dirname, '../public/og-image-temp.png'));
+    
+    fs.renameSync(
+      path.join(__dirname, '../public/og-image-temp.png'),
+      path.join(__dirname, '../public/og-image.png')
     );
-
-    // Create apple-touch-icon.png (180x180)
-    console.log('Creating apple-touch-icon.png...');
-    await sharp(logoBuffer)
-      .resize(180, 180, { 
-        fit: 'contain', 
-        background: { r: 30, g: 41, b: 59, alpha: 1 }
-      })
-      .png()
-      .toFile(path.join(publicDir, 'apple-touch-icon.png'));
-
-    // Create favicon-32x32.png
-    console.log('Creating favicon-32x32.png...');
-    await sharp(logoBuffer)
-      .resize(32, 32, { 
-        fit: 'contain',
-        background: { r: 0, g: 0, b: 0, alpha: 0 }
-      })
-      .png()
-      .toFile(path.join(publicDir, 'favicon-32x32.png'));
-
-    // Create favicon-16x16.png
-    console.log('Creating favicon-16x16.png...');
-    await sharp(logoBuffer)
-      .resize(16, 16, { 
-        fit: 'contain',
-        background: { r: 0, g: 0, b: 0, alpha: 0 }
-      })
-      .png()
-      .toFile(path.join(publicDir, 'favicon-16x16.png'));
-
-    // Create logo.png (copy of original)
-    console.log('Creating logo.png...');
-    await fs.copyFile(logoPath, path.join(publicDir, 'logo.png'));
-
-    // Create android-chrome-192x192.png (for PWA)
-    console.log('Creating android-chrome-192x192.png...');
-    await sharp(logoBuffer)
-      .resize(192, 192, { 
-        fit: 'contain',
-        background: { r: 30, g: 41, b: 59, alpha: 1 }
-      })
-      .png()
-      .toFile(path.join(publicDir, 'android-chrome-192x192.png'));
-
-    // Create android-chrome-512x512.png (for PWA)
-    console.log('Creating android-chrome-512x512.png...');
-    await sharp(logoBuffer)
-      .resize(512, 512, { 
-        fit: 'contain',
-        background: { r: 30, g: 41, b: 59, alpha: 1 }
-      })
-      .png()
-      .toFile(path.join(publicDir, 'android-chrome-512x512.png'));
-
-    console.log('✅ All SEO images generated successfully!');
+    
+    console.log('✓ Added logo to og-image.png');
+    
+    // Composite logo onto Twitter image
+    await sharpModule(path.join(__dirname, '../public/twitter-image.png'))
+      .composite([{
+        input: logo,
+        top: 70,
+        left: 450
+      }])
+      .toFile(path.join(__dirname, '../public/twitter-image-temp.png'));
+    
+    fs.renameSync(
+      path.join(__dirname, '../public/twitter-image-temp.png'),
+      path.join(__dirname, '../public/twitter-image.png')
+    );
+    
+    console.log('✓ Added logo to twitter-image.png');
+    console.log('\n✓ SEO images generated successfully!');
+    
   } catch (error) {
-    console.error('Error generating images:', error);
+    console.error('Error generating images:', error.message);
+    console.log('\nPlease install sharp: npm install sharp');
     process.exit(1);
   }
 }
 
-generateSEOImages(); 
+generateSEOImages();
