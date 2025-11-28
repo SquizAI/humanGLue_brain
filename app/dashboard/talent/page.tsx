@@ -191,7 +191,7 @@ export default function TalentMarketplace() {
     <div className="min-h-screen bg-gray-950">
       <DashboardSidebar onLogout={handleLogout} />
 
-      <div className="ml-0 lg:ml-[var(--sidebar-width,280px)] transition-all">
+      <div className="ml-0 lg:ml-[var(--sidebar-width,280px)] pb-20 lg:pb-0 transition-all">
         <div className="px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
 
           {/* Header */}

@@ -562,7 +562,7 @@ export default function CourseDetail() {
     return (
       <div className="min-h-screen bg-gray-950">
         <DashboardSidebar onLogout={handleLogout} />
-        <div className="ml-0 lg:ml-[var(--sidebar-width,280px)] transition-all">
+        <div className="ml-0 lg:ml-[var(--sidebar-width,280px)] pb-20 lg:pb-0 transition-all">
           <div className="px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
             <div className="text-center py-16">
               <BookOpen className="w-16 h-16 text-gray-600 mx-auto mb-4" />
@@ -596,7 +596,7 @@ export default function CourseDetail() {
         </motion.div>
       )}
 
-      <div className="ml-0 lg:ml-[var(--sidebar-width,280px)] transition-all">
+      <div className="ml-0 lg:ml-[var(--sidebar-width,280px)] pb-20 lg:pb-0 transition-all">
         <div className="px-4 sm:px-6 lg:px-8 py-8 lg:py-12 max-w-7xl mx-auto">
           <Link href="/dashboard/learning">
             <button className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-6">
