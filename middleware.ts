@@ -25,7 +25,6 @@ const ROUTE_RULES = {
   // Protected routes by role
   admin: ['/admin'],
   instructor: ['/instructor'],
-  client: ['/client'],
 
   // Routes accessible by any authenticated user
   authenticated: ['/dashboard', '/profile', '/settings', '/checkout', '/results'],
@@ -182,13 +181,6 @@ export async function middleware(request: NextRequest) {
     // Check instructor routes
     if (ROUTE_RULES.instructor.some(route => pathname.startsWith(route))) {
       if (appRole !== 'instructor' && appRole !== 'admin') {
-        return NextResponse.redirect(new URL('/dashboard', request.url))
-      }
-    }
-
-    // Check client routes
-    if (ROUTE_RULES.client.some(route => pathname.startsWith(route))) {
-      if (appRole !== 'client' && appRole !== 'admin') {
         return NextResponse.redirect(new URL('/dashboard', request.url))
       }
     }
