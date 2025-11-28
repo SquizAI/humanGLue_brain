@@ -164,10 +164,14 @@ export default function TalentMarketplace() {
     })
 
     return filtered
-  }, [searchQuery, selectedExpertise, selectedIndustries, availabilityFilter, sortBy])  const handleLogout = () => {
+  }, [searchQuery, selectedExpertise, selectedIndustries, availabilityFilter, sortBy])
+
+  const handleLogout = () => {
     localStorage.removeItem('humanglue_user')
     router.push('/login')
-  }  return (
+  }
+
+  return (
     <div className="min-h-screen bg-gray-950">
       <DashboardSidebar onLogout={handleLogout} />
 
