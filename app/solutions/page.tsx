@@ -53,7 +53,7 @@ const solutions = [
       "Benchmark Comparison",
       "Custom Reporting"
     ],
-    image: "/solutions/ai-assessment-gemini.png"
+    image: "/solutions/ai-assessment-openai.png"
   },
   {
     icon: Users,
@@ -85,7 +85,7 @@ const solutions = [
       "Change Readiness",
       "Consensus Building"
     ],
-    image: "/solutions/strategic-workshops-gemini.png"
+    image: "/solutions/strategic-workshops-openai.png"
   },
   {
     icon: Layers,
@@ -117,7 +117,7 @@ const solutions = [
       "Change Playbooks",
       "Progress Tracking"
     ],
-    image: "/solutions/toolbox-gemini.png"
+    image: "/solutions/toolbox-openai.png"
   }
 ]
 
