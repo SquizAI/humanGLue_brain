@@ -64,9 +64,9 @@ export function HeroChat({ onStartAssessment, className }: HeroChatProps) {
             {/* Header with AI badge */}
             <div className="px-6 pt-5 pb-3 border-b border-gray-800/50">
               <div className="flex items-center gap-2 mb-3">
-                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/50" />
                 <span className="text-xs font-medium text-gray-400 font-diatype">
-                  AI Assistant
+                  AI Assessment
                 </span>
               </div>
             </div>
@@ -80,9 +80,6 @@ export function HeroChat({ onStartAssessment, className }: HeroChatProps) {
                 transition={{ delay: 0.3 }}
                 className="flex items-start gap-3"
               >
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center flex-shrink-0">
-                  <Sparkles className="w-4 h-4 text-white" />
-                </div>
                 <div className="flex-1 space-y-2">
                   <p className="text-white text-base font-medium font-diatype leading-relaxed">
                     Hey there! 👋

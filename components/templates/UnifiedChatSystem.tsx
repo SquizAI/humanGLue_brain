@@ -1117,7 +1117,7 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
                   <h3 className="text-sm font-semibold text-white font-diatype">
                     {currentState === 'performingAnalysis' ? 'Analyzing Your Responses' : 'AI Assessment'}
                   </h3>
-                  <p className="text-xs text-gray-400 font-diatype">Glassmorphic chat interface</p>
+                  <p className="text-xs text-gray-400 font-diatype">Professional assessment interface</p>
                 </div>
               </div>
               <div className="flex items-center gap-2">

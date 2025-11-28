@@ -167,16 +167,10 @@ export function ProfessionalChatInterface({ onStateChange, userData }: Professio
         <div className="border-b border-white/10 px-6 py-4 bg-gray-900/20">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <motion.div 
-                className="p-2 rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20 backdrop-blur-sm"
-                whileHover={{ scale: 1.1, rotate: 180 }}
-                transition={{ duration: 0.5 }}
-              >
-                <Sparkles className="w-5 h-5 text-blue-400" />
-              </motion.div>
+              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/50" />
               <div>
-                <h2 className="text-lg font-semibold text-white">Human Glue AI Assistant</h2>
-                <p className="text-xs text-gray-400">Organizational Transformation Expert</p>
+                <h2 className="text-lg font-semibold text-white">AI Assessment</h2>
+                <p className="text-xs text-gray-400">Professional transformation assessment</p>
               </div>
             </div>
           </div>

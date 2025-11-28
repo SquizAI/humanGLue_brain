@@ -550,19 +550,13 @@ export function GlobalAIChat({ userData: propsUserData, onStateChange: propsOnSt
               {/* Header */}
               <div className="flex items-center justify-between p-4 border-b border-white/10 bg-slate-800/50">
                 <div className="flex items-center gap-3">
-                  <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                    className="p-2 rounded-lg bg-blue-600/20"
-                  >
-                    <Brain className="w-5 h-5 text-blue-400" />
-                  </motion.div>
+                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/50" />
                   <div>
                     <h3 className="text-sm font-semibold text-white">
-                      {isAdmin ? 'Admin AI Assistant' : isInstructor ? 'Instructor AI Assistant' : 'AI Assistant'}
+                      {isAdmin ? 'Admin AI' : isInstructor ? 'Instructor AI' : 'AI Assessment'}
                     </h3>
                     <p className="text-xs text-gray-400">
-                      {isAdmin ? 'Platform management helper' : isInstructor ? 'Teaching & content helper' : 'Always here to help'}
+                      {isAdmin ? 'Platform management' : isInstructor ? 'Teaching & content' : 'Professional assessment'}
                     </p>
                   </div>
                 </div>

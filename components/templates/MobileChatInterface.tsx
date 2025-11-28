@@ -119,14 +119,11 @@ export function MobileChatInterface({
             {/* Compact Header */}
             <div className="flex items-center justify-between px-4 py-3 bg-gray-900 border-b border-gray-800">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
-                  <Bot className="w-4 h-4 text-white" />
-                </div>
+                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/50" />
                 <div>
-                  <h3 className="text-sm font-medium text-white">HumanGlue AI</h3>
+                  <h3 className="text-sm font-medium text-white">AI Assessment</h3>
                   <div className="flex items-center gap-1">
-                    <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
-                    <span className="text-xs text-gray-400">Online</span>
+                    <span className="text-xs text-gray-400">Professional interface</span>
                   </div>
                 </div>
               </div>
@@ -157,18 +154,7 @@ export function MobileChatInterface({
                     className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
                   >
                     <div className={`flex gap-2 max-w-[85%] ${message.role === 'user' ? 'flex-row-reverse' : ''}`}>
-                      {/* Avatar */}
-                      <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 ${
-                        message.role === 'user' 
-                          ? 'bg-blue-500' 
-                          : 'bg-gradient-to-br from-blue-500 to-purple-500'
-                      }`}>
-                        {message.role === 'user' ? (
-                          <User className="w-4 h-4 text-white" />
-                        ) : (
-                          <Sparkles className="w-4 h-4 text-white" />
-                        )}
-                      </div>
+                      {/* Avatar - removed for cleaner look */}
                       
                       {/* Message Bubble */}
                       <div className={`px-4 py-2.5 rounded-2xl ${
@@ -198,9 +184,6 @@ export function MobileChatInterface({
                     className="flex justify-start"
                   >
                     <div className="flex gap-2 items-center">
-                      <div className="w-7 h-7 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center">
-                        <Sparkles className="w-4 h-4 text-white" />
-                      </div>
                       <div className="bg-gray-800 px-4 py-3 rounded-2xl rounded-bl-sm">
                         <div className="flex gap-1">
                           <motion.div

@@ -181,20 +181,13 @@ export function HeroChatInterface({ onStateChange }: HeroChatInterfaceProps) {
         <div className="border-b border-white/10 px-6 py-4 bg-gradient-to-r from-gray-900/50 to-gray-800/50 backdrop-blur-xl">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <motion.div 
-                className="p-2.5 rounded-xl bg-gradient-to-br from-blue-500 to-purple-500 shadow-lg"
-                whileHover={{ scale: 1.1, rotate: 180 }}
-                transition={{ duration: 0.5 }}
-              >
-                <Sparkles className="w-5 h-5 text-white" />
-              </motion.div>
+              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/50" />
               <div>
-                <h2 className="text-lg font-bold text-white">Human Glue AI Assistant</h2>
-                <p className="text-xs text-gray-400 font-medium">Organizational Transformation Expert</p>
+                <h2 className="text-lg font-bold text-white">AI Assessment</h2>
+                <p className="text-xs text-gray-400 font-medium">Professional transformation assessment</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
               <span className="text-xs text-gray-400 font-medium">Online</span>
             </div>
           </div>
@@ -207,11 +200,11 @@ export function HeroChatInterface({ onStateChange }: HeroChatInterfaceProps) {
               animate={{ opacity: 1, y: 0 }}
               className="text-center py-8"
             >
-              <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center shadow-2xl">
-                <Brain className="w-8 h-8 text-white" />
+              <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 flex items-center justify-center shadow-2xl">
+                <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/50" />
               </div>
-              <h3 className="text-xl font-bold text-white mb-2">Welcome to Human Glue AI</h3>
-              <p className="text-gray-400 mb-8 text-sm leading-relaxed">I'm here to help transform your organization. Let's start with your name.</p>
+              <h3 className="text-xl font-bold text-white mb-2">AI Assessment</h3>
+              <p className="text-gray-400 mb-8 text-sm leading-relaxed">Professional transformation assessment. Let's start with your name.</p>
             </motion.div>
           )}
 

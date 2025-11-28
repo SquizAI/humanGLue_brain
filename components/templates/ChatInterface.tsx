@@ -142,14 +142,11 @@ export function ChatInterface({ onStateChange, userData }: ChatInterfaceProps) {
     >
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
-          <div className="p-2 rounded-lg bg-humanglue-blue/10">
-            <Icon icon={Sparkles} size="md" color="var(--humanglue-blue)" />
-          </div>
+          <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/50" />
           <div>
-            <Text weight="semibold" size="lg">Human Glue Assistant</Text>
+            <Text weight="semibold" size="lg">AI Assessment</Text>
             <div className="flex items-center gap-2 mt-0.5">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-              <Text variant="caption" size="xs">Active</Text>
+              <Text variant="caption" size="xs">Professional interface</Text>
             </div>
           </div>
         </div>
