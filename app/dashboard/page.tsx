@@ -1,7 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -20,7 +19,6 @@ import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
 import { useChat } from '@/lib/contexts/ChatContext'
 
 export default function DashboardPage() {
-  const router = useRouter()
   const { userData, authLoading } = useChat()
 
   // Trust middleware protection - no need for client-side auth checks
@@ -173,15 +171,14 @@ export default function DashboardPage() {
             <h2 className="text-2xl font-bold text-white mb-6 font-gendy">Your Marketplace</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {marketplaceItems.map((item, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  whileHover={{ y: -6, scale: 1.02 }}
-                  onClick={() => router.push(item.href)}
-                  className="group relative overflow-hidden bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 hover:border-purple-500/30 transition-all hover:shadow-[0_0_40px_rgba(168,85,247,0.15)] h-full cursor-pointer"
-                >
+                <Link key={index} href={item.href}>
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    whileHover={{ y: -6, scale: 1.02 }}
+                    className="group relative overflow-hidden bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 hover:border-purple-500/30 transition-all hover:shadow-[0_0_40px_rgba(168,85,247,0.15)] h-full cursor-pointer"
+                  >
                   <div className="relative h-48 overflow-hidden">
                     <Image
                       src={item.image}
@@ -215,6 +212,7 @@ export default function DashboardPage() {
 
                   <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-0 group-hover:opacity-5 transition-opacity`} />
                 </motion.div>
+                </Link>
               ))}
             </div>
           </div>
