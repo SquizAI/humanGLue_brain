@@ -68,18 +68,25 @@ export async function POST(request: NextRequest) {
     }
 
     // Determine database role based on application role
-    // The profiles table expects 'client', 'instructor', or 'admin'
-    // The validation schema ensures role is 'client' or 'instructor'
-    const dbRole = role
+    // Map application roles to database user_role ENUM values
+    // Schema: user_role AS ENUM ('admin', 'org_admin', 'team_lead', 'member')
+    let dbRole: 'admin' | 'org_admin' | 'team_lead' | 'member' = 'member'
+    if (role === 'admin') {
+      dbRole = 'admin'
+    } else if (role === 'instructor') {
+      dbRole = 'team_lead' // Instructors get team_lead role in database
+    } else {
+      dbRole = 'member' // Default for regular users
+    }
 
-    // Create user profile in database
+    // Create user profile in database (users table, not profiles)
     // Use admin client to bypass RLS since the user might not have a session yet
-    const { error: profileError } = await supabaseAdmin.from('profiles').insert({
+    const { error: profileError } = await supabaseAdmin.from('users').insert({
       id: authData.user.id,
       email,
       full_name: fullName,
       role: dbRole,
-      // organization_id removed as it doesn't exist in schema
+      organization_id: organizationId || null,
     })
 
     if (profileError) {
