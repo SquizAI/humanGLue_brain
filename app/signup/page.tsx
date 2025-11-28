@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { UserPlus, Mail, Lock, User, Check, X, Target, Rocket, Users2, GraduationCap, Brain } from 'lucide-react'
+import { UserPlus, Mail, Lock, User, Check, X, Target, Rocket, Users2, GraduationCap } from 'lucide-react'
 import Image from 'next/image'
 
 export default function SignupPage() {
@@ -115,12 +115,14 @@ export default function SignupPage() {
         <div className="relative z-10 flex flex-col justify-center px-16 py-20">
           {/* Logo */}
           <Link href="/" className="mb-12 inline-block">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-blue-500 rounded-xl flex items-center justify-center">
-                <Brain className="w-7 h-7 text-white" />
-              </div>
-              <span className="text-2xl font-bold text-white font-gendy">HumanGlue</span>
-            </div>
+            <Image
+              src="/HumnaGlue_logo_white_blue.png"
+              alt="HumanGlue"
+              width={200}
+              height={50}
+              className="h-10 w-auto"
+              priority
+            />
           </Link>
 
           {/* Main Heading */}
