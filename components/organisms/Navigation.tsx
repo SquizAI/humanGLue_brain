@@ -268,15 +268,47 @@ export function Navigation({ className }: NavigationProps) {
                   </motion.div>
                 </Link>
               ))}
-              <Link href="/#chat">
-                <Button
-                  variant="gradient"
-                  size="md"
-                  className="w-full mt-8"
-                >
-                  Get Started
-                </Button>
-              </Link>
+
+              {/* Auth Buttons */}
+              <div className="pt-6 border-t border-white/10 space-y-3">
+                {userData?.authenticated ? (
+                  <>
+                    <div className="text-sm text-white/80 font-diatype mb-4">
+                      Welcome, <span className="text-white font-medium">{userData.name || userData.email}</span>
+                    </div>
+                    <Link href="/dashboard">
+                      <Button
+                        variant="gradient"
+                        size="md"
+                        className="w-full"
+                      >
+                        Dashboard
+                      </Button>
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <Link href="/login">
+                      <Button
+                        variant="secondary"
+                        size="md"
+                        className="w-full"
+                      >
+                        Login
+                      </Button>
+                    </Link>
+                    <Link href="/signup">
+                      <Button
+                        variant="gradient"
+                        size="md"
+                        className="w-full"
+                      >
+                        Sign Up
+                      </Button>
+                    </Link>
+                  </>
+                )}
+              </div>
             </div>
           </div>
         </motion.div>
