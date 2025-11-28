@@ -815,27 +815,72 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
   // Mobile sticky footer mode
   if (isMobileSticky) {
     const [isMobileExpanded, setIsMobileExpanded] = React.useState(true)
+    const [isMobileChatVisible, setIsMobileChatVisible] = React.useState(true)
+
+    // If chat is completely dismissed, don't render anything
+    if (!isMobileChatVisible) {
+      return null
+    }
 
     return (
-      <div className="w-full bg-gray-900/95 backdrop-blur-xl border-t border-white/10 shadow-2xl">
-        {/* Mobile Chat Header - Always visible */}
-        <div
-          className="flex items-center justify-between px-4 py-3 border-b border-white/10 cursor-pointer"
-          onClick={() => setIsMobileExpanded(!isMobileExpanded)}
-        >
-          <div className="flex items-center gap-3">
-            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-            <Text size="sm" className="font-medium text-white font-diatype">
-              {currentState === 'performingAnalysis' ? 'Analyzing...' : 'AI Assessment'}
-            </Text>
-          </div>
-          <button className="text-gray-400 hover:text-white transition-colors">
-            {isMobileExpanded ? (
-              <ChevronDown className="w-5 h-5" />
-            ) : (
-              <ChevronUp className="w-5 h-5" />
-            )}
+      <div className="w-full bg-gray-900/98 backdrop-blur-xl border-t-2 border-brand-cyan/30 shadow-2xl">
+        {/* Mobile Chat Header - Always visible, optimized for touch */}
+        <div className="flex items-center justify-between px-4 py-4 border-b border-white/10">
+          {/* Left: Status indicator and title - tappable to expand/collapse */}
+          <button
+            onClick={() => setIsMobileExpanded(!isMobileExpanded)}
+            className="flex items-center gap-3 flex-1 text-left min-h-[44px] -ml-2 pl-2 pr-4 rounded-lg active:bg-white/5 transition-colors"
+          >
+            <div className="w-2.5 h-2.5 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/50" />
+            <div className="flex flex-col">
+              <Text size="base" className="font-semibold text-white font-diatype leading-tight">
+                {currentState === 'performingAnalysis' ? 'Analyzing Your Responses' : 'AI Assessment'}
+              </Text>
+              <Text size="xs" className="text-gray-400 font-diatype">
+                {isMobileExpanded ? 'Tap to minimize' : 'Tap to expand'}
+              </Text>
+            </div>
           </button>
+
+          {/* Right: Action buttons with proper touch targets */}
+          <div className="flex items-center gap-2">
+            {/* Expand/Collapse button */}
+            <button
+              onClick={() => setIsMobileExpanded(!isMobileExpanded)}
+              className={cn(
+                'p-3 rounded-xl transition-all',
+                'text-gray-400 hover:text-white',
+                'active:bg-white/10 active:scale-95',
+                'min-w-[44px] min-h-[44px]',
+                'flex items-center justify-center'
+              )}
+              aria-label={isMobileExpanded ? 'Minimize chat' : 'Expand chat'}
+            >
+              {isMobileExpanded ? (
+                <ChevronDown className="w-6 h-6" />
+              ) : (
+                <ChevronUp className="w-6 h-6" />
+              )}
+            </button>
+
+            {/* Close button - always visible */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation()
+                setIsMobileChatVisible(false)
+              }}
+              className={cn(
+                'p-3 rounded-xl transition-all',
+                'text-gray-400 hover:text-white',
+                'active:bg-red-500/20 active:scale-95',
+                'min-w-[44px] min-h-[44px]',
+                'flex items-center justify-center'
+              )}
+              aria-label="Close chat"
+            >
+              <X className="w-6 h-6" />
+            </button>
+          </div>
         </div>
 
         {/* Expandable Chat Content */}
@@ -845,18 +890,19 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.25, ease: 'easeInOut' }}
               className="overflow-hidden"
             >
-              <div className="max-w-2xl mx-auto p-4">
-                <div className="space-y-3">
-                  {/* Scrollable messages area with max height */}
-                  <div className="max-h-[30vh] overflow-y-auto overscroll-contain scroll-smooth">
+              <div className="px-4 py-4">
+                <div className="space-y-4">
+                  {/* Scrollable messages area with optimized height */}
+                  <div className="max-h-[35vh] overflow-y-auto overscroll-contain scroll-smooth
+                                bg-gray-950/30 rounded-2xl p-4 -mx-2">
                     {chatContent}
                   </div>
 
-                  {/* Chat Input - Fixed at bottom */}
-                  <div className="flex gap-2">
+                  {/* Chat Input Area - Optimized for mobile typing */}
+                  <div className="flex gap-3">
                     <input
                       type="text"
                       value={input}
@@ -869,26 +915,34 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
                       }
                       disabled={isTyping || currentState === 'performingAnalysis'}
                       className={cn(
-                        'flex-1 px-4 py-3 rounded-xl font-diatype',
-                        'bg-gray-800/50 border border-gray-700/50',
+                        'flex-1 px-5 py-4 rounded-2xl font-diatype text-base',
+                        'bg-gray-800/70 border-2 border-gray-700/50',
                         'text-white placeholder:text-gray-500',
-                        'focus:outline-none focus:border-brand-cyan/50',
+                        'focus:outline-none focus:border-brand-cyan/70 focus:bg-gray-800',
                         'disabled:opacity-50 disabled:cursor-not-allowed',
-                        'transition-colors'
+                        'transition-all duration-200',
+                        'min-h-[52px]', // Larger touch target
+                        'shadow-lg'
                       )}
                     />
                     <button
                       onClick={() => handleSend()}
                       disabled={!input.trim() || isTyping || currentState === 'performingAnalysis'}
                       className={cn(
-                        'px-4 py-3 rounded-xl font-medium font-diatype',
-                        'bg-brand-cyan text-gray-900',
-                        'hover:bg-brand-cyan/90',
-                        'disabled:opacity-50 disabled:cursor-not-allowed',
-                        'transition-colors'
+                        'px-6 py-4 rounded-2xl font-semibold font-diatype text-base',
+                        'bg-gradient-to-r from-brand-cyan to-blue-500',
+                        'text-gray-900',
+                        'hover:from-brand-cyan/90 hover:to-blue-500/90',
+                        'active:scale-95',
+                        'disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100',
+                        'transition-all duration-200',
+                        'min-w-[52px] min-h-[52px]', // Square touch target
+                        'flex items-center justify-center',
+                        'shadow-lg shadow-brand-cyan/25'
                       )}
+                      aria-label="Send message"
                     >
-                      Send
+                      <Send className="w-5 h-5" />
                     </button>
                   </div>
                 </div>
