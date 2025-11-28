@@ -192,6 +192,12 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL('/dashboard', request.url))
       }
     }
+
+    // Allow any authenticated user to access dashboard routes and other authenticated routes
+    if (pathname.startsWith('/dashboard') || ROUTE_RULES.authenticated.some(route => pathname === route)) {
+      console.log('[Middleware] Allowing authenticated user to access route:', pathname)
+      return response
+    }
   }
 
   return response
