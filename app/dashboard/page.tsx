@@ -142,45 +142,57 @@ export default function DashboardPage() {
 
       <div className="lg:ml-[var(--sidebar-width,280px)] transition-all">
         <main className="p-4 sm:p-6 lg:p-8 space-y-6 lg:space-y-8 pb-20 lg:pb-8">
+          {/* Compact Welcome Header with Key Metrics */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-gradient-to-r from-purple-900/30 to-blue-900/30 rounded-2xl p-8 border border-purple-500/20"
+            className="bg-gradient-to-r from-purple-900/20 to-blue-900/20 rounded-xl p-4 sm:p-5 border border-purple-500/20"
           >
-            <div className="flex items-start gap-6">
-              <div className="w-24 h-24 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-white text-3xl font-bold font-gendy flex-shrink-0">
-                {userData.name?.split(' ').map((n: string) => n[0]).join('') || 'U'}
-              </div>
-              <div className="flex-1">
-                <h1 className="text-3xl font-bold text-white font-gendy mb-2">
-                  Welcome back, {userData.name}
-                </h1>
-                <p className="text-gray-300 font-diatype mb-4">
-                  {userData.company || 'Your Organization'} • Continue your AI transformation journey
-                </p>
-                <div className="grid grid-cols-3 gap-4">
-                  <div className="bg-white/5 rounded-xl p-4 backdrop-blur-xl border border-white/10">
-                    <div className="flex items-center gap-2 text-purple-400 mb-1">
-                      <Target className="w-5 h-5" />
-                      <span className="text-2xl font-bold font-gendy">72</span>
-                    </div>
-                    <p className="text-gray-400 text-sm font-diatype">AI Maturity Score</p>
-                  </div>
-                  <div className="bg-white/5 rounded-xl p-4 backdrop-blur-xl border border-white/10">
-                    <div className="flex items-center gap-2 text-blue-400 mb-1">
-                      <TrendingUp className="w-5 h-5" />
-                      <span className="text-2xl font-bold font-gendy">12</span>
-                    </div>
-                    <p className="text-gray-400 text-sm font-diatype">Completed CBTs</p>
-                  </div>
-                  <div className="bg-white/5 rounded-xl p-4 backdrop-blur-xl border border-white/10">
-                    <div className="flex items-center gap-2 text-green-400 mb-1">
-                      <Video className="w-5 h-5" />
-                      <span className="text-2xl font-bold font-gendy">3</span>
-                    </div>
-                    <p className="text-gray-400 text-sm font-diatype">Workshops Attended</p>
-                  </div>
+            <div className="flex items-center justify-between gap-4 flex-wrap">
+              {/* Welcome Text - Mobile Priority */}
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-white text-lg sm:text-xl font-bold font-gendy flex-shrink-0">
+                  {userData.name?.split(' ').map((n: string) => n[0]).join('') || 'U'}
                 </div>
+                <div>
+                  <h1 className="text-xl sm:text-2xl font-bold text-white font-gendy">
+                    {userData.name?.split(' ')[0] || 'Welcome'}
+                  </h1>
+                  <p className="text-gray-400 text-xs sm:text-sm font-diatype">
+                    {userData.company || 'Your Organization'}
+                  </p>
+                </div>
+              </div>
+
+              {/* Key Metrics - Compact Horizontal Layout */}
+              <div className="flex items-center gap-3 sm:gap-4">
+                <Link href="/dashboard/assessments" className="group">
+                  <div className="flex flex-col items-center bg-white/5 rounded-lg px-3 py-2 border border-white/10 hover:border-purple-500/30 transition-all">
+                    <div className="flex items-center gap-1.5 text-purple-400 group-hover:text-purple-300">
+                      <Target className="w-4 h-4" />
+                      <span className="text-xl font-bold font-gendy">72</span>
+                    </div>
+                    <p className="text-gray-500 text-[10px] sm:text-xs font-diatype">Maturity</p>
+                  </div>
+                </Link>
+                <Link href="/dashboard/cbts" className="group">
+                  <div className="flex flex-col items-center bg-white/5 rounded-lg px-3 py-2 border border-white/10 hover:border-blue-500/30 transition-all">
+                    <div className="flex items-center gap-1.5 text-blue-400 group-hover:text-blue-300">
+                      <TrendingUp className="w-4 h-4" />
+                      <span className="text-xl font-bold font-gendy">12</span>
+                    </div>
+                    <p className="text-gray-500 text-[10px] sm:text-xs font-diatype">CBTs</p>
+                  </div>
+                </Link>
+                <Link href="/dashboard/workshops" className="group">
+                  <div className="flex flex-col items-center bg-white/5 rounded-lg px-3 py-2 border border-white/10 hover:border-green-500/30 transition-all">
+                    <div className="flex items-center gap-1.5 text-green-400 group-hover:text-green-300">
+                      <Video className="w-4 h-4" />
+                      <span className="text-xl font-bold font-gendy">3</span>
+                    </div>
+                    <p className="text-gray-500 text-[10px] sm:text-xs font-diatype">Workshops</p>
+                  </div>
+                </Link>
               </div>
             </div>
           </motion.div>
