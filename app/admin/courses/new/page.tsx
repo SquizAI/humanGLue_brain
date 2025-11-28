@@ -65,13 +65,6 @@ export default function NewCourse() {
     return () => clearTimeout(timeout)
   }, [authLoading, userData])
 
-  useEffect(() => {
-    if (!authLoading && userData && !userData.isAdmin) {
-      console.log('[NewCourse] Redirecting to login - not admin')
-      router.push('/login')
-    }
-  }, [userData, router, authLoading])
-
   if (!showContent) {
     return (
       <div className="min-h-screen bg-gray-950 flex items-center justify-center">

@@ -207,13 +207,6 @@ export default function ExpertsAdmin() {
     return () => clearTimeout(timeout)
   }, [authLoading, userData])
 
-  useEffect(() => {
-    if (!authLoading && userData && !userData.isAdmin) {
-      console.log('[ExpertsAdmin] Redirecting to login - not admin')
-      router.push('/login')
-    }
-  }, [userData, router, authLoading])
-
   if (!showContent) {
     return (
       <div className="min-h-screen bg-gray-950 flex items-center justify-center">

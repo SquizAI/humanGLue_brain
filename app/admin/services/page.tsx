@@ -152,13 +152,6 @@ export default function ServicesOverview() {
     return () => clearTimeout(timeout)
   }, [authLoading, userData])
 
-  useEffect(() => {
-    if (!authLoading && userData && !userData.isAdmin) {
-      console.log('[ServicesOverview] Redirecting to login - not admin')
-      router.push('/login')
-    }
-  }, [userData, router, authLoading])
-
   if (!showContent) {
     return (
       <div className="min-h-screen bg-gray-950 flex items-center justify-center">

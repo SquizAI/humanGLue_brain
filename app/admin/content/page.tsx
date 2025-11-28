@@ -426,13 +426,6 @@ export default function ContentLibrary() {
     return () => clearTimeout(timeout)
   }, [authLoading, userData])
 
-  useEffect(() => {
-    if (!authLoading && userData && !userData.isAdmin) {
-      console.log('[ContentLibrary] Redirecting to login - not admin')
-      router.push('/login')
-    }
-  }, [userData, router, authLoading])
-
   if (!showContent) {
     return (
       <div className="min-h-screen bg-gray-950 flex items-center justify-center">
