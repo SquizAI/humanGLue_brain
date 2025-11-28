@@ -400,15 +400,6 @@ export function EnhancedHomepage() {
                 transition={{ duration: 0.8 }}
                 className="flex-1 max-w-2xl"
               >
-              <motion.div
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-4 sm:mb-6"
-              >
-                <Sparkles className="w-3 h-3 text-white" />
-                <span className="text-xs sm:text-sm text-white/90 font-diatype">AI-Powered Transformation</span>
-              </motion.div>
-
               <div className="space-y-2">
                 <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight font-gendy">
                   Disruption is here.
@@ -464,26 +455,15 @@ export function EnhancedHomepage() {
                   </motion.button>
                 </div>
 
-                {/* Trust Indicators */}
-                <motion.div
+                {/* Value Proposition */}
+                <motion.p
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.6 }}
-                  className="flex flex-wrap items-center gap-4 sm:gap-6 text-sm text-white/70"
+                  className="text-base sm:text-lg text-white/80 font-diatype max-w-xl leading-relaxed"
                 >
-                  <div className="flex items-center gap-2 font-diatype">
-                    <CheckCircle className="w-4 h-4 text-green-400" />
-                    <span>No credit card required</span>
-                  </div>
-                  <div className="flex items-center gap-2 font-diatype">
-                    <Clock className="w-4 h-4 text-blue-400" />
-                    <span>5 minutes to complete</span>
-                  </div>
-                  <div className="flex items-center gap-2 font-diatype">
-                    <Shield className="w-4 h-4 text-purple-400" />
-                    <span>Enterprise secure</span>
-                  </div>
-                </motion.div>
+                  We're the always-on copilot for AI transformation—continuously learning your organization and keeping the human side on track.
+                </motion.p>
               </motion.div>
               </motion.div>
 
