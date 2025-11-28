@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
@@ -11,15 +11,10 @@ import {
   Clock,
   Users,
   ArrowRight,
-  Filter,
   Search,
   Star,
-  BookmarkPlus,
-  Play,
-  CheckCircle2,
 } from 'lucide-react'
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
-import { useChat } from '@/lib/contexts/ChatContext'
 
 interface Workshop {
   id: string
@@ -40,45 +35,12 @@ interface Workshop {
 
 export default function WorkshopsPage() {
   const router = useRouter()
-  const { userData, authLoading } = useChat()
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [selectedLevel, setSelectedLevel] = useState('all')
-  const [showContent, setShowContent] = useState(false)
 
-  // Timeout for authLoading - if it takes more than 3 seconds, assume middleware validated access
-  useEffect(() => {
-    // If auth loads quickly and user is authenticated, show content
-    if (!authLoading && userData?.authenticated) {
-      setShowContent(true)
-      return
-    }
-
-    // If auth is still loading after 3 seconds, trust middleware and show content anyway
-    const timeout = setTimeout(() => {
-      console.log('[WorkshopsPage] Auth timeout - trusting middleware protection')
-      setShowContent(true)
-    }, 3000)
-
-    return () => clearTimeout(timeout)
-  }, [authLoading, userData])
-
-  // Only redirect if we're certain user is not authenticated
-  // Don't redirect on empty userData - trust middleware protection
-  useEffect(() => {
-    if (!authLoading && userData?.authenticated === false) {
-      console.log('[WorkshopsPage] Redirecting to login - explicitly not authenticated')
-      router.push('/login')
-    }
-  }, [userData, router, authLoading])
-
-  if (!showContent) {
-    return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500"></div>
-      </div>
-    )
-  }
+  // Trust middleware protection - no need for client-side auth checks
+  // Middleware already validates access before page loads
 
   const handleLogout = () => {
     localStorage.removeItem('humanglue_user')

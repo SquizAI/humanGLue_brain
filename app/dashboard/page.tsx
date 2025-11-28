@@ -22,39 +22,9 @@ import { useChat } from '@/lib/contexts/ChatContext'
 export default function DashboardPage() {
   const router = useRouter()
   const { userData, authLoading } = useChat()
-  const [showContent, setShowContent] = useState(false)
 
-  useEffect(() => {
-    // If auth loads quickly and user is authenticated, show content
-    if (!authLoading && userData?.authenticated) {
-      setShowContent(true)
-      return
-    }
-
-    // If auth is still loading after 3 seconds, trust middleware and show content anyway
-    const timeout = setTimeout(() => {
-      console.log('[DashboardPage] Auth timeout - trusting middleware protection')
-      setShowContent(true)
-    }, 3000)
-
-    return () => clearTimeout(timeout)
-  }, [authLoading, userData])
-
-  // Only redirect if we're certain user is not authenticated
-  // Don't redirect on empty userData - trust middleware protection
-  useEffect(() => {
-    if (!authLoading && userData?.authenticated === false) {
-      router.push('/login')
-    }
-  }, [userData, router, authLoading])
-
-  if (!showContent) {
-    return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500"></div>
-      </div>
-    )
-  }
+  // Trust middleware protection - no need for client-side auth checks
+  // Middleware already validates access before page loads
 
   const handleLogout = async () => {
     try {
