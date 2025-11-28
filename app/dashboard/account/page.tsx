@@ -46,7 +46,9 @@ export default function AccountPage() {
   const [activeView, setActiveView] = useState<ViewType>('overview')
   const [showUpgradeModal, setShowUpgradeModal] = useState(false)
 
-  // Authentication check  const handleLogout = () => {
+  // Authentication check
+
+  const handleLogout = () => {
     localStorage.removeItem('humanglue_user')
     router.push('/login')
   }

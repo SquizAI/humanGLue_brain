@@ -258,7 +258,9 @@ export default function ExpertProfile() {
   const router = useRouter()
   const params = useParams()
     const expertId = parseInt(params.id as string)
-  const expert = experts.find(e => e.id === expertId)  const handleLogout = () => {
+  const expert = experts.find(e => e.id === expertId)
+
+  const handleLogout = () => {
     localStorage.removeItem('humanglue_user')
     router.push('/login')
   }  if (!expert) {

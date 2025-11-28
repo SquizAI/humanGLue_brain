@@ -159,7 +159,9 @@ export default function SettingsPage() {
   ])
   const [inviteEmail, setInviteEmail] = useState('')
 
-  // Authentication check  const handleLogout = () => {
+  // Authentication check
+
+  const handleLogout = () => {
     localStorage.removeItem('humanglue_user')
     router.push('/login')
   }

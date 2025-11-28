@@ -32,7 +32,9 @@ interface Workflow {
 export default function WorkflowsPage() {
   const router = useRouter()
     const [searchQuery, setSearchQuery] = useState('')
-  const [selectedCategory, setSelectedCategory] = useState('all')  const handleLogout = () => {
+  const [selectedCategory, setSelectedCategory] = useState('all')
+
+  const handleLogout = () => {
     localStorage.removeItem('humanglue_user')
     router.push('/login')
   }

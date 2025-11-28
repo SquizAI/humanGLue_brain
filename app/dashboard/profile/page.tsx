@@ -20,7 +20,9 @@ import {
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
 export default function ProfilePage() {
   const router = useRouter()
-    const [activeTab, setActiveTab] = useState('profile')  const handleLogout = () => {
+    const [activeTab, setActiveTab] = useState('profile')
+
+  const handleLogout = () => {
     localStorage.removeItem('humanglue_user')
     router.push('/login')
   }

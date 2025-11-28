@@ -72,7 +72,9 @@ interface Benchmark {
 
 export default function AssessmentDetailPage() {
   const router = useRouter()
-  const params = useParams()  const handleLogout = () => {
+  const params = useParams()
+
+  const handleLogout = () => {
     localStorage.removeItem('humanglue_user')
     router.push('/login')
   }

@@ -28,7 +28,9 @@ export default function LibraryPage() {
   const router = useRouter()
     const [searchQuery, setSearchQuery] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('all')
-  const [selectedType, setSelectedType] = useState('all')  const handleLogout = () => {
+  const [selectedType, setSelectedType] = useState('all')
+
+  const handleLogout = () => {
     localStorage.removeItem('humanglue_user')
     router.push('/login')
   }

@@ -487,7 +487,9 @@ export default function CourseDetail() {
   const course = courses.find(c => c.id === courseId)
   const [expandedModule, setExpandedModule] = useState<number | null>(0)
   const [isAddingToCart, setIsAddingToCart] = useState(false)
-  const [showToast, setShowToast] = useState(false)  const handleLogout = () => {
+  const [showToast, setShowToast] = useState(false)
+
+  const handleLogout = () => {
     localStorage.removeItem('humanglue_user')
     router.push('/login')
   }

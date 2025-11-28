@@ -22,7 +22,9 @@ import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
 export default function InstructorsPage() {
   const router = useRouter()
     const [searchQuery, setSearchQuery] = useState('')
-  const [selectedExpertise, setSelectedExpertise] = useState('all')  const handleLogout = () => {
+  const [selectedExpertise, setSelectedExpertise] = useState('all')
+
+  const handleLogout = () => {
     localStorage.removeItem('humanglue_user')
     router.push('/login')
   }

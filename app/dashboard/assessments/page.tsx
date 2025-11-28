@@ -53,7 +53,9 @@ export default function AssessmentsPage() {
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
   const [showFilters, setShowFilters] = useState(false)
 
-  // Authentication check  const handleLogout = () => {
+  // Authentication check
+
+  const handleLogout = () => {
     localStorage.removeItem('humanglue_user')
     router.push('/login')
   }

@@ -115,7 +115,9 @@ export default function TeamPage() {
   const [statusFilter, setStatusFilter] = useState<string>('all')
   const [selectedMembers, setSelectedMembers] = useState<string[]>([])
 
-  // Authentication check  const handleLogout = () => {
+  // Authentication check
+
+  const handleLogout = () => {
     localStorage.removeItem('humanglue_user')
     router.push('/login')
   }

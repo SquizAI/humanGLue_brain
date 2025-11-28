@@ -78,7 +78,9 @@ interface ResourceData {
 export default function ResourceDetailPage() {
   const router = useRouter()
   const params = useParams()
-    const id = params?.id as string  const handleLogout = () => {
+    const id = params?.id as string
+
+  const handleLogout = () => {
     localStorage.removeItem('humanglue_user')
     router.push('/login')
   }

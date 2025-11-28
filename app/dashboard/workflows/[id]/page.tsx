@@ -493,7 +493,9 @@ const workflowData: Record<string, WorkflowData> = {
 export default function WorkflowDetailPage() {
   const router = useRouter()
   const params = useParams()
-    const workflowId = params.id as string  const handleLogout = () => {
+    const workflowId = params.id as string
+
+  const handleLogout = () => {
     localStorage.removeItem('humanglue_user')
     router.push('/login')
   }
