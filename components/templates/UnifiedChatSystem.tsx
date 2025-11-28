@@ -833,7 +833,7 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
           >
             <div className="w-2.5 h-2.5 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/50" />
             <div className="flex flex-col">
-              <Text size="base" className="font-semibold text-white font-diatype leading-tight">
+              <Text size="sm" className="font-semibold text-white font-diatype leading-tight">
                 {currentState === 'performingAnalysis' ? 'Analyzing Your Responses' : 'AI Assessment'}
               </Text>
               <Text size="xs" className="text-gray-400 font-diatype">
