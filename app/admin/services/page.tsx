@@ -40,7 +40,8 @@ interface ServiceMetrics {
 
 export default function ServicesOverview() {
   const router = useRouter()
-  const { userData } = useChat()
+  const { userData, authLoading } = useChat()
+  const [showContent, setShowContent] = useState(false)
 
   // Service metrics
   const [courseMetrics] = useState<ServiceMetrics>({
@@ -137,15 +138,33 @@ export default function ServicesOverview() {
     apiCalls: 15234,
   })
 
-  // Check admin access
   useEffect(() => {
-    if (!userData?.isAdmin) {
+    if (!authLoading && userData?.isAdmin) {
+      setShowContent(true)
+      return
+    }
+
+    const timeout = setTimeout(() => {
+      console.log('[ServicesOverview] Auth timeout - trusting middleware protection')
+      setShowContent(true)
+    }, 3000)
+
+    return () => clearTimeout(timeout)
+  }, [authLoading, userData])
+
+  useEffect(() => {
+    if (!authLoading && userData && !userData.isAdmin) {
+      console.log('[ServicesOverview] Redirecting to login - not admin')
       router.push('/login')
     }
-  }, [userData, router])
+  }, [userData, router, authLoading])
 
-  if (!userData?.isAdmin) {
-    return null
+  if (!showContent) {
+    return (
+      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500"></div>
+      </div>
+    )
   }
 
   const handleLogout = () => {

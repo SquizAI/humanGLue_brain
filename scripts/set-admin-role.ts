@@ -28,9 +28,9 @@ const supabase = createClient(supabaseUrl, supabaseServiceKey, {
 })
 
 async function setAdminRole() {
-  const emails = ['maddie@lvng.ai', 'maddie@living.ai']
+  const emails = ['matty@lvng.ai', 'maddie@lvng.ai', 'maddie@living.ai']
 
-  console.log('Setting admin role for Maddie\'s accounts...\n')
+  console.log('Setting admin role for accounts...\n')
 
   for (const email of emails) {
     console.log(`Checking ${email}...`)

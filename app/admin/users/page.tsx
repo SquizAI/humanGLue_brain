@@ -71,7 +71,7 @@ const initialUsers: User[] = [
 
 export default function UsersAdmin() {
   const router = useRouter()
-  const { userData } = useChat()
+  const { userData, authLoading } = useChat()
   const [users, setUsers] = useState<User[]>(initialUsers)
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedRole, setSelectedRole] = useState<string>('all')
@@ -79,15 +79,35 @@ export default function UsersAdmin() {
   const [showInviteModal, setShowInviteModal] = useState(false)
   const [showSuccessMessage, setShowSuccessMessage] = useState(false)
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
+  const [showContent, setShowContent] = useState(false)
 
   useEffect(() => {
-    if (!userData?.isAdmin) {
+    if (!authLoading && userData?.isAdmin) {
+      setShowContent(true)
+      return
+    }
+
+    const timeout = setTimeout(() => {
+      console.log('[UsersAdmin] Auth timeout - trusting middleware protection')
+      setShowContent(true)
+    }, 3000)
+
+    return () => clearTimeout(timeout)
+  }, [authLoading, userData])
+
+  useEffect(() => {
+    if (!authLoading && userData && !userData.isAdmin) {
+      console.log('[UsersAdmin] Redirecting to login - not admin')
       router.push('/login')
     }
-  }, [userData, router])
+  }, [userData, router, authLoading])
 
-  if (!userData?.isAdmin) {
-    return null
+  if (!showContent) {
+    return (
+      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500"></div>
+      </div>
+    )
   }
 
   const handleLogout = () => {

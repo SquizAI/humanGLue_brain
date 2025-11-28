@@ -145,19 +145,39 @@ type TimeRange = '7d' | '30d' | '90d' | '1y' | 'all'
 
 export default function AnalyticsPage() {
   const router = useRouter()
-  const { userData } = useChat()
+  const { userData, authLoading } = useChat()
   const [timeRange, setTimeRange] = useState<TimeRange>('30d')
   const [showDatePicker, setShowDatePicker] = useState(false)
   const [activeTab, setActiveTab] = useState<'daily' | 'weekly' | 'monthly'>('daily')
+  const [showContent, setShowContent] = useState(false)
 
   useEffect(() => {
-    if (!userData?.isAdmin) {
+    if (!authLoading && userData?.isAdmin) {
+      setShowContent(true)
+      return
+    }
+
+    const timeout = setTimeout(() => {
+      console.log('[AnalyticsPage] Auth timeout - trusting middleware protection')
+      setShowContent(true)
+    }, 3000)
+
+    return () => clearTimeout(timeout)
+  }, [authLoading, userData])
+
+  useEffect(() => {
+    if (!authLoading && userData && !userData.isAdmin) {
+      console.log('[AnalyticsPage] Redirecting to login - not admin')
       router.push('/login')
     }
-  }, [userData, router])
+  }, [userData, router, authLoading])
 
-  if (!userData?.isAdmin) {
-    return null
+  if (!showContent) {
+    return (
+      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500"></div>
+      </div>
+    )
   }
 
   const handleLogout = () => {

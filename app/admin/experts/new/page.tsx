@@ -40,7 +40,8 @@ const statusOptions = [
 
 export default function NewExpert() {
   const router = useRouter()
-  const { userData } = useChat()
+  const { userData, authLoading } = useChat()
+  const [showContent, setShowContent] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [showSuccessMessage, setShowSuccessMessage] = useState(false)
 
@@ -62,15 +63,34 @@ export default function NewExpert() {
   })
   const [formErrors, setFormErrors] = useState<Record<string, string>>({})
 
-  // Check admin access
+  // Check admin access with timeout pattern
   useEffect(() => {
-    if (!userData?.isAdmin) {
+    if (!authLoading && userData?.isAdmin) {
+      setShowContent(true)
+      return
+    }
+
+    const timeout = setTimeout(() => {
+      console.log('[NewExpert] Auth timeout - trusting middleware protection')
+      setShowContent(true)
+    }, 3000)
+
+    return () => clearTimeout(timeout)
+  }, [authLoading, userData])
+
+  useEffect(() => {
+    if (!authLoading && userData && !userData.isAdmin) {
+      console.log('[NewExpert] Redirecting to login - not admin')
       router.push('/login')
     }
-  }, [userData, router])
+  }, [userData, router, authLoading])
 
-  if (!userData?.isAdmin) {
-    return null
+  if (!showContent) {
+    return (
+      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500"></div>
+      </div>
+    )
   }
 
   const handleLogout = () => {
