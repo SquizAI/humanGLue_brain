@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { UserPlus, Mail, Lock, User, Check, X, Target, Rocket, Users2, GraduationCap } from 'lucide-react'
+import { UserPlus, Mail, Lock, User, Check, X, Target, Rocket, Users2, GraduationCap, Brain } from 'lucide-react'
 import Image from 'next/image'
 
 export default function SignupPage() {
