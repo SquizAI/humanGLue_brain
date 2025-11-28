@@ -201,48 +201,48 @@ export default function DashboardPage() {
             <h2 className="text-2xl font-bold text-white mb-6 font-gendy">Your Marketplace</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {marketplaceItems.map((item, index) => (
-                <Link key={index} href={item.href}>
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    whileHover={{ y: -6, scale: 1.02 }}
-                    className="group relative overflow-hidden bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 hover:border-purple-500/30 transition-all hover:shadow-[0_0_40px_rgba(168,85,247,0.15)] h-full"
-                  >
-                    <div className="relative h-48 overflow-hidden">
-                      <Image
-                        src={item.image}
-                        alt={item.title}
-                        fill
-                        className="object-cover group-hover:scale-110 transition-transform duration-500"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/50 to-transparent" />
-                      <div className={`absolute top-4 right-4 p-3 rounded-xl bg-gradient-to-br ${item.gradient}`}>
-                        {item.icon}
-                      </div>
-                      {item.count && (
-                        <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-white/10 backdrop-blur-xl border border-white/20">
-                          <span className="text-white text-sm font-bold font-diatype">{item.count} Available</span>
-                        </div>
-                      )}
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  whileHover={{ y: -6, scale: 1.02 }}
+                  onClick={() => router.push(item.href)}
+                  className="group relative overflow-hidden bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 hover:border-purple-500/30 transition-all hover:shadow-[0_0_40px_rgba(168,85,247,0.15)] h-full cursor-pointer"
+                >
+                  <div className="relative h-48 overflow-hidden">
+                    <Image
+                      src={item.image}
+                      alt={item.title}
+                      fill
+                      className="object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/50 to-transparent" />
+                    <div className={`absolute top-4 right-4 p-3 rounded-xl bg-gradient-to-br ${item.gradient}`}>
+                      {item.icon}
                     </div>
-
-                    <div className="p-6">
-                      <h3 className="text-xl font-semibold text-white mb-2 font-gendy group-hover:text-purple-400 transition-colors">
-                        {item.title}
-                      </h3>
-                      <p className="text-gray-400 text-sm font-diatype mb-4">
-                        {item.description}
-                      </p>
-                      <div className="flex items-center text-purple-400 font-semibold text-sm font-diatype">
-                        Explore
-                        <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                    {item.count && (
+                      <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-white/10 backdrop-blur-xl border border-white/20">
+                        <span className="text-white text-sm font-bold font-diatype">{item.count} Available</span>
                       </div>
-                    </div>
+                    )}
+                  </div>
 
-                    <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-0 group-hover:opacity-5 transition-opacity`} />
-                  </motion.div>
-                </Link>
+                  <div className="p-6">
+                    <h3 className="text-xl font-semibold text-white mb-2 font-gendy group-hover:text-purple-400 transition-colors">
+                      {item.title}
+                    </h3>
+                    <p className="text-gray-400 text-sm font-diatype mb-4">
+                      {item.description}
+                    </p>
+                    <div className="flex items-center text-purple-400 font-semibold text-sm font-diatype">
+                      Explore
+                      <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </div>
+
+                  <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-0 group-hover:opacity-5 transition-opacity`} />
+                </motion.div>
               ))}
             </div>
           </div>
