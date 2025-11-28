@@ -1,6 +1,6 @@
 /**
  * Generate custom images for Solutions page using:
- * - Gemini 2.0 Flash (imagen-3.0-generate-002) - Native image generation
+ * - Gemini 3 Pro Image (gemini-3-pro-image-preview) - Best quality, reasoning-enhanced
  * - OpenAI GPT Image 1 (gpt-image-1)
  */
 
@@ -27,7 +27,7 @@ const imagePrompts = [
 - Sentiment analysis wave patterns flowing across the visualization
 - Predictive trend lines and forecasting graphs
 - Real-time data streams in purple and blue gradients
-Dark environment with a modern office silhouette in the background. The display should look like advanced AI technology analyzing human organizational patterns. Cinematic lighting with purple and blue accent glows. Photorealistic, high-end tech aesthetic. No text or labels.`,
+Dark environment with a modern office silhouette in the background. The display should look like advanced AI technology analyzing human organizational patterns. Cinematic lighting with purple and blue accent glows. Photorealistic, high-end tech aesthetic. ABSOLUTELY NO TEXT, NO WORDS, NO LABELS, NO LETTERS anywhere in the image.`,
   },
   {
     name: 'strategic-workshops',
@@ -39,7 +39,7 @@ Dark environment with a modern office silhouette in the background. The display 
 - Multiple smaller screens showing real-time analytics and metrics
 - Clean, minimalist modern design with NO sticky notes, NO whiteboards, NO paper
 - Glass walls, ambient LED lighting strips in purple and blue
-Professional, tech-forward atmosphere. Natural daylight mixing with modern LED accent lighting. Shot from a cinematic angle emphasizing the technology. Photorealistic, premium corporate tech environment. No text readable.`,
+Professional, tech-forward atmosphere. Natural daylight mixing with modern LED accent lighting. Shot from a cinematic angle emphasizing the technology. Photorealistic, premium corporate tech environment. ABSOLUTELY NO TEXT, NO WORDS, NO LABELS, NO LETTERS anywhere in the image.`,
   },
   {
     name: 'toolbox',
@@ -49,7 +49,7 @@ Professional, tech-forward atmosphere. Natural daylight mixing with modern LED a
 3. Heart icon for Employee Experience & Engagement
 4. Network/connection icon for Culture & Values Integration
 5. Gear/settings icon for Change Management & Transformation
-Each module should glow and have small tool icons orbiting around it. The 5 modules are connected by flowing energy lines showing integration. Purple to blue gradient color scheme. Dark background with depth. Modern, sleek, professional SaaS product visualization. Like a premium software interface floating in space. No text or labels.`,
+Each module should glow and have small tool icons orbiting around it. The 5 modules are connected by flowing energy lines showing integration. Purple to blue gradient color scheme. Dark background with depth. Modern, sleek, professional SaaS product visualization. Like a premium software interface floating in space. ABSOLUTELY NO TEXT, NO WORDS, NO LABELS, NO LETTERS anywhere in the image.`,
   },
 ];
 
@@ -60,86 +60,18 @@ if (!fs.existsSync(outputDir)) {
 }
 
 /**
- * Generate image using Imagen 3 via Gemini API
+ * Generate image using Gemini 3 Pro Image (best quality)
  */
-async function generateWithGemini(prompt, filename) {
-  console.log(`\n🟣 Generating with Imagen 3 (Gemini): ${filename}...`);
+async function generateWithGemini3Pro(prompt, filename) {
+  console.log(`\n🟣 Generating with Gemini 3 Pro Image: ${filename}...`);
 
-  // Use Imagen 3 model for native image generation
-  const url = 'https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict';
-
-  const requestBody = {
-    instances: [
-      {
-        prompt: prompt
-      }
-    ],
-    parameters: {
-      sampleCount: 1,
-      aspectRatio: "16:9",
-      personGeneration: "allow_adult"
-    }
-  };
-
-  try {
-    const response = await fetch(`${url}?key=${GEMINI_API_KEY}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(requestBody),
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      // If Imagen 3 fails, fall back to gemini-2.0-flash-exp with image generation
-      console.log('Imagen 3 not available, trying Gemini 2.0 Flash...');
-      return await generateWithGeminiFlash(prompt, filename);
-    }
-
-    const data = await response.json();
-
-    // Debug: log the response structure
-    console.log('Imagen 3 response:', JSON.stringify(data, null, 2).substring(0, 500));
-
-    // Extract base64 image data from Imagen response
-    const predictions = data.predictions;
-    if (!predictions || predictions.length === 0) {
-      throw new Error('No predictions in response: ' + JSON.stringify(data));
-    }
-
-    const imageData = predictions[0].bytesBase64Encoded;
-    if (!imageData) {
-      throw new Error('No image data in prediction: ' + JSON.stringify(predictions[0]));
-    }
-
-    const imageBuffer = Buffer.from(imageData, 'base64');
-
-    // Save image
-    const filepath = path.join(outputDir, `${filename}-gemini.png`);
-    fs.writeFileSync(filepath, imageBuffer);
-
-    console.log(`✅ Saved: ${filepath}`);
-    return filepath;
-  } catch (error) {
-    console.error(`❌ Imagen 3 generation failed for ${filename}:`, error.message);
-    // Try fallback
-    return await generateWithGeminiFlash(prompt, filename);
-  }
-}
-
-/**
- * Fallback: Generate image using Gemini 2.0 Flash experimental
- */
-async function generateWithGeminiFlash(prompt, filename) {
-  console.log(`\n🟣 Fallback: Generating with Gemini 2.0 Flash: ${filename}...`);
-
-  const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent';
+  // Use Gemini 3 Pro Image model - the newest and best for image generation
+  const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-image-preview:generateContent';
 
   const requestBody = {
     contents: [{
       parts: [
-        { text: `Generate a high-quality image: ${prompt}` }
+        { text: `Generate a high-quality professional image: ${prompt}` }
       ]
     }],
     generationConfig: {
@@ -158,13 +90,15 @@ async function generateWithGeminiFlash(prompt, filename) {
 
     if (!response.ok) {
       const errorText = await response.text();
-      throw new Error(`Gemini Flash API error: ${response.status} - ${errorText}`);
+      console.log(`Gemini 3 Pro Image error: ${response.status} - ${errorText}`);
+      console.log('Falling back to Gemini 2.5 Flash Image...');
+      return await generateWithGemini25FlashImage(prompt, filename);
     }
 
     const data = await response.json();
 
     // Debug: log the response structure
-    console.log('Gemini Flash response:', JSON.stringify(data, null, 2).substring(0, 500));
+    console.log('Gemini 3 Pro Image response:', JSON.stringify(data, null, 2).substring(0, 500));
 
     // Extract base64 image data
     const candidate = data.candidates?.[0];
@@ -189,7 +123,74 @@ async function generateWithGeminiFlash(prompt, filename) {
     console.log(`✅ Saved: ${filepath}`);
     return filepath;
   } catch (error) {
-    console.error(`❌ Gemini Flash generation failed for ${filename}:`, error.message);
+    console.error(`❌ Gemini 3 Pro Image generation failed for ${filename}:`, error.message);
+    // Try fallback
+    return await generateWithGemini25FlashImage(prompt, filename);
+  }
+}
+
+/**
+ * Fallback: Generate image using Gemini 2.5 Flash Image (stable)
+ */
+async function generateWithGemini25FlashImage(prompt, filename) {
+  console.log(`\n🟣 Fallback: Generating with Gemini 2.5 Flash Image: ${filename}...`);
+
+  const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent';
+
+  const requestBody = {
+    contents: [{
+      parts: [
+        { text: `Generate a high-quality professional image: ${prompt}` }
+      ]
+    }],
+    generationConfig: {
+      responseModalities: ["IMAGE", "TEXT"]
+    }
+  };
+
+  try {
+    const response = await fetch(`${url}?key=${GEMINI_API_KEY}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestBody),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Gemini 2.5 Flash Image API error: ${response.status} - ${errorText}`);
+    }
+
+    const data = await response.json();
+
+    // Debug: log the response structure
+    console.log('Gemini 2.5 Flash Image response:', JSON.stringify(data, null, 2).substring(0, 500));
+
+    // Extract base64 image data
+    const candidate = data.candidates?.[0];
+    if (!candidate) {
+      throw new Error('No candidates in response: ' + JSON.stringify(data));
+    }
+
+    const parts = candidate.content?.parts || [];
+    const imagePart = parts.find(p => p.inlineData);
+
+    if (!imagePart) {
+      throw new Error('No image data in response parts: ' + JSON.stringify(parts));
+    }
+
+    const imageData = imagePart.inlineData.data;
+    const imageBuffer = Buffer.from(imageData, 'base64');
+
+    // Save image
+    const filepath = path.join(outputDir, `${filename}-gemini.png`);
+    fs.writeFileSync(filepath, imageBuffer);
+
+    console.log(`✅ Saved: ${filepath}`);
+    return filepath;
+  } catch (error) {
+    console.error(`❌ Gemini 2.5 Flash Image generation failed for ${filename}:`, error.message);
     throw error;
   }
 }
@@ -258,6 +259,7 @@ async function generateWithOpenAI(prompt, filename) {
 async function main() {
   console.log('🎨 Starting image generation for Solutions page...\n');
   console.log('📊 Generating 3 images with 2 models = 6 total images\n');
+  console.log('🔥 Using Gemini 3 Pro Image (gemini-3-pro-image-preview) - Best quality!\n');
 
   const results = {
     gemini: [],
@@ -270,9 +272,9 @@ async function main() {
     console.log(`📝 Prompt: ${name}`);
     console.log(`${'='.repeat(60)}`);
 
-    // Generate with Gemini
+    // Generate with Gemini 3 Pro Image
     try {
-      const geminiPath = await generateWithGemini(prompt, name);
+      const geminiPath = await generateWithGemini3Pro(prompt, name);
       results.gemini.push({ name, path: geminiPath });
     } catch (error) {
       results.errors.push({ model: 'Gemini', name, error: error.message });
@@ -292,7 +294,7 @@ async function main() {
   console.log('📊 GENERATION SUMMARY');
   console.log('='.repeat(60));
 
-  console.log(`\n✅ Imagen 3 (Gemini): ${results.gemini.length}/${imagePrompts.length} images generated`);
+  console.log(`\n✅ Gemini 3 Pro Image: ${results.gemini.length}/${imagePrompts.length} images generated`);
   results.gemini.forEach(({ name, path }) => {
     console.log(`   - ${name}: ${path}`);
   });

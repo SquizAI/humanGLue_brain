@@ -29,6 +29,7 @@ import {
   Database,
   Globe,
   DollarSign,
+  Clock,
 } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
@@ -271,6 +272,64 @@ const adminAccountItems = [
   },
 ]
 
+// EXPERT NAVIGATION (Consultant/Expert)
+const expertMainNavItems = [
+  {
+    href: '/expert',
+    label: 'Overview',
+    icon: LayoutDashboard,
+    description: 'Expert dashboard',
+  },
+  {
+    href: '/expert/clients',
+    label: 'Client Engagements',
+    icon: Users,
+    description: 'Active & completed clients',
+  },
+  {
+    href: '/expert/schedule',
+    label: 'Schedule',
+    icon: Calendar,
+    description: 'Upcoming sessions',
+  },
+]
+
+const expertBusinessItems = [
+  {
+    href: '/expert/availability',
+    label: 'Availability',
+    icon: Clock,
+    description: 'Set your hours',
+  },
+  {
+    href: '/expert/earnings',
+    label: 'Earnings',
+    icon: DollarSign,
+    description: 'Payment tracking',
+  },
+]
+
+const expertAccountItems = [
+  {
+    href: '/expert/profile',
+    label: 'Profile',
+    icon: User,
+    description: 'Expert profile',
+  },
+  {
+    href: '/expert/resources',
+    label: 'Resources',
+    icon: BookOpen,
+    description: 'Shared materials',
+  },
+  {
+    href: '/expert/settings',
+    label: 'Settings',
+    icon: Settings,
+    description: 'Preferences',
+  },
+]
+
 export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps) {
   const pathname = usePathname()
   const [hoveredItem, setHoveredItem] = useState<string | null>(null)
@@ -281,13 +340,16 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
   // Determine user role from userData OR pathname as fallback
   const isAdminFromData = userData?.isAdmin || userData?.role === 'admin' || userData?.userType === 'admin'
   const isInstructorFromData = userData?.isInstructor || userData?.role === 'instructor' || userData?.userType === 'instructor'
+  const isExpertFromData = userData?.isExpert || userData?.role === 'expert' || userData?.userType === 'expert'
 
   // Fallback: detect role from pathname if userData is empty
   const isAdminFromPath = pathname?.startsWith('/admin')
   const isInstructorFromPath = pathname?.startsWith('/instructor')
+  const isExpertFromPath = pathname?.startsWith('/expert')
 
   const isAdmin = isAdminFromData || isAdminFromPath
   const isInstructor = isInstructorFromData || isInstructorFromPath
+  const isExpert = isExpertFromData || isExpertFromPath
 
   // Debug logging
   console.log('[DashboardSidebar] pathname:', pathname)
@@ -295,8 +357,11 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
   console.log('[DashboardSidebar] isAdminFromPath:', isAdminFromPath)
   console.log('[DashboardSidebar] isInstructorFromData:', isInstructorFromData)
   console.log('[DashboardSidebar] isInstructorFromPath:', isInstructorFromPath)
+  console.log('[DashboardSidebar] isExpertFromData:', isExpertFromData)
+  console.log('[DashboardSidebar] isExpertFromPath:', isExpertFromPath)
   console.log('[DashboardSidebar] FINAL isAdmin:', isAdmin)
   console.log('[DashboardSidebar] FINAL isInstructor:', isInstructor)
+  console.log('[DashboardSidebar] FINAL isExpert:', isExpert)
 
   // Get portal title and navigation based on role
   const getPortalConfig = () => {
@@ -308,6 +373,17 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
           { title: 'Content', items: adminContentItems },
           { title: 'System', items: adminSystemItems },
           { title: 'Settings', items: adminAccountItems },
+        ],
+        showCart: false,
+        showUpgrade: false,
+      }
+    } else if (isExpert) {
+      return {
+        title: 'Expert Portal',
+        sections: [
+          { title: 'Dashboard', items: expertMainNavItems },
+          { title: 'Business', items: expertBusinessItems },
+          { title: 'Account', items: expertAccountItems },
         ],
         showCart: false,
         showUpgrade: false,
@@ -472,7 +548,7 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
           "py-6 border-b border-white/10 flex items-center",
           isCollapsed ? "px-4 justify-center flex-col gap-3" : "px-6 justify-between"
         )}>
-          <Link href={isAdmin ? "/admin" : isInstructor ? "/instructor" : "/dashboard"} className={cn(
+          <Link href={isAdmin ? "/admin" : isExpert ? "/expert" : isInstructor ? "/instructor" : "/dashboard"} className={cn(
             "flex items-center gap-3",
             isCollapsed && "justify-center"
           )}>

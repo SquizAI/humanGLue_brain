@@ -25,6 +25,7 @@ const ROUTE_RULES = {
   // Protected routes by role
   admin: ['/admin'],
   instructor: ['/instructor'],
+  expert: ['/expert'],
 
   // Routes accessible by any authenticated user
   authenticated: ['/dashboard', '/profile', '/settings', '/checkout', '/results'],
@@ -155,10 +156,19 @@ export async function middleware(request: NextRequest) {
       .eq('user_id', user.id)
       .single()
 
+    // Check if user has expert profile
+    const { data: expertProfile } = await supabase
+      .from('expert_profiles')
+      .select('id')
+      .eq('user_id', user.id)
+      .single()
+
     // Determine application role based on users.role column
-    let appRole: 'admin' | 'instructor' | 'client' = 'client'
+    let appRole: 'admin' | 'instructor' | 'expert' | 'client' = 'client'
     if (profile?.role === 'admin') {
       appRole = 'admin'
+    } else if (profile?.role === 'expert' || expertProfile) {
+      appRole = 'expert'
     } else if (instructorProfile) {
       appRole = 'instructor'
     } else if (profile?.role === 'org_admin' || profile?.role === 'team_lead') {
@@ -166,7 +176,7 @@ export async function middleware(request: NextRequest) {
       appRole = 'client'
     }
 
-    console.log('[Middleware] User accessing:', pathname, '| DB role:', profile?.role, '| App role:', appRole, '| Has instructor profile:', !!instructorProfile)
+    console.log('[Middleware] User accessing:', pathname, '| DB role:', profile?.role, '| App role:', appRole, '| Has instructor profile:', !!instructorProfile, '| Has expert profile:', !!expertProfile)
 
     // Check admin routes - allow access if user is admin OR if accessing admin route
     // (allows demo mode and direct navigation)
@@ -183,6 +193,15 @@ export async function middleware(request: NextRequest) {
       console.log('[Middleware] Instructor route detected, user role:', appRole)
       // Allow through for demo mode or actual instructor users
       console.log('[Middleware] Allowing access to instructor route')
+      return response
+    }
+
+    // Check expert routes - allow access if user is expert/admin OR if accessing expert route
+    // (allows demo mode and direct navigation)
+    if (ROUTE_RULES.expert.some(route => pathname.startsWith(route))) {
+      console.log('[Middleware] Expert route detected, user role:', appRole)
+      // Allow through for demo mode or actual expert users
+      console.log('[Middleware] Allowing access to expert route')
       return response
     }
 
