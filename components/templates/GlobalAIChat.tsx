@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { MessageCircle, X, Sparkles, Zap, Brain, ChevronDown, Trash2, RotateCcw, Maximize2, Minimize2, History, Clock } from 'lucide-react'
+import { MessageCircle, X, Sparkles, Brain, ChevronDown, Trash2, RotateCcw, Maximize2, Minimize2, History, Clock } from 'lucide-react'
 import { SharedChatInterface, SharedChatInterfaceRef } from './SharedChatInterface'
 import { ChatState, Message } from '../../lib/types'
 import { cn } from '../../utils/cn'
@@ -462,7 +462,7 @@ export function GlobalAIChat({ userData: propsUserData, onStateChange: propsOnSt
 
   return (
     <>
-      {/* Floating AI Button - Always Visible */}
+      {/* Floating AI Button - Clean Minimalist Design */}
       <AnimatePresence>
         {!isChatOpen && (
           <motion.button
@@ -471,56 +471,9 @@ export function GlobalAIChat({ userData: propsUserData, onStateChange: propsOnSt
             animate={{ scale: 1, opacity: 1 }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="fixed bottom-6 right-6 z-50 p-4 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/25 group"
+            className="fixed bottom-6 right-6 z-50 p-4 rounded-full bg-gray-900/80 backdrop-blur-xl border border-white/10 text-white shadow-lg"
           >
-            {/* Proactive message bubble */}
-            {pulseAnimation && !hasInteracted && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
-                className="absolute bottom-full right-0 mb-3 w-64"
-              >
-                <div className="bg-blue-600 text-white rounded-lg p-4 shadow-xl relative">
-                  <div className="flex items-start gap-2">
-                    <Sparkles className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                    <div>
-                      <p className="text-sm font-medium">
-                        {isAdmin ? 'Platform Admin AI' : isInstructor ? 'Instructor AI' : 'AI Transformation Advisor'}
-                      </p>
-                      <p className="text-xs opacity-90 mt-1">
-                        {isAdmin ? "Need help managing the platform?" :
-                          isInstructor ? "Need help with your courses?" :
-                            pathname === '/solutions' ? "Discover the right solution for your organization" :
-                              pathname === '/process' ? "Get your custom implementation timeline" :
-                                pathname === '/results' ? "Calculate your potential ROI" :
-                                  "Schedule a strategic consultation"}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="absolute bottom-0 right-6 w-3 h-3 bg-blue-600 rotate-45 translate-y-1.5" />
-                </div>
-              </motion.div>
-            )}
-
-            {/* Subtle pulse animation */}
-            {pulseAnimation && (
-              <span className="absolute inset-0 rounded-full bg-blue-600 animate-pulse opacity-30" />
-            )}
-
-            {/* Button */}
-            <div className="relative w-16 h-16 bg-blue-600 rounded-full shadow-xl flex items-center justify-center group-hover:bg-blue-700 transition-all">
-              <MessageCircle className="w-7 h-7 text-white relative z-10" />
-
-              {/* AI indicator */}
-              <motion.div
-                className="absolute -top-1 -right-1 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center"
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              >
-                <Zap className="w-3 h-3 text-white" />
-              </motion.div>
-            </div>
+            <MessageCircle className="w-6 h-6" />
           </motion.button>
         )}
       </AnimatePresence>

@@ -406,18 +406,17 @@ export function MobileFirstLanding({ onOpenChat }: MobileFirstLandingProps) {
         </motion.div>
       </section>
 
-      {/* Floating Chat Button */}
+      {/* Floating Chat Button - Clean glassmorphic design */}
       <motion.button
         onClick={onOpenChat}
-        className="fixed bottom-6 right-6 z-40 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full p-4 shadow-xl"
-        whileHover={{ scale: 1.1 }}
+        className="fixed bottom-6 right-6 z-40 p-4 rounded-full bg-gray-900/80 backdrop-blur-xl border border-white/10 text-white shadow-lg"
+        whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         transition={{ delay: 1 }}
       >
-        <MessageCircle className="w-6 h-6 text-white" />
-        <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full animate-pulse" />
+        <MessageCircle className="w-6 h-6" />
       </motion.button>
 
       {/* Bottom Navigation Indicator */}

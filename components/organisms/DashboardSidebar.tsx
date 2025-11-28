@@ -34,6 +34,7 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { CartIcon } from '@/components/molecules/CartIcon'
 import { CartDrawer } from '@/components/organisms/CartDrawer'
+import { MobileDashboardNav } from '@/components/organisms/MobileDashboardNav'
 import { useSocial } from '@/lib/contexts/SocialContext'
 import { useChat } from '@/lib/contexts/ChatContext'
 
@@ -282,9 +283,17 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
   const isInstructor = userData?.isInstructor || userData?.role === 'instructor' || userData?.userType === 'instructor'
 
   // Debug logging
-  console.log('[DashboardSidebar] userData:', userData)
-  console.log('[DashboardSidebar] isAdmin:', isAdmin, '| userData.isAdmin:', userData?.isAdmin, '| userData.role:', userData?.role)
-  console.log('[DashboardSidebar] isInstructor:', isInstructor, '| userData.isInstructor:', userData?.isInstructor)
+  console.error('===============================')
+  console.error('[DashboardSidebar] ROLE DEBUG')
+  console.error('===============================')
+  console.error('userData:', JSON.stringify(userData, null, 2))
+  console.error('isAdmin:', isAdmin)
+  console.error('userData.isAdmin:', userData?.isAdmin)
+  console.error('userData.role:', userData?.role)
+  console.error('userData.userType:', userData?.userType)
+  console.error('isInstructor:', isInstructor)
+  console.error('userData.isInstructor:', userData?.isInstructor)
+  console.error('===============================')
 
   // Get portal title and navigation based on role
   const getPortalConfig = () => {
@@ -440,18 +449,20 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
   )
 
   return (
-    <motion.aside
-      initial={{ x: isCollapsed ? -80 : -280 }}
-      animate={{
-        x: 0,
-        width: isCollapsed ? 80 : 280
-      }}
-      transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-      className={cn(
-        'fixed left-0 top-0 bottom-0 bg-gray-950/95 backdrop-blur-xl border-r border-white/10 z-40',
-        className
-      )}
-    >
+    <>
+      {/* Desktop Sidebar - Hidden on mobile */}
+      <motion.aside
+        initial={{ x: isCollapsed ? -80 : -280 }}
+        animate={{
+          x: 0,
+          width: isCollapsed ? 80 : 280
+        }}
+        transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+        className={cn(
+          'hidden lg:block fixed left-0 top-0 bottom-0 bg-gray-950/95 backdrop-blur-xl border-r border-white/10 z-40',
+          className
+        )}
+      >
       <div className="flex flex-col h-full">
         {/* Logo & Toggle */}
         <div className={cn(
@@ -581,5 +592,9 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
       {/* Cart Drawer */}
       <CartDrawer />
     </motion.aside>
+
+      {/* Mobile Navigation - Shown on mobile only */}
+      <MobileDashboardNav onLogout={onLogout} />
+    </>
   )
 }

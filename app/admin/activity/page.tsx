@@ -473,7 +473,7 @@ export default function ActivityFeedPage() {
     <div className="min-h-screen bg-[#0A0A0A]">
       <DashboardSidebar />
 
-      <div className="ml-[280px] min-h-screen">
+      <div className="lg:ml-[var(--sidebar-width,280px)] min-h-screen">
         {/* Header */}
         <header className="sticky top-0 z-30 border-b border-white/10 bg-gray-950/95 backdrop-blur-xl">
           <div className="px-8 py-6">

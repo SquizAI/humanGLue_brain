@@ -28,7 +28,7 @@ const ROUTE_RULES = {
   client: ['/client'],
 
   // Routes accessible by any authenticated user
-  authenticated: ['/dashboard', '/profile', '/settings'],
+  authenticated: ['/dashboard', '/profile', '/settings', '/checkout', '/results'],
 }
 
 export async function middleware(request: NextRequest) {

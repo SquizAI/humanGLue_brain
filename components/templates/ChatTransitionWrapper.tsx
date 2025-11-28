@@ -94,17 +94,17 @@ export function ChatTransitionWrapper({
         )}
       </AnimatePresence>
 
-      {/* Floating toggle button when chat is closed */}
+      {/* Floating toggle button when chat is closed - Clean glassmorphic design */}
       {!isHeroVisible && !isChatOpen && (
         <motion.button
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
           onClick={() => setIsChatOpen(true)}
-          className="fixed bottom-6 right-6 w-14 h-14 bg-blue-600 hover:bg-blue-700 rounded-full shadow-lg flex items-center justify-center z-[9998]"
+          className="fixed bottom-6 right-6 p-4 rounded-full bg-gray-900/80 backdrop-blur-xl border border-white/10 text-white shadow-lg z-[9998]"
         >
-          <MessageCircle className="w-6 h-6 text-white" />
+          <MessageCircle className="w-6 h-6" />
         </motion.button>
       )}
     </>

@@ -103,7 +103,7 @@ export default function ReportsAdmin() {
     <div className="min-h-screen bg-gray-950">
       <DashboardSidebar onLogout={handleLogout} />
 
-      <div className="ml-[280px] transition-all duration-300">
+      <div className="lg:ml-[var(--sidebar-width,280px)] transition-all duration-300 pb-20 lg:pb-0">
         <div className="bg-gray-900/50 backdrop-blur-xl border-b border-white/10 sticky top-0 z-30">
           <div className="px-8 py-6">
             <div className="flex items-center justify-between">

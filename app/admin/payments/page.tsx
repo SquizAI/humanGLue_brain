@@ -31,7 +31,7 @@ export default function AdminPaymentsPage() {
     <div className="min-h-screen bg-gray-950">
       <DashboardSidebar onLogout={handleLogout} />
 
-      <div className="ml-[280px] transition-all duration-300">
+      <div className="lg:ml-[var(--sidebar-width,280px)] transition-all duration-300 pb-20 lg:pb-0">
         <div className="p-8">
           <div className="max-w-6xl mx-auto">
             <h1 className="text-3xl font-bold text-white mb-2 font-gendy">Payments & Billing</h1>

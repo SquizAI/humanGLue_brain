@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef, useMemo } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { UnifiedChatSystem } from './UnifiedChatSystem'
 import { ChatErrorBoundary } from './ChatErrorBoundary'
@@ -13,19 +13,13 @@ import { AnimatedWave } from '../organisms/AnimatedWave'
 import { Footer } from '../organisms/Footer'
 import { ExitIntentModal } from '../organisms/ExitIntentModal'
 import {
-  Sparkles,
   ArrowRight,
-  CheckCircle,
-  Clock,
-  Shield,
-  Play,
-  X
+  Play
 } from 'lucide-react'
 import { cn } from '../../utils/cn'
 import { useChat } from '../../lib/contexts/ChatContext'
 import { ChatState } from '../../lib/types'
 import { useExitIntent } from '../../lib/hooks/useExitIntent'
-import { useScrollTriggers } from '../../lib/hooks/useScrollTriggers'
 import Image from 'next/image'
 
 export function EnhancedHomepage() {
@@ -45,68 +39,6 @@ export function EnhancedHomepage() {
   // Exit Intent Detection - Fixed with refs instead of state
   const shouldShowExitIntent = chatState === 'initial' || chatState === 'greeting'
   const { showExitIntent, closeExitIntent } = useExitIntent(shouldShowExitIntent)
-
-  // Scroll Triggers - Fixed with proper memoization
-  const shouldEnableScrollTriggers = chatState === 'initial' || chatState === 'greeting'
-
-  // Memoize options to prevent infinite re-renders
-  const scrollTriggerOptions = useMemo(() => ({
-    enabled: shouldEnableScrollTriggers,
-    persistTriggers: true,
-  }), [shouldEnableScrollTriggers])
-
-  const { metrics, hasTrigger } = useScrollTriggers(scrollTriggerOptions)
-
-  // Contextual CTA state based on scroll triggers
-  const [showScrollCTA, setShowScrollCTA] = useState<{
-    visible: boolean
-    message: string
-    variant: 'scroll-50' | 'scroll-75' | 'bounce' | null
-  }>({
-    visible: false,
-    message: '',
-    variant: null,
-  })
-
-  // Show contextual CTAs based on scroll triggers
-  useEffect(() => {
-    if (!shouldEnableScrollTriggers) return
-
-    // Priority order: bounce > scroll-75 > scroll-50
-    // Show CTA for 8 seconds then hide
-
-    if (hasTrigger('bounce') && !showScrollCTA.visible) {
-      setShowScrollCTA({
-        visible: true,
-        message: 'Still have questions? Start the assessment',
-        variant: 'bounce',
-      })
-
-      setTimeout(() => {
-        setShowScrollCTA((prev) => ({ ...prev, visible: false }))
-      }, 8000)
-    } else if (hasTrigger('scroll-75') && !showScrollCTA.visible && !hasTrigger('bounce')) {
-      setShowScrollCTA({
-        visible: true,
-        message: 'Join companies transforming with AI',
-        variant: 'scroll-75',
-      })
-
-      setTimeout(() => {
-        setShowScrollCTA((prev) => ({ ...prev, visible: false }))
-      }, 8000)
-    } else if (hasTrigger('scroll-50') && !showScrollCTA.visible && !hasTrigger('scroll-75') && !hasTrigger('bounce')) {
-      setShowScrollCTA({
-        visible: true,
-        message: 'Ready to see your AI readiness score?',
-        variant: 'scroll-50',
-      })
-
-      setTimeout(() => {
-        setShowScrollCTA((prev) => ({ ...prev, visible: false }))
-      }, 8000)
-    }
-  }, [hasTrigger, shouldEnableScrollTriggers, showScrollCTA.visible])
 
   // Track hero visibility
   useEffect(() => {
@@ -861,65 +793,6 @@ export function EnhancedHomepage() {
         onStartAssessment={handleStartAssessment}
       />
 
-      {/* Scroll-Triggered Contextual CTA */}
-      <AnimatePresence>
-        {showScrollCTA.visible && !showExitIntent && (
-          <motion.div
-            initial={{ opacity: 0, y: 50, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 50, scale: 0.9 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40 max-w-md w-full px-4"
-          >
-            <motion.div
-              className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl shadow-2xl border border-white/20 overflow-hidden"
-              whileHover={{ scale: 1.02 }}
-              transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-            >
-              <div className="p-5 backdrop-blur-xl bg-white/10">
-                <div className="flex items-center justify-between gap-4">
-                  <div className="flex-1">
-                    <p className="text-white font-semibold text-base mb-2">
-                      {showScrollCTA.message}
-                    </p>
-                    <p className="text-white/80 text-sm">
-                      Free 5-minute assessment • No credit card required
-                    </p>
-                  </div>
-                  <motion.button
-                    onClick={handleStartAssessment}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="px-6 py-3 bg-white text-blue-600 rounded-xl font-semibold text-sm shadow-lg hover:shadow-xl transition-shadow whitespace-nowrap"
-                  >
-                    Start Now
-                    <ArrowRight className="w-4 h-4 inline-block ml-2" />
-                  </motion.button>
-                </div>
-
-                {/* Progress indicator for scroll depth */}
-                <div className="mt-3 w-full bg-white/20 h-1 rounded-full overflow-hidden">
-                  <motion.div
-                    className="h-full bg-white"
-                    initial={{ width: 0 }}
-                    animate={{ width: `${metrics.scrollDepth}%` }}
-                    transition={{ duration: 0.3 }}
-                  />
-                </div>
-              </div>
-
-              {/* Close button */}
-              <button
-                onClick={() => setShowScrollCTA((prev) => ({ ...prev, visible: false }))}
-                className="absolute top-2 right-2 p-1 rounded-full bg-white/20 hover:bg-white/30 transition-colors"
-                aria-label="Close"
-              >
-                <X className="w-4 h-4 text-white" />
-              </button>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   )
 } 

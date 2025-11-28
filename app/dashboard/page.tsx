@@ -141,7 +141,7 @@ export default function DashboardPage() {
       <DashboardSidebar onLogout={handleLogout} />
 
       <div className="lg:ml-[var(--sidebar-width,280px)] transition-all">
-        <main className="p-4 sm:p-6 lg:p-8 space-y-6 lg:space-y-8">
+        <main className="p-4 sm:p-6 lg:p-8 space-y-6 lg:space-y-8 pb-20 lg:pb-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
