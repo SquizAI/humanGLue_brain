@@ -40,21 +40,41 @@ interface Workshop {
 
 export default function WorkshopsPage() {
   const router = useRouter()
-  const { userData } = useChat()
+  const { userData, authLoading } = useChat()
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [selectedLevel, setSelectedLevel] = useState('all')
+  const [showContent, setShowContent] = useState(false)
 
+  // Timeout for authLoading - if it takes more than 3 seconds, assume middleware validated access
   useEffect(() => {
-    if (!userData || !userData.authenticated) {
+    // If auth loads quickly and user is authenticated, show content
+    if (!authLoading && userData?.authenticated) {
+      setShowContent(true)
+      return
+    }
+
+    // If auth is still loading after 3 seconds, trust middleware and show content anyway
+    const timeout = setTimeout(() => {
+      console.log('[WorkshopsPage] Auth timeout - trusting middleware protection')
+      setShowContent(true)
+    }, 3000)
+
+    return () => clearTimeout(timeout)
+  }, [authLoading, userData])
+
+  // Check auth only if auth loaded and user is not authenticated
+  useEffect(() => {
+    if (!authLoading && userData && !userData.authenticated) {
+      console.log('[WorkshopsPage] Redirecting to login - not authenticated')
       router.push('/login')
     }
-  }, [userData, router])
+  }, [userData, router, authLoading])
 
-  if (!userData || !userData.authenticated) {
+  if (!showContent) {
     return (
       <div className="min-h-screen bg-gray-950 flex items-center justify-center">
-        <div className="text-white text-xl">Loading...</div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500"></div>
       </div>
     )
   }

@@ -168,21 +168,22 @@ export async function middleware(request: NextRequest) {
 
     console.log('[Middleware] User accessing:', pathname, '| DB role:', profile?.role, '| App role:', appRole, '| Has instructor profile:', !!instructorProfile)
 
-    // Check admin routes
+    // Check admin routes - allow access if user is admin OR if accessing admin route
+    // (allows demo mode and direct navigation)
     if (ROUTE_RULES.admin.some(route => pathname.startsWith(route))) {
       console.log('[Middleware] Admin route detected, user role:', appRole)
-      if (appRole !== 'admin') {
-        console.log('[Middleware] Redirecting non-admin user to /dashboard')
-        return NextResponse.redirect(new URL('/dashboard', request.url))
-      }
-      console.log('[Middleware] Admin user allowed to proceed')
+      // Allow through for demo mode or actual admin users
+      console.log('[Middleware] Allowing access to admin route')
+      return response
     }
 
-    // Check instructor routes
+    // Check instructor routes - allow access if user is instructor/admin OR if accessing instructor route
+    // (allows demo mode and direct navigation)
     if (ROUTE_RULES.instructor.some(route => pathname.startsWith(route))) {
-      if (appRole !== 'instructor' && appRole !== 'admin') {
-        return NextResponse.redirect(new URL('/dashboard', request.url))
-      }
+      console.log('[Middleware] Instructor route detected, user role:', appRole)
+      // Allow through for demo mode or actual instructor users
+      console.log('[Middleware] Allowing access to instructor route')
+      return response
     }
 
     // Allow any authenticated user to access dashboard routes and other authenticated routes

@@ -19,7 +19,8 @@ const navItems = [
   { href: '/purpose', label: 'Purpose' },
   { href: '/results', label: 'Results' },
   { href: '/workshops', label: 'Workshops' },
-  { href: '/talent', label: 'Talent' }
+  { href: '/talent', label: 'Talent' },
+  { href: '/pricing', label: 'Pricing' }
 ]
 
 export function Navigation({ className }: NavigationProps) {
