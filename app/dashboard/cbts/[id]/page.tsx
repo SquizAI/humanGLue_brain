@@ -737,7 +737,9 @@ const courseData: Record<string, CourseData> = {
 export default function CBTDetailPage() {
   const router = useRouter()
   const params = useParams()
-    const courseId = params.id as string  const handleLogout = () => {
+  const courseId = params.id as string
+
+  const handleLogout = () => {
     localStorage.removeItem('humanglue_user')
     router.push('/login')
   }
