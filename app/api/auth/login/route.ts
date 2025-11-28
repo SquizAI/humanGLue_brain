@@ -95,7 +95,7 @@ export async function POST(request: NextRequest) {
 
     // Fetch user profile from database
     const { data: profile, error: profileError } = await supabase
-      .from('profiles')
+      .from('users')
       .select('*')
       .eq('id', authData.user.id)
       .single()
@@ -113,7 +113,7 @@ export async function POST(request: NextRequest) {
 
     // Update last login timestamp
     await supabase
-      .from('profiles')
+      .from('users')
       .update({ updated_at: new Date().toISOString() })
       .eq('id', authData.user.id)
 
