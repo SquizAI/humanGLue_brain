@@ -1,0 +1,12 @@
+#!/bin/bash
+echo "To clear your session, do this in your browser:"
+echo ""
+echo "1. Open DevTools (F12)"
+echo "2. Go to Application tab"
+echo "3. Click 'Clear storage' on the left"
+echo "4. Click 'Clear site data' button"
+echo ""
+echo "OR just open this in your browser:"
+echo "chrome://settings/clearBrowserData"
+echo ""
+echo "Then log in again at: http://localhost:5040/login"

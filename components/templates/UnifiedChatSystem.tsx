@@ -269,17 +269,18 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
                                        currentState === 'performingAnalysis' ||
                                        currentState === 'voiceAssessment'
 
-    if (!isHeroVisible && !hasTransitioned && messages.length > 0 && !isInActiveQuestionSequence) {
-      setHasTransitioned(true)
-      // Add a transition message when moving to sidebar
-      const transitionMessage: Message = {
-        id: 'transition-' + Date.now(),
-        role: 'assistant',
-        content: "I'm here in the sidebar if you need anything else! Feel free to ask questions or explore more options.",
-        timestamp: new Date()
-      }
-      setMessages(prev => [...prev, transitionMessage])
-    }
+    // DISABLED: Auto-transition message removed per user request
+    // if (!isHeroVisible && !hasTransitioned && messages.length > 0 && !isInActiveQuestionSequence) {
+    //   setHasTransitioned(true)
+    //   // Add a transition message when moving to sidebar
+    //   const transitionMessage: Message = {
+    //     id: 'transition-' + Date.now(),
+    //     role: 'assistant',
+    //     content: "I'm here in the sidebar if you need anything else! Feel free to ask questions or explore more options.",
+    //     timestamp: new Date()
+    //   }
+    //   setMessages(prev => [...prev, transitionMessage])
+    // }
   }, [isHeroVisible, hasTransitioned, currentState])
 
   const startConversation = () => {

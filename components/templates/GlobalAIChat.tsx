@@ -454,7 +454,13 @@ export function GlobalAIChat({ userData: propsUserData, onStateChange: propsOnSt
   }
 
   // Determine if chat should be hidden
-  const shouldHideChat = pathname === '/' || pathname === '/login' || pathname === '/signup' || pathname?.startsWith('/admin')
+  // Hide on: landing page, login/signup, admin pages, and ALL dashboard pages (clients/instructors have different chat UI)
+  const shouldHideChat = pathname === '/' ||
+                        pathname === '/login' ||
+                        pathname === '/signup' ||
+                        pathname?.startsWith('/admin') ||
+                        pathname?.startsWith('/dashboard') ||
+                        pathname?.startsWith('/instructor')
 
   if (shouldHideChat) {
     return null
