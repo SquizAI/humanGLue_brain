@@ -17,7 +17,9 @@ export interface NavigationProps {
 const navItems = [
   { href: '/solutions', label: 'Solutions' },
   { href: '/purpose', label: 'Purpose' },
-  { href: '/results', label: 'Results' }
+  { href: '/results', label: 'Results' },
+  { href: '/workshops', label: 'Workshops' },
+  { href: '/talent', label: 'Talent' }
 ]
 
 export function Navigation({ className }: NavigationProps) {
