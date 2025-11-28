@@ -5,6 +5,10 @@ import { Providers } from '../components/Providers'
 
 const inter = Inter({ subsets: ['latin'] })
 
+// Force dynamic rendering for all pages to support React Context
+export const dynamic = 'force-dynamic'
+export const dynamicParams = true
+
 export const metadata: Metadata = {
   title: {
     default: 'Human Glue - AI-Powered Organizational Transformation',

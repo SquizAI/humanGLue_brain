@@ -105,6 +105,8 @@ const nextConfig = {
       bodySizeLimit: '2mb',
     },
 
+    // Disable static error pages
+    clientTraceMetadata: ['experimentalBypassFor'],
   },
 
   // Skip static generation for routes that use client-side context
