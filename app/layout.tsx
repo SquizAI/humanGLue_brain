@@ -1,12 +1,7 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import { ChatProvider } from '../lib/contexts/ChatContext'
-import { CartProvider } from '../lib/contexts/CartContext'
-import { SocialProvider } from '../lib/contexts/SocialContext'
-import { BillingProvider } from '../lib/contexts/BillingContext'
-import { PWARegister } from '../components/PWARegister'
-import { GlobalAIChat } from '../components/templates/GlobalAIChat'
+import { Providers } from '../components/Providers'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -175,17 +170,9 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-title" content="Human Glue" />
       </head>
       <body className={`${inter.className} bg-gray-900 text-white antialiased`}>
-        <ChatProvider>
-          <BillingProvider>
-            <CartProvider>
-              <SocialProvider>
-                {children}
-                <GlobalAIChat />
-                <PWARegister />
-              </SocialProvider>
-            </CartProvider>
-          </BillingProvider>
-        </ChatProvider>
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   )
