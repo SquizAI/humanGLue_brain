@@ -1,138 +1,71 @@
 /**
- * Create Demo User Accounts
- * Sets up demo accounts for client, instructor, and admin roles
+ * Script to create demo user accounts
+ * Run with: npx tsx scripts/create-demo-users.ts
  */
 
-import { createClient } from '@supabase/supabase-js'
-import dotenv from 'dotenv'
+const SIGNUP_API_URL = process.env.NEXT_PUBLIC_APP_URL
+  ? `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/signup`
+  : 'http://localhost:3000/api/auth/signup'
 
-dotenv.config({ path: '.env.local' })
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
-
-if (!supabaseUrl || !supabaseServiceKey) {
-  console.error('Missing environment variables')
-  process.exit(1)
-}
-
-const supabase = createClient(supabaseUrl, supabaseServiceKey, {
-  auth: {
-    autoRefreshToken: false,
-    persistSession: false
-  }
-})
-
-const demoUsers = [
+const DEMO_USERS = [
   {
-    email: 'demo.client@humanglue.com',
-    password: 'DemoClient123!',
-    role: 'client' as const,
-    metadata: {
-      full_name: 'Demo Client User',
-      company: 'Demo Corporation',
-      isDemo: true
-    }
-  },
-  {
-    email: 'demo.instructor@humanglue.com',
-    password: 'DemoInstructor123!',
+    email: 'info@lvng.ai',
+    password: 'Demo123!@#',
+    fullName: 'LVNG Instructor Demo',
     role: 'instructor' as const,
-    metadata: {
-      full_name: 'Demo Instructor',
-      title: 'Senior Instructor',
-      isDemo: true
-    }
   },
   {
-    email: 'demo.admin@humanglue.com',
-    password: 'DemoAdmin123!',
-    role: 'admin' as const,
-    metadata: {
-      full_name: 'Demo Admin',
-      isDemo: true
-    }
-  }
+    email: 'matty@humanglue.ai',
+    password: 'Admin123!@#',
+    fullName: 'Matty Admin',
+    role: 'client' as const, // Will be upgraded to admin manually in database
+  },
 ]
 
-async function createDemoUsers() {
-  console.log('🚀 Creating demo user accounts...\n')
+async function createUser(userData: typeof DEMO_USERS[0]) {
+  try {
+    console.log(`Creating user: ${userData.email}...`)
 
-  for (const user of demoUsers) {
-    console.log(`Creating ${user.role} demo account: ${user.email}`)
+    const response = await fetch(SIGNUP_API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    })
 
-    try {
-      // Check if user already exists
-      const { data: existingUsers } = await supabase.auth.admin.listUsers()
-      const exists = existingUsers?.users.find(u => u.email === user.email)
+    const data = await response.json()
 
-      if (exists) {
-        console.log(`  ⚠️  User already exists, updating password...`)
-
-        // Update password
-        const { error: updateError } = await supabase.auth.admin.updateUserById(
-          exists.id,
-          { password: user.password }
-        )
-
-        if (updateError) {
-          console.error(`  ❌ Error updating password:`, updateError.message)
-          continue
-        }
-
-        console.log(`  ✅ Password updated successfully`)
-      } else {
-        // Create new user
-        const { data: newUser, error: createError } = await supabase.auth.admin.createUser({
-          email: user.email,
-          password: user.password,
-          email_confirm: true,
-          user_metadata: user.metadata
-        })
-
-        if (createError) {
-          console.error(`  ❌ Error creating user:`, createError.message)
-          continue
-        }
-
-        console.log(`  ✅ User created successfully`)
-
-        // Update user role in profiles table
-        if (newUser?.user) {
-          const { error: profileError } = await supabase
-            .from('profiles')
-            .update({ role: user.role })
-            .eq('id', newUser.user.id)
-
-          if (profileError) {
-            console.error(`  ⚠️  Error updating role:`, profileError.message)
-          } else {
-            console.log(`  ✅ Role set to ${user.role}`)
-          }
-        }
-      }
-
-      console.log()
-    } catch (error: any) {
-      console.error(`  ❌ Unexpected error:`, error.message)
-      console.log()
+    if (!response.ok) {
+      console.error(`❌ Failed to create ${userData.email}:`, data)
+      return false
     }
-  }
 
-  console.log('✨ Demo user creation complete!\n')
-  console.log('Demo Credentials:')
-  console.log('─────────────────────────────────────────────')
-  demoUsers.forEach(user => {
-    console.log(`${user.role.toUpperCase()}:`)
-    console.log(`  Email: ${user.email}`)
-    console.log(`  Password: ${user.password}`)
-    console.log()
-  })
+    console.log(`✅ Created ${userData.email}`)
+    console.log(`   Message: ${data.data?.message}`)
+    return true
+  } catch (error) {
+    console.error(`❌ Error creating ${userData.email}:`, error)
+    return false
+  }
 }
 
-createDemoUsers()
-  .then(() => process.exit(0))
-  .catch(error => {
-    console.error('Fatal error:', error)
-    process.exit(1)
-  })
+async function main() {
+  console.log('🚀 Creating demo user accounts...\n')
+  console.log(`API URL: ${SIGNUP_API_URL}\n`)
+
+  for (const user of DEMO_USERS) {
+    await createUser(user)
+    console.log('') // Empty line between users
+  }
+
+  console.log('✨ Done!')
+  console.log('\n📝 Next steps:')
+  console.log('1. Check the email inboxes for confirmation emails')
+  console.log('2. For matty@humanglue.ai, manually update the role to "admin" in Supabase:')
+  console.log('   UPDATE users SET role = \'admin\' WHERE email = \'matty@humanglue.ai\';')
+  console.log('3. Update matty@lvng.ai role from team_lead to member:')
+  console.log('   UPDATE users SET role = \'member\' WHERE email = \'matty@lvng.ai\';')
+}
+
+main()

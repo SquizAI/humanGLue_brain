@@ -165,6 +165,11 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
     resetAbandonmentFlag()
 
     console.log('[Chat] Reset: All data cleared, starting fresh')
+
+    // Immediately restart conversation with name prompt
+    setTimeout(() => {
+      startConversation()
+    }, 100)
   }
 
   const scrollToBottom = () => {
@@ -288,12 +293,15 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
     hasStarted.current = true
     setHasStartedChat(true)
 
-    // Show greeting immediately without typing indicator
-    const greeting = personalizedGreeting.greeting
+    // Show greeting with context (combines greeting + context into one message)
+    const fullGreeting = personalizedGreeting.context
+      ? `${personalizedGreeting.greeting}\n\n${personalizedGreeting.context}`
+      : personalizedGreeting.greeting
+
     setMessages([{
       id: '1',
       role: 'assistant',
-      content: greeting,
+      content: fullGreeting,
       timestamp: new Date()
     }])
     onChatStateChange('greeting')
