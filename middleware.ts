@@ -17,7 +17,7 @@ import { NextResponse, type NextRequest } from 'next/server'
 // Define route access rules
 const ROUTE_RULES = {
   // Public routes (no auth required)
-  public: ['/', '/login', '/signup', '/reset-password', '/about', '/pricing', '/contact', '/solutions', '/purpose', '/results'],
+  public: ['/', '/login', '/signup', '/reset-password', '/about', '/pricing', '/contact', '/solutions', '/purpose', '/results', '/privacy', '/terms', '/workshops', '/talent'],
 
   // Auth routes (redirect to dashboard if already logged in)
   authPages: ['/login', '/signup'],
