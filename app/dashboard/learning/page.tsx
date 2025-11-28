@@ -164,7 +164,9 @@ export default function LearningPlatform() {
     const matchesLevel = selectedLevel === 'all' || course.level === selectedLevel
 
     return matchesSearch && matchesCategory && matchesLevel
-  })  const handleLogout = () => {
+  })
+
+  const handleLogout = () => {
     localStorage.removeItem('humanglue_user')
     router.push('/login')
   }
