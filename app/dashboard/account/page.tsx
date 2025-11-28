@@ -120,7 +120,7 @@ export default function AccountPage() {
       <DashboardSidebar onLogout={handleLogout} />
 
       {/* Main Content - offset by sidebar */}
-      <div className="ml-[280px]">
+      <div className="lg:ml-[var(--sidebar-width,280px)] transition-all">
         {/* Header */}
         <header className="sticky top-0 z-30 bg-gray-950/80 backdrop-blur-xl border-b border-white/10">
           <div className="px-8 py-6">

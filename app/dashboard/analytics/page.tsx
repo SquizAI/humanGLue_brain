@@ -113,7 +113,7 @@ export default function AnalyticsPage() {
     <div className="min-h-screen bg-gray-950">
       <DashboardSidebar onLogout={handleLogout} />
 
-      <div className="ml-[280px]">
+      <div className="lg:ml-[var(--sidebar-width,280px)] transition-all">
         <header className="sticky top-0 z-30 bg-gray-950/80 backdrop-blur-xl border-b border-white/10">
           <div className="px-8 py-6">
             <div className="flex items-center justify-between">

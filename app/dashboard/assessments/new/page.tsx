@@ -517,7 +517,7 @@ export default function NewAssessmentPage() {
       <div className="min-h-screen bg-gray-950">
         <DashboardSidebar onLogout={handleLogout} />
 
-        <div className="ml-[280px] min-h-screen flex items-center justify-center p-8">
+        <div className="lg:ml-[var(--sidebar-width,280px)] transition-all min-h-screen flex items-center justify-center p-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -603,7 +603,7 @@ export default function NewAssessmentPage() {
       <div className="min-h-screen bg-gray-950">
         <DashboardSidebar onLogout={handleLogout} />
 
-        <div className="ml-[280px] min-h-screen flex items-center justify-center p-8">
+        <div className="lg:ml-[var(--sidebar-width,280px)] transition-all min-h-screen flex items-center justify-center p-8">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -642,7 +642,7 @@ export default function NewAssessmentPage() {
     <div className="min-h-screen bg-gray-950">
       <DashboardSidebar onLogout={handleLogout} />
 
-      <div className="ml-[280px]">
+      <div className="lg:ml-[var(--sidebar-width,280px)] transition-all">
         {/* Progress Header */}
         <header className="sticky top-0 z-30 bg-gray-950/80 backdrop-blur-xl border-b border-white/10">
           <div className="px-8 py-4">
