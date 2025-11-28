@@ -262,7 +262,7 @@ export function EnhancedHomepage() {
       {/* Main Content - Adjust margin when sidebar is visible, padding-bottom for mobile chat */}
       <div className={cn(
         "transition-all duration-300",
-        !isHeroVisible ? "mr-[480px]" : "",
+        !isHeroVisible ? "lg:mr-[480px]" : "", // Only add margin on desktop
         "pb-24 lg:pb-0" // Add bottom padding on mobile for collapsible chat footer
       )}>
         {/* Hero Section with Chat */}
@@ -841,15 +841,17 @@ export function EnhancedHomepage() {
         <Footer />
       </div>
 
-      {/* Unified Chat System - Transitions to sidebar when scrolled */}
+      {/* Unified Chat System - Transitions to sidebar when scrolled (DESKTOP ONLY) */}
       {!isHeroVisible && (
-        <ChatErrorBoundary>
-          <UnifiedChatSystem
-            isHeroVisible={isHeroVisible}
-            onShowROI={() => setShowROI(true)}
-            onShowRoadmap={() => setShowRoadmap(true)}
-          />
-        </ChatErrorBoundary>
+        <div className="hidden lg:block">
+          <ChatErrorBoundary>
+            <UnifiedChatSystem
+              isHeroVisible={isHeroVisible}
+              onShowROI={() => setShowROI(true)}
+              onShowRoadmap={() => setShowRoadmap(true)}
+            />
+          </ChatErrorBoundary>
+        </div>
       )}
 
       {/* Exit Intent Modal */}
