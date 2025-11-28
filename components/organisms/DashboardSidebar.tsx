@@ -278,22 +278,25 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
   const { savedCount } = useSocial()
   const { userData } = useChat()
 
-  // Determine user role
-  const isAdmin = userData?.isAdmin || userData?.role === 'admin' || userData?.userType === 'admin'
-  const isInstructor = userData?.isInstructor || userData?.role === 'instructor' || userData?.userType === 'instructor'
+  // Determine user role from userData OR pathname as fallback
+  const isAdminFromData = userData?.isAdmin || userData?.role === 'admin' || userData?.userType === 'admin'
+  const isInstructorFromData = userData?.isInstructor || userData?.role === 'instructor' || userData?.userType === 'instructor'
+
+  // Fallback: detect role from pathname if userData is empty
+  const isAdminFromPath = pathname?.startsWith('/admin')
+  const isInstructorFromPath = pathname?.startsWith('/instructor')
+
+  const isAdmin = isAdminFromData || isAdminFromPath
+  const isInstructor = isInstructorFromData || isInstructorFromPath
 
   // Debug logging
-  console.error('===============================')
-  console.error('[DashboardSidebar] ROLE DEBUG')
-  console.error('===============================')
-  console.error('userData:', JSON.stringify(userData, null, 2))
-  console.error('isAdmin:', isAdmin)
-  console.error('userData.isAdmin:', userData?.isAdmin)
-  console.error('userData.role:', userData?.role)
-  console.error('userData.userType:', userData?.userType)
-  console.error('isInstructor:', isInstructor)
-  console.error('userData.isInstructor:', userData?.isInstructor)
-  console.error('===============================')
+  console.log('[DashboardSidebar] pathname:', pathname)
+  console.log('[DashboardSidebar] isAdminFromData:', isAdminFromData)
+  console.log('[DashboardSidebar] isAdminFromPath:', isAdminFromPath)
+  console.log('[DashboardSidebar] isInstructorFromData:', isInstructorFromData)
+  console.log('[DashboardSidebar] isInstructorFromPath:', isInstructorFromPath)
+  console.log('[DashboardSidebar] FINAL isAdmin:', isAdmin)
+  console.log('[DashboardSidebar] FINAL isInstructor:', isInstructor)
 
   // Get portal title and navigation based on role
   const getPortalConfig = () => {
