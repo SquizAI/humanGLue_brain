@@ -954,7 +954,7 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
     )
   }
 
-  // Desktop mode (existing behavior)
+  // Desktop mode (hidden on mobile, only shows on lg screens and up)
   return (
     <motion.div
       initial={false}
@@ -964,7 +964,7 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
         bottom: isHeroVisible ? 'auto' : 0,
         top: isHeroVisible ? 'auto' : 0,
         width: isHeroVisible ? '100%' : '100%',
-        maxWidth: isHeroVisible ? 600 : 480, // Hero: 600px, Sidebar: 480px (responsive on mobile: 100%)
+        maxWidth: isHeroVisible ? 600 : 480, // Hero: 600px, Sidebar: 480px
         height: isHeroVisible ? 'auto' : '100vh',
         zIndex: isHeroVisible ? 10 : 60
       }}
@@ -974,7 +974,7 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
         ease: "easeInOut"
       }}
       className={cn(
-        isHeroVisible ? 'mx-auto' : 'w-full sm:w-auto', // Full width on mobile, auto on larger screens
+        isHeroVisible ? 'mx-auto' : 'hidden lg:block', // Hide desktop mode on mobile
         className
       )}
     >
@@ -1112,12 +1112,12 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
           ) : (
             <>
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-gradient-to-br from-blue-500 to-purple-500">
-                  <Sparkles className="w-4 h-4 text-white" />
-                </div>
+                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/50" />
                 <div>
-                  <h3 className="text-sm font-semibold text-white font-diatype">AI Assistant</h3>
-                  <p className="text-xs text-gray-400 font-diatype">Always here to help</p>
+                  <h3 className="text-sm font-semibold text-white font-diatype">
+                    {currentState === 'performingAnalysis' ? 'Analyzing Your Responses' : 'AI Assessment'}
+                  </h3>
+                  <p className="text-xs text-gray-400 font-diatype">Glassmorphic chat interface</p>
                 </div>
               </div>
               <div className="flex items-center gap-2">
