@@ -48,29 +48,25 @@ export default function AdminDashboard() {
   const [showContent, setShowContent] = useState(false)
 
   useEffect(() => {
-    // If auth loads quickly and user is admin, show content
+    // If auth loads quickly and user is admin, show content immediately
     if (!authLoading && userData?.isAdmin) {
+      console.log('[AdminPage] Admin user confirmed, showing content')
       setShowContent(true)
       return
     }
 
-    // If auth is still loading after 3 seconds, trust middleware and show content anyway
+    // If auth is still loading after 2 seconds, trust middleware and show content anyway
     // Middleware will have already blocked non-admins from reaching this page
     const timeout = setTimeout(() => {
-      console.log('[AdminPage] Auth timeout - trusting middleware protection')
+      console.log('[AdminPage] Auth timeout - trusting middleware protection, showing content')
       setShowContent(true)
-    }, 3000)
+    }, 2000)
 
     return () => clearTimeout(timeout)
   }, [authLoading, userData])
 
-  // Check admin access only if auth loaded and user is not admin
-  useEffect(() => {
-    if (!authLoading && userData && !userData?.isAdmin) {
-      console.log('[AdminPage] Redirecting to login - no admin access')
-      router.push('/login')
-    }
-  }, [userData, router, authLoading])
+  // NO CLIENT-SIDE REDIRECT - Trust middleware to handle access control
+  // Middleware has already validated admin access before this page loads
 
   if (!showContent) {
     return (
