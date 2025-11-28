@@ -84,10 +84,10 @@ export function getPersonalizedGreeting(): PersonalizedGreeting {
     }
   }
 
-  // Default first-time visitor
+  // Default first-time visitor - Start with proper assessment flow
   return {
-    greeting: "Welcome to HumanGlue. We guide Fortune 1000 companies of tomorrow, today.",
-    context: "What is your name?",
+    greeting: "Welcome. I'm your AI transformation advisor. I can help you:",
+    context: "• Calculate ROI for AI initiatives\n• Get timeline for implementation\n• Book a strategy session\n\nLet's start with your first name:",
     suggestions: []
   }
 }
