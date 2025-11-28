@@ -32,6 +32,7 @@ export default function AssessmentResultsPage() {
   const [assessment, setAssessment] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [downloading, setDownloading] = useState(false)
+  const [generatingResource, setGeneratingResource] = useState<string | null>(null)
 
   useEffect(() => {
     const loadAssessment = async () => {
@@ -95,6 +96,39 @@ export default function AssessmentResultsPage() {
 
   const handleScheduleCall = () => {
     window.open('https://calendly.com/humanglue/strategy-session', '_blank')
+  }
+
+  const handleGenerateResource = async (resourceName: string, index: number) => {
+    setGeneratingResource(resourceName)
+    try {
+      const response = await fetch(`/api/resources/generate`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          resourceType: resourceName,
+          assessmentData: assessment,
+          resourceIndex: index
+        })
+      })
+
+      if (response.ok) {
+        const blob = await response.blob()
+        const url = window.URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = url
+        a.download = `${resourceName.replace(/[^a-z0-9]/gi, '_')}_${assessment.userData.company}.pdf`
+        document.body.appendChild(a)
+        a.click()
+        window.URL.revokeObjectURL(url)
+        document.body.removeChild(a)
+      }
+    } catch (error) {
+      console.error('Resource generation failed:', error)
+    } finally {
+      setGeneratingResource(null)
+    }
   }
 
   if (loading) {
@@ -347,22 +381,85 @@ export default function AssessmentResultsPage() {
             transition={{ delay: 0.7 }}
             className="mb-12"
           >
-            <h2 className="text-3xl font-bold text-white mb-6 flex items-center gap-3">
-              <Sparkles className="w-8 h-8 text-purple-400" />
-              Personalized Resources
-            </h2>
-            <div className="grid md:grid-cols-2 gap-4">
+            <div className="mb-6">
+              <h2 className="text-3xl font-bold text-white mb-2 flex items-center gap-3">
+                <Sparkles className="w-8 h-8 text-purple-400" />
+                Your Personalized Resources
+              </h2>
+              <p className="text-gray-400 text-lg">
+                AI-generated resources tailored specifically for {assessment.userData.company} using our proven methodologies
+              </p>
+            </div>
+            <div className="grid md:grid-cols-2 gap-6">
               {analysis.insights.personalizedContent.map((content: string, i: number) => (
                 <motion.div
                   key={i}
-                  whileHover={{ scale: 1.02 }}
-                  className="bg-white/5 rounded-xl p-4 border border-white/10 flex items-center justify-between group cursor-pointer"
+                  whileHover={{ scale: 1.03, y: -4 }}
+                  className="relative bg-gradient-to-br from-purple-500/10 via-blue-500/10 to-cyan-500/10 rounded-2xl p-6 border-2 border-white/20 shadow-xl group cursor-pointer overflow-hidden"
+                  onClick={() => handleGenerateResource(content, i)}
                 >
-                  <span className="text-gray-200">{content}</span>
-                  <Download className="w-5 h-5 text-gray-400 group-hover:text-purple-400 transition-colors" />
+                  {/* Animated gradient background */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-blue-500/5 to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                  {/* Content */}
+                  <div className="relative z-10">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex-1">
+                        <h3 className="text-lg font-bold text-white mb-2 pr-4">
+                          {content}
+                        </h3>
+                        <p className="text-sm text-gray-400">
+                          Customized for your organization's size, industry, and challenges
+                        </p>
+                      </div>
+                      <div className="flex-shrink-0">
+                        {generatingResource === content ? (
+                          <motion.div
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                            className="w-10 h-10 rounded-full border-2 border-purple-400 border-t-transparent"
+                          />
+                        ) : (
+                          <div className="w-10 h-10 bg-purple-500/20 rounded-full flex items-center justify-center group-hover:bg-purple-500/30 transition-colors">
+                            <Download className="w-5 h-5 text-purple-400 group-hover:text-purple-300 transition-colors" />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Download CTA */}
+                    <div className="flex items-center gap-2 text-sm font-medium text-purple-400 group-hover:text-purple-300 transition-colors">
+                      <span>Click to generate & download</span>
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </div>
+
+                  {/* Shine effect on hover */}
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
+                  </div>
                 </motion.div>
               ))}
             </div>
+
+            {/* Info banner */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1 }}
+              className="mt-6 bg-blue-500/10 border border-blue-500/30 rounded-xl p-4"
+            >
+              <div className="flex items-start gap-3">
+                <Lightbulb className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-sm text-blue-100">
+                    <strong>Pro Tip:</strong> Each resource is AI-generated in real-time using your assessment data,
+                    company profile, and our proprietary transformation methodologies. Resources include actionable
+                    insights, ROI calculations, and implementation roadmaps tailored to your specific context.
+                  </p>
+                </div>
+              </div>
+            </motion.div>
           </motion.div>
 
           {/* CTA Section */}
