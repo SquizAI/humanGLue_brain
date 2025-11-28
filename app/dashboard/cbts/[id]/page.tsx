@@ -1,6 +1,5 @@
 'use client'
 
-import { useEffect } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
@@ -21,8 +20,6 @@ import {
   Lock,
 } from 'lucide-react'
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
-import { useChat } from '@/lib/contexts/ChatContext'
-
 interface Module {
   id: number
   title: string
@@ -740,24 +737,7 @@ const courseData: Record<string, CourseData> = {
 export default function CBTDetailPage() {
   const router = useRouter()
   const params = useParams()
-  const { userData } = useChat()
-  const courseId = params.id as string
-
-  useEffect(() => {
-    if (!userData || !userData.authenticated) {
-      router.push('/login')
-    }
-  }, [userData, router])
-
-  if (!userData || !userData.authenticated) {
-    return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
-        <div className="text-white text-xl">Loading...</div>
-      </div>
-    )
-  }
-
-  const handleLogout = () => {
+    const courseId = params.id as string  const handleLogout = () => {
     localStorage.removeItem('humanglue_user')
     router.push('/login')
   }

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
@@ -28,7 +28,6 @@ import {
   TrendingUp
 } from 'lucide-react'
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
-import { useChat } from '@/lib/contexts/ChatContext'
 import { useBilling } from '@/lib/contexts/BillingContext'
 
 interface TeamMember {
@@ -53,8 +52,7 @@ interface PendingInvite {
 
 export default function TeamPage() {
   const router = useRouter()
-  const { userData } = useChat()
-  const { usage, currentTier } = useBilling()
+    const { usage, currentTier } = useBilling()
 
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([
     {
@@ -117,22 +115,7 @@ export default function TeamPage() {
   const [statusFilter, setStatusFilter] = useState<string>('all')
   const [selectedMembers, setSelectedMembers] = useState<string[]>([])
 
-  // Authentication check
-  useEffect(() => {
-    if (!userData || !userData.authenticated) {
-      router.push('/login')
-    }
-  }, [userData, router])
-
-  if (!userData || !userData.authenticated) {
-    return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
-        <div className="text-white text-xl">Loading...</div>
-      </div>
-    )
-  }
-
-  const handleLogout = () => {
+  // Authentication check  const handleLogout = () => {
     localStorage.removeItem('humanglue_user')
     router.push('/login')
   }

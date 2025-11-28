@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
@@ -22,7 +22,6 @@ import {
   Zap,
 } from 'lucide-react'
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
-import { useChat } from '@/lib/contexts/ChatContext'
 
 type CourseCategory = 'leadership' | 'technical' | 'culture' | 'strategy' | 'all'
 type CourseDifficulty = 'beginner' | 'intermediate' | 'advanced' | 'all'
@@ -47,26 +46,13 @@ interface Course {
 
 export default function CBTsPage() {
   const router = useRouter()
-  const { userData } = useChat()
   const [searchQuery, setSearchQuery] = useState('')
   const [filterCategory, setFilterCategory] = useState<CourseCategory>('all')
   const [filterDifficulty, setFilterDifficulty] = useState<CourseDifficulty>('all')
   const [showFilters, setShowFilters] = useState(false)
 
-  // Authentication check
-  useEffect(() => {
-    if (!userData || !userData.authenticated) {
-      router.push('/login')
-    }
-  }, [userData, router])
-
-  if (!userData || !userData.authenticated) {
-    return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
-        <div className="text-white text-xl">Loading...</div>
-      </div>
-    )
-  }
+  // Trust middleware protection - no need for client-side auth checks
+  // Middleware already validates access before page loads
 
   const handleLogout = () => {
     localStorage.removeItem('humanglue_user')

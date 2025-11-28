@@ -1,6 +1,5 @@
 'use client'
 
-import { useEffect } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
@@ -24,8 +23,6 @@ import {
   Award,
 } from 'lucide-react'
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
-import { useChat } from '@/lib/contexts/ChatContext'
-
 interface Section {
   title: string
   content: string
@@ -81,24 +78,7 @@ interface ResourceData {
 export default function ResourceDetailPage() {
   const router = useRouter()
   const params = useParams()
-  const { userData } = useChat()
-  const id = params?.id as string
-
-  useEffect(() => {
-    if (!userData || !userData.authenticated) {
-      router.push('/login')
-    }
-  }, [userData, router])
-
-  if (!userData || !userData.authenticated) {
-    return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
-        <div className="text-white text-xl">Loading...</div>
-      </div>
-    )
-  }
-
-  const handleLogout = () => {
+    const id = params?.id as string  const handleLogout = () => {
     localStorage.removeItem('humanglue_user')
     router.push('/login')
   }

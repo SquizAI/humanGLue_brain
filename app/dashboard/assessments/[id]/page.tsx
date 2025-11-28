@@ -1,11 +1,9 @@
 'use client'
 
-import { useEffect } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
-import { useChat } from '@/lib/contexts/ChatContext'
 import {
   ArrowRight,
   TrendingUp,
@@ -74,24 +72,7 @@ interface Benchmark {
 
 export default function AssessmentDetailPage() {
   const router = useRouter()
-  const params = useParams()
-  const { userData } = useChat()
-
-  useEffect(() => {
-    if (!userData || !userData.authenticated) {
-      router.push('/login')
-    }
-  }, [userData, router])
-
-  if (!userData || !userData.authenticated) {
-    return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
-        <div className="text-white text-xl">Loading...</div>
-      </div>
-    )
-  }
-
-  const handleLogout = () => {
+  const params = useParams()  const handleLogout = () => {
     localStorage.removeItem('humanglue_user')
     router.push('/login')
   }

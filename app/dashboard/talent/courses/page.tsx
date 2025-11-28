@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
@@ -20,30 +20,11 @@ import {
   PlayCircle,
 } from 'lucide-react'
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
-import { useChat } from '@/lib/contexts/ChatContext'
-
 export default function CoursesPage() {
   const router = useRouter()
-  const { userData } = useChat()
-  const [searchQuery, setSearchQuery] = useState('')
+    const [searchQuery, setSearchQuery] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('all')
-  const [selectedLevel, setSelectedLevel] = useState('all')
-
-  useEffect(() => {
-    if (!userData || !userData.authenticated) {
-      router.push('/login')
-    }
-  }, [userData, router])
-
-  if (!userData || !userData.authenticated) {
-    return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
-        <div className="text-white text-xl">Loading...</div>
-      </div>
-    )
-  }
-
-  const handleLogout = () => {
+  const [selectedLevel, setSelectedLevel] = useState('all')  const handleLogout = () => {
     localStorage.removeItem('humanglue_user')
     router.push('/login')
   }

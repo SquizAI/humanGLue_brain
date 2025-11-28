@@ -1,6 +1,5 @@
 'use client'
 
-import { useEffect } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
@@ -17,7 +16,6 @@ import {
   Users,
 } from 'lucide-react'
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
-import { useChat } from '@/lib/contexts/ChatContext'
 import { cn } from '@/utils/cn'
 import Link from 'next/link'
 
@@ -259,30 +257,11 @@ const experts = [
 export default function ExpertProfile() {
   const router = useRouter()
   const params = useParams()
-  const { userData } = useChat()
-  const expertId = parseInt(params.id as string)
-  const expert = experts.find(e => e.id === expertId)
-
-  useEffect(() => {
-    if (!userData || !userData.authenticated) {
-      router.push('/login')
-    }
-  }, [userData, router])
-
-  const handleLogout = () => {
+    const expertId = parseInt(params.id as string)
+  const expert = experts.find(e => e.id === expertId)  const handleLogout = () => {
     localStorage.removeItem('humanglue_user')
     router.push('/login')
-  }
-
-  if (!userData || !userData.authenticated) {
-    return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
-        <div className="text-white text-xl">Loading...</div>
-      </div>
-    )
-  }
-
-  if (!expert) {
+  }  if (!expert) {
     return (
       <div className="min-h-screen bg-gray-950">
         <DashboardSidebar onLogout={handleLogout} />

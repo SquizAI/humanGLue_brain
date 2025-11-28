@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
@@ -19,7 +19,6 @@ import {
   TrendingUp,
 } from 'lucide-react'
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
-import { useChat } from '@/lib/contexts/ChatContext'
 import { BookmarkButton } from '@/components/molecules/BookmarkButton'
 import { ShareButton } from '@/components/molecules/ShareButton'
 import { cn } from '@/utils/cn'
@@ -120,8 +119,7 @@ const experts = [
 
 export default function TalentMarketplace() {
   const router = useRouter()
-  const { userData } = useChat()
-  const [searchQuery, setSearchQuery] = useState('')
+    const [searchQuery, setSearchQuery] = useState('')
   const [selectedExpertise, setSelectedExpertise] = useState<string[]>([])
   const [selectedIndustries, setSelectedIndustries] = useState<string[]>([])
   const [availabilityFilter, setAvailabilityFilter] = useState<'all' | 'available' | 'limited'>('all')
@@ -166,28 +164,10 @@ export default function TalentMarketplace() {
     })
 
     return filtered
-  }, [searchQuery, selectedExpertise, selectedIndustries, availabilityFilter, sortBy])
-
-  useEffect(() => {
-    if (!userData || !userData.authenticated) {
-      router.push('/login')
-    }
-  }, [userData, router])
-
-  const handleLogout = () => {
+  }, [searchQuery, selectedExpertise, selectedIndustries, availabilityFilter, sortBy])  const handleLogout = () => {
     localStorage.removeItem('humanglue_user')
     router.push('/login')
-  }
-
-  if (!userData || !userData.authenticated) {
-    return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
-        <div className="text-white text-xl">Loading...</div>
-      </div>
-    )
-  }
-
-  return (
+  }  return (
     <div className="min-h-screen bg-gray-950">
       <DashboardSidebar onLogout={handleLogout} />
 

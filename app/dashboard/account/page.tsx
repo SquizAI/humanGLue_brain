@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import {
@@ -25,7 +25,6 @@ import {
   Sparkles
 } from 'lucide-react'
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
-import { useChat } from '@/lib/contexts/ChatContext'
 import { useBilling } from '@/lib/contexts/BillingContext'
 import { SubscriptionManager } from '@/components/organisms/SubscriptionManager'
 import { PaymentMethodManager } from '@/components/organisms/PaymentMethodManager'
@@ -35,8 +34,7 @@ type ViewType = 'overview' | 'subscription' | 'payment'
 
 export default function AccountPage() {
   const router = useRouter()
-  const { userData } = useChat()
-  const {
+    const {
     currentTier,
     subscriptionStatus,
     usage,
@@ -48,22 +46,7 @@ export default function AccountPage() {
   const [activeView, setActiveView] = useState<ViewType>('overview')
   const [showUpgradeModal, setShowUpgradeModal] = useState(false)
 
-  // Authentication check
-  useEffect(() => {
-    if (!userData || !userData.authenticated) {
-      router.push('/login')
-    }
-  }, [userData, router])
-
-  if (!userData || !userData.authenticated) {
-    return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
-        <div className="text-white text-xl">Loading...</div>
-      </div>
-    )
-  }
-
-  const handleLogout = () => {
+  // Authentication check  const handleLogout = () => {
     localStorage.removeItem('humanglue_user')
     router.push('/login')
   }

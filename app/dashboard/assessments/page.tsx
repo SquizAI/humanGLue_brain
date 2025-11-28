@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
@@ -26,8 +26,6 @@ import {
   BarChart3,
 } from 'lucide-react'
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
-import { useChat } from '@/lib/contexts/ChatContext'
-
 type AssessmentType = 'individual' | 'company'
 type AssessmentStatus = 'completed' | 'in-progress' | 'pending'
 
@@ -48,30 +46,14 @@ interface Assessment {
 
 export default function AssessmentsPage() {
   const router = useRouter()
-  const { userData } = useChat()
-  const [searchQuery, setSearchQuery] = useState('')
+    const [searchQuery, setSearchQuery] = useState('')
   const [filterType, setFilterType] = useState<AssessmentType | 'all'>('all')
   const [filterStatus, setFilterStatus] = useState<AssessmentStatus | 'all'>('all')
   const [sortBy, setSortBy] = useState<'date' | 'score' | 'title'>('date')
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
   const [showFilters, setShowFilters] = useState(false)
 
-  // Authentication check
-  useEffect(() => {
-    if (!userData || !userData.authenticated) {
-      router.push('/login')
-    }
-  }, [userData, router])
-
-  if (!userData || !userData.authenticated) {
-    return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
-        <div className="text-white text-xl">Loading...</div>
-      </div>
-    )
-  }
-
-  const handleLogout = () => {
+  // Authentication check  const handleLogout = () => {
     localStorage.removeItem('humanglue_user')
     router.push('/login')
   }

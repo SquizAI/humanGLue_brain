@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
-import { useChat } from '@/lib/contexts/ChatContext'
 import {
   ArrowRight,
   ArrowLeft,
@@ -311,8 +310,7 @@ const assessmentQuestions: Question[] = [
 
 export default function NewAssessmentPage() {
   const router = useRouter()
-  const { userData } = useChat()
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
+    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [answers, setAnswers] = useState<Answer[]>([])
   const [currentAnswer, setCurrentAnswer] = useState<string>('')
   const [currentScale, setCurrentScale] = useState<number>(5)
@@ -327,15 +325,7 @@ export default function NewAssessmentPage() {
   const mediaRecorderRef = useRef<MediaRecorder | null>(null)
   const audioChunksRef = useRef<Blob[]>([])
   const recordingIntervalRef = useRef<NodeJS.Timeout | null>(null)
-  const audioRef = useRef<HTMLAudioElement | null>(null)
-
-  useEffect(() => {
-    if (!userData || !userData.authenticated) {
-      router.push('/login')
-    }
-  }, [userData, router])
-
-  const handleLogout = () => {
+  const audioRef = useRef<HTMLAudioElement | null>(null)  const handleLogout = () => {
     localStorage.removeItem('humanglue_user')
     router.push('/login')
   }
@@ -502,17 +492,7 @@ export default function NewAssessmentPage() {
       default:
         return false
     }
-  }
-
-  if (!userData || !userData.authenticated) {
-    return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
-        <div className="text-white text-xl">Loading...</div>
-      </div>
-    )
-  }
-
-  if (!assessmentStarted) {
+  }  if (!assessmentStarted) {
     return (
       <div className="min-h-screen bg-gray-950">
         <DashboardSidebar onLogout={handleLogout} />

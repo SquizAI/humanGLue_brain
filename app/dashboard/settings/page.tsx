@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
@@ -34,7 +34,6 @@ import {
   Loader2,
 } from 'lucide-react'
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
-import { useChat } from '@/lib/contexts/ChatContext'
 import { useBilling } from '@/lib/contexts/BillingContext'
 import { SubscriptionManager } from '@/components/organisms/SubscriptionManager'
 import { PaymentMethodManager } from '@/components/organisms/PaymentMethodManager'
@@ -70,7 +69,7 @@ interface BillingHistory {
 
 export default function SettingsPage() {
   const router = useRouter()
-  const { userData, setUserData } = useChat()
+  const { setUserData } = useChat()
   const billing = useBilling()
   const [activeTab, setActiveTab] = useState<TabType>('profile')
   const [isLoading, setIsLoading] = useState(false)
@@ -160,22 +159,7 @@ export default function SettingsPage() {
   ])
   const [inviteEmail, setInviteEmail] = useState('')
 
-  // Authentication check
-  useEffect(() => {
-    if (!userData || !userData.authenticated) {
-      router.push('/login')
-    }
-  }, [userData, router])
-
-  if (!userData || !userData.authenticated) {
-    return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
-        <div className="text-white text-xl">Loading...</div>
-      </div>
-    )
-  }
-
-  const handleLogout = () => {
+  // Authentication check  const handleLogout = () => {
     localStorage.removeItem('humanglue_user')
     router.push('/login')
   }

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
@@ -21,7 +21,6 @@ import {
   ShoppingCart,
 } from 'lucide-react'
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
-import { useChat } from '@/lib/contexts/ChatContext'
 import { useCart } from '@/lib/contexts/CartContext'
 import { BookmarkButton } from '@/components/molecules/BookmarkButton'
 import { LikeButton } from '@/components/molecules/LikeButton'
@@ -483,21 +482,12 @@ const courses = [
 export default function CourseDetail() {
   const router = useRouter()
   const params = useParams()
-  const { userData } = useChat()
-  const { addToCart, setIsCartOpen } = useCart()
+    const { addToCart, setIsCartOpen } = useCart()
   const courseId = parseInt(params.id as string)
   const course = courses.find(c => c.id === courseId)
   const [expandedModule, setExpandedModule] = useState<number | null>(0)
   const [isAddingToCart, setIsAddingToCart] = useState(false)
-  const [showToast, setShowToast] = useState(false)
-
-  useEffect(() => {
-    if (!userData || !userData.authenticated) {
-      router.push('/login')
-    }
-  }, [userData, router])
-
-  const handleLogout = () => {
+  const [showToast, setShowToast] = useState(false)  const handleLogout = () => {
     localStorage.removeItem('humanglue_user')
     router.push('/login')
   }
@@ -548,17 +538,7 @@ export default function CourseDetail() {
 
     setIsAddingToCart(false)
     router.push('/checkout')
-  }
-
-  if (!userData || !userData.authenticated) {
-    return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
-        <div className="text-white text-xl">Loading...</div>
-      </div>
-    )
-  }
-
-  if (!course) {
+  }  if (!course) {
     return (
       <div className="min-h-screen bg-gray-950">
         <DashboardSidebar onLogout={handleLogout} />
