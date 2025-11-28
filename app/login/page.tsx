@@ -4,7 +4,8 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { LogIn, Mail, Lock, ArrowRight, Sparkles, Brain, TrendingUp, Users, Zap } from 'lucide-react'
+import { LogIn, Mail, Lock, ArrowRight, Sparkles, TrendingUp, Users, Zap } from 'lucide-react'
+import Image from 'next/image'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -227,12 +228,13 @@ export default function LoginPage() {
         >
           {/* Mobile Logo */}
           <Link href="/" className="lg:hidden mb-8 inline-block">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-500 rounded-xl flex items-center justify-center">
-                <Brain className="w-6 h-6 text-white" />
-              </div>
-              <span className="text-xl font-bold text-white font-gendy">HumanGlue</span>
-            </div>
+            <Image
+              src="/HumnaGlue_logo_white_blue.png"
+              alt="HumanGlue"
+              width={180}
+              height={50}
+              className="h-10 w-auto"
+            />
           </Link>
 
           {/* Header */}
