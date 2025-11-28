@@ -540,7 +540,9 @@ export default function CourseDetail() {
 
     setIsAddingToCart(false)
     router.push('/checkout')
-  }  if (!course) {
+  }
+
+  if (!course) {
     return (
       <div className="min-h-screen bg-gray-950">
         <DashboardSidebar onLogout={handleLogout} />
