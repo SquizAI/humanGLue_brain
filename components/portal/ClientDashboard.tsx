@@ -199,7 +199,7 @@ export function ClientDashboard({ data = MOCK_DATA }: { data?: DashboardData }) 
             >
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold text-white">Adaptability Dimensions</h2>
-                <Link href="/portal/assessments">
+                <Link href="/dashboard/assessments">
                   <button className="text-blue-400 hover:text-blue-300 text-sm font-medium flex items-center gap-1">
                     View Details <ArrowRight className="w-4 h-4" />
                   </button>
@@ -290,7 +290,7 @@ export function ClientDashboard({ data = MOCK_DATA }: { data?: DashboardData }) 
             >
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-xl font-bold text-white">Upcoming Workshops</h3>
-                <Link href="/portal/workshops">
+                <Link href="/dashboard/workshops">
                   <button className="text-amber-400 hover:text-amber-300 text-sm font-medium">
                     View All
                   </button>
@@ -326,7 +326,7 @@ export function ClientDashboard({ data = MOCK_DATA }: { data?: DashboardData }) 
             >
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-xl font-bold text-white">Active Engagements</h3>
-                <Link href="/portal/engagements">
+                <Link href="/dashboard/talent">
                   <button className="text-purple-400 hover:text-purple-300 text-sm font-medium">
                     View All
                   </button>
@@ -375,7 +375,7 @@ export function ClientDashboard({ data = MOCK_DATA }: { data?: DashboardData }) 
               <h3 className="text-xl font-bold text-white mb-4">Quick Actions</h3>
 
               <div className="space-y-3">
-                <Link href="/portal/assessment/new">
+                <Link href="/dashboard/assessments/new">
                   <button className="w-full p-4 rounded-xl bg-white/5 hover:bg-white/10 border border-gray-700 hover:border-blue-500/50 text-left transition-all duration-200 group">
                     <div className="flex items-center justify-between">
                       <span className="text-white font-medium">Take New Assessment</span>
@@ -384,7 +384,7 @@ export function ClientDashboard({ data = MOCK_DATA }: { data?: DashboardData }) 
                   </button>
                 </Link>
 
-                <Link href="/portal/team">
+                <Link href="/dashboard/team">
                   <button className="w-full p-4 rounded-xl bg-white/5 hover:bg-white/10 border border-gray-700 hover:border-purple-500/50 text-left transition-all duration-200 group">
                     <div className="flex items-center justify-between">
                       <span className="text-white font-medium">Manage Team</span>
@@ -393,7 +393,7 @@ export function ClientDashboard({ data = MOCK_DATA }: { data?: DashboardData }) 
                   </button>
                 </Link>
 
-                <Link href="/portal/billing">
+                <Link href="/dashboard/billing">
                   <button className="w-full p-4 rounded-xl bg-white/5 hover:bg-white/10 border border-gray-700 hover:border-green-500/50 text-left transition-all duration-200 group">
                     <div className="flex items-center justify-between">
                       <span className="text-white font-medium">View Billing</span>
