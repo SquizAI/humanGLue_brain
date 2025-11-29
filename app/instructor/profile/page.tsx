@@ -83,7 +83,9 @@ export default function InstructorProfilePage() {
   const router = useRouter()
 
   // Trust middleware protection - no need for client-side auth checks
-  // Middleware already validates access before page loads  const [isPreviewMode, setIsPreviewMode] = useState(false)
+  // Middleware already validates access before page loads
+
+  const [isPreviewMode, setIsPreviewMode] = useState(false)
   const [hasChanges, setHasChanges] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
   const [profile, setProfile] = useState(MOCK_PROFILE)
