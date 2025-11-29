@@ -109,8 +109,7 @@ export async function POST(request: NextRequest) {
       .from('user_roles')
       .select('role')
       .eq('user_id', authData.user.id)
-      .is('expires_at', null)
-      .or(`expires_at.gt.${new Date().toISOString()}`)
+      .or(`expires_at.is.null,expires_at.gt.${new Date().toISOString()}`)
 
     // Extract active roles into array
     const activeRoles = (userRoles || []).map(r => r.role)

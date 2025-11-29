@@ -9,8 +9,9 @@
 ### **Start Here**
 - 📖 [**README**](WHITE_LABEL_README.md) - 5-minute quick start and overview
 - 📊 [**Summary**](WHITE_LABEL_SUMMARY.md) - Project status, metrics, and key files
-- 📚 [**Usage Guide**](WHITE_LABEL_USAGE_GUIDE.md) - Complete API reference and examples
-- 🎨 [**Platform UI Guide**](WHITE_LABEL_PLATFORM_UI_GUIDE.md) - Dynamic theming guide ✨ **NEW**
+- 🔌 [**API Documentation**](WHITE_LABEL_API_DOCS.md) - Complete API reference for developers ✨ **NEW**
+- 📚 [**Usage Guide**](WHITE_LABEL_USAGE_GUIDE.md) - Usage examples and integration guide
+- 🎨 [**Platform UI Guide**](WHITE_LABEL_PLATFORM_UI_GUIDE.md) - Dynamic theming guide
 
 ### **Implementation**
 - 🗺️ [**Roadmap**](WHITE_LABEL_NEXT_STEPS.md) - Phases 5-10 implementation plans (Phase 4 complete!)
@@ -35,8 +36,9 @@ WHITE_LABEL_*.md               # Documentation files
 ├── INDEX.md                   # This file - central navigation
 ├── README.md                  # Quick start and overview
 ├── SUMMARY.md                 # Project status and key info
-├── USAGE_GUIDE.md             # Complete usage documentation
-├── PLATFORM_UI_GUIDE.md       # Platform UI theming guide ✨ NEW
+├── API_DOCS.md                # Complete API reference ✨ NEW
+├── USAGE_GUIDE.md             # Usage examples and integration
+├── PLATFORM_UI_GUIDE.md       # Platform UI theming guide
 ├── NEXT_STEPS.md              # Future roadmap (phases 5-10)
 ├── IMPLEMENTATION_CHECKLIST.md # Step-by-step tasks
 └── IMPLEMENTATION_PLAN.md     # Original planning doc
@@ -79,11 +81,11 @@ Code Files                     # Implementation files
 
 ### For Developers
 **Goal:** Implement or extend features
-1. Start: [README - Quick Start](WHITE_LABEL_README.md#5-minute-quick-start)
-2. Platform UI: [Platform UI Guide](WHITE_LABEL_PLATFORM_UI_GUIDE.md) ✨ **NEW**
+1. Start: [API Documentation](WHITE_LABEL_API_DOCS.md) - Complete API reference ✨ **NEW**
+2. Platform UI: [Platform UI Guide](WHITE_LABEL_PLATFORM_UI_GUIDE.md) - Dynamic theming
 3. Code: [Service Layer](services/branding.ts) and [API Routes](app/api/organizations/[id]/branding/route.ts)
 4. Examples: [Usage Guide - Usage in Code](WHITE_LABEL_USAGE_GUIDE.md#usage-in-code)
-5. Next: [Checklist - Phase 5](WHITE_LABEL_IMPLEMENTATION_CHECKLIST.md#phase-5-custom-domain-support-next)
+5. Next: [Checklist - Phase 6](WHITE_LABEL_IMPLEMENTATION_CHECKLIST.md)
 
 ### For Admins/Users
 **Goal:** Configure organization branding
@@ -281,10 +283,10 @@ Allowing each organization to customize:
 → [Platform UI Guide - Using Dynamic Colors](WHITE_LABEL_PLATFORM_UI_GUIDE.md#using-dynamic-colors-in-your-components) ✨ **NEW**
 
 ### "What API endpoints are available?"
-→ [Usage Guide - API Reference](WHITE_LABEL_USAGE_GUIDE.md#api-reference)
+→ [API Documentation - REST API Endpoints](WHITE_LABEL_API_DOCS.md#rest-api-endpoints) ✨ **NEW**
 
 ### "How do I use branding in my React component?"
-→ [Usage Guide - Usage in Code](WHITE_LABEL_USAGE_GUIDE.md#usage-in-code)
+→ [API Documentation - React Hooks & Context](WHITE_LABEL_API_DOCS.md#react-hooks--context) ✨ **NEW**
 
 ### "What's the roadmap for future features?"
 → [Next Steps](WHITE_LABEL_NEXT_STEPS.md)

@@ -153,8 +153,7 @@ export async function middleware(request: NextRequest) {
       .from('user_roles')
       .select('role')
       .eq('user_id', user.id)
-      .is('expires_at', null)
-      .or(`expires_at.gt.${new Date().toISOString()}`)
+      .or(`expires_at.is.null,expires_at.gt.${new Date().toISOString()}`)
 
     console.log('[Middleware Roles]', {
       userRoles,
