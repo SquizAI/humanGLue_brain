@@ -1,8 +1,44 @@
 import type { Handler, HandlerEvent } from '@netlify/functions'
+import { createClient } from '@supabase/supabase-js'
 
-// For Netlify, we'll use a lightweight approach without Puppeteer
-// Instead, we'll use jsPDF or similar client-side generation
-// For now, return a simple text-based report that can be downloaded
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!
+
+interface OrgBranding {
+  company_name: string
+  tagline?: string
+  primary_color: string
+  secondary_color: string
+  logo_url: string
+  website: string
+  footer_text: string
+}
+
+/**
+ * Fetch organization branding configuration
+ * Falls back to HumanGlue defaults if not configured
+ */
+async function getOrgBranding(orgId: string): Promise<OrgBranding> {
+  const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY)
+
+  const { data } = await supabase
+    .from('organizations')
+    .select('settings, logo_url')
+    .eq('id', orgId)
+    .single()
+
+  const branding = data?.settings?.branding || {}
+
+  return {
+    company_name: branding.company_name || 'HumanGlue',
+    tagline: branding.tagline || 'Guiding Fortune 1000 companies of tomorrow, today',
+    primary_color: branding.colors?.primary || '#3b82f6',
+    secondary_color: branding.colors?.secondary || '#8b5cf6',
+    logo_url: data?.logo_url || branding.logo?.url || '/HumnaGlue_logo_white_blue.png',
+    website: branding.social?.website || 'https://humanglue.ai',
+    footer_text: branding.email?.footer_text || `© ${new Date().getFullYear()} HumanGlue. All rights reserved.`
+  }
+}
 
 export const handler: Handler = async (event: HandlerEvent) => {
   if (event.httpMethod !== 'POST') {
@@ -22,16 +58,25 @@ export const handler: Handler = async (event: HandlerEvent) => {
       }
     }
 
-    // Generate HTML for PDF
-    const html = generatePDFHTML(assessment)
+    if (!assessment.organizationId) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: 'Missing organizationId' })
+      }
+    }
 
-    // For Netlify, we'll return the HTML and let the client convert it
-    // This avoids heavy dependencies like Puppeteer
+    // Fetch organization branding
+    const branding = await getOrgBranding(assessment.organizationId)
+
+    // Generate HTML for PDF with org branding
+    const html = generatePDFHTML(assessment, branding)
+
+    // Return HTML with org-specific filename
     return {
       statusCode: 200,
       headers: {
         'Content-Type': 'text/html',
-        'Content-Disposition': `attachment; filename="HumanGlue_Assessment_${assessment.userData.company}_${Date.now()}.html"`
+        'Content-Disposition': `attachment; filename="${branding.company_name.replace(/[^a-z0-9]/gi, '_')}_Assessment_${assessment.userData.company.replace(/[^a-z0-9]/gi, '_')}_${Date.now()}.html"`
       },
       body: html
     }
@@ -48,7 +93,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
   }
 }
 
-function generatePDFHTML(assessment: any): string {
+function generatePDFHTML(assessment: any, branding: OrgBranding): string {
   const { userData, analysis } = assessment
 
   return `
@@ -73,19 +118,19 @@ function generatePDFHTML(assessment: any): string {
     .header {
       text-align: center;
       margin-bottom: 40px;
-      border-bottom: 3px solid #3b82f6;
+      border-bottom: 3px solid ${branding.primary_color};
       padding-bottom: 20px;
     }
     .logo {
       font-size: 32px;
       font-weight: bold;
-      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+      background: linear-gradient(135deg, ${branding.primary_color} 0%, ${branding.secondary_color} 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       margin-bottom: 10px;
     }
     .score-box {
-      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+      background: linear-gradient(135deg, ${branding.primary_color} 0%, ${branding.secondary_color} 100%);
       color: white;
       padding: 30px;
       border-radius: 12px;
@@ -135,14 +180,14 @@ function generatePDFHTML(assessment: any): string {
       margin: 10px 0;
       padding: 12px;
       background: #f9fafb;
-      border-left: 4px solid #3b82f6;
+      border-left: 4px solid ${branding.primary_color};
       border-radius: 4px;
     }
     .action-item {
       margin: 10px 0;
       padding: 12px;
       background: #f0f9ff;
-      border-left: 4px solid #8b5cf6;
+      border-left: 4px solid ${branding.secondary_color};
       border-radius: 4px;
     }
     .footer {
@@ -178,7 +223,7 @@ function generatePDFHTML(assessment: any): string {
 </head>
 <body>
   <div class="header">
-    <div class="logo">HumanGlue</div>
+    <div class="logo">${branding.company_name}</div>
     <h1>AI Transformation Assessment</h1>
     <p style="color: #6b7280; font-size: 16px;">${userData.name} | ${userData.company}</p>
     <p style="color: #9ca3af; font-size: 14px;">Generated on ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
@@ -296,13 +341,13 @@ function generatePDFHTML(assessment: any): string {
       <li>Identify quick wins that can deliver immediate value</li>
       <li>Answer any questions about AI transformation</li>
     </ul>
-    <p><strong>Ready to get started?</strong> Visit <a href="https://humanglue.ai">humanglue.ai</a> or email us at contact@humanglue.ai</p>
+    <p><strong>Ready to get started?</strong> Visit <a href="${branding.website}">${branding.website.replace('https://', '').replace('http://', '')}</a></p>
   </div>
 
   <div class="footer">
-    <p><strong>HumanGlue</strong> | Guiding Fortune 1000 companies of tomorrow, today</p>
+    <p><strong>${branding.company_name}</strong>${branding.tagline ? ' | ' + branding.tagline : ''}</p>
     <p>This assessment is confidential and intended for ${userData.name} at ${userData.company}</p>
-    <p>© ${new Date().getFullYear()} HumanGlue. All rights reserved.</p>
+    <p>${branding.footer_text}</p>
   </div>
 
   <script>

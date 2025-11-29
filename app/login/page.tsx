@@ -55,7 +55,7 @@ export default function LoginPage() {
     }
   }
 
-  const handleDemoLogin = async (role: 'client' | 'instructor' | 'expert' | 'admin') => {
+  const handleDemoLogin = async (role: 'client' | 'instructor' | 'expert' | 'admin' | 'super_admin_courses' | 'super_admin_full') => {
     // Demo credentials for each role
     const demoCredentials = {
       client: {
@@ -73,6 +73,14 @@ export default function LoginPage() {
       admin: {
         email: 'demo.admin@humanglue.com',
         password: 'DemoAdmin123!'
+      },
+      super_admin_courses: {
+        email: 'demo.superadmin.courses@humanglue.com',
+        password: 'SuperCourses123!'
+      },
+      super_admin_full: {
+        email: 'demo.superadmin.full@humanglue.com',
+        password: 'SuperFull123!'
       }
     }
 
@@ -367,7 +375,19 @@ export default function LoginPage() {
               onClick={() => handleDemoLogin('admin')}
               className="w-full py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-white font-medium transition-all font-diatype text-sm"
             >
-              Try Admin Demo
+              Try Admin Demo (HumanGlue Platform Admin)
+            </button>
+            <button
+              onClick={() => handleDemoLogin('super_admin_full')}
+              className="w-full py-3 bg-gradient-to-r from-green-900/30 to-green-800/30 hover:from-green-900/40 hover:to-green-800/40 border border-green-500/30 rounded-xl text-green-400 font-medium transition-all font-diatype text-sm"
+            >
+              Try Super Admin Demo (Full Access)
+            </button>
+            <button
+              onClick={() => handleDemoLogin('super_admin_courses')}
+              className="w-full py-3 bg-gradient-to-r from-purple-900/30 to-purple-800/30 hover:from-purple-900/40 hover:to-purple-800/40 border border-purple-500/30 rounded-xl text-purple-400 font-medium transition-all font-diatype text-sm"
+            >
+              Try Super Admin Demo (Courses Only)
             </button>
           </div>
 

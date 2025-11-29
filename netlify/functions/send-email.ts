@@ -1,5 +1,6 @@
 import { Handler } from '@netlify/functions'
 import * as nodemailer from 'nodemailer'
+import { createClient } from '@supabase/supabase-js'
 
 // Email configuration
 const EMAIL_CONFIG = {
@@ -9,6 +10,47 @@ const EMAIL_CONFIG = {
   auth: {
     user: process.env.EMAIL_USER || 'hmnglue@prjctcode.ai',
     pass: process.env.EMAIL_PASS || '@6^62zb21&1b'
+  }
+}
+
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!
+
+interface OrgBranding {
+  company_name: string
+  primary_color: string
+  secondary_color: string
+  logo_url: string
+  sender_name: string
+  sender_email: string
+  footer_text: string
+  website: string
+}
+
+/**
+ * Fetch organization branding configuration
+ * Falls back to HumanGlue defaults if not configured
+ */
+async function getOrgBranding(orgId: string): Promise<OrgBranding> {
+  const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY)
+
+  const { data } = await supabase
+    .from('organizations')
+    .select('settings, logo_url')
+    .eq('id', orgId)
+    .single()
+
+  const branding = data?.settings?.branding || {}
+
+  return {
+    company_name: branding.company_name || 'HumanGlue',
+    primary_color: branding.colors?.primary || '#3b82f6',
+    secondary_color: branding.colors?.secondary || '#8b5cf6',
+    logo_url: data?.logo_url || branding.logo?.url || '/HumnaGlue_logo_white_blue.png',
+    sender_name: branding.email?.sender_name || 'HumanGlue',
+    sender_email: branding.email?.sender_email || 'hmnglue@prjctcode.ai',
+    footer_text: branding.email?.footer_text || '© 2025 HumanGlue. All rights reserved.',
+    website: branding.social?.website || 'https://humanglue.ai'
   }
 }
 
@@ -22,17 +64,31 @@ export const handler: Handler = async (event, context) => {
   }
 
   try {
-    const { to, subject, content, html, replyTo } = JSON.parse(event.body || '{}')
+    const { to, subject, content, html, replyTo, organizationId } = JSON.parse(event.body || '{}')
 
     // Validate required fields
     if (!to || !subject || (!content && !html)) {
       return {
         statusCode: 400,
-        body: JSON.stringify({ 
-          error: 'Missing required fields: to, subject, and either content or html' 
+        body: JSON.stringify({
+          error: 'Missing required fields: to, subject, and either content or html'
         })
       }
     }
+
+    // Fetch organization branding (falls back to defaults if no organizationId)
+    const branding = organizationId
+      ? await getOrgBranding(organizationId)
+      : {
+          company_name: 'HumanGlue',
+          primary_color: '#3b82f6',
+          secondary_color: '#8b5cf6',
+          logo_url: '/HumnaGlue_logo_white_blue.png',
+          sender_name: 'HumanGlue',
+          sender_email: 'hmnglue@prjctcode.ai',
+          footer_text: '© 2025 HumanGlue. All rights reserved.',
+          website: 'https://humanglue.ai'
+        }
 
     // Create transporter
     const transporter = nodemailer.createTransport(EMAIL_CONFIG)

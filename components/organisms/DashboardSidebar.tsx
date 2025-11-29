@@ -711,8 +711,8 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
         </div>
       </div>
 
-      {/* Cart Drawer */}
-      <CartDrawer />
+      {/* Cart Drawer - Only for clients */}
+      {portalConfig.showCart && <CartDrawer />}
     </motion.aside>
 
       {/* Mobile Navigation - Shown on mobile only */}
