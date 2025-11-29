@@ -183,5 +183,146 @@ export const emailService = {
       subject,
       html,
     })
+  },
+
+  /**
+   * Send user invitation email with login credentials
+   */
+  async sendUserInvitation(
+    to: string,
+    invitation: {
+      inviterName: string
+      role: 'admin' | 'instructor' | 'expert' | 'client'
+      temporaryPassword: string
+      loginUrl: string
+      organizationName?: string
+    }
+  ): Promise<{ success: boolean; message: string }> {
+    const roleDescriptions = {
+      admin: 'Full platform administration access',
+      instructor: 'Create and manage courses, track student progress',
+      expert: 'Provide expert insights and consultations',
+      client: 'Access courses and track your learning journey'
+    }
+
+    const roleNextSteps = {
+      admin: `
+        <li>Access the Admin Portal to manage users and courses</li>
+        <li>Configure platform settings and permissions</li>
+        <li>View analytics and reports</li>
+      `,
+      instructor: `
+        <li>Access the Instructor Portal to create your first course</li>
+        <li>Set up your instructor profile</li>
+        <li>Explore the course creation tools</li>
+      `,
+      expert: `
+        <li>Access the Expert Portal to set up your profile</li>
+        <li>Define your areas of expertise</li>
+        <li>Start receiving consultation requests</li>
+      `,
+      client: `
+        <li>Browse available courses in your dashboard</li>
+        <li>Complete your profile setup</li>
+        <li>Start your first learning module</li>
+      `
+    }
+
+    const html = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Welcome to ${invitation.organizationName || 'HumanGlue'}</title>
+        </head>
+        <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f5f5f5;">
+          <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f5f5f5; padding: 40px 20px;">
+            <tr>
+              <td align="center">
+                <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+
+                  <!-- Header -->
+                  <tr>
+                    <td style="padding: 40px 40px 30px; text-align: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px 8px 0 0;">
+                      <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: 600;">Welcome to ${invitation.organizationName || 'HumanGlue'}!</h1>
+                    </td>
+                  </tr>
+
+                  <!-- Content -->
+                  <tr>
+                    <td style="padding: 40px;">
+                      <p style="margin: 0 0 20px; font-size: 16px; line-height: 1.6; color: #333333;">
+                        ${invitation.inviterName} has invited you to join ${invitation.organizationName || 'HumanGlue'} as a <strong>${invitation.role}</strong>.
+                      </p>
+
+                      <p style="margin: 0 0 30px; font-size: 14px; line-height: 1.6; color: #666666;">
+                        ${roleDescriptions[invitation.role]}
+                      </p>
+
+                      <!-- Credentials Box -->
+                      <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f8f9fa; border-left: 4px solid #667eea; border-radius: 4px; margin-bottom: 30px;">
+                        <tr>
+                          <td style="padding: 20px;">
+                            <p style="margin: 0 0 10px; font-size: 14px; font-weight: 600; color: #333333;">Your Login Credentials</p>
+                            <p style="margin: 0 0 8px; font-size: 14px; color: #666666;">
+                              <strong>Email:</strong> ${to}
+                            </p>
+                            <p style="margin: 0; font-size: 14px; color: #666666;">
+                              <strong>Temporary Password:</strong> <code style="background-color: #ffffff; padding: 4px 8px; border-radius: 4px; font-family: 'Courier New', monospace; color: #667eea; font-weight: 600;">${invitation.temporaryPassword}</code>
+                            </p>
+                            <p style="margin: 15px 0 0; font-size: 12px; color: #999999; font-style: italic;">
+                              ⚠️ Please change this password after your first login
+                            </p>
+                          </td>
+                        </tr>
+                      </table>
+
+                      <!-- CTA Button -->
+                      <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 30px;">
+                        <tr>
+                          <td align="center">
+                            <a href="${invitation.loginUrl}" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 16px;">
+                              Log In Now
+                            </a>
+                          </td>
+                        </tr>
+                      </table>
+
+                      <!-- Next Steps -->
+                      <div style="background-color: #f8f9fa; border-radius: 4px; padding: 20px; margin-bottom: 20px;">
+                        <p style="margin: 0 0 12px; font-size: 14px; font-weight: 600; color: #333333;">Next Steps:</p>
+                        <ol style="margin: 0; padding-left: 20px; font-size: 14px; line-height: 1.8; color: #666666;">
+                          ${roleNextSteps[invitation.role]}
+                        </ol>
+                      </div>
+
+                      <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #666666;">
+                        If you have any questions, feel free to reach out to ${invitation.inviterName} or our support team.
+                      </p>
+                    </td>
+                  </tr>
+
+                  <!-- Footer -->
+                  <tr>
+                    <td style="padding: 30px 40px; text-align: center; background-color: #f8f9fa; border-radius: 0 0 8px 8px;">
+                      <p style="margin: 0; font-size: 12px; color: #999999;">
+                        This invitation was sent by ${invitation.organizationName || 'HumanGlue'}
+                      </p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </body>
+      </html>
+    `
+
+    return this.sendEmail({
+      to,
+      subject: `Welcome to ${invitation.organizationName || 'HumanGlue'} - Your ${invitation.role} account is ready`,
+      html,
+    })
   }
 } 
