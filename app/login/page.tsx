@@ -55,7 +55,7 @@ export default function LoginPage() {
     }
   }
 
-  const handleDemoLogin = async (role: 'client' | 'instructor' | 'admin') => {
+  const handleDemoLogin = async (role: 'client' | 'instructor' | 'expert' | 'admin') => {
     // Demo credentials for each role
     const demoCredentials = {
       client: {
@@ -65,6 +65,10 @@ export default function LoginPage() {
       instructor: {
         email: 'demo.instructor@humanglue.com',
         password: 'DemoInstructor123!'
+      },
+      expert: {
+        email: 'demo.expert@humanglue.com',
+        password: 'Qw9r!Zt5Bp2L'
       },
       admin: {
         email: 'demo.admin@humanglue.com',
@@ -352,6 +356,12 @@ export default function LoginPage() {
               className="w-full py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-white font-medium transition-all font-diatype text-sm"
             >
               Try Instructor Demo
+            </button>
+            <button
+              onClick={() => handleDemoLogin('expert')}
+              className="w-full py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-white font-medium transition-all font-diatype text-sm"
+            >
+              Try Expert Demo
             </button>
             <button
               onClick={() => handleDemoLogin('admin')}
