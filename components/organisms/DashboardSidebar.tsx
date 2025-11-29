@@ -38,6 +38,7 @@ import { CartDrawer } from '@/components/organisms/CartDrawer'
 import { MobileDashboardNav } from '@/components/organisms/MobileDashboardNav'
 import { useSocial } from '@/lib/contexts/SocialContext'
 import { useChat } from '@/lib/contexts/ChatContext'
+import { usePermissions } from '@/lib/hooks/usePermissions'
 
 export interface DashboardSidebarProps {
   className?: string
@@ -336,6 +337,7 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
   const [isCollapsed, setIsCollapsed] = useState(false)
   const { savedCount } = useSocial()
   const { userData } = useChat()
+  const { canAccessFinancials, loading: permissionsLoading } = usePermissions()
 
   // Determine user role from userData OR pathname as fallback
   const isAdminFromData = userData?.isAdmin || userData?.role === 'admin' || userData?.userType === 'admin'
@@ -366,12 +368,21 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
   // Get portal title and navigation based on role
   const getPortalConfig = () => {
     if (isAdmin) {
+      // Filter admin system items based on permissions
+      const filteredAdminSystemItems = adminSystemItems.filter(item => {
+        // Hide payments & billing for users without financial access
+        if (item.href === '/admin/payments' && !canAccessFinancials && !permissionsLoading) {
+          return false
+        }
+        return true
+      })
+
       return {
         title: 'Admin Portal',
         sections: [
           { title: 'Dashboard', items: adminMainNavItems },
           { title: 'Content', items: adminContentItems },
-          { title: 'System', items: adminSystemItems },
+          { title: 'System', items: filteredAdminSystemItems },
           { title: 'Settings', items: adminAccountItems },
         ],
         showCart: false,
@@ -591,6 +602,38 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
             )}
           </motion.button>
         </div>
+
+        {/* User Profile Section */}
+        {!isCollapsed && (
+          <div className="px-4 py-4 border-b border-white/10">
+            <Link
+              href={
+                isAdmin ? '/admin/settings' :
+                isExpert ? '/expert/profile' :
+                isInstructor ? '/instructor/profile' :
+                '/dashboard/profile'
+              }
+            >
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                className="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-all cursor-pointer"
+              >
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-white font-bold text-sm">
+                  {userData?.name ? userData.name.charAt(0).toUpperCase() : 'U'}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-white font-diatype truncate">
+                    {userData?.name || 'User'}
+                  </p>
+                  <p className="text-xs text-gray-500 font-diatype">
+                    {isAdmin ? 'Admin' : isExpert ? 'Expert' : isInstructor ? 'Instructor' : 'Member'}
+                  </p>
+                </div>
+                <Settings className="w-4 h-4 text-gray-500" />
+              </motion.div>
+            </Link>
+          </div>
+        )}
 
         {/* Navigation - Role-based sections */}
         <div className="flex-1 overflow-y-auto py-6 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">

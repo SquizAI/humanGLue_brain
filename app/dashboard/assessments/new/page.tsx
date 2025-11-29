@@ -494,7 +494,9 @@ export default function NewAssessmentPage() {
       default:
         return false
     }
-  }  if (!assessmentStarted) {
+  }
+
+  if (!assessmentStarted) {
     return (
       <div className="min-h-screen bg-gray-950">
         <DashboardSidebar onLogout={handleLogout} />
