@@ -165,7 +165,7 @@ export default function InstructorCoursesPage() {
               <div>
                 <h1 className="text-3xl font-bold text-white mb-2 font-gendy">My Courses</h1>
                 <p className="text-gray-400 font-diatype">
-                  Manage your courses and track student progress ({courses.length} courses)
+                  Manage your courses and track student progress ({filteredCourses.length} of {courses.length} courses)
                 </p>
               </div>
               <div className="flex items-center gap-3">
@@ -256,9 +256,135 @@ export default function InstructorCoursesPage() {
             </motion.div>
           </div>
 
+          {/* Search and Filters */}
+          <div className="mb-8 space-y-4">
+            {/* Search Bar */}
+            <div className="flex items-center gap-4">
+              <div className="flex-1 relative">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search courses by title or category..."
+                  className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                />
+              </div>
+
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => setShowFilters(!showFilters)}
+                className={`px-6 py-3 rounded-xl transition-all flex items-center gap-2 font-diatype ${
+                  showFilters || selectedInstructor !== 'all' || selectedInstructorType !== 'all' || selectedContentType !== 'all'
+                    ? 'bg-purple-500/20 border border-purple-500/50 text-purple-300'
+                    : 'bg-gray-800 border border-white/10 text-gray-400 hover:bg-gray-700'
+                }`}
+              >
+                <Filter className="w-5 h-5" />
+                Filters
+                {(selectedInstructor !== 'all' || selectedInstructorType !== 'all' || selectedContentType !== 'all') && (
+                  <span className="px-2 py-0.5 bg-purple-500 text-white text-xs rounded-full">
+                    {[selectedInstructor !== 'all', selectedInstructorType !== 'all', selectedContentType !== 'all'].filter(Boolean).length}
+                  </span>
+                )}
+              </motion.button>
+            </div>
+
+            {/* Filter Panel */}
+            <AnimatePresence>
+              {showFilters && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="overflow-hidden"
+                >
+                  <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl p-6">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      {/* Instructor Filter */}
+                      <div>
+                        <label className="block text-sm font-medium text-gray-400 mb-3 font-diatype">
+                          Instructor Name
+                        </label>
+                        <select
+                          value={selectedInstructor}
+                          onChange={(e) => setSelectedInstructor(e.target.value)}
+                          className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                        >
+                          <option value="all">All Instructors</option>
+                          {uniqueInstructors.map((instructor) => (
+                            <option key={instructor} value={instructor}>
+                              {instructor}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+
+                      {/* Instructor Type Filter */}
+                      <div>
+                        <label className="block text-sm font-medium text-gray-400 mb-3 font-diatype">
+                          Instructor Type
+                        </label>
+                        <select
+                          value={selectedInstructorType}
+                          onChange={(e) => setSelectedInstructorType(e.target.value)}
+                          className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                        >
+                          <option value="all">All Types</option>
+                          {uniqueInstructorTypes.map((type) => (
+                            <option key={type} value={type}>
+                              {type}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+
+                      {/* Content Type Filter */}
+                      <div>
+                        <label className="block text-sm font-medium text-gray-400 mb-3 font-diatype">
+                          Content Type
+                        </label>
+                        <select
+                          value={selectedContentType}
+                          onChange={(e) => setSelectedContentType(e.target.value)}
+                          className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                        >
+                          <option value="all">All Types</option>
+                          {contentTypes.map((type) => (
+                            <option key={type} value={type}>
+                              {type.charAt(0).toUpperCase() + type.slice(1)}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+
+                    {/* Reset Filters Button */}
+                    {(selectedInstructor !== 'all' || selectedInstructorType !== 'all' || selectedContentType !== 'all') && (
+                      <div className="mt-6 flex justify-end">
+                        <button
+                          onClick={() => {
+                            setSelectedInstructor('all')
+                            setSelectedInstructorType('all')
+                            setSelectedContentType('all')
+                            setSearchQuery('')
+                          }}
+                          className="px-4 py-2 text-sm bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg transition-all font-diatype"
+                        >
+                          Reset All Filters
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
           {/* Courses Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {courses.map((course, index) => (
+            {filteredCourses.map((course, index) => (
               <motion.div
                 key={course.id}
                 initial={{ opacity: 0, y: 20 }}
@@ -292,10 +418,37 @@ export default function InstructorCoursesPage() {
 
                 {/* Course Info */}
                 <div className="p-6">
-                  <h3 className="text-xl font-bold text-white mb-2 font-gendy line-clamp-1">
-                    {course.title}
-                  </h3>
-                  <p className="text-sm text-gray-400 mb-4 font-diatype">{course.category}</p>
+                  <div className="flex items-start justify-between mb-2">
+                    <div className="flex-1">
+                      <h3 className="text-xl font-bold text-white mb-1 font-gendy line-clamp-1">
+                        {course.title}
+                      </h3>
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-sm text-gray-400 font-diatype">{course.category}</span>
+                        <span className="text-gray-600">•</span>
+                        <span
+                          className={`text-xs px-2 py-0.5 rounded-full font-semibold ${
+                            course.contentType === 'course'
+                              ? 'bg-blue-500/20 text-blue-300'
+                              : course.contentType === 'workshop'
+                              ? 'bg-purple-500/20 text-purple-300'
+                              : 'bg-green-500/20 text-green-300'
+                          }`}
+                        >
+                          {course.contentType}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm">
+                        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-white text-xs font-bold">
+                          {course.instructorName.split(' ').map((n) => n[0]).join('')}
+                        </div>
+                        <div>
+                          <p className="text-white font-medium font-diatype">{course.instructorName}</p>
+                          <p className="text-xs text-gray-500 font-diatype">{course.instructorType}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
                   {/* Stats Grid */}
                   <div className="grid grid-cols-2 gap-4 mb-4">
@@ -383,6 +536,39 @@ export default function InstructorCoursesPage() {
               </motion.div>
             ))}
           </div>
+
+          {/* Empty State */}
+          {filteredCourses.length === 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-16 text-center"
+            >
+              <div className="max-w-md mx-auto">
+                <div className="w-20 h-20 bg-gradient-to-br from-purple-500/20 to-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Filter className="w-10 h-10 text-gray-500" />
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-3 font-gendy">No courses found</h3>
+                <p className="text-gray-400 font-diatype mb-8">
+                  No courses match your current filters. Try adjusting your search or filter criteria.
+                </p>
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => {
+                    setSelectedInstructor('all')
+                    setSelectedInstructorType('all')
+                    setSelectedContentType('all')
+                    setSearchQuery('')
+                  }}
+                  className="px-6 py-3 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-purple-300 rounded-lg transition-all font-diatype inline-flex items-center gap-2"
+                >
+                  <X className="w-4 h-4" />
+                  Reset All Filters
+                </motion.button>
+              </div>
+            </motion.div>
+          )}
         </div>
       </div>
 

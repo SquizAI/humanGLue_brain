@@ -26,10 +26,20 @@ import {
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
 import { useChat } from '@/lib/contexts/ChatContext'
 import { signOut } from '@/lib/auth/hooks'
+import { usePermissions } from '@/lib/hooks/usePermissions'
 
 export default function AdminDashboard() {
   const router = useRouter()
   const { userData, authLoading } = useChat()
+  const {
+    canAccessFinancials,
+    canManageCourses,
+    canManageExperts,
+    canManageUsers,
+    isSuperAdminCourses,
+    loading: permissionsLoading
+  } = usePermissions()
+
   const [stats, setStats] = useState({
     totalCourses: 6,
     totalExperts: 6,
@@ -106,13 +116,15 @@ export default function AdminDashboard() {
     }
   }
 
-  const quickActions = [
+  // Filter quick actions based on permissions
+  const allQuickActions = [
     {
       title: 'Add New Course',
       description: 'Create a new course module',
       icon: PlayCircle,
       href: '/admin/courses/new',
       color: 'purple',
+      permission: 'canManageCourses',
     },
     {
       title: 'Add Expert',
@@ -120,6 +132,7 @@ export default function AdminDashboard() {
       icon: Users,
       href: '/admin/experts/new',
       color: 'blue',
+      permission: 'canManageExperts',
     },
     {
       title: 'Upload Content',
@@ -127,6 +140,7 @@ export default function AdminDashboard() {
       icon: Upload,
       href: '/admin/content',
       color: 'green',
+      permission: 'canManageCourses',
     },
     {
       title: 'View Analytics',
@@ -134,8 +148,18 @@ export default function AdminDashboard() {
       icon: BarChart3,
       href: '/admin/analytics',
       color: 'amber',
+      permission: null, // Always visible - analytics available to all admins
     },
   ]
+
+  // Filter actions based on user permissions
+  const quickActions = allQuickActions.filter(action => {
+    if (!action.permission) return true // No permission required
+    if (action.permission === 'canManageCourses') return canManageCourses
+    if (action.permission === 'canManageExperts') return canManageExperts
+    if (action.permission === 'canManageUsers') return canManageUsers
+    return false
+  })
 
   const recentActivity = [
     { id: 1, action: 'New course enrolled', user: 'Sarah Mitchell', time: '5 min ago' },
@@ -154,7 +178,23 @@ export default function AdminDashboard() {
           <div className="px-8 py-6">
             <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-3xl font-bold text-white mb-2 font-gendy">Admin Dashboard</h1>
+                <div className="flex items-center gap-3 mb-2">
+                  <h1 className="text-3xl font-bold text-white font-gendy">Admin Dashboard</h1>
+                  {!permissionsLoading && (
+                    <>
+                      {isSuperAdminCourses && (
+                        <span className="px-3 py-1 bg-purple-500/20 text-purple-400 rounded-full text-sm font-medium border border-purple-500/30">
+                          Course Management Only
+                        </span>
+                      )}
+                      {canAccessFinancials && !isSuperAdminCourses && (
+                        <span className="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-sm font-medium border border-green-500/30">
+                          Full Access
+                        </span>
+                      )}
+                    </>
+                  )}
+                </div>
                 <p className="text-gray-400 font-diatype">Manage your platform content and users</p>
               </div>
               <div className="flex items-center gap-3">
@@ -236,27 +276,29 @@ export default function AdminDashboard() {
               </div>
             </motion.div>
 
-            {/* Revenue */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="bg-gradient-to-br from-amber-900/30 to-amber-900/10 backdrop-blur-xl border border-amber-500/20 rounded-2xl p-6"
-            >
-              <div className="flex items-center justify-between mb-4">
-                <div className="p-3 bg-amber-500/20 rounded-xl">
-                  <DollarSign className="w-6 h-6 text-amber-400" />
+            {/* Revenue - Only visible to users with financial access */}
+            {canAccessFinancials && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="bg-gradient-to-br from-amber-900/30 to-amber-900/10 backdrop-blur-xl border border-amber-500/20 rounded-2xl p-6"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <div className="p-3 bg-amber-500/20 rounded-xl">
+                    <DollarSign className="w-6 h-6 text-amber-400" />
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm text-gray-400 font-diatype">Monthly Revenue</p>
+                    <p className="text-3xl font-bold text-white font-gendy">${(stats.totalRevenue / 1000).toFixed(0)}k</p>
+                  </div>
                 </div>
-                <div className="text-right">
-                  <p className="text-sm text-gray-400 font-diatype">Monthly Revenue</p>
-                  <p className="text-3xl font-bold text-white font-gendy">${(stats.totalRevenue / 1000).toFixed(0)}k</p>
+                <div className="flex items-center gap-2 text-sm">
+                  <TrendingUp className="w-4 h-4 text-green-400" />
+                  <span className="text-green-400 font-diatype">+18% vs last month</span>
                 </div>
-              </div>
-              <div className="flex items-center gap-2 text-sm">
-                <TrendingUp className="w-4 h-4 text-green-400" />
-                <span className="text-green-400 font-diatype">+18% vs last month</span>
-              </div>
-            </motion.div>
+              </motion.div>
+            )}
 
             {/* Active Sessions */}
             <motion.div
@@ -344,50 +386,59 @@ export default function AdminDashboard() {
               </div>
 
               <div className="space-y-4">
-                <Link href="/admin/courses">
-                  <div className="flex items-center justify-between p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-all group cursor-pointer">
-                    <div className="flex items-center gap-4">
-                      <div className="p-2 bg-purple-500/20 rounded-lg">
-                        <PlayCircle className="w-5 h-5 text-purple-400" />
+                {/* Manage Courses - Only visible to users who can manage courses */}
+                {canManageCourses && (
+                  <Link href="/admin/courses">
+                    <div className="flex items-center justify-between p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-all group cursor-pointer">
+                      <div className="flex items-center gap-4">
+                        <div className="p-2 bg-purple-500/20 rounded-lg">
+                          <PlayCircle className="w-5 h-5 text-purple-400" />
+                        </div>
+                        <div>
+                          <h3 className="text-white font-semibold font-diatype">Manage Courses</h3>
+                          <p className="text-sm text-gray-400 font-diatype">{stats.totalCourses} active courses</p>
+                        </div>
                       </div>
-                      <div>
-                        <h3 className="text-white font-semibold font-diatype">Manage Courses</h3>
-                        <p className="text-sm text-gray-400 font-diatype">{stats.totalCourses} active courses</p>
-                      </div>
+                      <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
                     </div>
-                    <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
-                  </div>
-                </Link>
+                  </Link>
+                )}
 
-                <Link href="/admin/experts">
-                  <div className="flex items-center justify-between p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-all group cursor-pointer">
-                    <div className="flex items-center gap-4">
-                      <div className="p-2 bg-blue-500/20 rounded-lg">
-                        <Users className="w-5 h-5 text-blue-400" />
+                {/* Manage Experts - Only visible to users who can manage experts */}
+                {canManageExperts && (
+                  <Link href="/admin/experts">
+                    <div className="flex items-center justify-between p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-all group cursor-pointer">
+                      <div className="flex items-center gap-4">
+                        <div className="p-2 bg-blue-500/20 rounded-lg">
+                          <Users className="w-5 h-5 text-blue-400" />
+                        </div>
+                        <div>
+                          <h3 className="text-white font-semibold font-diatype">Manage Experts</h3>
+                          <p className="text-sm text-gray-400 font-diatype">{stats.totalExperts} expert profiles</p>
+                        </div>
                       </div>
-                      <div>
-                        <h3 className="text-white font-semibold font-diatype">Manage Experts</h3>
-                        <p className="text-sm text-gray-400 font-diatype">{stats.totalExperts} expert profiles</p>
-                      </div>
+                      <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
                     </div>
-                    <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
-                  </div>
-                </Link>
+                  </Link>
+                )}
 
-                <Link href="/admin/content">
-                  <div className="flex items-center justify-between p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-all group cursor-pointer">
-                    <div className="flex items-center gap-4">
-                      <div className="p-2 bg-green-500/20 rounded-lg">
-                        <FileText className="w-5 h-5 text-green-400" />
+                {/* Upload Content - Only visible to users who can manage courses */}
+                {canManageCourses && (
+                  <Link href="/admin/content">
+                    <div className="flex items-center justify-between p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-all group cursor-pointer">
+                      <div className="flex items-center gap-4">
+                        <div className="p-2 bg-green-500/20 rounded-lg">
+                          <FileText className="w-5 h-5 text-green-400" />
+                        </div>
+                        <div>
+                          <h3 className="text-white font-semibold font-diatype">Upload Content</h3>
+                          <p className="text-sm text-gray-400 font-diatype">Videos, documents & materials</p>
+                        </div>
                       </div>
-                      <div>
-                        <h3 className="text-white font-semibold font-diatype">Upload Content</h3>
-                        <p className="text-sm text-gray-400 font-diatype">Videos, documents & materials</p>
-                      </div>
+                      <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
                     </div>
-                    <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
-                  </div>
-                </Link>
+                  </Link>
+                )}
               </div>
             </div>
 

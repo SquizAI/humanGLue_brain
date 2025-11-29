@@ -1,15 +1,59 @@
 import type { Handler, HandlerEvent } from '@netlify/functions'
+import { createClient } from '@supabase/supabase-js'
 
 // Email service - using Resend for Netlify compatibility
 const RESEND_API_KEY = process.env.RESEND_API_KEY
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!
 
 interface AssessmentEmailData {
   to: string
   name: string
   company: string
+  organizationId: string // NEW: Required for branding lookup
   assessmentId: string
   score: number
   resultsUrl: string
+}
+
+interface OrgBranding {
+  company_name: string
+  primary_color: string
+  secondary_color: string
+  logo_url: string
+  sender_name: string
+  sender_email: string
+  support_email: string
+  footer_text: string
+  website: string
+}
+
+/**
+ * Fetch organization branding configuration
+ * Falls back to HumanGlue defaults if not configured
+ */
+async function getOrgBranding(orgId: string): Promise<OrgBranding> {
+  const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY)
+
+  const { data } = await supabase
+    .from('organizations')
+    .select('settings, logo_url')
+    .eq('id', orgId)
+    .single()
+
+  const branding = data?.settings?.branding || {}
+
+  return {
+    company_name: branding.company_name || 'HumanGlue',
+    primary_color: branding.colors?.primary || '#3b82f6',
+    secondary_color: branding.colors?.secondary || '#8b5cf6',
+    logo_url: data?.logo_url || branding.logo?.url || '/HumnaGlue_logo_white_blue.png',
+    sender_name: branding.email?.sender_name || 'HumanGlue',
+    sender_email: branding.email?.sender_email || 'onboarding@humanglue.ai',
+    support_email: branding.email?.support_email || 'support@humanglue.ai',
+    footer_text: branding.email?.footer_text || '© 2025 HumanGlue. All rights reserved.',
+    website: branding.social?.website || 'https://humanglue.ai'
+  }
 }
 
 export const handler: Handler = async (event: HandlerEvent) => {
@@ -24,12 +68,15 @@ export const handler: Handler = async (event: HandlerEvent) => {
   try {
     const data: AssessmentEmailData = JSON.parse(event.body || '{}')
 
-    if (!data.to || !data.name || !data.assessmentId) {
+    if (!data.to || !data.name || !data.assessmentId || !data.organizationId) {
       return {
         statusCode: 400,
-        body: JSON.stringify({ error: 'Missing required fields' })
+        body: JSON.stringify({ error: 'Missing required fields (to, name, assessmentId, organizationId)' })
       }
     }
+
+    // Fetch organization branding
+    const branding = await getOrgBranding(data.organizationId)
 
     // Check if Resend API key is configured
     if (!RESEND_API_KEY) {
@@ -43,7 +90,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
       }
     }
 
-    // Send email using Resend API
+    // Send email using Resend API with org-specific branding
     const emailResponse = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
@@ -51,10 +98,10 @@ export const handler: Handler = async (event: HandlerEvent) => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        from: 'HumanGlue <onboarding@humanglue.ai>',
+        from: `${branding.sender_name} <${branding.sender_email}>`,
         to: [data.to],
         subject: `Your AI Transformation Assessment Results - ${data.company}`,
-        html: generateEmailHTML(data)
+        html: generateEmailHTML(data, branding)
       })
     })
 
@@ -87,7 +134,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
   }
 }
 
-function generateEmailHTML(data: AssessmentEmailData): string {
+function generateEmailHTML(data: AssessmentEmailData, branding: OrgBranding): string {
   return `
 <!DOCTYPE html>
 <html>
@@ -118,14 +165,14 @@ function generateEmailHTML(data: AssessmentEmailData): string {
     .logo {
       font-size: 28px;
       font-weight: bold;
-      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+      background: linear-gradient(135deg, ${branding.primary_color} 0%, ${branding.secondary_color} 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       margin-bottom: 10px;
     }
     .score-badge {
       display: inline-block;
-      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+      background: linear-gradient(135deg, ${branding.primary_color} 0%, ${branding.secondary_color} 100%);
       color: white;
       padding: 12px 24px;
       border-radius: 50px;
@@ -146,7 +193,7 @@ function generateEmailHTML(data: AssessmentEmailData): string {
     }
     .cta-button {
       display: inline-block;
-      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+      background: linear-gradient(135deg, ${branding.primary_color} 0%, ${branding.secondary_color} 100%);
       color: white;
       text-decoration: none;
       padding: 14px 32px;
@@ -168,13 +215,13 @@ function generateEmailHTML(data: AssessmentEmailData): string {
 <body>
   <div class="container">
     <div class="header">
-      <div class="logo">HumanGlue</div>
+      <div class="logo">${branding.company_name}</div>
       <h1 style="color: #111827; margin: 0;">Your AI Transformation Assessment</h1>
     </div>
 
     <p>Hi ${data.name},</p>
 
-    <p>Thank you for completing your AI transformation assessment with HumanGlue. We've analyzed ${data.company}'s readiness for AI adoption and created a personalized transformation roadmap.</p>
+    <p>Thank you for completing your AI transformation assessment. We've analyzed ${data.company}'s readiness for AI adoption and created a personalized transformation roadmap.</p>
 
     <div style="text-align: center;">
       <div class="score-badge">
@@ -213,11 +260,12 @@ function generateEmailHTML(data: AssessmentEmailData): string {
 
     <div class="footer">
       <p>
-        <strong>HumanGlue</strong><br>
-        Guiding Fortune 1000 companies of tomorrow, today
+        <strong>${branding.company_name}</strong><br>
+        ${branding.footer_text}
       </p>
       <p style="font-size: 12px; color: #9ca3af;">
-        This email was sent to ${data.to} because you completed an assessment on HumanGlue.ai
+        This email was sent to ${data.to} because you completed an assessment.<br>
+        For support, contact <a href="mailto:${branding.support_email}" style="color: ${branding.primary_color};">${branding.support_email}</a>
       </p>
     </div>
   </div>
