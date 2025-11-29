@@ -40,6 +40,49 @@ export function BrandingSettings({ organizationId }: BrandingSettingsProps) {
     }
   }, [contextBranding])
 
+  // Fetch custom domain on load
+  useEffect(() => {
+    async function fetchCustomDomain() {
+      try {
+        const response = await fetch(`/api/organizations/${organizationId}/domain`)
+        if (response.ok) {
+          const data = await response.json()
+          setCustomDomain(data.domain || '')
+        }
+      } catch (error) {
+        console.error('Failed to fetch custom domain:', error)
+      }
+    }
+    fetchCustomDomain()
+  }, [organizationId])
+
+  // Save custom domain
+  const handleSaveDomain = async () => {
+    setIsDomainSaving(true)
+    setDomainError(null)
+    setDomainSuccess(false)
+
+    try {
+      const response = await fetch(`/api/organizations/${organizationId}/domain`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ domain: customDomain || null })
+      })
+
+      if (!response.ok) {
+        const error = await response.json()
+        throw new Error(error.error || 'Failed to save domain')
+      }
+
+      setDomainSuccess(true)
+      setTimeout(() => setDomainSuccess(false), 3000)
+    } catch (error) {
+      setDomainError(error instanceof Error ? error.message : 'Failed to save domain')
+    } finally {
+      setIsDomainSaving(false)
+    }
+  }
+
   // Validate email format
   const isValidEmail = (email: string): boolean => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)

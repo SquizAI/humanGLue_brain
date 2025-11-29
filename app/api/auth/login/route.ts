@@ -104,19 +104,20 @@ export async function POST(request: NextRequest) {
       throw profileError
     }
 
-    // Check if user has instructor profile
-    const { data: instructorProfile } = await supabase
-      .from('instructor_profiles')
-      .select('id')
+    // Fetch all active roles for the user (multi-role support)
+    const { data: userRoles } = await supabase
+      .from('user_roles')
+      .select('role')
       .eq('user_id', authData.user.id)
-      .single()
+      .is('expires_at', null)
+      .or(`expires_at.gt.${new Date().toISOString()}`)
 
-    // Check if user has expert profile
-    const { data: expertProfile } = await supabase
-      .from('expert_profiles')
-      .select('id')
-      .eq('user_id', authData.user.id)
-      .single()
+    // Extract active roles into array
+    const activeRoles = (userRoles || []).map(r => r.role)
+    const hasAdminRole = activeRoles.includes('admin')
+    const hasInstructorRole = activeRoles.includes('instructor')
+    const hasExpertRole = activeRoles.includes('expert')
+    const hasClientRole = activeRoles.includes('client') || activeRoles.includes('user')
 
     // Update last login timestamp
     await supabase
@@ -124,40 +125,21 @@ export async function POST(request: NextRequest) {
       .update({ updated_at: new Date().toISOString() })
       .eq('id', authData.user.id)
 
-    // Determine application role for redirect
-    let role: 'admin' | 'super_admin' | 'instructor' | 'expert' | 'org_admin' | 'client'
+    // Determine primary role for redirect (priority: admin > instructor > expert > client)
+    let role: 'admin' | 'instructor' | 'expert' | 'client'
+    let redirectPath = '/dashboard'
 
-    // Admin hierarchy (platform-level)
-    if (profile.role === 'admin') {
+    if (hasAdminRole) {
       role = 'admin'
-    } else if (profile.role === 'super_admin_full' || profile.role === 'super_admin_courses') {
-      role = 'super_admin'
-    }
-    // Role-specific profiles
-    else if (instructorProfile) {
+      redirectPath = '/admin'
+    } else if (hasInstructorRole) {
       role = 'instructor'
-    } else if (expertProfile || profile.role === 'expert') {
+      redirectPath = '/instructor'
+    } else if (hasExpertRole) {
       role = 'expert'
-    }
-    // Organization-level roles
-    else if (profile.role === 'org_admin') {
-      role = 'org_admin'
+      redirectPath = '/expert'
     } else {
       role = 'client'
-    }
-
-    // Determine redirect path
-    let redirectPath = '/dashboard'
-    if (role === 'admin' || role === 'super_admin') {
-      redirectPath = '/admin'
-    } else if (role === 'instructor') {
-      redirectPath = '/instructor'
-    } else if (role === 'expert') {
-      redirectPath = '/expert'
-    } else if (role === 'org_admin') {
-      // Org admins use dashboard but with elevated permissions
-      redirectPath = '/dashboard'
-    } else {
       redirectPath = '/dashboard'
     }
 
