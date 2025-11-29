@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import {
@@ -29,7 +29,6 @@ import {
   PlayCircle,
 } from 'lucide-react'
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
-import { useChat } from '@/lib/contexts/ChatContext'
 import { cn } from '@/utils/cn'
 import Image from 'next/image'
 
@@ -294,8 +293,9 @@ type SortBy = 'name' | 'progress' | 'engagement' | 'lastActive'
 
 export default function InstructorStudentsPage() {
   const router = useRouter()
-  const { userData } = useChat()
 
+  // Trust middleware protection - no need for client-side auth checks
+  // Middleware already validates access before page loads
   // State management
   const [students] = useState(mockStudents)
   const [searchQuery, setSearchQuery] = useState('')
@@ -311,16 +311,6 @@ export default function InstructorStudentsPage() {
   const [bulkEmailMessage, setBulkEmailMessage] = useState('')
 
   // Auth check
-  useEffect(() => {
-    if (!userData?.isInstructor) {
-      router.push('/login')
-    }
-  }, [userData, router])
-
-  if (!userData?.isInstructor) {
-    return null
-  }
-
   const handleLogout = () => {
     localStorage.removeItem('humanglue_user')
     router.push('/login')

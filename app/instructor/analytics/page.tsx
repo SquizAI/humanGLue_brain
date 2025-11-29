@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import {
@@ -27,7 +27,6 @@ import {
   TrendingDown as ArrowDown,
 } from 'lucide-react'
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
-import { useChat } from '@/lib/contexts/ChatContext'
 import {
   LineChart,
   Line,
@@ -161,21 +160,11 @@ type TimeRange = '7d' | '30d' | '90d' | '1y' | 'all'
 
 export default function InstructorAnalyticsPage() {
   const router = useRouter()
-  const { userData } = useChat()
-  const [timeRange, setTimeRange] = useState<TimeRange>('30d')
+
+  // Trust middleware protection - no need for client-side auth checks
+  // Middleware already validates access before page loads  const [timeRange, setTimeRange] = useState<TimeRange>('30d')
   const [showDatePicker, setShowDatePicker] = useState(false)
   const [expandedCourse, setExpandedCourse] = useState<string | null>(null)
-
-  useEffect(() => {
-    if (!userData?.isInstructor) {
-      router.push('/login')
-    }
-  }, [userData, router])
-
-  if (!userData?.isInstructor) {
-    return null
-  }
-
   const handleLogout = () => {
     localStorage.removeItem('humanglue_user')
     router.push('/login')

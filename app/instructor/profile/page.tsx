@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useRef } from 'react'
+import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
@@ -35,7 +35,6 @@ import {
   Languages,
 } from 'lucide-react'
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
-import { useChat } from '@/lib/contexts/ChatContext'
 import { cn } from '@/utils/cn'
 import Image from 'next/image'
 
@@ -82,8 +81,9 @@ const MOCK_PROFILE = {
 
 export default function InstructorProfilePage() {
   const router = useRouter()
-  const { userData } = useChat()
-  const [isPreviewMode, setIsPreviewMode] = useState(false)
+
+  // Trust middleware protection - no need for client-side auth checks
+  // Middleware already validates access before page loads  const [isPreviewMode, setIsPreviewMode] = useState(false)
   const [hasChanges, setHasChanges] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
   const [profile, setProfile] = useState(MOCK_PROFILE)
@@ -93,17 +93,6 @@ export default function InstructorProfilePage() {
 
   const avatarInputRef = useRef<HTMLInputElement>(null)
   const coverInputRef = useRef<HTMLInputElement>(null)
-
-  useEffect(() => {
-    if (!userData?.isInstructor) {
-      router.push('/login')
-    }
-  }, [userData, router])
-
-  if (!userData?.isInstructor) {
-    return null
-  }
-
   const handleLogout = () => {
     localStorage.removeItem('humanglue_user')
     router.push('/login')

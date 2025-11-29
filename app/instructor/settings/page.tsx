@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
@@ -28,7 +28,6 @@ import {
   ChevronRight,
 } from 'lucide-react'
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
-import { useChat } from '@/lib/contexts/ChatContext'
 import { cn } from '@/utils/cn'
 
 // Mock initial settings
@@ -85,8 +84,9 @@ type TabType = 'general' | 'notifications' | 'privacy' | 'payment' | 'teaching' 
 
 export default function InstructorSettingsPage() {
   const router = useRouter()
-  const { userData } = useChat()
-  const [activeTab, setActiveTab] = useState<TabType>('general')
+
+  // Trust middleware protection - no need for client-side auth checks
+  // Middleware already validates access before page loads  const [activeTab, setActiveTab] = useState<TabType>('general')
   const [settings, setSettings] = useState(MOCK_SETTINGS)
   const [hasChanges, setHasChanges] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
@@ -99,17 +99,6 @@ export default function InstructorSettingsPage() {
     new: '',
     confirm: '',
   })
-
-  useEffect(() => {
-    if (!userData?.isInstructor) {
-      router.push('/login')
-    }
-  }, [userData, router])
-
-  if (!userData?.isInstructor) {
-    return null
-  }
-
   const handleLogout = () => {
     localStorage.removeItem('humanglue_user')
     router.push('/login')

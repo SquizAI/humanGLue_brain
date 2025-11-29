@@ -1,26 +1,15 @@
 'use client'
 
-import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { ArrowLeft, Edit } from 'lucide-react'
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
-import { useChat } from '@/lib/contexts/ChatContext'
 
 export default function CreateCoursePage() {
   const router = useRouter()
-  const { userData } = useChat()
 
-  useEffect(() => {
-    if (!userData?.isInstructor) {
-      router.push('/login')
-    }
-  }, [userData, router])
-
-  if (!userData?.isInstructor) {
-    return null
-  }
-
+  // Trust middleware protection - no need for client-side auth checks
+  // Middleware already validates access before page loads
   const handleLogout = () => {
     localStorage.removeItem('humanglue_user')
     router.push('/login')

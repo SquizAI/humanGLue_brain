@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -21,7 +21,6 @@ import {
   BarChart3,
 } from 'lucide-react'
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
-import { useChat } from '@/lib/contexts/ChatContext'
 
 type WorkshopStatus = 'upcoming' | 'in-progress' | 'completed'
 type WorkshopType = 'online' | 'in-person' | 'hybrid'
@@ -100,22 +99,12 @@ const instructorWorkshops: Workshop[] = [
 
 export default function InstructorWorkshopsPage() {
   const router = useRouter()
-  const { userData } = useChat()
-  const [workshops] = useState<Workshop[]>(instructorWorkshops)
+
+  // Trust middleware protection - no need for client-side auth checks
+  // Middleware already validates access before page loads  const [workshops] = useState<Workshop[]>(instructorWorkshops)
   const [selectedWorkshop, setSelectedWorkshop] = useState<Workshop | null>(null)
   const [showDetailsModal, setShowDetailsModal] = useState(false)
   const [selectedTab, setSelectedTab] = useState<'all' | 'upcoming' | 'completed'>('all')
-
-  useEffect(() => {
-    if (!userData?.isInstructor) {
-      router.push('/login')
-    }
-  }, [userData, router])
-
-  if (!userData?.isInstructor) {
-    return null
-  }
-
   const handleLogout = () => {
     localStorage.removeItem('humanglue_user')
     router.push('/login')
