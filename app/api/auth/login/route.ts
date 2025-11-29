@@ -111,6 +111,13 @@ export async function POST(request: NextRequest) {
       .eq('user_id', authData.user.id)
       .single()
 
+    // Check if user has expert profile
+    const { data: expertProfile } = await supabase
+      .from('expert_profiles')
+      .select('id')
+      .eq('user_id', authData.user.id)
+      .single()
+
     // Update last login timestamp
     await supabase
       .from('users')
@@ -118,11 +125,13 @@ export async function POST(request: NextRequest) {
       .eq('id', authData.user.id)
 
     // Determine application role for redirect
-    let role: 'admin' | 'instructor' | 'client'
+    let role: 'admin' | 'instructor' | 'expert' | 'client'
     if (profile.role === 'admin') {
       role = 'admin'
     } else if (instructorProfile) {
       role = 'instructor'
+    } else if (expertProfile || profile.role === 'expert') {
+      role = 'expert'
     } else {
       role = 'client'
     }
@@ -133,6 +142,8 @@ export async function POST(request: NextRequest) {
       redirectPath = '/admin'
     } else if (role === 'instructor') {
       redirectPath = '/instructor'
+    } else if (role === 'expert') {
+      redirectPath = '/expert'
     } else {
       redirectPath = '/dashboard'
     }
