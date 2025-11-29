@@ -627,6 +627,105 @@ export function BrandingSettings({ organizationId }: BrandingSettingsProps) {
                 </div>
               </div>
             )}
+
+            {/* Domain Tab */}
+            {activeTab === 'domain' && (
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-lg font-bold text-white font-gendy">Custom Domain</h3>
+                  <p className="text-sm text-gray-400 font-diatype mt-2">
+                    Configure a custom domain for white-label access to the platform
+                  </p>
+                </div>
+
+                {/* Domain Input */}
+                <div>
+                  <label className="block text-sm font-semibold text-white mb-2 font-diatype">
+                    Domain <span className="text-gray-500 font-normal">(optional)</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={customDomain}
+                    onChange={(e) => setCustomDomain(e.target.value)}
+                    placeholder="platform.yourcompany.com"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all font-diatype"
+                  />
+                  <p className="text-xs text-gray-500 mt-2 font-diatype">
+                    Enter your custom domain without https:// (e.g., platform.yourcompany.com)
+                  </p>
+                </div>
+
+                {/* Success Message */}
+                {domainSuccess && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="bg-green-500/20 border border-green-500/30 rounded-xl p-4"
+                  >
+                    <div className="flex items-center gap-3">
+                      <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
+                      <p className="text-green-400 font-diatype">
+                        Custom domain saved successfully!
+                      </p>
+                    </div>
+                  </motion.div>
+                )}
+
+                {/* Error Message */}
+                {domainError && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="bg-red-500/20 border border-red-500/30 rounded-xl p-4"
+                  >
+                    <div className="flex items-center gap-3">
+                      <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0" />
+                      <p className="text-red-400 font-diatype">{domainError}</p>
+                    </div>
+                  </motion.div>
+                )}
+
+                {/* DNS Setup Instructions */}
+                <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-6 space-y-4">
+                  <div className="flex items-start gap-3">
+                    <AlertCircle className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
+                    <div>
+                      <h4 className="text-blue-400 font-semibold mb-2 font-diatype">DNS Configuration Required</h4>
+                      <p className="text-sm text-gray-400 font-diatype mb-3">
+                        After saving your custom domain, you'll need to configure DNS settings:
+                      </p>
+                      <ol className="text-sm text-gray-400 font-diatype space-y-2 list-decimal list-inside">
+                        <li>Add a CNAME record pointing to <code className="text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded">hmnglue.com</code></li>
+                        <li>Wait for DNS propagation (typically 5-30 minutes)</li>
+                        <li>SSL certificate will be automatically provisioned</li>
+                        <li>Access the platform at your custom domain</li>
+                      </ol>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Save Button */}
+                <div className="flex justify-end pt-4">
+                  <button
+                    onClick={handleSaveDomain}
+                    disabled={isDomainSaving}
+                    className="px-6 py-3 bg-gradient-to-r from-purple-500 to-cyan-500 hover:from-purple-600 hover:to-cyan-600 text-white font-semibold rounded-xl transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed font-diatype"
+                  >
+                    {isDomainSaving ? (
+                      <>
+                        <RefreshCw className="w-5 h-5 animate-spin" />
+                        Saving...
+                      </>
+                    ) : (
+                      <>
+                        <Save className="w-5 h-5" />
+                        Save Domain
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
