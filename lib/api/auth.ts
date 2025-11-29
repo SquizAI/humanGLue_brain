@@ -23,28 +23,44 @@ export async function getAuthUser(): Promise<User> {
 }
 
 /**
- * Check if user has specific role
+ * Get all active roles for a user
  */
-export async function checkUserRole(
-  userId: string,
-  allowedRoles: string[]
-): Promise<{ hasRole: boolean; role?: string }> {
+export async function getUserRoles(
+  userId: string
+): Promise<string[]> {
   const supabase = await createClient()
 
-  const { data: userRole, error } = await supabase
+  const { data: userRoles, error } = await supabase
     .from('user_roles')
     .select('role')
     .eq('user_id', userId)
     .is('expires_at', null)
     .or(`expires_at.gt.${new Date().toISOString()}`)
-    .single()
 
-  if (error || !userRole) {
-    return { hasRole: false }
+  if (error || !userRoles) {
+    return []
   }
 
-  const hasRole = allowedRoles.includes(userRole.role)
-  return { hasRole, role: userRole.role }
+  return userRoles.map(r => r.role)
+}
+
+/**
+ * Check if user has specific role (supports multi-role)
+ */
+export async function checkUserRole(
+  userId: string,
+  allowedRoles: string[]
+): Promise<{ hasRole: boolean; role?: string; roles: string[] }> {
+  const roles = await getUserRoles(userId)
+
+  // Check if user has any of the allowed roles
+  const matchingRole = roles.find(role => allowedRoles.includes(role))
+
+  return {
+    hasRole: !!matchingRole,
+    role: matchingRole,
+    roles: roles
+  }
 }
 
 /**

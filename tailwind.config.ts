@@ -52,6 +52,10 @@ const config: Config = {
           'dark': '#1D212A',
           'gray': '#4D4D4D',
           'light': '#F2F2F2',
+          // Dynamic branding colors (set via CSS variables by BrandingInjector)
+          'primary': 'var(--color-primary, #3b82f6)',
+          'secondary': 'var(--color-secondary, #8b5cf6)',
+          'accent': 'var(--color-accent, #10b981)',
         },
         'humanglue-blue': '#4285F4',
         'humanglue-green': '#34A853',
@@ -68,7 +72,12 @@ const config: Config = {
         'glass': {
           'white': 'rgba(255, 255, 255, 0.05)',
           'dark': 'rgba(0, 0, 0, 0.3)',
-        }
+        },
+        // White-label dynamic colors
+        // Use these for components that should adapt to organization branding
+        'org-primary': 'var(--color-primary, #3b82f6)',
+        'org-secondary': 'var(--color-secondary, #8b5cf6)',
+        'org-accent': 'var(--color-accent, #10b981)',
       },
       animation: {
         'typing': 'typing 1.5s steps(30, end) infinite',

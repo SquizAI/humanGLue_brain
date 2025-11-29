@@ -30,6 +30,8 @@ import {
   Globe,
   DollarSign,
   Clock,
+  ChevronDown,
+  Check,
 } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
@@ -335,39 +337,75 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
   const pathname = usePathname()
   const [hoveredItem, setHoveredItem] = useState<string | null>(null)
   const [isCollapsed, setIsCollapsed] = useState(false)
+  const [showRoleSwitcher, setShowRoleSwitcher] = useState(false)
   const { savedCount } = useSocial()
   const { userData } = useChat()
   const { canAccessFinancials, loading: permissionsLoading } = usePermissions()
 
-  // Determine user role from userData OR pathname as fallback
-  const isAdminFromData = userData?.isAdmin || userData?.role === 'admin' || userData?.userType === 'admin'
-  const isInstructorFromData = userData?.isInstructor || userData?.role === 'instructor' || userData?.userType === 'instructor'
-  const isExpertFromData = userData?.isExpert || userData?.role === 'expert' || userData?.userType === 'expert'
+  // Determine ALL user roles from userData (multi-role support)
+  const hasAdminRole = userData?.isAdmin || userData?.role === 'admin' || userData?.userType === 'admin'
+  const hasInstructorRole = userData?.isInstructor || userData?.role === 'instructor' || userData?.userType === 'instructor'
+  const hasExpertRole = userData?.isExpert || userData?.role === 'expert' || userData?.userType === 'expert'
+  const hasClientRole = true // Everyone has client access by default
 
-  // Fallback: detect role from pathname if userData is empty
+  // Detect current active role from pathname
   const isAdminFromPath = pathname?.startsWith('/admin')
   const isInstructorFromPath = pathname?.startsWith('/instructor')
   const isExpertFromPath = pathname?.startsWith('/expert')
+  const isClientFromPath = pathname?.startsWith('/dashboard')
 
-  const isAdmin = isAdminFromData || isAdminFromPath
-  const isInstructor = isInstructorFromData || isInstructorFromPath
-  const isExpert = isExpertFromData || isExpertFromPath
+  // Current active role (prioritize pathname, fallback to first available role)
+  const currentActiveRole =
+    isAdminFromPath ? 'admin' :
+    isExpertFromPath ? 'expert' :
+    isInstructorFromPath ? 'instructor' :
+    isClientFromPath ? 'client' :
+    hasAdminRole ? 'admin' :
+    hasExpertRole ? 'expert' :
+    hasInstructorRole ? 'instructor' :
+    'client'
+
+  // Build available roles array for role switcher
+  const availableRoles = [
+    hasAdminRole && {
+      id: 'admin',
+      label: 'Admin Portal',
+      icon: Shield,
+      href: '/admin',
+      description: 'System administration'
+    },
+    hasExpertRole && {
+      id: 'expert',
+      label: 'Expert Portal',
+      icon: Award,
+      href: '/expert',
+      description: 'Expert consulting'
+    },
+    hasInstructorRole && {
+      id: 'instructor',
+      label: 'Instructor Portal',
+      icon: Users,
+      href: '/instructor/courses',
+      description: 'Teaching & courses'
+    },
+    hasClientRole && {
+      id: 'client',
+      label: 'Student Portal',
+      icon: LayoutDashboard,
+      href: '/dashboard',
+      description: 'Learning dashboard'
+    },
+  ].filter(Boolean) as Array<{ id: string; label: string; icon: any; href: string; description: string }>
 
   // Debug logging
   console.log('[DashboardSidebar] pathname:', pathname)
-  console.log('[DashboardSidebar] isAdminFromData:', isAdminFromData)
-  console.log('[DashboardSidebar] isAdminFromPath:', isAdminFromPath)
-  console.log('[DashboardSidebar] isInstructorFromData:', isInstructorFromData)
-  console.log('[DashboardSidebar] isInstructorFromPath:', isInstructorFromPath)
-  console.log('[DashboardSidebar] isExpertFromData:', isExpertFromData)
-  console.log('[DashboardSidebar] isExpertFromPath:', isExpertFromPath)
-  console.log('[DashboardSidebar] FINAL isAdmin:', isAdmin)
-  console.log('[DashboardSidebar] FINAL isInstructor:', isInstructor)
-  console.log('[DashboardSidebar] FINAL isExpert:', isExpert)
+  console.log('[DashboardSidebar] currentActiveRole:', currentActiveRole)
+  console.log('[DashboardSidebar] availableRoles:', availableRoles.map(r => r.id))
 
-  // Get portal title and navigation based on role
+  // Get portal title and navigation based on current active role
   const getPortalConfig = () => {
-    if (isAdmin) {
+    console.log('[getPortalConfig] currentActiveRole:', currentActiveRole)
+    if (currentActiveRole === 'admin') {
       // Filter admin system items based on permissions
       const filteredAdminSystemItems = adminSystemItems.filter(item => {
         // Hide payments & billing for users without financial access
@@ -379,6 +417,7 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
 
       return {
         title: 'Admin Portal',
+        role: 'admin',
         sections: [
           { title: 'Dashboard', items: adminMainNavItems },
           { title: 'Content', items: adminContentItems },
@@ -388,9 +427,10 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
         showCart: false,
         showUpgrade: false,
       }
-    } else if (isExpert) {
+    } else if (currentActiveRole === 'expert') {
       return {
         title: 'Expert Portal',
+        role: 'expert',
         sections: [
           { title: 'Dashboard', items: expertMainNavItems },
           { title: 'Business', items: expertBusinessItems },
@@ -399,9 +439,11 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
         showCart: false,
         showUpgrade: false,
       }
-    } else if (isInstructor) {
+    } else if (currentActiveRole === 'instructor') {
+      console.log('[getPortalConfig] Returning INSTRUCTOR config with showCart: false')
       return {
         title: 'Instructor Portal',
+        role: 'instructor',
         sections: [
           { title: 'Dashboard', items: instructorMainNavItems },
           { title: 'Workshops', items: instructorWorkshopItems },
@@ -412,8 +454,10 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
         showUpgrade: false,
       }
     } else {
+      console.log('[getPortalConfig] Returning CLIENT config with showCart: true')
       return {
-        title: 'Client Portal',
+        title: 'Student Portal',
+        role: 'client',
         sections: [
           { title: 'Dashboard', items: clientMainNavItems },
           { title: 'Learning', items: clientLearningItems },
@@ -429,6 +473,10 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
   }
 
   const portalConfig = getPortalConfig()
+
+  // Debug: Log portal config
+  console.log('[DashboardSidebar] portalConfig:', portalConfig)
+  console.log('[DashboardSidebar] portalConfig.showCart:', portalConfig.showCart)
 
   // Update CSS variable for sidebar width
   useEffect(() => {
@@ -559,7 +607,12 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
           "py-6 border-b border-white/10 flex items-center",
           isCollapsed ? "px-4 justify-center flex-col gap-3" : "px-6 justify-between"
         )}>
-          <Link href={isAdmin ? "/admin" : isExpert ? "/expert" : isInstructor ? "/instructor" : "/dashboard"} className={cn(
+          <Link href={
+            currentActiveRole === 'admin' ? "/admin" :
+            currentActiveRole === 'expert' ? "/expert" :
+            currentActiveRole === 'instructor' ? "/instructor/courses" :
+            "/dashboard"
+          } className={cn(
             "flex items-center gap-3",
             isCollapsed && "justify-center"
           )}>
@@ -603,14 +656,91 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
           </motion.button>
         </div>
 
+        {/* Role Switcher - Show only if user has multiple roles */}
+        {availableRoles.length > 1 && !isCollapsed && (
+          <div className="px-4 py-3 border-b border-white/10">
+            <div className="relative">
+              <button
+                onClick={() => setShowRoleSwitcher(!showRoleSwitcher)}
+                className="w-full flex items-center justify-between p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-all group"
+              >
+                <div className="flex items-center gap-3">
+                  {(() => {
+                    const CurrentRoleIcon = availableRoles.find(r => r.id === currentActiveRole)?.icon || LayoutDashboard
+                    return <CurrentRoleIcon className="w-5 h-5 text-purple-400" />
+                  })()}
+                  <div className="text-left">
+                    <p className="text-sm font-medium text-white font-diatype">{portalConfig.title}</p>
+                    <p className="text-xs text-gray-500 font-diatype">Switch portal</p>
+                  </div>
+                </div>
+                <ChevronDown className={cn(
+                  "w-4 h-4 text-gray-400 transition-transform",
+                  showRoleSwitcher && "rotate-180"
+                )} />
+              </button>
+
+              {/* Role Switcher Dropdown */}
+              <AnimatePresence>
+                {showRoleSwitcher && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="absolute top-full left-0 right-0 mt-2 bg-gray-800 border border-white/10 rounded-xl shadow-xl overflow-hidden z-50"
+                  >
+                    {availableRoles.map((role) => {
+                      const RoleIcon = role.icon
+                      const isActive = role.id === currentActiveRole
+
+                      return (
+                        <Link
+                          key={role.id}
+                          href={role.href}
+                          onClick={() => setShowRoleSwitcher(false)}
+                        >
+                          <motion.div
+                            whileHover={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
+                            className={cn(
+                              "px-4 py-3 flex items-center gap-3 transition-colors cursor-pointer",
+                              isActive && "bg-purple-500/10"
+                            )}
+                          >
+                            <RoleIcon className={cn(
+                              "w-5 h-5",
+                              isActive ? "text-purple-400" : "text-gray-400"
+                            )} />
+                            <div className="flex-1">
+                              <p className={cn(
+                                "text-sm font-medium font-diatype",
+                                isActive ? "text-purple-300" : "text-white"
+                              )}>
+                                {role.label}
+                              </p>
+                              <p className="text-xs text-gray-500 font-diatype">{role.description}</p>
+                            </div>
+                            {isActive && (
+                              <Check className="w-4 h-4 text-purple-400" />
+                            )}
+                          </motion.div>
+                        </Link>
+                      )
+                    })}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
+        )}
+
         {/* User Profile Section */}
         {!isCollapsed && (
           <div className="px-4 py-4 border-b border-white/10">
             <Link
               href={
-                isAdmin ? '/admin/settings' :
-                isExpert ? '/expert/profile' :
-                isInstructor ? '/instructor/profile' :
+                currentActiveRole === 'admin' ? '/admin/settings' :
+                currentActiveRole === 'expert' ? '/expert/profile' :
+                currentActiveRole === 'instructor' ? '/instructor/profile' :
                 '/dashboard/profile'
               }
             >
@@ -626,7 +756,7 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
                     {userData?.name || 'User'}
                   </p>
                   <p className="text-xs text-gray-500 font-diatype">
-                    {isAdmin ? 'Admin' : isExpert ? 'Expert' : isInstructor ? 'Instructor' : 'Member'}
+                    {currentActiveRole === 'admin' ? 'Admin' : currentActiveRole === 'expert' ? 'Expert' : currentActiveRole === 'instructor' ? 'Instructor' : 'Student'}
                   </p>
                 </div>
                 <Settings className="w-4 h-4 text-gray-500" />
