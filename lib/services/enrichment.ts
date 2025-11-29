@@ -11,13 +11,13 @@
 
 import { createClient } from '@/lib/supabase/server'
 import {
-  enrichCompanyByDomain,
-  enrichCompanyFromEmail,
+  enrichOrganizationByDomain as apolloEnrichOrg,
+  enrichOrganizationFromEmail as apolloEnrichFromEmail,
   enrichFromEmail,
   extractAIReadinessSignals,
-  type ClearbitCompany,
-  type ClearbitPerson,
-} from '@/lib/integrations/clearbit'
+  type ApolloOrganization,
+  type ApolloPerson,
+} from '@/lib/integrations/apollo'
 import {
   analyzeCompanyWebsite,
   type PageMetadata,
@@ -86,50 +86,50 @@ export async function enrichOrganizationByDomain(
   try {
     console.log(`[Enrichment] Starting enrichment for domain: ${domain}`)
 
-    // Run Clearbit and LangExtract in parallel
-    const [clearbitData, websiteData] = await Promise.allSettled([
-      enrichCompanyByDomain(domain),
+    // Run Apollo and LangExtract in parallel
+    const [apolloData, websiteData] = await Promise.allSettled([
+      apolloEnrichOrg(domain),
       analyzeCompanyWebsite(`https://${domain}`).catch(() => null),
     ])
 
-    const company = clearbitData.status === 'fulfilled' ? clearbitData.value : null
+    const org = apolloData.status === 'fulfilled' ? apolloData.value : null
     const website = websiteData.status === 'fulfilled' ? websiteData.value : null
 
-    if (!company && !website) {
+    if (!org && !website) {
       console.log(`[Enrichment] No data found for ${domain}`)
       return null
     }
 
     // Calculate AI readiness if we have tech data
-    const aiSignals = company ? extractAIReadinessSignals(company) : null
+    const aiSignals = org ? extractAIReadinessSignals(org) : null
 
     // Build enriched org object
     const enriched: EnrichedOrganization = {
-      name: company?.name || website?.metadata.title || domain,
+      name: org?.name || website?.metadata.title || domain,
       domain,
-      description: company?.description || website?.metadata.description,
-      logo: company?.logo,
+      description: org?.short_description || org?.seo_description || website?.metadata.description,
+      logo: org?.logo_url,
 
-      industry: company?.category?.industry,
-      sector: company?.category?.sector,
-      naicsCode: company?.category?.naicsCode,
-      sicCode: company?.category?.sicCode,
+      industry: org?.industry,
+      sector: undefined, // Apollo doesn't provide sector separately
+      naicsCode: undefined, // Apollo doesn't provide NAICS
+      sicCode: undefined, // Apollo doesn't provide SIC
 
-      employeeCount: company?.metrics?.employees,
-      employeeRange: company?.metrics?.employeesRange,
-      annualRevenue: company?.metrics?.annualRevenue,
-      revenueEstimate: company?.metrics?.estimatedAnnualRevenue,
-      foundedYear: company?.foundedYear,
+      employeeCount: org?.estimated_num_employees,
+      employeeRange: undefined, // Apollo doesn't provide employee range
+      annualRevenue: org?.annual_revenue,
+      revenueEstimate: org?.annual_revenue_printed,
+      foundedYear: org?.founded_year,
 
-      location: company?.geo ? {
-        city: company.geo.city,
-        state: company.geo.state,
-        country: company.geo.country,
-        countryCode: company.geo.countryCode,
+      location: org ? {
+        city: org.city,
+        state: org.state,
+        country: org.country,
+        countryCode: undefined, // Apollo doesn't provide country code
       } : undefined,
 
-      tech: company?.tech,
-      techCategories: company?.techCategories,
+      tech: org?.technologies?.map(t => t.name),
+      techCategories: org?.technologies?.map(t => t.category),
       aiReadinessScore: aiSignals?.score,
 
       website: website ? {
@@ -141,17 +141,17 @@ export async function enrichOrganizationByDomain(
       } : undefined,
 
       social: {
-        linkedin: company?.linkedin?.handle,
-        twitter: company?.twitter?.handle,
-        facebook: company?.facebook?.handle,
+        linkedin: org?.linkedin_url,
+        twitter: org?.twitter_url,
+        facebook: org?.facebook_url,
       },
 
       enrichedAt: new Date().toISOString(),
       sources: [
-        company ? 'clearbit' : null,
+        org ? 'apollo' : null,
         website ? 'langextract' : null,
       ].filter(Boolean) as string[],
-      confidence: calculateConfidence(company, website),
+      confidence: calculateConfidence(org, website),
     }
 
     console.log(`[Enrichment] Successfully enriched ${domain} from ${enriched.sources.join(', ')}`)
@@ -218,18 +218,18 @@ export async function saveEnrichedOrganization(
  * Calculate confidence score based on data sources
  */
 function calculateConfidence(
-  company: ClearbitCompany | null,
+  org: ApolloOrganization | null,
   website: any | null
 ): number {
   let score = 0
 
-  if (company) {
-    score += 50 // Clearbit data is highly reliable
+  if (org) {
+    score += 50 // Apollo data is highly reliable
 
-    if (company.metrics?.employees) score += 10
-    if (company.category?.industry) score += 10
-    if (company.description) score += 5
-    if (company.tech && company.tech.length > 0) score += 10
+    if (org.estimated_num_employees) score += 10
+    if (org.industry) score += 10
+    if (org.short_description || org.seo_description) score += 5
+    if (org.technologies && org.technologies.length > 0) score += 10
   }
 
   if (website) {
