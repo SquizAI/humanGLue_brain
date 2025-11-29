@@ -164,26 +164,41 @@ export async function middleware(request: NextRequest) {
       .single()
 
     // Determine application role based on users.role column
-    let appRole: 'admin' | 'instructor' | 'expert' | 'client' = 'client'
+    let appRole: 'admin' | 'super_admin' | 'instructor' | 'expert' | 'client' | 'org_admin' = 'client'
+
+    // Admin hierarchy (platform-level)
     if (profile?.role === 'admin') {
       appRole = 'admin'
-    } else if (profile?.role === 'expert' || expertProfile) {
+    } else if (profile?.role === 'super_admin_full' || profile?.role === 'super_admin_courses') {
+      appRole = 'super_admin'
+    }
+    // Role-specific profiles
+    else if (profile?.role === 'expert' || expertProfile) {
       appRole = 'expert'
     } else if (instructorProfile) {
       appRole = 'instructor'
-    } else if (profile?.role === 'org_admin' || profile?.role === 'team_lead') {
-      // org_admin and team_lead are client roles with elevated permissions
+    }
+    // Organization-level roles
+    else if (profile?.role === 'org_admin') {
+      appRole = 'org_admin'
+    } else if (profile?.role === 'team_lead') {
+      // team_lead is a client role with elevated permissions within org
       appRole = 'client'
     }
 
     console.log('[Middleware] User accessing:', pathname, '| DB role:', profile?.role, '| App role:', appRole, '| Has instructor profile:', !!instructorProfile, '| Has expert profile:', !!expertProfile)
 
-    // Check admin routes - allow access if user is admin OR if accessing admin route
+    // Check admin routes - allow access for admin and super_admin users
     // (allows demo mode and direct navigation)
     if (ROUTE_RULES.admin.some(route => pathname.startsWith(route))) {
       console.log('[Middleware] Admin route detected, user role:', appRole)
-      // Allow through for demo mode or actual admin users
-      console.log('[Middleware] Allowing access to admin route')
+      // Allow through for admin, super_admin, or demo mode
+      if (appRole === 'admin' || appRole === 'super_admin') {
+        console.log('[Middleware] Admin/Super Admin access granted to admin route')
+        return response
+      }
+      // Also allow through for demo mode (trust client-side demo handling)
+      console.log('[Middleware] Allowing access to admin route (demo mode)')
       return response
     }
 

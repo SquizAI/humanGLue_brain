@@ -125,25 +125,38 @@ export async function POST(request: NextRequest) {
       .eq('id', authData.user.id)
 
     // Determine application role for redirect
-    let role: 'admin' | 'instructor' | 'expert' | 'client'
+    let role: 'admin' | 'super_admin' | 'instructor' | 'expert' | 'org_admin' | 'client'
+
+    // Admin hierarchy (platform-level)
     if (profile.role === 'admin') {
       role = 'admin'
-    } else if (instructorProfile) {
+    } else if (profile.role === 'super_admin_full' || profile.role === 'super_admin_courses') {
+      role = 'super_admin'
+    }
+    // Role-specific profiles
+    else if (instructorProfile) {
       role = 'instructor'
     } else if (expertProfile || profile.role === 'expert') {
       role = 'expert'
+    }
+    // Organization-level roles
+    else if (profile.role === 'org_admin') {
+      role = 'org_admin'
     } else {
       role = 'client'
     }
 
     // Determine redirect path
     let redirectPath = '/dashboard'
-    if (role === 'admin') {
+    if (role === 'admin' || role === 'super_admin') {
       redirectPath = '/admin'
     } else if (role === 'instructor') {
       redirectPath = '/instructor'
     } else if (role === 'expert') {
       redirectPath = '/expert'
+    } else if (role === 'org_admin') {
+      // Org admins use dashboard but with elevated permissions
+      redirectPath = '/dashboard'
     } else {
       redirectPath = '/dashboard'
     }

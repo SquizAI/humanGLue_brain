@@ -16,6 +16,9 @@ import {
   MessageSquare,
   FileText,
   X,
+  Sparkles,
+  Filter,
+  Search,
 } from 'lucide-react'
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
 import Image from 'next/image'
@@ -37,6 +40,9 @@ const instructorCourses = [
     image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=500&fit=crop',
     status: 'published',
     lastUpdated: '2025-10-01',
+    instructorName: 'Dr. Sarah Chen',
+    instructorType: 'AI Strategy Expert',
+    contentType: 'course',
   },
   {
     id: 2,
@@ -53,6 +59,47 @@ const instructorCourses = [
     image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&h=500&fit=crop',
     status: 'draft',
     lastUpdated: '2025-10-02',
+    instructorName: 'Dr. Sarah Chen',
+    instructorType: 'AI Strategy Expert',
+    contentType: 'workshop',
+  },
+  {
+    id: 3,
+    title: 'Change Management Fundamentals',
+    category: 'Leadership & Change',
+    level: 'Intermediate',
+    duration: '5 hours',
+    lessons: 10,
+    students: 1523,
+    rating: 4.7,
+    reviews: 212,
+    completion: 85,
+    revenue: 456900,
+    image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=800&h=500&fit=crop',
+    status: 'published',
+    lastUpdated: '2025-09-15',
+    instructorName: 'Michael Rodriguez',
+    instructorType: 'Change Management Specialist',
+    contentType: 'course',
+  },
+  {
+    id: 4,
+    title: 'Data-Driven Decision Making Pathway',
+    category: 'Analytics & Data',
+    level: 'Advanced',
+    duration: '12 weeks',
+    lessons: 24,
+    students: 645,
+    rating: 4.9,
+    reviews: 89,
+    completion: 78,
+    revenue: 322500,
+    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop',
+    status: 'published',
+    lastUpdated: '2025-10-05',
+    instructorName: 'Dr. Emily Watson',
+    instructorType: 'Data Science Lead',
+    contentType: 'pathway',
   },
 ]
 
@@ -60,17 +107,51 @@ export default function InstructorCoursesPage() {
   const router = useRouter()
 
   // Trust middleware protection - no need for client-side auth checks
-  // Middleware already validates access before page loads  const [courses] = useState(instructorCourses)
+  // Middleware already validates access before page loads
+  const [courses] = useState(instructorCourses)
   const [selectedCourse, setSelectedCourse] = useState<any>(null)
   const [showAnalyticsModal, setShowAnalyticsModal] = useState(false)
+
+  // Filter states
+  const [searchQuery, setSearchQuery] = useState('')
+  const [selectedInstructor, setSelectedInstructor] = useState<string>('all')
+  const [selectedInstructorType, setSelectedInstructorType] = useState<string>('all')
+  const [selectedContentType, setSelectedContentType] = useState<string>('all')
+  const [showFilters, setShowFilters] = useState(false)
+
   const handleLogout = () => {
     localStorage.removeItem('humanglue_user')
     router.push('/login')
   }
 
-  const totalStudents = courses.reduce((sum, course) => sum + course.students, 0)
-  const totalRevenue = courses.reduce((sum, course) => sum + course.revenue, 0)
-  const avgRating = courses.reduce((sum, course) => sum + course.rating, 0) / courses.length
+  // Get unique instructors and types for filters
+  const uniqueInstructors = Array.from(new Set(courses.map((c) => c.instructorName)))
+  const uniqueInstructorTypes = Array.from(new Set(courses.map((c) => c.instructorType)))
+  const contentTypes = ['course', 'workshop', 'pathway']
+
+  // Apply filters
+  const filteredCourses = courses.filter((course) => {
+    const matchesSearch =
+      course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      course.category.toLowerCase().includes(searchQuery.toLowerCase())
+
+    const matchesInstructor =
+      selectedInstructor === 'all' || course.instructorName === selectedInstructor
+
+    const matchesInstructorType =
+      selectedInstructorType === 'all' || course.instructorType === selectedInstructorType
+
+    const matchesContentType =
+      selectedContentType === 'all' || course.contentType === selectedContentType
+
+    return matchesSearch && matchesInstructor && matchesInstructorType && matchesContentType
+  })
+
+  const totalStudents = filteredCourses.reduce((sum, course) => sum + course.students, 0)
+  const totalRevenue = filteredCourses.reduce((sum, course) => sum + course.revenue, 0)
+  const avgRating = filteredCourses.length > 0
+    ? filteredCourses.reduce((sum, course) => sum + course.rating, 0) / filteredCourses.length
+    : 0
 
   return (
     <div className="min-h-screen bg-gray-950">
@@ -87,16 +168,29 @@ export default function InstructorCoursesPage() {
                   Manage your courses and track student progress ({courses.length} courses)
                 </p>
               </div>
-              <Link href="/instructor/courses/new">
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center gap-2 font-diatype"
-                >
-                  <Plus className="w-5 h-5" />
-                  New Course
-                </motion.button>
-              </Link>
+              <div className="flex items-center gap-3">
+                <Link href="/instructor/courses/ai-builder">
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="px-6 py-3 bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center gap-2 font-diatype"
+                  >
+                    <Sparkles className="w-5 h-5" />
+                    AI Course Builder
+                  </motion.button>
+                </Link>
+
+                <Link href="/instructor/courses/new">
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="px-6 py-3 bg-gray-800 hover:bg-gray-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center gap-2 font-diatype"
+                  >
+                    <Plus className="w-5 h-5" />
+                    New Course
+                  </motion.button>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
