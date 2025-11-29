@@ -12,6 +12,7 @@ import {
   CheckCircle,
   RefreshCw,
   Eye,
+  Link as LinkIcon,
 } from 'lucide-react'
 import { useBranding, OrgBranding } from '@/lib/contexts/BrandingContext'
 
@@ -22,6 +23,10 @@ interface BrandingSettingsProps {
 export function BrandingSettings({ organizationId }: BrandingSettingsProps) {
   const { branding: contextBranding, isLoading, refreshBranding } = useBranding()
   const [localBranding, setLocalBranding] = useState<Partial<OrgBranding>>({})
+  const [customDomain, setCustomDomain] = useState<string>('')
+  const [isDomainSaving, setIsDomainSaving] = useState(false)
+  const [domainSuccess, setDomainSuccess] = useState(false)
+  const [domainError, setDomainError] = useState<string | null>(null)
   const [isSaving, setIsSaving] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
   const [showPreview, setShowPreview] = useState(false)
@@ -179,6 +184,7 @@ export function BrandingSettings({ organizationId }: BrandingSettingsProps) {
     { id: 'logo', name: 'Logo & Assets', icon: ImageIcon },
     { id: 'email', name: 'Email Settings', icon: Mail },
     { id: 'social', name: 'Social Links', icon: Globe },
+    { id: 'domain', name: 'Custom Domain', icon: LinkIcon },
   ]
 
   if (isLoading) {

@@ -46,7 +46,23 @@ export async function GET(request: NextRequest) {
 
     if (error) throw error
 
-    return NextResponse.json(successResponse(data))
+    // Filter active roles (non-expired)
+    const now = new Date().toISOString()
+    const activeRoles = (data.roles || [])
+      .filter((r: any) => !r.expires_at || r.expires_at > now)
+      .map((r: any) => r.role)
+
+    // Add computed role flags for easier frontend consumption
+    const profileWithFlags = {
+      ...data,
+      activeRoles,
+      isAdmin: activeRoles.includes('admin'),
+      isInstructor: activeRoles.includes('instructor'),
+      isExpert: activeRoles.includes('expert'),
+      isClient: activeRoles.includes('client') || activeRoles.includes('user'),
+    }
+
+    return NextResponse.json(successResponse(profileWithFlags))
   } catch (error) {
     const apiError = handleUnknownError(error)
     return NextResponse.json(errorResponse(apiError), { status: apiError.statusCode })
@@ -112,7 +128,23 @@ export async function PATCH(request: NextRequest) {
 
     if (error) throw error
 
-    return NextResponse.json(successResponse(data))
+    // Filter active roles (non-expired)
+    const now = new Date().toISOString()
+    const activeRoles = (data.roles || [])
+      .filter((r: any) => !r.expires_at || r.expires_at > now)
+      .map((r: any) => r.role)
+
+    // Add computed role flags for easier frontend consumption
+    const profileWithFlags = {
+      ...data,
+      activeRoles,
+      isAdmin: activeRoles.includes('admin'),
+      isInstructor: activeRoles.includes('instructor'),
+      isExpert: activeRoles.includes('expert'),
+      isClient: activeRoles.includes('client') || activeRoles.includes('user'),
+    }
+
+    return NextResponse.json(successResponse(profileWithFlags))
   } catch (error) {
     const apiError = handleUnknownError(error)
     return NextResponse.json(errorResponse(apiError), { status: apiError.statusCode })

@@ -286,3 +286,85 @@ export async function hasCustomBranding(orgId: string): Promise<boolean> {
 
   return !!(data?.settings?.branding)
 }
+
+/**
+ * Get organization ID by custom domain
+ * Used by middleware to detect organization from domain
+ *
+ * @param domain - Custom domain (e.g., "platform.acme.com")
+ * @returns Organization ID if found, null otherwise
+ */
+export async function getOrgByDomain(domain: string): Promise<string | null> {
+  try {
+    const supabase = await createClient()
+
+    // Normalize domain (remove protocol, www, trailing slash)
+    const normalizedDomain = domain
+      .replace(/^https?:\/\//, '')
+      .replace(/^www\./, '')
+      .replace(/\/$/, '')
+      .toLowerCase()
+
+    const { data, error } = await supabase
+      .from('organizations')
+      .select('id')
+      .eq('custom_domain', normalizedDomain)
+      .single()
+
+    if (error || !data) {
+      return null
+    }
+
+    return data.id
+  } catch (error) {
+    console.error('Error fetching organization by domain:', error)
+    return null
+  }
+}
+
+/**
+ * Update organization custom domain
+ * Only org_admin and admin roles can update
+ *
+ * @param orgId - UUID of the organization
+ * @param domain - Custom domain to set (e.g., "platform.acme.com")
+ * @throws Error if update fails or domain is already in use
+ */
+export async function updateCustomDomain(
+  orgId: string,
+  domain: string | null
+): Promise<void> {
+  const supabase = await createClient()
+
+  // Normalize domain if provided
+  const normalizedDomain = domain
+    ? domain
+        .replace(/^https?:\/\//, '')
+        .replace(/^www\./, '')
+        .replace(/\/$/, '')
+        .toLowerCase()
+    : null
+
+  // Validate domain format
+  if (normalizedDomain) {
+    const domainRegex = /^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?(\.[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?)*$/i
+    if (!domainRegex.test(normalizedDomain)) {
+      throw new Error('Invalid domain format')
+    }
+  }
+
+  // Update custom_domain column
+  // Note: RLS policies enforce that only org_admin/admin can update
+  const { error } = await supabase
+    .from('organizations')
+    .update({ custom_domain: normalizedDomain })
+    .eq('id', orgId)
+
+  if (error) {
+    // Check if it's a unique constraint violation
+    if (error.code === '23505') {
+      throw new Error('This domain is already in use by another organization')
+    }
+    throw new Error(`Failed to update custom domain: ${error.message}`)
+  }
+}

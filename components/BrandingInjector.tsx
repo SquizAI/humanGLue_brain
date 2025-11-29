@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useChat } from '@/lib/contexts/ChatContext'
 import { useBranding } from '@/lib/contexts/BrandingContext'
 import { useBrandingStyles } from '@/lib/hooks/useBrandingStyles'
@@ -8,13 +8,15 @@ import { useBrandingStyles } from '@/lib/hooks/useBrandingStyles'
 /**
  * BrandingInjector Component
  *
- * Automatically loads organization branding based on logged-in user
- * and injects branding CSS variables into the document
+ * Automatically loads organization branding based on:
+ * 1. Custom domain (if accessing via org's custom domain)
+ * 2. Logged-in user's organization
  *
  * Place this component at the root of your application (in Providers)
  * to enable automatic white-label theming
  *
  * Features:
+ * - Auto-loads branding from custom domain (Phase 5)
  * - Auto-loads branding when user logs in
  * - Injects CSS variables for dynamic theming
  * - Updates favicon dynamically
@@ -23,16 +25,40 @@ import { useBrandingStyles } from '@/lib/hooks/useBrandingStyles'
 export function BrandingInjector() {
   const { userData, authLoading } = useChat()
   const { branding, loadBranding } = useBranding()
+  const [domainOrgChecked, setDomainOrgChecked] = useState(false)
 
   // Inject CSS variables
   useBrandingStyles()
 
-  // Auto-load branding when user's organization is known
+  // Check for custom domain organization (Phase 5)
   useEffect(() => {
-    if (!authLoading && userData?.organizationId) {
+    async function checkDomainOrg() {
+      try {
+        const response = await fetch('/api/domain-org')
+        const data = await response.json()
+
+        if (data.organizationId) {
+          console.log('[BrandingInjector] Custom domain detected:', data.domain, '-> Loading branding for org:', data.organizationId)
+          loadBranding(data.organizationId)
+        }
+      } catch (error) {
+        console.error('[BrandingInjector] Failed to check domain org:', error)
+      } finally {
+        setDomainOrgChecked(true)
+      }
+    }
+
+    checkDomainOrg()
+  }, [loadBranding])
+
+  // Auto-load branding when user's organization is known
+  // Only run if custom domain check is done and no branding loaded yet
+  useEffect(() => {
+    if (!authLoading && userData?.organizationId && domainOrgChecked && !branding) {
+      console.log('[BrandingInjector] Loading branding for user org:', userData.organizationId)
       loadBranding(userData.organizationId)
     }
-  }, [authLoading, userData?.organizationId, loadBranding])
+  }, [authLoading, userData?.organizationId, loadBranding, domainOrgChecked, branding])
 
   // Update favicon dynamically
   useEffect(() => {

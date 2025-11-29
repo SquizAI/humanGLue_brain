@@ -263,7 +263,9 @@ export default function ExpertProfile() {
   const handleLogout = () => {
     localStorage.removeItem('humanglue_user')
     router.push('/login')
-  }  if (!expert) {
+  }
+
+  if (!expert) {
     return (
       <div className="min-h-screen bg-gray-950">
         <DashboardSidebar onLogout={handleLogout} />

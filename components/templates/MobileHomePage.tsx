@@ -69,9 +69,17 @@ export function MobileHomePage({ onStartChat }: MobileHomePageProps) {
   const autoRotateInterval = useRef<NodeJS.Timeout>()
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
 
-  // Check for prefers-reduced-motion on mount
+  // Check for prefers-reduced-motion and saved rotation preference on mount
   useEffect(() => {
     if (typeof window !== 'undefined') {
+      // Check if user previously disabled auto-rotation
+      const rotationDisabled = sessionStorage.getItem('mobile_tab_auto_rotate_disabled')
+      if (rotationDisabled === 'true') {
+        setAutoRotateEnabled(false)
+        setUserHasInteracted(true)
+      }
+
+      // Check for prefers-reduced-motion
       const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
       setPrefersReducedMotion(mediaQuery.matches)
 
@@ -102,23 +110,20 @@ export function MobileHomePage({ onStartChat }: MobileHomePageProps) {
 
   /**
    * Handle manual tab switching
-   * Disables auto-rotation when user manually interacts
+   * Permanently disables auto-rotation when user manually interacts (Phase 0 requirement)
    */
   const handleTabClick = (index: number) => {
     setActiveTab(index)
     setUserHasInteracted(true)
     lastInteractionTime.current = Date.now()
 
-    // Disable auto-rotation temporarily
+    // Permanently disable auto-rotation on first interaction
     setAutoRotateEnabled(false)
 
-    // Re-enable auto-rotation after 10 seconds of inactivity
-    setTimeout(() => {
-      const timeSinceInteraction = Date.now() - lastInteractionTime.current
-      if (timeSinceInteraction >= 10000) {
-        setAutoRotateEnabled(true)
-      }
-    }, 10000)
+    // Store preference in sessionStorage to persist across re-renders
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem('mobile_tab_auto_rotate_disabled', 'true')
+    }
   }
 
   /**

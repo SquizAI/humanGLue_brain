@@ -154,3 +154,55 @@ export async function verifyAuthToken(token: string): Promise<User> {
 
   return user
 }
+
+/**
+ * Get user profile with all roles
+ */
+export async function getUserProfile(userId: string) {
+  const supabase = await createClient()
+
+  // Get user profile
+  const { data: profile, error: profileError } = await supabase
+    .from('users')
+    .select('*')
+    .eq('id', userId)
+    .single()
+
+  if (profileError || !profile) {
+    throw APIErrors.NOT_FOUND('User not found')
+  }
+
+  // Get all active roles
+  const roles = await getUserRoles(userId)
+
+  return {
+    ...profile,
+    roles,
+    isAdmin: roles.includes('admin'),
+    isInstructor: roles.includes('instructor'),
+    isExpert: roles.includes('expert'),
+    isClient: roles.includes('client') || roles.includes('user'),
+  }
+}
+
+/**
+ * Check if user has all specified roles
+ */
+export async function hasAllRoles(
+  userId: string,
+  requiredRoles: string[]
+): Promise<boolean> {
+  const roles = await getUserRoles(userId)
+  return requiredRoles.every(role => roles.includes(role))
+}
+
+/**
+ * Check if user has any of the specified roles
+ */
+export async function hasAnyRole(
+  userId: string,
+  allowedRoles: string[]
+): Promise<boolean> {
+  const roles = await getUserRoles(userId)
+  return roles.some(role => allowedRoles.includes(role))
+}

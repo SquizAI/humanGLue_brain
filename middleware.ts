@@ -13,6 +13,7 @@
 
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
+import { getOrgByDomain } from '@/services/branding'
 
 // Define route access rules
 const ROUTE_RULES = {
@@ -49,6 +50,18 @@ export async function middleware(request: NextRequest) {
       headers: request.headers,
     },
   })
+
+  // Custom Domain Detection (Phase 5)
+  // Check if request is coming from a custom domain
+  const host = request.headers.get('host') || ''
+  const orgId = await getOrgByDomain(host)
+
+  if (orgId) {
+    // Organization detected via custom domain
+    // Inject organization ID into request headers for auto-loading
+    response.headers.set('x-organization-id', orgId)
+    console.log('[Middleware] Custom domain detected:', host, '-> Org ID:', orgId)
+  }
 
   // Create Supabase client with cookie handling
   const supabase = createServerClient(
@@ -135,89 +148,63 @@ export async function middleware(request: NextRequest) {
 
   // If user exists and route requires role check
   if (user) {
-    // Use the existing supabase client which already has auth context from cookies
-    // Fetch user profile with role from users table (RLS policies allow authenticated users to read their own profile)
-    const { data: profile, error: profileError } = await supabase
-      .from('users')
+    // Fetch all active roles for the user (multi-role support)
+    const { data: userRoles, error: rolesError } = await supabase
+      .from('user_roles')
       .select('role')
-      .eq('id', user.id)
-      .single()
+      .eq('user_id', user.id)
+      .is('expires_at', null)
+      .or(`expires_at.gt.${new Date().toISOString()}`)
 
-    console.log('[Middleware Profile]', {
-      profile,
-      profileError: profileError?.message,
+    console.log('[Middleware Roles]', {
+      userRoles,
+      rolesError: rolesError?.message,
       userId: user.id
     })
 
-    // Check if user has instructor profile
-    const { data: instructorProfile } = await supabase
-      .from('instructor_profiles')
-      .select('id')
-      .eq('user_id', user.id)
-      .single()
+    // Extract active roles into array
+    const activeRoles = (userRoles || []).map(r => r.role)
+    const hasAdminRole = activeRoles.includes('admin')
+    const hasInstructorRole = activeRoles.includes('instructor')
+    const hasExpertRole = activeRoles.includes('expert')
+    const hasClientRole = activeRoles.includes('client') || activeRoles.includes('user')
 
-    // Check if user has expert profile
-    const { data: expertProfile } = await supabase
-      .from('expert_profiles')
-      .select('id')
-      .eq('user_id', user.id)
-      .single()
+    console.log('[Middleware] User accessing:', pathname, '| Active roles:', activeRoles)
 
-    // Determine application role based on users.role column
-    let appRole: 'admin' | 'super_admin' | 'instructor' | 'expert' | 'client' | 'org_admin' = 'client'
-
-    // Admin hierarchy (platform-level)
-    if (profile?.role === 'admin') {
-      appRole = 'admin'
-    } else if (profile?.role === 'super_admin_full' || profile?.role === 'super_admin_courses') {
-      appRole = 'super_admin'
-    }
-    // Role-specific profiles
-    else if (profile?.role === 'expert' || expertProfile) {
-      appRole = 'expert'
-    } else if (instructorProfile) {
-      appRole = 'instructor'
-    }
-    // Organization-level roles
-    else if (profile?.role === 'org_admin') {
-      appRole = 'org_admin'
-    } else if (profile?.role === 'team_lead') {
-      // team_lead is a client role with elevated permissions within org
-      appRole = 'client'
-    }
-
-    console.log('[Middleware] User accessing:', pathname, '| DB role:', profile?.role, '| App role:', appRole, '| Has instructor profile:', !!instructorProfile, '| Has expert profile:', !!expertProfile)
-
-    // Check admin routes - allow access for admin and super_admin users
-    // (allows demo mode and direct navigation)
+    // Check admin routes - allow access if user has admin role
     if (ROUTE_RULES.admin.some(route => pathname.startsWith(route))) {
-      console.log('[Middleware] Admin route detected, user role:', appRole)
-      // Allow through for admin, super_admin, or demo mode
-      if (appRole === 'admin' || appRole === 'super_admin') {
-        console.log('[Middleware] Admin/Super Admin access granted to admin route')
+      console.log('[Middleware] Admin route detected, hasAdminRole:', hasAdminRole)
+      if (hasAdminRole) {
+        console.log('[Middleware] Admin access granted to admin route')
         return response
       }
-      // Also allow through for demo mode (trust client-side demo handling)
-      console.log('[Middleware] Allowing access to admin route (demo mode)')
-      return response
+      // Redirect non-admin users to dashboard
+      console.log('[Middleware] Non-admin user attempting to access admin route, redirecting to dashboard')
+      return redirectToDashboard()
     }
 
-    // Check instructor routes - allow access if user is instructor/admin OR if accessing instructor route
-    // (allows demo mode and direct navigation)
+    // Check instructor routes - allow access if user has instructor or admin role
     if (ROUTE_RULES.instructor.some(route => pathname.startsWith(route))) {
-      console.log('[Middleware] Instructor route detected, user role:', appRole)
-      // Allow through for demo mode or actual instructor users
-      console.log('[Middleware] Allowing access to instructor route')
-      return response
+      console.log('[Middleware] Instructor route detected, hasInstructorRole:', hasInstructorRole, 'hasAdminRole:', hasAdminRole)
+      if (hasInstructorRole || hasAdminRole) {
+        console.log('[Middleware] Instructor/Admin access granted to instructor route')
+        return response
+      }
+      // Redirect non-instructor users to dashboard
+      console.log('[Middleware] Non-instructor user attempting to access instructor route, redirecting to dashboard')
+      return redirectToDashboard()
     }
 
-    // Check expert routes - allow access if user is expert/admin OR if accessing expert route
-    // (allows demo mode and direct navigation)
+    // Check expert routes - allow access if user has expert or admin role
     if (ROUTE_RULES.expert.some(route => pathname.startsWith(route))) {
-      console.log('[Middleware] Expert route detected, user role:', appRole)
-      // Allow through for demo mode or actual expert users
-      console.log('[Middleware] Allowing access to expert route')
-      return response
+      console.log('[Middleware] Expert route detected, hasExpertRole:', hasExpertRole, 'hasAdminRole:', hasAdminRole)
+      if (hasExpertRole || hasAdminRole) {
+        console.log('[Middleware] Expert/Admin access granted to expert route')
+        return response
+      }
+      // Redirect non-expert users to dashboard
+      console.log('[Middleware] Non-expert user attempting to access expert route, redirecting to dashboard')
+      return redirectToDashboard()
     }
 
     // Allow any authenticated user to access dashboard routes and other authenticated routes
