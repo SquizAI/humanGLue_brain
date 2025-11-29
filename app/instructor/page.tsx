@@ -20,11 +20,9 @@ import {
   Calendar,
 } from 'lucide-react'
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
-import { useChat } from '@/lib/contexts/ChatContext'
 
 export default function InstructorDashboard() {
   const router = useRouter()
-  const { userData, authLoading } = useChat()
   const [stats, setStats] = useState({
     totalStudents: 156,
     activeCourses: 3,
@@ -34,46 +32,8 @@ export default function InstructorDashboard() {
     completionRate: 89,
   })
 
-  // Debug logging
-  useEffect(() => {
-    console.log('[InstructorPage] authLoading:', authLoading, 'userData:', userData)
-  }, [authLoading, userData])
-
-  // Timeout for authLoading - if it takes more than 3 seconds, assume middleware validated access
-  const [showContent, setShowContent] = useState(false)
-
-  useEffect(() => {
-    // If auth loads quickly and user is instructor, show content
-    if (!authLoading && userData?.isInstructor) {
-      setShowContent(true)
-      return
-    }
-
-    // If auth is still loading after 3 seconds, trust middleware and show content anyway
-    // Middleware will have already blocked non-instructors from reaching this page
-    const timeout = setTimeout(() => {
-      console.log('[InstructorPage] Auth timeout - trusting middleware protection')
-      setShowContent(true)
-    }, 3000)
-
-    return () => clearTimeout(timeout)
-  }, [authLoading, userData])
-
-  // Check instructor access only if auth loaded and user is not instructor
-  useEffect(() => {
-    if (!authLoading && userData && !userData?.isInstructor) {
-      console.log('[InstructorPage] Redirecting to login - no instructor access')
-      router.push('/login')
-    }
-  }, [userData, router, authLoading])
-
-  if (!showContent) {
-    return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500"></div>
-      </div>
-    )
-  }
+  // Trust middleware protection - no need for client-side auth checks
+  // Middleware already validates access before page loads
 
   const handleLogout = async () => {
     try {
