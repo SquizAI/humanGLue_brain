@@ -51,7 +51,7 @@ const reportTemplates: Report[] = [
     name: 'Course Performance',
     description: 'Course enrollments and completion rates',
     icon: PlayCircle,
-    color: 'purple',
+    color: 'cyan',
     metrics: ['Enrollments', 'Completion Rate', 'Student Feedback', 'Top Courses'],
   },
   {
@@ -150,7 +150,7 @@ export default function ReportsAdmin() {
                     className={`bg-white/5 backdrop-blur-xl border rounded-2xl p-6 cursor-pointer transition-all ${
                       selectedReport === report.id
                         ? `border-${report.color}-500/50 bg-${report.color}-500/10`
-                        : 'border-white/10 hover:border-purple-500/30'
+                        : 'border-white/10 hover:border-cyan-500/30'
                     }`}
                   >
                     <div className={`p-3 bg-${report.color}-500/20 rounded-xl inline-flex mb-4`}>
@@ -190,7 +190,7 @@ export default function ReportsAdmin() {
                         onClick={() => setDateRange(range)}
                         className={`px-4 py-3 rounded-xl transition-all font-diatype ${
                           dateRange === range
-                            ? 'bg-purple-500/20 border-2 border-purple-500/50 text-purple-300'
+                            ? 'bg-cyan-500/20 border-2 border-cyan-500/50 text-cyan-300'
                             : 'bg-white/5 border border-white/10 text-gray-400 hover:bg-white/10'
                         }`}
                       >
@@ -217,7 +217,7 @@ export default function ReportsAdmin() {
                         type="date"
                         value={customStartDate}
                         onChange={(e) => setCustomStartDate(e.target.value)}
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all font-diatype"
+                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-diatype"
                       />
                     </div>
                     <div>
@@ -228,7 +228,7 @@ export default function ReportsAdmin() {
                         type="date"
                         value={customEndDate}
                         onChange={(e) => setCustomEndDate(e.target.value)}
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all font-diatype"
+                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-diatype"
                       />
                     </div>
                   </div>
@@ -258,7 +258,7 @@ export default function ReportsAdmin() {
                     whileTap={{ scale: 0.98 }}
                     onClick={handleGenerateReport}
                     disabled={!selectedReport}
-                    className="flex-1 px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white rounded-xl transition-all font-semibold flex items-center justify-center gap-2 font-diatype disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex-1 px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white rounded-xl transition-all font-semibold flex items-center justify-center gap-2 font-diatype disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <Download className="w-5 h-5" />
                     Generate Report
@@ -282,7 +282,7 @@ export default function ReportsAdmin() {
 
                 <div className="bg-white/5 rounded-xl p-4">
                   <div className="flex items-center gap-3 mb-2">
-                    <Mail className="w-5 h-5 text-purple-400" />
+                    <Mail className="w-5 h-5 text-cyan-400" />
                     <h3 className="text-white font-semibold font-diatype">Monthly Summary</h3>
                   </div>
                   <p className="text-sm text-gray-400 mb-2 font-diatype">1st of each month</p>

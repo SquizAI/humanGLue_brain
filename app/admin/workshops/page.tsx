@@ -317,7 +317,7 @@ export default function WorkshopsAdmin() {
 
   const getTypeBadge = (type: WorkshopType) => {
     const badges = {
-      online: 'bg-purple-500/20 text-purple-300 border-purple-500/30',
+      online: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30',
       'in-person': 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30',
       hybrid: 'bg-pink-500/20 text-pink-300 border-pink-500/30',
     }

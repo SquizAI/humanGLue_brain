@@ -222,7 +222,7 @@ export function ROICalculator({ userData, className }: ROICalculatorProps) {
             className={cn(
               "px-6 py-3 rounded-xl font-medium transition-all duration-200",
               activeTab === tab
-                ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white"
+                ? "bg-gradient-to-r from-blue-500 to-cyan-500 text-white"
                 : "bg-gray-800 text-gray-400 hover:text-white"
             )}
           >
@@ -277,7 +277,7 @@ export function ROICalculator({ userData, className }: ROICalculatorProps) {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.3 }}
-        className="relative overflow-hidden bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl p-8 md:p-12 text-center"
+        className="relative overflow-hidden bg-gradient-to-r from-blue-600 to-cyan-600 rounded-3xl p-8 md:p-12 text-center"
       >
         <div className="relative z-10">
           <h3 className="text-2xl font-bold text-white/90 mb-4">Total First Year Value</h3>
@@ -307,7 +307,7 @@ export function ROICalculator({ userData, className }: ROICalculatorProps) {
         {/* Background decoration */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute -top-24 -right-24 w-96 h-96 bg-white rounded-full blur-3xl" />
-          <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-purple-300 rounded-full blur-3xl" />
+          <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-cyan-300 rounded-full blur-3xl" />
         </div>
       </motion.div>
 

@@ -6,7 +6,7 @@ import { Phone, Mic, Clock, CheckCircle } from 'lucide-react'
 
 export default function TestCallPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900/20 to-purple-900/20">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900/20 to-cyan-900/20">
       <div className="container mx-auto px-4 py-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -32,7 +32,7 @@ export default function TestCallPage() {
                   <p className="text-sm text-gray-400">Natural conversation</p>
                 </div>
                 <div className="text-center p-4">
-                  <Clock className="w-8 h-8 text-purple-400 mx-auto mb-2" />
+                  <Clock className="w-8 h-8 text-cyan-400 mx-auto mb-2" />
                   <h3 className="font-medium text-white">15-20 Minutes</h3>
                   <p className="text-sm text-gray-400">Comprehensive assessment</p>
                 </div>

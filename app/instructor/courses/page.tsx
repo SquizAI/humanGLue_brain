@@ -173,7 +173,7 @@ export default function InstructorCoursesPage() {
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="px-6 py-3 bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center gap-2 font-diatype"
+                    className="px-6 py-3 bg-gradient-to-r from-cyan-500 via-pink-500 to-blue-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center gap-2 font-diatype"
                   >
                     <Sparkles className="w-5 h-5" />
                     AI Course Builder
@@ -214,10 +214,10 @@ export default function InstructorCoursesPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="bg-gradient-to-br from-purple-900/30 to-purple-900/10 backdrop-blur-xl border border-purple-500/20 rounded-2xl p-6"
+              className="bg-gradient-to-br from-cyan-900/30 to-cyan-900/10 backdrop-blur-xl border border-cyan-500/20 rounded-2xl p-6"
             >
               <div className="flex items-center justify-between mb-2">
-                <Users className="w-6 h-6 text-purple-400" />
+                <Users className="w-6 h-6 text-cyan-400" />
               </div>
               <h3 className="text-2xl font-bold text-white mb-1 font-gendy">
                 {totalStudents.toLocaleString()}
@@ -267,7 +267,7 @@ export default function InstructorCoursesPage() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search courses by title or category..."
-                  className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                  className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:border-cyan-500/50 transition-all font-diatype"
                 />
               </div>
 
@@ -277,14 +277,14 @@ export default function InstructorCoursesPage() {
                 onClick={() => setShowFilters(!showFilters)}
                 className={`px-6 py-3 rounded-xl transition-all flex items-center gap-2 font-diatype ${
                   showFilters || selectedInstructor !== 'all' || selectedInstructorType !== 'all' || selectedContentType !== 'all'
-                    ? 'bg-purple-500/20 border border-purple-500/50 text-purple-300'
+                    ? 'bg-cyan-500/20 border border-cyan-500/50 text-cyan-300'
                     : 'bg-gray-800 border border-white/10 text-gray-400 hover:bg-gray-700'
                 }`}
               >
                 <Filter className="w-5 h-5" />
                 Filters
                 {(selectedInstructor !== 'all' || selectedInstructorType !== 'all' || selectedContentType !== 'all') && (
-                  <span className="px-2 py-0.5 bg-purple-500 text-white text-xs rounded-full">
+                  <span className="px-2 py-0.5 bg-cyan-500 text-white text-xs rounded-full">
                     {[selectedInstructor !== 'all', selectedInstructorType !== 'all', selectedContentType !== 'all'].filter(Boolean).length}
                   </span>
                 )}
@@ -310,7 +310,7 @@ export default function InstructorCoursesPage() {
                         <select
                           value={selectedInstructor}
                           onChange={(e) => setSelectedInstructor(e.target.value)}
-                          className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                          className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-cyan-500/50 transition-all font-diatype"
                         >
                           <option value="all">All Instructors</option>
                           {uniqueInstructors.map((instructor) => (
@@ -329,7 +329,7 @@ export default function InstructorCoursesPage() {
                         <select
                           value={selectedInstructorType}
                           onChange={(e) => setSelectedInstructorType(e.target.value)}
-                          className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                          className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-cyan-500/50 transition-all font-diatype"
                         >
                           <option value="all">All Types</option>
                           {uniqueInstructorTypes.map((type) => (
@@ -348,7 +348,7 @@ export default function InstructorCoursesPage() {
                         <select
                           value={selectedContentType}
                           onChange={(e) => setSelectedContentType(e.target.value)}
-                          className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                          className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-cyan-500/50 transition-all font-diatype"
                         >
                           <option value="all">All Types</option>
                           {contentTypes.map((type) => (
@@ -390,7 +390,7 @@ export default function InstructorCoursesPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:border-purple-500/30 transition-all group"
+                className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:border-cyan-500/30 transition-all group"
               >
                 {/* Course Image */}
                 <div className="relative h-48 overflow-hidden">
@@ -431,7 +431,7 @@ export default function InstructorCoursesPage() {
                             course.contentType === 'course'
                               ? 'bg-blue-500/20 text-blue-300'
                               : course.contentType === 'workshop'
-                              ? 'bg-purple-500/20 text-purple-300'
+                              ? 'bg-cyan-500/20 text-cyan-300'
                               : 'bg-green-500/20 text-green-300'
                           }`}
                         >
@@ -439,7 +439,7 @@ export default function InstructorCoursesPage() {
                         </span>
                       </div>
                       <div className="flex items-center gap-2 text-sm">
-                        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-white text-xs font-bold">
+                        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center text-white text-xs font-bold">
                           {course.instructorName.split(' ').map((n) => n[0]).join('')}
                         </div>
                         <div>
@@ -480,10 +480,10 @@ export default function InstructorCoursesPage() {
                       <p className="text-xl font-bold text-white font-gendy">{course.completion}%</p>
                     </div>
 
-                    <div className="bg-purple-500/10 border border-purple-500/20 rounded-xl p-3">
+                    <div className="bg-cyan-500/10 border border-cyan-500/20 rounded-xl p-3">
                       <div className="flex items-center gap-2 mb-1">
-                        <BarChart3 className="w-4 h-4 text-purple-400" />
-                        <span className="text-sm text-purple-400 font-diatype">Revenue</span>
+                        <BarChart3 className="w-4 h-4 text-cyan-400" />
+                        <span className="text-sm text-cyan-400 font-diatype">Revenue</span>
                       </div>
                       <p className="text-xl font-bold text-white font-gendy">
                         ${(course.revenue / 1000).toFixed(0)}k
@@ -500,7 +500,7 @@ export default function InstructorCoursesPage() {
                         setSelectedCourse(course)
                         setShowAnalyticsModal(true)
                       }}
-                      className="px-4 py-2 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-purple-300 rounded-lg transition-all flex items-center justify-center gap-2 font-diatype"
+                      className="px-4 py-2 bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-cyan-300 rounded-lg transition-all flex items-center justify-center gap-2 font-diatype"
                     >
                       <BarChart3 className="w-4 h-4" />
                       Analytics
@@ -545,7 +545,7 @@ export default function InstructorCoursesPage() {
               className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-16 text-center"
             >
               <div className="max-w-md mx-auto">
-                <div className="w-20 h-20 bg-gradient-to-br from-purple-500/20 to-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                <div className="w-20 h-20 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
                   <Filter className="w-10 h-10 text-gray-500" />
                 </div>
                 <h3 className="text-2xl font-bold text-white mb-3 font-gendy">No courses found</h3>
@@ -561,7 +561,7 @@ export default function InstructorCoursesPage() {
                     setSelectedContentType('all')
                     setSearchQuery('')
                   }}
-                  className="px-6 py-3 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-purple-300 rounded-lg transition-all font-diatype inline-flex items-center gap-2"
+                  className="px-6 py-3 bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-cyan-300 rounded-lg transition-all font-diatype inline-flex items-center gap-2"
                 >
                   <X className="w-4 h-4" />
                   Reset All Filters
@@ -623,8 +623,8 @@ export default function InstructorCoursesPage() {
                     </p>
                     <p className="text-xs text-gray-400 font-diatype">Average Rating</p>
                   </div>
-                  <div className="bg-purple-500/10 border border-purple-500/20 rounded-xl p-4">
-                    <BarChart3 className="w-5 h-5 text-purple-400 mb-2" />
+                  <div className="bg-cyan-500/10 border border-cyan-500/20 rounded-xl p-4">
+                    <BarChart3 className="w-5 h-5 text-cyan-400 mb-2" />
                     <p className="text-2xl font-bold text-white mb-1 font-gendy">
                       ${(selectedCourse.revenue / 1000).toFixed(0)}k
                     </p>
@@ -638,7 +638,7 @@ export default function InstructorCoursesPage() {
                     {[65, 78, 82, 95, 88, 92, 100].map((height, i) => (
                       <div key={i} className="flex-1 flex flex-col items-center">
                         <div
-                          className="w-full bg-gradient-to-t from-purple-500 to-blue-500 rounded-t-lg"
+                          className="w-full bg-gradient-to-t from-cyan-500 to-blue-500 rounded-t-lg"
                           style={{ height: `${height}%` }}
                         />
                         <span className="text-xs text-gray-500 mt-2 font-diatype">W{i + 1}</span>

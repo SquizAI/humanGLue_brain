@@ -115,7 +115,7 @@ export default function ExpertSettingsPage() {
             {hasChanges && (
               <button
                 onClick={saveSettings}
-                className="px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white font-semibold rounded-xl transition-all font-diatype flex items-center gap-2"
+                className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-semibold rounded-xl transition-all font-diatype flex items-center gap-2"
               >
                 <Save className="w-5 h-5" />
                 Save Changes
@@ -148,7 +148,7 @@ export default function ExpertSettingsPage() {
                           type="checkbox"
                           checked={value}
                           onChange={(e) => updateSetting('notifications', 'email', key, e.target.checked)}
-                          className="w-5 h-5 rounded border-white/20 bg-white/5 text-purple-500 focus:ring-purple-500/50"
+                          className="w-5 h-5 rounded border-white/20 bg-white/5 text-cyan-500 focus:ring-cyan-500/50"
                         />
                       </div>
                     ))}
@@ -171,7 +171,7 @@ export default function ExpertSettingsPage() {
                           type="checkbox"
                           checked={value}
                           onChange={(e) => updateSetting('notifications', 'push', key, e.target.checked)}
-                          className="w-5 h-5 rounded border-white/20 bg-white/5 text-purple-500 focus:ring-purple-500/50"
+                          className="w-5 h-5 rounded border-white/20 bg-white/5 text-cyan-500 focus:ring-cyan-500/50"
                         />
                       </div>
                     ))}
@@ -195,7 +195,7 @@ export default function ExpertSettingsPage() {
                   <select
                     value={settings.session.defaultDuration}
                     onChange={(e) => updateSetting('session', null, 'defaultDuration', parseInt(e.target.value))}
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 font-diatype"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 font-diatype"
                   >
                     <option value="30">30 minutes</option>
                     <option value="60">60 minutes</option>
@@ -211,7 +211,7 @@ export default function ExpertSettingsPage() {
                   <select
                     value={settings.session.sessionBuffer}
                     onChange={(e) => updateSetting('session', null, 'sessionBuffer', parseInt(e.target.value))}
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 font-diatype"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 font-diatype"
                   >
                     <option value="0">No buffer</option>
                     <option value="15">15 minutes</option>
@@ -230,7 +230,7 @@ export default function ExpertSettingsPage() {
                     max="10"
                     value={settings.session.maxBookingsPerDay}
                     onChange={(e) => updateSetting('session', null, 'maxBookingsPerDay', parseInt(e.target.value))}
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 font-diatype"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 font-diatype"
                   />
                 </div>
               </div>
@@ -242,7 +242,7 @@ export default function ExpertSettingsPage() {
                     type="checkbox"
                     checked={settings.session.autoApproveBookings}
                     onChange={(e) => updateSetting('session', null, 'autoApproveBookings', e.target.checked)}
-                    className="w-5 h-5 rounded border-white/20 bg-white/5 text-purple-500 focus:ring-purple-500/50"
+                    className="w-5 h-5 rounded border-white/20 bg-white/5 text-cyan-500 focus:ring-cyan-500/50"
                   />
                 </div>
                 <div className="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/10">
@@ -251,7 +251,7 @@ export default function ExpertSettingsPage() {
                     type="checkbox"
                     checked={settings.session.allowSameDayBooking}
                     onChange={(e) => updateSetting('session', null, 'allowSameDayBooking', e.target.checked)}
-                    className="w-5 h-5 rounded border-white/20 bg-white/5 text-purple-500 focus:ring-purple-500/50"
+                    className="w-5 h-5 rounded border-white/20 bg-white/5 text-cyan-500 focus:ring-cyan-500/50"
                   />
                 </div>
               </div>
@@ -272,7 +272,7 @@ export default function ExpertSettingsPage() {
                   <select
                     value={settings.payments.currency}
                     onChange={(e) => updateSetting('payments', null, 'currency', e.target.value)}
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 font-diatype"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 font-diatype"
                   >
                     <option value="USD">USD - US Dollar</option>
                     <option value="EUR">EUR - Euro</option>
@@ -287,7 +287,7 @@ export default function ExpertSettingsPage() {
                   <select
                     value={settings.payments.payoutSchedule}
                     onChange={(e) => updateSetting('payments', null, 'payoutSchedule', e.target.value)}
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 font-diatype"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 font-diatype"
                   >
                     <option value="weekly">Weekly</option>
                     <option value="biweekly">Bi-weekly</option>
@@ -304,7 +304,7 @@ export default function ExpertSettingsPage() {
                     min="0"
                     value={settings.payments.minimumPayout}
                     onChange={(e) => updateSetting('payments', null, 'minimumPayout', parseInt(e.target.value))}
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 font-diatype"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 font-diatype"
                   />
                 </div>
 
@@ -316,7 +316,7 @@ export default function ExpertSettingsPage() {
                     type="text"
                     value={settings.payments.taxId}
                     onChange={(e) => updateSetting('payments', null, 'taxId', e.target.value)}
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 font-diatype"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 font-diatype"
                   />
                 </div>
               </div>
@@ -334,7 +334,7 @@ export default function ExpertSettingsPage() {
                   <select
                     value={settings.privacy.profileVisibility}
                     onChange={(e) => updateSetting('privacy', null, 'profileVisibility', e.target.value)}
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 font-diatype"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 font-diatype"
                   >
                     <option value="public">Public - Anyone can find you</option>
                     <option value="clients">Clients Only - Only your clients can see your profile</option>
@@ -349,7 +349,7 @@ export default function ExpertSettingsPage() {
                       type="checkbox"
                       checked={settings.privacy.showOnMarketplace}
                       onChange={(e) => updateSetting('privacy', null, 'showOnMarketplace', e.target.checked)}
-                      className="w-5 h-5 rounded border-white/20 bg-white/5 text-purple-500 focus:ring-purple-500/50"
+                      className="w-5 h-5 rounded border-white/20 bg-white/5 text-cyan-500 focus:ring-cyan-500/50"
                     />
                   </div>
                   <div className="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/10">
@@ -358,7 +358,7 @@ export default function ExpertSettingsPage() {
                       type="checkbox"
                       checked={settings.privacy.allowClientReviews}
                       onChange={(e) => updateSetting('privacy', null, 'allowClientReviews', e.target.checked)}
-                      className="w-5 h-5 rounded border-white/20 bg-white/5 text-purple-500 focus:ring-purple-500/50"
+                      className="w-5 h-5 rounded border-white/20 bg-white/5 text-cyan-500 focus:ring-cyan-500/50"
                     />
                   </div>
                   <div className="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/10">
@@ -367,7 +367,7 @@ export default function ExpertSettingsPage() {
                       type="checkbox"
                       checked={settings.privacy.showSessionCount}
                       onChange={(e) => updateSetting('privacy', null, 'showSessionCount', e.target.checked)}
-                      className="w-5 h-5 rounded border-white/20 bg-white/5 text-purple-500 focus:ring-purple-500/50"
+                      className="w-5 h-5 rounded border-white/20 bg-white/5 text-cyan-500 focus:ring-cyan-500/50"
                     />
                   </div>
                   <div className="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/10">
@@ -376,7 +376,7 @@ export default function ExpertSettingsPage() {
                       type="checkbox"
                       checked={settings.privacy.showRating}
                       onChange={(e) => updateSetting('privacy', null, 'showRating', e.target.checked)}
-                      className="w-5 h-5 rounded border-white/20 bg-white/5 text-purple-500 focus:ring-purple-500/50"
+                      className="w-5 h-5 rounded border-white/20 bg-white/5 text-cyan-500 focus:ring-cyan-500/50"
                     />
                   </div>
                 </div>

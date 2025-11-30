@@ -257,7 +257,7 @@ export default function PricingPage() {
     <div className="min-h-screen bg-gray-950 text-white">
       {/* Hero Section */}
       <section className={cn(spacing.section.y, 'relative overflow-hidden')}>
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-purple-900/20 to-gray-950 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-cyan-900/20 to-gray-950 pointer-events-none" />
 
         <div className={spacing.container.wide}>
           <motion.div
@@ -287,7 +287,7 @@ export default function PricingPage() {
                 onClick={() => setBillingCycle(prev => prev === 'monthly' ? 'annual' : 'monthly')}
                 className={cn(
                   'relative w-16 h-8 rounded-full transition-colors',
-                  billingCycle === 'annual' ? 'bg-gradient-to-r from-blue-600 to-purple-600' : 'bg-gray-700'
+                  billingCycle === 'annual' ? 'bg-gradient-to-r from-blue-600 to-cyan-600' : 'bg-gray-700'
                 )}
                 aria-label="Toggle billing cycle"
               >
@@ -337,7 +337,7 @@ export default function PricingPage() {
                     <div className="absolute -top-4 left-0 right-0 flex justify-center z-10">
                       <span className={cn(
                         components.badge.primary,
-                        'bg-gradient-to-r from-blue-600 to-purple-600 border-0 text-white'
+                        'bg-gradient-to-r from-blue-600 to-cyan-600 border-0 text-white'
                       )}>
                         Most Popular
                       </span>
@@ -349,7 +349,7 @@ export default function PricingPage() {
                       effects.backdrop.blur,
                       'rounded-2xl p-8 h-full border-2 transition-all duration-300',
                       tier.popular
-                        ? 'border-purple-500/50 shadow-2xl shadow-purple-500/20 scale-105'
+                        ? 'border-cyan-500/50 shadow-2xl shadow-cyan-500/20 scale-105'
                         : 'border-gray-700/50 hover:border-gray-600/50'
                     )}
                   >
@@ -582,7 +582,7 @@ export default function PricingPage() {
                 exit={{ opacity: 0, height: 0 }}
                 className={cn(
                   effects.backdrop.blur,
-                  'border-2 border-purple-500/30 rounded-xl p-6 max-w-md mx-auto'
+                  'border-2 border-cyan-500/30 rounded-xl p-6 max-w-md mx-auto'
                 )}
               >
                 <h3 className="font-semibold text-lg mb-4">Your Add-ons</h3>
@@ -732,7 +732,7 @@ export default function PricingPage() {
 
       {/* Final CTA */}
       <section className={cn(spacing.section.y, 'relative overflow-hidden')}>
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-600/20 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-cyan-600/20 to-transparent pointer-events-none" />
 
         <div className={spacing.container.wide}>
           <motion.div

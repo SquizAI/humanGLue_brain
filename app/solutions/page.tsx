@@ -163,7 +163,7 @@ export default function SolutionsPage() {
 
         {/* Animated Orbs */}
         <motion.div
-          className="absolute top-20 left-10 w-96 h-96 bg-purple-500/20 rounded-full blur-[120px]"
+          className="absolute top-20 left-10 w-96 h-96 bg-cyan-500/20 rounded-full blur-[120px]"
           animate={{
             scale: [1, 1.2, 1],
             opacity: [0.3, 0.5, 0.3],
@@ -195,9 +195,9 @@ export default function SolutionsPage() {
             transition={{ duration: 0.6 }}
             className="max-w-4xl mx-auto text-center"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/10 backdrop-blur-sm border border-purple-500/20 mb-6">
-              <Sparkles className="w-4 h-4 text-purple-400" />
-              <span className="text-sm text-purple-300 font-diatype">Integrated AI + Human Approach</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 backdrop-blur-sm border border-cyan-500/20 mb-6">
+              <Sparkles className="w-4 h-4 text-cyan-400" />
+              <span className="text-sm text-cyan-300 font-diatype">Integrated AI + Human Approach</span>
             </div>
 
             <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 font-gendy leading-tight">
@@ -242,13 +242,13 @@ export default function SolutionsPage() {
                 <div className={index % 2 === 1 ? 'lg:col-start-2' : ''}>
                   <motion.div
                     whileHover={{ scale: 1.05 }}
-                    className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-purple-500/20 to-blue-500/20 mb-8"
+                    className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-blue-500/20 mb-8"
                   >
-                    <solution.icon className="w-10 h-10 text-purple-400" />
+                    <solution.icon className="w-10 h-10 text-cyan-400" />
                   </motion.div>
 
                   <h2 className="text-5xl font-bold text-white mb-4 font-gendy">{solution.title}</h2>
-                  <p className="text-2xl bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-6 font-gendy">
+                  <p className="text-2xl bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent mb-6 font-gendy">
                     {solution.tagline}
                   </p>
                   <p className="text-lg text-gray-300 mb-8 leading-relaxed font-diatype">
@@ -265,7 +265,7 @@ export default function SolutionsPage() {
                         transition={{ delay: i * 0.1 }}
                         className="flex gap-4"
                       >
-                        <div className="flex-shrink-0 w-6 h-6 rounded-full bg-gradient-to-br from-purple-400 to-blue-400 flex items-center justify-center mt-0.5">
+                        <div className="flex-shrink-0 w-6 h-6 rounded-full bg-gradient-to-br from-cyan-400 to-blue-400 flex items-center justify-center mt-0.5">
                           <CheckCircle className="w-4 h-4 text-white" />
                         </div>
                         <div>
@@ -332,7 +332,7 @@ export default function SolutionsPage() {
                             <p className="text-sm text-gray-400 mb-1 font-diatype">Enhanced with</p>
                             <p className="text-lg font-semibold text-white font-gendy">Human Glue AI</p>
                           </div>
-                          <Brain className="w-8 h-8 text-purple-400" />
+                          <Brain className="w-8 h-8 text-cyan-400" />
                         </div>
                       </div>
                     </motion.div>
@@ -346,7 +346,7 @@ export default function SolutionsPage() {
 
       {/* Toolbox Deep Dive */}
       <section className="py-20 relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-purple-950/10 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-cyan-950/10 via-transparent to-transparent" />
 
         <div className="container max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
           <motion.div
@@ -356,7 +356,7 @@ export default function SolutionsPage() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <Layers className="w-16 h-16 mx-auto mb-6 text-purple-400" />
+            <Layers className="w-16 h-16 mx-auto mb-6 text-cyan-400" />
             <h2 className="text-4xl font-bold text-white mb-4 font-gendy">
               The Human Glue Toolbox
             </h2>
@@ -374,18 +374,18 @@ export default function SolutionsPage() {
                 transition={{ delay: i * 0.1 }}
                 viewport={{ once: true }}
                 whileHover={{ y: -4 }}
-                className="bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-white/10 hover:border-purple-500/30 transition-all hover:shadow-[0_0_40px_rgba(168,85,247,0.15)]"
+                className="bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-white/10 hover:border-cyan-500/30 transition-all hover:shadow-[0_0_40px_rgba(168,85,247,0.15)]"
               >
                 <div className="flex items-center gap-4 mb-4">
-                  <div className="p-3 rounded-xl bg-gradient-to-br from-purple-500/20 to-blue-500/20">
-                    <category.icon className="w-6 h-6 text-purple-400" />
+                  <div className="p-3 rounded-xl bg-gradient-to-br from-cyan-500/20 to-blue-500/20">
+                    <category.icon className="w-6 h-6 text-cyan-400" />
                   </div>
                   <h3 className="text-lg font-semibold text-white font-gendy">{category.title}</h3>
                 </div>
                 <ul className="space-y-2">
                   {category.tools.map((tool, j) => (
                     <li key={j} className="flex items-center gap-2 text-sm text-gray-300 font-diatype">
-                      <div className="w-1.5 h-1.5 rounded-full bg-purple-400" />
+                      <div className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
                       {tool}
                     </li>
                   ))}
@@ -406,7 +406,7 @@ export default function SolutionsPage() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <Shield className="w-16 h-16 mx-auto mb-6 text-purple-400" />
+            <Shield className="w-16 h-16 mx-auto mb-6 text-cyan-400" />
             <h2 className="text-4xl font-bold text-white mb-4 font-gendy">
               The Power of Integration
             </h2>
@@ -448,7 +448,7 @@ export default function SolutionsPage() {
                   <motion.div
                     whileHover={{ scale: 1.1, rotate: 360 }}
                     transition={{ duration: 0.5 }}
-                    className="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-br from-purple-500/20 to-blue-500/20 flex items-center justify-center border-2 border-purple-500/30"
+                    className="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-br from-cyan-500/20 to-blue-500/20 flex items-center justify-center border-2 border-cyan-500/30"
                   >
                     <span className="text-3xl font-bold text-white font-gendy">{item.step}</span>
                   </motion.div>
@@ -469,7 +469,7 @@ export default function SolutionsPage() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="relative bg-gradient-to-br from-purple-900/30 to-blue-900/30 backdrop-blur-xl rounded-3xl border border-white/10 p-12 md:p-16 overflow-hidden"
+            className="relative bg-gradient-to-br from-cyan-900/30 to-blue-900/30 backdrop-blur-xl rounded-3xl border border-white/10 p-12 md:p-16 overflow-hidden"
           >
             {/* Background Pattern */}
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(168,85,247,0.1),transparent_70%)]" />

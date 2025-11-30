@@ -36,7 +36,7 @@ import Image from 'next/image'
 
 // Course categories
 const categories = [
-  { id: 'ai-adoption', name: 'AI Adoption & Strategy', color: 'purple' },
+  { id: 'ai-adoption', name: 'AI Adoption & Strategy', color: 'cyan' },
   { id: 'change-management', name: 'Change Management', color: 'blue' },
   { id: 'leadership', name: 'Leadership & Culture', color: 'green' },
   { id: 'data-ai', name: 'Data & AI Technical', color: 'cyan' },
@@ -448,7 +448,7 @@ export default function CoursesAdmin() {
                 onClick={handleOpenCreateModal}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center gap-2 font-diatype"
+                className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center gap-2 font-diatype"
               >
                 <Plus className="w-5 h-5" />
                 Add New Course
@@ -466,11 +466,11 @@ export default function CoursesAdmin() {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
-                className="bg-purple-500/20 border border-purple-500/30 backdrop-blur-xl rounded-2xl p-4 mb-6"
+                className="bg-cyan-500/20 border border-cyan-500/30 backdrop-blur-xl rounded-2xl p-4 mb-6"
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
-                    <CheckSquare className="w-5 h-5 text-purple-400" />
+                    <CheckSquare className="w-5 h-5 text-cyan-400" />
                     <span className="text-white font-semibold font-diatype">
                       {selectedCourses.length} course{selectedCourses.length > 1 ? 's' : ''} selected
                     </span>
@@ -527,7 +527,7 @@ export default function CoursesAdmin() {
                 className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-all flex items-center gap-2"
               >
                 {selectedCourses.length === filteredCourses.length ? (
-                  <CheckSquare className="w-5 h-5 text-purple-400" />
+                  <CheckSquare className="w-5 h-5 text-cyan-400" />
                 ) : (
                   <Square className="w-5 h-5 text-gray-400" />
                 )}
@@ -542,7 +542,7 @@ export default function CoursesAdmin() {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search courses, instructors..."
-                    className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype"
+                    className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
                   />
                 </div>
               </div>
@@ -551,7 +551,7 @@ export default function CoursesAdmin() {
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype"
+                className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
               >
                 <option value="all">All Categories</option>
                 {categories.map((cat) => (
@@ -565,7 +565,7 @@ export default function CoursesAdmin() {
               <select
                 value={selectedStatus}
                 onChange={(e) => setSelectedStatus(e.target.value)}
-                className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype"
+                className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
               >
                 <option value="all">All Status</option>
                 <option value="published">Published</option>
@@ -582,7 +582,7 @@ export default function CoursesAdmin() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
-                className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:border-purple-500/30 transition-all group"
+                className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:border-cyan-500/30 transition-all group"
               >
                 {/* Course Image */}
                 <div className="relative h-48 overflow-hidden">
@@ -605,7 +605,7 @@ export default function CoursesAdmin() {
                     className="absolute top-4 left-4 z-10"
                   >
                     {selectedCourses.includes(course.id) ? (
-                      <CheckSquare className="w-6 h-6 text-purple-400 bg-white rounded" />
+                      <CheckSquare className="w-6 h-6 text-cyan-400 bg-white rounded" />
                     ) : (
                       <Square className="w-6 h-6 text-white/60 hover:text-white transition-colors" />
                     )}
@@ -687,7 +687,7 @@ export default function CoursesAdmin() {
                         onClick={() => handleOpenEditModal(course)}
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        className="flex-1 px-4 py-2 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-purple-300 rounded-lg transition-all flex items-center justify-center gap-2 font-diatype"
+                        className="flex-1 px-4 py-2 bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-cyan-300 rounded-lg transition-all flex items-center justify-center gap-2 font-diatype"
                       >
                         <Edit className="w-4 h-4" />
                         Edit
@@ -816,7 +816,7 @@ export default function CoursesAdmin() {
                       placeholder="e.g., AI Transformation for Executives"
                       className={`w-full px-4 py-3 bg-white/5 border ${
                         formErrors.title ? 'border-red-500' : 'border-white/10'
-                      } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype`}
+                      } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype`}
                     />
                     {formErrors.title && (
                       <p className="text-red-400 text-sm mt-1 font-diatype">{formErrors.title}</p>
@@ -835,7 +835,7 @@ export default function CoursesAdmin() {
                       placeholder="e.g., Sarah Chen"
                       className={`w-full px-4 py-3 bg-white/5 border ${
                         formErrors.instructor ? 'border-red-500' : 'border-white/10'
-                      } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype`}
+                      } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype`}
                     />
                     {formErrors.instructor && (
                       <p className="text-red-400 text-sm mt-1 font-diatype">{formErrors.instructor}</p>
@@ -850,7 +850,7 @@ export default function CoursesAdmin() {
                     <select
                       value={formData.category}
                       onChange={(e) => handleFormChange('category', e.target.value)}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype"
+                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
                     >
                       {categories.map((cat) => (
                         <option key={cat.id} value={cat.id}>
@@ -868,7 +868,7 @@ export default function CoursesAdmin() {
                     <select
                       value={formData.level}
                       onChange={(e) => handleFormChange('level', e.target.value)}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype"
+                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
                     >
                       {levels.map((level) => (
                         <option key={level} value={level}>
@@ -890,7 +890,7 @@ export default function CoursesAdmin() {
                       placeholder="e.g., 6 hours"
                       className={`w-full px-4 py-3 bg-white/5 border ${
                         formErrors.duration ? 'border-red-500' : 'border-white/10'
-                      } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype`}
+                      } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype`}
                     />
                     {formErrors.duration && (
                       <p className="text-red-400 text-sm mt-1 font-diatype">{formErrors.duration}</p>
@@ -910,7 +910,7 @@ export default function CoursesAdmin() {
                       min="0"
                       className={`w-full px-4 py-3 bg-white/5 border ${
                         formErrors.lessons ? 'border-red-500' : 'border-white/10'
-                      } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype`}
+                      } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype`}
                     />
                     {formErrors.lessons && (
                       <p className="text-red-400 text-sm mt-1 font-diatype">{formErrors.lessons}</p>
@@ -931,7 +931,7 @@ export default function CoursesAdmin() {
                       step="0.01"
                       className={`w-full px-4 py-3 bg-white/5 border ${
                         formErrors.price ? 'border-red-500' : 'border-white/10'
-                      } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype`}
+                      } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype`}
                     />
                     {formErrors.price && (
                       <p className="text-red-400 text-sm mt-1 font-diatype">{formErrors.price}</p>
@@ -946,7 +946,7 @@ export default function CoursesAdmin() {
                     <select
                       value={formData.status}
                       onChange={(e) => handleFormChange('status', e.target.value)}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype"
+                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
                     >
                       <option value="draft">Draft</option>
                       <option value="published">Published</option>
@@ -966,7 +966,7 @@ export default function CoursesAdmin() {
                         placeholder="https://images.unsplash.com/photo-..."
                         className={`flex-1 px-4 py-3 bg-white/5 border ${
                           formErrors.image ? 'border-red-500' : 'border-white/10'
-                        } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype`}
+                        } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype`}
                       />
                       <button className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-gray-400 hover:text-white hover:bg-white/10 transition-all">
                         <ImageIcon className="w-5 h-5" />
@@ -999,7 +999,7 @@ export default function CoursesAdmin() {
                       onChange={(e) => handleFormChange('description', e.target.value)}
                       placeholder="Provide a detailed description of the course content, learning outcomes, and target audience..."
                       rows={4}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype resize-none"
+                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype resize-none"
                     />
                   </div>
                 </div>
@@ -1017,7 +1017,7 @@ export default function CoursesAdmin() {
                 <button
                   onClick={handleSaveCourse}
                   disabled={isSubmitting}
-                  className="flex-1 px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white rounded-xl transition-all font-semibold flex items-center justify-center gap-2 font-diatype disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white rounded-xl transition-all font-semibold flex items-center justify-center gap-2 font-diatype disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? (
                     <>
@@ -1093,8 +1093,8 @@ export default function CoursesAdmin() {
                     </p>
                     <p className="text-xs text-gray-400 font-diatype">Avg Rating</p>
                   </div>
-                  <div className="bg-purple-500/10 border border-purple-500/20 rounded-xl p-4">
-                    <DollarSign className="w-5 h-5 text-purple-400 mb-2" />
+                  <div className="bg-cyan-500/10 border border-cyan-500/20 rounded-xl p-4">
+                    <DollarSign className="w-5 h-5 text-cyan-400 mb-2" />
                     <p className="text-2xl font-bold text-white mb-1 font-gendy">
                       ${(selectedCourseForAnalytics.students * selectedCourseForAnalytics.price).toLocaleString()}
                     </p>
@@ -1108,7 +1108,7 @@ export default function CoursesAdmin() {
                     {[65, 78, 82, 95, 88, 92, 100].map((height, i) => (
                       <div key={i} className="flex-1 flex flex-col items-center">
                         <div
-                          className="w-full bg-gradient-to-t from-purple-500 to-blue-500 rounded-t-lg"
+                          className="w-full bg-gradient-to-t from-cyan-500 to-blue-500 rounded-t-lg"
                           style={{ height: `${height}%` }}
                         />
                         <span className="text-xs text-gray-500 mt-2 font-diatype">W{i + 1}</span>

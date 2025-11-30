@@ -87,7 +87,7 @@ export function TalentProfileDetail({ talent }: TalentProfileDetailProps) {
   return (
     <div className="min-h-screen bg-gray-900">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-gray-900 via-purple-900/20 to-gray-900 py-16">
+      <section className="relative bg-gradient-to-br from-gray-900 via-cyan-900/20 to-gray-900 py-16">
         <div className={spacing.container.wide}>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -97,7 +97,7 @@ export function TalentProfileDetail({ talent }: TalentProfileDetailProps) {
             {/* Back Link */}
             <Link
               href="/talent"
-              className="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 mb-8 transition-colors"
+              className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 mb-8 transition-colors"
             >
               <ArrowRight className="w-4 h-4 rotate-180" />
               Back to marketplace
@@ -106,7 +106,7 @@ export function TalentProfileDetail({ talent }: TalentProfileDetailProps) {
             <div className="flex flex-col md:flex-row gap-8 items-start">
               {/* Avatar */}
               <div className="relative flex-shrink-0">
-                <div className="w-32 h-32 rounded-3xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center text-white text-4xl font-bold">
+                <div className="w-32 h-32 rounded-3xl bg-gradient-to-br from-cyan-500 to-cyan-600 flex items-center justify-center text-white text-4xl font-bold">
                   {talent.avatar ? (
                     <img
                       src={talent.avatar}
@@ -142,7 +142,7 @@ export function TalentProfileDetail({ talent }: TalentProfileDetailProps) {
                         aria-label="Verified Expert"
                       />
                     </div>
-                    <p className="text-xl text-purple-300 font-medium mb-3">
+                    <p className="text-xl text-cyan-300 font-medium mb-3">
                       {talent.title}
                     </p>
                     <p className="text-lg text-gray-300 leading-relaxed max-w-2xl">
@@ -154,19 +154,19 @@ export function TalentProfileDetail({ talent }: TalentProfileDetailProps) {
                 {/* Quick Stats */}
                 <div className="flex flex-wrap items-center gap-6 text-sm text-gray-300 mb-6">
                   <div className="flex items-center gap-2">
-                    <MapPin className="w-4 h-4 text-purple-400" />
+                    <MapPin className="w-4 h-4 text-cyan-400" />
                     <span>{talent.location}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Briefcase className="w-4 h-4 text-purple-400" />
+                    <Briefcase className="w-4 h-4 text-cyan-400" />
                     <span>{talent.yearsExperience}+ years experience</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Users className="w-4 h-4 text-purple-400" />
+                    <Users className="w-4 h-4 text-cyan-400" />
                     <span>{talent.clientsTransformed} clients transformed</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <TrendingUp className="w-4 h-4 text-purple-400" />
+                    <TrendingUp className="w-4 h-4 text-cyan-400" />
                     <span>{talent.employeesReframed.toLocaleString()}+ reframed</span>
                   </div>
                 </div>
@@ -218,7 +218,7 @@ export function TalentProfileDetail({ talent }: TalentProfileDetailProps) {
                         'w-full px-6 py-4 rounded-full font-semibold text-white text-lg transition-all duration-300 flex items-center justify-center gap-2',
                         talent.availability === 'booked'
                           ? 'bg-gray-600 cursor-not-allowed'
-                          : 'bg-gradient-to-r from-purple-500 to-purple-600 hover:shadow-lg hover:shadow-purple-500/50'
+                          : 'bg-gradient-to-r from-cyan-500 to-cyan-600 hover:shadow-lg hover:shadow-cyan-500/50'
                       )}
                       data-testid="request-engagement-button"
                     >
@@ -268,7 +268,7 @@ export function TalentProfileDetail({ talent }: TalentProfileDetailProps) {
                     )}
                   >
                     <div className="flex items-center gap-3 mb-3">
-                      <TrendingUp className="w-6 h-6 text-purple-400" />
+                      <TrendingUp className="w-6 h-6 text-cyan-400" />
                       <h3 className="text-sm font-semibold text-gray-400">
                         Transformation Success Rate
                       </h3>
@@ -293,7 +293,7 @@ export function TalentProfileDetail({ talent }: TalentProfileDetailProps) {
                     )}
                   >
                     <div className="flex items-center gap-3 mb-3">
-                      <Target className="w-6 h-6 text-purple-400" />
+                      <Target className="w-6 h-6 text-cyan-400" />
                       <h3 className="text-sm font-semibold text-gray-400">
                         Behavior Change Score
                       </h3>
@@ -316,7 +316,7 @@ export function TalentProfileDetail({ talent }: TalentProfileDetailProps) {
                     )}
                   >
                     <div className="flex items-center gap-3 mb-3">
-                      <Users className="w-6 h-6 text-purple-400" />
+                      <Users className="w-6 h-6 text-cyan-400" />
                       <h3 className="text-sm font-semibold text-gray-400">
                         Client Retention Rate
                       </h3>
@@ -332,14 +332,14 @@ export function TalentProfileDetail({ talent }: TalentProfileDetailProps) {
                     <p className="text-sm text-gray-400">Clients returning for more</p>
                   </div>
 
-                  <div className="p-6 rounded-2xl border bg-purple-500/10 border-purple-500/20">
+                  <div className="p-6 rounded-2xl border bg-cyan-500/10 border-cyan-500/20">
                     <div className="flex items-center gap-3 mb-3">
-                      <Award className="w-6 h-6 text-purple-400" />
+                      <Award className="w-6 h-6 text-cyan-400" />
                       <h3 className="text-sm font-semibold text-gray-400">
                         Cultures Transformed
                       </h3>
                     </div>
-                    <div className="text-5xl font-bold mb-2 text-purple-400">
+                    <div className="text-5xl font-bold mb-2 text-cyan-400">
                       {talent.adaptabilityImpact.culturesTransformed}
                     </div>
                     <p className="text-sm text-gray-400">
@@ -362,7 +362,7 @@ export function TalentProfileDetail({ talent }: TalentProfileDetailProps) {
                   {talent.expertise.map((skill, index) => (
                     <span
                       key={index}
-                      className="px-4 py-2 rounded-full text-sm font-medium bg-purple-500/10 border border-purple-500/20 text-purple-300"
+                      className="px-4 py-2 rounded-full text-sm font-medium bg-cyan-500/10 border border-cyan-500/20 text-cyan-300"
                     >
                       {skill}
                     </span>
@@ -388,7 +388,7 @@ export function TalentProfileDetail({ talent }: TalentProfileDetailProps) {
                         key={index}
                         className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-gray-700"
                       >
-                        <Building2 className="w-5 h-5 text-purple-400" />
+                        <Building2 className="w-5 h-5 text-cyan-400" />
                         <span className="text-gray-300">{industry}</span>
                       </div>
                     ))}
@@ -407,7 +407,7 @@ export function TalentProfileDetail({ talent }: TalentProfileDetailProps) {
                         className={cn(
                           'p-4 rounded-xl text-center font-medium',
                           talent.focusAreas.transformationStages.includes(stage)
-                            ? 'bg-purple-500/20 text-purple-300 border-2 border-purple-500/40'
+                            ? 'bg-cyan-500/20 text-cyan-300 border-2 border-cyan-500/40'
                             : 'bg-gray-800 text-gray-500 border border-gray-700'
                         )}
                       >
@@ -417,7 +417,7 @@ export function TalentProfileDetail({ talent }: TalentProfileDetailProps) {
                   </div>
                   <div className="mt-4 p-4 rounded-xl bg-white/5 border border-gray-700">
                     <div className="flex items-center gap-2 text-sm text-gray-400">
-                      <MessageSquare className="w-4 h-4 text-purple-400" />
+                      <MessageSquare className="w-4 h-4 text-cyan-400" />
                       <span className="font-medium">Coaching Style:</span>
                       <span className="text-white capitalize">
                         {talent.focusAreas.coachingStyle}
@@ -443,7 +443,7 @@ export function TalentProfileDetail({ talent }: TalentProfileDetailProps) {
                       className="p-6 rounded-2xl bg-white/5 border border-gray-700"
                     >
                       <div className="flex items-start gap-4 mb-4">
-                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold flex-shrink-0">
+                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white font-bold flex-shrink-0">
                           {testimonial.client.charAt(0)}
                         </div>
                         <div className="flex-1">
@@ -487,7 +487,7 @@ export function TalentProfileDetail({ talent }: TalentProfileDetailProps) {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="sticky top-24 p-8 rounded-3xl bg-gradient-to-br from-purple-500/10 to-purple-600/5 border-2 border-purple-500/20"
+                className="sticky top-24 p-8 rounded-3xl bg-gradient-to-br from-cyan-500/10 to-cyan-600/5 border-2 border-cyan-500/20"
               >
                 <h3 className={cn(typography.heading.h4, 'text-white mb-6')}>
                   Engagement Details
@@ -496,7 +496,7 @@ export function TalentProfileDetail({ talent }: TalentProfileDetailProps) {
                 {/* Hourly Rate */}
                 <div className="mb-6">
                   <div className="flex items-center gap-2 text-gray-400 mb-2">
-                    <DollarSign className="w-5 h-5 text-purple-400" />
+                    <DollarSign className="w-5 h-5 text-cyan-400" />
                     <span className="text-sm font-medium">Hourly Rate</span>
                   </div>
                   <div className="text-4xl font-bold text-white">
@@ -509,7 +509,7 @@ export function TalentProfileDetail({ talent }: TalentProfileDetailProps) {
                 {talent.minEngagement && (
                   <div className="mb-6">
                     <div className="flex items-center gap-2 text-gray-400 mb-2">
-                      <Clock className="w-5 h-5 text-purple-400" />
+                      <Clock className="w-5 h-5 text-cyan-400" />
                       <span className="text-sm font-medium">Minimum Engagement</span>
                     </div>
                     <div className="text-xl font-semibold text-white">
@@ -521,7 +521,7 @@ export function TalentProfileDetail({ talent }: TalentProfileDetailProps) {
                 {/* Availability */}
                 <div className="mb-8">
                   <div className="flex items-center gap-2 text-gray-400 mb-2">
-                    <Calendar className="w-5 h-5 text-purple-400" />
+                    <Calendar className="w-5 h-5 text-cyan-400" />
                     <span className="text-sm font-medium">Availability</span>
                   </div>
                   <div
@@ -563,7 +563,7 @@ export function TalentProfileDetail({ talent }: TalentProfileDetailProps) {
                       'w-full px-6 py-4 rounded-full font-semibold text-white transition-all duration-300 flex items-center justify-center gap-2',
                       talent.availability === 'booked'
                         ? 'bg-gray-600 cursor-not-allowed'
-                        : 'bg-gradient-to-r from-purple-500 to-purple-600 hover:shadow-lg hover:shadow-purple-500/50'
+                        : 'bg-gradient-to-r from-cyan-500 to-cyan-600 hover:shadow-lg hover:shadow-cyan-500/50'
                     )}
                   >
                     <ShoppingCart className="w-5 h-5" />

@@ -239,7 +239,7 @@ export default function TeachLessonPage() {
               {/* Placeholder for lesson content - could be slides, video, etc. */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-center">
-                  <FileText className="w-24 h-24 text-purple-400 mx-auto mb-4" />
+                  <FileText className="w-24 h-24 text-cyan-400 mx-auto mb-4" />
                   <h3 className="text-2xl font-bold text-white mb-2 font-gendy">
                     Lesson Content Area
                   </h3>
@@ -335,7 +335,7 @@ export default function TeachLessonPage() {
             <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden flex flex-col h-1/2">
               <div className="bg-gray-800/50 px-4 py-3 border-b border-white/10 flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Users className="w-4 h-4 text-purple-400" />
+                  <Users className="w-4 h-4 text-cyan-400" />
                   <h3 className="font-semibold text-white font-diatype">
                     Students ({students.length})
                   </h3>
@@ -388,7 +388,7 @@ export default function TeachLessonPage() {
                         <div className="flex items-center gap-2 mt-1">
                           <div className="flex-1 bg-gray-700 rounded-full h-1.5">
                             <div
-                              className="bg-gradient-to-r from-purple-500 to-blue-500 h-full rounded-full transition-all"
+                              className="bg-gradient-to-r from-cyan-500 to-blue-500 h-full rounded-full transition-all"
                               style={{ width: `${student.progress}%` }}
                             />
                           </div>
@@ -432,7 +432,7 @@ export default function TeachLessonPage() {
                         key={msg.id}
                         className={`p-3 rounded-lg ${
                           msg.type === 'question'
-                            ? 'bg-purple-500/10 border border-purple-500/20'
+                            ? 'bg-cyan-500/10 border border-cyan-500/20'
                             : msg.type === 'answer'
                             ? 'bg-blue-500/10 border border-blue-500/20'
                             : 'bg-white/5'
@@ -442,14 +442,14 @@ export default function TeachLessonPage() {
                           <div
                             className={`p-1 rounded ${
                               msg.type === 'question'
-                                ? 'bg-purple-500/20'
+                                ? 'bg-cyan-500/20'
                                 : msg.type === 'answer'
                                 ? 'bg-blue-500/20'
                                 : 'bg-gray-500/20'
                             }`}
                           >
                             {msg.type === 'question' ? (
-                              <AlertCircle className="w-3 h-3 text-purple-400" />
+                              <AlertCircle className="w-3 h-3 text-cyan-400" />
                             ) : msg.type === 'answer' ? (
                               <CheckCircle className="w-3 h-3 text-blue-400" />
                             ) : (
@@ -481,12 +481,12 @@ export default function TeachLessonPage() {
                         onChange={(e) => setMessage(e.target.value)}
                         onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
                         placeholder="Type your response..."
-                        className="flex-1 px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                        className="flex-1 px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 transition-all font-diatype"
                       />
                       <button
                         onClick={handleSendMessage}
                         disabled={!message.trim()}
-                        className="p-2 bg-purple-500 hover:bg-purple-600 disabled:bg-gray-600 disabled:cursor-not-allowed text-white rounded-lg transition-all"
+                        className="p-2 bg-cyan-500 hover:bg-cyan-600 disabled:bg-gray-600 disabled:cursor-not-allowed text-white rounded-lg transition-all"
                       >
                         <Send className="w-5 h-5" />
                       </button>

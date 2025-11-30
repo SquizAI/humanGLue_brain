@@ -199,7 +199,7 @@ export default function InstructorSettingsPage() {
                     className={cn(
                       "flex items-center gap-2 px-6 py-3 rounded-xl font-medium font-diatype transition-all whitespace-nowrap",
                       isActive
-                        ? "bg-gradient-to-r from-purple-500/20 to-blue-500/20 border border-purple-500/30 text-white"
+                        ? "bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-500/30 text-white"
                         : "bg-white/5 border border-white/10 text-gray-400 hover:bg-white/10 hover:text-white"
                     )}
                   >
@@ -368,7 +368,7 @@ export default function InstructorSettingsPage() {
                                 className={cn(
                                   "relative w-12 h-6 rounded-full transition-all cursor-pointer",
                                   settings.notifications.emailNotifications[key as keyof typeof settings.notifications.emailNotifications]
-                                    ? "bg-purple-500"
+                                    ? "bg-cyan-500"
                                     : "bg-gray-700"
                                 )}
                               >
@@ -390,7 +390,7 @@ export default function InstructorSettingsPage() {
                       <div className="mb-8">
                         <label className="flex items-center justify-between p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-all cursor-pointer">
                           <div className="flex items-center gap-3">
-                            <Smartphone className="w-5 h-5 text-purple-400" />
+                            <Smartphone className="w-5 h-5 text-cyan-400" />
                             <div>
                               <span className="text-white font-semibold block font-diatype">SMS Notifications</span>
                               <span className="text-sm text-gray-400 font-diatype">Receive text messages for important updates</span>
@@ -402,7 +402,7 @@ export default function InstructorSettingsPage() {
                             })}
                             className={cn(
                               "relative w-12 h-6 rounded-full transition-all cursor-pointer",
-                              settings.notifications.smsNotifications ? "bg-purple-500" : "bg-gray-700"
+                              settings.notifications.smsNotifications ? "bg-cyan-500" : "bg-gray-700"
                             )}
                           >
                             <div
@@ -431,7 +431,7 @@ export default function InstructorSettingsPage() {
                             })}
                             className={cn(
                               "relative w-12 h-6 rounded-full transition-all cursor-pointer",
-                              settings.notifications.pushNotifications ? "bg-purple-500" : "bg-gray-700"
+                              settings.notifications.pushNotifications ? "bg-cyan-500" : "bg-gray-700"
                             )}
                           >
                             <div
@@ -455,7 +455,7 @@ export default function InstructorSettingsPage() {
                               className={cn(
                                 "px-6 py-3 rounded-lg font-medium font-diatype transition-all",
                                 settings.notifications.frequency === freq
-                                  ? "bg-purple-500 text-white"
+                                  ? "bg-cyan-500 text-white"
                                   : "bg-white/5 text-gray-400 hover:bg-white/10"
                               )}
                             >
@@ -495,7 +495,7 @@ export default function InstructorSettingsPage() {
                               className={cn(
                                 "p-4 rounded-xl font-medium font-diatype transition-all text-left",
                                 settings.privacy.profileVisibility === option.value
-                                  ? "bg-purple-500/20 border-2 border-purple-500 text-white"
+                                  ? "bg-cyan-500/20 border-2 border-cyan-500 text-white"
                                   : "bg-white/5 border-2 border-white/10 text-gray-400 hover:bg-white/10"
                               )}
                             >
@@ -514,7 +514,7 @@ export default function InstructorSettingsPage() {
                             onClick={() => updateSettings('privacy', { showEmail: !settings.privacy.showEmail })}
                             className={cn(
                               "relative w-12 h-6 rounded-full transition-all cursor-pointer",
-                              settings.privacy.showEmail ? "bg-purple-500" : "bg-gray-700"
+                              settings.privacy.showEmail ? "bg-cyan-500" : "bg-gray-700"
                             )}
                           >
                             <div
@@ -532,7 +532,7 @@ export default function InstructorSettingsPage() {
                             onClick={() => updateSettings('privacy', { showPhone: !settings.privacy.showPhone })}
                             className={cn(
                               "relative w-12 h-6 rounded-full transition-all cursor-pointer",
-                              settings.privacy.showPhone ? "bg-purple-500" : "bg-gray-700"
+                              settings.privacy.showPhone ? "bg-cyan-500" : "bg-gray-700"
                             )}
                           >
                             <div
@@ -550,7 +550,7 @@ export default function InstructorSettingsPage() {
                             onClick={() => updateSettings('privacy', { displayStudentCount: !settings.privacy.displayStudentCount })}
                             className={cn(
                               "relative w-12 h-6 rounded-full transition-all cursor-pointer",
-                              settings.privacy.displayStudentCount ? "bg-purple-500" : "bg-gray-700"
+                              settings.privacy.displayStudentCount ? "bg-cyan-500" : "bg-gray-700"
                             )}
                           >
                             <div
@@ -589,7 +589,7 @@ export default function InstructorSettingsPage() {
                               className={cn(
                                 "p-4 rounded-xl font-medium font-diatype transition-all",
                                 settings.payment.paymentMethod === method
-                                  ? "bg-purple-500/20 border-2 border-purple-500 text-white"
+                                  ? "bg-cyan-500/20 border-2 border-cyan-500 text-white"
                                   : "bg-white/5 border-2 border-white/10 text-gray-400 hover:bg-white/10"
                               )}
                             >
@@ -610,7 +610,7 @@ export default function InstructorSettingsPage() {
                               className={cn(
                                 "p-4 rounded-xl font-medium font-diatype transition-all",
                                 settings.payment.payoutSchedule === schedule
-                                  ? "bg-purple-500/20 border-2 border-purple-500 text-white"
+                                  ? "bg-cyan-500/20 border-2 border-cyan-500 text-white"
                                   : "bg-white/5 border-2 border-white/10 text-gray-400 hover:bg-white/10"
                               )}
                             >
@@ -683,7 +683,7 @@ export default function InstructorSettingsPage() {
                             onClick={() => updateSettings('teaching', { autoApproveEnrollments: !settings.teaching.autoApproveEnrollments })}
                             className={cn(
                               "relative w-12 h-6 rounded-full transition-all cursor-pointer",
-                              settings.teaching.autoApproveEnrollments ? "bg-purple-500" : "bg-gray-700"
+                              settings.teaching.autoApproveEnrollments ? "bg-cyan-500" : "bg-gray-700"
                             )}
                           >
                             <div
@@ -704,7 +704,7 @@ export default function InstructorSettingsPage() {
                             onClick={() => updateSettings('teaching', { allowQA: !settings.teaching.allowQA })}
                             className={cn(
                               "relative w-12 h-6 rounded-full transition-all cursor-pointer",
-                              settings.teaching.allowQA ? "bg-purple-500" : "bg-gray-700"
+                              settings.teaching.allowQA ? "bg-cyan-500" : "bg-gray-700"
                             )}
                           >
                             <div
@@ -725,7 +725,7 @@ export default function InstructorSettingsPage() {
                             onClick={() => updateSettings('teaching', { allowReviews: !settings.teaching.allowReviews })}
                             className={cn(
                               "relative w-12 h-6 rounded-full transition-all cursor-pointer",
-                              settings.teaching.allowReviews ? "bg-purple-500" : "bg-gray-700"
+                              settings.teaching.allowReviews ? "bg-cyan-500" : "bg-gray-700"
                             )}
                           >
                             <div
@@ -746,7 +746,7 @@ export default function InstructorSettingsPage() {
                             onClick={() => updateSettings('teaching', { requireCertificates: !settings.teaching.requireCertificates })}
                             className={cn(
                               "relative w-12 h-6 rounded-full transition-all cursor-pointer",
-                              settings.teaching.requireCertificates ? "bg-purple-500" : "bg-gray-700"
+                              settings.teaching.requireCertificates ? "bg-cyan-500" : "bg-gray-700"
                             )}
                           >
                             <div
@@ -816,7 +816,7 @@ export default function InstructorSettingsPage() {
                           </div>
                           <button
                             onClick={handleChangePassword}
-                            className="w-full px-4 py-3 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-all font-semibold font-diatype"
+                            className="w-full px-4 py-3 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition-all font-semibold font-diatype"
                           >
                             Update Password
                           </button>
@@ -862,11 +862,11 @@ export default function InstructorSettingsPage() {
                           {settings.security.activeSessions.map((session, index) => (
                             <div key={index} className="p-4 bg-white/5 rounded-xl flex items-start justify-between">
                               <div className="flex items-start gap-3">
-                                <div className="p-2 bg-purple-500/10 rounded-lg">
+                                <div className="p-2 bg-cyan-500/10 rounded-lg">
                                   {session.device.includes('Mac') || session.device.includes('Windows') ? (
-                                    <Monitor className="w-5 h-5 text-purple-400" />
+                                    <Monitor className="w-5 h-5 text-cyan-400" />
                                   ) : (
-                                    <Smartphone className="w-5 h-5 text-purple-400" />
+                                    <Smartphone className="w-5 h-5 text-cyan-400" />
                                   )}
                                 </div>
                                 <div>
@@ -945,7 +945,7 @@ export default function InstructorSettingsPage() {
                         whileTap={{ scale: 0.95 }}
                         onClick={handleSave}
                         disabled={isSaving}
-                        className="px-6 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-blue-500 text-white font-semibold flex items-center gap-2 font-diatype disabled:opacity-50"
+                        className="px-6 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold flex items-center gap-2 font-diatype disabled:opacity-50"
                       >
                         {isSaving ? (
                           <>

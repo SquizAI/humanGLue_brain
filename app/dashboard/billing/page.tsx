@@ -84,7 +84,7 @@ export default function BillingPage() {
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-4">
-            <CreditCard className="w-8 h-8 text-purple-400" />
+            <CreditCard className="w-8 h-8 text-cyan-400" />
             <h1 className="text-3xl font-bold text-white">Billing & Subscription</h1>
           </div>
           <p className="text-gray-400">
@@ -99,7 +99,7 @@ export default function BillingPage() {
             <div className="bg-gray-900/50 backdrop-blur-xl rounded-xl border border-gray-800 p-6">
               <h2 className="text-xl font-bold text-white mb-6">Current Plan</h2>
 
-              <div className="bg-gradient-to-br from-purple-500/10 via-blue-500/10 to-cyan-500/10 rounded-xl p-6 border border-purple-500/20 mb-6">
+              <div className="bg-gradient-to-br from-cyan-500/10 via-blue-500/10 to-cyan-500/10 rounded-xl p-6 border border-cyan-500/20 mb-6">
                 <div className="flex items-start justify-between mb-4">
                   <div>
                     <h3 className="text-2xl font-bold text-white mb-1">
@@ -110,7 +110,7 @@ export default function BillingPage() {
                     </p>
                   </div>
                   <div className="text-right">
-                    <div className="text-3xl font-bold text-purple-400">
+                    <div className="text-3xl font-bold text-cyan-400">
                       ${currentPlan.price}
                     </div>
                     <div className="text-sm text-gray-400">per month</div>
@@ -244,7 +244,7 @@ export default function BillingPage() {
                   </div>
                   <div className="w-full bg-gray-800 rounded-full h-2">
                     <div
-                      className="bg-gradient-to-r from-purple-600 to-blue-600 h-2 rounded-full"
+                      className="bg-gradient-to-r from-cyan-600 to-blue-600 h-2 rounded-full"
                       style={{ width: `${(currentPlan.users / currentPlan.maxUsers) * 100}%` }}
                     />
                   </div>

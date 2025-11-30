@@ -207,7 +207,7 @@ export default function NewExpert() {
                   disabled={isSubmitting}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white rounded-xl transition-all font-semibold flex items-center gap-2 font-diatype disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white rounded-xl transition-all font-semibold flex items-center gap-2 font-diatype disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? (
                     <>
@@ -248,7 +248,7 @@ export default function NewExpert() {
                     placeholder="e.g., Sarah Chen"
                     className={`w-full px-4 py-3 bg-white/5 border ${
                       formErrors.name ? 'border-red-500' : 'border-white/10'
-                    } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype`}
+                    } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype`}
                   />
                   {formErrors.name && (
                     <p className="text-red-400 text-sm mt-1 font-diatype">{formErrors.name}</p>
@@ -267,7 +267,7 @@ export default function NewExpert() {
                     placeholder="e.g., AI Strategy & Transformation"
                     className={`w-full px-4 py-3 bg-white/5 border ${
                       formErrors.title ? 'border-red-500' : 'border-white/10'
-                    } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype`}
+                    } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype`}
                   />
                   {formErrors.title && (
                     <p className="text-red-400 text-sm mt-1 font-diatype">{formErrors.title}</p>
@@ -284,7 +284,7 @@ export default function NewExpert() {
                     value={formData.company}
                     onChange={(e) => handleFormChange('company', e.target.value)}
                     placeholder="e.g., San Francisco, CA"
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
                   />
                 </div>
 
@@ -300,7 +300,7 @@ export default function NewExpert() {
                     placeholder="expert@example.com"
                     className={`w-full px-4 py-3 bg-white/5 border ${
                       formErrors.email ? 'border-red-500' : 'border-white/10'
-                    } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype`}
+                    } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype`}
                   />
                   {formErrors.email && (
                     <p className="text-red-400 text-sm mt-1 font-diatype">{formErrors.email}</p>
@@ -317,7 +317,7 @@ export default function NewExpert() {
                     value={formData.phone}
                     onChange={(e) => handleFormChange('phone', e.target.value)}
                     placeholder="+1 (555) 123-4567"
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
                   />
                 </div>
 
@@ -331,7 +331,7 @@ export default function NewExpert() {
                     value={formData.linkedinUrl}
                     onChange={(e) => handleFormChange('linkedinUrl', e.target.value)}
                     placeholder="https://linkedin.com/in/username"
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
                   />
                 </div>
 
@@ -349,7 +349,7 @@ export default function NewExpert() {
                     step="10"
                     className={`w-full px-4 py-3 bg-white/5 border ${
                       formErrors.hourlyRate ? 'border-red-500' : 'border-white/10'
-                    } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype`}
+                    } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype`}
                   />
                   {formErrors.hourlyRate && (
                     <p className="text-red-400 text-sm mt-1 font-diatype">{formErrors.hourlyRate}</p>
@@ -369,7 +369,7 @@ export default function NewExpert() {
                     min="0"
                     className={`w-full px-4 py-3 bg-white/5 border ${
                       formErrors.yearsExp ? 'border-red-500' : 'border-white/10'
-                    } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype`}
+                    } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype`}
                   />
                   {formErrors.yearsExp && (
                     <p className="text-red-400 text-sm mt-1 font-diatype">{formErrors.yearsExp}</p>
@@ -384,7 +384,7 @@ export default function NewExpert() {
                   <select
                     value={formData.availability}
                     onChange={(e) => handleFormChange('availability', e.target.value)}
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
                   >
                     {availabilityOptions.map((option) => (
                       <option key={option.value} value={option.value}>
@@ -402,7 +402,7 @@ export default function NewExpert() {
                   <select
                     value={formData.status}
                     onChange={(e) => handleFormChange('status', e.target.value)}
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
                   >
                     {statusOptions.map((option) => (
                       <option key={option.value} value={option.value}>
@@ -425,8 +425,8 @@ export default function NewExpert() {
                         onClick={() => toggleSpecialty(specialty)}
                         className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all font-diatype ${
                           formData.specialties.includes(specialty)
-                            ? 'bg-purple-500 text-white border-2 border-purple-400'
-                            : 'bg-white/5 text-gray-300 border-2 border-white/10 hover:border-purple-500/50'
+                            ? 'bg-cyan-500 text-white border-2 border-cyan-400'
+                            : 'bg-white/5 text-gray-300 border-2 border-white/10 hover:border-cyan-500/50'
                         }`}
                       >
                         {specialty}
@@ -448,7 +448,7 @@ export default function NewExpert() {
                       placeholder="https://images.unsplash.com/photo-..."
                       className={`flex-1 px-4 py-3 bg-white/5 border ${
                         formErrors.image ? 'border-red-500' : 'border-white/10'
-                      } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype`}
+                      } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype`}
                     />
                     <button
                       type="button"
@@ -486,7 +486,7 @@ export default function NewExpert() {
                     rows={4}
                     className={`w-full px-4 py-3 bg-white/5 border ${
                       formErrors.bio ? 'border-red-500' : 'border-white/10'
-                    } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype resize-none`}
+                    } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype resize-none`}
                   />
                   {formErrors.bio && (
                     <p className="text-red-400 text-sm mt-1 font-diatype">{formErrors.bio}</p>

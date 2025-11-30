@@ -130,8 +130,8 @@ export default function LibraryPage() {
   ]
 
   const categories = [
-    { value: 'all', label: 'All Categories', icon: <Folder className="w-5 h-5" />, count: resources.length, gradient: 'from-purple-500 to-blue-500' },
-    { value: 'Strategy', label: 'Strategy & Planning', icon: <Brain className="w-5 h-5" />, count: resources.filter(r => r.category === 'Strategy').length, gradient: 'from-purple-500 to-blue-500' },
+    { value: 'all', label: 'All Categories', icon: <Folder className="w-5 h-5" />, count: resources.length, gradient: 'from-cyan-500 to-blue-500' },
+    { value: 'Strategy', label: 'Strategy & Planning', icon: <Brain className="w-5 h-5" />, count: resources.filter(r => r.category === 'Strategy').length, gradient: 'from-cyan-500 to-blue-500' },
     { value: 'Technical', label: 'Technical Implementation', icon: <Zap className="w-5 h-5" />, count: resources.filter(r => r.category === 'Technical').length, gradient: 'from-blue-500 to-cyan-500' },
     { value: 'Ethics', label: 'Ethics & Governance', icon: <Trophy className="w-5 h-5" />, count: resources.filter(r => r.category === 'Ethics').length, gradient: 'from-cyan-500 to-green-500' },
     { value: 'Leadership', label: 'Change & Leadership', icon: <Users className="w-5 h-5" />, count: resources.filter(r => r.category === 'Leadership').length, gradient: 'from-green-500 to-amber-500' },
@@ -342,7 +342,7 @@ export default function LibraryPage() {
           {/* All Resources */}
           <section>
             <div className="flex items-center gap-3 mb-6">
-              <BookOpen className="w-6 h-6 text-purple-400" />
+              <BookOpen className="w-6 h-6 text-cyan-400" />
               <h2 className="text-2xl font-bold text-white font-gendy">All Resources</h2>
             </div>
 
@@ -355,11 +355,11 @@ export default function LibraryPage() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: index * 0.05 }}
                   whileHover={{ x: 4 }}
-                  className="group relative overflow-hidden bg-white/5 backdrop-blur-xl rounded-xl border border-white/10 hover:border-purple-500/30 transition-all hover:shadow-[0_0_30px_rgba(168,85,247,0.15)]"
+                  className="group relative overflow-hidden bg-white/5 backdrop-blur-xl rounded-xl border border-white/10 hover:border-cyan-500/30 transition-all hover:shadow-[0_0_30px_rgba(168,85,247,0.15)]"
                 >
                   <div className="flex items-center gap-5 p-5">
                     {/* Icon */}
-                    <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-purple-500/20 to-blue-500/20 flex items-center justify-center text-purple-400 flex-shrink-0">
+                    <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-cyan-500/20 to-blue-500/20 flex items-center justify-center text-cyan-400 flex-shrink-0">
                       {resource.icon}
                     </div>
 
@@ -367,12 +367,12 @@ export default function LibraryPage() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between mb-2">
                         <div className="flex-1 min-w-0">
-                          <h3 className="text-lg font-semibold text-white mb-1 font-gendy group-hover:text-purple-400 transition-colors">
+                          <h3 className="text-lg font-semibold text-white mb-1 font-gendy group-hover:text-cyan-400 transition-colors">
                             {resource.title}
                           </h3>
                           <p className="text-sm text-gray-400 line-clamp-1 font-diatype">{resource.description}</p>
                         </div>
-                        <span className="px-3 py-1 bg-purple-500/10 text-purple-300 text-xs rounded-md border border-purple-500/20 font-semibold font-diatype ml-4 flex-shrink-0">
+                        <span className="px-3 py-1 bg-cyan-500/10 text-cyan-300 text-xs rounded-md border border-cyan-500/20 font-semibold font-diatype ml-4 flex-shrink-0">
                           {resource.type}
                         </span>
                       </div>
@@ -400,7 +400,7 @@ export default function LibraryPage() {
                       <button className="p-2 bg-white/5 border border-white/10 text-white rounded-lg hover:bg-white/10 transition-all">
                         <Heart className="w-4 h-4" />
                       </button>
-                      <button className="px-4 py-2 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 transition-all inline-flex items-center gap-2 font-diatype">
+                      <button className="px-4 py-2 bg-cyan-600 text-white rounded-lg font-semibold hover:bg-cyan-700 transition-all inline-flex items-center gap-2 font-diatype">
                         <Download className="w-4 h-4" />
                         Download
                       </button>

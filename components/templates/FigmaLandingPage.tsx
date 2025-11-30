@@ -19,7 +19,7 @@ export function FigmaLandingPage() {
       <section className="relative min-h-screen flex items-center overflow-hidden">
         {/* Blue Wave Background */}
         <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-blue-500/10 to-purple-600/20" />
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-blue-500/10 to-cyan-600/20" />
           <svg className="absolute bottom-0 w-full h-auto" viewBox="0 0 1440 320" preserveAspectRatio="none">
             <path 
               fill="url(#wave-gradient)" 
@@ -193,7 +193,7 @@ export function FigmaLandingPage() {
                 title: "Performance + Belonging",
                 subtitle: "Cultural Transformation",
                 description: "Creating performance-focused teams where everyone feels valued, seen, and connected to drive innovation and exceptional business results.",
-                gradient: "from-pink-900/20 to-purple-900/20",
+                gradient: "from-pink-900/20 to-cyan-900/20",
                 link: "Learn More →"
               },
               {
@@ -228,7 +228,7 @@ export function FigmaLandingPage() {
       </section>
 
       {/* Adapt. Lead. Thrive. Section */}
-      <section className="relative py-20 bg-gradient-to-r from-cyan-500/10 via-blue-500/10 to-purple-500/10">
+      <section className="relative py-20 bg-gradient-to-r from-cyan-500/10 via-blue-500/10 to-cyan-500/10">
         <div className="container max-w-7xl mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -244,7 +244,7 @@ export function FigmaLandingPage() {
               and teams the edge, bridging them to drive progress, 
               not just keep pace.
             </p>
-            <button className="px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full font-semibold hover:shadow-xl transition-all">
+            <button className="px-8 py-4 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-full font-semibold hover:shadow-xl transition-all">
               See how it works →
             </button>
           </motion.div>

@@ -515,11 +515,11 @@ export default function InstructorStudentsPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-                className="bg-gradient-to-br from-purple-900/30 to-purple-900/10 backdrop-blur-xl border border-purple-500/20 rounded-xl p-4"
+                className="bg-gradient-to-br from-cyan-900/30 to-cyan-900/10 backdrop-blur-xl border border-cyan-500/20 rounded-xl p-4"
               >
                 <div className="flex items-center justify-between mb-2">
-                  <Target className="w-5 h-5 text-purple-400" />
-                  <span className="text-xs text-purple-400 font-diatype">Average</span>
+                  <Target className="w-5 h-5 text-cyan-400" />
+                  <span className="text-xs text-cyan-400 font-diatype">Average</span>
                 </div>
                 <h3 className="text-2xl font-bold text-white mb-1 font-gendy">
                   {stats.avgCompletion.toFixed(0)}%
@@ -559,7 +559,7 @@ export default function InstructorStudentsPage() {
                   placeholder="Search students by name or email..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500/50 font-diatype"
+                  className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 font-diatype"
                 />
               </div>
 
@@ -573,7 +573,7 @@ export default function InstructorStudentsPage() {
                   className={cn(
                     'px-4 py-3 rounded-xl font-diatype font-semibold flex items-center gap-2 transition-all',
                     selectedStudents.length > 0
-                      ? 'bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-purple-300'
+                      ? 'bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-cyan-300'
                       : 'bg-white/5 border border-white/10 text-gray-500 cursor-not-allowed'
                   )}
                 >
@@ -600,7 +600,7 @@ export default function InstructorStudentsPage() {
                 <select
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value as FilterStatus)}
-                  className="appearance-none pl-4 pr-10 py-2 bg-white/5 border border-white/10 rounded-lg text-white font-diatype text-sm focus:outline-none focus:border-purple-500/50 cursor-pointer"
+                  className="appearance-none pl-4 pr-10 py-2 bg-white/5 border border-white/10 rounded-lg text-white font-diatype text-sm focus:outline-none focus:border-cyan-500/50 cursor-pointer"
                 >
                   <option value="all">All Status</option>
                   <option value="active">Active</option>
@@ -615,7 +615,7 @@ export default function InstructorStudentsPage() {
                 <select
                   value={engagementFilter}
                   onChange={(e) => setEngagementFilter(e.target.value as EngagementFilter)}
-                  className="appearance-none pl-4 pr-10 py-2 bg-white/5 border border-white/10 rounded-lg text-white font-diatype text-sm focus:outline-none focus:border-purple-500/50 cursor-pointer"
+                  className="appearance-none pl-4 pr-10 py-2 bg-white/5 border border-white/10 rounded-lg text-white font-diatype text-sm focus:outline-none focus:border-cyan-500/50 cursor-pointer"
                 >
                   <option value="all">All Engagement</option>
                   <option value="high">High (80+)</option>
@@ -630,7 +630,7 @@ export default function InstructorStudentsPage() {
                 <select
                   value={selectedCourse}
                   onChange={(e) => setSelectedCourse(e.target.value)}
-                  className="appearance-none pl-4 pr-10 py-2 bg-white/5 border border-white/10 rounded-lg text-white font-diatype text-sm focus:outline-none focus:border-purple-500/50 cursor-pointer"
+                  className="appearance-none pl-4 pr-10 py-2 bg-white/5 border border-white/10 rounded-lg text-white font-diatype text-sm focus:outline-none focus:border-cyan-500/50 cursor-pointer"
                 >
                   <option value="all">All Courses</option>
                   {allCourses.map((course) => (
@@ -647,7 +647,7 @@ export default function InstructorStudentsPage() {
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as SortBy)}
-                  className="appearance-none pl-4 pr-10 py-2 bg-white/5 border border-white/10 rounded-lg text-white font-diatype text-sm focus:outline-none focus:border-purple-500/50 cursor-pointer"
+                  className="appearance-none pl-4 pr-10 py-2 bg-white/5 border border-white/10 rounded-lg text-white font-diatype text-sm focus:outline-none focus:border-cyan-500/50 cursor-pointer"
                 >
                   <option value="lastActive">Sort: Last Active</option>
                   <option value="name">Sort: Name</option>
@@ -663,7 +663,7 @@ export default function InstructorStudentsPage() {
                   type="checkbox"
                   checked={selectedStudents.length === filteredStudents.length && filteredStudents.length > 0}
                   onChange={toggleSelectAll}
-                  className="w-4 h-4 rounded border-white/20 bg-white/5 text-purple-500 focus:ring-purple-500/50"
+                  className="w-4 h-4 rounded border-white/20 bg-white/5 text-cyan-500 focus:ring-cyan-500/50"
                 />
                 <span className="text-sm text-white font-diatype">Select All</span>
               </label>
@@ -694,9 +694,9 @@ export default function InstructorStudentsPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.05 }}
                   className={cn(
-                    'bg-white/5 backdrop-blur-xl border rounded-2xl p-6 hover:border-purple-500/30 transition-all group',
+                    'bg-white/5 backdrop-blur-xl border rounded-2xl p-6 hover:border-cyan-500/30 transition-all group',
                     selectedStudents.includes(student.id)
-                      ? 'border-purple-500/50 bg-purple-500/5'
+                      ? 'border-cyan-500/50 bg-cyan-500/5'
                       : 'border-white/10'
                   )}
                 >
@@ -707,7 +707,7 @@ export default function InstructorStudentsPage() {
                       type="checkbox"
                       checked={selectedStudents.includes(student.id)}
                       onChange={() => toggleStudentSelection(student.id)}
-                      className="mt-1 w-5 h-5 rounded border-white/20 bg-white/5 text-purple-500 focus:ring-purple-500/50"
+                      className="mt-1 w-5 h-5 rounded border-white/20 bg-white/5 text-cyan-500 focus:ring-cyan-500/50"
                     />
 
                     {/* Avatar */}
@@ -760,10 +760,10 @@ export default function InstructorStudentsPage() {
                       </p>
                     </div>
 
-                    <div className="bg-purple-500/10 border border-purple-500/20 rounded-lg p-3">
+                    <div className="bg-cyan-500/10 border border-cyan-500/20 rounded-lg p-3">
                       <div className="flex items-center gap-2 mb-1">
-                        <Target className="w-4 h-4 text-purple-400" />
-                        <span className="text-xs text-purple-400 font-diatype">Progress</span>
+                        <Target className="w-4 h-4 text-cyan-400" />
+                        <span className="text-xs text-cyan-400 font-diatype">Progress</span>
                       </div>
                       <p className="text-lg font-bold text-white font-gendy">
                         {student.averageProgress}%
@@ -829,7 +829,7 @@ export default function InstructorStudentsPage() {
                     </div>
                     <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden">
                       <div
-                        className="h-full bg-gradient-to-r from-purple-500 to-blue-500 rounded-full transition-all"
+                        className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full transition-all"
                         style={{
                           width: `${(student.assignmentsCompleted / student.assignmentsTotal) * 100}%`,
                         }}
@@ -846,7 +846,7 @@ export default function InstructorStudentsPage() {
                         setSelectedStudent(student)
                         setShowDetailModal(true)
                       }}
-                      className="px-4 py-2 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-purple-300 rounded-lg transition-all flex items-center justify-center gap-2 font-diatype text-sm"
+                      className="px-4 py-2 bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-cyan-300 rounded-lg transition-all flex items-center justify-center gap-2 font-diatype text-sm"
                     >
                       <BarChart3 className="w-4 h-4" />
                       View Details
@@ -945,8 +945,8 @@ export default function InstructorStudentsPage() {
                     </p>
                     <p className="text-xs text-gray-400 font-diatype">Completed</p>
                   </div>
-                  <div className="bg-purple-500/10 border border-purple-500/20 rounded-xl p-4">
-                    <Target className="w-5 h-5 text-purple-400 mb-2" />
+                  <div className="bg-cyan-500/10 border border-cyan-500/20 rounded-xl p-4">
+                    <Target className="w-5 h-5 text-cyan-400 mb-2" />
                     <p className="text-2xl font-bold text-white mb-1 font-gendy">
                       {selectedStudent.averageProgress}%
                     </p>
@@ -964,7 +964,7 @@ export default function InstructorStudentsPage() {
                 {/* Course Progress */}
                 <div className="mb-6">
                   <h3 className="text-lg font-bold text-white mb-4 font-gendy flex items-center gap-2">
-                    <PlayCircle className="w-5 h-5 text-purple-400" />
+                    <PlayCircle className="w-5 h-5 text-cyan-400" />
                     Course Progress
                   </h3>
                   <div className="space-y-3">
@@ -1000,7 +1000,7 @@ export default function InstructorStudentsPage() {
                           </div>
                           <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden">
                             <div
-                              className="h-full bg-gradient-to-r from-purple-500 to-blue-500 rounded-full"
+                              className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full"
                               style={{ width: `${course.progress}%` }}
                             />
                           </div>
@@ -1033,7 +1033,7 @@ export default function InstructorStudentsPage() {
                           className={cn(
                             'w-10 h-10 rounded-lg flex items-center justify-center',
                             activity.type === 'assignment' &&
-                              'bg-purple-500/20 border border-purple-500/30',
+                              'bg-cyan-500/20 border border-cyan-500/30',
                             activity.type === 'lesson' &&
                               'bg-blue-500/20 border border-blue-500/30',
                             activity.type === 'discussion' &&
@@ -1045,7 +1045,7 @@ export default function InstructorStudentsPage() {
                           )}
                         >
                           {activity.type === 'assignment' && (
-                            <FileText className="w-5 h-5 text-purple-400" />
+                            <FileText className="w-5 h-5 text-cyan-400" />
                           )}
                           {activity.type === 'lesson' && (
                             <BookOpen className="w-5 h-5 text-blue-400" />
@@ -1088,7 +1088,7 @@ export default function InstructorStudentsPage() {
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-xl font-semibold flex items-center gap-2 font-diatype shadow-lg shadow-purple-500/50"
+                  className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl font-semibold flex items-center gap-2 font-diatype shadow-lg shadow-cyan-500/50"
                 >
                   <MessageSquare className="w-4 h-4" />
                   Send Message
@@ -1142,7 +1142,7 @@ export default function InstructorStudentsPage() {
                     value={bulkEmailSubject}
                     onChange={(e) => setBulkEmailSubject(e.target.value)}
                     placeholder="Enter email subject..."
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500/50 font-diatype"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 font-diatype"
                   />
                 </div>
 
@@ -1156,7 +1156,7 @@ export default function InstructorStudentsPage() {
                     onChange={(e) => setBulkEmailMessage(e.target.value)}
                     placeholder="Enter your message..."
                     rows={8}
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500/50 font-diatype resize-none"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 font-diatype resize-none"
                   />
                 </div>
               </div>
@@ -1178,7 +1178,7 @@ export default function InstructorStudentsPage() {
                   className={cn(
                     'px-6 py-3 rounded-xl font-semibold flex items-center gap-2 font-diatype',
                     bulkEmailSubject && bulkEmailMessage
-                      ? 'bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-lg shadow-purple-500/50'
+                      ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white shadow-lg shadow-cyan-500/50'
                       : 'bg-white/5 text-gray-500 cursor-not-allowed'
                   )}
                 >

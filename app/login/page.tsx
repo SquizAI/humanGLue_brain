@@ -134,7 +134,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-gray-950 flex">
       {/* Left Side - Information Panel */}
-      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-gradient-to-br from-purple-900/20 via-blue-900/20 to-cyan-900/20">
+      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-gradient-to-br from-cyan-900/20 via-blue-900/20 to-cyan-900/20">
         {/* Animated Background */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(139,92,246,0.15),transparent_50%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_60%,rgba(59,130,246,0.1),transparent_50%)]" />
@@ -175,8 +175,8 @@ export default function LoginPage() {
             className="grid grid-cols-2 gap-6"
           >
             <div className="bg-white/5 backdrop-blur-xl rounded-xl p-6 border border-white/10">
-              <div className="w-12 h-12 bg-purple-500/10 rounded-lg flex items-center justify-center mb-4">
-                <TrendingUp className="w-6 h-6 text-purple-400" />
+              <div className="w-12 h-12 bg-cyan-500/10 rounded-lg flex items-center justify-center mb-4">
+                <TrendingUp className="w-6 h-6 text-cyan-400" />
               </div>
               <h3 className="text-white font-semibold mb-2 font-gendy">Track Progress</h3>
               <p className="text-gray-400 text-sm font-diatype">Monitor your AI maturity level and growth</p>
@@ -284,7 +284,7 @@ export default function LoginPage() {
                   placeholder="you@company.com"
                   required
                   autoComplete="email"
-                  className="w-full pl-12 pr-4 py-3.5 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype"
+                  className="w-full pl-12 pr-4 py-3.5 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
                   style={{ fontSize: '16px' }}
                 />
               </div>
@@ -304,7 +304,7 @@ export default function LoginPage() {
                   placeholder="••••••••"
                   required
                   autoComplete="current-password"
-                  className="w-full pl-12 pr-4 py-3.5 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype"
+                  className="w-full pl-12 pr-4 py-3.5 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
                   style={{ fontSize: '16px' }}
                 />
               </div>
@@ -315,11 +315,11 @@ export default function LoginPage() {
               <label className="flex items-center gap-2 text-gray-400 cursor-pointer hover:text-gray-300">
                 <input
                   type="checkbox"
-                  className="rounded border-white/20 bg-white/5 text-purple-500 focus:ring-purple-500/50"
+                  className="rounded border-white/20 bg-white/5 text-cyan-500 focus:ring-cyan-500/50"
                 />
                 <span className="font-diatype">Remember me</span>
               </label>
-              <Link href="/reset-password" className="text-purple-400 hover:text-purple-300 font-diatype">
+              <Link href="/reset-password" className="text-cyan-400 hover:text-cyan-300 font-diatype">
                 Forgot password?
               </Link>
             </div>
@@ -328,7 +328,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-4 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white font-semibold rounded-xl flex items-center justify-center gap-2 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed font-diatype"
+              className="w-full py-4 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-semibold rounded-xl flex items-center justify-center gap-2 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed font-diatype"
             >
               {isLoading ? (
                 <>
@@ -385,7 +385,7 @@ export default function LoginPage() {
             </button>
             <button
               onClick={() => handleDemoLogin('super_admin_courses')}
-              className="w-full py-3 bg-gradient-to-r from-purple-900/30 to-purple-800/30 hover:from-purple-900/40 hover:to-purple-800/40 border border-purple-500/30 rounded-xl text-purple-400 font-medium transition-all font-diatype text-sm"
+              className="w-full py-3 bg-gradient-to-r from-cyan-900/30 to-cyan-800/30 hover:from-cyan-900/40 hover:to-cyan-800/40 border border-cyan-500/30 rounded-xl text-cyan-400 font-medium transition-all font-diatype text-sm"
             >
               Try Super Admin Demo (Courses Only)
             </button>
@@ -395,7 +395,7 @@ export default function LoginPage() {
           <div className="mt-8 text-center">
             <p className="text-gray-400 text-sm font-diatype">
               Don't have an account?{' '}
-              <Link href="/signup" className="text-purple-400 hover:text-purple-300 font-semibold">
+              <Link href="/signup" className="text-cyan-400 hover:text-cyan-300 font-semibold">
                 Create one now →
               </Link>
             </p>

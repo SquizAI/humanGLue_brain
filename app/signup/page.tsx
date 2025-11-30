@@ -106,7 +106,7 @@ export default function SignupPage() {
   return (
     <div className="min-h-screen bg-gray-950 flex">
       {/* Left Side - Information Panel */}
-      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-gradient-to-br from-purple-900/20 via-blue-900/20 to-cyan-900/20">
+      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-gradient-to-br from-cyan-900/20 via-blue-900/20 to-cyan-900/20">
         {/* Animated Background */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(139,92,246,0.15),transparent_50%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_60%,rgba(59,130,246,0.1),transparent_50%)]" />
@@ -147,8 +147,8 @@ export default function SignupPage() {
             className="space-y-5"
           >
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 bg-purple-500/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                <Target className="w-6 h-6 text-purple-400" />
+              <div className="w-12 h-12 bg-cyan-500/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                <Target className="w-6 h-6 text-cyan-400" />
               </div>
               <div>
                 <h3 className="text-white font-semibold mb-1 font-gendy">Personalized AI Assessment</h3>
@@ -256,7 +256,7 @@ export default function SignupPage() {
                   placeholder="John Doe"
                   required
                   autoComplete="name"
-                  className="w-full pl-12 pr-4 py-3.5 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype"
+                  className="w-full pl-12 pr-4 py-3.5 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
                   style={{ fontSize: '16px' }}
                 />
               </div>
@@ -276,7 +276,7 @@ export default function SignupPage() {
                   placeholder="you@company.com"
                   required
                   autoComplete="email"
-                  className="w-full pl-12 pr-4 py-3.5 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype"
+                  className="w-full pl-12 pr-4 py-3.5 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
                   style={{ fontSize: '16px' }}
                 />
               </div>
@@ -293,7 +293,7 @@ export default function SignupPage() {
                   onClick={() => setRole('client')}
                   className={`py-3 px-4 rounded-xl border transition-all font-diatype ${
                     role === 'client'
-                      ? 'bg-purple-500/20 border-purple-500/50 text-white'
+                      ? 'bg-cyan-500/20 border-cyan-500/50 text-white'
                       : 'bg-white/5 border-white/10 text-gray-400 hover:bg-white/10'
                   }`}
                 >
@@ -304,7 +304,7 @@ export default function SignupPage() {
                   onClick={() => setRole('instructor')}
                   className={`py-3 px-4 rounded-xl border transition-all font-diatype ${
                     role === 'instructor'
-                      ? 'bg-purple-500/20 border-purple-500/50 text-white'
+                      ? 'bg-cyan-500/20 border-cyan-500/50 text-white'
                       : 'bg-white/5 border-white/10 text-gray-400 hover:bg-white/10'
                   }`}
                 >
@@ -327,7 +327,7 @@ export default function SignupPage() {
                   placeholder="••••••••"
                   required
                   autoComplete="new-password"
-                  className="w-full pl-12 pr-4 py-3.5 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype"
+                  className="w-full pl-12 pr-4 py-3.5 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
                   style={{ fontSize: '16px' }}
                 />
               </div>
@@ -358,7 +358,7 @@ export default function SignupPage() {
                   placeholder="••••••••"
                   required
                   autoComplete="new-password"
-                  className="w-full pl-12 pr-4 py-3.5 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype"
+                  className="w-full pl-12 pr-4 py-3.5 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
                   style={{ fontSize: '16px' }}
                 />
               </div>
@@ -373,7 +373,7 @@ export default function SignupPage() {
             <button
               type="submit"
               disabled={isLoading || !isPasswordValid || !passwordsMatch}
-              className="w-full py-4 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white font-semibold rounded-xl flex items-center justify-center gap-2 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed font-diatype"
+              className="w-full py-4 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-semibold rounded-xl flex items-center justify-center gap-2 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed font-diatype"
             >
               {isLoading ? (
                 <>
@@ -393,7 +393,7 @@ export default function SignupPage() {
           <div className="mt-8 text-center">
             <p className="text-gray-400 text-sm font-diatype">
               Already have an account?{' '}
-              <Link href="/login" className="text-purple-400 hover:text-purple-300 font-semibold">
+              <Link href="/login" className="text-cyan-400 hover:text-cyan-300 font-semibold">
                 Sign in →
               </Link>
             </p>

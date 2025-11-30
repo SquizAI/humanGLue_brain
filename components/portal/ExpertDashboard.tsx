@@ -128,7 +128,7 @@ export function ExpertDashboard({ data = MOCK_DATA }: { data?: ExpertDashboardDa
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900/10 to-gray-900 py-12 px-6">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-cyan-900/10 to-gray-900 py-12 px-6">
       <div className="container max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-12">
@@ -155,7 +155,7 @@ export function ExpertDashboard({ data = MOCK_DATA }: { data?: ExpertDashboardDa
             icon={Users}
             label="Active Clients"
             value={data.engagements.totalActive}
-            color="purple"
+            color="cyan"
           />
           <MetricCard
             icon={Clock}
@@ -191,7 +191,7 @@ export function ExpertDashboard({ data = MOCK_DATA }: { data?: ExpertDashboardDa
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold text-white">Active Engagements</h2>
                 <Link href="/expert/clients">
-                  <button className="text-purple-400 hover:text-purple-300 text-sm font-medium flex items-center gap-1">
+                  <button className="text-cyan-400 hover:text-cyan-300 text-sm font-medium flex items-center gap-1">
                     View All <ArrowRight className="w-4 h-4" />
                   </button>
                 </Link>
@@ -199,12 +199,12 @@ export function ExpertDashboard({ data = MOCK_DATA }: { data?: ExpertDashboardDa
 
               <div className="space-y-4">
                 {data.engagements.active.map((engagement) => (
-                  <div key={engagement.id} className="p-6 rounded-xl bg-gradient-to-br from-purple-500/10 to-blue-500/10 border border-purple-500/20">
+                  <div key={engagement.id} className="p-6 rounded-xl bg-gradient-to-br from-cyan-500/10 to-blue-500/10 border border-cyan-500/20">
                     <div className="flex items-start justify-between mb-4">
                       <div>
                         <h3 className="text-white font-semibold text-lg">{engagement.clientName}</h3>
                         <p className="text-gray-400 text-sm">{engagement.companyName}</p>
-                        <p className="text-purple-300 text-sm mt-1">{engagement.focusArea}</p>
+                        <p className="text-cyan-300 text-sm mt-1">{engagement.focusArea}</p>
                       </div>
                       <span className="px-3 py-1 rounded-full bg-green-500/20 text-green-300 text-xs font-semibold">
                         Active
@@ -215,13 +215,13 @@ export function ExpertDashboard({ data = MOCK_DATA }: { data?: ExpertDashboardDa
                     <div className="space-y-2 mb-4">
                       <div className="flex justify-between text-sm">
                         <span className="text-gray-400">Hours Used</span>
-                        <span className="text-purple-300 font-medium">
+                        <span className="text-cyan-300 font-medium">
                           {engagement.hoursUsed} / {engagement.hoursTotal}
                         </span>
                       </div>
                       <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
                         <div
-                          className="h-full bg-gradient-to-r from-purple-500 to-blue-500 rounded-full"
+                          className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full"
                           style={{ width: `${(engagement.hoursUsed / engagement.hoursTotal) * 100}%` }}
                         />
                       </div>
@@ -317,10 +317,10 @@ export function ExpertDashboard({ data = MOCK_DATA }: { data?: ExpertDashboardDa
 
               <div className="space-y-3">
                 <Link href="/expert/availability">
-                  <button className="w-full p-4 rounded-xl bg-white/5 hover:bg-white/10 border border-gray-700 hover:border-purple-500/50 text-left transition-all duration-200 group">
+                  <button className="w-full p-4 rounded-xl bg-white/5 hover:bg-white/10 border border-gray-700 hover:border-cyan-500/50 text-left transition-all duration-200 group">
                     <div className="flex items-center justify-between">
                       <span className="text-white font-medium">Update Availability</span>
-                      <ArrowRight className="w-5 h-5 text-purple-400 group-hover:translate-x-1 transition-transform" />
+                      <ArrowRight className="w-5 h-5 text-cyan-400 group-hover:translate-x-1 transition-transform" />
                     </div>
                   </button>
                 </Link>
@@ -362,10 +362,10 @@ function MetricCard({
   label: string
   value: number | string
   trend?: 'up' | 'down'
-  color: 'purple' | 'blue' | 'green' | 'amber'
+  color: 'cyan' | 'blue' | 'green' | 'amber'
 }) {
   const colorConfig = {
-    purple: 'from-purple-500/10 to-purple-600/10 border-purple-500/20 text-purple-400',
+    purple: 'from-cyan-500/10 to-cyan-600/10 border-cyan-500/20 text-cyan-400',
     blue: 'from-blue-500/10 to-blue-600/10 border-blue-500/20 text-blue-400',
     green: 'from-green-500/10 to-green-600/10 border-green-500/20 text-green-400',
     amber: 'from-amber-500/10 to-orange-500/10 border-amber-500/20 text-amber-400',

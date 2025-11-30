@@ -41,7 +41,7 @@ const processPhases = [
   {
     phase: "Insight Generation",
     icon: Sparkles,
-    color: "purple",
+    color: "cyan",
     description: "Pattern recognition and predictive modeling to identify key challenges",
     details: [
       "Advanced analytics reveal hidden organizational dynamics",
@@ -129,7 +129,7 @@ export default function ProcessPage() {
             }}
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px]"
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-amber-500/10 rounded-full blur-3xl" />
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-cyan-500/10 to-amber-500/10 rounded-full blur-3xl" />
           </motion.div>
         </div>
 
@@ -143,10 +143,10 @@ export default function ProcessPage() {
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/10 border border-purple-500/20 mb-6"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/20 mb-6"
             >
-              <Zap className="w-4 h-4 text-purple-400" />
-              <span className="text-sm text-purple-300">AI + Human Expertise</span>
+              <Zap className="w-4 h-4 text-cyan-400" />
+              <span className="text-sm text-cyan-300">AI + Human Expertise</span>
             </motion.div>
             
             <h1 className="text-6xl lg:text-8xl font-bold text-white mb-6">
@@ -192,7 +192,7 @@ export default function ProcessPage() {
           {/* Process Cards */}
           <div className="relative">
             {/* Connection Line */}
-            <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-500 via-purple-500 to-amber-500 hidden lg:block" />
+            <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-500 via-cyan-500 to-amber-500 hidden lg:block" />
 
             <div className="space-y-16">
               {processPhases.map((phase, index) => (
@@ -207,7 +207,7 @@ export default function ProcessPage() {
                   {/* Phase Number */}
                   <motion.div
                     whileHover={{ scale: 1.1 }}
-                    className="absolute -left-1 lg:left-5 top-0 w-6 h-6 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-xs font-bold text-white z-10"
+                    className="absolute -left-1 lg:left-5 top-0 w-6 h-6 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center text-xs font-bold text-white z-10"
                   >
                     {index + 1}
                   </motion.div>
@@ -226,7 +226,7 @@ export default function ProcessPage() {
                           className={`
                             p-4 rounded-xl flex-shrink-0
                             ${phase.color === 'blue' ? 'bg-blue-500/20' : ''}
-                            ${phase.color === 'purple' ? 'bg-purple-500/20' : ''}
+                            ${phase.color === 'cyan' ? 'bg-cyan-500/20' : ''}
                             ${phase.color === 'green' ? 'bg-green-500/20' : ''}
                             ${phase.color === 'amber' ? 'bg-amber-500/20' : ''}
                             ${phase.color === 'red' ? 'bg-red-500/20' : ''}
@@ -235,7 +235,7 @@ export default function ProcessPage() {
                           <phase.icon className={`
                             w-8 h-8
                             ${phase.color === 'blue' ? 'text-blue-400' : ''}
-                            ${phase.color === 'purple' ? 'text-purple-400' : ''}
+                            ${phase.color === 'cyan' ? 'text-cyan-400' : ''}
                             ${phase.color === 'green' ? 'text-green-400' : ''}
                             ${phase.color === 'amber' ? 'text-amber-400' : ''}
                             ${phase.color === 'red' ? 'text-red-400' : ''}
@@ -341,7 +341,7 @@ export default function ProcessPage() {
                 <motion.div
                   whileHover={{ scale: 1.1, rotate: 360 }}
                   transition={{ duration: 0.5 }}
-                  className="w-16 h-16 mx-auto mb-6 rounded-xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center"
+                  className="w-16 h-16 mx-auto mb-6 rounded-xl bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center"
                 >
                   <item.icon className="w-8 h-8 text-blue-400" />
                 </motion.div>
@@ -370,7 +370,7 @@ export default function ProcessPage() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <BarChart3 className="w-12 h-12 mx-auto mb-6 text-purple-400" />
+            <BarChart3 className="w-12 h-12 mx-auto mb-6 text-cyan-400" />
             <h2 className="text-3xl font-bold text-white mb-4">
               Flexible Timeline
             </h2>
@@ -392,12 +392,12 @@ export default function ProcessPage() {
                 >
                   <div className="relative">
                     {i < processPhases.length - 1 && (
-                      <div className="hidden md:block absolute top-1/2 left-full w-full h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 -translate-y-1/2" />
+                      <div className="hidden md:block absolute top-1/2 left-full w-full h-0.5 bg-gradient-to-r from-blue-500 to-cyan-500 -translate-y-1/2" />
                     )}
                     <motion.div
                       whileHover={{ scale: 1.2, rotate: 360 }}
                       transition={{ duration: 0.5 }}
-                      className="w-16 h-16 mx-auto mb-3 rounded-full bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center border border-blue-500/30"
+                      className="w-16 h-16 mx-auto mb-3 rounded-full bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center border border-blue-500/30"
                     >
                       <phase.icon className="w-8 h-8 text-blue-400" />
                     </motion.div>
@@ -429,7 +429,7 @@ export default function ProcessPage() {
             <motion.button
               whileHover={{ scale: 1.05, boxShadow: '0 20px 40px rgba(59, 130, 246, 0.3)' }}
               whileTap={{ scale: 0.95 }}
-              className="px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-xl font-semibold hover:shadow-xl transition-all inline-flex items-center gap-3"
+              className="px-8 py-4 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-xl font-semibold hover:shadow-xl transition-all inline-flex items-center gap-3"
             >
               Begin Your Journey
               <ArrowRight className="w-5 h-5" />

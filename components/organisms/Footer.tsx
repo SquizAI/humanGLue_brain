@@ -43,7 +43,7 @@ export function Footer() {
       {/* CTA Section */}
       <div className="border-b border-gray-800">
         <div className="container max-w-7xl mx-auto px-4 sm:px-6 py-12">
-          <div className="bg-gradient-to-r from-purple-900/30 to-blue-900/30 rounded-2xl p-8 md:p-12 border border-purple-500/20">
+          <div className="bg-gradient-to-r from-cyan-900/30 to-blue-900/30 rounded-2xl p-8 md:p-12 border border-cyan-500/20">
             <div className="grid md:grid-cols-2 gap-8 items-center">
               <div>
                 <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 font-gendy">
@@ -63,7 +63,7 @@ export function Footer() {
                     <motion.button
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      className="px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg font-semibold hover:from-purple-700 hover:to-blue-700 transition-all inline-flex items-center gap-2 shadow-lg shadow-purple-500/50 font-diatype"
+                      className="px-6 py-3 bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-lg font-semibold hover:from-cyan-700 hover:to-blue-700 transition-all inline-flex items-center gap-2 shadow-lg shadow-cyan-500/50 font-diatype"
                     >
                       Schedule a Demo
                       <ArrowRight className="w-4 h-4" />
@@ -73,7 +73,7 @@ export function Footer() {
                     <motion.button
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      className="px-6 py-3 bg-white/5 backdrop-blur-xl border border-white/10 text-white rounded-lg font-semibold hover:bg-white/10 hover:border-purple-500/30 transition-all inline-flex items-center gap-2 font-diatype"
+                      className="px-6 py-3 bg-white/5 backdrop-blur-xl border border-white/10 text-white rounded-lg font-semibold hover:bg-white/10 hover:border-cyan-500/30 transition-all inline-flex items-center gap-2 font-diatype"
                     >
                       Learn More
                       <ArrowRight className="w-4 h-4" />
@@ -91,7 +91,7 @@ export function Footer() {
                     rotate: { duration: 20, repeat: Infinity, ease: "linear" },
                     scale: { duration: 5, repeat: Infinity, ease: "easeInOut" }
                   }}
-                  className="w-32 h-32 rounded-full bg-gradient-to-br from-purple-500/20 to-blue-500/20 flex items-center justify-center"
+                  className="w-32 h-32 rounded-full bg-gradient-to-br from-cyan-500/20 to-blue-500/20 flex items-center justify-center"
                 >
                   <Image
                     src="/favcon_HG.png"
@@ -126,11 +126,11 @@ export function Footer() {
               The glue that binds AI capabilities with human adaptability. We help organizations embed behavioral change at every level to thrive in continuous transformation.
             </p>
             <div className="space-y-3">
-              <a href="mailto:info@humanglue.ai" className="flex items-center gap-3 text-gray-300 hover:text-purple-400 transition-colors font-diatype">
+              <a href="mailto:info@humanglue.ai" className="flex items-center gap-3 text-gray-300 hover:text-cyan-400 transition-colors font-diatype">
                 <Mail className="w-5 h-5" />
                 <span>info@humanglue.ai</span>
               </a>
-              <Link href="/?chat=true" className="flex items-center gap-3 text-gray-300 hover:text-purple-400 transition-colors font-diatype">
+              <Link href="/?chat=true" className="flex items-center gap-3 text-gray-300 hover:text-cyan-400 transition-colors font-diatype">
                 <Calendar className="w-5 h-5" />
                 <span>Schedule a Demo</span>
               </Link>
@@ -147,7 +147,7 @@ export function Footer() {
             <ul className="space-y-2">
               {footerLinks.solutions.map((link) => (
                 <li key={link.name}>
-                  <Link href={link.href} className="text-gray-300 hover:text-purple-400 transition-colors font-diatype text-sm">
+                  <Link href={link.href} className="text-gray-300 hover:text-cyan-400 transition-colors font-diatype text-sm">
                     {link.name}
                   </Link>
                 </li>
@@ -160,7 +160,7 @@ export function Footer() {
             <ul className="space-y-2">
               {footerLinks.company.map((link) => (
                 <li key={link.name}>
-                  <Link href={link.href} className="text-gray-300 hover:text-purple-400 transition-colors font-diatype text-sm">
+                  <Link href={link.href} className="text-gray-300 hover:text-cyan-400 transition-colors font-diatype text-sm">
                     {link.name}
                   </Link>
                 </li>
@@ -173,7 +173,7 @@ export function Footer() {
             <ul className="space-y-2">
               {footerLinks.resources.map((link) => (
                 <li key={link.name}>
-                  <Link href={link.href} className="text-gray-300 hover:text-purple-400 transition-colors font-diatype text-sm">
+                  <Link href={link.href} className="text-gray-300 hover:text-cyan-400 transition-colors font-diatype text-sm">
                     {link.name}
                   </Link>
                 </li>
@@ -189,17 +189,17 @@ export function Footer() {
               © {currentYear} Human Glue AI. All rights reserved.
             </div>
             <div className="flex items-center gap-6">
-              <Link href="/privacy" className="text-gray-400 hover:text-purple-400 text-sm transition-colors font-diatype">
+              <Link href="/privacy" className="text-gray-400 hover:text-cyan-400 text-sm transition-colors font-diatype">
                 Privacy Policy
               </Link>
-              <Link href="/terms" className="text-gray-400 hover:text-purple-400 text-sm transition-colors font-diatype">
+              <Link href="/terms" className="text-gray-400 hover:text-cyan-400 text-sm transition-colors font-diatype">
                 Terms of Service
               </Link>
               <div className="flex items-center gap-4">
-                <a href="https://linkedin.com/company/humanglue" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-purple-400 transition-colors" aria-label="LinkedIn">
+                <a href="https://linkedin.com/company/humanglue" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-cyan-400 transition-colors" aria-label="LinkedIn">
                   <Linkedin className="w-5 h-5" />
                 </a>
-                <a href="https://twitter.com/humanglue" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-purple-400 transition-colors" aria-label="Twitter">
+                <a href="https://twitter.com/humanglue" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-cyan-400 transition-colors" aria-label="Twitter">
                   <Twitter className="w-5 h-5" />
                 </a>
               </div>

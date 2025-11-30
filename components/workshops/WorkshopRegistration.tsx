@@ -81,10 +81,10 @@ export function WorkshopRegistration({ workshop }: WorkshopRegistrationProps) {
       badgeText: 'text-amber-300',
     },
     marketplace: {
-      gradient: 'from-purple-500 to-purple-600',
-      badgeBg: 'bg-purple-500/10',
-      badgeBorder: 'border-purple-500/20',
-      badgeText: 'text-purple-300',
+      gradient: 'from-cyan-500 to-cyan-600',
+      badgeBg: 'bg-cyan-500/10',
+      badgeBorder: 'border-cyan-500/20',
+      badgeText: 'text-cyan-300',
     },
   }
 

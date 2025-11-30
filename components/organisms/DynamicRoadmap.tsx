@@ -131,7 +131,7 @@ export function DynamicRoadmap({ currentStep, userData, className }: DynamicRoad
         <div className="absolute inset-0 flex items-center">
           <div className="w-full h-1 bg-gray-800 rounded-full">
             <motion.div
-              className="h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"
+              className="h-full bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"
               initial={{ width: 0 }}
               animate={{ width: `${(currentStep / (steps.length - 1)) * 100}%` }}
               transition={{
@@ -160,7 +160,7 @@ export function DynamicRoadmap({ currentStep, userData, className }: DynamicRoad
                 className={cn(
                   "w-12 h-12 rounded-full flex items-center justify-center cursor-pointer",
                   step.status === 'completed' ? "bg-green-500" :
-                  step.status === 'current' ? "bg-gradient-to-r from-blue-500 to-purple-500" :
+                  step.status === 'current' ? "bg-gradient-to-r from-blue-500 to-cyan-500" :
                   "bg-gray-800 border-2 border-gray-700"
                 )}
                 whileHover={{
@@ -225,7 +225,7 @@ export function DynamicRoadmap({ currentStep, userData, className }: DynamicRoad
               className={cn(
                 "relative overflow-hidden rounded-2xl border",
                 step.status === 'current' ?
-                  "border-blue-500/50 bg-gradient-to-r from-blue-500/10 to-purple-500/10" :
+                  "border-blue-500/50 bg-gradient-to-r from-blue-500/10 to-cyan-500/10" :
                 step.status === 'completed' ?
                   "border-green-500/30 bg-green-500/5" :
                   "border-gray-800 bg-gray-900/50"
@@ -240,7 +240,7 @@ export function DynamicRoadmap({ currentStep, userData, className }: DynamicRoad
                       className={cn(
                         "p-3 rounded-xl",
                         step.status === 'current' ?
-                          "bg-gradient-to-br from-blue-500 to-purple-500" :
+                          "bg-gradient-to-br from-blue-500 to-cyan-500" :
                         step.status === 'completed' ?
                           "bg-green-500" :
                           "bg-gray-800"
@@ -343,7 +343,7 @@ export function DynamicRoadmap({ currentStep, userData, className }: DynamicRoad
                     </div>
                     <div className="w-full h-2 bg-gray-800 rounded-full overflow-hidden">
                       <motion.div
-                        className="h-full bg-gradient-to-r from-blue-500 to-purple-500"
+                        className="h-full bg-gradient-to-r from-blue-500 to-cyan-500"
                         initial={{ width: 0 }}
                         animate={{ width: `${animatedMetrics[step.id] || 0}%` }}
                         transition={{
@@ -391,7 +391,7 @@ export function DynamicRoadmap({ currentStep, userData, className }: DynamicRoad
           className="text-center"
         >
           <motion.div
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-white font-medium cursor-pointer font-diatype"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-medium cursor-pointer font-diatype"
             whileHover={{
               scale: 1.05,
               boxShadow: "0 10px 40px rgba(59, 130, 246, 0.3)",

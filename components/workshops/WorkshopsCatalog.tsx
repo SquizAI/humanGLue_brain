@@ -121,7 +121,7 @@ export function WorkshopsCatalog() {
                 <span>{filterCounts.pillars.coaching} Coaching</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-purple-500"></div>
+                <div className="w-2 h-2 rounded-full bg-cyan-500"></div>
                 <span>{filterCounts.pillars.marketplace} Marketplace</span>
               </div>
             </div>
@@ -263,7 +263,7 @@ export function WorkshopsCatalog() {
                 <FilterButton
                   active={pillarFilter === 'marketplace'}
                   onClick={() => setPillarFilter('marketplace')}
-                  variant="purple"
+                  variant="cyan"
                   data-testid="filter-pillar-marketplace"
                 >
                   Marketplace
@@ -346,7 +346,7 @@ export function WorkshopsCatalog() {
                       <FilterButton
                         active={pillarFilter === 'marketplace'}
                         onClick={() => setPillarFilter('marketplace')}
-                        variant="purple"
+                        variant="cyan"
                       >
                         Marketplace
                       </FilterButton>
@@ -458,7 +458,7 @@ export function WorkshopsCatalog() {
 interface FilterButtonProps {
   active: boolean
   onClick: () => void
-  variant?: 'default' | 'blue' | 'amber' | 'purple'
+  variant?: 'default' | 'blue' | 'amber' | 'cyan'
   children: React.ReactNode
   'data-testid'?: string
 }
@@ -481,8 +481,8 @@ function FilterButton({
       ? 'bg-amber-500 text-white'
       : 'bg-amber-500/10 text-amber-300 hover:bg-amber-500/20 border border-amber-500/20',
     purple: active
-      ? 'bg-purple-500 text-white'
-      : 'bg-purple-500/10 text-purple-300 hover:bg-purple-500/20 border border-purple-500/20',
+      ? 'bg-cyan-500 text-white'
+      : 'bg-cyan-500/10 text-cyan-300 hover:bg-cyan-500/20 border border-cyan-500/20',
   }
 
   return (

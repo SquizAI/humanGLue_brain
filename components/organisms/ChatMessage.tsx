@@ -129,7 +129,7 @@ function StructuredContentRenderer({ section }: { section: StructuredContent }) 
               >
                 <div className="mt-1 flex-shrink-0">
                   {section.content.ordered ? (
-                    <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center text-xs font-semibold text-blue-400">
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center text-xs font-semibold text-blue-400">
                       {index + 1}
                     </div>
                   ) : (
@@ -154,12 +154,12 @@ function StructuredContentRenderer({ section }: { section: StructuredContent }) 
             <motion.div
               key={index}
               whileHover={{ scale: 1.05, y: -2 }}
-              className="bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-xl p-4 border border-white/10 backdrop-blur-sm"
+              className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-xl p-4 border border-white/10 backdrop-blur-sm"
             >
               <div className="flex items-center gap-3">
                 <TrendingUp className="w-5 h-5 text-blue-400" />
                 <div>
-                  <div className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                  <div className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
                     {metric.value}
                   </div>
                   <div className="text-sm text-gray-300 font-diatype">{metric.label}</div>
@@ -181,9 +181,9 @@ function StructuredContentRenderer({ section }: { section: StructuredContent }) 
             <motion.div
               key={index}
               whileHover={{ x: 5 }}
-              className="flex items-center gap-3 p-3 rounded-lg bg-gradient-to-r from-blue-500/5 to-purple-500/5 border border-white/5 group cursor-pointer"
+              className="flex items-center gap-3 p-3 rounded-lg bg-gradient-to-r from-blue-500/5 to-cyan-500/5 border border-white/5 group cursor-pointer"
             >
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center">
                 <Calendar className="w-4 h-4 text-blue-400" />
               </div>
               <div className="flex-1 font-diatype">
@@ -275,7 +275,7 @@ export function ChatMessage({ message, modelName }: ChatMessageProps) {
             isUser
               ? 'bg-brand-cyan text-gray-900 rounded-br-sm'
               : isNameQuestion
-              ? 'bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-400/30 backdrop-blur-sm'
+              ? 'bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border border-blue-400/30 backdrop-blur-sm'
               : 'text-white'
           )}
           initial={{ scale: 0.95 }}
@@ -319,7 +319,7 @@ export function ChatMessage({ message, modelName }: ChatMessageProps) {
                       {highlightIndex !== -1 ? (
                         <>
                           {line.substring(0, highlightIndex)}
-                          <span className="font-semibold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                          <span className="font-semibold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
                             {line.substring(highlightIndex, highlightIndex + highlightLength)}
                           </span>
                           {line.substring(highlightIndex + highlightLength)}

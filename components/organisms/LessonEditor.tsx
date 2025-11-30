@@ -124,8 +124,8 @@ export function LessonEditor({ lesson, isOpen, onClose, onSave }: LessonEditorPr
                   </div>
                 )}
                 {formData.type === 'reading' && (
-                  <div className="p-2 rounded-lg bg-purple-500/20">
-                    <FileText className="w-5 h-5 text-purple-400" />
+                  <div className="p-2 rounded-lg bg-cyan-500/20">
+                    <FileText className="w-5 h-5 text-cyan-400" />
                   </div>
                 )}
                 {formData.type === 'quiz' && (
@@ -164,7 +164,7 @@ export function LessonEditor({ lesson, isOpen, onClose, onSave }: LessonEditorPr
                       onClick={() => setFormData({ ...formData, type })}
                       className={`p-4 rounded-xl border transition-all ${
                         formData.type === type
-                          ? 'bg-purple-500/20 border-purple-500/50 text-purple-300'
+                          ? 'bg-cyan-500/20 border-cyan-500/50 text-cyan-300'
                           : 'bg-white/5 border-white/10 text-gray-400 hover:bg-white/10'
                       }`}
                     >
@@ -185,7 +185,7 @@ export function LessonEditor({ lesson, isOpen, onClose, onSave }: LessonEditorPr
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                   placeholder="e.g., Introduction to AI Transformation"
-                  className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                  className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white placeholder:text-gray-500 focus:outline-none focus:border-cyan-500/50 transition-all font-diatype"
                 />
               </div>
 
@@ -205,7 +205,7 @@ export function LessonEditor({ lesson, isOpen, onClose, onSave }: LessonEditorPr
                       ? 'e.g., 10 min read'
                       : 'e.g., 5 questions'
                   }
-                  className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                  className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white placeholder:text-gray-500 focus:outline-none focus:border-cyan-500/50 transition-all font-diatype"
                 />
               </div>
 
@@ -221,7 +221,7 @@ export function LessonEditor({ lesson, isOpen, onClose, onSave }: LessonEditorPr
                       value={formData.videoUrl || ''}
                       onChange={(e) => setFormData({ ...formData, videoUrl: e.target.value })}
                       placeholder="https://youtube.com/watch?v=..."
-                      className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                      className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white placeholder:text-gray-500 focus:outline-none focus:border-cyan-500/50 transition-all font-diatype"
                     />
                   </div>
 
@@ -230,7 +230,7 @@ export function LessonEditor({ lesson, isOpen, onClose, onSave }: LessonEditorPr
                     <p className="text-gray-400 mb-3 font-diatype">
                       Or upload a video file
                     </p>
-                    <button className="px-4 py-2 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-purple-300 rounded-lg transition-all font-diatype">
+                    <button className="px-4 py-2 bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-cyan-300 rounded-lg transition-all font-diatype">
                       Choose File
                     </button>
                   </div>
@@ -248,7 +248,7 @@ export function LessonEditor({ lesson, isOpen, onClose, onSave }: LessonEditorPr
                     onChange={(e) => setFormData({ ...formData, content: e.target.value })}
                     placeholder="Write your lesson content here..."
                     rows={12}
-                    className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/50 transition-all font-diatype resize-none"
+                    className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white placeholder:text-gray-500 focus:outline-none focus:border-cyan-500/50 transition-all font-diatype resize-none"
                   />
                   <p className="text-xs text-gray-500 mt-2 font-diatype">
                     Supports Markdown formatting
@@ -265,7 +265,7 @@ export function LessonEditor({ lesson, isOpen, onClose, onSave }: LessonEditorPr
                     </label>
                     <button
                       onClick={addQuizQuestion}
-                      className="px-3 py-1.5 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-purple-300 rounded-lg transition-all flex items-center gap-2 text-sm font-diatype"
+                      className="px-3 py-1.5 bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-cyan-300 rounded-lg transition-all flex items-center gap-2 text-sm font-diatype"
                     >
                       <Plus className="w-4 h-4" />
                       Add Question
@@ -287,7 +287,7 @@ export function LessonEditor({ lesson, isOpen, onClose, onSave }: LessonEditorPr
                               updateQuestion(question.id, { question: e.target.value })
                             }
                             placeholder={`Question ${qIndex + 1}`}
-                            className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                            className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white placeholder:text-gray-500 focus:outline-none focus:border-cyan-500/50 transition-all font-diatype"
                           />
 
                           <div className="space-y-2">
@@ -300,7 +300,7 @@ export function LessonEditor({ lesson, isOpen, onClose, onSave }: LessonEditorPr
                                   onChange={() =>
                                     updateQuestion(question.id, { correctAnswer: oIndex })
                                   }
-                                  className="w-4 h-4 text-purple-500 focus:ring-purple-500"
+                                  className="w-4 h-4 text-cyan-500 focus:ring-cyan-500"
                                 />
                                 <input
                                   type="text"
@@ -311,7 +311,7 @@ export function LessonEditor({ lesson, isOpen, onClose, onSave }: LessonEditorPr
                                     updateQuestion(question.id, { options: newOptions })
                                   }}
                                   placeholder={`Option ${oIndex + 1}`}
-                                  className="flex-1 px-4 py-2 bg-gray-800 border border-white/10 rounded-lg text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                                  className="flex-1 px-4 py-2 bg-gray-800 border border-white/10 rounded-lg text-white placeholder:text-gray-500 focus:outline-none focus:border-cyan-500/50 transition-all font-diatype"
                                 />
                               </div>
                             ))}
@@ -324,7 +324,7 @@ export function LessonEditor({ lesson, isOpen, onClose, onSave }: LessonEditorPr
                               updateQuestion(question.id, { explanation: e.target.value })
                             }
                             placeholder="Explanation (optional)"
-                            className="w-full px-4 py-2 bg-gray-800 border border-white/10 rounded-lg text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                            className="w-full px-4 py-2 bg-gray-800 border border-white/10 rounded-lg text-white placeholder:text-gray-500 focus:outline-none focus:border-cyan-500/50 transition-all font-diatype"
                           />
                         </div>
                         <button
@@ -362,7 +362,7 @@ export function LessonEditor({ lesson, isOpen, onClose, onSave }: LessonEditorPr
                 whileTap={{ scale: 0.98 }}
                 onClick={handleSave}
                 disabled={isSaving || !formData.title}
-                className="px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-lg transition-all flex items-center gap-2 font-diatype disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg transition-all flex items-center gap-2 font-diatype disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Save className="w-4 h-4" />
                 {isSaving ? 'Saving...' : 'Save Lesson'}

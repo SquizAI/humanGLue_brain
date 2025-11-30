@@ -73,7 +73,7 @@ export default function CBTsPage() {
       enrolled: 1247,
       rating: 4.8,
       progress: 60,
-      thumbnail: 'from-purple-500 to-blue-500',
+      thumbnail: 'from-cyan-500 to-blue-500',
       instructor: 'Dr. Sarah Chen',
       skills: ['AI Strategy', 'Change Management', 'Leadership'],
       isFeatured: true,
@@ -176,7 +176,7 @@ export default function CBTsPage() {
       label: 'Available Courses',
       value: mockCourses.length.toString(),
       icon: <BookOpen className="w-6 h-6" />,
-      gradient: 'from-purple-500 to-blue-500',
+      gradient: 'from-cyan-500 to-blue-500',
     },
     {
       label: 'In Progress',
@@ -229,7 +229,7 @@ export default function CBTsPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 whileHover={{ y: -4, scale: 1.02 }}
-                className="group relative overflow-hidden rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 p-6 hover:border-purple-500/30 transition-all hover:shadow-[0_0_40px_rgba(168,85,247,0.15)]"
+                className="group relative overflow-hidden rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 p-6 hover:border-cyan-500/30 transition-all hover:shadow-[0_0_40px_rgba(168,85,247,0.15)]"
               >
                 <div
                   className={`absolute inset-0 bg-gradient-to-br ${stat.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}
@@ -264,7 +264,7 @@ export default function CBTsPage() {
                   placeholder="Search courses, skills, or instructors..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-12 pr-4 py-3 bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500/30 transition-all font-diatype"
+                  className="w-full pl-12 pr-4 py-3 bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/30 transition-all font-diatype"
                 />
               </div>
 
@@ -275,8 +275,8 @@ export default function CBTsPage() {
                 onClick={() => setShowFilters(!showFilters)}
                 className={`px-6 py-3 rounded-xl font-semibold transition-all inline-flex items-center gap-2 font-diatype ${
                   showFilters
-                    ? 'bg-purple-500/20 border border-purple-500/30 text-purple-300'
-                    : 'bg-white/5 backdrop-blur-xl border border-white/10 text-gray-300 hover:border-purple-500/30'
+                    ? 'bg-cyan-500/20 border border-cyan-500/30 text-cyan-300'
+                    : 'bg-white/5 backdrop-blur-xl border border-white/10 text-gray-300 hover:border-cyan-500/30'
                 }`}
               >
                 <Filter className="w-5 h-5" />
@@ -303,7 +303,7 @@ export default function CBTsPage() {
                         <select
                           value={filterCategory}
                           onChange={(e) => setFilterCategory(e.target.value as CourseCategory)}
-                          className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/30 transition-all font-diatype"
+                          className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-cyan-500/30 transition-all font-diatype"
                         >
                           <option value="all">All Categories</option>
                           <option value="leadership">Leadership</option>
@@ -321,7 +321,7 @@ export default function CBTsPage() {
                         <select
                           value={filterDifficulty}
                           onChange={(e) => setFilterDifficulty(e.target.value as CourseDifficulty)}
-                          className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/30 transition-all font-diatype"
+                          className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-cyan-500/30 transition-all font-diatype"
                         >
                           <option value="all">All Levels</option>
                           <option value="beginner">Beginner</option>
@@ -359,7 +359,7 @@ export default function CBTsPage() {
                   <Link href={`/dashboard/cbts/${course.id}`}>
                     <motion.div
                       whileHover={{ y: -6, scale: 1.02 }}
-                      className="group relative overflow-hidden h-full bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 transition-all duration-300 hover:border-purple-500/30 hover:shadow-[0_0_40px_rgba(168,85,247,0.15)]"
+                      className="group relative overflow-hidden h-full bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 transition-all duration-300 hover:border-cyan-500/30 hover:shadow-[0_0_40px_rgba(168,85,247,0.15)]"
                     >
                       {/* Animated gradient background */}
                       <div
@@ -381,7 +381,7 @@ export default function CBTsPage() {
                               </span>
                             )}
                             {course.isFeatured && (
-                              <span className="px-3 py-1 bg-purple-500/90 backdrop-blur-sm text-white text-xs font-semibold rounded-full font-diatype flex items-center gap-1">
+                              <span className="px-3 py-1 bg-cyan-500/90 backdrop-blur-sm text-white text-xs font-semibold rounded-full font-diatype flex items-center gap-1">
                                 <Sparkles className="w-3 h-3" />
                                 Featured
                               </span>
@@ -401,7 +401,7 @@ export default function CBTsPage() {
 
                         {/* Content */}
                         <div className="mb-4">
-                          <h3 className="text-xl font-bold text-white mb-2 group-hover:bg-gradient-to-r group-hover:from-purple-400 group-hover:to-blue-400 group-hover:bg-clip-text group-hover:text-transparent transition-all font-gendy">
+                          <h3 className="text-xl font-bold text-white mb-2 group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:to-blue-400 group-hover:bg-clip-text group-hover:text-transparent transition-all font-gendy">
                             {course.title}
                           </h3>
                           <p className="text-gray-400 text-sm mb-4 font-diatype leading-relaxed line-clamp-2">
@@ -449,7 +449,7 @@ export default function CBTsPage() {
                             <Users className="w-4 h-4" />
                             {course.enrolled.toLocaleString()} enrolled
                           </div>
-                          <div className="flex items-center gap-2 text-purple-400 group-hover:text-purple-300 group-hover:gap-3 transition-all">
+                          <div className="flex items-center gap-2 text-cyan-400 group-hover:text-cyan-300 group-hover:gap-3 transition-all">
                             <span className="text-sm font-semibold font-diatype">
                               {course.progress !== undefined && course.progress > 0
                                 ? 'Continue'

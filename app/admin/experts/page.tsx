@@ -453,7 +453,7 @@ export default function ExpertsAdmin() {
                 onClick={handleOpenCreateModal}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center gap-2 font-diatype"
+                className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center gap-2 font-diatype"
               >
                 <Plus className="w-5 h-5" />
                 Add New Expert
@@ -475,7 +475,7 @@ export default function ExpertsAdmin() {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search experts, expertise..."
-                    className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype"
+                    className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
                   />
                 </div>
               </div>
@@ -484,7 +484,7 @@ export default function ExpertsAdmin() {
               <select
                 value={selectedAvailability}
                 onChange={(e) => setSelectedAvailability(e.target.value)}
-                className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype"
+                className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
               >
                 <option value="all">All Availability</option>
                 <option value="available">Available</option>
@@ -496,7 +496,7 @@ export default function ExpertsAdmin() {
               <select
                 value={selectedStatus}
                 onChange={(e) => setSelectedStatus(e.target.value)}
-                className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype"
+                className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
               >
                 <option value="all">All Status</option>
                 <option value="active">Active</option>
@@ -513,7 +513,7 @@ export default function ExpertsAdmin() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
-                className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:border-purple-500/30 transition-all group"
+                className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:border-cyan-500/30 transition-all group"
               >
                 {/* Expert Header */}
                 <div className="p-6 border-b border-white/10">
@@ -591,7 +591,7 @@ export default function ExpertsAdmin() {
                     </div>
                     <div>
                       <div className="flex items-center gap-2 mb-1">
-                        <Award className="w-4 h-4 text-purple-400" />
+                        <Award className="w-4 h-4 text-cyan-400" />
                         <span className="text-sm text-gray-400 font-diatype">Experience</span>
                       </div>
                       <p className="text-lg font-bold text-white font-gendy">{expert.yearsExp} years</p>
@@ -613,7 +613,7 @@ export default function ExpertsAdmin() {
                     {expert.expertise.slice(0, 3).map((skill, i) => (
                       <span
                         key={i}
-                        className="px-2 py-1 bg-purple-500/10 text-purple-300 rounded-lg text-xs font-diatype"
+                        className="px-2 py-1 bg-cyan-500/10 text-cyan-300 rounded-lg text-xs font-diatype"
                       >
                         {skill}
                       </span>
@@ -637,7 +637,7 @@ export default function ExpertsAdmin() {
                     onClick={() => handleOpenEditModal(expert)}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="flex-1 px-4 py-2 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-purple-300 rounded-lg transition-all flex items-center justify-center gap-2 font-diatype"
+                    className="flex-1 px-4 py-2 bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-cyan-300 rounded-lg transition-all flex items-center justify-center gap-2 font-diatype"
                   >
                     <Edit className="w-4 h-4" />
                     Edit
@@ -742,7 +742,7 @@ export default function ExpertsAdmin() {
                       placeholder="e.g., Sarah Chen"
                       className={`w-full px-4 py-3 bg-white/5 border ${
                         formErrors.name ? 'border-red-500' : 'border-white/10'
-                      } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype`}
+                      } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype`}
                     />
                     {formErrors.name && (
                       <p className="text-red-400 text-sm mt-1 font-diatype">{formErrors.name}</p>
@@ -761,7 +761,7 @@ export default function ExpertsAdmin() {
                       placeholder="e.g., AI Strategy & Transformation"
                       className={`w-full px-4 py-3 bg-white/5 border ${
                         formErrors.title ? 'border-red-500' : 'border-white/10'
-                      } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype`}
+                      } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype`}
                     />
                     {formErrors.title && (
                       <p className="text-red-400 text-sm mt-1 font-diatype">{formErrors.title}</p>
@@ -778,7 +778,7 @@ export default function ExpertsAdmin() {
                       value={formData.company}
                       onChange={(e) => handleFormChange('company', e.target.value)}
                       placeholder="e.g., San Francisco, CA"
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype"
+                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
                     />
                   </div>
 
@@ -794,7 +794,7 @@ export default function ExpertsAdmin() {
                       placeholder="expert@example.com"
                       className={`w-full px-4 py-3 bg-white/5 border ${
                         formErrors.email ? 'border-red-500' : 'border-white/10'
-                      } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype`}
+                      } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype`}
                     />
                     {formErrors.email && (
                       <p className="text-red-400 text-sm mt-1 font-diatype">{formErrors.email}</p>
@@ -811,7 +811,7 @@ export default function ExpertsAdmin() {
                       value={formData.phone}
                       onChange={(e) => handleFormChange('phone', e.target.value)}
                       placeholder="+1 (555) 123-4567"
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype"
+                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
                     />
                   </div>
 
@@ -825,7 +825,7 @@ export default function ExpertsAdmin() {
                       value={formData.linkedinUrl}
                       onChange={(e) => handleFormChange('linkedinUrl', e.target.value)}
                       placeholder="https://linkedin.com/in/username"
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype"
+                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
                     />
                   </div>
 
@@ -843,7 +843,7 @@ export default function ExpertsAdmin() {
                       step="10"
                       className={`w-full px-4 py-3 bg-white/5 border ${
                         formErrors.hourlyRate ? 'border-red-500' : 'border-white/10'
-                      } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype`}
+                      } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype`}
                     />
                     {formErrors.hourlyRate && (
                       <p className="text-red-400 text-sm mt-1 font-diatype">{formErrors.hourlyRate}</p>
@@ -863,7 +863,7 @@ export default function ExpertsAdmin() {
                       min="0"
                       className={`w-full px-4 py-3 bg-white/5 border ${
                         formErrors.yearsExp ? 'border-red-500' : 'border-white/10'
-                      } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype`}
+                      } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype`}
                     />
                     {formErrors.yearsExp && (
                       <p className="text-red-400 text-sm mt-1 font-diatype">{formErrors.yearsExp}</p>
@@ -878,7 +878,7 @@ export default function ExpertsAdmin() {
                     <select
                       value={formData.availability}
                       onChange={(e) => handleFormChange('availability', e.target.value)}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype"
+                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
                     >
                       {availabilityOptions.map((option) => (
                         <option key={option.value} value={option.value}>
@@ -896,7 +896,7 @@ export default function ExpertsAdmin() {
                     <select
                       value={formData.status}
                       onChange={(e) => handleFormChange('status', e.target.value)}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype"
+                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
                     >
                       {statusOptions.map((option) => (
                         <option key={option.value} value={option.value}>
@@ -919,8 +919,8 @@ export default function ExpertsAdmin() {
                           onClick={() => toggleSpecialty(specialty)}
                           className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all font-diatype ${
                             formData.specialties.includes(specialty)
-                              ? 'bg-purple-500 text-white border-2 border-purple-400'
-                              : 'bg-white/5 text-gray-300 border-2 border-white/10 hover:border-purple-500/50'
+                              ? 'bg-cyan-500 text-white border-2 border-cyan-400'
+                              : 'bg-white/5 text-gray-300 border-2 border-white/10 hover:border-cyan-500/50'
                           }`}
                         >
                           {specialty}
@@ -942,7 +942,7 @@ export default function ExpertsAdmin() {
                         placeholder="https://images.unsplash.com/photo-..."
                         className={`flex-1 px-4 py-3 bg-white/5 border ${
                           formErrors.image ? 'border-red-500' : 'border-white/10'
-                        } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype`}
+                        } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype`}
                       />
                       <button
                         type="button"
@@ -980,7 +980,7 @@ export default function ExpertsAdmin() {
                       rows={4}
                       className={`w-full px-4 py-3 bg-white/5 border ${
                         formErrors.bio ? 'border-red-500' : 'border-white/10'
-                      } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype resize-none`}
+                      } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype resize-none`}
                     />
                     {formErrors.bio && (
                       <p className="text-red-400 text-sm mt-1 font-diatype">{formErrors.bio}</p>
@@ -1001,7 +1001,7 @@ export default function ExpertsAdmin() {
                 <button
                   onClick={handleSaveExpert}
                   disabled={isSubmitting}
-                  className="flex-1 px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white rounded-xl transition-all font-semibold flex items-center justify-center gap-2 font-diatype disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white rounded-xl transition-all font-semibold flex items-center justify-center gap-2 font-diatype disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? (
                     <>

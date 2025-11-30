@@ -35,7 +35,7 @@ describe('PillarCard', () => {
       description: 'Navigate the talent ecosystem',
       icon: 'Briefcase',
       href: '/marketplace',
-      gradient: 'from-purple-500 to-purple-600',
+      gradient: 'from-cyan-500 to-cyan-600',
     },
   }
 
@@ -230,7 +230,7 @@ describe('PillarCard', () => {
 
     expect(container.querySelector('.from-blue-500')).toBeInTheDocument()
     expect(container.querySelector('.from-amber-500')).toBeInTheDocument()
-    expect(container.querySelector('.from-purple-500')).toBeInTheDocument()
+    expect(container.querySelector('.from-cyan-500')).toBeInTheDocument()
   })
 
   it('maintains card aspect ratio', () => {

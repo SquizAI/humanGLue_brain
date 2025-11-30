@@ -96,7 +96,7 @@ export default function ExpertSchedulePage() {
               <h1 className="text-3xl font-bold text-white mb-2 font-gendy">Schedule</h1>
               <p className="text-gray-400 font-diatype">Manage your upcoming sessions and availability</p>
             </div>
-            <button className="px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white font-semibold rounded-xl transition-all font-diatype">
+            <button className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-semibold rounded-xl transition-all font-diatype">
               Block Time Off
             </button>
           </div>
@@ -150,7 +150,7 @@ export default function ExpertSchedulePage() {
                         key={index}
                         className={`aspect-square p-2 rounded-lg border transition-all cursor-pointer ${
                           isToday
-                            ? 'bg-purple-500/20 border-purple-500/50'
+                            ? 'bg-cyan-500/20 border-cyan-500/50'
                             : hasSession
                             ? 'bg-blue-500/10 border-blue-500/30 hover:bg-blue-500/20'
                             : 'bg-white/5 border-white/10 hover:bg-white/10'
@@ -158,7 +158,7 @@ export default function ExpertSchedulePage() {
                       >
                         <div className="flex flex-col items-center justify-center h-full">
                           <span className={`text-sm font-medium font-diatype ${
-                            isToday ? 'text-purple-400' : 'text-gray-300'
+                            isToday ? 'text-cyan-400' : 'text-gray-300'
                           }`}>
                             {day.getDate()}
                           </span>
@@ -191,7 +191,7 @@ export default function ExpertSchedulePage() {
                           <h3 className="font-semibold text-white mb-1 font-diatype">{session.client}</h3>
                           <p className="text-xs text-gray-400 font-diatype">{session.company}</p>
                         </div>
-                        <Video className="w-5 h-5 text-purple-400" />
+                        <Video className="w-5 h-5 text-cyan-400" />
                       </div>
                       <p className="text-sm text-gray-300 mb-3 font-diatype">{session.topic}</p>
                       <div className="flex items-center gap-4 text-xs text-gray-400">
@@ -204,7 +204,7 @@ export default function ExpertSchedulePage() {
                           <span className="font-diatype">{session.time} ({session.duration}m)</span>
                         </div>
                       </div>
-                      <button className="w-full mt-3 px-4 py-2 bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 rounded-lg transition-all font-diatype text-sm border border-purple-500/30">
+                      <button className="w-full mt-3 px-4 py-2 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-400 rounded-lg transition-all font-diatype text-sm border border-cyan-500/30">
                         Join Session
                       </button>
                     </motion.div>

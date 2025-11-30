@@ -22,7 +22,7 @@ export default function FuturisticBackground({ state }: FuturisticBackgroundProp
   return (
     <>
       {/* Base gradient */}
-      <div className="fixed inset-0 bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950" />
+      <div className="fixed inset-0 bg-gradient-to-br from-slate-950 via-cyan-950 to-slate-950" />
       
       {/* Animated gradient mesh */}
       <div className="fixed inset-0 overflow-hidden">

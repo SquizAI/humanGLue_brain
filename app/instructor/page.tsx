@@ -68,7 +68,7 @@ export default function InstructorDashboard() {
       description: 'Build a new course module',
       icon: PlayCircle,
       href: '/instructor/courses/new',
-      color: 'purple',
+      color: 'cyan',
     },
     {
       title: 'Schedule Workshop',
@@ -124,11 +124,11 @@ export default function InstructorDashboard() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="bg-gradient-to-br from-purple-900/30 to-purple-900/10 backdrop-blur-xl border border-purple-500/20 rounded-2xl p-6"
+              className="bg-gradient-to-br from-cyan-900/30 to-cyan-900/10 backdrop-blur-xl border border-cyan-500/20 rounded-2xl p-6"
             >
               <div className="flex items-center justify-between mb-4">
-                <div className="p-3 bg-purple-500/20 rounded-xl">
-                  <Users className="w-6 h-6 text-purple-400" />
+                <div className="p-3 bg-cyan-500/20 rounded-xl">
+                  <Users className="w-6 h-6 text-cyan-400" />
                 </div>
                 <div className="text-right">
                   <p className="text-sm text-gray-400 font-diatype">Total Students</p>

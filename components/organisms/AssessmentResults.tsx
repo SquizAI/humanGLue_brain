@@ -74,7 +74,7 @@ export function AssessmentResults({
         <motion.div
           initial={{ scale: 0.9 }}
           animate={{ scale: 1 }}
-          className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full border border-blue-500/30"
+          className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-full border border-blue-500/30"
         >
           <Brain className="w-6 h-6 text-blue-400" />
           <span className="text-lg font-semibold text-white">Assessment Complete</span>
@@ -123,7 +123,7 @@ export function AssessmentResults({
         </button>
         <button
           onClick={onBookConsultation}
-          className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-xl hover:shadow-lg hover:shadow-blue-500/25 transition-all"
+          className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-xl hover:shadow-lg hover:shadow-blue-500/25 transition-all"
         >
           <Calendar className="w-4 h-4" />
           Book Consultation
@@ -140,7 +140,7 @@ export function AssessmentResults({
               className={cn(
                 'px-6 py-2 rounded-lg font-medium transition-all capitalize',
                 activeTab === tab
-                  ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white'
+                  ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white'
                   : 'text-gray-400 hover:text-white'
               )}
             >
@@ -178,7 +178,7 @@ export function AssessmentResults({
                       <div className="flex items-center gap-2">
                         <div className="w-24 h-2 bg-gray-800 rounded-full overflow-hidden">
                           <motion.div
-                            className="h-full bg-gradient-to-r from-blue-500 to-purple-500"
+                            className="h-full bg-gradient-to-r from-blue-500 to-cyan-500"
                             initial={{ width: 0 }}
                             animate={{ width: `${score * 10}%` }}
                             transition={{ delay: 0.5, duration: 1 }}
@@ -242,7 +242,7 @@ export function AssessmentResults({
                   className="bg-gray-900/50 backdrop-blur-sm rounded-xl border border-gray-800 p-6"
                 >
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
                       <Brain className="w-6 h-6 text-white" />
                     </div>
                     <div className="text-left">
@@ -275,7 +275,7 @@ export function AssessmentResults({
                   className="bg-gray-900/50 backdrop-blur-sm rounded-xl border border-gray-800 p-6"
                 >
                   <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white font-bold">
                       {item.phase}
                     </div>
                     <div className="flex-1">

@@ -18,7 +18,7 @@ import Image from 'next/image'
 
 // Course categories
 const categories = [
-  { id: 'ai-adoption', name: 'AI Adoption & Strategy', color: 'purple' },
+  { id: 'ai-adoption', name: 'AI Adoption & Strategy', color: 'cyan' },
   { id: 'change-management', name: 'Change Management', color: 'blue' },
   { id: 'leadership', name: 'Leadership & Culture', color: 'green' },
   { id: 'data-ai', name: 'Data & AI Technical', color: 'cyan' },
@@ -179,7 +179,7 @@ export default function NewCourse() {
                   disabled={isSubmitting}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white rounded-xl transition-all font-semibold flex items-center gap-2 font-diatype disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white rounded-xl transition-all font-semibold flex items-center gap-2 font-diatype disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? (
                     <>
@@ -220,7 +220,7 @@ export default function NewCourse() {
                     placeholder="e.g., AI Transformation for Executives"
                     className={`w-full px-4 py-3 bg-white/5 border ${
                       formErrors.title ? 'border-red-500' : 'border-white/10'
-                    } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype`}
+                    } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype`}
                   />
                   {formErrors.title && (
                     <p className="text-red-400 text-sm mt-1 font-diatype">{formErrors.title}</p>
@@ -239,7 +239,7 @@ export default function NewCourse() {
                     placeholder="e.g., Sarah Chen"
                     className={`w-full px-4 py-3 bg-white/5 border ${
                       formErrors.instructor ? 'border-red-500' : 'border-white/10'
-                    } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype`}
+                    } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype`}
                   />
                   {formErrors.instructor && (
                     <p className="text-red-400 text-sm mt-1 font-diatype">{formErrors.instructor}</p>
@@ -254,7 +254,7 @@ export default function NewCourse() {
                   <select
                     value={formData.category}
                     onChange={(e) => handleFormChange('category', e.target.value)}
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
                   >
                     {categories.map((cat) => (
                       <option key={cat.id} value={cat.id}>
@@ -272,7 +272,7 @@ export default function NewCourse() {
                   <select
                     value={formData.level}
                     onChange={(e) => handleFormChange('level', e.target.value)}
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
                   >
                     {levels.map((level) => (
                       <option key={level} value={level}>
@@ -294,7 +294,7 @@ export default function NewCourse() {
                     placeholder="e.g., 6 hours"
                     className={`w-full px-4 py-3 bg-white/5 border ${
                       formErrors.duration ? 'border-red-500' : 'border-white/10'
-                    } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype`}
+                    } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype`}
                   />
                   {formErrors.duration && (
                     <p className="text-red-400 text-sm mt-1 font-diatype">{formErrors.duration}</p>
@@ -314,7 +314,7 @@ export default function NewCourse() {
                     min="0"
                     className={`w-full px-4 py-3 bg-white/5 border ${
                       formErrors.lessons ? 'border-red-500' : 'border-white/10'
-                    } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype`}
+                    } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype`}
                   />
                   {formErrors.lessons && (
                     <p className="text-red-400 text-sm mt-1 font-diatype">{formErrors.lessons}</p>
@@ -335,7 +335,7 @@ export default function NewCourse() {
                     step="0.01"
                     className={`w-full px-4 py-3 bg-white/5 border ${
                       formErrors.price ? 'border-red-500' : 'border-white/10'
-                    } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype`}
+                    } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype`}
                   />
                   {formErrors.price && (
                     <p className="text-red-400 text-sm mt-1 font-diatype">{formErrors.price}</p>
@@ -350,7 +350,7 @@ export default function NewCourse() {
                   <select
                     value={formData.status}
                     onChange={(e) => handleFormChange('status', e.target.value)}
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
                   >
                     <option value="draft">Draft</option>
                     <option value="published">Published</option>
@@ -370,7 +370,7 @@ export default function NewCourse() {
                       placeholder="https://images.unsplash.com/photo-..."
                       className={`flex-1 px-4 py-3 bg-white/5 border ${
                         formErrors.image ? 'border-red-500' : 'border-white/10'
-                      } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype`}
+                      } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype`}
                     />
                     <button className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-gray-400 hover:text-white hover:bg-white/10 transition-all">
                       <ImageIcon className="w-5 h-5" />
@@ -403,7 +403,7 @@ export default function NewCourse() {
                     onChange={(e) => handleFormChange('description', e.target.value)}
                     placeholder="Provide a detailed description of the course content, learning outcomes, and target audience..."
                     rows={4}
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype resize-none"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype resize-none"
                   />
                 </div>
               </div>

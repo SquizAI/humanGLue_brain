@@ -314,7 +314,7 @@ export function BrandingSettings({ organizationId }: BrandingSettingsProps) {
                     onClick={() => setActiveTab(tab.id)}
                     className={`w-full px-4 py-3 rounded-xl transition-all flex items-center gap-3 font-diatype ${
                       activeTab === tab.id
-                        ? 'bg-purple-500/20 border border-purple-500/30 text-purple-300'
+                        ? 'bg-cyan-500/20 border border-cyan-500/30 text-cyan-300'
                         : 'bg-transparent hover:bg-white/5 text-gray-400'
                     }`}
                   >
@@ -343,7 +343,7 @@ export function BrandingSettings({ organizationId }: BrandingSettingsProps) {
                     value={localBranding.company_name || ''}
                     onChange={(e) => setLocalBranding({ ...localBranding, company_name: e.target.value })}
                     placeholder="Your Company Name"
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all font-diatype"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-diatype"
                   />
                 </div>
                 <div>
@@ -355,7 +355,7 @@ export function BrandingSettings({ organizationId }: BrandingSettingsProps) {
                     value={localBranding.tagline || ''}
                     onChange={(e) => setLocalBranding({ ...localBranding, tagline: e.target.value })}
                     placeholder="Innovation Through AI"
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all font-diatype"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-diatype"
                   />
                 </div>
               </div>
@@ -386,7 +386,7 @@ export function BrandingSettings({ organizationId }: BrandingSettingsProps) {
                         value={localBranding.colors?.primary || '#3b82f6'}
                         onChange={(e) => updateColors('primary', e.target.value)}
                         placeholder="#3b82f6"
-                        className="flex-1 px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all font-mono text-sm"
+                        className="flex-1 px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-mono text-sm"
                       />
                     </div>
                   </div>
@@ -407,7 +407,7 @@ export function BrandingSettings({ organizationId }: BrandingSettingsProps) {
                         value={localBranding.colors?.secondary || '#8b5cf6'}
                         onChange={(e) => updateColors('secondary', e.target.value)}
                         placeholder="#8b5cf6"
-                        className="flex-1 px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all font-mono text-sm"
+                        className="flex-1 px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-mono text-sm"
                       />
                     </div>
                   </div>
@@ -428,7 +428,7 @@ export function BrandingSettings({ organizationId }: BrandingSettingsProps) {
                         value={localBranding.colors?.accent || '#10b981'}
                         onChange={(e) => updateColors('accent', e.target.value)}
                         placeholder="#10b981"
-                        className="flex-1 px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all font-mono text-sm"
+                        className="flex-1 px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-mono text-sm"
                       />
                     </div>
                   </div>
@@ -459,7 +459,7 @@ export function BrandingSettings({ organizationId }: BrandingSettingsProps) {
                     value={localBranding.logo?.url || ''}
                     onChange={(e) => updateLogo('url', e.target.value)}
                     placeholder="https://cdn.example.com/logo.png or /logo.png"
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all font-diatype"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-diatype"
                   />
                   <p className="text-xs text-gray-500 mt-1 font-diatype">
                     Used in emails and PDFs. Can be absolute URL or relative path.
@@ -475,7 +475,7 @@ export function BrandingSettings({ organizationId }: BrandingSettingsProps) {
                     value={localBranding.logo?.favicon_url || ''}
                     onChange={(e) => updateLogo('favicon_url', e.target.value)}
                     placeholder="https://cdn.example.com/favicon.ico"
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all font-diatype"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-diatype"
                   />
                 </div>
 
@@ -489,7 +489,7 @@ export function BrandingSettings({ organizationId }: BrandingSettingsProps) {
                       value={localBranding.logo?.width || ''}
                       onChange={(e) => updateLogo('width', parseInt(e.target.value))}
                       placeholder="200"
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all font-diatype"
+                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-diatype"
                     />
                   </div>
                   <div>
@@ -501,7 +501,7 @@ export function BrandingSettings({ organizationId }: BrandingSettingsProps) {
                       value={localBranding.logo?.height || ''}
                       onChange={(e) => updateLogo('height', parseInt(e.target.value))}
                       placeholder="50"
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all font-diatype"
+                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-diatype"
                     />
                   </div>
                 </div>
@@ -525,7 +525,7 @@ export function BrandingSettings({ organizationId }: BrandingSettingsProps) {
                     value={localBranding.email?.sender_name || ''}
                     onChange={(e) => updateEmail('sender_name', e.target.value)}
                     placeholder="Your Company AI Platform"
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all font-diatype"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-diatype"
                   />
                   <p className="text-xs text-gray-500 mt-1 font-diatype">
                     Displayed as the "From" name in emails
@@ -541,7 +541,7 @@ export function BrandingSettings({ organizationId }: BrandingSettingsProps) {
                     value={localBranding.email?.sender_email || ''}
                     onChange={(e) => updateEmail('sender_email', e.target.value)}
                     placeholder="noreply@yourcompany.com"
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all font-diatype"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-diatype"
                   />
                   <p className="text-xs text-gray-500 mt-1 font-diatype">
                     Must be a verified email address
@@ -557,7 +557,7 @@ export function BrandingSettings({ organizationId }: BrandingSettingsProps) {
                     value={localBranding.email?.support_email || ''}
                     onChange={(e) => updateEmail('support_email', e.target.value)}
                     placeholder="support@yourcompany.com"
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all font-diatype"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-diatype"
                   />
                   <p className="text-xs text-gray-500 mt-1 font-diatype">
                     Shown in email footers for customer support
@@ -573,7 +573,7 @@ export function BrandingSettings({ organizationId }: BrandingSettingsProps) {
                     onChange={(e) => updateEmail('footer_text', e.target.value)}
                     placeholder="© 2025 Your Company. All rights reserved."
                     rows={3}
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all font-diatype resize-none"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-diatype resize-none"
                   />
                 </div>
               </div>
@@ -596,7 +596,7 @@ export function BrandingSettings({ organizationId }: BrandingSettingsProps) {
                     value={localBranding.social?.website || ''}
                     onChange={(e) => updateSocial('website', e.target.value)}
                     placeholder="https://yourcompany.com"
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all font-diatype"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-diatype"
                   />
                 </div>
 
@@ -609,7 +609,7 @@ export function BrandingSettings({ organizationId }: BrandingSettingsProps) {
                     value={localBranding.social?.twitter || ''}
                     onChange={(e) => updateSocial('twitter', e.target.value)}
                     placeholder="@yourcompany"
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all font-diatype"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-diatype"
                   />
                 </div>
 
@@ -622,7 +622,7 @@ export function BrandingSettings({ organizationId }: BrandingSettingsProps) {
                     value={localBranding.social?.linkedin || ''}
                     onChange={(e) => updateSocial('linkedin', e.target.value)}
                     placeholder="company/yourcompany"
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all font-diatype"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-diatype"
                   />
                 </div>
               </div>
@@ -648,7 +648,7 @@ export function BrandingSettings({ organizationId }: BrandingSettingsProps) {
                     value={customDomain}
                     onChange={(e) => setCustomDomain(e.target.value)}
                     placeholder="platform.yourcompany.com"
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all font-diatype"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-diatype"
                   />
                   <p className="text-xs text-gray-500 mt-2 font-diatype">
                     Enter your custom domain without https:// (e.g., platform.yourcompany.com)
@@ -709,7 +709,7 @@ export function BrandingSettings({ organizationId }: BrandingSettingsProps) {
                   <button
                     onClick={handleSaveDomain}
                     disabled={isDomainSaving}
-                    className="px-6 py-3 bg-gradient-to-r from-purple-500 to-cyan-500 hover:from-purple-600 hover:to-cyan-600 text-white font-semibold rounded-xl transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed font-diatype"
+                    className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-cyan-500 hover:from-cyan-600 hover:to-cyan-600 text-white font-semibold rounded-xl transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed font-diatype"
                   >
                     {isDomainSaving ? (
                       <>

@@ -543,7 +543,7 @@ export default function WorkshopDetailPage() {
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="p-2 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 hover:border-purple-500/30 transition-all"
+                    className="p-2 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 hover:border-cyan-500/30 transition-all"
                   >
                     <ArrowLeft className="w-5 h-5" />
                   </motion.button>
@@ -561,7 +561,7 @@ export default function WorkshopDetailPage() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="px-4 py-2 bg-white/5 border border-white/10 text-white rounded-xl hover:bg-white/10 hover:border-purple-500/30 transition-all inline-flex items-center gap-2 font-diatype"
+                  className="px-4 py-2 bg-white/5 border border-white/10 text-white rounded-xl hover:bg-white/10 hover:border-cyan-500/30 transition-all inline-flex items-center gap-2 font-diatype"
                 >
                   <Share2 className="w-4 h-4" />
                   Share
@@ -569,7 +569,7 @@ export default function WorkshopDetailPage() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="px-4 py-2 bg-white/5 border border-white/10 text-white rounded-xl hover:bg-white/10 hover:border-purple-500/30 transition-all"
+                  className="px-4 py-2 bg-white/5 border border-white/10 text-white rounded-xl hover:bg-white/10 hover:border-cyan-500/30 transition-all"
                 >
                   <BookmarkPlus className="w-5 h-5" />
                 </motion.button>
@@ -594,7 +594,7 @@ export default function WorkshopDetailPage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/50 to-transparent" />
                 <div className="absolute bottom-6 left-6 flex items-center gap-2">
-                  <span className="px-3 py-1 rounded-full bg-purple-500/20 border border-purple-500/30 text-purple-400 text-sm font-semibold font-diatype">
+                  <span className="px-3 py-1 rounded-full bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 text-sm font-semibold font-diatype">
                     {workshop.category}
                   </span>
                   <span className="px-3 py-1 rounded-full bg-blue-500/20 border border-blue-500/30 text-blue-400 text-sm font-semibold font-diatype">
@@ -653,7 +653,7 @@ export default function WorkshopDetailPage() {
                   <div className="space-y-4">
                     {workshop.agenda.map((item: any, i: number) => (
                       <div key={i} className="flex gap-4 pb-4 border-b border-white/10 last:border-0">
-                        <div className="flex-shrink-0 w-32 text-purple-400 font-semibold font-diatype text-sm">
+                        <div className="flex-shrink-0 w-32 text-cyan-400 font-semibold font-diatype text-sm">
                           {item.time}
                         </div>
                         <div className="flex-1">
@@ -686,7 +686,7 @@ export default function WorkshopDetailPage() {
                     />
                     <div>
                       <h3 className="text-xl font-bold text-white mb-1 font-gendy">{workshop.instructor}</h3>
-                      <p className="text-purple-400 mb-3 font-diatype">{workshop.instructorTitle}</p>
+                      <p className="text-cyan-400 mb-3 font-diatype">{workshop.instructorTitle}</p>
                       <p className="text-gray-300 font-diatype leading-relaxed">{workshop.instructorBio}</p>
                     </div>
                   </div>
@@ -710,19 +710,19 @@ export default function WorkshopDetailPage() {
 
                 <div className="space-y-4 mb-6">
                   <div className="flex items-center gap-3 text-gray-300">
-                    <Calendar className="w-5 h-5 text-purple-400" />
+                    <Calendar className="w-5 h-5 text-cyan-400" />
                     <span className="font-diatype">{workshop.date} at {workshop.time}</span>
                   </div>
                   <div className="flex items-center gap-3 text-gray-300">
-                    <Clock className="w-5 h-5 text-purple-400" />
+                    <Clock className="w-5 h-5 text-cyan-400" />
                     <span className="font-diatype">{workshop.duration}</span>
                   </div>
                   <div className="flex items-center gap-3 text-gray-300">
-                    <Users className="w-5 h-5 text-purple-400" />
+                    <Users className="w-5 h-5 text-cyan-400" />
                     <span className="font-diatype">{workshop.participants}/{workshop.maxParticipants} enrolled</span>
                   </div>
                   <div className="flex items-center gap-3 text-gray-300">
-                    <Video className="w-5 h-5 text-purple-400" />
+                    <Video className="w-5 h-5 text-cyan-400" />
                     <span className="font-diatype">Live online workshop</span>
                   </div>
                 </div>
@@ -730,7 +730,7 @@ export default function WorkshopDetailPage() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="w-full px-6 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-xl font-semibold hover:from-purple-700 hover:to-blue-700 transition-all inline-flex items-center justify-center gap-2 shadow-lg shadow-purple-500/50 font-diatype mb-3"
+                  className="w-full px-6 py-4 bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-xl font-semibold hover:from-cyan-700 hover:to-blue-700 transition-all inline-flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/50 font-diatype mb-3"
                 >
                   <CheckCircle2 className="w-5 h-5" />
                   Enroll Now
@@ -744,7 +744,7 @@ export default function WorkshopDetailPage() {
                     <ul className="space-y-2">
                       {workshop.keyTakeaways.map((item: string, i: number) => (
                         <li key={i} className="flex items-start gap-2 text-gray-300 text-sm font-diatype">
-                          <Award className="w-4 h-4 text-purple-400 flex-shrink-0 mt-0.5" />
+                          <Award className="w-4 h-4 text-cyan-400 flex-shrink-0 mt-0.5" />
                           {item}
                         </li>
                       ))}

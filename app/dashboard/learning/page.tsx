@@ -29,7 +29,7 @@ import { cn } from '@/utils/cn'
 
 // Course categories based on Trivera + HumanGlue focus
 const categories = [
-  { id: 'ai-adoption', name: 'AI Adoption & Strategy', color: 'purple', icon: '🎯' },
+  { id: 'ai-adoption', name: 'AI Adoption & Strategy', color: 'cyan', icon: '🎯' },
   { id: 'change-management', name: 'Change Management', color: 'blue', icon: '🔄' },
   { id: 'leadership', name: 'Leadership & Culture', color: 'green', icon: '👥' },
   { id: 'data-ai', name: 'Data & AI Technical', color: 'cyan', icon: '🤖' },
@@ -228,7 +228,7 @@ export default function LearningPlatform() {
                 </div>
               </div>
               <Link href="/dashboard/learning/schedule">
-                <button className="px-4 py-2 bg-purple-500/20 text-purple-300 rounded-lg hover:bg-purple-500/30 transition-all flex items-center gap-2">
+                <button className="px-4 py-2 bg-cyan-500/20 text-cyan-300 rounded-lg hover:bg-cyan-500/30 transition-all flex items-center gap-2">
                   <Calendar className="w-4 h-4" />
                   <span className="hidden sm:inline">View Schedule</span>
                 </button>
@@ -237,10 +237,10 @@ export default function LearningPlatform() {
 
             {/* Stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="bg-gradient-to-br from-purple-900/20 to-blue-900/20 border border-purple-500/20 rounded-xl p-4">
+              <div className="bg-gradient-to-br from-cyan-900/20 to-blue-900/20 border border-cyan-500/20 rounded-xl p-4">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-lg bg-purple-500/20">
-                    <BookOpen className="w-5 h-5 text-purple-400" />
+                  <div className="p-2 rounded-lg bg-cyan-500/20">
+                    <BookOpen className="w-5 h-5 text-cyan-400" />
                   </div>
                   <div>
                     <div className="text-2xl font-bold text-white">{courses.length}</div>
@@ -296,7 +296,7 @@ export default function LearningPlatform() {
                 className={cn(
                   "px-4 py-2 rounded-lg font-semibold text-sm transition-all",
                   selectedCategory === 'all'
-                    ? "bg-gradient-to-r from-purple-500 to-blue-500 text-white"
+                    ? "bg-gradient-to-r from-cyan-500 to-blue-500 text-white"
                     : "bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white border border-white/10"
                 )}
               >
@@ -330,14 +330,14 @@ export default function LearningPlatform() {
                   placeholder="Search courses, instructors, topics..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 bg-gray-800/50 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500/50 transition-all"
+                  className="w-full pl-10 pr-4 py-3 bg-gray-800/50 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 transition-all"
                 />
               </div>
               <div>
                 <select
                   value={selectedLevel}
                   onChange={(e) => setSelectedLevel(e.target.value)}
-                  className="w-full px-4 py-3 bg-gray-800/50 border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/50 transition-all"
+                  className="w-full px-4 py-3 bg-gray-800/50 border border-white/10 rounded-lg text-white focus:outline-none focus:border-cyan-500/50 transition-all"
                 >
                   <option value="all">All Levels</option>
                   <option value="Executive">Executive</option>
@@ -364,7 +364,7 @@ export default function LearningPlatform() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
-                className="group bg-gray-900/50 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden hover:border-purple-500/30 transition-all hover:shadow-[0_0_30px_rgba(168,85,247,0.1)]"
+                className="group bg-gray-900/50 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden hover:border-cyan-500/30 transition-all hover:shadow-[0_0_30px_rgba(168,85,247,0.1)]"
               >
                 {/* Course Image */}
                 <div className="relative h-48 overflow-hidden">
@@ -375,7 +375,7 @@ export default function LearningPlatform() {
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/50 to-transparent" />
-                  <div className="absolute top-3 right-3 px-3 py-1 bg-purple-500/90 backdrop-blur-sm rounded-full">
+                  <div className="absolute top-3 right-3 px-3 py-1 bg-cyan-500/90 backdrop-blur-sm rounded-full">
                     <span className="text-white text-xs font-bold">${course.price}</span>
                   </div>
                   <div className="absolute top-3 left-3 px-3 py-1 bg-blue-500/90 backdrop-blur-sm rounded-full">
@@ -418,7 +418,7 @@ export default function LearningPlatform() {
 
                 <div className="p-6">
                   {/* Title and Instructor */}
-                  <h3 className="text-lg font-bold text-white mb-2 font-gendy line-clamp-2 group-hover:text-purple-400 transition-colors">
+                  <h3 className="text-lg font-bold text-white mb-2 font-gendy line-clamp-2 group-hover:text-cyan-400 transition-colors">
                     {course.title}
                   </h3>
                   <p className="text-sm text-gray-400 mb-4 font-diatype">
@@ -435,7 +435,7 @@ export default function LearningPlatform() {
                     {course.skills.slice(0, 3).map((skill, i) => (
                       <span
                         key={i}
-                        className="px-2 py-1 bg-purple-500/10 text-purple-300 text-xs rounded-full border border-purple-500/20"
+                        className="px-2 py-1 bg-cyan-500/10 text-cyan-300 text-xs rounded-full border border-cyan-500/20"
                       >
                         {skill}
                       </span>
@@ -483,7 +483,7 @@ export default function LearningPlatform() {
                     <Link href={`/dashboard/learning/${course.id}`} className="flex-1">
                       <motion.button
                         whileHover={{ scale: 1.02 }}
-                        className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-lg font-semibold text-sm group-hover:shadow-lg group-hover:shadow-purple-500/50 transition-all"
+                        className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg font-semibold text-sm group-hover:shadow-lg group-hover:shadow-cyan-500/50 transition-all"
                       >
                         <Play className="w-4 h-4" />
                         View
@@ -509,7 +509,7 @@ export default function LearningPlatform() {
                   setSelectedCategory('all')
                   setSelectedLevel('all')
                 }}
-                className="px-6 py-2 bg-purple-500/20 text-purple-300 rounded-lg hover:bg-purple-500/30 transition-all"
+                className="px-6 py-2 bg-cyan-500/20 text-cyan-300 rounded-lg hover:bg-cyan-500/30 transition-all"
               >
                 Clear All Filters
               </button>

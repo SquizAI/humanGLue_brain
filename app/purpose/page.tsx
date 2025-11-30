@@ -37,7 +37,7 @@ export default function PurposePage() {
 
         {/* Animated Orbs */}
         <motion.div
-          className="absolute top-20 left-10 w-96 h-96 bg-purple-500/20 rounded-full blur-[120px]"
+          className="absolute top-20 left-10 w-96 h-96 bg-cyan-500/20 rounded-full blur-[120px]"
           animate={{
             scale: [1, 1.2, 1],
             opacity: [0.3, 0.5, 0.3],
@@ -69,14 +69,14 @@ export default function PurposePage() {
             transition={{ duration: 0.6 }}
             className="max-w-4xl mx-auto text-center"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/10 backdrop-blur-sm border border-purple-500/20 mb-6">
-              <Heart className="w-4 h-4 text-purple-400" />
-              <span className="text-sm text-purple-300 font-diatype">Our Why</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 backdrop-blur-sm border border-cyan-500/20 mb-6">
+              <Heart className="w-4 h-4 text-cyan-400" />
+              <span className="text-sm text-cyan-300 font-diatype">Our Why</span>
             </div>
 
             <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 font-gendy leading-tight">
               We Exist to
-              <span className="block bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent">
+              <span className="block bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent">
                 Unlock Human Potential
               </span>
             </h1>
@@ -98,10 +98,10 @@ export default function PurposePage() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="bg-gradient-to-br from-purple-900/30 to-blue-900/30 backdrop-blur-xl rounded-2xl border border-white/10 p-8 hover:border-purple-500/30 transition-all duration-300 hover:shadow-[0_0_40px_rgba(168,85,247,0.15)]"
+              className="bg-gradient-to-br from-cyan-900/30 to-blue-900/30 backdrop-blur-xl rounded-2xl border border-white/10 p-8 hover:border-cyan-500/30 transition-all duration-300 hover:shadow-[0_0_40px_rgba(168,85,247,0.15)]"
             >
-              <div className="inline-flex p-4 rounded-xl bg-gradient-to-br from-purple-500/20 to-blue-500/20 mb-6">
-                <Target className="w-8 h-8 text-purple-400" />
+              <div className="inline-flex p-4 rounded-xl bg-gradient-to-br from-cyan-500/20 to-blue-500/20 mb-6">
+                <Target className="w-8 h-8 text-cyan-400" />
               </div>
 
               <h2 className="text-3xl font-bold text-white mb-4 font-gendy">Our Mission</h2>
@@ -135,7 +135,7 @@ export default function PurposePage() {
 
       {/* The Problem */}
       <section className="py-20 relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-950/10 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-950/10 to-transparent" />
 
         <div className="container max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
           <motion.div
@@ -258,9 +258,9 @@ export default function PurposePage() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 whileHover={{ y: -4 }}
-                className="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl rounded-2xl border border-white/10 p-8 transition-all duration-300 hover:border-purple-500/30 hover:shadow-[0_0_40px_rgba(168,85,247,0.15)]"
+                className="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl rounded-2xl border border-white/10 p-8 transition-all duration-300 hover:border-cyan-500/30 hover:shadow-[0_0_40px_rgba(168,85,247,0.15)]"
               >
-                <div className="inline-flex p-4 rounded-xl bg-gradient-to-br from-purple-500/20 to-blue-500/20 mb-6">
+                <div className="inline-flex p-4 rounded-xl bg-gradient-to-br from-cyan-500/20 to-blue-500/20 mb-6">
                   {belief.icon}
                 </div>
 
@@ -303,7 +303,7 @@ export default function PurposePage() {
 
       {/* Our Approach */}
       <section className="py-20 relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-purple-950/10 via-transparent to-purple-950/10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-cyan-950/10 via-transparent to-cyan-950/10" />
 
         <div className="container max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
           <motion.div
@@ -345,9 +345,9 @@ export default function PurposePage() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="flex gap-4 bg-white/5 backdrop-blur-xl rounded-xl border border-white/10 p-6 hover:border-purple-500/30 transition-all duration-300 hover:shadow-[0_0_40px_rgba(168,85,247,0.15)]"
+                className="flex gap-4 bg-white/5 backdrop-blur-xl rounded-xl border border-white/10 p-6 hover:border-cyan-500/30 transition-all duration-300 hover:shadow-[0_0_40px_rgba(168,85,247,0.15)]"
               >
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-purple-400 to-blue-400 flex items-center justify-center mt-1">
+                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-cyan-400 to-blue-400 flex items-center justify-center mt-1">
                   <CheckCircle2 className="w-5 h-5 text-white" />
                 </div>
                 <div>
@@ -439,7 +439,7 @@ export default function PurposePage() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="relative bg-gradient-to-br from-purple-900/30 to-blue-900/30 backdrop-blur-xl rounded-3xl border border-white/10 p-12 md:p-16 overflow-hidden"
+            className="relative bg-gradient-to-br from-cyan-900/30 to-blue-900/30 backdrop-blur-xl rounded-3xl border border-white/10 p-12 md:p-16 overflow-hidden"
           >
             {/* Background Pattern */}
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(168,85,247,0.1),transparent_70%)]" />

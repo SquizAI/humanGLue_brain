@@ -140,7 +140,7 @@ export function MobileOptimizedPage() {
                 className="text-center"
               >
                 <div className="w-10 h-10 rounded-full bg-gray-800 mx-auto mb-2 flex items-center justify-center">
-                  <div className="w-7 h-7 rounded-full bg-gradient-to-br from-brand-cyan to-brand-purple" />
+                  <div className="w-7 h-7 rounded-full bg-gradient-to-br from-brand-cyan to-brand-cyan" />
                 </div>
                 <div className="text-3xl font-bold text-brand-cyan mb-2">{item.percentage}</div>
                 <p className="text-xs text-gray-300">{item.stat}</p>
@@ -198,7 +198,7 @@ export function MobileOptimizedPage() {
           <div className="mb-8">
             <div className="flex justify-center items-center gap-6 mb-8">
               <div className="w-20 h-20 rounded-full bg-gray-200 overflow-hidden">
-                <div className="w-full h-full bg-gradient-to-br from-brand-cyan to-brand-purple" />
+                <div className="w-full h-full bg-gradient-to-br from-brand-cyan to-brand-cyan" />
               </div>
             </div>
           </div>
@@ -209,7 +209,7 @@ export function MobileOptimizedPage() {
 
           <div className="flex justify-center items-center gap-6 mb-8">
             <div className="w-16 h-16 rounded-full bg-gray-200 overflow-hidden">
-              <div className="w-full h-full bg-gradient-to-br from-brand-purple to-pink-400" />
+              <div className="w-full h-full bg-gradient-to-br from-brand-cyan to-pink-400" />
             </div>
             <div className="w-20 h-20 rounded-full bg-gray-200 overflow-hidden">
               <div className="w-full h-full bg-gradient-to-br from-pink-400 to-orange-400" />

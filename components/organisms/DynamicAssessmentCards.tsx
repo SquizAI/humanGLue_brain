@@ -59,7 +59,7 @@ export function DynamicAssessmentCards({ chatState, className }: DynamicAssessme
                   initial={{ width: 0 }}
                   animate={{ width: `${progress}%` }}
                   transition={{ duration: 0.5, ease: 'easeOut' }}
-                  className="absolute left-0 top-0 h-full bg-gradient-to-r from-blue-500 to-purple-600 rounded-full"
+                  className="absolute left-0 top-0 h-full bg-gradient-to-r from-blue-500 to-cyan-600 rounded-full"
                 />
               </div>
             </div>
@@ -77,7 +77,7 @@ export function DynamicAssessmentCards({ chatState, className }: DynamicAssessme
                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
                 transition={{ duration: 0.5, ease: 'easeOut' }}
               >
-                <div className="bg-gradient-to-br from-blue-900/30 to-purple-900/20 backdrop-blur-sm border border-blue-500/30 rounded-2xl p-6 h-full">
+                <div className="bg-gradient-to-br from-blue-900/30 to-cyan-900/20 backdrop-blur-sm border border-blue-500/30 rounded-2xl p-6 h-full">
                   <div className="flex items-start gap-3 mb-4">
                     <div className="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center flex-shrink-0">
                       <Target className="w-5 h-5 text-blue-400" />
@@ -121,10 +121,10 @@ export function DynamicAssessmentCards({ chatState, className }: DynamicAssessme
                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
                 transition={{ duration: 0.5, ease: 'easeOut', delay: 0.2 }}
               >
-                <div className="bg-gradient-to-br from-purple-900/30 to-pink-900/20 backdrop-blur-sm border border-purple-500/30 rounded-2xl p-6 h-full">
+                <div className="bg-gradient-to-br from-cyan-900/30 to-pink-900/20 backdrop-blur-sm border border-cyan-500/30 rounded-2xl p-6 h-full">
                   <div className="flex items-start gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-xl bg-purple-500/20 flex items-center justify-center flex-shrink-0">
-                      <TrendingUp className="w-5 h-5 text-purple-400" />
+                    <div className="w-10 h-10 rounded-xl bg-cyan-500/20 flex items-center justify-center flex-shrink-0">
+                      <TrendingUp className="w-5 h-5 text-cyan-400" />
                     </div>
                     <div className="flex-1">
                       <h3 className="text-lg font-bold text-white mb-1 font-gendy">
@@ -146,7 +146,7 @@ export function DynamicAssessmentCards({ chatState, className }: DynamicAssessme
                       <span className="text-gray-300 font-diatype">90 days to value</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm">
-                      <Clock className="w-4 h-4 text-purple-400 flex-shrink-0 animate-pulse" />
+                      <Clock className="w-4 h-4 text-cyan-400 flex-shrink-0 animate-pulse" />
                       <span className="text-gray-300 font-diatype">Building your plan...</span>
                     </div>
                   </div>
@@ -192,7 +192,7 @@ export function DynamicAssessmentCards({ chatState, className }: DynamicAssessme
                       </div>
                       <div className="flex justify-between mb-1">
                         <span>Month 1-3</span>
-                        <span className="text-purple-400">Implementation</span>
+                        <span className="text-cyan-400">Implementation</span>
                       </div>
                       <div className="flex justify-between">
                         <span>Month 2-4</span>

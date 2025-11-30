@@ -140,7 +140,7 @@ export default function CourseDetailPage() {
           <h1 className="text-2xl font-bold text-white mb-4">Course not found</h1>
           <button
             onClick={() => router.push('/instructor/courses')}
-            className="px-6 py-3 bg-purple-500 text-white rounded-lg hover:bg-purple-600"
+            className="px-6 py-3 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600"
           >
             Back to Courses
           </button>
@@ -235,7 +235,7 @@ export default function CourseDetailPage() {
                   whileTap={{ scale: 0.98 }}
                   onClick={handleSave}
                   disabled={isSaving}
-                  className="px-4 py-2 bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-lg transition-all flex items-center gap-2 font-diatype disabled:opacity-50"
+                  className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg transition-all flex items-center gap-2 font-diatype disabled:opacity-50"
                 >
                   <Save className="w-4 h-4" />
                   {isSaving ? 'Saving...' : 'Save Changes'}
@@ -267,7 +267,7 @@ export default function CourseDetailPage() {
                           }}
                           className="w-full px-4 py-3 text-left hover:bg-white/10 transition-colors flex items-center gap-3 text-white font-diatype"
                         >
-                          <Copy className="w-4 h-4 text-purple-400" />
+                          <Copy className="w-4 h-4 text-cyan-400" />
                           Duplicate Course
                         </button>
                         <button
@@ -302,7 +302,7 @@ export default function CourseDetailPage() {
                     onClick={() => setActiveTab(tab.id)}
                     className={`px-4 py-2 rounded-lg transition-all flex items-center gap-2 font-diatype ${
                       activeTab === tab.id
-                        ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30'
+                        ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'
                         : 'bg-gray-800/50 text-gray-400 hover:bg-gray-800 hover:text-white'
                     }`}
                   >
@@ -325,7 +325,7 @@ export default function CourseDetailPage() {
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="px-4 py-2 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-purple-300 rounded-lg transition-all flex items-center gap-2 font-diatype"
+                  className="px-4 py-2 bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-cyan-300 rounded-lg transition-all flex items-center gap-2 font-diatype"
                 >
                   <Plus className="w-4 h-4" />
                   Add Section
@@ -374,8 +374,8 @@ export default function CourseDetailPage() {
                             </div>
                           )}
                           {lesson.type === 'reading' && (
-                            <div className="p-2 rounded-lg bg-purple-500/20">
-                              <FileText className="w-4 h-4 text-purple-400" />
+                            <div className="p-2 rounded-lg bg-cyan-500/20">
+                              <FileText className="w-4 h-4 text-cyan-400" />
                             </div>
                           )}
                           {lesson.type === 'quiz' && (
@@ -434,7 +434,7 @@ export default function CourseDetailPage() {
                   <input
                     type="text"
                     defaultValue={course.title}
-                    className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                    className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-cyan-500/50 transition-all font-diatype"
                   />
                 </div>
 
@@ -445,7 +445,7 @@ export default function CourseDetailPage() {
                   <textarea
                     defaultValue={course.description}
                     rows={4}
-                    className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                    className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-cyan-500/50 transition-all font-diatype"
                   />
                 </div>
 
@@ -456,7 +456,7 @@ export default function CourseDetailPage() {
                     </label>
                     <select
                       defaultValue={course.category}
-                      className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                      className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-cyan-500/50 transition-all font-diatype"
                     >
                       <option>AI Adoption & Strategy</option>
                       <option>Technical AI</option>
@@ -470,7 +470,7 @@ export default function CourseDetailPage() {
                     </label>
                     <select
                       defaultValue={course.level}
-                      className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                      className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-cyan-500/50 transition-all font-diatype"
                     >
                       <option>Beginner</option>
                       <option>Intermediate</option>
@@ -488,7 +488,7 @@ export default function CourseDetailPage() {
                     <input
                       type="number"
                       defaultValue={course.price}
-                      className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                      className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-cyan-500/50 transition-all font-diatype"
                     />
                   </div>
 
@@ -499,7 +499,7 @@ export default function CourseDetailPage() {
                     <input
                       type="text"
                       defaultValue={course.duration}
-                      className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                      className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-cyan-500/50 transition-all font-diatype"
                     />
                   </div>
                 </div>
@@ -518,7 +518,7 @@ export default function CourseDetailPage() {
                   />
                 </div>
 
-                <button className="px-4 py-2 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-purple-300 rounded-lg transition-all flex items-center gap-2 font-diatype">
+                <button className="px-4 py-2 bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-cyan-300 rounded-lg transition-all flex items-center gap-2 font-diatype">
                   <Upload className="w-4 h-4" />
                   Upload New Thumbnail
                 </button>
@@ -566,8 +566,8 @@ export default function CourseDetailPage() {
                   <p className="text-sm text-gray-400 font-diatype">Average Rating</p>
                 </div>
 
-                <div className="bg-purple-500/10 border border-purple-500/20 rounded-xl p-6">
-                  <BarChart3 className="w-6 h-6 text-purple-400 mb-3" />
+                <div className="bg-cyan-500/10 border border-cyan-500/20 rounded-xl p-6">
+                  <BarChart3 className="w-6 h-6 text-cyan-400 mb-3" />
                   <h3 className="text-3xl font-bold text-white mb-1 font-gendy">
                     {course.reviews}
                   </h3>
@@ -589,7 +589,7 @@ export default function CourseDetailPage() {
                   {[45, 52, 61, 58, 65, 78, 82, 95, 88, 92, 97, 100].map((height, i) => (
                     <div key={i} className="flex-1 flex flex-col items-center">
                       <div
-                        className="w-full bg-gradient-to-t from-purple-500 to-blue-500 rounded-t-lg transition-all hover:opacity-80"
+                        className="w-full bg-gradient-to-t from-cyan-500 to-blue-500 rounded-t-lg transition-all hover:opacity-80"
                         style={{ height: `${height}%` }}
                       />
                       <span className="text-xs text-gray-500 mt-2 font-diatype">W{i + 1}</span>

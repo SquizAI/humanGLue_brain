@@ -159,7 +159,7 @@ class ConversationalAssessment {
         
         // Introduction message
         const intro = `
-            <div class="bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg p-4 mb-4">
+            <div class="bg-gradient-to-r from-cyan-50 to-blue-50 rounded-lg p-4 mb-4">
                 <h4 class="font-semibold text-gray-800 mb-2">🧠 HumanGlue 7-Layer Assessment</h4>
                 <p class="text-gray-600 text-sm mb-3">
                     I'll guide you through a comprehensive organizational assessment using the HumanGlue methodology. 
@@ -169,7 +169,7 @@ class ConversationalAssessment {
                 <div class="bg-white rounded p-3">
                     <div class="text-xs text-gray-500 mb-1">Assessment Layers:</div>
                     <div class="flex flex-wrap gap-1">
-                        ${this.dimensions.map(d => `<span class="bg-purple-100 text-purple-700 px-2 py-1 rounded text-xs">${d.title.split(' &')[0]}</span>`).join('')}
+                        ${this.dimensions.map(d => `<span class="bg-cyan-100 text-cyan-700 px-2 py-1 rounded text-xs">${d.title.split(' &')[0]}</span>`).join('')}
                     </div>
                 </div>
             </div>
@@ -247,7 +247,7 @@ class ConversationalAssessment {
                     <div class="space-y-2" id="question-options-${question.id}">
                         ${question.options.map((option, index) => `
                             <button 
-                                class="assessment-option w-full text-left p-3 border border-gray-200 rounded-lg hover:bg-gray-50 hover:border-purple-300 transition duration-200"
+                                class="assessment-option w-full text-left p-3 border border-gray-200 rounded-lg hover:bg-gray-50 hover:border-cyan-300 transition duration-200"
                                 data-question-id="${question.id}"
                                 data-value="${option.value}"
                                 data-label="${option.label}"
@@ -290,7 +290,7 @@ class ConversationalAssessment {
         };
 
         // Visual feedback
-        button.classList.add('bg-purple-100', 'border-purple-400', 'text-purple-800');
+        button.classList.add('bg-cyan-100', 'border-cyan-400', 'text-cyan-800');
         button.innerHTML = `✓ ${label}`;
         
         // Disable all options for this question
@@ -431,12 +431,12 @@ class ConversationalAssessment {
     displayResults(results) {
         // Main results summary
         const resultsHtml = `
-            <div class="bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg p-6 mb-4">
+            <div class="bg-gradient-to-r from-cyan-50 to-blue-50 rounded-lg p-6 mb-4">
                 <h3 class="text-xl font-bold text-gray-800 mb-4">🎯 Your HumanGlue Assessment Results</h3>
                 
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
                     <div class="text-center bg-white rounded-lg p-3">
-                        <div class="text-2xl font-bold text-purple-600">${results.overall_transformation_score || results.overall_score || 75}%</div>
+                        <div class="text-2xl font-bold text-cyan-600">${results.overall_transformation_score || results.overall_score || 75}%</div>
                         <div class="text-xs text-gray-600">Transformation Readiness</div>
                     </div>
                     <div class="text-center bg-white rounded-lg p-3">
@@ -457,7 +457,7 @@ class ConversationalAssessment {
                     <h4 class="font-semibold text-gray-800 mb-2">Key Insights:</h4>
                     <div class="text-gray-600 text-sm space-y-1">
                         ${(results.enhanced_insights || results.insights || []).slice(0, 3).map(insight => 
-                            `<div class="flex items-start"><span class="text-purple-500 mr-2">•</span>${insight}</div>`
+                            `<div class="flex items-start"><span class="text-cyan-500 mr-2">•</span>${insight}</div>`
                         ).join('')}
                     </div>
                 </div>
@@ -474,7 +474,7 @@ class ConversationalAssessment {
                         <h4 class="font-semibold text-gray-800 mb-3">🔍 Detailed Analysis</h4>
                         <div class="space-y-3 text-sm text-gray-700">
                             ${(results.enhanced_insights || results.insights).map(insight => 
-                                `<div class="border-l-4 border-purple-200 pl-3">${insight}</div>`
+                                `<div class="border-l-4 border-cyan-200 pl-3">${insight}</div>`
                             ).join('')}
                         </div>
                     </div>

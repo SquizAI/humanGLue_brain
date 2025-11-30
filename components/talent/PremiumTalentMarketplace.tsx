@@ -106,10 +106,10 @@ export function PremiumTalentMarketplace({ userData }: PremiumTalentMarketplaceP
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/10 backdrop-blur-sm border border-purple-500/20 mb-6"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 backdrop-blur-sm border border-cyan-500/20 mb-6"
           >
-            <Sparkles className="w-4 h-4 text-purple-400" />
-            <span className="text-sm text-purple-300 font-diatype">Exclusive Access for Clients</span>
+            <Sparkles className="w-4 h-4 text-cyan-400" />
+            <span className="text-sm text-cyan-300 font-diatype">Exclusive Access for Clients</span>
           </motion.div>
 
           <motion.h1
@@ -128,7 +128,7 @@ export function PremiumTalentMarketplace({ userData }: PremiumTalentMarketplaceP
             className="text-xl sm:text-2xl text-gray-400 max-w-3xl mx-auto mb-8 font-diatype"
           >
             Vetted transformation experts who embed change, not just deliver projects.
-            <span className="block mt-2 text-purple-400 font-semibold">Curated. Premium. Proven.</span>
+            <span className="block mt-2 text-cyan-400 font-semibold">Curated. Premium. Proven.</span>
           </motion.p>
 
           <motion.div
@@ -138,15 +138,15 @@ export function PremiumTalentMarketplace({ userData }: PremiumTalentMarketplaceP
             className="flex items-center justify-center gap-8 text-sm text-gray-500"
           >
             <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-5 h-5 text-purple-400" />
+              <CheckCircle2 className="w-5 h-5 text-cyan-400" />
               <span>Impact-Ranked</span>
             </div>
             <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-5 h-5 text-purple-400" />
+              <CheckCircle2 className="w-5 h-5 text-cyan-400" />
               <span>Culture-First Matching</span>
             </div>
             <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-5 h-5 text-purple-400" />
+              <CheckCircle2 className="w-5 h-5 text-cyan-400" />
               <span>Behavior Change Experts</span>
             </div>
           </motion.div>
@@ -165,7 +165,7 @@ export function PremiumTalentMarketplace({ userData }: PremiumTalentMarketplaceP
                 placeholder="Search by name, expertise, or industry..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype"
+                className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
               />
             </div>
 
@@ -177,7 +177,7 @@ export function PremiumTalentMarketplace({ userData }: PremiumTalentMarketplaceP
               <Filter className="w-5 h-5" />
               Filters
               {(selectedExpertise.length > 0 || selectedIndustries.length > 0 || availabilityFilter !== 'all') && (
-                <span className="px-2 py-0.5 text-xs bg-purple-500/20 text-purple-300 rounded-full">
+                <span className="px-2 py-0.5 text-xs bg-cyan-500/20 text-cyan-300 rounded-full">
                   {selectedExpertise.length + selectedIndustries.length + (availabilityFilter !== 'all' ? 1 : 0)}
                 </span>
               )}
@@ -187,7 +187,7 @@ export function PremiumTalentMarketplace({ userData }: PremiumTalentMarketplaceP
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as SortBy)}
-              className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 appearance-none cursor-pointer font-diatype"
+              className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 appearance-none cursor-pointer font-diatype"
             >
               <option value="transformationSuccess">Transformation Impact</option>
               <option value="behaviorChange">Behavior Change Score</option>
@@ -222,7 +222,7 @@ export function PremiumTalentMarketplace({ userData }: PremiumTalentMarketplaceP
                                 setSelectedExpertise(selectedExpertise.filter((x) => x !== exp))
                               }
                             }}
-                            className="rounded border-white/20 bg-white/5 text-purple-500 focus:ring-purple-500/50"
+                            className="rounded border-white/20 bg-white/5 text-cyan-500 focus:ring-cyan-500/50"
                           />
                           <span className="font-diatype">{exp}</span>
                         </label>
@@ -246,7 +246,7 @@ export function PremiumTalentMarketplace({ userData }: PremiumTalentMarketplaceP
                                 setSelectedIndustries(selectedIndustries.filter((x) => x !== ind))
                               }
                             }}
-                            className="rounded border-white/20 bg-white/5 text-purple-500 focus:ring-purple-500/50"
+                            className="rounded border-white/20 bg-white/5 text-cyan-500 focus:ring-cyan-500/50"
                           />
                           <span className="font-diatype">{ind}</span>
                         </label>
@@ -270,7 +270,7 @@ export function PremiumTalentMarketplace({ userData }: PremiumTalentMarketplaceP
                             value={option.value}
                             checked={availabilityFilter === option.value}
                             onChange={(e) => setAvailabilityFilter(e.target.value as any)}
-                            className="border-white/20 bg-white/5 text-purple-500 focus:ring-purple-500/50"
+                            className="border-white/20 bg-white/5 text-cyan-500 focus:ring-cyan-500/50"
                           />
                           <span className="font-diatype">{option.label}</span>
                         </label>
@@ -288,7 +288,7 @@ export function PremiumTalentMarketplace({ userData }: PremiumTalentMarketplaceP
                         setSelectedIndustries([])
                         setAvailabilityFilter('all')
                       }}
-                      className="text-sm text-purple-400 hover:text-purple-300 font-diatype"
+                      className="text-sm text-cyan-400 hover:text-cyan-300 font-diatype"
                     >
                       Clear all filters
                     </button>
@@ -311,7 +311,7 @@ export function PremiumTalentMarketplace({ userData }: PremiumTalentMarketplaceP
       {featuredExperts.length > 0 && (
         <section className="container max-w-7xl mx-auto px-4 sm:px-6 pb-16">
           <div className="flex items-center gap-3 mb-8">
-            <Award className="w-6 h-6 text-purple-400" />
+            <Award className="w-6 h-6 text-cyan-400" />
             <h2 className="text-2xl font-bold text-white font-gendy">Featured Transformation Partners</h2>
           </div>
 
@@ -342,7 +342,7 @@ export function PremiumTalentMarketplace({ userData }: PremiumTalentMarketplaceP
                 setAvailabilityFilter('all')
                 setSearchQuery('')
               }}
-              className="mt-4 text-purple-400 hover:text-purple-300 font-diatype"
+              className="mt-4 text-cyan-400 hover:text-cyan-300 font-diatype"
             >
               Clear all filters
             </button>
@@ -384,24 +384,24 @@ function PremiumExpertCard({ expert, featured = false }: { expert: TalentProfile
       <motion.div
         whileHover={{ y: -4 }}
         className={cn(
-          "group relative h-full bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden transition-all duration-300 hover:border-purple-500/30 hover:shadow-[0_0_40px_rgba(168,85,247,0.15)]",
-          featured && "border-purple-500/30 shadow-[0_0_40px_rgba(168,85,247,0.1)]"
+          "group relative h-full bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden transition-all duration-300 hover:border-cyan-500/30 hover:shadow-[0_0_40px_rgba(168,85,247,0.15)]",
+          featured && "border-cyan-500/30 shadow-[0_0_40px_rgba(168,85,247,0.1)]"
         )}
       >
         {/* Featured Badge */}
         {featured && (
-          <div className="absolute top-4 right-4 z-10 px-3 py-1 bg-purple-500/20 backdrop-blur-sm border border-purple-500/30 rounded-full flex items-center gap-1.5">
-            <Star className="w-3.5 h-3.5 text-purple-400 fill-purple-400" />
-            <span className="text-xs font-semibold text-purple-300 font-diatype">Featured</span>
+          <div className="absolute top-4 right-4 z-10 px-3 py-1 bg-cyan-500/20 backdrop-blur-sm border border-cyan-500/30 rounded-full flex items-center gap-1.5">
+            <Star className="w-3.5 h-3.5 text-cyan-400 fill-cyan-400" />
+            <span className="text-xs font-semibold text-cyan-300 font-diatype">Featured</span>
           </div>
         )}
 
         {/* Avatar */}
-        <div className="relative h-64 bg-gradient-to-br from-purple-900/20 to-blue-900/20 overflow-hidden">
+        <div className="relative h-64 bg-gradient-to-br from-cyan-900/20 to-blue-900/20 overflow-hidden">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(168,85,247,0.1),transparent_70%)]" />
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-32 h-32 rounded-full bg-gradient-to-br from-purple-500/20 to-blue-500/20 border-2 border-white/10 flex items-center justify-center">
-              <Users className="w-16 h-16 text-purple-300/50" />
+            <div className="w-32 h-32 rounded-full bg-gradient-to-br from-cyan-500/20 to-blue-500/20 border-2 border-white/10 flex items-center justify-center">
+              <Users className="w-16 h-16 text-cyan-300/50" />
             </div>
           </div>
 
@@ -414,8 +414,8 @@ function PremiumExpertCard({ expert, featured = false }: { expert: TalentProfile
 
         {/* Content */}
         <div className="p-6">
-          <h3 className="text-xl font-bold text-white mb-1 group-hover:text-purple-300 transition-colors font-gendy">{expert.name}</h3>
-          <p className="text-purple-400 text-sm mb-3 font-diatype">{expert.title}</p>
+          <h3 className="text-xl font-bold text-white mb-1 group-hover:text-cyan-300 transition-colors font-gendy">{expert.name}</h3>
+          <p className="text-cyan-400 text-sm mb-3 font-diatype">{expert.title}</p>
 
           <p className="text-gray-400 text-sm mb-4 line-clamp-2 font-diatype">{expert.tagline}</p>
 
@@ -434,7 +434,7 @@ function PremiumExpertCard({ expert, featured = false }: { expert: TalentProfile
           {/* Expertise Tags */}
           <div className="flex flex-wrap gap-2 mb-4">
             {expert.expertise.slice(0, 2).map((exp, i) => (
-              <span key={i} className="px-2 py-1 bg-purple-500/10 text-purple-300 text-xs rounded-md border border-purple-500/20 font-diatype">
+              <span key={i} className="px-2 py-1 bg-cyan-500/10 text-cyan-300 text-xs rounded-md border border-cyan-500/20 font-diatype">
                 {exp}
               </span>
             ))}
@@ -449,7 +449,7 @@ function PremiumExpertCard({ expert, featured = false }: { expert: TalentProfile
               <div className="text-sm text-gray-500 font-diatype">Starting at</div>
               <div className="text-lg font-bold text-white font-gendy">${expert.hourlyRate}/hr</div>
             </div>
-            <div className="flex items-center gap-2 text-purple-400 group-hover:text-purple-300 transition-colors">
+            <div className="flex items-center gap-2 text-cyan-400 group-hover:text-cyan-300 transition-colors">
               <span className="text-sm font-semibold font-diatype">View Profile</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </div>

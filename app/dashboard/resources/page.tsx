@@ -119,7 +119,7 @@ export default function ResourcesPage() {
 
   const getTypeColor = (type: string) => {
     switch (type) {
-      case 'Guide': return 'from-purple-500 to-blue-500'
+      case 'Guide': return 'from-cyan-500 to-blue-500'
       case 'Playbook': return 'from-blue-500 to-cyan-500'
       case 'Framework': return 'from-cyan-500 to-green-500'
       case 'Template': return 'from-green-500 to-yellow-500'
@@ -149,7 +149,7 @@ export default function ResourcesPage() {
                 whileTap={{ scale: 0.95 }}
               >
                 <Link href="/dashboard">
-                  <button className="px-6 py-3 bg-white/5 backdrop-blur-xl border border-white/10 text-white rounded-xl font-semibold hover:bg-white/10 hover:border-purple-500/30 transition-all inline-flex items-center gap-2 font-diatype">
+                  <button className="px-6 py-3 bg-white/5 backdrop-blur-xl border border-white/10 text-white rounded-xl font-semibold hover:bg-white/10 hover:border-cyan-500/30 transition-all inline-flex items-center gap-2 font-diatype">
                     <ArrowRight className="w-5 h-5 rotate-180" />
                     Back to Dashboard
                   </button>
@@ -169,14 +169,14 @@ export default function ResourcesPage() {
                   placeholder="Search resources..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500/50 transition-colors font-diatype"
+                  className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-cyan-500/50 transition-colors font-diatype"
                 />
               </div>
 
               <select
                 value={selectedType}
                 onChange={(e) => setSelectedType(e.target.value)}
-                className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-purple-500/50 transition-colors font-diatype"
+                className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-cyan-500/50 transition-colors font-diatype"
               >
                 <option value="all">All Types</option>
                 {types.slice(1).map((type) => (
@@ -187,7 +187,7 @@ export default function ResourcesPage() {
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-purple-500/50 transition-colors font-diatype"
+                className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-cyan-500/50 transition-colors font-diatype"
               >
                 <option value="all">All Categories</option>
                 {categories.slice(1).map((category) => (
@@ -205,7 +205,7 @@ export default function ResourcesPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   whileHover={{ y: -6, scale: 1.02 }}
-                  className="group relative overflow-hidden bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 hover:border-purple-500/30 transition-all hover:shadow-[0_0_40px_rgba(168,85,247,0.15)] cursor-pointer h-full"
+                  className="group relative overflow-hidden bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 hover:border-cyan-500/30 transition-all hover:shadow-[0_0_40px_rgba(168,85,247,0.15)] cursor-pointer h-full"
                 >
                   <div className="p-6 space-y-4">
                     <div className={`h-32 rounded-xl bg-gradient-to-br ${getTypeColor(resource.type)} flex items-center justify-center mb-4`}>
@@ -214,14 +214,14 @@ export default function ResourcesPage() {
 
                     <div>
                       <div className="flex items-center gap-2 mb-2">
-                        <span className="px-2 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs font-semibold font-diatype">
+                        <span className="px-2 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-semibold font-diatype">
                           {resource.type}
                         </span>
                         <span className="px-2 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold font-diatype">
                           {resource.category}
                         </span>
                       </div>
-                      <h3 className="text-xl font-semibold text-white mb-2 font-gendy group-hover:text-purple-400 transition-colors">
+                      <h3 className="text-xl font-semibold text-white mb-2 font-gendy group-hover:text-cyan-400 transition-colors">
                         {resource.title}
                       </h3>
                       <p className="text-gray-400 text-sm font-diatype leading-relaxed">
@@ -233,7 +233,7 @@ export default function ResourcesPage() {
                       <div>
                         <p className="text-xs text-gray-400 mb-1 font-diatype">Read Time</p>
                         <div className="flex items-center gap-1 text-white">
-                          <Clock className="w-4 h-4 text-purple-400" />
+                          <Clock className="w-4 h-4 text-cyan-400" />
                           <span className="text-sm font-semibold font-diatype">{resource.readTime}</span>
                         </div>
                       </div>
@@ -254,7 +254,7 @@ export default function ResourcesPage() {
                       <span className="font-diatype">{resource.publishedDate}</span>
                     </div>
 
-                    <div className="flex items-center justify-center gap-2 pt-4 text-purple-400 group-hover:text-purple-300 transition-colors">
+                    <div className="flex items-center justify-center gap-2 pt-4 text-cyan-400 group-hover:text-cyan-300 transition-colors">
                       <Eye className="w-4 h-4" />
                       <span className="font-semibold font-diatype">View Resource</span>
                       <ArrowRight className="w-4 h-4" />

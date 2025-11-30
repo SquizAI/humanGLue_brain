@@ -40,7 +40,7 @@ export function InteractiveSolutionCard({
       >
         {/* Animated gradient border */}
         <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+          className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
           style={{ padding: '1px' }}
         >
           <div className="absolute inset-[1px] bg-gray-900 rounded-2xl" />
@@ -54,8 +54,8 @@ export function InteractiveSolutionCard({
             whileHover={{ scale: 1.1, rotate: 5 }}
             transition={{ type: "spring", stiffness: 400, damping: 10 }}
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl opacity-20 blur-xl group-hover:opacity-40 transition-opacity" />
-            <div className="relative bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl p-3 text-white">
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl opacity-20 blur-xl group-hover:opacity-40 transition-opacity" />
+            <div className="relative bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl p-3 text-white">
               {icon}
             </div>
           </motion.div>
@@ -112,7 +112,7 @@ export function InteractiveSolutionCard({
                      translate-y-full group-hover:translate-y-0 transition-transform duration-300"
           >
             <motion.button
-              className="w-full py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg
+              className="w-full py-3 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-lg
                        font-semibold hover:shadow-lg hover:shadow-blue-500/25 transition-all"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}

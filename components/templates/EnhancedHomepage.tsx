@@ -187,7 +187,7 @@ export function EnhancedHomepage() {
 
       {/* Progress Bar */}
       <motion.div
-        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-purple-500 z-[51]"
+        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-cyan-500 z-[51]"
         style={{ scaleX: scrollProgress, transformOrigin: '0% 0%' }}
       />
 
@@ -357,8 +357,8 @@ export function EnhancedHomepage() {
                     whileTap={{ scale: 0.95 }}
                     className={cn(
                       'group px-8 py-4 rounded-full font-semibold text-white',
-                      'bg-gradient-to-r from-blue-600 to-purple-600',
-                      'hover:from-blue-500 hover:to-purple-500',
+                      'bg-gradient-to-r from-blue-600 to-cyan-600',
+                      'hover:from-blue-500 hover:to-cyan-500',
                       'transition-all duration-300',
                       'hover:shadow-xl hover:shadow-blue-500/30',
                       'flex items-center justify-center gap-2',
@@ -551,7 +551,7 @@ export function EnhancedHomepage() {
                 >
                   <div className="flex items-center gap-3 mb-2">
                     <div className="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center flex-shrink-0">
-                      <div className="w-5 h-5 rounded-full bg-gradient-to-br from-brand-cyan to-brand-purple" />
+                      <div className="w-5 h-5 rounded-full bg-gradient-to-br from-brand-cyan to-brand-cyan" />
                     </div>
                     <div className="text-3xl font-bold text-brand-cyan font-gendy">{item.percentage}</div>
                   </div>

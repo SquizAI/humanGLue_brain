@@ -62,11 +62,11 @@ export function WorkshopCard({ workshop, variant = 'default' }: WorkshopCardProp
       buttonGradient: 'from-amber-500 to-orange-600',
     },
     marketplace: {
-      gradient: 'from-purple-500 to-purple-600',
-      badgeBg: 'bg-purple-500/10',
-      badgeBorder: 'border-purple-500/20',
-      badgeText: 'text-purple-300',
-      buttonGradient: 'from-purple-500 to-purple-600',
+      gradient: 'from-cyan-500 to-cyan-600',
+      badgeBg: 'bg-cyan-500/10',
+      badgeBorder: 'border-cyan-500/20',
+      badgeText: 'text-cyan-300',
+      buttonGradient: 'from-cyan-500 to-cyan-600',
     },
   }
 
@@ -185,7 +185,7 @@ export function WorkshopCard({ workshop, variant = 'default' }: WorkshopCardProp
               </div>
             </div>
 
-            <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-gradient group-hover:bg-gradient-to-r group-hover:from-blue-400 group-hover:to-purple-400 group-hover:bg-clip-text group-hover:text-transparent transition-all">
+            <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-gradient group-hover:bg-gradient-to-r group-hover:from-blue-400 group-hover:to-cyan-400 group-hover:bg-clip-text group-hover:text-transparent transition-all">
               {workshop.title}
             </h3>
             <p className="text-gray-300 leading-relaxed">
@@ -195,7 +195,7 @@ export function WorkshopCard({ workshop, variant = 'default' }: WorkshopCardProp
 
           {/* Instructor */}
           <div className="flex items-center gap-4 mb-6 p-4 rounded-xl bg-white/5 border border-gray-700">
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold text-lg">
+            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white font-bold text-lg">
               {workshop.instructor.name.charAt(0)}
             </div>
             <div>
@@ -294,7 +294,7 @@ export function WorkshopCard({ workshop, variant = 'default' }: WorkshopCardProp
                     transition-all duration-300 flex items-center justify-center gap-2
                     ${isSoldOut
                       ? 'bg-gray-600 cursor-not-allowed'
-                      : `bg-gradient-to-r ${config.buttonGradient} hover:shadow-lg hover:shadow-${workshop.pillar === 'adaptability' ? 'blue' : workshop.pillar === 'coaching' ? 'amber' : 'purple'}-500/50`
+                      : `bg-gradient-to-r ${config.buttonGradient} hover:shadow-lg hover:shadow-${workshop.pillar === 'adaptability' ? 'blue' : workshop.pillar === 'coaching' ? 'amber' : 'cyan'}-500/50`
                     }
                   `}
                 >

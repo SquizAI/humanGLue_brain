@@ -180,7 +180,7 @@ export function AssessmentQuestion({
           className={cn(
             "px-6 py-3 rounded-xl font-medium transition-all flex items-center gap-2",
             localAnswer !== undefined
-              ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:shadow-lg hover:shadow-blue-500/25"
+              ? "bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-lg hover:shadow-blue-500/25"
               : "bg-gray-800 text-gray-500 cursor-not-allowed"
           )}
         >

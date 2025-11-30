@@ -274,7 +274,7 @@ export function ProfessionalChatInterface({ onStateChange, userData }: Professio
               className="p-3 rounded-xl bg-white/5 border border-white/10 transition-all backdrop-blur-sm"
               title="Attach file (coming soon)"
             >
-              <Paperclip className="w-4 h-4 text-gray-400 hover:text-purple-400 transition-colors" />
+              <Paperclip className="w-4 h-4 text-gray-400 hover:text-cyan-400 transition-colors" />
             </motion.button>
           </div>
           

@@ -776,7 +776,7 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
-                className="mb-4 p-4 rounded-xl bg-gradient-to-br from-brand-cyan/10 to-brand-purple/10 border border-brand-cyan/20"
+                className="mb-4 p-4 rounded-xl bg-gradient-to-br from-brand-cyan/10 to-brand-cyan/10 border border-brand-cyan/20"
               >
                 <div className="flex items-start gap-3">
                   <Sparkles className="w-5 h-5 text-brand-cyan flex-shrink-0 mt-0.5" />
@@ -996,7 +996,7 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
             exit={{ opacity: 0, y: 10 }}
             className="absolute -top-24 right-0 z-50"
           >
-            <div className="relative bg-gradient-to-br from-brand-cyan/20 to-brand-purple/20 backdrop-blur-xl border border-brand-cyan/30 rounded-xl p-4 shadow-2xl max-w-[280px]">
+            <div className="relative bg-gradient-to-br from-brand-cyan/20 to-brand-cyan/20 backdrop-blur-xl border border-brand-cyan/30 rounded-xl p-4 shadow-2xl max-w-[280px]">
               <button
                 onClick={() => setShowChatPrompt(false)}
                 className="absolute top-2 right-2 text-gray-400 hover:text-white transition-colors"
@@ -1015,7 +1015,7 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
                 </div>
               </div>
               {/* Arrow pointer */}
-              <div className="absolute -bottom-2 right-8 w-4 h-4 bg-gradient-to-br from-brand-cyan/20 to-brand-purple/20 border-r border-b border-brand-cyan/30 transform rotate-45" />
+              <div className="absolute -bottom-2 right-8 w-4 h-4 bg-gradient-to-br from-brand-cyan/20 to-brand-cyan/20 border-r border-b border-brand-cyan/30 transform rotate-45" />
             </div>
           </motion.div>
         )}
@@ -1052,7 +1052,7 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
               <div className="space-y-2">
                 <button
                   onClick={() => handleRecoverChat('continue')}
-                  className="w-full px-4 py-2.5 rounded-lg bg-gradient-to-r from-brand-cyan to-brand-purple text-white text-sm font-medium font-diatype hover:shadow-lg hover:shadow-brand-cyan/25 transition-all"
+                  className="w-full px-4 py-2.5 rounded-lg bg-gradient-to-r from-brand-cyan to-brand-cyan text-white text-sm font-medium font-diatype hover:shadow-lg hover:shadow-brand-cyan/25 transition-all"
                 >
                   Continue conversation
                 </button>
@@ -1078,7 +1078,7 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
         className={cn(
           "relative flex flex-col transition-all duration-300 overflow-hidden",
           isHeroVisible
-            ? "rounded-3xl border border-white/10 backdrop-blur-3xl bg-gray-900/60 shadow-2xl shadow-purple-500/10 h-auto"
+            ? "rounded-3xl border border-white/10 backdrop-blur-3xl bg-gray-900/60 shadow-2xl shadow-cyan-500/10 h-auto"
             : "h-full bg-gray-900/95 backdrop-blur-xl border-l border-gray-800 shadow-2xl"
         )}
         style={isHeroVisible ? {
@@ -1194,7 +1194,7 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
                 whileTap={{ scale: 0.95 }}
                 className={cn(
                   'rounded-lg transition-all duration-200',
-                  'bg-gradient-to-r from-brand-cyan to-brand-purple',
+                  'bg-gradient-to-r from-brand-cyan to-brand-cyan',
                   'hover:shadow-lg hover:shadow-brand-cyan/25',
                   'disabled:opacity-50 disabled:cursor-not-allowed',
                   isHeroVisible ? 'p-2 sm:p-2.5' : 'p-2'

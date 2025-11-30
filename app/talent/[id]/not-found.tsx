@@ -15,7 +15,7 @@ export default function TalentNotFound() {
           We couldn't find the expert you're looking for. They may have been removed or the link is incorrect.
         </p>
         <Link href="/talent">
-          <button className="px-6 py-3 rounded-full bg-gradient-to-r from-purple-500 to-purple-600 text-white font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition-all">
+          <button className="px-6 py-3 rounded-full bg-gradient-to-r from-cyan-500 to-cyan-600 text-white font-semibold hover:shadow-lg hover:shadow-cyan-500/50 transition-all">
             Browse all experts
           </button>
         </Link>

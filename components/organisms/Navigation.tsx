@@ -173,7 +173,7 @@ export function Navigation({ className }: NavigationProps) {
                   >
                     {item.label}
                     <span className={cn(
-                      "absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-brand-cyan to-brand-purple transition-transform origin-left",
+                      "absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-brand-cyan to-brand-cyan transition-transform origin-left",
                       pathname === item.href ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
                     )} />
                   </motion.span>

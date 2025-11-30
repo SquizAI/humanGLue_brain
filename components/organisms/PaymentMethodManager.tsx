@@ -36,7 +36,7 @@ export function PaymentMethodManager() {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => setShowAddModal(true)}
-          className="px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-xl font-semibold hover:from-purple-700 hover:to-blue-700 transition-all shadow-lg shadow-purple-500/50 font-diatype flex items-center gap-2"
+          className="px-6 py-3 bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-xl font-semibold hover:from-cyan-700 hover:to-blue-700 transition-all shadow-lg shadow-cyan-500/50 font-diatype flex items-center gap-2"
         >
           <Plus className="w-5 h-5" />
           Add Payment Method
@@ -56,7 +56,7 @@ export function PaymentMethodManager() {
             </p>
             <button
               onClick={() => setShowAddModal(true)}
-              className="px-6 py-3 bg-purple-600 text-white rounded-xl font-semibold hover:bg-purple-700 transition-all font-diatype"
+              className="px-6 py-3 bg-cyan-600 text-white rounded-xl font-semibold hover:bg-cyan-700 transition-all font-diatype"
             >
               Add Your First Payment Method
             </button>
@@ -169,7 +169,7 @@ function PaymentMethodCard({ method, onSetDefault, onDelete, isLoading }: Paymen
       case 'discover':
         return 'from-orange-600 to-amber-600'
       default:
-        return 'from-purple-600 to-blue-600'
+        return 'from-cyan-600 to-blue-600'
     }
   }
 
@@ -177,7 +177,7 @@ function PaymentMethodCard({ method, onSetDefault, onDelete, isLoading }: Paymen
     <motion.div
       whileHover={{ scale: 1.01 }}
       className={`bg-white/5 backdrop-blur-xl border rounded-2xl p-6 transition-all ${
-        method.isDefault ? 'border-purple-500/50' : 'border-white/10'
+        method.isDefault ? 'border-cyan-500/50' : 'border-white/10'
       }`}
     >
       <div className="flex items-center justify-between">
@@ -199,7 +199,7 @@ function PaymentMethodCard({ method, onSetDefault, onDelete, isLoading }: Paymen
                 )}
               </h3>
               {method.isDefault && (
-                <span className="px-3 py-1 bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs font-semibold rounded-full font-diatype flex items-center gap-1">
+                <span className="px-3 py-1 bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-semibold rounded-full font-diatype flex items-center gap-1">
                   <Check className="w-3 h-3" />
                   Default
                 </span>
@@ -347,7 +347,7 @@ function AddPaymentMethodModal({ isOpen, onClose, onAdd }: AddPaymentMethodModal
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.9, opacity: 0 }}
           onClick={(e) => e.stopPropagation()}
-          className="bg-gray-900 border border-purple-500/30 rounded-2xl p-8 max-w-md w-full max-h-[90vh] overflow-y-auto"
+          className="bg-gray-900 border border-cyan-500/30 rounded-2xl p-8 max-w-md w-full max-h-[90vh] overflow-y-auto"
         >
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-2xl font-bold text-white font-gendy">Add Payment Method</h3>
@@ -371,7 +371,7 @@ function AddPaymentMethodModal({ isOpen, onClose, onAdd }: AddPaymentMethodModal
                   onClick={() => setType(paymentType)}
                   className={`px-4 py-3 rounded-xl font-medium transition-all font-diatype capitalize ${
                     type === paymentType
-                      ? 'bg-purple-500/20 border-2 border-purple-500/50 text-white'
+                      ? 'bg-cyan-500/20 border-2 border-cyan-500/50 text-white'
                       : 'bg-white/5 border border-white/10 text-gray-400 hover:bg-white/10'
                   }`}
                 >
@@ -396,7 +396,7 @@ function AddPaymentMethodModal({ isOpen, onClose, onAdd }: AddPaymentMethodModal
                   className={`w-full px-4 py-3 bg-white/5 border rounded-xl text-white placeholder-gray-500 focus:outline-none transition-all font-diatype ${
                     errors.cardNumber
                       ? 'border-red-500/30 focus:border-red-500/50'
-                      : 'border-white/10 focus:border-purple-500/30'
+                      : 'border-white/10 focus:border-cyan-500/30'
                   }`}
                 />
                 {errors.cardNumber && (
@@ -416,7 +416,7 @@ function AddPaymentMethodModal({ isOpen, onClose, onAdd }: AddPaymentMethodModal
                   className={`w-full px-4 py-3 bg-white/5 border rounded-xl text-white placeholder-gray-500 focus:outline-none transition-all font-diatype ${
                     errors.cardHolder
                       ? 'border-red-500/30 focus:border-red-500/50'
-                      : 'border-white/10 focus:border-purple-500/30'
+                      : 'border-white/10 focus:border-cyan-500/30'
                   }`}
                 />
                 {errors.cardHolder && (
@@ -438,7 +438,7 @@ function AddPaymentMethodModal({ isOpen, onClose, onAdd }: AddPaymentMethodModal
                     className={`w-full px-4 py-3 bg-white/5 border rounded-xl text-white placeholder-gray-500 focus:outline-none transition-all font-diatype ${
                       errors.expiry
                         ? 'border-red-500/30 focus:border-red-500/50'
-                        : 'border-white/10 focus:border-purple-500/30'
+                        : 'border-white/10 focus:border-cyan-500/30'
                     }`}
                   />
                   {errors.expiry && (
@@ -459,7 +459,7 @@ function AddPaymentMethodModal({ isOpen, onClose, onAdd }: AddPaymentMethodModal
                     className={`w-full px-4 py-3 bg-white/5 border rounded-xl text-white placeholder-gray-500 focus:outline-none transition-all font-diatype ${
                       errors.cvv
                         ? 'border-red-500/30 focus:border-red-500/50'
-                        : 'border-white/10 focus:border-purple-500/30'
+                        : 'border-white/10 focus:border-cyan-500/30'
                     }`}
                   />
                   {errors.cvv && (
@@ -486,7 +486,7 @@ function AddPaymentMethodModal({ isOpen, onClose, onAdd }: AddPaymentMethodModal
                 type="checkbox"
                 checked={isDefault}
                 onChange={(e) => setIsDefault(e.target.checked)}
-                className="w-5 h-5 rounded border-white/10 bg-white/5 text-purple-600 focus:ring-purple-500/30"
+                className="w-5 h-5 rounded border-white/10 bg-white/5 text-cyan-600 focus:ring-cyan-500/30"
               />
               <span className="text-white font-medium font-diatype">
                 Set as default payment method
@@ -505,7 +505,7 @@ function AddPaymentMethodModal({ isOpen, onClose, onAdd }: AddPaymentMethodModal
             <button
               onClick={handleSubmit}
               disabled={isSubmitting || type !== 'card'}
-              className="flex-1 px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-xl font-semibold hover:from-purple-700 hover:to-blue-700 transition-all font-diatype disabled:opacity-50 flex items-center justify-center gap-2"
+              className="flex-1 px-6 py-3 bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-xl font-semibold hover:from-cyan-700 hover:to-blue-700 transition-all font-diatype disabled:opacity-50 flex items-center justify-center gap-2"
             >
               {isSubmitting ? (
                 <>

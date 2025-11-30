@@ -58,7 +58,7 @@ export default function DashboardPage() {
       description: 'Interactive live sessions with AI experts',
       href: '/dashboard/workshops',
       count: 12,
-      gradient: 'from-purple-500 to-blue-500',
+      gradient: 'from-cyan-500 to-blue-500',
       image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80'
     },
     {
@@ -116,12 +116,12 @@ export default function DashboardPage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-gradient-to-r from-purple-900/20 to-blue-900/20 rounded-xl p-4 sm:p-5 border border-purple-500/20"
+            className="bg-gradient-to-r from-cyan-900/20 to-blue-900/20 rounded-xl p-4 sm:p-5 border border-cyan-500/20"
           >
             <div className="flex items-center justify-between gap-4 flex-wrap">
               {/* Welcome Text - Mobile Priority */}
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-white text-lg sm:text-xl font-bold font-gendy flex-shrink-0">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center text-white text-lg sm:text-xl font-bold font-gendy flex-shrink-0">
                   {userData.name?.split(' ').map((n: string) => n[0]).join('') || 'U'}
                 </div>
                 <div>
@@ -137,8 +137,8 @@ export default function DashboardPage() {
               {/* Key Metrics - Compact Horizontal Layout */}
               <div className="flex items-center gap-3 sm:gap-4">
                 <Link href="/dashboard/assessments" className="group">
-                  <div className="flex flex-col items-center bg-white/5 rounded-lg px-3 py-2 border border-white/10 hover:border-purple-500/30 transition-all">
-                    <div className="flex items-center gap-1.5 text-purple-400 group-hover:text-purple-300">
+                  <div className="flex flex-col items-center bg-white/5 rounded-lg px-3 py-2 border border-white/10 hover:border-cyan-500/30 transition-all">
+                    <div className="flex items-center gap-1.5 text-cyan-400 group-hover:text-cyan-300">
                       <Target className="w-4 h-4" />
                       <span className="text-xl font-bold font-gendy">72</span>
                     </div>
@@ -177,7 +177,7 @@ export default function DashboardPage() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                     whileHover={{ y: -6, scale: 1.02 }}
-                    className="group relative overflow-hidden bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 hover:border-purple-500/30 transition-all hover:shadow-[0_0_40px_rgba(168,85,247,0.15)] h-full cursor-pointer"
+                    className="group relative overflow-hidden bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 hover:border-cyan-500/30 transition-all hover:shadow-[0_0_40px_rgba(168,85,247,0.15)] h-full cursor-pointer"
                   >
                   <div className="relative h-48 overflow-hidden">
                     <Image
@@ -198,13 +198,13 @@ export default function DashboardPage() {
                   </div>
 
                   <div className="p-6">
-                    <h3 className="text-xl font-semibold text-white mb-2 font-gendy group-hover:text-purple-400 transition-colors">
+                    <h3 className="text-xl font-semibold text-white mb-2 font-gendy group-hover:text-cyan-400 transition-colors">
                       {item.title}
                     </h3>
                     <p className="text-gray-400 text-sm font-diatype mb-4">
                       {item.description}
                     </p>
-                    <div className="flex items-center text-purple-400 font-semibold text-sm font-diatype">
+                    <div className="flex items-center text-cyan-400 font-semibold text-sm font-diatype">
                       Explore
                       <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                     </div>

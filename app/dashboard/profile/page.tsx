@@ -55,7 +55,7 @@ export default function ProfilePage() {
                 whileTap={{ scale: 0.95 }}
               >
                 <Link href="/dashboard">
-                  <button className="px-6 py-3 bg-white/5 backdrop-blur-xl border border-white/10 text-white rounded-xl font-semibold hover:bg-white/10 hover:border-purple-500/30 transition-all inline-flex items-center gap-2 font-diatype">
+                  <button className="px-6 py-3 bg-white/5 backdrop-blur-xl border border-white/10 text-white rounded-xl font-semibold hover:bg-white/10 hover:border-cyan-500/30 transition-all inline-flex items-center gap-2 font-diatype">
                     <ArrowRight className="w-5 h-5 rotate-180" />
                     Back to Dashboard
                   </button>
@@ -75,7 +75,7 @@ export default function ProfilePage() {
                     onClick={() => setActiveTab(tab.id)}
                     className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all font-diatype ${
                       activeTab === tab.id
-                        ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg shadow-purple-500/50'
+                        ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-lg shadow-cyan-500/50'
                         : 'text-gray-400 hover:bg-white/5 hover:text-white'
                     }`}
                   >
@@ -95,7 +95,7 @@ export default function ProfilePage() {
                   className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-8 space-y-6"
                 >
                   <div className="flex items-center gap-6">
-                    <div className="w-24 h-24 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-white text-3xl font-bold font-gendy">
+                    <div className="w-24 h-24 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center text-white text-3xl font-bold font-gendy">
                       {userData.name?.split(' ').map((n: string) => n[0]).join('') || 'U'}
                     </div>
                     <div>
@@ -112,7 +112,7 @@ export default function ProfilePage() {
                         <input
                           type="text"
                           defaultValue={userData.name || ''}
-                          className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500/50 transition-colors font-diatype"
+                          className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-cyan-500/50 transition-colors font-diatype"
                         />
                       </div>
                     </div>
@@ -124,7 +124,7 @@ export default function ProfilePage() {
                         <input
                           type="email"
                           defaultValue={userData.email || ''}
-                          className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500/50 transition-colors font-diatype"
+                          className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-cyan-500/50 transition-colors font-diatype"
                         />
                       </div>
                     </div>
@@ -136,7 +136,7 @@ export default function ProfilePage() {
                         <input
                           type="text"
                           defaultValue={userData.company || ''}
-                          className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500/50 transition-colors font-diatype"
+                          className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-cyan-500/50 transition-colors font-diatype"
                         />
                       </div>
                     </div>
@@ -148,7 +148,7 @@ export default function ProfilePage() {
                         <input
                           type="text"
                           placeholder="e.g. Chief Technology Officer"
-                          className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500/50 transition-colors font-diatype"
+                          className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-cyan-500/50 transition-colors font-diatype"
                         />
                       </div>
                     </div>
@@ -160,7 +160,7 @@ export default function ProfilePage() {
                         <input
                           type="tel"
                           placeholder="+1 (555) 123-4567"
-                          className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500/50 transition-colors font-diatype"
+                          className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-cyan-500/50 transition-colors font-diatype"
                         />
                       </div>
                     </div>
@@ -172,7 +172,7 @@ export default function ProfilePage() {
                         <input
                           type="text"
                           placeholder="e.g. San Francisco, CA"
-                          className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500/50 transition-colors font-diatype"
+                          className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-cyan-500/50 transition-colors font-diatype"
                         />
                       </div>
                     </div>
@@ -182,7 +182,7 @@ export default function ProfilePage() {
                     <motion.button
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      className="px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-xl font-semibold hover:from-purple-700 hover:to-blue-700 transition-all inline-flex items-center gap-2 shadow-lg shadow-purple-500/50 font-diatype"
+                      className="px-6 py-3 bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-xl font-semibold hover:from-cyan-700 hover:to-blue-700 transition-all inline-flex items-center gap-2 shadow-lg shadow-cyan-500/50 font-diatype"
                     >
                       <Save className="w-5 h-5" />
                       Save Changes
@@ -213,7 +213,7 @@ export default function ProfilePage() {
                         </div>
                         <label className="relative inline-flex items-center cursor-pointer">
                           <input type="checkbox" className="sr-only peer" defaultChecked />
-                          <div className="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gradient-to-r peer-checked:from-purple-600 peer-checked:to-blue-600"></div>
+                          <div className="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gradient-to-r peer-checked:from-cyan-600 peer-checked:to-blue-600"></div>
                         </label>
                       </div>
                     ))}
@@ -234,28 +234,28 @@ export default function ProfilePage() {
                       <label className="block text-sm text-gray-400 mb-2 font-diatype">Current Password</label>
                       <input
                         type="password"
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500/50 transition-colors font-diatype"
+                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-cyan-500/50 transition-colors font-diatype"
                       />
                     </div>
                     <div>
                       <label className="block text-sm text-gray-400 mb-2 font-diatype">New Password</label>
                       <input
                         type="password"
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500/50 transition-colors font-diatype"
+                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-cyan-500/50 transition-colors font-diatype"
                       />
                     </div>
                     <div>
                       <label className="block text-sm text-gray-400 mb-2 font-diatype">Confirm New Password</label>
                       <input
                         type="password"
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500/50 transition-colors font-diatype"
+                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-cyan-500/50 transition-colors font-diatype"
                       />
                     </div>
                     <div className="flex justify-end">
                       <motion.button
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        className="px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-xl font-semibold hover:from-purple-700 hover:to-blue-700 transition-all inline-flex items-center gap-2 shadow-lg shadow-purple-500/50 font-diatype"
+                        className="px-6 py-3 bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-xl font-semibold hover:from-cyan-700 hover:to-blue-700 transition-all inline-flex items-center gap-2 shadow-lg shadow-cyan-500/50 font-diatype"
                       >
                         Update Password
                       </motion.button>
@@ -272,7 +272,7 @@ export default function ProfilePage() {
                   className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-8"
                 >
                   <h2 className="text-2xl font-bold text-white mb-6 font-gendy">Billing & Subscription</h2>
-                  <div className="bg-gradient-to-r from-purple-900/30 to-blue-900/30 rounded-2xl p-6 border border-purple-500/20 mb-6">
+                  <div className="bg-gradient-to-r from-cyan-900/30 to-blue-900/30 rounded-2xl p-6 border border-cyan-500/20 mb-6">
                     <p className="text-gray-300 font-diatype">
                       Billing features coming soon. Contact us for enterprise pricing and custom plans.
                     </p>

@@ -60,7 +60,7 @@ export class ChatErrorBoundary extends Component<Props, State> {
   render() {
     if (this.state.hasError) {
       return (
-        <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 via-purple-900/20 to-gray-900 p-4">
+        <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 via-cyan-900/20 to-gray-900 p-4">
           <div className="max-w-md w-full bg-gray-800/50 backdrop-blur-md border border-gray-700 rounded-2xl p-8 text-center">
             <div className="flex justify-center mb-6">
               <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center">
@@ -89,7 +89,7 @@ export class ChatErrorBoundary extends Component<Props, State> {
 
             <button
               onClick={this.handleReset}
-              className="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-purple-500/30 transition-all duration-300 flex items-center justify-center gap-2"
+              className="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-cyan-500/30 transition-all duration-300 flex items-center justify-center gap-2"
             >
               <RefreshCw className="w-5 h-5" />
               Restart Chat

@@ -78,7 +78,7 @@ export default function InstructorDashboard() {
           title="Completions"
           value={stats?.completed_count || 0}
           icon="🎓"
-          color="purple"
+          color="cyan"
           loading={statsLoading}
         />
         <StatCard
@@ -268,7 +268,7 @@ interface StatCardProps {
   title: string
   value: string | number
   icon: string
-  color: 'blue' | 'green' | 'purple' | 'yellow'
+  color: 'blue' | 'green' | 'cyan' | 'yellow'
   loading?: boolean
   trend?: string
   subtitle?: string
@@ -286,7 +286,7 @@ function StatCard({
   const colorClasses = {
     blue: 'bg-blue-500',
     green: 'bg-green-500',
-    purple: 'bg-purple-500',
+    purple: 'bg-cyan-500',
     yellow: 'bg-yellow-500',
   }
 

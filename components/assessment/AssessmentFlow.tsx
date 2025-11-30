@@ -225,7 +225,7 @@ export function AssessmentFlow() {
           </div>
           <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
             <motion.div
-              className="h-full bg-gradient-to-r from-blue-500 to-purple-500"
+              className="h-full bg-gradient-to-r from-blue-500 to-cyan-500"
               initial={{ width: 0 }}
               animate={{ width: `${progress}%` }}
               transition={{ duration: 0.5 }}
@@ -331,7 +331,7 @@ export function AssessmentFlow() {
                   transition-all duration-200
                   ${
                     canProceed()
-                      ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:shadow-lg hover:shadow-blue-500/50'
+                      ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-lg hover:shadow-blue-500/50'
                       : 'bg-gray-700 text-gray-500 cursor-not-allowed'
                   }
                 `}
@@ -411,7 +411,7 @@ function AssessmentResults({
           transition={{ delay: 0.8 }}
           className="text-center"
         >
-          <button className="px-12 py-5 rounded-full text-lg font-semibold bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:shadow-2xl hover:shadow-blue-500/50 transition-all duration-300">
+          <button className="px-12 py-5 rounded-full text-lg font-semibold bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-2xl hover:shadow-blue-500/50 transition-all duration-300">
             Get Your Personalized Transformation Plan
           </button>
         </motion.div>

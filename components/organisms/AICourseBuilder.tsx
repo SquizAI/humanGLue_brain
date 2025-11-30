@@ -203,7 +203,7 @@ export function AICourseBuilder({ onGenerate }: AICourseBuilderProps) {
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
-            className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-purple-500 to-blue-500 rounded-2xl mb-4"
+            className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-2xl mb-4"
           >
             <Sparkles className="w-8 h-8 text-white" />
           </motion.div>
@@ -234,7 +234,7 @@ export function AICourseBuilder({ onGenerate }: AICourseBuilderProps) {
                   <div
                     className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${
                       isActive
-                        ? 'bg-gradient-to-br from-purple-500 to-blue-500 shadow-lg shadow-purple-500/50'
+                        ? 'bg-gradient-to-br from-cyan-500 to-blue-500 shadow-lg shadow-cyan-500/50'
                         : isCompleted
                         ? 'bg-green-500/20 border-2 border-green-500'
                         : 'bg-gray-800 border-2 border-gray-700'
@@ -275,7 +275,7 @@ export function AICourseBuilder({ onGenerate }: AICourseBuilderProps) {
           >
             <div>
               <label className="block text-white font-semibold mb-3 flex items-center gap-2 font-gendy">
-                <Lightbulb className="w-5 h-5 text-purple-400" />
+                <Lightbulb className="w-5 h-5 text-cyan-400" />
                 What course do you want to create?
               </label>
               <textarea
@@ -283,7 +283,7 @@ export function AICourseBuilder({ onGenerate }: AICourseBuilderProps) {
                 onChange={(e) => setPrompt(e.target.value)}
                 placeholder="e.g., I want to create a course that teaches executives how to implement AI in their organizations, covering strategy, use cases, and change management..."
                 rows={4}
-                className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/50 transition-all font-diatype resize-none"
+                className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:border-cyan-500/50 transition-all font-diatype resize-none"
               />
             </div>
 
@@ -298,7 +298,7 @@ export function AICourseBuilder({ onGenerate }: AICourseBuilderProps) {
                   value={targetAudience}
                   onChange={(e) => setTargetAudience(e.target.value)}
                   placeholder="e.g., C-suite executives, business leaders"
-                  className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                  className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:border-cyan-500/50 transition-all font-diatype"
                 />
               </div>
 
@@ -312,7 +312,7 @@ export function AICourseBuilder({ onGenerate }: AICourseBuilderProps) {
                   value={learningGoals}
                   onChange={(e) => setLearningGoals(e.target.value)}
                   placeholder="e.g., Build AI strategy, identify use cases"
-                  className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                  className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:border-cyan-500/50 transition-all font-diatype"
                 />
               </div>
             </div>
@@ -322,7 +322,7 @@ export function AICourseBuilder({ onGenerate }: AICourseBuilderProps) {
               whileTap={{ scale: 0.98 }}
               onClick={handleIdeate}
               disabled={!prompt}
-              className="w-full py-4 bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-xl font-semibold flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-purple-500/50 transition-all font-diatype disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-4 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl font-semibold flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-cyan-500/50 transition-all font-diatype disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Sparkles className="w-5 h-5" />
               Generate Course with AI
@@ -337,7 +337,7 @@ export function AICourseBuilder({ onGenerate }: AICourseBuilderProps) {
             animate={{ opacity: 1, y: 0 }}
             className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-12 text-center"
           >
-            <Loader2 className="w-16 h-16 text-purple-400 animate-spin mx-auto mb-6" />
+            <Loader2 className="w-16 h-16 text-cyan-400 animate-spin mx-auto mb-6" />
             <h2 className="text-2xl font-bold text-white mb-3 font-gendy">
               Generating Your Course...
             </h2>
@@ -355,7 +355,7 @@ export function AICourseBuilder({ onGenerate }: AICourseBuilderProps) {
             className="space-y-6"
           >
             {/* Course Overview */}
-            <div className="bg-gradient-to-br from-purple-500/10 to-blue-500/10 border border-purple-500/20 rounded-2xl p-6">
+            <div className="bg-gradient-to-br from-cyan-500/10 to-blue-500/10 border border-cyan-500/20 rounded-2xl p-6">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex-1">
                   <h2 className="text-2xl font-bold text-white mb-2 font-gendy">
@@ -367,7 +367,7 @@ export function AICourseBuilder({ onGenerate }: AICourseBuilderProps) {
                 </div>
                 <button
                   onClick={() => handleGenerateImage()}
-                  className="px-4 py-2 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-purple-300 rounded-lg transition-all flex items-center gap-2 font-diatype"
+                  className="px-4 py-2 bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-cyan-300 rounded-lg transition-all flex items-center gap-2 font-diatype"
                 >
                   <ImageIcon className="w-4 h-4" />
                   Generate Thumbnail
@@ -455,7 +455,7 @@ export function AICourseBuilder({ onGenerate }: AICourseBuilderProps) {
                           className="p-2 hover:bg-white/10 rounded-lg transition-colors"
                           title="Regenerate module"
                         >
-                          <Wand2 className="w-4 h-4 text-purple-400" />
+                          <Wand2 className="w-4 h-4 text-cyan-400" />
                         </button>
                       </div>
                     </div>
@@ -473,8 +473,8 @@ export function AICourseBuilder({ onGenerate }: AICourseBuilderProps) {
                           </div>
                         )}
                         {lesson.type === 'reading' && (
-                          <div className="p-2 rounded-lg bg-purple-500/20">
-                            <FileText className="w-4 h-4 text-purple-400" />
+                          <div className="p-2 rounded-lg bg-cyan-500/20">
+                            <FileText className="w-4 h-4 text-cyan-400" />
                           </div>
                         )}
                         {lesson.type === 'quiz' && (
@@ -528,7 +528,7 @@ export function AICourseBuilder({ onGenerate }: AICourseBuilderProps) {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={handleUseCourse}
-                className="flex-1 py-4 bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-xl font-semibold flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-purple-500/50 transition-all font-diatype"
+                className="flex-1 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl font-semibold flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-cyan-500/50 transition-all font-diatype"
               >
                 <Check className="w-5 h-5" />
                 Use This Course

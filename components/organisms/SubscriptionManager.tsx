@@ -77,7 +77,7 @@ export function SubscriptionManager({ onUpgradeClick, onManagePayment }: Subscri
   const getUsageColor = (percentage: number) => {
     if (percentage >= 90) return 'from-red-500 to-red-600'
     if (percentage >= 70) return 'from-amber-500 to-orange-500'
-    return 'from-purple-500 to-blue-500'
+    return 'from-cyan-500 to-blue-500'
   }
 
   const formatLimit = (limit: number) => {
@@ -107,11 +107,11 @@ export function SubscriptionManager({ onUpgradeClick, onManagePayment }: Subscri
   return (
     <div className="space-y-6">
       {/* Current Plan Header */}
-      <div className="bg-gradient-to-br from-purple-900/30 to-blue-900/30 backdrop-blur-xl border border-purple-500/30 rounded-2xl p-8">
+      <div className="bg-gradient-to-br from-cyan-900/30 to-blue-900/30 backdrop-blur-xl border border-cyan-500/30 rounded-2xl p-8">
         <div className="flex items-start justify-between mb-6">
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <Crown className="w-6 h-6 text-purple-400" />
+              <Crown className="w-6 h-6 text-cyan-400" />
               <h2 className="text-2xl font-bold text-white font-gendy">
                 {currentPlan?.name || 'Current Plan'}
               </h2>
@@ -127,7 +127,7 @@ export function SubscriptionManager({ onUpgradeClick, onManagePayment }: Subscri
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={onUpgradeClick}
-              className="px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-xl font-semibold hover:from-purple-700 hover:to-blue-700 transition-all shadow-lg shadow-purple-500/50 font-diatype flex items-center gap-2"
+              className="px-6 py-3 bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-xl font-semibold hover:from-cyan-700 hover:to-blue-700 transition-all shadow-lg shadow-cyan-500/50 font-diatype flex items-center gap-2"
             >
               <TrendingUp className="w-5 h-5" />
               Upgrade Plan
@@ -149,7 +149,7 @@ export function SubscriptionManager({ onUpgradeClick, onManagePayment }: Subscri
                   disabled={isChangingCycle || billingCycle === cycle}
                   className={`flex-1 px-6 py-3 rounded-xl font-medium transition-all font-diatype ${
                     billingCycle === cycle
-                      ? 'bg-purple-500/20 border-2 border-purple-500/50 text-white'
+                      ? 'bg-cyan-500/20 border-2 border-cyan-500/50 text-white'
                       : 'bg-white/5 border border-white/10 text-gray-400 hover:bg-white/10 hover:text-white'
                   } disabled:opacity-50`}
                 >
@@ -217,7 +217,7 @@ export function SubscriptionManager({ onUpgradeClick, onManagePayment }: Subscri
             <button
               onClick={refreshUsage}
               disabled={isLoading}
-              className="flex items-center gap-2 text-purple-400 hover:text-purple-300 transition-colors font-medium font-diatype disabled:opacity-50"
+              className="flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition-colors font-medium font-diatype disabled:opacity-50"
             >
               <RefreshCw className={`w-5 h-5 ${isLoading ? 'animate-spin' : ''}`} />
               Refresh Usage
@@ -249,7 +249,7 @@ export function SubscriptionManager({ onUpgradeClick, onManagePayment }: Subscri
             <h2 className="text-xl font-semibold text-white font-gendy">Payment Method</h2>
             <button
               onClick={onManagePayment}
-              className="text-purple-400 hover:text-purple-300 transition-colors font-diatype text-sm flex items-center gap-2"
+              className="text-cyan-400 hover:text-cyan-300 transition-colors font-diatype text-sm flex items-center gap-2"
             >
               Manage
               <ChevronRight className="w-4 h-4" />
@@ -257,8 +257,8 @@ export function SubscriptionManager({ onUpgradeClick, onManagePayment }: Subscri
           </div>
 
           <div className="flex items-center gap-4 p-4 bg-white/5 rounded-xl">
-            <div className="p-3 bg-purple-500/10 rounded-lg">
-              <CreditCard className="w-6 h-6 text-purple-400" />
+            <div className="p-3 bg-cyan-500/10 rounded-lg">
+              <CreditCard className="w-6 h-6 text-cyan-400" />
             </div>
             <div className="flex-1">
               <div className="text-white font-medium font-diatype">Credit Card</div>
@@ -279,8 +279,8 @@ export function SubscriptionManager({ onUpgradeClick, onManagePayment }: Subscri
               className="flex items-center justify-between p-4 bg-white/5 rounded-xl transition-all"
             >
               <div className="flex items-center gap-4">
-                <div className="p-2 bg-purple-500/10 rounded-lg">
-                  <CreditCard className="w-5 h-5 text-purple-400" />
+                <div className="p-2 bg-cyan-500/10 rounded-lg">
+                  <CreditCard className="w-5 h-5 text-cyan-400" />
                 </div>
                 <div>
                   <div className="text-white font-medium font-diatype">{invoice.description}</div>
@@ -476,7 +476,7 @@ function UsageCard({ icon: Icon, label, used, limit, unit = '', getPercentage, g
         </div>
       )}
       {isUnlimited && (
-        <div className="text-xs text-purple-400 font-semibold font-diatype">Unlimited</div>
+        <div className="text-xs text-cyan-400 font-semibold font-diatype">Unlimited</div>
       )}
     </div>
   )

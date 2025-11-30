@@ -20,6 +20,7 @@ import {
   UserPlus,
   Key,
   Activity,
+  AlertCircle,
 } from 'lucide-react'
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
 import { useChat } from '@/lib/contexts/ChatContext'
@@ -81,6 +82,13 @@ export default function UsersAdmin() {
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
   const [showContent, setShowContent] = useState(false)
 
+  // Invite form state
+  const [inviteEmail, setInviteEmail] = useState('')
+  const [inviteFullName, setInviteFullName] = useState('')
+  const [inviteRole, setInviteRole] = useState<'client' | 'instructor' | 'expert' | 'admin'>('client')
+  const [inviting, setInviting] = useState(false)
+  const [inviteError, setInviteError] = useState<string | null>(null)
+
   useEffect(() => {
     if (!authLoading && userData?.isAdmin) {
       setShowContent(true)
@@ -108,6 +116,52 @@ export default function UsersAdmin() {
     router.push('/login')
   }
 
+  const handleSendInvite = async () => {
+    if (!inviteEmail) {
+      setInviteError('Email address is required')
+      return
+    }
+
+    setInviting(true)
+    setInviteError(null)
+
+    try {
+      const response = await fetch('/api/admin/users/invite', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: inviteEmail,
+          fullName: inviteFullName,
+          role: inviteRole,
+          organizationName: 'HumanGlue',
+        }),
+      })
+
+      const result = await response.json()
+
+      if (!response.ok) {
+        throw new Error(result.error?.message || 'Failed to invite user')
+      }
+
+      // Success!
+      setShowInviteModal(false)
+      setShowSuccessMessage(true)
+      setTimeout(() => setShowSuccessMessage(false), 3000)
+
+      // Reset form
+      setInviteEmail('')
+      setInviteFullName('')
+      setInviteRole('client')
+      setInviteError(null)
+    } catch (err) {
+      setInviteError(err instanceof Error ? err.message : 'An error occurred')
+    } finally {
+      setInviting(false)
+    }
+  }
+
   const filteredUsers = users.filter((user) => {
     const matchesSearch =
       searchQuery === '' ||
@@ -120,7 +174,7 @@ export default function UsersAdmin() {
 
   const getRoleBadge = (role: string) => {
     const badges = {
-      admin: 'bg-purple-500/20 text-purple-300 border-purple-500/30',
+      admin: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30',
       instructor: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
       user: 'bg-green-500/20 text-green-300 border-green-500/30',
     }
@@ -208,9 +262,9 @@ export default function UsersAdmin() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="bg-gradient-to-br from-purple-900/30 to-purple-900/10 backdrop-blur-xl border border-purple-500/20 rounded-2xl p-6"
+              className="bg-gradient-to-br from-cyan-900/30 to-cyan-900/10 backdrop-blur-xl border border-cyan-500/20 rounded-2xl p-6"
             >
-              <Shield className="w-6 h-6 text-purple-400 mb-2" />
+              <Shield className="w-6 h-6 text-cyan-400 mb-2" />
               <h3 className="text-2xl font-bold text-white mb-1 font-gendy">
                 {users.filter((u) => u.role === 'instructor').length}
               </h3>
@@ -355,7 +409,7 @@ export default function UsersAdmin() {
                           <motion.button
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            className="p-2 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-purple-300 rounded-lg transition-all"
+                            className="p-2 bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-cyan-300 rounded-lg transition-all"
                           >
                             <Mail className="w-4 h-4" />
                           </motion.button>
@@ -404,43 +458,91 @@ export default function UsersAdmin() {
                 </button>
               </div>
               <div className="p-6 space-y-4">
+                {inviteError && (
+                  <div className="p-4 bg-red-500/20 border border-red-500/30 rounded-xl flex items-start gap-3">
+                    <AlertCircle className="w-5 h-5 text-red-400 mt-0.5 flex-shrink-0" />
+                    <p className="text-sm text-red-300 font-diatype">{inviteError}</p>
+                  </div>
+                )}
+
                 <div>
                   <label className="block text-sm font-semibold text-white mb-2 font-diatype">
-                    Email Address
+                    Email Address *
                   </label>
                   <input
                     type="email"
                     placeholder="user@example.com"
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500/50 transition-all font-diatype"
+                    value={inviteEmail}
+                    onChange={(e) => setInviteEmail(e.target.value)}
+                    disabled={inviting}
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500/50 transition-all font-diatype disabled:opacity-50"
                   />
                 </div>
+
                 <div>
                   <label className="block text-sm font-semibold text-white mb-2 font-diatype">
-                    Role
+                    Full Name
                   </label>
-                  <select className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-green-500/50 transition-all font-diatype">
-                    <option value="user">User</option>
-                    <option value="instructor">Instructor</option>
-                    <option value="admin">Admin</option>
+                  <input
+                    type="text"
+                    placeholder="John Doe"
+                    value={inviteFullName}
+                    onChange={(e) => setInviteFullName(e.target.value)}
+                    disabled={inviting}
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500/50 transition-all font-diatype disabled:opacity-50"
+                  />
+                  <p className="text-xs text-gray-400 mt-1 font-diatype">
+                    Optional - will default to email username
+                  </p>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-white mb-2 font-diatype">
+                    Role *
+                  </label>
+                  <select
+                    value={inviteRole}
+                    onChange={(e) => setInviteRole(e.target.value as any)}
+                    disabled={inviting}
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-green-500/50 transition-all font-diatype disabled:opacity-50"
+                  >
+                    <option value="client">Client - Access courses and track learning</option>
+                    <option value="instructor">Instructor - Create and manage courses</option>
+                    <option value="expert">Expert - Provide expert insights</option>
+                    <option value="admin">Admin - Full platform administration</option>
                   </select>
                 </div>
               </div>
               <div className="flex gap-3 p-6 border-t border-white/10">
                 <button
-                  onClick={() => setShowInviteModal(false)}
-                  className="flex-1 px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white rounded-xl transition-all font-semibold font-diatype"
+                  onClick={() => {
+                    setShowInviteModal(false)
+                    setInviteEmail('')
+                    setInviteFullName('')
+                    setInviteRole('client')
+                    setInviteError(null)
+                  }}
+                  disabled={inviting}
+                  className="flex-1 px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white rounded-xl transition-all font-semibold font-diatype disabled:opacity-50"
                 >
                   Cancel
                 </button>
                 <button
-                  onClick={() => {
-                    setShowInviteModal(false)
-                    setShowSuccessMessage(true)
-                    setTimeout(() => setShowSuccessMessage(false), 3000)
-                  }}
-                  className="flex-1 px-6 py-3 bg-gradient-to-r from-green-500 to-cyan-500 text-white rounded-xl transition-all font-semibold font-diatype"
+                  onClick={handleSendInvite}
+                  disabled={inviting}
+                  className="flex-1 px-6 py-3 bg-gradient-to-r from-green-500 to-cyan-500 text-white rounded-xl transition-all font-semibold font-diatype disabled:opacity-50 flex items-center justify-center gap-2"
                 >
-                  Send Invite
+                  {inviting ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white" />
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <Mail className="w-4 h-4" />
+                      Send Invite
+                    </>
+                  )}
                 </button>
               </div>
             </motion.div>

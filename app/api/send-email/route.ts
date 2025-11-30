@@ -1,12 +1,24 @@
 /**
  * POST /api/send-email
  * Send emails using Resend API
+ *
+ * IMPORTANT: To send emails to external users, you must:
+ * 1. Add your domain at https://resend.com/domains
+ * 2. Add DNS records (SPF + DKIM) to verify the domain
+ * 3. Set RESEND_FROM_EMAIL environment variable (e.g., "noreply@humanglue.ai")
+ *
+ * The default "onboarding@resend.dev" only sends to the Resend account owner.
  */
 
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
+
+// Use verified domain from env, or fallback to Resend test domain
+const FROM_EMAIL = process.env.RESEND_FROM_EMAIL
+  ? `HumanGlue <${process.env.RESEND_FROM_EMAIL}>`
+  : 'HumanGlue <onboarding@resend.dev>'
 
 export async function POST(request: NextRequest) {
   try {
@@ -26,11 +38,12 @@ export async function POST(request: NextRequest) {
 
     console.log('[Send Email API] Sending email to:', to)
     console.log('[Send Email API] Subject:', subject)
+    console.log('[Send Email API] From:', FROM_EMAIL)
     console.log('[Send Email API] Resend API Key exists:', !!process.env.RESEND_API_KEY)
 
     // Send email via Resend
     const { data, error } = await resend.emails.send({
-      from: 'HumanGlue <onboarding@resend.dev>', // Resend's test domain
+      from: FROM_EMAIL,
       to: [to],
       subject,
       html: html || `<pre>${content}</pre>`,

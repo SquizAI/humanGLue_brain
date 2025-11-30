@@ -268,7 +268,7 @@ export default function AnalyticsPage() {
                           }}
                           className={cn(
                             'w-full px-4 py-2 text-left text-sm hover:bg-white/5 transition-all font-diatype',
-                            timeRange === range ? 'bg-purple-500/10 text-purple-400' : 'text-gray-300'
+                            timeRange === range ? 'bg-cyan-500/10 text-cyan-400' : 'text-gray-300'
                           )}
                         >
                           {range === '7d' && 'Last 7 Days'}
@@ -375,11 +375,11 @@ export default function AnalyticsPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="bg-gradient-to-br from-purple-900/30 to-pink-900/10 backdrop-blur-xl border border-purple-500/20 rounded-2xl p-6 group hover:border-purple-500/40 transition-all"
+              className="bg-gradient-to-br from-cyan-900/30 to-pink-900/10 backdrop-blur-xl border border-cyan-500/20 rounded-2xl p-6 group hover:border-cyan-500/40 transition-all"
             >
               <div className="flex items-center justify-between mb-4">
-                <div className="p-3 bg-purple-500/20 rounded-xl group-hover:scale-110 transition-transform">
-                  <Award className="w-6 h-6 text-purple-400" />
+                <div className="p-3 bg-cyan-500/20 rounded-xl group-hover:scale-110 transition-transform">
+                  <Award className="w-6 h-6 text-cyan-400" />
                 </div>
                 <div className="flex items-center gap-1 text-green-400 text-sm font-diatype">
                   <TrendingUp className="w-4 h-4" />
@@ -395,7 +395,7 @@ export default function AnalyticsPage() {
                   initial={{ width: 0 }}
                   animate={{ width: '87%' }}
                   transition={{ duration: 1, delay: 0.5 }}
-                  className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full"
+                  className="bg-gradient-to-r from-cyan-500 to-pink-500 h-2 rounded-full"
                 />
               </div>
               <p className="text-sm text-gray-500 font-diatype mt-2">87% of target</p>
@@ -581,8 +581,8 @@ export default function AnalyticsPage() {
                   key={index}
                   className="flex items-center gap-4 p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-all"
                 >
-                  <div className="flex items-center justify-center w-12 h-12 bg-purple-500/20 rounded-xl">
-                    <PlayCircle className="w-6 h-6 text-purple-400" />
+                  <div className="flex items-center justify-center w-12 h-12 bg-cyan-500/20 rounded-xl">
+                    <PlayCircle className="w-6 h-6 text-cyan-400" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <h3 className="text-white font-semibold font-diatype">{course.name}</h3>
@@ -738,7 +738,7 @@ export default function AnalyticsPage() {
                       className="border-b border-white/5 hover:bg-white/5 transition-all"
                     >
                       <td className="py-4">
-                        <div className="flex items-center justify-center w-8 h-8 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full text-white text-sm font-bold font-gendy">
+                        <div className="flex items-center justify-center w-8 h-8 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full text-white text-sm font-bold font-gendy">
                           {index + 1}
                         </div>
                       </td>
@@ -875,7 +875,7 @@ export default function AnalyticsPage() {
                   key={index}
                   className="flex items-center gap-4 p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-all"
                 >
-                  <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full text-white text-lg font-bold font-gendy">
+                  <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full text-white text-lg font-bold font-gendy">
                     {expert.name.charAt(0)}
                   </div>
                   <div className="flex-1 min-w-0">

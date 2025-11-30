@@ -733,7 +733,7 @@ export default function AssessmentDetailPage() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="px-6 py-3 bg-white/5 backdrop-blur-xl border border-white/10 text-white rounded-xl font-semibold hover:bg-white/10 hover:border-purple-500/30 transition-all inline-flex items-center gap-2 font-diatype"
+                  className="px-6 py-3 bg-white/5 backdrop-blur-xl border border-white/10 text-white rounded-xl font-semibold hover:bg-white/10 hover:border-cyan-500/30 transition-all inline-flex items-center gap-2 font-diatype"
                 >
                   <Share2 className="w-5 h-5" />
                   Share Report
@@ -741,7 +741,7 @@ export default function AssessmentDetailPage() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition-all inline-flex items-center gap-2 font-diatype"
+                  className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-cyan-500/50 transition-all inline-flex items-center gap-2 font-diatype"
                 >
                   <Download className="w-5 h-5" />
                   Download PDF
@@ -750,7 +750,7 @@ export default function AssessmentDetailPage() {
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="px-6 py-3 bg-white/5 backdrop-blur-xl border border-white/10 text-white rounded-xl font-semibold hover:bg-white/10 hover:border-purple-500/30 transition-all inline-flex items-center gap-2 font-diatype"
+                    className="px-6 py-3 bg-white/5 backdrop-blur-xl border border-white/10 text-white rounded-xl font-semibold hover:bg-white/10 hover:border-cyan-500/30 transition-all inline-flex items-center gap-2 font-diatype"
                   >
                     <ArrowRight className="w-5 h-5 rotate-180" />
                     Back to Assessments
@@ -810,7 +810,7 @@ export default function AssessmentDetailPage() {
                     </defs>
                   </svg>
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <Brain className="w-16 h-16 text-purple-400" />
+                    <Brain className="w-16 h-16 text-cyan-400" />
                   </div>
                 </div>
               </div>
@@ -832,7 +832,7 @@ export default function AssessmentDetailPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {assessmentData.keyFindings.map((finding, index) => (
                     <div key={index} className="flex gap-3">
-                      <CheckCircle2 className="w-5 h-5 text-purple-400 flex-shrink-0 mt-0.5" />
+                      <CheckCircle2 className="w-5 h-5 text-cyan-400 flex-shrink-0 mt-0.5" />
                       <p className="text-gray-300 text-sm font-diatype">{finding}</p>
                     </div>
                   ))}
@@ -942,7 +942,7 @@ export default function AssessmentDetailPage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.05 }}
-                    className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-6 hover:border-purple-500/30 transition-all"
+                    className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-6 hover:border-cyan-500/30 transition-all"
                   >
                     <div className="flex items-start gap-4 mb-4">
                       <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${getCategoryColor(insight.category)} flex items-center justify-center flex-shrink-0`}>
@@ -978,7 +978,7 @@ export default function AssessmentDetailPage() {
                       <p className="text-xs text-gray-400 font-diatype mb-2">Affected Areas:</p>
                       <div className="flex flex-wrap gap-2">
                         {insight.affectedAreas.map((area, idx) => (
-                          <span key={idx} className="text-xs px-2 py-1 bg-purple-500/10 border border-purple-500/20 text-purple-400 rounded-full font-diatype">
+                          <span key={idx} className="text-xs px-2 py-1 bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 rounded-full font-diatype">
                             {area}
                           </span>
                         ))}
@@ -1003,14 +1003,14 @@ export default function AssessmentDetailPage() {
                   className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-6"
                 >
                   <div className="flex items-start gap-4 mb-6">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center flex-shrink-0">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center flex-shrink-0">
                       <span className="text-white font-bold font-gendy">{index + 1}</span>
                     </div>
                     <div className="flex-1">
                       <h3 className="text-2xl font-semibold text-white font-gendy mb-3">{rec.title}</h3>
                       <p className="text-gray-300 font-diatype leading-relaxed mb-4">{rec.description}</p>
-                      <div className="bg-purple-500/10 border border-purple-500/20 rounded-xl p-4">
-                        <p className="text-sm text-purple-300 font-diatype"><strong>Impact:</strong> {rec.impact}</p>
+                      <div className="bg-cyan-500/10 border border-cyan-500/20 rounded-xl p-4">
+                        <p className="text-sm text-cyan-300 font-diatype"><strong>Impact:</strong> {rec.impact}</p>
                       </div>
                     </div>
                   </div>
@@ -1069,11 +1069,11 @@ export default function AssessmentDetailPage() {
 
                     {/* Expected Outcomes */}
                     <div>
-                      <h4 className="text-sm font-semibold text-purple-400 uppercase tracking-wider mb-2 font-diatype">Expected Outcomes</h4>
+                      <h4 className="text-sm font-semibold text-cyan-400 uppercase tracking-wider mb-2 font-diatype">Expected Outcomes</h4>
                       <ul className="space-y-1">
                         {rec.expectedOutcomes.map((outcome, idx) => (
                           <li key={idx} className="text-sm text-gray-300 font-diatype flex gap-2">
-                            <span className="text-purple-400 flex-shrink-0">•</span>
+                            <span className="text-cyan-400 flex-shrink-0">•</span>
                             <span>{outcome}</span>
                           </li>
                         ))}
@@ -1108,7 +1108,7 @@ export default function AssessmentDetailPage() {
                     <div className="flex items-center justify-between">
                       <h3 className="text-sm font-semibold text-white font-diatype">{benchmark.metric}</h3>
                       <div className="flex items-center gap-4 text-sm">
-                        <span className="text-purple-400 font-semibold font-diatype">
+                        <span className="text-cyan-400 font-semibold font-diatype">
                           You: {benchmark.yourScore}{benchmark.unit}
                         </span>
                         <span className="text-gray-400 font-diatype">
@@ -1132,7 +1132,7 @@ export default function AssessmentDetailPage() {
                       />
                       {/* Your Score Bar */}
                       <div
-                        className="h-full bg-gradient-to-r from-purple-500 to-blue-500 rounded-full transition-all duration-1000"
+                        className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full transition-all duration-1000"
                         style={{ width: `${(benchmark.yourScore / benchmark.topPerformers) * 100}%` }}
                       />
                     </div>

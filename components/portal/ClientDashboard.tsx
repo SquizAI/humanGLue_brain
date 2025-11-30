@@ -128,9 +128,9 @@ export function ClientDashboard({ data = MOCK_DATA }: { data?: DashboardData }) 
   const getTierColor = (tier: string) => {
     switch (tier) {
       case 'enterprise':
-        return 'from-purple-500 to-pink-500'
+        return 'from-cyan-500 to-pink-500'
       case 'growth':
-        return 'from-blue-500 to-purple-500'
+        return 'from-blue-500 to-cyan-500'
       default:
         return 'from-blue-500 to-cyan-500'
     }
@@ -170,7 +170,7 @@ export function ClientDashboard({ data = MOCK_DATA }: { data?: DashboardData }) 
             icon={Users}
             label="Employees Assessed"
             value={data.adaptability.employeesAssessed}
-            color="purple"
+            color="cyan"
           />
           <MetricCard
             icon={BookOpen}
@@ -270,7 +270,7 @@ export function ClientDashboard({ data = MOCK_DATA }: { data?: DashboardData }) 
 
               <div className="grid md:grid-cols-3 gap-4">
                 {data.transformation.behaviorsEmbedded.map((behavior, index) => (
-                  <div key={index} className="p-4 rounded-xl bg-gradient-to-br from-blue-500/10 to-purple-500/10 border border-blue-500/20">
+                  <div key={index} className="p-4 rounded-xl bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/20">
                     <CheckCircle className="w-6 h-6 text-blue-400 mb-3" />
                     <div className="text-white font-medium">{behavior}</div>
                   </div>
@@ -327,7 +327,7 @@ export function ClientDashboard({ data = MOCK_DATA }: { data?: DashboardData }) 
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-xl font-bold text-white">Active Engagements</h3>
                 <Link href="/dashboard/talent">
-                  <button className="text-purple-400 hover:text-purple-300 text-sm font-medium">
+                  <button className="text-cyan-400 hover:text-cyan-300 text-sm font-medium">
                     View All
                   </button>
                 </Link>
@@ -335,7 +335,7 @@ export function ClientDashboard({ data = MOCK_DATA }: { data?: DashboardData }) 
 
               <div className="space-y-4">
                 {data.engagements.active.map((engagement) => (
-                  <div key={engagement.id} className="p-4 rounded-xl bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/20">
+                  <div key={engagement.id} className="p-4 rounded-xl bg-gradient-to-br from-cyan-500/10 to-pink-500/10 border border-cyan-500/20">
                     <h4 className="text-white font-semibold mb-2">{engagement.expertName}</h4>
                     <p className="text-sm text-gray-400 mb-3">{engagement.focusArea}</p>
 
@@ -343,13 +343,13 @@ export function ClientDashboard({ data = MOCK_DATA }: { data?: DashboardData }) 
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
                         <span className="text-gray-400">Hours Used</span>
-                        <span className="text-purple-300 font-medium">
+                        <span className="text-cyan-300 font-medium">
                           {engagement.hoursUsed} / {engagement.hoursTotal}
                         </span>
                       </div>
                       <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
                         <div
-                          className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"
+                          className="h-full bg-gradient-to-r from-cyan-500 to-pink-500 rounded-full"
                           style={{ width: `${(engagement.hoursUsed / engagement.hoursTotal) * 100}%` }}
                         />
                       </div>
@@ -359,7 +359,7 @@ export function ClientDashboard({ data = MOCK_DATA }: { data?: DashboardData }) 
               </div>
 
               <Link href="/talent">
-                <button className="w-full mt-4 px-6 py-3 rounded-full font-semibold text-white bg-gradient-to-r from-purple-500 to-purple-600 hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300">
+                <button className="w-full mt-4 px-6 py-3 rounded-full font-semibold text-white bg-gradient-to-r from-cyan-500 to-cyan-600 hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300">
                   Find More Experts
                 </button>
               </Link>
@@ -385,10 +385,10 @@ export function ClientDashboard({ data = MOCK_DATA }: { data?: DashboardData }) 
                 </Link>
 
                 <Link href="/dashboard/team">
-                  <button className="w-full p-4 rounded-xl bg-white/5 hover:bg-white/10 border border-gray-700 hover:border-purple-500/50 text-left transition-all duration-200 group">
+                  <button className="w-full p-4 rounded-xl bg-white/5 hover:bg-white/10 border border-gray-700 hover:border-cyan-500/50 text-left transition-all duration-200 group">
                     <div className="flex items-center justify-between">
                       <span className="text-white font-medium">Manage Team</span>
-                      <ArrowRight className="w-5 h-5 text-purple-400 group-hover:translate-x-1 transition-transform" />
+                      <ArrowRight className="w-5 h-5 text-cyan-400 group-hover:translate-x-1 transition-transform" />
                     </div>
                   </button>
                 </Link>
@@ -423,11 +423,11 @@ function MetricCard({
   value: number
   suffix?: string
   trend?: 'up' | 'down' | 'stable'
-  color: 'blue' | 'purple' | 'amber' | 'green'
+  color: 'blue' | 'cyan' | 'amber' | 'green'
 }) {
   const colorConfig = {
     blue: 'from-blue-500/10 to-blue-600/10 border-blue-500/20 text-blue-400',
-    purple: 'from-purple-500/10 to-purple-600/10 border-purple-500/20 text-purple-400',
+    purple: 'from-cyan-500/10 to-cyan-600/10 border-cyan-500/20 text-cyan-400',
     amber: 'from-amber-500/10 to-orange-500/10 border-amber-500/20 text-amber-400',
     green: 'from-green-500/10 to-green-600/10 border-green-500/20 text-green-400',
   }

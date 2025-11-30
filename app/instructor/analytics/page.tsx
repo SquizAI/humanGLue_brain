@@ -273,7 +273,7 @@ export default function InstructorAnalyticsPage() {
                           }}
                           className={cn(
                             'w-full px-4 py-2 text-left text-sm hover:bg-white/5 transition-all font-diatype',
-                            timeRange === range ? 'bg-purple-500/10 text-purple-400' : 'text-gray-300'
+                            timeRange === range ? 'bg-cyan-500/10 text-cyan-400' : 'text-gray-300'
                           )}
                         >
                           {range === '7d' && 'Last 7 Days'}
@@ -416,11 +416,11 @@ export default function InstructorAnalyticsPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="bg-gradient-to-br from-purple-900/30 to-pink-900/10 backdrop-blur-xl border border-purple-500/20 rounded-2xl p-6 group hover:border-purple-500/40 transition-all"
+              className="bg-gradient-to-br from-cyan-900/30 to-pink-900/10 backdrop-blur-xl border border-cyan-500/20 rounded-2xl p-6 group hover:border-cyan-500/40 transition-all"
             >
               <div className="flex items-center justify-between mb-4">
-                <div className="p-3 bg-purple-500/20 rounded-xl group-hover:scale-110 transition-transform">
-                  <Clock className="w-6 h-6 text-purple-400" />
+                <div className="p-3 bg-cyan-500/20 rounded-xl group-hover:scale-110 transition-transform">
+                  <Clock className="w-6 h-6 text-cyan-400" />
                 </div>
                 <div className="flex items-center gap-1 text-green-400 text-sm font-diatype">
                   <TrendingUp className="w-4 h-4" />
@@ -717,8 +717,8 @@ export default function InstructorAnalyticsPage() {
                     onClick={() => setExpandedCourse(expandedCourse === course.name ? null : course.name)}
                     className="flex items-center gap-4 p-4 hover:bg-white/10 transition-all cursor-pointer"
                   >
-                    <div className="flex items-center justify-center w-12 h-12 bg-purple-500/20 rounded-xl">
-                      <PlayCircle className="w-6 h-6 text-purple-400" />
+                    <div className="flex items-center justify-center w-12 h-12 bg-cyan-500/20 rounded-xl">
+                      <PlayCircle className="w-6 h-6 text-cyan-400" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <h3 className="text-white font-semibold font-diatype">{course.name}</h3>
@@ -774,7 +774,7 @@ export default function InstructorAnalyticsPage() {
                         </div>
                         <div>
                           <div className="flex items-center gap-2 mb-2">
-                            <Clock className="w-4 h-4 text-purple-400" />
+                            <Clock className="w-4 h-4 text-cyan-400" />
                             <span className="text-xs text-gray-400 font-diatype">Avg. Watch Time</span>
                           </div>
                           <p className="text-2xl font-bold text-white font-gendy">{course.avgWatchTime}h</p>

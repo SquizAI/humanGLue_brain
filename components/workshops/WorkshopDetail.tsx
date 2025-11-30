@@ -52,12 +52,12 @@ export function WorkshopDetail({ workshop }: WorkshopDetailProps) {
       textGradient: 'from-amber-400 to-orange-500',
     },
     marketplace: {
-      gradient: 'from-purple-500 to-purple-600',
-      badgeBg: 'bg-purple-500/10',
-      badgeBorder: 'border-purple-500/20',
-      badgeText: 'text-purple-300',
-      buttonGradient: 'from-purple-500 to-purple-600',
-      textGradient: 'from-purple-400 to-purple-600',
+      gradient: 'from-cyan-500 to-cyan-600',
+      badgeBg: 'bg-cyan-500/10',
+      badgeBorder: 'border-cyan-500/20',
+      badgeText: 'text-cyan-300',
+      buttonGradient: 'from-cyan-500 to-cyan-600',
+      textGradient: 'from-cyan-400 to-cyan-600',
     },
   }
 
@@ -265,7 +265,7 @@ export function WorkshopDetail({ workshop }: WorkshopDetailProps) {
 
                 {/* Instructor Info */}
                 <div className="flex items-center gap-4 p-6 rounded-2xl bg-white/5 border border-gray-700 mb-8">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold text-2xl flex-shrink-0">
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white font-bold text-2xl flex-shrink-0">
                     {workshop.instructor.name.charAt(0)}
                   </div>
                   <div>
@@ -419,7 +419,7 @@ export function WorkshopDetail({ workshop }: WorkshopDetailProps) {
                         'w-full px-6 py-4 rounded-xl font-bold text-white transition-all duration-300 flex items-center justify-center gap-2',
                         isSoldOut || isAddingToCart
                           ? 'bg-gray-600 cursor-not-allowed'
-                          : `bg-gradient-to-r ${config.buttonGradient} hover:shadow-xl hover:shadow-${workshop.pillar === 'adaptability' ? 'blue' : workshop.pillar === 'coaching' ? 'amber' : 'purple'}-500/30`
+                          : `bg-gradient-to-r ${config.buttonGradient} hover:shadow-xl hover:shadow-${workshop.pillar === 'adaptability' ? 'blue' : workshop.pillar === 'coaching' ? 'amber' : 'cyan'}-500/30`
                       )}
                       data-testid="register-button"
                     >

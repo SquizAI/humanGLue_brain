@@ -98,7 +98,7 @@ export default function ExpertClientsPage() {
               onClick={() => setActiveTab('active')}
               className={`px-6 py-3 font-medium transition-all font-diatype ${
                 activeTab === 'active'
-                  ? 'text-purple-400 border-b-2 border-purple-400'
+                  ? 'text-cyan-400 border-b-2 border-cyan-400'
                   : 'text-gray-400 hover:text-white'
               }`}
             >
@@ -108,7 +108,7 @@ export default function ExpertClientsPage() {
               onClick={() => setActiveTab('pending')}
               className={`px-6 py-3 font-medium transition-all font-diatype ${
                 activeTab === 'pending'
-                  ? 'text-purple-400 border-b-2 border-purple-400'
+                  ? 'text-cyan-400 border-b-2 border-cyan-400'
                   : 'text-gray-400 hover:text-white'
               }`}
             >
@@ -118,7 +118,7 @@ export default function ExpertClientsPage() {
               onClick={() => setActiveTab('past')}
               className={`px-6 py-3 font-medium transition-all font-diatype ${
                 activeTab === 'past'
-                  ? 'text-purple-400 border-b-2 border-purple-400'
+                  ? 'text-cyan-400 border-b-2 border-cyan-400'
                   : 'text-gray-400 hover:text-white'
               }`}
             >
@@ -139,7 +139,7 @@ export default function ExpertClientsPage() {
                 <div className="flex items-start justify-between">
                   <div className="flex items-start gap-4 flex-1">
                     {/* Avatar */}
-                    <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full flex items-center justify-center text-white text-xl font-bold font-gendy">
+                    <div className="w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full flex items-center justify-center text-white text-xl font-bold font-gendy">
                       {client.name.split(' ').map((n: string) => n[0]).join('')}
                     </div>
 
@@ -200,7 +200,7 @@ export default function ExpertClientsPage() {
                         <button className="p-2 bg-white/5 hover:bg-white/10 rounded-lg transition-all border border-white/10">
                           <Mail className="w-5 h-5 text-gray-400" />
                         </button>
-                        <button className="px-4 py-2 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white rounded-lg transition-all font-diatype">
+                        <button className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white rounded-lg transition-all font-diatype">
                           <Video className="w-5 h-5" />
                         </button>
                       </>

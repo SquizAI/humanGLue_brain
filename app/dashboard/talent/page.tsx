@@ -182,7 +182,7 @@ export default function TalentMarketplace() {
           <div className="mb-8">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
-                <div className="p-3 rounded-xl bg-gradient-to-br from-purple-500 to-blue-500">
+                <div className="p-3 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-500">
                   <Users className="w-6 h-6 text-white" />
                 </div>
                 <div>
@@ -198,10 +198,10 @@ export default function TalentMarketplace() {
 
             {/* Stats */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-              <div className="bg-gradient-to-br from-purple-900/20 to-blue-900/20 border border-purple-500/20 rounded-xl p-4">
+              <div className="bg-gradient-to-br from-cyan-900/20 to-blue-900/20 border border-cyan-500/20 rounded-xl p-4">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-lg bg-purple-500/20">
-                    <Users className="w-5 h-5 text-purple-400" />
+                  <div className="p-2 rounded-lg bg-cyan-500/20">
+                    <Users className="w-5 h-5 text-cyan-400" />
                   </div>
                   <div>
                     <div className="text-2xl font-bold text-white">{experts.length}</div>
@@ -256,7 +256,7 @@ export default function TalentMarketplace() {
                   placeholder="Search by name, expertise, or title..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 bg-gray-800/50 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500/50 transition-all"
+                  className="w-full pl-10 pr-4 py-3 bg-gray-800/50 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 transition-all"
                 />
               </div>
 
@@ -265,7 +265,7 @@ export default function TalentMarketplace() {
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as any)}
-                  className="w-full px-4 py-3 bg-gray-800/50 border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/50 transition-all"
+                  className="w-full px-4 py-3 bg-gray-800/50 border border-white/10 rounded-lg text-white focus:outline-none focus:border-cyan-500/50 transition-all"
                 >
                   <option value="rating">Highest Rated</option>
                   <option value="experience">Most Experience</option>
@@ -291,7 +291,7 @@ export default function TalentMarketplace() {
                     className={cn(
                       "px-3 py-1.5 rounded-full text-xs font-semibold transition-all",
                       selectedExpertise.includes(exp)
-                        ? "bg-purple-500/20 text-purple-300 border border-purple-500/30"
+                        ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/30"
                         : "bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white border border-white/10"
                     )}
                   >
@@ -336,7 +336,7 @@ export default function TalentMarketplace() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
-                className="group relative bg-gray-900/50 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden hover:border-purple-500/30 transition-all hover:shadow-[0_0_30px_rgba(168,85,247,0.1)]"
+                className="group relative bg-gray-900/50 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden hover:border-cyan-500/30 transition-all hover:shadow-[0_0_30px_rgba(168,85,247,0.1)]"
               >
                 {/* Social Actions - Top Right */}
                 <div className="absolute top-4 right-4 z-10 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -404,7 +404,7 @@ export default function TalentMarketplace() {
                     {expert.expertise.map((exp, i) => (
                       <span
                         key={i}
-                        className="px-2 py-1 bg-purple-500/10 text-purple-300 text-xs rounded-full border border-purple-500/20"
+                        className="px-2 py-1 bg-cyan-500/10 text-cyan-300 text-xs rounded-full border border-cyan-500/20"
                       >
                         {exp}
                       </span>
@@ -438,7 +438,7 @@ export default function TalentMarketplace() {
                   <Link href={`/dashboard/talent/${expert.id}`}>
                     <motion.button
                       whileHover={{ x: 4 }}
-                      className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-lg font-semibold text-sm group-hover:shadow-lg group-hover:shadow-purple-500/50 transition-all"
+                      className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg font-semibold text-sm group-hover:shadow-lg group-hover:shadow-cyan-500/50 transition-all"
                     >
                       View Profile
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -464,7 +464,7 @@ export default function TalentMarketplace() {
                   setSelectedIndustries([])
                   setAvailabilityFilter('all')
                 }}
-                className="px-6 py-2 bg-purple-500/20 text-purple-300 rounded-lg hover:bg-purple-500/30 transition-all"
+                className="px-6 py-2 bg-cyan-500/20 text-cyan-300 rounded-lg hover:bg-cyan-500/30 transition-all"
               >
                 Clear All Filters
               </button>

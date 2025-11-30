@@ -223,10 +223,10 @@ export default function InstructorsPage() {
                     </div>
 
                     {/* Avatar Section */}
-                    <div className="relative h-56 bg-gradient-to-br from-amber-900/30 to-purple-900/20 overflow-hidden">
+                    <div className="relative h-56 bg-gradient-to-br from-amber-900/30 to-cyan-900/20 overflow-hidden">
                       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(251,191,36,0.15),transparent_70%)]" />
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="w-32 h-32 rounded-full bg-gradient-to-br from-amber-500/20 to-purple-500/20 border-2 border-white/10 flex items-center justify-center">
+                        <div className="w-32 h-32 rounded-full bg-gradient-to-br from-amber-500/20 to-cyan-500/20 border-2 border-white/10 flex items-center justify-center">
                           <GraduationCap className="w-16 h-16 text-amber-300/60" />
                         </div>
                       </div>
@@ -301,7 +301,7 @@ export default function InstructorsPage() {
           {/* All Instructors */}
           <section>
             <div className="flex items-center gap-3 mb-6">
-              <Users className="w-6 h-6 text-purple-400" />
+              <Users className="w-6 h-6 text-cyan-400" />
               <h2 className="text-2xl font-bold text-white font-gendy">All Instructors</h2>
             </div>
 
@@ -314,13 +314,13 @@ export default function InstructorsPage() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: index * 0.05 }}
                   whileHover={{ y: -4 }}
-                  className="group relative overflow-hidden bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 hover:border-purple-500/30 transition-all hover:shadow-[0_0_40px_rgba(168,85,247,0.15)]"
+                  className="group relative overflow-hidden bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 hover:border-cyan-500/30 transition-all hover:shadow-[0_0_40px_rgba(168,85,247,0.15)]"
                 >
                   <div className="p-6">
                     <div className="flex gap-5">
                       {/* Avatar */}
-                      <div className="relative w-24 h-24 rounded-xl bg-gradient-to-br from-purple-500/20 to-blue-500/20 border border-white/10 flex items-center justify-center flex-shrink-0">
-                        <GraduationCap className="w-12 h-12 text-purple-300/60" />
+                      <div className="relative w-24 h-24 rounded-xl bg-gradient-to-br from-cyan-500/20 to-blue-500/20 border border-white/10 flex items-center justify-center flex-shrink-0">
+                        <GraduationCap className="w-12 h-12 text-cyan-300/60" />
                         {instructor.available && (
                           <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-gray-950" />
                         )}
@@ -330,10 +330,10 @@ export default function InstructorsPage() {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-start justify-between mb-2">
                           <div className="flex-1">
-                            <h3 className="text-lg font-bold text-white mb-1 font-gendy group-hover:text-purple-400 transition-colors">
+                            <h3 className="text-lg font-bold text-white mb-1 font-gendy group-hover:text-cyan-400 transition-colors">
                               {instructor.name}
                             </h3>
-                            <p className="text-purple-400 text-sm font-diatype">{instructor.role}</p>
+                            <p className="text-cyan-400 text-sm font-diatype">{instructor.role}</p>
                           </div>
                           <div className="flex items-center gap-1">
                             <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
@@ -348,7 +348,7 @@ export default function InstructorsPage() {
                           {instructor.specialties.slice(0, 2).map((specialty, i) => (
                             <span
                               key={i}
-                              className="px-2 py-0.5 bg-purple-500/10 text-purple-300 text-xs rounded-md border border-purple-500/20 font-diatype"
+                              className="px-2 py-0.5 bg-cyan-500/10 text-cyan-300 text-xs rounded-md border border-cyan-500/20 font-diatype"
                             >
                               {specialty}
                             </span>
@@ -377,7 +377,7 @@ export default function InstructorsPage() {
                           <button className="px-3 py-1.5 bg-white/5 border border-white/10 text-white rounded-lg hover:bg-white/10 text-xs font-semibold font-diatype">
                             Contact
                           </button>
-                          <button className="px-3 py-1.5 bg-purple-600 text-white rounded-lg hover:bg-purple-700 text-xs font-semibold inline-flex items-center gap-1 font-diatype">
+                          <button className="px-3 py-1.5 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700 text-xs font-semibold inline-flex items-center gap-1 font-diatype">
                             View Profile
                             <ArrowRight className="w-3 h-3" />
                           </button>

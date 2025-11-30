@@ -759,7 +759,7 @@ export default function CBTDetailPage() {
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="p-2 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 hover:border-purple-500/30 transition-all"
+                    className="p-2 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 hover:border-cyan-500/30 transition-all"
                   >
                     <ArrowLeft className="w-5 h-5" />
                   </motion.button>
@@ -777,7 +777,7 @@ export default function CBTDetailPage() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="px-4 py-2 bg-white/5 border border-white/10 text-white rounded-xl hover:bg-white/10 hover:border-purple-500/30 transition-all inline-flex items-center gap-2 font-diatype"
+                  className="px-4 py-2 bg-white/5 border border-white/10 text-white rounded-xl hover:bg-white/10 hover:border-cyan-500/30 transition-all inline-flex items-center gap-2 font-diatype"
                 >
                   <Share2 className="w-4 h-4" />
                   Share
@@ -785,7 +785,7 @@ export default function CBTDetailPage() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="px-4 py-2 bg-white/5 border border-white/10 text-white rounded-xl hover:bg-white/10 hover:border-purple-500/30 transition-all"
+                  className="px-4 py-2 bg-white/5 border border-white/10 text-white rounded-xl hover:bg-white/10 hover:border-cyan-500/30 transition-all"
                 >
                   <Bookmark className="w-5 h-5" />
                 </motion.button>
@@ -810,7 +810,7 @@ export default function CBTDetailPage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/50 to-transparent" />
                 <div className="absolute bottom-6 left-6 flex items-center gap-2">
-                  <span className="px-3 py-1 rounded-full bg-purple-500/20 border border-purple-500/30 text-purple-400 text-sm font-semibold font-diatype">
+                  <span className="px-3 py-1 rounded-full bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 text-sm font-semibold font-diatype">
                     {course.category}
                   </span>
                   <span className="px-3 py-1 rounded-full bg-blue-500/20 border border-blue-500/30 text-blue-400 text-sm font-semibold font-diatype">
@@ -879,7 +879,7 @@ export default function CBTDetailPage() {
                                 ? 'bg-green-500/20 border border-green-500/30'
                                 : module.isLocked
                                 ? 'bg-gray-500/20 border border-gray-500/30'
-                                : 'bg-purple-500/20 border border-purple-500/30'
+                                : 'bg-cyan-500/20 border border-cyan-500/30'
                             }`}
                           >
                             {module.isCompleted ? (
@@ -887,7 +887,7 @@ export default function CBTDetailPage() {
                             ) : module.isLocked ? (
                               <Lock className="w-5 h-5 text-gray-400" />
                             ) : (
-                              <PlayCircle className="w-5 h-5 text-purple-400" />
+                              <PlayCircle className="w-5 h-5 text-cyan-400" />
                             )}
                           </div>
                           <div className="flex-1">
@@ -911,7 +911,7 @@ export default function CBTDetailPage() {
                         <ul className="space-y-2">
                           {module.lessons.map((lesson, j) => (
                             <li key={j} className="text-gray-400 text-sm flex items-start gap-2 font-diatype">
-                              <div className="w-1.5 h-1.5 rounded-full bg-purple-400 mt-1.5 flex-shrink-0" />
+                              <div className="w-1.5 h-1.5 rounded-full bg-cyan-400 mt-1.5 flex-shrink-0" />
                               {lesson}
                             </li>
                           ))}
@@ -939,7 +939,7 @@ export default function CBTDetailPage() {
                   />
                   <div>
                     <h3 className="text-xl font-bold text-white mb-1 font-gendy">{course.instructor}</h3>
-                    <p className="text-purple-400 mb-3 font-diatype">{course.instructorTitle}</p>
+                    <p className="text-cyan-400 mb-3 font-diatype">{course.instructorTitle}</p>
                     <p className="text-gray-300 font-diatype leading-relaxed">{course.instructorBio}</p>
                   </div>
                 </div>
@@ -993,19 +993,19 @@ export default function CBTDetailPage() {
 
                 <div className="space-y-4 mb-6">
                   <div className="flex items-center gap-3 text-gray-300">
-                    <Clock className="w-5 h-5 text-purple-400" />
+                    <Clock className="w-5 h-5 text-cyan-400" />
                     <span className="font-diatype">{course.duration} total</span>
                   </div>
                   <div className="flex items-center gap-3 text-gray-300">
-                    <BookOpen className="w-5 h-5 text-purple-400" />
+                    <BookOpen className="w-5 h-5 text-cyan-400" />
                     <span className="font-diatype">{course.totalModules} modules</span>
                   </div>
                   <div className="flex items-center gap-3 text-gray-300">
-                    <Users className="w-5 h-5 text-purple-400" />
+                    <Users className="w-5 h-5 text-cyan-400" />
                     <span className="font-diatype">{course.enrolled.toLocaleString()} enrolled</span>
                   </div>
                   <div className="flex items-center gap-3 text-gray-300">
-                    <Target className="w-5 h-5 text-purple-400" />
+                    <Target className="w-5 h-5 text-cyan-400" />
                     <span className="font-diatype">{course.difficulty} level</span>
                   </div>
                 </div>
@@ -1013,7 +1013,7 @@ export default function CBTDetailPage() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="w-full px-6 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-xl font-semibold hover:from-purple-700 hover:to-blue-700 transition-all inline-flex items-center justify-center gap-2 shadow-lg shadow-purple-500/50 font-diatype mb-3"
+                  className="w-full px-6 py-4 bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-xl font-semibold hover:from-cyan-700 hover:to-blue-700 transition-all inline-flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/50 font-diatype mb-3"
                 >
                   <PlayCircle className="w-5 h-5" />
                   Start Course
@@ -1027,7 +1027,7 @@ export default function CBTDetailPage() {
                     {course.skillsGained.map((skill, i) => (
                       <span
                         key={i}
-                        className="px-2 py-1 bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs rounded-full font-diatype"
+                        className="px-2 py-1 bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs rounded-full font-diatype"
                       >
                         {skill}
                       </span>

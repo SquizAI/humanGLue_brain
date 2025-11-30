@@ -146,7 +146,7 @@ export default function CourseSchedulePage() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={handleSave}
-                className="px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-lg transition-all flex items-center gap-2 font-diatype"
+                className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg transition-all flex items-center gap-2 font-diatype"
               >
                 <Save className="w-5 h-5" />
                 Save Schedule
@@ -186,7 +186,7 @@ export default function CourseSchedulePage() {
                         setNewSession({ ...newSession, title: e.target.value })
                       }
                       placeholder="e.g., Module 1: Introduction"
-                      className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                      className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white placeholder:text-gray-500 focus:outline-none focus:border-cyan-500/50 transition-all font-diatype"
                     />
                   </div>
 
@@ -200,7 +200,7 @@ export default function CourseSchedulePage() {
                       onChange={(e) =>
                         setNewSession({ ...newSession, date: e.target.value })
                       }
-                      className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                      className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-cyan-500/50 transition-all font-diatype"
                     />
                   </div>
 
@@ -215,7 +215,7 @@ export default function CourseSchedulePage() {
                         onChange={(e) =>
                           setNewSession({ ...newSession, startTime: e.target.value })
                         }
-                        className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                        className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-cyan-500/50 transition-all font-diatype"
                       />
                     </div>
                     <div>
@@ -228,7 +228,7 @@ export default function CourseSchedulePage() {
                         onChange={(e) =>
                           setNewSession({ ...newSession, endTime: e.target.value })
                         }
-                        className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                        className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-cyan-500/50 transition-all font-diatype"
                       />
                     </div>
                   </div>
@@ -245,7 +245,7 @@ export default function CourseSchedulePage() {
                           type: e.target.value as 'live' | 'recorded' | 'hybrid',
                         })
                       }
-                      className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                      className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-cyan-500/50 transition-all font-diatype"
                     >
                       <option value="live">Live Session</option>
                       <option value="recorded">Recorded</option>
@@ -264,7 +264,7 @@ export default function CourseSchedulePage() {
                         setNewSession({ ...newSession, location: e.target.value })
                       }
                       placeholder="e.g., Zoom, Teams, Classroom"
-                      className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                      className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white placeholder:text-gray-500 focus:outline-none focus:border-cyan-500/50 transition-all font-diatype"
                     />
                   </div>
 
@@ -282,7 +282,7 @@ export default function CourseSchedulePage() {
                         })
                       }
                       min={1}
-                      className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                      className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-cyan-500/50 transition-all font-diatype"
                     />
                   </div>
 
@@ -290,7 +290,7 @@ export default function CourseSchedulePage() {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={handleAddSession}
-                    className="w-full py-3 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-purple-300 rounded-lg transition-all flex items-center justify-center gap-2 font-diatype"
+                    className="w-full py-3 bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-cyan-300 rounded-lg transition-all flex items-center justify-center gap-2 font-diatype"
                   >
                     <Plus className="w-5 h-5" />
                     Add Session
@@ -372,7 +372,7 @@ export default function CourseSchedulePage() {
                                     ? 'bg-green-500/20 text-green-300'
                                     : session.type === 'recorded'
                                     ? 'bg-blue-500/20 text-blue-300'
-                                    : 'bg-purple-500/20 text-purple-300'
+                                    : 'bg-cyan-500/20 text-cyan-300'
                                 }`}
                               >
                                 {session.type === 'live' && <Video className="w-3 h-3 mr-1" />}

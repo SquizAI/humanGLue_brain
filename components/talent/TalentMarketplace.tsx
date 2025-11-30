@@ -221,7 +221,7 @@ export function TalentMarketplace() {
       {/* Hero Section */}
       <section
         className={cn(
-          'bg-gradient-to-br from-gray-900 via-purple-900/20 to-gray-900',
+          'bg-gradient-to-br from-gray-900 via-cyan-900/20 to-gray-900',
           spacing.section.y
         )}
       >
@@ -235,7 +235,7 @@ export function TalentMarketplace() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.1 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-300 mb-6"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 mb-6"
             >
               <Sparkles className="w-4 h-4" />
               <span className="text-sm font-semibold">
@@ -254,15 +254,15 @@ export function TalentMarketplace() {
 
             <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-gray-400">
               <div className="flex items-center gap-2">
-                <TrendingUp className="w-5 h-5 text-purple-400" />
+                <TrendingUp className="w-5 h-5 text-cyan-400" />
                 <span>{filteredTalent.length} Verified Experts</span>
               </div>
               <div className="flex items-center gap-2">
-                <Award className="w-5 h-5 text-purple-400" />
+                <Award className="w-5 h-5 text-cyan-400" />
                 <span>85%+ Average Success Rate</span>
               </div>
               <div className="flex items-center gap-2">
-                <Users className="w-5 h-5 text-purple-400" />
+                <Users className="w-5 h-5 text-cyan-400" />
                 <span>50,000+ Employees Transformed</span>
               </div>
             </div>
@@ -298,7 +298,7 @@ export function TalentMarketplace() {
                 placeholder="Search by name, expertise, or bio..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all"
+                className="w-full pl-12 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 transition-all"
                 data-testid="talent-search"
               />
               {searchQuery && (
@@ -319,7 +319,7 @@ export function TalentMarketplace() {
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as SortBy)}
-                  className="appearance-none pl-4 pr-10 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all cursor-pointer"
+                  className="appearance-none pl-4 pr-10 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 transition-all cursor-pointer"
                   data-testid="talent-sort"
                 >
                   <option value="transformationSuccess">Transformation Success</option>
@@ -337,7 +337,7 @@ export function TalentMarketplace() {
                 className={cn(
                   'lg:hidden px-4 py-3 rounded-xl font-medium transition-all flex items-center gap-2',
                   showFilters
-                    ? 'bg-purple-500 text-white'
+                    ? 'bg-cyan-500 text-white'
                     : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
                 )}
                 data-testid="filter-toggle"
@@ -345,7 +345,7 @@ export function TalentMarketplace() {
                 <Filter className="w-4 h-4" />
                 Filters
                 {hasActiveFilters && (
-                  <span className="w-2 h-2 rounded-full bg-purple-400"></span>
+                  <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
                 )}
               </button>
 
@@ -356,7 +356,7 @@ export function TalentMarketplace() {
                   className={cn(
                     'p-2 rounded-lg transition-all',
                     viewMode === 'grid'
-                      ? 'bg-purple-500 text-white'
+                      ? 'bg-cyan-500 text-white'
                       : 'text-gray-400 hover:text-white'
                   )}
                   aria-label="Grid view"
@@ -369,7 +369,7 @@ export function TalentMarketplace() {
                   className={cn(
                     'p-2 rounded-lg transition-all',
                     viewMode === 'list'
-                      ? 'bg-purple-500 text-white'
+                      ? 'bg-cyan-500 text-white'
                       : 'text-gray-400 hover:text-white'
                   )}
                   aria-label="List view"
@@ -440,21 +440,21 @@ export function TalentMarketplace() {
                   <FilterButton
                     active={coachingStyleFilter === 'directive'}
                     onClick={() => setCoachingStyleFilter('directive')}
-                    variant="purple"
+                    variant="cyan"
                   >
                     Directive
                   </FilterButton>
                   <FilterButton
                     active={coachingStyleFilter === 'facilitative'}
                     onClick={() => setCoachingStyleFilter('facilitative')}
-                    variant="purple"
+                    variant="cyan"
                   >
                     Facilitative
                   </FilterButton>
                   <FilterButton
                     active={coachingStyleFilter === 'hybrid'}
                     onClick={() => setCoachingStyleFilter('hybrid')}
-                    variant="purple"
+                    variant="cyan"
                   >
                     Hybrid
                   </FilterButton>
@@ -470,7 +470,7 @@ export function TalentMarketplace() {
                       key={stage.value}
                       active={selectedStages.includes(stage.value)}
                       onClick={() => toggleStage(stage.value)}
-                      variant="purple"
+                      variant="cyan"
                       data-testid={`filter-stage-${stage.value}`}
                     >
                       {stage.label}
@@ -489,7 +489,7 @@ export function TalentMarketplace() {
                     key={expertise}
                     active={selectedExpertise.includes(expertise)}
                     onClick={() => toggleExpertise(expertise)}
-                    variant="purple"
+                    variant="cyan"
                     data-testid={`filter-expertise-${expertise}`}
                   >
                     {expertise}
@@ -507,7 +507,7 @@ export function TalentMarketplace() {
                     key={industry}
                     active={selectedIndustries.includes(industry)}
                     onClick={() => toggleIndustry(industry)}
-                    variant="purple"
+                    variant="cyan"
                     data-testid={`filter-industry-${industry}`}
                   >
                     {industry}
@@ -571,21 +571,21 @@ export function TalentMarketplace() {
                       <FilterButton
                         active={coachingStyleFilter === 'directive'}
                         onClick={() => setCoachingStyleFilter('directive')}
-                        variant="purple"
+                        variant="cyan"
                       >
                         Directive
                       </FilterButton>
                       <FilterButton
                         active={coachingStyleFilter === 'facilitative'}
                         onClick={() => setCoachingStyleFilter('facilitative')}
-                        variant="purple"
+                        variant="cyan"
                       >
                         Facilitative
                       </FilterButton>
                       <FilterButton
                         active={coachingStyleFilter === 'hybrid'}
                         onClick={() => setCoachingStyleFilter('hybrid')}
-                        variant="purple"
+                        variant="cyan"
                       >
                         Hybrid
                       </FilterButton>
@@ -603,7 +603,7 @@ export function TalentMarketplace() {
                           key={stage.value}
                           active={selectedStages.includes(stage.value)}
                           onClick={() => toggleStage(stage.value)}
-                          variant="purple"
+                          variant="cyan"
                         >
                           {stage.label}
                         </FilterButton>
@@ -622,7 +622,7 @@ export function TalentMarketplace() {
                           key={expertise}
                           active={selectedExpertise.includes(expertise)}
                           onClick={() => toggleExpertise(expertise)}
-                          variant="purple"
+                          variant="cyan"
                         >
                           {expertise}
                         </FilterButton>
@@ -641,7 +641,7 @@ export function TalentMarketplace() {
                           key={industry}
                           active={selectedIndustries.includes(industry)}
                           onClick={() => toggleIndustry(industry)}
-                          variant="purple"
+                          variant="cyan"
                         >
                           {industry}
                         </FilterButton>
@@ -702,7 +702,7 @@ export function TalentMarketplace() {
               {hasActiveFilters && (
                 <button
                   onClick={clearFilters}
-                  className="px-6 py-3 rounded-full bg-purple-500 text-white font-semibold hover:bg-purple-600 transition-all"
+                  className="px-6 py-3 rounded-full bg-cyan-500 text-white font-semibold hover:bg-cyan-600 transition-all"
                 >
                   Clear all filters
                 </button>
@@ -719,7 +719,7 @@ export function TalentMarketplace() {
 interface FilterButtonProps {
   active: boolean
   onClick: () => void
-  variant?: 'default' | 'purple' | 'green' | 'amber'
+  variant?: 'default' | 'cyan' | 'green' | 'amber'
   children: React.ReactNode
   'data-testid'?: string
 }
@@ -736,8 +736,8 @@ function FilterButton({
       ? 'bg-gray-700 text-white'
       : 'bg-gray-800 text-gray-400 hover:bg-gray-700',
     purple: active
-      ? 'bg-purple-500 text-white'
-      : 'bg-purple-500/10 text-purple-300 hover:bg-purple-500/20 border border-purple-500/20',
+      ? 'bg-cyan-500 text-white'
+      : 'bg-cyan-500/10 text-cyan-300 hover:bg-cyan-500/20 border border-cyan-500/20',
     green: active
       ? 'bg-green-500 text-white'
       : 'bg-green-500/10 text-green-300 hover:bg-green-500/20 border border-green-500/20',

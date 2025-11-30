@@ -31,11 +31,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     ...props 
   }, ref) => {
     const variants = {
-      primary: 'bg-gradient-to-r from-neon-blue to-neon-purple text-white hover:shadow-[0_0_20px_rgba(0,149,255,0.5)] disabled:from-gray-600 disabled:to-gray-700',
+      primary: 'bg-gradient-to-r from-neon-blue to-neon-cyan text-white hover:shadow-[0_0_20px_rgba(0,149,255,0.5)] disabled:from-gray-600 disabled:to-gray-700',
       secondary: 'bg-white/5 backdrop-blur-sm border border-white/10 text-white hover:border-white/20 hover:bg-white/10',
       ghost: 'bg-transparent hover:bg-white/5 text-white',
       danger: 'bg-gradient-to-r from-red-600 to-pink-600 text-white hover:shadow-[0_0_20px_rgba(255,0,128,0.5)] disabled:from-gray-600 disabled:to-gray-700',
-      gradient: 'bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:shadow-[0_0_20px_rgba(168,85,247,0.5)] hover:from-purple-700 hover:to-blue-700 disabled:from-gray-600 disabled:to-gray-700'
+      gradient: 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white hover:shadow-[0_0_20px_rgba(168,85,247,0.5)] hover:from-cyan-700 hover:to-blue-700 disabled:from-gray-600 disabled:to-gray-700'
     }
 
     const sizes = {

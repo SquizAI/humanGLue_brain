@@ -116,7 +116,7 @@ export default function TestSentryPage() {
 
               <button
                 onClick={testBreadcrumb}
-                className="px-6 py-4 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
+                className="px-6 py-4 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
               >
                 <Send className="w-5 h-5" />
                 Test Breadcrumb

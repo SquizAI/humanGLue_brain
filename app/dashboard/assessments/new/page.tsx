@@ -507,7 +507,7 @@ export default function NewAssessmentPage() {
             animate={{ opacity: 1, y: 0 }}
             className="max-w-3xl w-full bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-12 text-center"
           >
-            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center mx-auto mb-6">
+            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center mx-auto mb-6">
               <Target className="w-10 h-10 text-white" />
             </div>
 
@@ -524,14 +524,14 @@ export default function NewAssessmentPage() {
                 const Icon = getDimensionIcon(dimension)
                 return (
                   <div key={index} className="bg-white/5 rounded-xl p-4 border border-white/10">
-                    <Icon className="w-6 h-6 text-purple-400 mx-auto mb-2" />
+                    <Icon className="w-6 h-6 text-cyan-400 mx-auto mb-2" />
                     <p className="text-xs text-gray-300 font-diatype">{dimension}</p>
                   </div>
                 )
               })}
             </div>
 
-            <div className="bg-purple-500/10 border border-purple-500/20 rounded-xl p-6 mb-8 text-left">
+            <div className="bg-cyan-500/10 border border-cyan-500/20 rounded-xl p-6 mb-8 text-left">
               <h3 className="text-lg font-semibold text-white mb-3 font-gendy">What to Expect:</h3>
               <ul className="space-y-2 text-sm text-gray-300 font-diatype">
                 <li className="flex gap-2">
@@ -570,7 +570,7 @@ export default function NewAssessmentPage() {
                 onClick={() => setAssessmentStarted(true)}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-8 py-4 bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition-all flex items-center gap-2 font-diatype"
+                className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-cyan-500/50 transition-all flex items-center gap-2 font-diatype"
               >
                 Start Assessment
                 <ArrowRight className="w-5 h-5" />
@@ -606,7 +606,7 @@ export default function NewAssessmentPage() {
             </p>
 
             <div className="flex items-center justify-center gap-2 mb-8">
-              <div className="w-3 h-3 bg-purple-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+              <div className="w-3 h-3 bg-cyan-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
               <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
               <div className="w-3 h-3 bg-cyan-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
             </div>
@@ -632,7 +632,7 @@ export default function NewAssessmentPage() {
           <div className="px-8 py-4">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center">
                   <DimensionIcon className="w-5 h-5 text-white" />
                 </div>
                 <div>
@@ -653,7 +653,7 @@ export default function NewAssessmentPage() {
                 initial={{ width: 0 }}
                 animate={{ width: `${progress}%` }}
                 transition={{ duration: 0.5 }}
-                className="h-full bg-gradient-to-r from-purple-500 to-blue-500"
+                className="h-full bg-gradient-to-r from-cyan-500 to-blue-500"
               />
             </div>
           </div>
@@ -691,13 +691,13 @@ export default function NewAssessmentPage() {
                       whileTap={{ scale: 0.98 }}
                       className={`w-full text-left p-4 rounded-xl border-2 transition-all font-diatype ${
                         currentAnswer === option
-                          ? 'bg-purple-500/20 border-purple-500 text-white'
-                          : 'bg-white/5 border-white/10 text-gray-300 hover:border-purple-500/50'
+                          ? 'bg-cyan-500/20 border-cyan-500 text-white'
+                          : 'bg-white/5 border-white/10 text-gray-300 hover:border-cyan-500/50'
                       }`}
                     >
                       <div className="flex items-center gap-3">
                         <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
-                          currentAnswer === option ? 'border-purple-500 bg-purple-500' : 'border-gray-500'
+                          currentAnswer === option ? 'border-cyan-500 bg-cyan-500' : 'border-gray-500'
                         }`}>
                           {currentAnswer === option && <Check className="w-4 h-4 text-white" />}
                         </div>
@@ -721,7 +721,7 @@ export default function NewAssessmentPage() {
                           className={`w-24 h-24 rounded-full mx-auto mb-4 flex items-center justify-center ${
                             isRecording
                               ? 'bg-red-500 hover:bg-red-600 animate-pulse'
-                              : 'bg-gradient-to-br from-purple-500 to-blue-500 hover:shadow-lg hover:shadow-purple-500/50'
+                              : 'bg-gradient-to-br from-cyan-500 to-blue-500 hover:shadow-lg hover:shadow-cyan-500/50'
                           } transition-all`}
                         >
                           {isRecording ? (
@@ -754,7 +754,7 @@ export default function NewAssessmentPage() {
                             onClick={isPlaying ? pauseRecording : playRecording}
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center hover:shadow-lg hover:shadow-purple-500/50 transition-all"
+                            className="w-16 h-16 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center hover:shadow-lg hover:shadow-cyan-500/50 transition-all"
                           >
                             {isPlaying ? (
                               <Pause className="w-7 h-7 text-white" />
@@ -803,7 +803,7 @@ export default function NewAssessmentPage() {
                     onChange={(e) => setCurrentAnswer(e.target.value)}
                     placeholder="Type your answer here..."
                     rows={6}
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500/50 transition-colors font-diatype resize-none"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 transition-colors font-diatype resize-none"
                   />
                   <p className="text-sm text-gray-400 font-diatype">
                     {currentAnswer.length} characters (minimum 10 characters)
@@ -871,7 +871,7 @@ export default function NewAssessmentPage() {
                   whileTap={canProceed() ? { scale: 0.95 } : {}}
                   className={`px-8 py-3 rounded-xl font-semibold flex items-center gap-2 transition-all font-diatype ${
                     canProceed()
-                      ? 'bg-gradient-to-r from-purple-500 to-blue-500 text-white hover:shadow-lg hover:shadow-purple-500/50'
+                      ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:shadow-lg hover:shadow-cyan-500/50'
                       : 'bg-gray-700 text-gray-500 cursor-not-allowed'
                   }`}
                 >

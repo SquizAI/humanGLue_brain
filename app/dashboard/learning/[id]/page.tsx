@@ -552,7 +552,7 @@ export default function CourseDetail() {
               <BookOpen className="w-16 h-16 text-gray-600 mx-auto mb-4" />
               <h3 className="text-xl font-semibold text-white mb-2">Course not found</h3>
               <Link href="/dashboard/learning">
-                <button className="mt-4 px-6 py-2 bg-purple-500/20 text-purple-300 rounded-lg">
+                <button className="mt-4 px-6 py-2 bg-cyan-500/20 text-cyan-300 rounded-lg">
                   Back to Learning
                 </button>
               </Link>
@@ -602,7 +602,7 @@ export default function CourseDetail() {
                 <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/80 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-8">
                   <div className="flex items-center gap-2 mb-4">
-                    <span className="px-3 py-1 bg-purple-500/90 backdrop-blur-sm rounded-full text-white text-sm font-semibold">
+                    <span className="px-3 py-1 bg-cyan-500/90 backdrop-blur-sm rounded-full text-white text-sm font-semibold">
                       {course.level}
                     </span>
                     <span className="px-3 py-1 bg-blue-500/90 backdrop-blur-sm rounded-full text-white text-sm font-semibold">
@@ -711,7 +711,7 @@ export default function CourseDetail() {
                           <ul className="space-y-2">
                             {module.lessons.map((lesson, j) => (
                               <li key={j} className="flex items-center gap-3 text-gray-300">
-                                <Play className="w-4 h-4 text-purple-400" />
+                                <Play className="w-4 h-4 text-cyan-400" />
                                 {lesson}
                               </li>
                             ))}
@@ -738,7 +738,7 @@ export default function CourseDetail() {
                     <h3 className="text-xl font-bold text-white mb-1">{course.instructor}</h3>
                     <p className="text-gray-400 mb-3">{course.instructorTitle}</p>
                     <Link href={`/dashboard/talent/${course.id}`}>
-                      <button className="text-sm text-purple-400 hover:text-purple-300 transition-colors">
+                      <button className="text-sm text-cyan-400 hover:text-cyan-300 transition-colors">
                         View Full Profile →
                       </button>
                     </Link>
@@ -782,7 +782,7 @@ export default function CourseDetail() {
             {/* Sidebar */}
             <div className="space-y-6">
               {/* Enroll Card */}
-              <div className="bg-gradient-to-br from-purple-900/30 to-blue-900/30 border border-purple-500/30 rounded-xl p-6 sticky top-6">
+              <div className="bg-gradient-to-br from-cyan-900/30 to-blue-900/30 border border-cyan-500/30 rounded-xl p-6 sticky top-6">
                 <div className="text-center mb-6">
                   <div className="text-4xl font-bold text-white mb-2">${course.price}</div>
                   <p className="text-gray-400 text-sm">One-time payment • Lifetime access</p>
@@ -815,7 +815,7 @@ export default function CourseDetail() {
                   whileTap={{ scale: 0.98 }}
                   onClick={handleEnrollNow}
                   disabled={isAddingToCart}
-                  className="w-full px-6 py-4 bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-lg font-semibold text-lg shadow-lg shadow-purple-500/50 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full px-6 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg font-semibold text-lg shadow-lg shadow-cyan-500/50 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Enroll Now
                 </motion.button>
@@ -829,7 +829,7 @@ export default function CourseDetail() {
 
                 <div className="space-y-3 pt-4 border-t border-white/10">
                   <div className="flex items-center gap-3 text-gray-300">
-                    <Video className="w-5 h-5 text-purple-400" />
+                    <Video className="w-5 h-5 text-cyan-400" />
                     <span>{course.lessons} video lessons</span>
                   </div>
                   <div className="flex items-center gap-3 text-gray-300">
@@ -864,7 +864,7 @@ export default function CourseDetail() {
                   {course.skills.map((skill, i) => (
                     <span
                       key={i}
-                      className="px-3 py-1.5 bg-purple-500/10 text-purple-300 text-sm rounded-full border border-purple-500/20"
+                      className="px-3 py-1.5 bg-cyan-500/10 text-cyan-300 text-sm rounded-full border border-cyan-500/20"
                     >
                       {skill}
                     </span>

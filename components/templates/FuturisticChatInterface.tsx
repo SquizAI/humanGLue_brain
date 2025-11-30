@@ -155,14 +155,14 @@ export function FuturisticChatInterface({ onStateChange, userData }: FuturisticC
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             <motion.div 
-              className="p-3 rounded-2xl bg-gradient-to-br from-neon-blue/20 to-neon-purple/20 border border-white/10"
+              className="p-3 rounded-2xl bg-gradient-to-br from-neon-blue/20 to-neon-cyan/20 border border-white/10"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               <Bot className="w-8 h-8 text-neon-blue" />
             </motion.div>
             <div>
-              <h2 className="text-2xl font-bold bg-gradient-to-r from-neon-blue to-neon-purple bg-clip-text text-transparent">
+              <h2 className="text-2xl font-bold bg-gradient-to-r from-neon-blue to-neon-cyan bg-clip-text text-transparent">
                 Human Glue AI
               </h2>
               <div className="flex items-center gap-3 mt-1">

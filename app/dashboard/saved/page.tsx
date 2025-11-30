@@ -166,7 +166,7 @@ export default function SavedItemsPage() {
                 href="/dashboard/learning"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full text-white font-semibold transition-all"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-full text-white font-semibold transition-all"
               >
                 <Sparkles className="w-4 h-4" />
                 Browse Courses
@@ -186,7 +186,7 @@ export default function SavedItemsPage() {
                   className="group bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:border-blue-500/30 transition-all"
                 >
                   {/* Image */}
-                  <div className="relative h-48 bg-gradient-to-br from-blue-600/20 to-purple-600/20">
+                  <div className="relative h-48 bg-gradient-to-br from-blue-600/20 to-cyan-600/20">
                     {item.image ? (
                       <Image
                         src={item.image}
@@ -274,7 +274,7 @@ export default function SavedItemsPage() {
                           onClick={() => handleAddToCart(item)}
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
-                          className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg text-white text-sm font-medium hover:shadow-lg hover:shadow-blue-500/30 transition-all"
+                          className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-lg text-white text-sm font-medium hover:shadow-lg hover:shadow-blue-500/30 transition-all"
                         >
                           <ShoppingCart className="w-4 h-4" />
                           <span>Add</span>

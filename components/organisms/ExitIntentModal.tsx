@@ -46,12 +46,12 @@ export function ExitIntentModal({ isOpen, onClose, onStartAssessment }: ExitInte
               {/* Modal Content */}
               <div className={cn(
                 'relative overflow-hidden rounded-3xl border border-white/10',
-                'bg-gradient-to-br from-gray-900 via-blue-900/30 to-purple-900/30',
+                'bg-gradient-to-br from-gray-900 via-blue-900/30 to-cyan-900/30',
                 'backdrop-blur-xl shadow-2xl'
               )}>
                 {/* Animated gradient orbs */}
                 <div className="absolute top-0 left-0 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl animate-pulse" />
-                <div className="absolute bottom-0 right-0 w-64 h-64 bg-purple-500/20 rounded-full blur-3xl animate-pulse delay-1000" />
+                <div className="absolute bottom-0 right-0 w-64 h-64 bg-cyan-500/20 rounded-full blur-3xl animate-pulse delay-1000" />
 
                 {/* Content */}
                 <div className="relative z-10 p-8 sm:p-12">
@@ -101,7 +101,7 @@ export function ExitIntentModal({ isOpen, onClose, onStartAssessment }: ExitInte
                       'No credit card required'
                     ].map((benefit, index) => (
                       <li key={index} className="flex items-start gap-3">
-                        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center flex-shrink-0 mt-0.5">
                           <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                           </svg>
@@ -123,8 +123,8 @@ export function ExitIntentModal({ isOpen, onClose, onStartAssessment }: ExitInte
                       onClick={onStartAssessment}
                       className={cn(
                         'group flex-1 px-8 py-4 rounded-full font-semibold text-white',
-                        'bg-gradient-to-r from-blue-600 to-purple-600',
-                        'hover:from-blue-500 hover:to-purple-500',
+                        'bg-gradient-to-r from-blue-600 to-cyan-600',
+                        'hover:from-blue-500 hover:to-cyan-500',
                         'transition-all duration-300',
                         'hover:scale-105 hover:shadow-xl hover:shadow-blue-500/30',
                         'flex items-center justify-center gap-2',

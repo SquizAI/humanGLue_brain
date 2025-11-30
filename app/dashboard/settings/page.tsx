@@ -401,7 +401,7 @@ export default function SettingsPage() {
                       whileHover={{ x: 4 }}
                       className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
                         isActive
-                          ? 'bg-gradient-to-r from-purple-500/10 to-blue-500/10 border border-purple-500/30 text-white'
+                          ? 'bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/30 text-white'
                           : 'bg-white/5 border border-white/10 text-gray-400 hover:bg-white/10 hover:text-white'
                       }`}
                     >
@@ -435,7 +435,7 @@ export default function SettingsPage() {
                         {/* Avatar */}
                         <div className="flex items-center gap-6 mb-8">
                           <div className="relative">
-                            <div className="w-24 h-24 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-white text-3xl font-bold font-gendy overflow-hidden">
+                            <div className="w-24 h-24 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center text-white text-3xl font-bold font-gendy overflow-hidden">
                               {avatarPreview ? (
                                 <img
                                   src={avatarPreview}
@@ -448,7 +448,7 @@ export default function SettingsPage() {
                             </div>
                             <label
                               htmlFor="avatar-upload"
-                              className="absolute bottom-0 right-0 p-2 bg-purple-600 rounded-full cursor-pointer hover:bg-purple-700 transition-colors"
+                              className="absolute bottom-0 right-0 p-2 bg-cyan-600 rounded-full cursor-pointer hover:bg-cyan-700 transition-colors"
                             >
                               <Camera className="w-4 h-4 text-white" />
                               <input
@@ -482,7 +482,7 @@ export default function SettingsPage() {
                               onChange={(e) =>
                                 setProfileData({ ...profileData, name: e.target.value })
                               }
-                              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500/30 transition-all font-diatype"
+                              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/30 transition-all font-diatype"
                               placeholder="John Doe"
                             />
                           </div>
@@ -497,7 +497,7 @@ export default function SettingsPage() {
                               onChange={(e) =>
                                 setProfileData({ ...profileData, email: e.target.value })
                               }
-                              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500/30 transition-all font-diatype"
+                              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/30 transition-all font-diatype"
                               placeholder="john@example.com"
                             />
                           </div>
@@ -512,7 +512,7 @@ export default function SettingsPage() {
                               onChange={(e) =>
                                 setProfileData({ ...profileData, role: e.target.value })
                               }
-                              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500/30 transition-all font-diatype"
+                              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/30 transition-all font-diatype"
                               placeholder="Product Manager"
                             />
                           </div>
@@ -527,7 +527,7 @@ export default function SettingsPage() {
                               onChange={(e) =>
                                 setProfileData({ ...profileData, department: e.target.value })
                               }
-                              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500/30 transition-all font-diatype"
+                              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/30 transition-all font-diatype"
                               placeholder="Engineering"
                             />
                           </div>
@@ -542,7 +542,7 @@ export default function SettingsPage() {
                               onChange={(e) =>
                                 setProfileData({ ...profileData, company: e.target.value })
                               }
-                              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500/30 transition-all font-diatype"
+                              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/30 transition-all font-diatype"
                               placeholder="Acme Corp"
                             />
                           </div>
@@ -557,7 +557,7 @@ export default function SettingsPage() {
                                 setProfileData({ ...profileData, bio: e.target.value })
                               }
                               rows={4}
-                              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500/30 transition-all font-diatype resize-none"
+                              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/30 transition-all font-diatype resize-none"
                               placeholder="Tell us about yourself..."
                             />
                           </div>
@@ -570,7 +570,7 @@ export default function SettingsPage() {
                             whileTap={{ scale: 0.98 }}
                             onClick={handleSaveProfile}
                             disabled={isLoading}
-                            className="px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-xl font-semibold hover:from-purple-700 hover:to-blue-700 transition-all inline-flex items-center gap-2 shadow-lg shadow-purple-500/50 font-diatype disabled:opacity-50"
+                            className="px-6 py-3 bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-xl font-semibold hover:from-cyan-700 hover:to-blue-700 transition-all inline-flex items-center gap-2 shadow-lg shadow-cyan-500/50 font-diatype disabled:opacity-50"
                           >
                             {isLoading ? (
                               <>
@@ -624,7 +624,7 @@ export default function SettingsPage() {
                                   })
                                 }
                                 className={`relative w-12 h-6 rounded-full transition-colors ${
-                                  value ? 'bg-purple-600' : 'bg-gray-700'
+                                  value ? 'bg-cyan-600' : 'bg-gray-700'
                                 }`}
                               >
                                 <motion.div
@@ -652,7 +652,7 @@ export default function SettingsPage() {
                               }
                               className={`p-4 rounded-xl border-2 transition-all ${
                                 preferences.dashboardLayout === layout
-                                  ? 'border-purple-500/50 bg-purple-500/10'
+                                  ? 'border-cyan-500/50 bg-cyan-500/10'
                                   : 'border-white/10 bg-white/5 hover:border-white/20'
                               }`}
                             >
@@ -695,7 +695,7 @@ export default function SettingsPage() {
                                   language: e.target.value as 'en' | 'es' | 'fr',
                                 })
                               }
-                              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-purple-500/30 transition-all font-diatype"
+                              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-cyan-500/30 transition-all font-diatype"
                             >
                               <option value="en">English</option>
                               <option value="es">Spanish</option>
@@ -713,7 +713,7 @@ export default function SettingsPage() {
                               onChange={(e) =>
                                 setPreferences({ ...preferences, timezone: e.target.value })
                               }
-                              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-purple-500/30 transition-all font-diatype"
+                              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-cyan-500/30 transition-all font-diatype"
                             >
                               <option value="America/New_York">Eastern Time</option>
                               <option value="America/Chicago">Central Time</option>
@@ -738,7 +738,7 @@ export default function SettingsPage() {
                               disabled={theme === 'light'}
                               className={`p-4 rounded-xl border-2 transition-all ${
                                 preferences.theme === theme
-                                  ? 'border-purple-500/50 bg-purple-500/10'
+                                  ? 'border-cyan-500/50 bg-cyan-500/10'
                                   : 'border-white/10 bg-white/5 hover:border-white/20'
                               } ${theme === 'light' && 'opacity-50 cursor-not-allowed'}`}
                             >
@@ -769,7 +769,7 @@ export default function SettingsPage() {
                           whileTap={{ scale: 0.98 }}
                           onClick={handleSavePreferences}
                           disabled={isLoading}
-                          className="px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-xl font-semibold hover:from-purple-700 hover:to-blue-700 transition-all inline-flex items-center gap-2 shadow-lg shadow-purple-500/50 font-diatype disabled:opacity-50"
+                          className="px-6 py-3 bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-xl font-semibold hover:from-cyan-700 hover:to-blue-700 transition-all inline-flex items-center gap-2 shadow-lg shadow-cyan-500/50 font-diatype disabled:opacity-50"
                         >
                           {isLoading ? (
                             <>
@@ -812,7 +812,7 @@ export default function SettingsPage() {
                               className={`w-full px-4 py-3 bg-white/5 border rounded-xl text-white placeholder-gray-500 focus:outline-none transition-all font-diatype ${
                                 passwordErrors.currentPassword
                                   ? 'border-red-500/30 focus:border-red-500/50'
-                                  : 'border-white/10 focus:border-purple-500/30'
+                                  : 'border-white/10 focus:border-cyan-500/30'
                               }`}
                             />
                             {passwordErrors.currentPassword && (
@@ -835,7 +835,7 @@ export default function SettingsPage() {
                               className={`w-full px-4 py-3 bg-white/5 border rounded-xl text-white placeholder-gray-500 focus:outline-none transition-all font-diatype ${
                                 passwordErrors.newPassword
                                   ? 'border-red-500/30 focus:border-red-500/50'
-                                  : 'border-white/10 focus:border-purple-500/30'
+                                  : 'border-white/10 focus:border-cyan-500/30'
                               }`}
                             />
                             {passwordErrors.newPassword && (
@@ -861,7 +861,7 @@ export default function SettingsPage() {
                               className={`w-full px-4 py-3 bg-white/5 border rounded-xl text-white placeholder-gray-500 focus:outline-none transition-all font-diatype ${
                                 passwordErrors.confirmPassword
                                   ? 'border-red-500/30 focus:border-red-500/50'
-                                  : 'border-white/10 focus:border-purple-500/30'
+                                  : 'border-white/10 focus:border-cyan-500/30'
                               }`}
                             />
                             {passwordErrors.confirmPassword && (
@@ -878,7 +878,7 @@ export default function SettingsPage() {
                             whileTap={{ scale: 0.98 }}
                             onClick={handleChangePassword}
                             disabled={isLoading}
-                            className="px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-xl font-semibold hover:from-purple-700 hover:to-blue-700 transition-all inline-flex items-center gap-2 shadow-lg shadow-purple-500/50 font-diatype disabled:opacity-50"
+                            className="px-6 py-3 bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-xl font-semibold hover:from-cyan-700 hover:to-blue-700 transition-all inline-flex items-center gap-2 shadow-lg shadow-cyan-500/50 font-diatype disabled:opacity-50"
                           >
                             {isLoading ? (
                               <>
@@ -909,7 +909,7 @@ export default function SettingsPage() {
                           <button
                             onClick={() => setTwoFactorEnabled(!twoFactorEnabled)}
                             className={`relative w-12 h-6 rounded-full transition-colors ${
-                              twoFactorEnabled ? 'bg-purple-600' : 'bg-gray-700'
+                              twoFactorEnabled ? 'bg-cyan-600' : 'bg-gray-700'
                             }`}
                           >
                             <motion.div
@@ -948,8 +948,8 @@ export default function SettingsPage() {
                               className="flex items-center justify-between p-4 bg-white/5 rounded-xl"
                             >
                               <div className="flex items-start gap-3">
-                                <div className="p-2 bg-purple-500/10 rounded-lg">
-                                  <Smartphone className="w-5 h-5 text-purple-400" />
+                                <div className="p-2 bg-cyan-500/10 rounded-lg">
+                                  <Smartphone className="w-5 h-5 text-cyan-400" />
                                 </div>
                                 <div>
                                   <h3 className="text-white font-medium font-diatype">
@@ -1034,14 +1034,14 @@ export default function SettingsPage() {
                             value={inviteEmail}
                             onChange={(e) => setInviteEmail(e.target.value)}
                             placeholder="colleague@company.com"
-                            className="flex-1 px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500/30 transition-all font-diatype"
+                            className="flex-1 px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/30 transition-all font-diatype"
                           />
                           <motion.button
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                             onClick={handleInviteTeamMember}
                             disabled={isLoading}
-                            className="px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-xl font-semibold hover:from-purple-700 hover:to-blue-700 transition-all inline-flex items-center gap-2 shadow-lg shadow-purple-500/50 font-diatype disabled:opacity-50"
+                            className="px-6 py-3 bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-xl font-semibold hover:from-cyan-700 hover:to-blue-700 transition-all inline-flex items-center gap-2 shadow-lg shadow-cyan-500/50 font-diatype disabled:opacity-50"
                           >
                             {isLoading ? (
                               <>
@@ -1070,7 +1070,7 @@ export default function SettingsPage() {
                               className="flex items-center justify-between p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-all"
                             >
                               <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-white font-bold font-gendy">
+                                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center text-white font-bold font-gendy">
                                   {member.name.charAt(0)}
                                 </div>
                                 <div>
@@ -1083,7 +1083,7 @@ export default function SettingsPage() {
                                 </div>
                               </div>
                               <div className="flex items-center gap-4">
-                                <span className="px-3 py-1 bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs font-semibold rounded-full font-diatype">
+                                <span className="px-3 py-1 bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-semibold rounded-full font-diatype">
                                   {member.role}
                                 </span>
                                 <span

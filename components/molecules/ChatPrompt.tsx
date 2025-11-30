@@ -91,7 +91,7 @@ export function ChatPrompt({
           >
             {/* Pulsing rings */}
             <motion.div
-              className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500 to-purple-500"
+              className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500 to-cyan-500"
               animate={{
                 scale: [1, 1.2, 1],
                 opacity: [0.5, 0, 0.5],
@@ -103,7 +103,7 @@ export function ChatPrompt({
               }}
             />
             <motion.div
-              className="absolute inset-0 rounded-2xl bg-gradient-to-r from-purple-500 to-blue-500"
+              className="absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-500"
               animate={{
                 scale: [1, 1.3, 1],
                 opacity: [0.3, 0, 0.3],
@@ -117,7 +117,7 @@ export function ChatPrompt({
             />
 
             {/* Main prompt card */}
-            <div className="relative bg-gradient-to-br from-gray-900 via-blue-900/30 to-purple-900/30 backdrop-blur-xl border border-white/20 rounded-2xl px-6 py-4 shadow-2xl hover:shadow-blue-500/20 transition-all duration-300 group-hover:scale-105">
+            <div className="relative bg-gradient-to-br from-gray-900 via-blue-900/30 to-cyan-900/30 backdrop-blur-xl border border-white/20 rounded-2xl px-6 py-4 shadow-2xl hover:shadow-blue-500/20 transition-all duration-300 group-hover:scale-105">
               {/* Close button */}
               <button
                 onClick={handleDismiss}
@@ -131,7 +131,7 @@ export function ChatPrompt({
               <div className="flex items-center gap-3">
                 {/* Icon */}
                 <div className="relative">
-                  <div className="p-3 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-xl border border-white/20">
+                  <div className="p-3 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-xl border border-white/20">
                     <MessageCircle className="w-6 h-6 text-blue-400" />
                   </div>
                   {/* Notification dot */}

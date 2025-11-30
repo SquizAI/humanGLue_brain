@@ -275,7 +275,7 @@ export default function ExpertProfile() {
               <Users className="w-16 h-16 text-gray-600 mx-auto mb-4" />
               <h3 className="text-xl font-semibold text-white mb-2">Expert not found</h3>
               <Link href="/dashboard/talent">
-                <button className="mt-4 px-6 py-2 bg-purple-500/20 text-purple-300 rounded-lg">
+                <button className="mt-4 px-6 py-2 bg-cyan-500/20 text-cyan-300 rounded-lg">
                   Back to Expert Network
                 </button>
               </Link>
@@ -299,7 +299,7 @@ export default function ExpertProfile() {
           </Link>
 
           {/* Header */}
-          <div className="bg-gradient-to-br from-purple-900/30 to-blue-900/30 border border-purple-500/30 rounded-2xl p-8 mb-8">
+          <div className="bg-gradient-to-br from-cyan-900/30 to-blue-900/30 border border-cyan-500/30 rounded-2xl p-8 mb-8">
             <div className="flex flex-col md:flex-row gap-6">
               <div className="relative">
                 <Image
@@ -338,7 +338,7 @@ export default function ExpertProfile() {
                   {expert.expertise.map((skill, i) => (
                     <span
                       key={i}
-                      className="px-3 py-1.5 bg-purple-500/10 text-purple-300 text-sm rounded-full border border-purple-500/20"
+                      className="px-3 py-1.5 bg-cyan-500/10 text-cyan-300 text-sm rounded-full border border-cyan-500/20"
                     >
                       {skill}
                     </span>
@@ -352,7 +352,7 @@ export default function ExpertProfile() {
                   </div>
                   <motion.button
                     whileHover={{ scale: 1.02 }}
-                    className="px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-lg font-semibold flex items-center gap-2"
+                    className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg font-semibold flex items-center gap-2"
                   >
                     <Mail className="w-4 h-4" />
                     Request Consultation
@@ -422,7 +422,7 @@ export default function ExpertProfile() {
                 <ul className="space-y-2">
                   {expert.certifications.map((cert, i) => (
                     <li key={i} className="flex items-start gap-2">
-                      <Award className="w-4 h-4 text-purple-400 flex-shrink-0 mt-0.5" />
+                      <Award className="w-4 h-4 text-cyan-400 flex-shrink-0 mt-0.5" />
                       <span className="text-sm text-gray-300">{cert}</span>
                     </li>
                   ))}

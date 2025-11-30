@@ -115,7 +115,7 @@ export function PlanChangeModal({ isOpen, onClose, targetTier }: PlanChangeModal
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.9, opacity: 0 }}
           onClick={(e) => e.stopPropagation()}
-          className="bg-gray-900 border border-purple-500/30 rounded-2xl max-w-6xl w-full max-h-[90vh] overflow-y-auto"
+          className="bg-gray-900 border border-cyan-500/30 rounded-2xl max-w-6xl w-full max-h-[90vh] overflow-y-auto"
         >
           {/* Header */}
           <div className="sticky top-0 bg-gray-900 border-b border-white/10 p-6 flex items-center justify-between">
@@ -148,7 +148,7 @@ export function PlanChangeModal({ isOpen, onClose, targetTier }: PlanChangeModal
                     onClick={() => setSelectedCycle(cycle)}
                     className={`flex-1 px-6 py-4 rounded-xl font-medium transition-all font-diatype ${
                       selectedCycle === cycle
-                        ? 'bg-purple-500/20 border-2 border-purple-500/50 text-white'
+                        ? 'bg-cyan-500/20 border-2 border-cyan-500/50 text-white'
                         : 'bg-white/5 border border-white/10 text-gray-400 hover:bg-white/10'
                     }`}
                   >
@@ -171,7 +171,7 @@ export function PlanChangeModal({ isOpen, onClose, targetTier }: PlanChangeModal
               <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
                 <div className="text-sm text-gray-400 mb-2 font-diatype">Current Plan</div>
                 <div className="flex items-center gap-2 mb-4">
-                  <Crown className="w-6 h-6 text-purple-400" />
+                  <Crown className="w-6 h-6 text-cyan-400" />
                   <h3 className="text-2xl font-bold text-white font-gendy">
                     {currentPlan.name}
                   </h3>
@@ -207,14 +207,14 @@ export function PlanChangeModal({ isOpen, onClose, targetTier }: PlanChangeModal
 
               {/* Selected Plan */}
               <div className={`border-2 rounded-2xl p-6 ${
-                isUpgrade ? 'bg-gradient-to-br from-purple-900/30 to-blue-900/30 border-purple-500/50' :
+                isUpgrade ? 'bg-gradient-to-br from-cyan-900/30 to-blue-900/30 border-cyan-500/50' :
                 isDowngrade ? 'bg-gradient-to-br from-gray-900/30 to-gray-800/30 border-gray-500/50' :
                 'bg-white/5 border-white/10'
               }`}>
                 <div className="flex items-center justify-between mb-2">
                   <div className="text-sm text-gray-400 font-diatype">New Plan</div>
                   {isUpgrade && (
-                    <div className="px-3 py-1 bg-purple-500/20 border border-purple-500/30 text-purple-300 text-xs font-semibold rounded-full font-diatype flex items-center gap-1">
+                    <div className="px-3 py-1 bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 text-xs font-semibold rounded-full font-diatype flex items-center gap-1">
                       <TrendingUp className="w-3 h-3" />
                       Upgrade
                     </div>
@@ -231,7 +231,7 @@ export function PlanChangeModal({ isOpen, onClose, targetTier }: PlanChangeModal
                   <select
                     value={selectedTier}
                     onChange={(e) => setSelectedTier(e.target.value as SubscriptionTier)}
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-purple-500/30 transition-all font-gendy text-xl font-bold mb-3"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-cyan-500/30 transition-all font-gendy text-xl font-bold mb-3"
                   >
                     {availablePlans.map((plan) => (
                       <option key={plan.name} value={plan.name.toLowerCase()}>
@@ -371,7 +371,7 @@ export function PlanChangeModal({ isOpen, onClose, targetTier }: PlanChangeModal
               <button
                 onClick={handleConfirm}
                 disabled={isSamePlan || isSubmitting}
-                className="flex-1 px-6 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-xl font-semibold hover:from-purple-700 hover:to-blue-700 transition-all shadow-lg shadow-purple-500/50 font-diatype disabled:opacity-50 flex items-center justify-center gap-2"
+                className="flex-1 px-6 py-4 bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-xl font-semibold hover:from-cyan-700 hover:to-blue-700 transition-all shadow-lg shadow-cyan-500/50 font-diatype disabled:opacity-50 flex items-center justify-center gap-2"
               >
                 {isSubmitting ? (
                   <>
@@ -407,8 +407,8 @@ interface FeatureItemProps {
 
 function FeatureItem({ icon: Icon, text, highlighted }: FeatureItemProps) {
   return (
-    <div className={`flex items-center gap-3 ${highlighted ? 'text-purple-300' : 'text-gray-300'}`}>
-      <div className={`p-1 rounded-lg ${highlighted ? 'bg-purple-500/20' : 'bg-white/5'}`}>
+    <div className={`flex items-center gap-3 ${highlighted ? 'text-cyan-300' : 'text-gray-300'}`}>
+      <div className={`p-1 rounded-lg ${highlighted ? 'bg-cyan-500/20' : 'bg-white/5'}`}>
         <Icon className="w-4 h-4" />
       </div>
       <span className="font-diatype text-sm">{text}</span>

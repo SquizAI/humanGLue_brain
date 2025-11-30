@@ -36,7 +36,7 @@ export function CartIcon({ className, variant = 'default' }: CartIconProps) {
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0 }}
-              className="absolute -top-2 -right-2 min-w-[18px] h-[18px] flex items-center justify-center bg-gradient-to-r from-purple-500 to-blue-500 rounded-full"
+              className="absolute -top-2 -right-2 min-w-[18px] h-[18px] flex items-center justify-center bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full"
             >
               <motion.span
                 key={itemCount}

@@ -80,7 +80,7 @@ export default function ExpertResourcesPage() {
 
   const getTypeColor = (type: string) => {
     switch (type) {
-      case 'template': return 'text-purple-400 bg-purple-500/20 border-purple-500/30'
+      case 'template': return 'text-cyan-400 bg-cyan-500/20 border-cyan-500/30'
       case 'guide': return 'text-blue-400 bg-blue-500/20 border-blue-500/30'
       case 'document': return 'text-cyan-400 bg-cyan-500/20 border-cyan-500/30'
       default: return 'text-gray-400 bg-gray-500/20 border-gray-500/30'
@@ -99,7 +99,7 @@ export default function ExpertResourcesPage() {
               <h1 className="text-3xl font-bold text-white mb-2 font-gendy">Resources</h1>
               <p className="text-gray-400 font-diatype">Share materials and documents with clients</p>
             </div>
-            <button className="px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white font-semibold rounded-xl transition-all font-diatype flex items-center gap-2">
+            <button className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-semibold rounded-xl transition-all font-diatype flex items-center gap-2">
               <Upload className="w-5 h-5" />
               Upload Resource
             </button>
@@ -114,7 +114,7 @@ export default function ExpertResourcesPage() {
                 placeholder="Search resources..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 font-diatype"
+                className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 font-diatype"
               />
             </div>
             <div className="flex gap-2">
@@ -124,7 +124,7 @@ export default function ExpertResourcesPage() {
                   onClick={() => setFilterType(type as any)}
                   className={`px-4 py-3 rounded-xl transition-all font-diatype ${
                     filterType === type
-                      ? 'bg-purple-500/20 text-purple-400 border border-purple-500/30'
+                      ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30'
                       : 'bg-white/5 text-gray-400 border border-white/10 hover:bg-white/10'
                   }`}
                 >
@@ -147,8 +147,8 @@ export default function ExpertResourcesPage() {
                 <div className="flex items-start justify-between">
                   <div className="flex items-start gap-4 flex-1">
                     {/* Icon */}
-                    <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center">
-                      <FileText className="w-6 h-6 text-purple-400" />
+                    <div className="w-12 h-12 bg-cyan-500/20 rounded-lg flex items-center justify-center">
+                      <FileText className="w-6 h-6 text-cyan-400" />
                     </div>
 
                     {/* Resource Info */}
@@ -204,7 +204,7 @@ export default function ExpertResourcesPage() {
               <span className="text-sm text-gray-400 font-diatype">2.1 GB of 10 GB used</span>
             </div>
             <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
-              <div className="bg-gradient-to-r from-purple-500 to-blue-500 h-full rounded-full" style={{ width: '21%' }} />
+              <div className="bg-gradient-to-r from-cyan-500 to-blue-500 h-full rounded-full" style={{ width: '21%' }} />
             </div>
           </div>
         </div>

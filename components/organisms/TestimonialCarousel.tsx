@@ -69,7 +69,7 @@ export function TestimonialCarousel({
       <div className="relative bg-gradient-to-b from-gray-900/50 to-gray-900/80 backdrop-blur-sm rounded-3xl border border-gray-800 overflow-hidden">
         {/* Background decoration */}
         <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl" />
 
         <div className="relative z-10 p-8 lg:p-12">
           <AnimatePresence mode="wait">
@@ -139,7 +139,7 @@ export function TestimonialCarousel({
                       className="rounded-full"
                     />
                   ) : (
-                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold text-lg">
+                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white font-bold text-lg">
                       {currentTestimonial.name.charAt(0)}
                     </div>
                   )}

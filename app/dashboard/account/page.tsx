@@ -130,7 +130,7 @@ export default function AccountPage() {
                 onClick={() => setActiveView(view.id)}
                 className={`px-6 py-3 rounded-xl font-semibold transition-all font-diatype ${
                   activeView === view.id
-                    ? 'bg-gradient-to-r from-purple-500/20 to-blue-500/20 border border-purple-500/30 text-white'
+                    ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-500/30 text-white'
                     : 'bg-white/5 border border-white/10 text-gray-400 hover:bg-white/10 hover:text-white'
                 }`}
               >
@@ -147,12 +147,12 @@ export default function AccountPage() {
                 {/* Current Plan */}
                 <motion.div
                   whileHover={{ scale: 1.02 }}
-                  className="bg-gradient-to-br from-purple-900/30 to-blue-900/30 backdrop-blur-xl border border-purple-500/30 rounded-2xl p-6 cursor-pointer"
+                  className="bg-gradient-to-br from-cyan-900/30 to-blue-900/30 backdrop-blur-xl border border-cyan-500/30 rounded-2xl p-6 cursor-pointer"
                   onClick={() => setActiveView('subscription')}
                 >
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="p-3 bg-purple-500/10 rounded-lg">
-                      <Crown className="w-6 h-6 text-purple-400" />
+                    <div className="p-3 bg-cyan-500/10 rounded-lg">
+                      <Crown className="w-6 h-6 text-cyan-400" />
                     </div>
                     <div className="flex-1">
                       <div className="text-sm text-gray-400 font-diatype">Current Plan</div>
@@ -246,7 +246,7 @@ export default function AccountPage() {
                   <h2 className="text-xl font-semibold text-white font-gendy">Usage Overview</h2>
                   <button
                     onClick={() => setActiveView('subscription')}
-                    className="text-purple-400 hover:text-purple-300 transition-colors font-diatype text-sm flex items-center gap-2"
+                    className="text-cyan-400 hover:text-cyan-300 transition-colors font-diatype text-sm flex items-center gap-2"
                   >
                     View Details
                     <ChevronRight className="w-4 h-4" />
@@ -259,7 +259,7 @@ export default function AccountPage() {
                     label="Assessments"
                     used={usage.assessments.used}
                     limit={usage.assessments.limit}
-                    color="purple"
+                    color="cyan"
                   />
                   <UsageCard
                     icon={Database}
@@ -319,8 +319,8 @@ export default function AccountPage() {
                       key={activity.id}
                       className="flex items-center gap-4 p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-all"
                     >
-                      <div className="p-2 bg-purple-500/10 rounded-lg">
-                        {activity.type === 'assessment' && <Activity className="w-5 h-5 text-purple-400" />}
+                      <div className="p-2 bg-cyan-500/10 rounded-lg">
+                        {activity.type === 'assessment' && <Activity className="w-5 h-5 text-cyan-400" />}
                         {activity.type === 'payment' && <CreditCard className="w-5 h-5 text-green-400" />}
                         {activity.type === 'team' && <Users className="w-5 h-5 text-blue-400" />}
                         {activity.type === 'security' && <Shield className="w-5 h-5 text-amber-400" />}
@@ -399,7 +399,7 @@ interface UsageCardProps {
   used: number
   limit: number
   unit?: string
-  color: 'purple' | 'blue' | 'amber'
+  color: 'cyan' | 'blue' | 'amber'
 }
 
 function UsageCard({ icon: Icon, label, used, limit, unit = '', color }: UsageCardProps) {
@@ -407,7 +407,7 @@ function UsageCard({ icon: Icon, label, used, limit, unit = '', color }: UsageCa
   const isUnlimited = limit === -1
 
   const colorClasses = {
-    purple: 'from-purple-500 to-blue-500',
+    purple: 'from-cyan-500 to-blue-500',
     blue: 'from-blue-500 to-cyan-500',
     amber: 'from-amber-500 to-orange-500'
   }
@@ -456,10 +456,10 @@ function QuickActionButton({ icon: Icon, label, description, onClick }: QuickAct
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
       onClick={onClick}
-      className="flex items-center gap-4 p-4 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 hover:border-purple-500/30 transition-all text-left"
+      className="flex items-center gap-4 p-4 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 hover:border-cyan-500/30 transition-all text-left"
     >
-      <div className="p-3 bg-purple-500/10 rounded-lg">
-        <Icon className="w-6 h-6 text-purple-400" />
+      <div className="p-3 bg-cyan-500/10 rounded-lg">
+        <Icon className="w-6 h-6 text-cyan-400" />
       </div>
       <div className="flex-1">
         <div className="text-white font-semibold font-diatype">{label}</div>
@@ -487,7 +487,7 @@ function SecurityItem({ icon: Icon, label, status, statusColor, lastUpdated, onC
       onClick={onClick}
     >
       <div className="flex items-center gap-3 mb-3">
-        <Icon className="w-5 h-5 text-purple-400" />
+        <Icon className="w-5 h-5 text-cyan-400" />
         <div className="text-sm text-gray-400 font-diatype">{label}</div>
       </div>
       <div className={`text-lg font-semibold font-gendy ${statusColor}`}>{status}</div>

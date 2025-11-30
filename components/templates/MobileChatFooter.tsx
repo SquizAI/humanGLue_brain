@@ -120,7 +120,7 @@ export function MobileChatFooter({ onSendMessage, isTyping, isVisible }: MobileC
                     disabled={isTyping || !input.trim()}
                     className={cn(
                       'px-4 py-3 rounded-xl',
-                      'bg-gradient-to-r from-blue-500 to-purple-500',
+                      'bg-gradient-to-r from-blue-500 to-cyan-500',
                       'text-white font-medium',
                       'transition-all duration-200',
                       'disabled:opacity-50 disabled:cursor-not-allowed',

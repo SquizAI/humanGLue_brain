@@ -92,8 +92,8 @@ const activityConfig: Record<ActivityType, {
   },
   course_enrolled: {
     icon: PlayCircle,
-    color: 'text-purple-400',
-    bgColor: 'bg-purple-500/20',
+    color: 'text-cyan-400',
+    bgColor: 'bg-cyan-500/20',
     category: 'Courses'
   },
   assessment_completed: {
@@ -520,7 +520,7 @@ export default function ActivityFeedPage() {
                   className={cn(
                     'p-2 rounded-lg transition-all',
                     soundEnabled
-                      ? 'bg-purple-500/20 text-purple-400 border border-purple-500/30'
+                      ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30'
                       : 'bg-white/5 text-gray-400 border border-white/10 hover:bg-white/10'
                   )}
                 >
@@ -550,7 +550,7 @@ export default function ActivityFeedPage() {
                   placeholder="Search activities, users, or actions..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500/50 focus:bg-white/10 transition-all font-diatype"
+                  className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 focus:bg-white/10 transition-all font-diatype"
                 />
               </div>
 
@@ -563,7 +563,7 @@ export default function ActivityFeedPage() {
                     className={cn(
                       'px-4 py-2 rounded-md text-sm font-medium transition-all font-diatype',
                       selectedCategory === category
-                        ? 'bg-purple-500 text-white shadow-lg shadow-purple-500/50'
+                        ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/50'
                         : 'text-gray-400 hover:text-white hover:bg-white/10'
                     )}
                   >
@@ -582,9 +582,9 @@ export default function ActivityFeedPage() {
                   exit={{ height: 0, opacity: 0 }}
                   className="mt-4 overflow-hidden"
                 >
-                  <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-purple-500/20 to-blue-500/20 rounded-lg border border-purple-500/30">
+                  <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-lg border border-cyan-500/30">
                     <div className="flex items-center gap-3">
-                      <Bell className="w-5 h-5 text-purple-400" />
+                      <Bell className="w-5 h-5 text-cyan-400" />
                       <span className="text-sm font-medium text-white font-diatype">
                         {newActivityCount} new {newActivityCount === 1 ? 'activity' : 'activities'} available
                       </span>
@@ -593,7 +593,7 @@ export default function ActivityFeedPage() {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={handleLoadNewActivities}
-                      className="px-4 py-2 bg-purple-500 text-white text-sm font-medium rounded-lg font-diatype"
+                      className="px-4 py-2 bg-cyan-500 text-white text-sm font-medium rounded-lg font-diatype"
                     >
                       Load New Activities
                     </motion.button>
@@ -612,7 +612,7 @@ export default function ActivityFeedPage() {
                 {/* Date Header */}
                 <div className="sticky top-[180px] z-20 mb-6">
                   <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-900/95 backdrop-blur-xl border border-white/10 rounded-lg">
-                    <Clock className="w-4 h-4 text-purple-400" />
+                    <Clock className="w-4 h-4 text-cyan-400" />
                     <span className="text-sm font-semibold text-white font-diatype">{dateLabel}</span>
                     <span className="text-xs text-gray-500 font-diatype">({dateActivities.length})</span>
                   </div>
@@ -621,7 +621,7 @@ export default function ActivityFeedPage() {
                 {/* Activities */}
                 <div className="relative">
                   {/* Timeline Line */}
-                  <div className="absolute left-[21px] top-0 bottom-0 w-px bg-gradient-to-b from-purple-500/50 via-blue-500/30 to-transparent" />
+                  <div className="absolute left-[21px] top-0 bottom-0 w-px bg-gradient-to-b from-cyan-500/50 via-blue-500/30 to-transparent" />
 
                   <div className="space-y-4">
                     {dateActivities.map((activity, index) => {
@@ -643,8 +643,8 @@ export default function ActivityFeedPage() {
                             className={cn(
                               'relative pl-16 pr-6 py-4 rounded-xl border transition-all cursor-pointer group',
                               isSelected
-                                ? 'bg-purple-500/10 border-purple-500/30'
-                                : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-purple-500/30'
+                                ? 'bg-cyan-500/10 border-cyan-500/30'
+                                : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-cyan-500/30'
                             )}
                             onClick={() => setSelectedActivity(activity)}
                           >
@@ -665,7 +665,7 @@ export default function ActivityFeedPage() {
                               <div className="flex-1 min-w-0">
                                 <div className="flex items-center gap-3 mb-2">
                                   {/* User Avatar */}
-                                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-white text-xs font-bold font-diatype">
+                                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center text-white text-xs font-bold font-diatype">
                                     {activity.user.avatar}
                                   </div>
 
@@ -690,7 +690,7 @@ export default function ActivityFeedPage() {
                                 {activity.metadata && (
                                   <div className="mt-3 flex flex-wrap gap-2">
                                     {activity.metadata.courseName && (
-                                      <div className="flex items-center gap-1 px-2 py-1 bg-purple-500/10 rounded text-xs text-purple-400 font-diatype">
+                                      <div className="flex items-center gap-1 px-2 py-1 bg-cyan-500/10 rounded text-xs text-cyan-400 font-diatype">
                                         <PlayCircle className="w-3 h-3" />
                                         {activity.metadata.courseName}
                                       </div>
@@ -818,7 +818,7 @@ export default function ActivityFeedPage() {
                     User Information
                   </h3>
                   <div className="flex items-center gap-4 p-4 bg-white/5 rounded-lg border border-white/10">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-white font-bold font-diatype">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center text-white font-bold font-diatype">
                       {selectedActivity.user.avatar}
                     </div>
                     <div>
@@ -879,7 +879,7 @@ export default function ActivityFeedPage() {
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="flex-1 px-4 py-3 bg-purple-500 text-white rounded-lg font-medium font-diatype"
+                    className="flex-1 px-4 py-3 bg-cyan-500 text-white rounded-lg font-medium font-diatype"
                   >
                     View User Profile
                   </motion.button>

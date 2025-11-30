@@ -501,13 +501,13 @@ Provide helpful, personalized advice about organizational transformation.`
               animate={{ opacity: 1, y: 0 }}
               className="flex items-center gap-3 mb-4"
             >
-              <div className="flex items-center gap-2 px-4 py-3 rounded-2xl bg-purple-800/50 backdrop-blur-sm border border-purple-700/50">
+              <div className="flex items-center gap-2 px-4 py-3 rounded-2xl bg-cyan-800/50 backdrop-blur-sm border border-cyan-700/50">
                 <div className="flex gap-1">
-                  <span className="w-2 h-2 bg-purple-400 rounded-full animate-pulse" />
-                  <span className="w-2 h-2 bg-purple-400 rounded-full animate-pulse" style={{ animationDelay: '150ms' }} />
-                  <span className="w-2 h-2 bg-purple-400 rounded-full animate-pulse" style={{ animationDelay: '300ms' }} />
+                  <span className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse" />
+                  <span className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse" style={{ animationDelay: '150ms' }} />
+                  <span className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse" style={{ animationDelay: '300ms' }} />
                 </div>
-                <Text size="sm" className="text-purple-300">Analyzing website for insights...</Text>
+                <Text size="sm" className="text-cyan-300">Analyzing website for insights...</Text>
               </div>
             </motion.div>
           )}
@@ -583,7 +583,7 @@ Provide helpful, personalized advice about organizational transformation.`
               className={cn(
                 'p-3 rounded-xl transition-all duration-200',
                 'min-w-[48px] min-h-[48px] flex items-center justify-center',
-                'bg-gradient-to-r from-blue-500 to-purple-500',
+                'bg-gradient-to-r from-blue-500 to-cyan-500',
                 'hover:shadow-lg hover:shadow-blue-500/25',
                 'disabled:opacity-50 disabled:cursor-not-allowed'
               )}
@@ -685,13 +685,13 @@ Provide helpful, personalized advice about organizational transformation.`
               animate={{ opacity: 1, y: 0 }}
               className="flex items-center gap-3 mb-4"
             >
-              <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-purple-500/10 backdrop-blur-sm">
+              <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-500/10 backdrop-blur-sm">
                 <div className="flex gap-1">
-                  <span className="w-2 h-2 bg-purple-400 rounded-full animate-pulse" />
-                  <span className="w-2 h-2 bg-purple-400 rounded-full animate-pulse" style={{ animationDelay: '150ms' }} />
-                  <span className="w-2 h-2 bg-purple-400 rounded-full animate-pulse" style={{ animationDelay: '300ms' }} />
+                  <span className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse" />
+                  <span className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse" style={{ animationDelay: '150ms' }} />
+                  <span className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse" style={{ animationDelay: '300ms' }} />
                 </div>
-                <Text size="xs" className="text-purple-400">Analyzing ${localUserData.current.company || 'company'} website...</Text>
+                <Text size="xs" className="text-cyan-400">Analyzing ${localUserData.current.company || 'company'} website...</Text>
               </div>
             </motion.div>
           )}
@@ -782,7 +782,7 @@ Provide helpful, personalized advice about organizational transformation.`
               className="hidden sm:block p-3 rounded-xl bg-white/5 border border-white/10 transition-all backdrop-blur-sm"
               title="Attach file (coming soon)"
             >
-              <Paperclip className="w-4 h-4 text-gray-400 hover:text-purple-400 transition-colors" />
+              <Paperclip className="w-4 h-4 text-gray-400 hover:text-cyan-400 transition-colors" />
             </motion.button>
           </div>
 

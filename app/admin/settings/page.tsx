@@ -126,7 +126,7 @@ export default function SettingsAdmin() {
                         onClick={() => setActiveTab(tab.id)}
                         className={`w-full px-4 py-3 rounded-xl transition-all flex items-center gap-3 font-diatype ${
                           activeTab === tab.id
-                            ? 'bg-purple-500/20 border border-purple-500/30 text-purple-300'
+                            ? 'bg-cyan-500/20 border border-cyan-500/30 text-cyan-300'
                             : 'bg-transparent hover:bg-white/5 text-gray-400'
                         }`}
                       >
@@ -153,7 +153,7 @@ export default function SettingsAdmin() {
                         type="text"
                         value={settings.platformName}
                         onChange={(e) => setSettings({ ...settings, platformName: e.target.value })}
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all font-diatype"
+                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-diatype"
                       />
                     </div>
                     <div>
@@ -164,7 +164,7 @@ export default function SettingsAdmin() {
                         type="url"
                         value={settings.platformUrl}
                         onChange={(e) => setSettings({ ...settings, platformUrl: e.target.value })}
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all font-diatype"
+                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-diatype"
                       />
                     </div>
                     <div>
@@ -175,7 +175,7 @@ export default function SettingsAdmin() {
                         type="email"
                         value={settings.supportEmail}
                         onChange={(e) => setSettings({ ...settings, supportEmail: e.target.value })}
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all font-diatype"
+                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-diatype"
                       />
                     </div>
                   </div>
@@ -252,7 +252,7 @@ export default function SettingsAdmin() {
                         type="number"
                         value={settings.apiRateLimit}
                         onChange={(e) => setSettings({ ...settings, apiRateLimit: parseInt(e.target.value) })}
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all font-diatype"
+                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-diatype"
                       />
                     </div>
                   </div>
@@ -269,7 +269,7 @@ export default function SettingsAdmin() {
                         type="url"
                         value={settings.supabaseUrl}
                         onChange={(e) => setSettings({ ...settings, supabaseUrl: e.target.value })}
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all font-diatype"
+                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-diatype"
                       />
                     </div>
                     <div>
@@ -280,7 +280,7 @@ export default function SettingsAdmin() {
                         type="text"
                         value={settings.stripePublicKey}
                         onChange={(e) => setSettings({ ...settings, stripePublicKey: e.target.value })}
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all font-diatype"
+                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-diatype"
                       />
                     </div>
                     <div>
@@ -291,7 +291,7 @@ export default function SettingsAdmin() {
                         type="password"
                         value={settings.openaiApiKey}
                         onChange={(e) => setSettings({ ...settings, openaiApiKey: e.target.value })}
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all font-diatype"
+                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-diatype"
                       />
                     </div>
                   </div>

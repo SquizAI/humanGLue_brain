@@ -72,8 +72,8 @@ export function CartDrawer() {
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-white/10">
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-purple-500/20">
-                  <ShoppingBag className="w-5 h-5 text-purple-400" />
+                <div className="p-2 rounded-lg bg-cyan-500/20">
+                  <ShoppingBag className="w-5 h-5 text-cyan-400" />
                 </div>
                 <div>
                   <h2 className="text-xl font-bold text-white font-gendy">Shopping Cart</h2>
@@ -108,7 +108,7 @@ export function CartDrawer() {
                   <Link href="/dashboard/learning">
                     <button
                       onClick={() => setIsCartOpen(false)}
-                      className="px-6 py-3 rounded-lg bg-gradient-to-r from-purple-500 to-blue-500 text-white font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition-all font-diatype"
+                      className="px-6 py-3 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold hover:shadow-lg hover:shadow-cyan-500/50 transition-all font-diatype"
                     >
                       Browse Courses
                     </button>
@@ -162,7 +162,7 @@ export function CartDrawer() {
                               className={cn(
                                 'px-2 py-0.5 rounded-full text-xs font-medium',
                                 item.type === 'course' && 'bg-blue-500/20 text-blue-300',
-                                item.type === 'workshop' && 'bg-purple-500/20 text-purple-300',
+                                item.type === 'workshop' && 'bg-cyan-500/20 text-cyan-300',
                                 item.type === 'consultation' && 'bg-amber-500/20 text-amber-300'
                               )}
                             >
@@ -250,11 +250,11 @@ export function CartDrawer() {
                           setCouponError('')
                         }}
                         placeholder="Enter code"
-                        className="flex-1 px-3 py-2 bg-gray-900 border border-white/10 rounded-lg text-white text-sm focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                        className="flex-1 px-3 py-2 bg-gray-900 border border-white/10 rounded-lg text-white text-sm focus:outline-none focus:border-cyan-500/50 transition-all font-diatype"
                       />
                       <button
                         onClick={handleApplyCoupon}
-                        className="px-4 py-2 bg-purple-500/20 text-purple-300 rounded-lg hover:bg-purple-500/30 transition-colors text-sm font-semibold font-diatype"
+                        className="px-4 py-2 bg-cyan-500/20 text-cyan-300 rounded-lg hover:bg-cyan-500/30 transition-colors text-sm font-semibold font-diatype"
                       >
                         Apply
                       </button>
@@ -292,7 +292,7 @@ export function CartDrawer() {
                 {/* Checkout Button */}
                 <button
                   onClick={handleCheckout}
-                  className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition-all font-gendy"
+                  className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-cyan-500/50 transition-all font-gendy"
                 >
                   Proceed to Checkout
                   <ArrowRight className="w-5 h-5" />

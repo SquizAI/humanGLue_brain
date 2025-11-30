@@ -108,7 +108,7 @@ export default function CheckoutPage() {
             <div className="flex items-center gap-2">
               <div className={cn(
                 'flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium transition-all',
-                step === 'info' ? 'bg-purple-500/20 text-purple-300' : 'bg-gray-800 text-gray-400'
+                step === 'info' ? 'bg-cyan-500/20 text-cyan-300' : 'bg-gray-800 text-gray-400'
               )}>
                 <User className="w-4 h-4" />
                 <span className="hidden sm:inline">Info</span>
@@ -116,7 +116,7 @@ export default function CheckoutPage() {
               <div className="w-8 h-0.5 bg-gray-800"></div>
               <div className={cn(
                 'flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium transition-all',
-                step === 'payment' ? 'bg-purple-500/20 text-purple-300' : 'bg-gray-800 text-gray-400'
+                step === 'payment' ? 'bg-cyan-500/20 text-cyan-300' : 'bg-gray-800 text-gray-400'
               )}>
                 <CreditCard className="w-4 h-4" />
                 <span className="hidden sm:inline">Payment</span>
@@ -124,7 +124,7 @@ export default function CheckoutPage() {
               <div className="w-8 h-0.5 bg-gray-800"></div>
               <div className={cn(
                 'flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium transition-all',
-                step === 'confirm' ? 'bg-purple-500/20 text-purple-300' : 'bg-gray-800 text-gray-400'
+                step === 'confirm' ? 'bg-cyan-500/20 text-cyan-300' : 'bg-gray-800 text-gray-400'
               )}>
                 <CheckCircle2 className="w-4 h-4" />
                 <span className="hidden sm:inline">Confirm</span>
@@ -140,7 +140,7 @@ export default function CheckoutPage() {
           {/* Left Column - Forms */}
           <div className="lg:col-span-2 space-y-6">
             <div className="flex items-center gap-3 mb-6">
-              <div className="p-3 rounded-xl bg-gradient-to-br from-purple-500 to-blue-500">
+              <div className="p-3 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-500">
                 <ShoppingBag className="w-6 h-6 text-white" />
               </div>
               <div>
@@ -167,7 +167,7 @@ export default function CheckoutPage() {
                       name="firstName"
                       value={formData.firstName}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                      className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-cyan-500/50 transition-all font-diatype"
                       required
                     />
                   </div>
@@ -180,7 +180,7 @@ export default function CheckoutPage() {
                       name="lastName"
                       value={formData.lastName}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                      className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-cyan-500/50 transition-all font-diatype"
                       required
                     />
                   </div>
@@ -193,7 +193,7 @@ export default function CheckoutPage() {
                       name="email"
                       value={formData.email}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                      className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-cyan-500/50 transition-all font-diatype"
                       required
                     />
                   </div>
@@ -206,7 +206,7 @@ export default function CheckoutPage() {
                       name="phone"
                       value={formData.phone}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                      className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-cyan-500/50 transition-all font-diatype"
                       required
                     />
                   </div>
@@ -219,7 +219,7 @@ export default function CheckoutPage() {
                       name="address"
                       value={formData.address}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                      className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-cyan-500/50 transition-all font-diatype"
                     />
                   </div>
                   <div>
@@ -231,7 +231,7 @@ export default function CheckoutPage() {
                       name="city"
                       value={formData.city}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                      className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-cyan-500/50 transition-all font-diatype"
                     />
                   </div>
                   <div>
@@ -243,7 +243,7 @@ export default function CheckoutPage() {
                       name="state"
                       value={formData.state}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                      className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-cyan-500/50 transition-all font-diatype"
                     />
                   </div>
                 </div>
@@ -251,7 +251,7 @@ export default function CheckoutPage() {
                 <button
                   onClick={() => setStep('payment')}
                   disabled={!isInfoComplete}
-                  className="mt-6 w-full px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition-all disabled:opacity-50 disabled:cursor-not-allowed font-gendy"
+                  className="mt-6 w-full px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-cyan-500/50 transition-all disabled:opacity-50 disabled:cursor-not-allowed font-gendy"
                 >
                   Continue to Payment
                 </button>
@@ -283,7 +283,7 @@ export default function CheckoutPage() {
                       onChange={handleInputChange}
                       placeholder="1234 5678 9012 3456"
                       maxLength={19}
-                      className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                      className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-cyan-500/50 transition-all font-diatype"
                       required
                     />
                   </div>
@@ -299,7 +299,7 @@ export default function CheckoutPage() {
                         onChange={handleInputChange}
                         placeholder="MM/YY"
                         maxLength={5}
-                        className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                        className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-cyan-500/50 transition-all font-diatype"
                         required
                       />
                     </div>
@@ -314,7 +314,7 @@ export default function CheckoutPage() {
                         onChange={handleInputChange}
                         placeholder="123"
                         maxLength={4}
-                        className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                        className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-cyan-500/50 transition-all font-diatype"
                         required
                       />
                     </div>
@@ -329,7 +329,7 @@ export default function CheckoutPage() {
                       value={formData.cardName}
                       onChange={handleInputChange}
                       placeholder="Name on card"
-                      className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                      className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-lg text-white focus:outline-none focus:border-cyan-500/50 transition-all font-diatype"
                       required
                     />
                   </div>
@@ -345,7 +345,7 @@ export default function CheckoutPage() {
                   <button
                     onClick={() => setStep('confirm')}
                     disabled={!isPaymentComplete}
-                    className="flex-1 px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition-all disabled:opacity-50 disabled:cursor-not-allowed font-gendy"
+                    className="flex-1 px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-cyan-500/50 transition-all disabled:opacity-50 disabled:cursor-not-allowed font-gendy"
                   >
                     Review Order
                   </button>
@@ -369,15 +369,15 @@ export default function CheckoutPage() {
                       id="terms"
                       checked={agreeToTerms}
                       onChange={(e) => setAgreeToTerms(e.target.checked)}
-                      className="mt-1 w-4 h-4 rounded border-gray-600 bg-gray-800 text-purple-500 focus:ring-purple-500"
+                      className="mt-1 w-4 h-4 rounded border-gray-600 bg-gray-800 text-cyan-500 focus:ring-cyan-500"
                     />
                     <label htmlFor="terms" className="text-sm text-gray-300 font-diatype">
                       I agree to the{' '}
-                      <a href="/terms" className="text-purple-400 hover:text-purple-300">
+                      <a href="/terms" className="text-cyan-400 hover:text-cyan-300">
                         Terms & Conditions
                       </a>{' '}
                       and{' '}
-                      <a href="/privacy" className="text-purple-400 hover:text-purple-300">
+                      <a href="/privacy" className="text-cyan-400 hover:text-cyan-300">
                         Privacy Policy
                       </a>
                     </label>
@@ -394,7 +394,7 @@ export default function CheckoutPage() {
                   <button
                     onClick={handlePlaceOrder}
                     disabled={!agreeToTerms}
-                    className="flex-1 px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition-all disabled:opacity-50 disabled:cursor-not-allowed font-gendy"
+                    className="flex-1 px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-cyan-500/50 transition-all disabled:opacity-50 disabled:cursor-not-allowed font-gendy"
                   >
                     Place Order
                   </button>
@@ -444,11 +444,11 @@ export default function CheckoutPage() {
                           setCouponError('')
                         }}
                         placeholder="Enter code"
-                        className="flex-1 px-3 py-2 bg-gray-800 border border-white/10 rounded-lg text-white text-sm focus:outline-none focus:border-purple-500/50 transition-all font-diatype"
+                        className="flex-1 px-3 py-2 bg-gray-800 border border-white/10 rounded-lg text-white text-sm focus:outline-none focus:border-cyan-500/50 transition-all font-diatype"
                       />
                       <button
                         onClick={handleApplyCoupon}
-                        className="px-4 py-2 bg-purple-500/20 text-purple-300 rounded-lg hover:bg-purple-500/30 transition-colors text-sm font-semibold font-diatype"
+                        className="px-4 py-2 bg-cyan-500/20 text-cyan-300 rounded-lg hover:bg-cyan-500/30 transition-colors text-sm font-semibold font-diatype"
                       >
                         Apply
                       </button>

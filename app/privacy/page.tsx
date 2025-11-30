@@ -9,7 +9,7 @@ export default function PrivacyPage() {
   return (
     <div className="min-h-screen bg-gray-950 text-white">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 py-16">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+        <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
           Privacy Policy
         </h1>
         <p className="text-gray-400 mb-12">Last updated: {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
@@ -335,9 +335,9 @@ export default function PrivacyPage() {
             <div className="mt-4 p-6 bg-gray-900/50 rounded-lg border border-gray-800">
               <p className="text-gray-300 font-semibold mb-2">HumanGlue Inc.</p>
               <p className="text-gray-300">Privacy Team</p>
-              <p className="text-gray-300">Email: <a href="mailto:privacy@humanglue.ai" className="text-purple-400 hover:text-purple-300 transition-colors">privacy@humanglue.ai</a></p>
-              <p className="text-gray-300">Data Protection Officer: <a href="mailto:dpo@humanglue.ai" className="text-purple-400 hover:text-purple-300 transition-colors">dpo@humanglue.ai</a></p>
-              <p className="text-gray-300 mt-2">Website: <a href="https://humanglue.ai" className="text-purple-400 hover:text-purple-300 transition-colors">https://humanglue.ai</a></p>
+              <p className="text-gray-300">Email: <a href="mailto:privacy@humanglue.ai" className="text-cyan-400 hover:text-cyan-300 transition-colors">privacy@humanglue.ai</a></p>
+              <p className="text-gray-300">Data Protection Officer: <a href="mailto:dpo@humanglue.ai" className="text-cyan-400 hover:text-cyan-300 transition-colors">dpo@humanglue.ai</a></p>
+              <p className="text-gray-300 mt-2">Website: <a href="https://humanglue.ai" className="text-cyan-400 hover:text-cyan-300 transition-colors">https://humanglue.ai</a></p>
             </div>
             <p className="text-gray-300 leading-relaxed mt-6">
               We are committed to resolving privacy-related complaints and concerns. We will respond to your inquiry within 30 days.

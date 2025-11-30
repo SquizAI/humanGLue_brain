@@ -115,7 +115,7 @@ export function CallMeButton({
             ? 'bg-green-600 hover:bg-green-700' 
             : callStatus === 'error'
             ? 'bg-red-600 hover:bg-red-700'
-            : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700'
+            : 'bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700'
         }`}
       >
         <span className="relative z-10 flex items-center gap-2">
@@ -134,7 +134,7 @@ export function CallMeButton({
         
         {/* Animated background effect */}
         <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-400 opacity-0 group-hover:opacity-20"
+          className="absolute inset-0 bg-gradient-to-r from-blue-400 to-cyan-400 opacity-0 group-hover:opacity-20"
           initial={false}
           animate={{ scale: isLoading ? [1, 1.2, 1] : 1 }}
           transition={{ duration: 2, repeat: isLoading ? Infinity : 0 }}

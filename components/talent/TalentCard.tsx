@@ -93,11 +93,11 @@ export function TalentCard({ profile, showFullDetails = false, matchScore }: Tal
       whileHover={{ y: -4 }}
       className="group"
     >
-      <div className="relative overflow-hidden rounded-3xl backdrop-blur-xl bg-white/5 border border-gray-700 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/20">
+      <div className="relative overflow-hidden rounded-3xl backdrop-blur-xl bg-white/5 border border-gray-700 transition-all duration-300 hover:shadow-2xl hover:shadow-cyan-500/20">
         {/* Match Score Badge */}
         {matchScore && matchScore >= 80 && (
           <div className="absolute top-4 right-4 z-10">
-            <div className="px-4 py-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white text-sm font-semibold flex items-center gap-2">
+            <div className="px-4 py-2 rounded-full bg-gradient-to-r from-cyan-500 to-pink-500 text-white text-sm font-semibold flex items-center gap-2">
               <Star className="w-4 h-4 fill-current" />
               {matchScore}% Match
             </div>
@@ -109,7 +109,7 @@ export function TalentCard({ profile, showFullDetails = false, matchScore }: Tal
           <div className="flex items-start gap-6 mb-6">
             {/* Avatar */}
             <div className="relative flex-shrink-0">
-              <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-2xl font-bold">
+              <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-cyan-500 to-pink-500 flex items-center justify-center text-white text-2xl font-bold">
                 {profile.name.split(' ').map(n => n[0]).join('')}
               </div>
               {/* Availability Indicator */}
@@ -121,7 +121,7 @@ export function TalentCard({ profile, showFullDetails = false, matchScore }: Tal
               <h3 className="text-2xl font-bold text-white mb-1 truncate">
                 {profile.name}
               </h3>
-              <p className="text-purple-400 font-medium mb-2">{profile.title}</p>
+              <p className="text-cyan-400 font-medium mb-2">{profile.title}</p>
               <p className="text-gray-300 text-sm leading-relaxed">
                 {profile.tagline}
               </p>
@@ -129,28 +129,28 @@ export function TalentCard({ profile, showFullDetails = false, matchScore }: Tal
           </div>
 
           {/* Adaptability Impact Metrics */}
-          <div className="grid grid-cols-2 gap-4 mb-6 p-4 rounded-xl bg-purple-500/5 border border-purple-500/20">
+          <div className="grid grid-cols-2 gap-4 mb-6 p-4 rounded-xl bg-cyan-500/5 border border-cyan-500/20">
             <div>
               <div className="text-xs text-gray-400 mb-1">Transformation Success</div>
-              <div className="text-2xl font-bold text-purple-400">
+              <div className="text-2xl font-bold text-cyan-400">
                 {profile.adaptabilityImpact.transformationSuccessRate}%
               </div>
             </div>
             <div>
               <div className="text-xs text-gray-400 mb-1">Behavior Change</div>
-              <div className="text-2xl font-bold text-purple-400">
+              <div className="text-2xl font-bold text-cyan-400">
                 {profile.adaptabilityImpact.behaviorChangeScore}/100
               </div>
             </div>
             <div>
               <div className="text-xs text-gray-400 mb-1">Client Retention</div>
-              <div className="text-2xl font-bold text-purple-400">
+              <div className="text-2xl font-bold text-cyan-400">
                 {profile.adaptabilityImpact.clientRetentionRate}%
               </div>
             </div>
             <div>
               <div className="text-xs text-gray-400 mb-1">Cultures Transformed</div>
-              <div className="text-2xl font-bold text-purple-400">
+              <div className="text-2xl font-bold text-cyan-400">
                 {profile.adaptabilityImpact.culturesTransformed}
               </div>
             </div>
@@ -159,15 +159,15 @@ export function TalentCard({ profile, showFullDetails = false, matchScore }: Tal
           {/* Key Stats */}
           <div className="flex items-center gap-6 mb-6 text-sm text-gray-300">
             <div className="flex items-center gap-2">
-              <Briefcase className="w-4 h-4 text-purple-400" />
+              <Briefcase className="w-4 h-4 text-cyan-400" />
               <span>{profile.yearsExperience}+ years</span>
             </div>
             <div className="flex items-center gap-2">
-              <TrendingUp className="w-4 h-4 text-purple-400" />
+              <TrendingUp className="w-4 h-4 text-cyan-400" />
               <span>{profile.clientsTransformed} clients</span>
             </div>
             <div className="flex items-center gap-2">
-              <Award className="w-4 h-4 text-purple-400" />
+              <Award className="w-4 h-4 text-cyan-400" />
               <span>{profile.employeesReframed}+ reframed</span>
             </div>
           </div>
@@ -197,7 +197,7 @@ export function TalentCard({ profile, showFullDetails = false, matchScore }: Tal
               {profile.expertise.slice(0, showFullDetails ? undefined : 4).map((skill, index) => (
                 <span
                   key={index}
-                  className="px-3 py-1 rounded-full text-sm bg-purple-500/10 border border-purple-500/20 text-purple-300"
+                  className="px-3 py-1 rounded-full text-sm bg-cyan-500/10 border border-cyan-500/20 text-cyan-300"
                 >
                   {skill}
                 </span>
@@ -215,7 +215,7 @@ export function TalentCard({ profile, showFullDetails = false, matchScore }: Tal
                   className={`
                     px-3 py-1 rounded-lg text-xs font-medium
                     ${profile.focusAreas.transformationStages.includes(stage)
-                      ? 'bg-purple-500/20 text-purple-300 border border-purple-500/40'
+                      ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
                       : 'bg-gray-700 text-gray-500'
                     }
                   `}
@@ -267,7 +267,7 @@ export function TalentCard({ profile, showFullDetails = false, matchScore }: Tal
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-6 py-3 rounded-full font-semibold text-white bg-gradient-to-r from-purple-500 to-purple-600 hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300 flex items-center gap-2"
+                className="px-6 py-3 rounded-full font-semibold text-white bg-gradient-to-r from-cyan-500 to-cyan-600 hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 flex items-center gap-2"
               >
                 View Profile
                 <ArrowRight className="w-4 h-4" />

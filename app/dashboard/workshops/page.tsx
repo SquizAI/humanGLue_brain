@@ -178,7 +178,7 @@ export default function WorkshopsPage() {
                 whileTap={{ scale: 0.95 }}
               >
                 <Link href="/dashboard">
-                  <button className="px-6 py-3 bg-white/5 backdrop-blur-xl border border-white/10 text-white rounded-xl font-semibold hover:bg-white/10 hover:border-purple-500/30 transition-all inline-flex items-center gap-2 font-diatype">
+                  <button className="px-6 py-3 bg-white/5 backdrop-blur-xl border border-white/10 text-white rounded-xl font-semibold hover:bg-white/10 hover:border-cyan-500/30 transition-all inline-flex items-center gap-2 font-diatype">
                     <ArrowRight className="w-5 h-5 rotate-180" />
                     Back to Dashboard
                   </button>
@@ -198,14 +198,14 @@ export default function WorkshopsPage() {
                   placeholder="Search workshops..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500/50 transition-colors font-diatype"
+                  className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-cyan-500/50 transition-colors font-diatype"
                 />
               </div>
 
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-purple-500/50 transition-colors font-diatype"
+                className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-cyan-500/50 transition-colors font-diatype"
               >
                 <option value="all">All Categories</option>
                 {categories.slice(1).map((category) => (
@@ -216,7 +216,7 @@ export default function WorkshopsPage() {
               <select
                 value={selectedLevel}
                 onChange={(e) => setSelectedLevel(e.target.value)}
-                className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-purple-500/50 transition-colors font-diatype"
+                className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-cyan-500/50 transition-colors font-diatype"
               >
                 <option value="all">All Levels</option>
                 {levels.slice(1).map((level) => (
@@ -234,7 +234,7 @@ export default function WorkshopsPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   whileHover={{ y: -6, scale: 1.02 }}
-                  className="group relative overflow-hidden bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 hover:border-purple-500/30 transition-all hover:shadow-[0_0_40px_rgba(168,85,247,0.15)] h-full flex flex-col"
+                  className="group relative overflow-hidden bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 hover:border-cyan-500/30 transition-all hover:shadow-[0_0_40px_rgba(168,85,247,0.15)] h-full flex flex-col"
                 >
                   <div className="relative h-48 overflow-hidden">
                     <Image
@@ -245,7 +245,7 @@ export default function WorkshopsPage() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/50 to-transparent" />
                     <div className="absolute top-4 right-4 flex items-center gap-2">
-                      <span className="px-2 py-1 rounded-full bg-purple-500/10 backdrop-blur-xl border border-purple-500/20 text-purple-400 text-xs font-semibold font-diatype">
+                      <span className="px-2 py-1 rounded-full bg-cyan-500/10 backdrop-blur-xl border border-cyan-500/20 text-cyan-400 text-xs font-semibold font-diatype">
                         {workshop.category}
                       </span>
                       <span className="px-2 py-1 rounded-full bg-blue-500/10 backdrop-blur-xl border border-blue-500/20 text-blue-400 text-xs font-semibold font-diatype">
@@ -256,7 +256,7 @@ export default function WorkshopsPage() {
 
                   <div className="p-6 space-y-4 flex flex-col flex-1">
                     <div>
-                      <h3 className="text-xl font-semibold text-white mb-2 font-gendy group-hover:text-purple-400 transition-colors">
+                      <h3 className="text-xl font-semibold text-white mb-2 font-gendy group-hover:text-cyan-400 transition-colors">
                         {workshop.title}
                       </h3>
                       <p className="text-gray-400 text-sm font-diatype leading-relaxed line-clamp-2 mb-3">
@@ -293,7 +293,7 @@ export default function WorkshopsPage() {
                     </div>
                   </div>
 
-                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-blue-500 opacity-0 group-hover:opacity-5 transition-opacity" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-cyan-500 to-blue-500 opacity-0 group-hover:opacity-5 transition-opacity" />
                 </motion.div>
               </Link>
             ))}

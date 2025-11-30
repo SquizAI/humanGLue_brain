@@ -167,7 +167,7 @@ export default function TeamPage() {
   const getRoleColor = (role: string) => {
     switch (role) {
       case 'admin':
-        return 'bg-purple-500/10 border-purple-500/20 text-purple-400'
+        return 'bg-cyan-500/10 border-cyan-500/20 text-cyan-400'
       case 'member':
         return 'bg-blue-500/10 border-blue-500/20 text-blue-400'
       case 'viewer':
@@ -213,7 +213,7 @@ export default function TeamPage() {
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setShowInviteModal(true)}
                 disabled={!canAddMoreMembers}
-                className="px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-xl font-semibold hover:from-purple-700 hover:to-blue-700 transition-all shadow-lg shadow-purple-500/50 font-diatype flex items-center gap-2 disabled:opacity-50"
+                className="px-6 py-3 bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-xl font-semibold hover:from-cyan-700 hover:to-blue-700 transition-all shadow-lg shadow-cyan-500/50 font-diatype flex items-center gap-2 disabled:opacity-50"
               >
                 <UserPlus className="w-5 h-5" />
                 Invite Team Member
@@ -228,7 +228,7 @@ export default function TeamPage() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
             <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
               <div className="flex items-center gap-3 mb-2">
-                <Users className="w-5 h-5 text-purple-400" />
+                <Users className="w-5 h-5 text-cyan-400" />
                 <div className="text-sm text-gray-400 font-diatype">Total Members</div>
               </div>
               <div className="text-3xl font-bold text-white font-gendy">
@@ -281,7 +281,7 @@ export default function TeamPage() {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search members..."
-                    className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500/30 transition-all font-diatype"
+                    className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/30 transition-all font-diatype"
                   />
                 </div>
               </div>
@@ -289,7 +289,7 @@ export default function TeamPage() {
               <select
                 value={roleFilter}
                 onChange={(e) => setRoleFilter(e.target.value)}
-                className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-purple-500/30 transition-all font-diatype"
+                className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-cyan-500/30 transition-all font-diatype"
               >
                 <option value="all">All Roles</option>
                 <option value="admin">Admin</option>
@@ -300,7 +300,7 @@ export default function TeamPage() {
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-purple-500/30 transition-all font-diatype"
+                className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-cyan-500/30 transition-all font-diatype"
               >
                 <option value="all">All Status</option>
                 <option value="active">Active</option>
@@ -423,7 +423,7 @@ function TeamMemberCard({ member, onEdit, onDelete, getRoleIcon, getRoleColor, g
       className="flex items-center justify-between p-4 bg-white/5 rounded-xl transition-all"
     >
       <div className="flex items-center gap-4 flex-1">
-        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-white font-bold font-gendy text-lg">
+        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center text-white font-bold font-gendy text-lg">
           {member.name.charAt(0)}
         </div>
         <div className="flex-1">
@@ -580,7 +580,7 @@ function InviteTeamMemberModal({ isOpen, onClose, onInvite }: InviteTeamMemberMo
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.9, opacity: 0 }}
           onClick={(e) => e.stopPropagation()}
-          className="bg-gray-900 border border-purple-500/30 rounded-2xl p-8 max-w-md w-full"
+          className="bg-gray-900 border border-cyan-500/30 rounded-2xl p-8 max-w-md w-full"
         >
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-2xl font-bold text-white font-gendy">Invite Team Member</h3>
@@ -599,7 +599,7 @@ function InviteTeamMemberModal({ isOpen, onClose, onInvite }: InviteTeamMemberMo
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="colleague@company.com"
-                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500/30 transition-all font-diatype"
+                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/30 transition-all font-diatype"
               />
               {error && <p className="text-red-400 text-sm mt-1 font-diatype">{error}</p>}
             </div>
@@ -611,7 +611,7 @@ function InviteTeamMemberModal({ isOpen, onClose, onInvite }: InviteTeamMemberMo
               <select
                 value={role}
                 onChange={(e) => setRole(e.target.value as 'admin' | 'member' | 'viewer')}
-                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-purple-500/30 transition-all font-diatype"
+                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-cyan-500/30 transition-all font-diatype"
               >
                 <option value="viewer">Viewer - Can view content only</option>
                 <option value="member">Member - Can view and create content</option>
@@ -630,7 +630,7 @@ function InviteTeamMemberModal({ isOpen, onClose, onInvite }: InviteTeamMemberMo
             <button
               onClick={handleSubmit}
               disabled={isSubmitting}
-              className="flex-1 px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-xl font-semibold hover:from-purple-700 hover:to-blue-700 transition-all font-diatype disabled:opacity-50 flex items-center justify-center gap-2"
+              className="flex-1 px-6 py-3 bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-xl font-semibold hover:from-cyan-700 hover:to-blue-700 transition-all font-diatype disabled:opacity-50 flex items-center justify-center gap-2"
             >
               {isSubmitting ? (
                 <>
@@ -674,7 +674,7 @@ function EditRoleModal({ member, onClose, onSave }: EditRoleModalProps) {
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.9, opacity: 0 }}
         onClick={(e) => e.stopPropagation()}
-        className="bg-gray-900 border border-purple-500/30 rounded-2xl p-8 max-w-md w-full"
+        className="bg-gray-900 border border-cyan-500/30 rounded-2xl p-8 max-w-md w-full"
       >
         <h3 className="text-2xl font-bold text-white mb-4 font-gendy">Edit Role</h3>
         <p className="text-gray-400 mb-6 font-diatype">Change the role for {member.name}</p>
@@ -684,7 +684,7 @@ function EditRoleModal({ member, onClose, onSave }: EditRoleModalProps) {
           <select
             value={role}
             onChange={(e) => setRole(e.target.value as 'admin' | 'member' | 'viewer')}
-            className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-purple-500/30 transition-all font-diatype"
+            className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-cyan-500/30 transition-all font-diatype"
           >
             <option value="viewer">Viewer</option>
             <option value="member">Member</option>
@@ -701,7 +701,7 @@ function EditRoleModal({ member, onClose, onSave }: EditRoleModalProps) {
           </button>
           <button
             onClick={() => onSave(role)}
-            className="flex-1 px-6 py-3 bg-purple-600 text-white rounded-xl font-semibold hover:bg-purple-700 transition-all font-diatype"
+            className="flex-1 px-6 py-3 bg-cyan-600 text-white rounded-xl font-semibold hover:bg-cyan-700 transition-all font-diatype"
           >
             Save Changes
           </button>

@@ -266,7 +266,7 @@ export function HeroChatInterface({ onStateChange }: HeroChatInterfaceProps) {
               whileTap={{ scale: 0.95 }}
               className={cn(
                 'p-3 rounded-xl transition-all duration-200',
-                'bg-gradient-to-r from-blue-500 to-purple-500',
+                'bg-gradient-to-r from-blue-500 to-cyan-500',
                 'hover:shadow-lg hover:shadow-blue-500/25',
                 'disabled:opacity-50 disabled:cursor-not-allowed'
               )}

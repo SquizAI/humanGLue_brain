@@ -30,7 +30,7 @@ const notificationIcons: Record<NotificationType, string> = {
 
 const notificationColors: Record<NotificationType, string> = {
   enrollment: 'bg-blue-500',
-  workshop_registration: 'bg-purple-500',
+  workshop_registration: 'bg-cyan-500',
   completion: 'bg-green-500',
   review: 'bg-yellow-500',
   question: 'bg-orange-500',

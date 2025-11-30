@@ -131,7 +131,7 @@ export default function HelpPage() {
         {/* Header */}
         <div className="mb-8 text-center">
           <div className="flex items-center justify-center gap-3 mb-4">
-            <HelpCircle className="w-10 h-10 text-purple-400" />
+            <HelpCircle className="w-10 h-10 text-cyan-400" />
             <h1 className="text-4xl font-bold text-white">Help Center</h1>
           </div>
           <p className="text-gray-400 text-lg">
@@ -148,7 +148,7 @@ export default function HelpPage() {
               placeholder="Search for help..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-4 py-4 bg-gray-900/50 border border-gray-800 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-colors"
+              className="w-full pl-12 pr-4 py-4 bg-gray-900/50 border border-gray-800 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 transition-colors"
             />
           </div>
         </div>
@@ -164,10 +164,10 @@ export default function HelpPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              className="bg-gray-900/50 backdrop-blur-xl rounded-xl border border-gray-800 p-6 hover:border-purple-500/50 transition-all duration-300 group"
+              className="bg-gray-900/50 backdrop-blur-xl rounded-xl border border-gray-800 p-6 hover:border-cyan-500/50 transition-all duration-300 group"
             >
               <div className="flex items-start justify-between mb-4">
-                <div className="w-12 h-12 bg-purple-500/10 rounded-lg flex items-center justify-center text-purple-400 group-hover:bg-purple-500/20 transition-colors">
+                <div className="w-12 h-12 bg-cyan-500/10 rounded-lg flex items-center justify-center text-cyan-400 group-hover:bg-cyan-500/20 transition-colors">
                   {resource.icon}
                 </div>
                 {resource.external && (
@@ -195,7 +195,7 @@ export default function HelpPage() {
                 className={cn(
                   'px-4 py-2 rounded-lg font-medium text-sm transition-all',
                   selectedCategory === category.id
-                    ? 'bg-purple-600 text-white'
+                    ? 'bg-cyan-600 text-white'
                     : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
                 )}
               >
@@ -268,8 +268,8 @@ export default function HelpPage() {
         </div>
 
         {/* Contact Support */}
-        <div className="mt-12 bg-gradient-to-br from-purple-500/10 via-blue-500/10 to-cyan-500/10 rounded-xl border border-purple-500/20 p-8 text-center">
-          <Mail className="w-12 h-12 text-purple-400 mx-auto mb-4" />
+        <div className="mt-12 bg-gradient-to-br from-cyan-500/10 via-blue-500/10 to-cyan-500/10 rounded-xl border border-cyan-500/20 p-8 text-center">
+          <Mail className="w-12 h-12 text-cyan-400 mx-auto mb-4" />
           <h2 className="text-2xl font-bold text-white mb-3">
             Still Need Help?
           </h2>

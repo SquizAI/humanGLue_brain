@@ -1313,7 +1313,7 @@ export default function ResourceDetailPage() {
         <div className="text-center">
           <h1 className="text-2xl font-bold text-white mb-4">Resource Not Found</h1>
           <Link href="/dashboard/resources">
-            <button className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700">
+            <button className="px-6 py-3 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700">
               Back to Resources
             </button>
           </Link>
@@ -1340,7 +1340,7 @@ export default function ResourceDetailPage() {
   const getTypeColor = (type: string) => {
     switch (type) {
       case 'Guide':
-        return 'from-purple-500 to-blue-500'
+        return 'from-cyan-500 to-blue-500'
       case 'Playbook':
         return 'from-blue-500 to-cyan-500'
       case 'Framework':
@@ -1363,7 +1363,7 @@ export default function ResourceDetailPage() {
           <div className="px-8 py-4">
             <div className="flex items-center justify-between">
               <Link href="/dashboard/resources">
-                <button className="px-4 py-2 bg-white/5 border border-white/10 text-white rounded-lg hover:bg-white/10 hover:border-purple-500/30 transition-all inline-flex items-center gap-2 font-diatype">
+                <button className="px-4 py-2 bg-white/5 border border-white/10 text-white rounded-lg hover:bg-white/10 hover:border-cyan-500/30 transition-all inline-flex items-center gap-2 font-diatype">
                   <ArrowRight className="w-4 h-4 rotate-180" />
                   Back to Resources
                 </button>
@@ -1432,10 +1432,10 @@ export default function ResourceDetailPage() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: index * 0.1 }}
-                        className="bg-white/5 backdrop-blur-xl rounded-xl border border-white/10 p-6 hover:border-purple-500/30 transition-all"
+                        className="bg-white/5 backdrop-blur-xl rounded-xl border border-white/10 p-6 hover:border-cyan-500/30 transition-all"
                       >
                         <div className="flex items-start gap-4">
-                          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center flex-shrink-0">
+                          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center flex-shrink-0">
                             <IconComponent className="w-6 h-6 text-white" />
                           </div>
                           <div>
@@ -1460,9 +1460,9 @@ export default function ResourceDetailPage() {
                     {resource.tableOfContents.map((item, index) => (
                       <div
                         key={index}
-                        className="flex items-center gap-3 text-gray-300 hover:text-purple-400 transition-colors cursor-pointer group"
+                        className="flex items-center gap-3 text-gray-300 hover:text-cyan-400 transition-colors cursor-pointer group"
                       >
-                        <span className="text-purple-400 font-semibold font-gendy w-8">
+                        <span className="text-cyan-400 font-semibold font-gendy w-8">
                           {index + 1}.
                         </span>
                         <span className="font-diatype">{item}</span>
@@ -1497,7 +1497,7 @@ export default function ResourceDetailPage() {
                             <ul className="space-y-2">
                               {sub.bullets.map((bullet, bIndex) => (
                                 <li key={bIndex} className="flex items-start gap-3">
-                                  <CheckCircle2 className="w-5 h-5 text-purple-400 flex-shrink-0 mt-0.5" />
+                                  <CheckCircle2 className="w-5 h-5 text-cyan-400 flex-shrink-0 mt-0.5" />
                                   <span className="text-gray-300 font-diatype">{bullet}</span>
                                 </li>
                               ))}
@@ -1519,11 +1519,11 @@ export default function ResourceDetailPage() {
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.5, delay: index * 0.1 }}
-                      className="bg-white/5 backdrop-blur-xl rounded-xl border border-white/10 p-6 hover:border-purple-500/30 transition-all group"
+                      className="bg-white/5 backdrop-blur-xl rounded-xl border border-white/10 p-6 hover:border-cyan-500/30 transition-all group"
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex-1">
-                          <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-purple-400 transition-colors font-gendy">
+                          <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-cyan-400 transition-colors font-gendy">
                             {download.name}
                           </h3>
                           <p className="text-gray-400 text-sm mb-3 font-diatype">
@@ -1534,7 +1534,7 @@ export default function ResourceDetailPage() {
                             <span className="font-diatype">{download.size}</span>
                           </div>
                         </div>
-                        <button className="px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg font-semibold hover:from-purple-700 hover:to-blue-700 transition-all inline-flex items-center gap-2 shadow-lg shadow-purple-500/50 font-diatype">
+                        <button className="px-6 py-3 bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-lg font-semibold hover:from-cyan-700 hover:to-blue-700 transition-all inline-flex items-center gap-2 shadow-lg shadow-cyan-500/50 font-diatype">
                           <Download className="w-5 h-5" />
                           Download
                         </button>
@@ -1551,15 +1551,15 @@ export default function ResourceDetailPage() {
                     <Link key={related.id} href={`/dashboard/resources/${related.id}`}>
                       <motion.div
                         whileHover={{ y: -4 }}
-                        className="bg-white/5 backdrop-blur-xl rounded-xl border border-white/10 p-4 hover:border-purple-500/30 transition-all cursor-pointer group"
+                        className="bg-white/5 backdrop-blur-xl rounded-xl border border-white/10 p-4 hover:border-cyan-500/30 transition-all cursor-pointer group"
                       >
-                        <span className="text-xs text-purple-400 font-semibold font-diatype">
+                        <span className="text-xs text-cyan-400 font-semibold font-diatype">
                           {related.type}
                         </span>
-                        <h3 className="text-white font-semibold mt-2 group-hover:text-purple-400 transition-colors font-gendy">
+                        <h3 className="text-white font-semibold mt-2 group-hover:text-cyan-400 transition-colors font-gendy">
                           {related.title}
                         </h3>
-                        <div className="flex items-center gap-2 mt-3 text-purple-400">
+                        <div className="flex items-center gap-2 mt-3 text-cyan-400">
                           <span className="text-sm font-diatype">View resource</span>
                           <ArrowRight className="w-4 h-4" />
                         </div>
@@ -1577,7 +1577,7 @@ export default function ResourceDetailPage() {
 
                   <div className="space-y-4">
                     <div className="flex items-center gap-3">
-                      <Clock className="w-5 h-5 text-purple-400" />
+                      <Clock className="w-5 h-5 text-cyan-400" />
                       <div>
                         <p className="text-xs text-gray-400 font-diatype">Read Time</p>
                         <p className="text-white font-semibold font-diatype">{resource.readTime}</p>
@@ -1620,7 +1620,7 @@ export default function ResourceDetailPage() {
                   </div>
 
                   <div className="mt-6 pt-6 border-t border-white/10">
-                    <button className="w-full px-6 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-xl font-bold hover:from-purple-700 hover:to-blue-700 transition-all inline-flex items-center justify-center gap-2 shadow-lg shadow-purple-500/50 font-diatype">
+                    <button className="w-full px-6 py-4 bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-xl font-bold hover:from-cyan-700 hover:to-blue-700 transition-all inline-flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/50 font-diatype">
                       <Download className="w-5 h-5" />
                       Download Full Resource
                     </button>
@@ -1650,7 +1650,7 @@ export default function ResourceDetailPage() {
                     {resource.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-sm font-semibold font-diatype"
+                        className="px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-sm font-semibold font-diatype"
                       >
                         {tag}
                       </span>

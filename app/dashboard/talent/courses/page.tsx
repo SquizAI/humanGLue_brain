@@ -47,7 +47,7 @@ export default function CoursesPage() {
       progress: 65,
       enrolled: true,
       image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80',
-      gradient: 'from-purple-500 to-blue-500',
+      gradient: 'from-cyan-500 to-blue-500',
     },
     {
       id: '2',
@@ -160,9 +160,9 @@ export default function CoursesPage() {
           <div className="px-8 py-6">
             <div className="flex items-center justify-between mb-6">
               <div>
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-purple-500/10 backdrop-blur-sm border border-purple-500/20 mb-3">
-                  <BookOpen className="w-4 h-4 text-purple-400" />
-                  <span className="text-sm text-purple-300 font-semibold font-diatype">Course Catalog</span>
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyan-500/10 backdrop-blur-sm border border-cyan-500/20 mb-3">
+                  <BookOpen className="w-4 h-4 text-cyan-400" />
+                  <span className="text-sm text-cyan-300 font-semibold font-diatype">Course Catalog</span>
                 </div>
                 <h1 className="text-3xl font-bold text-white font-gendy mb-2">
                   All Courses
@@ -176,7 +176,7 @@ export default function CoursesPage() {
                 whileTap={{ scale: 0.95 }}
               >
                 <Link href="/dashboard/talent">
-                  <button className="px-6 py-3 bg-white/5 backdrop-blur-xl border border-white/10 text-white rounded-xl font-semibold hover:bg-white/10 hover:border-purple-500/30 transition-all inline-flex items-center gap-2 font-diatype">
+                  <button className="px-6 py-3 bg-white/5 backdrop-blur-xl border border-white/10 text-white rounded-xl font-semibold hover:bg-white/10 hover:border-cyan-500/30 transition-all inline-flex items-center gap-2 font-diatype">
                     <ArrowRight className="w-5 h-5 rotate-180" />
                     Back to Academy
                   </button>
@@ -193,14 +193,14 @@ export default function CoursesPage() {
                   placeholder="Search courses..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500/50 transition-colors font-diatype"
+                  className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-cyan-500/50 transition-colors font-diatype"
                 />
               </div>
 
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-purple-500/50 transition-colors font-diatype"
+                className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-cyan-500/50 transition-colors font-diatype"
               >
                 {categories.map((cat) => (
                   <option key={cat} value={cat}>
@@ -212,7 +212,7 @@ export default function CoursesPage() {
               <select
                 value={selectedLevel}
                 onChange={(e) => setSelectedLevel(e.target.value)}
-                className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-purple-500/50 transition-colors font-diatype"
+                className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-cyan-500/50 transition-colors font-diatype"
               >
                 {levels.map((level) => (
                   <option key={level} value={level}>
@@ -229,7 +229,7 @@ export default function CoursesPage() {
           {enrolledCourses.length > 0 && (
             <section>
               <div className="flex items-center gap-3 mb-6">
-                <TrendingUp className="w-6 h-6 text-purple-400" />
+                <TrendingUp className="w-6 h-6 text-cyan-400" />
                 <h2 className="text-2xl font-bold text-white font-gendy">Continue Learning</h2>
               </div>
 
@@ -241,7 +241,7 @@ export default function CoursesPage() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                     whileHover={{ y: -4 }}
-                    className="group relative overflow-hidden bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 hover:border-purple-500/30 transition-all hover:shadow-[0_0_40px_rgba(168,85,247,0.15)]"
+                    className="group relative overflow-hidden bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 hover:border-cyan-500/30 transition-all hover:shadow-[0_0_40px_rgba(168,85,247,0.15)]"
                   >
                     <div className="flex gap-5 p-6">
                       {/* Course Image */}
@@ -262,12 +262,12 @@ export default function CoursesPage() {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-start justify-between mb-2">
                           <div className="flex-1">
-                            <h3 className="text-lg font-semibold text-white mb-1 font-gendy group-hover:text-purple-400 transition-colors">
+                            <h3 className="text-lg font-semibold text-white mb-1 font-gendy group-hover:text-cyan-400 transition-colors">
                               {course.title}
                             </h3>
                             <p className="text-sm text-gray-400 font-diatype">by {course.instructor}</p>
                           </div>
-                          <span className="px-2 py-1 bg-purple-500/10 text-purple-400 text-xs rounded-md border border-purple-500/20 font-semibold font-diatype">
+                          <span className="px-2 py-1 bg-cyan-500/10 text-cyan-400 text-xs rounded-md border border-cyan-500/20 font-semibold font-diatype">
                             {course.level}
                           </span>
                         </div>
@@ -276,7 +276,7 @@ export default function CoursesPage() {
                         <div className="mt-4">
                           <div className="flex items-center justify-between mb-2">
                             <span className="text-xs text-gray-400 font-diatype">{course.progress}% Complete</span>
-                            <span className="text-xs text-purple-400 font-diatype font-semibold">Continue</span>
+                            <span className="text-xs text-cyan-400 font-diatype font-semibold">Continue</span>
                           </div>
                           <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden">
                             <div
@@ -378,7 +378,7 @@ export default function CoursesPage() {
                     </div>
 
                     {/* Enroll Button */}
-                    <button className="w-full px-4 py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg inline-flex items-center justify-center gap-2 font-diatype">
+                    <button className="w-full px-4 py-2.5 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-cyan-700 transition-all shadow-lg inline-flex items-center justify-center gap-2 font-diatype">
                       <Award className="w-4 h-4" />
                       Enroll Now
                     </button>

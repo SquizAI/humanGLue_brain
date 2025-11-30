@@ -41,8 +41,8 @@ const levelColors = [
   'from-yellow-500 to-orange-500',  // 1
   'from-orange-500 to-red-500',     // 2
   'from-red-500 to-pink-500',       // 3
-  'from-pink-500 to-purple-500',    // 4
-  'from-purple-500 to-indigo-500',  // 5
+  'from-pink-500 to-cyan-500',    // 4
+  'from-cyan-500 to-indigo-500',  // 5
   'from-indigo-500 to-blue-500',    // 6
   'from-blue-500 to-cyan-500',      // 7
   'from-cyan-500 to-teal-500',      // 8

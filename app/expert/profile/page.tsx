@@ -79,7 +79,7 @@ export default function ExpertProfilePage() {
             {hasChanges && (
               <button
                 onClick={saveProfile}
-                className="px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white font-semibold rounded-xl transition-all font-diatype flex items-center gap-2"
+                className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-semibold rounded-xl transition-all font-diatype flex items-center gap-2"
               >
                 <Save className="w-5 h-5" />
                 Save Changes
@@ -94,7 +94,7 @@ export default function ExpertProfilePage() {
               <div className="bg-white/5 backdrop-blur-xl rounded-xl border border-white/10 p-6">
                 <h3 className="text-lg font-semibold text-white mb-4 font-gendy">Profile Photo</h3>
                 <div className="flex flex-col items-center">
-                  <div className="w-32 h-32 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full flex items-center justify-center text-white text-4xl font-bold font-gendy mb-4">
+                  <div className="w-32 h-32 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full flex items-center justify-center text-white text-4xl font-bold font-gendy mb-4">
                     DE
                   </div>
                   <button className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white rounded-lg transition-all font-diatype flex items-center gap-2">
@@ -116,7 +116,7 @@ export default function ExpertProfilePage() {
                     type="number"
                     value={profile.hourlyRate}
                     onChange={(e) => updateProfile('hourlyRate', parseInt(e.target.value))}
-                    className="flex-1 px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 font-diatype"
+                    className="flex-1 px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 font-diatype"
                   />
                   <span className="text-gray-400 font-diatype">/hr</span>
                 </div>
@@ -129,7 +129,7 @@ export default function ExpertProfilePage() {
                   {profile.expertise.map((skill, index) => (
                     <span
                       key={index}
-                      className="px-3 py-1.5 bg-purple-500/20 text-purple-400 rounded-full text-sm font-diatype border border-purple-500/30"
+                      className="px-3 py-1.5 bg-cyan-500/20 text-cyan-400 rounded-full text-sm font-diatype border border-cyan-500/30"
                     >
                       {skill}
                     </span>
@@ -159,7 +159,7 @@ export default function ExpertProfilePage() {
                       type="text"
                       value={profile.fullName}
                       onChange={(e) => updateProfile('fullName', e.target.value)}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 font-diatype"
+                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 font-diatype"
                     />
                   </div>
 
@@ -171,7 +171,7 @@ export default function ExpertProfilePage() {
                       type="text"
                       value={profile.professionalTitle}
                       onChange={(e) => updateProfile('professionalTitle', e.target.value)}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 font-diatype"
+                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 font-diatype"
                     />
                   </div>
 
@@ -183,7 +183,7 @@ export default function ExpertProfilePage() {
                       type="text"
                       value={profile.tagline}
                       onChange={(e) => updateProfile('tagline', e.target.value)}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 font-diatype"
+                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 font-diatype"
                       maxLength={200}
                     />
                     <p className="text-xs text-gray-500 mt-1 font-diatype">{profile.tagline.length}/200 characters</p>
@@ -197,7 +197,7 @@ export default function ExpertProfilePage() {
                       value={profile.bio}
                       onChange={(e) => updateProfile('bio', e.target.value)}
                       rows={5}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 font-diatype resize-none"
+                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 font-diatype resize-none"
                       maxLength={2000}
                     />
                     <p className="text-xs text-gray-500 mt-1 font-diatype">{profile.bio.length}/2000 characters</p>
@@ -211,7 +211,7 @@ export default function ExpertProfilePage() {
                       type="number"
                       value={profile.yearsExperience}
                       onChange={(e) => updateProfile('yearsExperience', parseInt(e.target.value))}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 font-diatype"
+                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 font-diatype"
                     />
                   </div>
                 </div>
@@ -267,7 +267,7 @@ export default function ExpertProfilePage() {
                       type="url"
                       value={profile.socialLinks.linkedin}
                       onChange={(e) => updateProfile('socialLinks', { ...profile.socialLinks, linkedin: e.target.value })}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 font-diatype"
+                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 font-diatype"
                     />
                   </div>
                   <div>
@@ -278,7 +278,7 @@ export default function ExpertProfilePage() {
                       type="url"
                       value={profile.socialLinks.twitter}
                       onChange={(e) => updateProfile('socialLinks', { ...profile.socialLinks, twitter: e.target.value })}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 font-diatype"
+                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 font-diatype"
                     />
                   </div>
                   <div>
@@ -289,7 +289,7 @@ export default function ExpertProfilePage() {
                       type="url"
                       value={profile.socialLinks.website}
                       onChange={(e) => updateProfile('socialLinks', { ...profile.socialLinks, website: e.target.value })}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 font-diatype"
+                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 font-diatype"
                     />
                   </div>
                 </div>

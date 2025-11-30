@@ -339,7 +339,7 @@ class HumanGlueAssessment {
         let questionHTML = `
             <div class="space-y-6">
                 <div class="text-center">
-                    <div class="w-16 h-16 bg-gradient-to-br from-purple-600 to-blue-600 rounded-xl mx-auto mb-4 flex items-center justify-center">
+                    <div class="w-16 h-16 bg-gradient-to-br from-cyan-600 to-blue-600 rounded-xl mx-auto mb-4 flex items-center justify-center">
                         <i class="fas fa-${this.getDimensionIcon(dimension.id)} text-white text-xl"></i>
                     </div>
                     <h3 class="text-lg font-semibold text-gray-800 mb-2">${dimension.title}</h3>
@@ -360,8 +360,8 @@ class HumanGlueAssessment {
             for (let i = 1; i <= scale; i++) {
                 const label = scale === 10 ? (i === 1 ? labels[0] : i === 10 ? labels[labels.length - 1] : i-1) : labels[i-1];
                 questionHTML += `
-                    <label class="flex items-center p-3 bg-white rounded-lg border border-gray-200 hover:border-purple-300 cursor-pointer transition">
-                        <input type="radio" name="response" value="${i}" class="mr-3 text-purple-600">
+                    <label class="flex items-center p-3 bg-white rounded-lg border border-gray-200 hover:border-cyan-300 cursor-pointer transition">
+                        <input type="radio" name="response" value="${i}" class="mr-3 text-cyan-600">
                         <span class="font-medium mr-2">${i}${scale === 10 ? '' : '.'}</span>
                         <span class="text-gray-700">${label}</span>
                     </label>
@@ -370,8 +370,8 @@ class HumanGlueAssessment {
         } else if (question.type === 'frequency') {
             question.options.forEach((option, index) => {
                 questionHTML += `
-                    <label class="flex items-center p-3 bg-white rounded-lg border border-gray-200 hover:border-purple-300 cursor-pointer transition">
-                        <input type="radio" name="response" value="${index + 1}" class="mr-3 text-purple-600">
+                    <label class="flex items-center p-3 bg-white rounded-lg border border-gray-200 hover:border-cyan-300 cursor-pointer transition">
+                        <input type="radio" name="response" value="${index + 1}" class="mr-3 text-cyan-600">
                         <span class="text-gray-700">${option}</span>
                     </label>
                 `;
@@ -386,7 +386,7 @@ class HumanGlueAssessment {
                     <button onclick="assessment.previousQuestion()" class="px-6 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition ${this.currentQuestion === 0 && this.currentDimension === 0 ? 'invisible' : ''}">
                         <i class="fas fa-arrow-left mr-2"></i>Previous
                     </button>
-                    <button onclick="assessment.nextQuestion()" class="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition">
+                    <button onclick="assessment.nextQuestion()" class="px-6 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700 transition">
                         Next<i class="fas fa-arrow-right ml-2"></i>
                     </button>
                 </div>
@@ -587,11 +587,11 @@ class HumanGlueAssessment {
     displayEnhancedMetrics(results) {
         // Update enhanced metrics display
         const metricsHtml = `
-            <div class="bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg p-6 mt-6">
+            <div class="bg-gradient-to-r from-cyan-50 to-blue-50 rounded-lg p-6 mt-6">
                 <h4 class="font-semibold text-gray-800 mb-4">Enhanced AI Analysis - HumanGlue 7-Layer Model</h4>
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div class="text-center">
-                        <div class="text-2xl font-bold text-purple-600">${results.overall_transformation_score}%</div>
+                        <div class="text-2xl font-bold text-cyan-600">${results.overall_transformation_score}%</div>
                         <div class="text-xs text-gray-600">Transformation Score</div>
                     </div>
                     <div class="text-center">
@@ -987,7 +987,7 @@ class HumanGlueAssessment {
                 <div class="flex items-start justify-between mb-4">
                     <div class="flex-1">
                         <h4 class="font-semibold text-gray-800 mb-2">${tool.name}</h4>
-                        <span class="text-xs px-2 py-1 bg-purple-100 text-purple-700 rounded">${tool.category}</span>
+                        <span class="text-xs px-2 py-1 bg-cyan-100 text-cyan-700 rounded">${tool.category}</span>
                     </div>
                     <div class="flex items-center space-x-2">
                         ${index < 3 ? '<span class="text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded font-medium">High Priority</span>' : ''}
@@ -1117,7 +1117,7 @@ class HumanGlueAssessment {
     addChatMessage(sender, text) {
         const container = document.getElementById('chatMessages');
         const messageDiv = document.createElement('div');
-        messageDiv.className = `p-3 rounded-lg ${sender === 'user' ? 'bg-purple-100 ml-8' : 'bg-gray-100 mr-8'}`;
+        messageDiv.className = `p-3 rounded-lg ${sender === 'user' ? 'bg-cyan-100 ml-8' : 'bg-gray-100 mr-8'}`;
         messageDiv.innerHTML = `<p class="text-sm">${text}</p>`;
         container.appendChild(messageDiv);
         container.scrollTop = container.scrollHeight;

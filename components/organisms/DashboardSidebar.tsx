@@ -245,6 +245,16 @@ const adminContentItems = [
   },
 ]
 
+const adminCommunicationsItems = [
+  {
+    href: '/admin/outreach',
+    label: 'Communications Hub',
+    icon: Sparkles,
+    description: 'Multi-channel AI communications',
+    badge: 'AI',
+  },
+]
+
 const adminSystemItems = [
   {
     href: '/admin/analytics',
@@ -421,6 +431,7 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
         sections: [
           { title: 'Dashboard', items: adminMainNavItems },
           { title: 'Content', items: adminContentItems },
+          { title: 'Communications', items: adminCommunicationsItems },
           { title: 'System', items: filteredAdminSystemItems },
           { title: 'Settings', items: adminAccountItems },
         ],
@@ -514,13 +525,13 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
                 className={cn(
                   'relative group rounded-xl transition-all duration-200',
                   isActive
-                    ? 'bg-gradient-to-r from-purple-500/10 to-blue-500/10 backdrop-blur-xl'
+                    ? 'bg-gradient-to-r from-cyan-500/10 to-blue-500/10 backdrop-blur-xl'
                     : 'hover:bg-white/5'
                 )}
                 title={isCollapsed ? item.label : undefined}
               >
                 {isActive && (
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-blue-500/20 rounded-xl border border-purple-500/30" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-xl border border-cyan-500/30" />
                 )}
 
                 <div className={cn(
@@ -531,7 +542,7 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
                     className={cn(
                       'flex items-center justify-center w-10 h-10 rounded-lg transition-all',
                       isActive
-                        ? 'bg-gradient-to-br from-purple-500 to-blue-500 text-white shadow-lg shadow-purple-500/50'
+                        ? 'bg-gradient-to-br from-cyan-500 to-blue-500 text-white shadow-lg shadow-cyan-500/50'
                         : 'bg-white/5 text-gray-400 group-hover:bg-white/10 group-hover:text-white'
                     )}
                   >
@@ -550,7 +561,7 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
                           {item.label}
                         </span>
                         {'badge' in item && item.badge && (
-                          <span className="px-2 py-0.5 text-xs font-semibold bg-purple-500/20 text-purple-300 rounded-full font-diatype">
+                          <span className="px-2 py-0.5 text-xs font-semibold bg-cyan-500/20 text-cyan-300 rounded-full font-diatype">
                             {item.badge}
                           </span>
                         )}
@@ -572,7 +583,7 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
                       className={cn(
                         'w-4 h-4 transition-all',
                         isActive
-                          ? 'text-purple-400 opacity-100'
+                          ? 'text-cyan-400 opacity-100'
                           : 'text-gray-600 opacity-0 group-hover:opacity-100'
                       )}
                     />
@@ -667,7 +678,7 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
                 <div className="flex items-center gap-3">
                   {(() => {
                     const CurrentRoleIcon = availableRoles.find(r => r.id === currentActiveRole)?.icon || LayoutDashboard
-                    return <CurrentRoleIcon className="w-5 h-5 text-purple-400" />
+                    return <CurrentRoleIcon className="w-5 h-5 text-cyan-400" />
                   })()}
                   <div className="text-left">
                     <p className="text-sm font-medium text-white font-diatype">{portalConfig.title}</p>
@@ -703,24 +714,24 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
                             whileHover={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
                             className={cn(
                               "px-4 py-3 flex items-center gap-3 transition-colors cursor-pointer",
-                              isActive && "bg-purple-500/10"
+                              isActive && "bg-cyan-500/10"
                             )}
                           >
                             <RoleIcon className={cn(
                               "w-5 h-5",
-                              isActive ? "text-purple-400" : "text-gray-400"
+                              isActive ? "text-cyan-400" : "text-gray-400"
                             )} />
                             <div className="flex-1">
                               <p className={cn(
                                 "text-sm font-medium font-diatype",
-                                isActive ? "text-purple-300" : "text-white"
+                                isActive ? "text-cyan-300" : "text-white"
                               )}>
                                 {role.label}
                               </p>
                               <p className="text-xs text-gray-500 font-diatype">{role.description}</p>
                             </div>
                             {isActive && (
-                              <Check className="w-4 h-4 text-purple-400" />
+                              <Check className="w-4 h-4 text-cyan-400" />
                             )}
                           </motion.div>
                         </Link>
@@ -748,7 +759,7 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
                 whileHover={{ scale: 1.02 }}
                 className="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-all cursor-pointer"
               >
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-white font-bold text-sm">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center text-white font-bold text-sm">
                   {userData?.name ? userData.name.charAt(0).toUpperCase() : 'U'}
                 </div>
                 <div className="flex-1 min-w-0">
@@ -793,13 +804,13 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
               <div className="px-4 pb-4">
                 <motion.div
                   whileHover={{ scale: 1.02 }}
-                  className="relative overflow-hidden rounded-xl bg-gradient-to-br from-purple-900/50 to-blue-900/50 backdrop-blur-xl border border-purple-500/30 p-4"
+                  className="relative overflow-hidden rounded-xl bg-gradient-to-br from-cyan-900/50 to-blue-900/50 backdrop-blur-xl border border-cyan-500/30 p-4"
                 >
                   <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(168,85,247,0.1),transparent_70%)]" />
 
                   <div className="relative">
                     <div className="flex items-center gap-2 mb-2">
-                      <Award className="w-5 h-5 text-purple-400" />
+                      <Award className="w-5 h-5 text-cyan-400" />
                       <h3 className="text-sm font-semibold text-white font-gendy">Upgrade to Pro</h3>
                     </div>
                     <p className="text-xs text-gray-400 mb-3 font-diatype">
@@ -808,7 +819,7 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
                     <motion.button
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      className="w-full px-4 py-2 bg-gradient-to-r from-purple-500 to-blue-500 text-white text-sm font-semibold rounded-lg shadow-lg shadow-purple-500/50 font-diatype"
+                      className="w-full px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white text-sm font-semibold rounded-lg shadow-lg shadow-cyan-500/50 font-diatype"
                     >
                       Upgrade Now
                     </motion.button>

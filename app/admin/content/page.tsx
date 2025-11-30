@@ -31,7 +31,7 @@ import { useChat } from '@/lib/contexts/ChatContext'
 const fileTypeConfig = {
   video: {
     icon: Video,
-    color: 'purple',
+    color: 'cyan',
     extensions: ['.mp4', '.webm', '.mov', '.avi'],
     label: 'Video',
   },
@@ -458,7 +458,7 @@ export default function ContentLibrary() {
                 onClick={handleOpenUploadModal}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center gap-2 font-diatype"
+                className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center gap-2 font-diatype"
               >
                 <Upload className="w-5 h-5" />
                 Upload Content
@@ -480,7 +480,7 @@ export default function ContentLibrary() {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search content..."
-                    className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype"
+                    className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
                   />
                 </div>
               </div>
@@ -489,7 +489,7 @@ export default function ContentLibrary() {
               <select
                 value={selectedType}
                 onChange={(e) => setSelectedType(e.target.value)}
-                className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype"
+                className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
               >
                 <option value="all">All Types</option>
                 <option value="video">Videos</option>
@@ -502,7 +502,7 @@ export default function ContentLibrary() {
               <select
                 value={selectedAccessLevel}
                 onChange={(e) => setSelectedAccessLevel(e.target.value)}
-                className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype"
+                className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
               >
                 <option value="all">All Access Levels</option>
                 {accessLevels.map((level) => (
@@ -523,7 +523,7 @@ export default function ContentLibrary() {
                     onClick={() => setSortBy(sort)}
                     className={`px-3 py-1.5 rounded-lg text-sm font-diatype transition-all ${
                       sortBy === sort
-                        ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30'
+                        ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'
                         : 'bg-white/5 text-gray-400 hover:text-white hover:bg-white/10'
                     }`}
                   >
@@ -546,7 +546,7 @@ export default function ContentLibrary() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.03 }}
-                  className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:border-purple-500/30 transition-all group"
+                  className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:border-cyan-500/30 transition-all group"
                 >
                   {/* File Icon */}
                   <div className={`relative h-32 bg-gradient-to-br from-${fileColor}-900/30 to-${fileColor}-900/10 flex items-center justify-center`}>
@@ -613,7 +613,7 @@ export default function ContentLibrary() {
                       <motion.button
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        className="flex-1 px-3 py-2 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-purple-300 rounded-lg transition-all flex items-center justify-center gap-1.5 text-xs font-diatype"
+                        className="flex-1 px-3 py-2 bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-cyan-300 rounded-lg transition-all flex items-center justify-center gap-1.5 text-xs font-diatype"
                       >
                         <Eye className="w-3.5 h-3.5" />
                         View
@@ -704,7 +704,7 @@ export default function ContentLibrary() {
                       }}
                       className={`px-4 py-2 rounded-lg text-sm font-diatype whitespace-nowrap transition-all ${
                         activeTab === key
-                          ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30'
+                          ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'
                           : 'bg-white/5 text-gray-400 hover:text-white hover:bg-white/10'
                       }`}
                     >
@@ -728,8 +728,8 @@ export default function ContentLibrary() {
                     onDrop={handleDrop}
                     className={`border-2 border-dashed rounded-xl p-8 text-center transition-all ${
                       isDragging
-                        ? 'border-purple-500 bg-purple-500/10'
-                        : 'border-white/10 hover:border-purple-500/50 bg-white/5'
+                        ? 'border-cyan-500 bg-cyan-500/10'
+                        : 'border-white/10 hover:border-cyan-500/50 bg-white/5'
                     }`}
                   >
                     <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
@@ -754,7 +754,7 @@ export default function ContentLibrary() {
                       <motion.div
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        className="inline-flex items-center gap-2 px-6 py-3 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-purple-300 rounded-xl transition-all cursor-pointer font-diatype"
+                        className="inline-flex items-center gap-2 px-6 py-3 bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-cyan-300 rounded-xl transition-all cursor-pointer font-diatype"
                       >
                         <Paperclip className="w-5 h-5" />
                         Browse Files
@@ -785,13 +785,13 @@ export default function ContentLibrary() {
                                 <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0" />
                               )}
                               {uploadFile.status === 'uploading' && (
-                                <Loader2 className="w-4 h-4 text-purple-400 animate-spin flex-shrink-0" />
+                                <Loader2 className="w-4 h-4 text-cyan-400 animate-spin flex-shrink-0" />
                               )}
                             </div>
                             <div className="flex items-center gap-2">
                               <div className="flex-1 h-1.5 bg-white/10 rounded-full overflow-hidden">
                                 <div
-                                  className="h-full bg-gradient-to-r from-purple-500 to-blue-500 transition-all duration-300"
+                                  className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 transition-all duration-300"
                                   style={{ width: `${uploadFile.progress}%` }}
                                 />
                               </div>
@@ -834,7 +834,7 @@ export default function ContentLibrary() {
                       placeholder="e.g., AI Transformation Strategy Guide"
                       className={`w-full px-4 py-3 bg-white/5 border ${
                         formErrors.title ? 'border-red-500' : 'border-white/10'
-                      } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype`}
+                      } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype`}
                     />
                     {formErrors.title && (
                       <p className="text-red-400 text-sm mt-1 font-diatype">{formErrors.title}</p>
@@ -853,7 +853,7 @@ export default function ContentLibrary() {
                       }
                       placeholder="Provide a detailed description of the content..."
                       rows={3}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype resize-none"
+                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype resize-none"
                     />
                   </div>
 
@@ -867,7 +867,7 @@ export default function ContentLibrary() {
                       onChange={(e) =>
                         setFormData((prev) => ({ ...prev, accessLevel: e.target.value }))
                       }
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype"
+                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
                     >
                       {accessLevels.map((level) => (
                         <option key={level} value={level}>
@@ -889,7 +889,7 @@ export default function ContentLibrary() {
                         setFormData((prev) => ({ ...prev, associatedCourse: e.target.value }))
                       }
                       placeholder="e.g., AI Transformation for Executives"
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype"
+                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
                     />
                   </div>
 
@@ -906,7 +906,7 @@ export default function ContentLibrary() {
                           onClick={() => toggleCategory(category)}
                           className={`px-3 py-1.5 rounded-lg text-sm font-diatype transition-all ${
                             formData.selectedCategories.includes(category)
-                              ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30'
+                              ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'
                               : 'bg-white/5 text-gray-400 hover:text-white hover:bg-white/10'
                           }`}
                         >
@@ -929,7 +929,7 @@ export default function ContentLibrary() {
                 <button
                   onClick={handleUpload}
                   disabled={uploadFiles.some((f) => f.status === 'uploading')}
-                  className="flex-1 px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white rounded-xl transition-all font-semibold flex items-center justify-center gap-2 font-diatype disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white rounded-xl transition-all font-semibold flex items-center justify-center gap-2 font-diatype disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <Upload className="w-5 h-5" />
                   Upload Content

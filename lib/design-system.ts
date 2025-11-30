@@ -7,7 +7,7 @@ export const colors = {
   // Core Brand
   brand: {
     primary: '#2563EB',      // Trust blue
-    accent: '#8B5CF6',       // Transformation purple
+    accent: '#61D8FE',       // Brand cyan (was purple)
     success: '#10B981',      // Growth green
   },
 
@@ -28,11 +28,11 @@ export const colors = {
       glow: 'shadow-amber-500/50',
     },
     marketplace: {
-      main: '#8B5CF6',       // Talent purple
-      light: '#A78BFA',
-      dark: '#7C3AED',
-      gradient: 'from-purple-500 to-purple-600',
-      glow: 'shadow-purple-500/50',
+      main: '#22D3EE',       // Talent cyan (was purple)
+      light: '#67E8F9',
+      dark: '#06B6D4',
+      gradient: 'from-cyan-500 to-cyan-600',
+      glow: 'shadow-cyan-500/50',
     },
   },
 
@@ -97,9 +97,9 @@ export const typography = {
   // Special
   gradient: {
     blue: 'bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent',
-    purple: 'bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent',
+    cyan: 'bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent',
     amber: 'bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent',
-    brand: 'bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent',
+    brand: 'bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent',
   },
 }
 
@@ -127,11 +127,11 @@ export const effects = {
 
   // Gradients
   gradient: {
-    primary: 'bg-gradient-to-br from-blue-600 to-purple-600',
-    secondary: 'bg-gradient-to-br from-purple-600 to-pink-600',
+    primary: 'bg-gradient-to-br from-blue-600 to-cyan-600',
+    secondary: 'bg-gradient-to-br from-cyan-600 to-teal-600',
     adaptability: 'bg-gradient-to-br from-blue-500 to-blue-600',
     coaching: 'bg-gradient-to-br from-amber-500 to-orange-600',
-    marketplace: 'bg-gradient-to-br from-purple-500 to-purple-600',
+    marketplace: 'bg-gradient-to-br from-cyan-500 to-cyan-600',
     dark: 'bg-gradient-to-br from-gray-900 via-blue-900/20 to-gray-900',
   },
 
@@ -139,7 +139,7 @@ export const effects = {
   border: {
     base: 'border border-gray-700',
     light: 'border border-gray-600',
-    gradient: 'border border-transparent bg-gradient-to-r from-blue-500 to-purple-500',
+    gradient: 'border border-transparent bg-gradient-to-r from-blue-500 to-cyan-500',
   },
 
   // Backdrop
@@ -172,7 +172,7 @@ export const components = {
     elevated: `${effects.backdrop.blur} ${effects.border.base} rounded-2xl p-8 ${effects.shadow.xl}`,
     pillar: (pillar: 'adaptability' | 'coaching' | 'marketplace') => {
       const pillarColors = colors.pillars[pillar]
-      return `${effects.backdrop.blur} border-2 border-${pillar === 'adaptability' ? 'blue' : pillar === 'coaching' ? 'amber' : 'purple'}-500/30 rounded-2xl p-8 hover:border-${pillar === 'adaptability' ? 'blue' : pillar === 'coaching' ? 'amber' : 'purple'}-500/60 transition-all duration-300`
+      return `${effects.backdrop.blur} border-2 border-${pillar === 'adaptability' ? 'blue' : pillar === 'coaching' ? 'amber' : 'cyan'}-500/30 rounded-2xl p-8 hover:border-${pillar === 'adaptability' ? 'blue' : pillar === 'coaching' ? 'amber' : 'cyan'}-500/60 transition-all duration-300`
     },
   },
 

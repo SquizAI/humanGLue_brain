@@ -78,7 +78,7 @@ export function MobileFirstLanding({ onOpenChat }: MobileFirstLandingProps) {
       title: 'Strategic Workshops', 
       description: 'Expert-facilitated transformation sessions',
       icon: Users,
-      color: 'from-purple-500 to-purple-600',
+      color: 'from-cyan-500 to-cyan-600',
       features: ['Leadership Alignment', 'Team Building', 'Action Planning']
     },
     {
@@ -148,7 +148,7 @@ export function MobileFirstLanding({ onOpenChat }: MobileFirstLandingProps) {
                   setIsMenuOpen(false)
                   onOpenChat?.()
                 }}
-                className="w-full mt-8 px-6 py-4 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl font-semibold text-white"
+                className="w-full mt-8 px-6 py-4 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl font-semibold text-white"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -168,7 +168,7 @@ export function MobileFirstLanding({ onOpenChat }: MobileFirstLandingProps) {
           {/* Animated Background Elements */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-20 left-10 w-32 h-32 bg-blue-500/20 rounded-full blur-3xl animate-pulse" />
-            <div className="absolute bottom-20 right-10 w-40 h-40 bg-purple-500/20 rounded-full blur-3xl animate-pulse delay-1000" />
+            <div className="absolute bottom-20 right-10 w-40 h-40 bg-cyan-500/20 rounded-full blur-3xl animate-pulse delay-1000" />
           </div>
 
           <motion.div
@@ -191,7 +191,7 @@ export function MobileFirstLanding({ onOpenChat }: MobileFirstLandingProps) {
             {/* Main Heading */}
             <h1 className="text-4xl sm:text-5xl font-bold mb-4 leading-tight">
               Transform Your
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
                 Organization
               </span>
               with AI
@@ -206,7 +206,7 @@ export function MobileFirstLanding({ onOpenChat }: MobileFirstLandingProps) {
             <div className="flex flex-col gap-4">
               <motion.button
                 onClick={onOpenChat}
-                className="px-6 py-4 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl font-semibold text-white flex items-center justify-center gap-2 shadow-lg"
+                className="px-6 py-4 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl font-semibold text-white flex items-center justify-center gap-2 shadow-lg"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -348,7 +348,7 @@ export function MobileFirstLanding({ onOpenChat }: MobileFirstLandingProps) {
           <h2 className="text-3xl font-bold mb-6">Our Process</h2>
           <div className="relative">
             {/* Timeline line */}
-            <div className="absolute left-8 top-8 bottom-8 w-0.5 bg-gradient-to-b from-blue-500 to-purple-500" />
+            <div className="absolute left-8 top-8 bottom-8 w-0.5 bg-gradient-to-b from-blue-500 to-cyan-500" />
             
             <div className="space-y-6">
               {processSteps.map((step, index) => (
@@ -385,7 +385,7 @@ export function MobileFirstLanding({ onOpenChat }: MobileFirstLandingProps) {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-center"
+          className="bg-gradient-to-r from-blue-600 to-cyan-600 rounded-2xl p-8 text-center"
         >
           <h2 className="text-3xl font-bold mb-4">Ready to Transform?</h2>
           <p className="text-lg text-white/90 mb-6">
@@ -422,7 +422,7 @@ export function MobileFirstLanding({ onOpenChat }: MobileFirstLandingProps) {
       {/* Bottom Navigation Indicator */}
       <div className="fixed bottom-0 left-0 right-0 h-1 bg-gray-800 z-30">
         <motion.div
-          className="h-full bg-gradient-to-r from-blue-500 to-purple-500"
+          className="h-full bg-gradient-to-r from-blue-500 to-cyan-500"
           style={{
             width: `${(['hero', 'problem', 'solution', 'process', 'results', 'cta'].indexOf(activeSection) + 1) * 20}%`
           }}

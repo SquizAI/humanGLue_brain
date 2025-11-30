@@ -55,8 +55,8 @@ export function QuickResponse({ suggestions, onSelect, className }: QuickRespons
             onClick={() => onSelect(suggestion.text)}
             className={cn(
               'px-3 py-1.5 rounded-full',
-              'bg-gradient-to-r from-blue-600 to-purple-600',
-              'hover:from-blue-500 hover:to-purple-500',
+              'bg-gradient-to-r from-blue-600 to-cyan-600',
+              'hover:from-blue-500 hover:to-cyan-500',
               'transition-colors duration-200',
               'text-xs font-medium text-white font-diatype',
               'shadow-sm hover:shadow-md',

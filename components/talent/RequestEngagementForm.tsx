@@ -214,7 +214,7 @@ export function RequestEngagementForm({ talent }: RequestEngagementFormProps) {
 
             <p className="text-xl text-gray-300 mb-8 leading-relaxed">
               Your engagement request has been sent to{' '}
-              <span className="font-semibold text-purple-300">{talent.name}</span>. You'll
+              <span className="font-semibold text-cyan-300">{talent.name}</span>. You'll
               receive a response within 24 hours to discuss next steps.
             </p>
 
@@ -229,7 +229,7 @@ export function RequestEngagementForm({ talent }: RequestEngagementFormProps) {
               </div>
               <div className="p-4 rounded-xl bg-white/5 border border-gray-700 text-left">
                 <div className="text-sm text-gray-400 mb-1">Estimated Investment</div>
-                <div className="text-2xl font-bold text-purple-400">
+                <div className="text-2xl font-bold text-cyan-400">
                   ${estimatedCost().toLocaleString()}
                 </div>
               </div>
@@ -242,7 +242,7 @@ export function RequestEngagementForm({ talent }: RequestEngagementFormProps) {
                 </button>
               </Link>
               <Link href={`/talent/${talent.id}`}>
-                <button className="px-8 py-4 rounded-full font-semibold bg-gradient-to-r from-purple-500 to-purple-600 text-white hover:shadow-lg hover:shadow-purple-500/50 transition-all">
+                <button className="px-8 py-4 rounded-full font-semibold bg-gradient-to-r from-cyan-500 to-cyan-600 text-white hover:shadow-lg hover:shadow-cyan-500/50 transition-all">
                   View Expert Profile
                 </button>
               </Link>
@@ -256,11 +256,11 @@ export function RequestEngagementForm({ talent }: RequestEngagementFormProps) {
   return (
     <div className="min-h-screen bg-gray-900">
       {/* Header */}
-      <section className="bg-gradient-to-br from-gray-900 via-purple-900/20 to-gray-900 py-12 border-b border-gray-800">
+      <section className="bg-gradient-to-br from-gray-900 via-cyan-900/20 to-gray-900 py-12 border-b border-gray-800">
         <div className={spacing.container.wide}>
           <Link
             href={`/talent/${talent.id}`}
-            className="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 mb-6 transition-colors"
+            className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 mb-6 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to profile
@@ -273,7 +273,7 @@ export function RequestEngagementForm({ talent }: RequestEngagementFormProps) {
               </h1>
               <p className="text-lg text-gray-300">
                 Working with{' '}
-                <span className="font-semibold text-purple-300">{talent.name}</span> -{' '}
+                <span className="font-semibold text-cyan-300">{talent.name}</span> -{' '}
                 {talent.title}
               </p>
             </div>
@@ -288,7 +288,7 @@ export function RequestEngagementForm({ talent }: RequestEngagementFormProps) {
                     step < currentStep
                       ? 'bg-green-500 text-white'
                       : step === currentStep
-                      ? 'bg-purple-500 text-white'
+                      ? 'bg-cyan-500 text-white'
                       : 'bg-gray-800 text-gray-500'
                   )}
                 >
@@ -317,8 +317,8 @@ export function RequestEngagementForm({ talent }: RequestEngagementFormProps) {
                     className="space-y-6"
                   >
                     <div className="flex items-center gap-3 mb-8">
-                      <div className="w-12 h-12 rounded-xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center">
-                        <Briefcase className="w-6 h-6 text-purple-400" />
+                      <div className="w-12 h-12 rounded-xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center">
+                        <Briefcase className="w-6 h-6 text-cyan-400" />
                       </div>
                       <div>
                         <h2 className={cn(typography.heading.h3, 'text-white')}>
@@ -339,7 +339,7 @@ export function RequestEngagementForm({ talent }: RequestEngagementFormProps) {
                         value={formData.projectName}
                         onChange={(e) => updateFormData('projectName', e.target.value)}
                         placeholder="e.g., AI Transformation Initiative Q2 2025"
-                        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20"
+                        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20"
                         data-testid="project-name"
                       />
                     </div>
@@ -355,7 +355,7 @@ export function RequestEngagementForm({ talent }: RequestEngagementFormProps) {
                         }
                         placeholder="Describe what you're trying to achieve, key challenges, and desired outcomes..."
                         rows={5}
-                        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 resize-none"
+                        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 resize-none"
                         data-testid="project-description"
                       />
                     </div>
@@ -371,7 +371,7 @@ export function RequestEngagementForm({ talent }: RequestEngagementFormProps) {
                           onChange={(e) => updateFormData('timeline', e.target.value)}
                           placeholder="12"
                           min="1"
-                          className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20"
+                          className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20"
                           data-testid="timeline"
                         />
                       </div>
@@ -383,7 +383,7 @@ export function RequestEngagementForm({ talent }: RequestEngagementFormProps) {
                         <select
                           value={formData.budgetRange}
                           onChange={(e) => updateFormData('budgetRange', e.target.value)}
-                          className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20"
+                          className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20"
                           data-testid="budget-range"
                         >
                           <option value="">Select budget range</option>
@@ -417,7 +417,7 @@ export function RequestEngagementForm({ talent }: RequestEngagementFormProps) {
                             className={cn(
                               'px-4 py-3 rounded-xl font-medium transition-all',
                               formData.urgency === option.value
-                                ? 'bg-purple-500 text-white'
+                                ? 'bg-cyan-500 text-white'
                                 : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
                             )}
                             data-testid={`urgency-${option.value}`}
@@ -440,8 +440,8 @@ export function RequestEngagementForm({ talent }: RequestEngagementFormProps) {
                     className="space-y-6"
                   >
                     <div className="flex items-center gap-3 mb-8">
-                      <div className="w-12 h-12 rounded-xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center">
-                        <Building2 className="w-6 h-6 text-purple-400" />
+                      <div className="w-12 h-12 rounded-xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center">
+                        <Building2 className="w-6 h-6 text-cyan-400" />
                       </div>
                       <div>
                         <h2 className={cn(typography.heading.h3, 'text-white')}>
@@ -463,7 +463,7 @@ export function RequestEngagementForm({ talent }: RequestEngagementFormProps) {
                           value={formData.companyName}
                           onChange={(e) => updateFormData('companyName', e.target.value)}
                           placeholder="Your company name"
-                          className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20"
+                          className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20"
                           data-testid="company-name"
                         />
                       </div>
@@ -475,7 +475,7 @@ export function RequestEngagementForm({ talent }: RequestEngagementFormProps) {
                         <select
                           value={formData.companySize}
                           onChange={(e) => updateFormData('companySize', e.target.value)}
-                          className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20"
+                          className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20"
                           data-testid="company-size"
                         >
                           <option value="">Select company size</option>
@@ -497,7 +497,7 @@ export function RequestEngagementForm({ talent }: RequestEngagementFormProps) {
                         value={formData.industry}
                         onChange={(e) => updateFormData('industry', e.target.value)}
                         placeholder="e.g., Healthcare, Finance, Technology"
-                        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20"
+                        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20"
                         data-testid="industry"
                       />
                     </div>
@@ -519,7 +519,7 @@ export function RequestEngagementForm({ talent }: RequestEngagementFormProps) {
                               updateFormData('contactName', e.target.value)
                             }
                             placeholder="John Doe"
-                            className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20"
+                            className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20"
                             data-testid="contact-name"
                           />
                         </div>
@@ -536,7 +536,7 @@ export function RequestEngagementForm({ talent }: RequestEngagementFormProps) {
                                 updateFormData('contactEmail', e.target.value)
                               }
                               placeholder="john@company.com"
-                              className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20"
+                              className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20"
                               data-testid="contact-email"
                             />
                           </div>
@@ -552,7 +552,7 @@ export function RequestEngagementForm({ talent }: RequestEngagementFormProps) {
                                 updateFormData('contactPhone', e.target.value)
                               }
                               placeholder="+1 (555) 000-0000"
-                              className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20"
+                              className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20"
                               data-testid="contact-phone"
                             />
                           </div>
@@ -572,8 +572,8 @@ export function RequestEngagementForm({ talent }: RequestEngagementFormProps) {
                     className="space-y-6"
                   >
                     <div className="flex items-center gap-3 mb-8">
-                      <div className="w-12 h-12 rounded-xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center">
-                        <Target className="w-6 h-6 text-purple-400" />
+                      <div className="w-12 h-12 rounded-xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center">
+                        <Target className="w-6 h-6 text-cyan-400" />
                       </div>
                       <div>
                         <h2 className={cn(typography.heading.h3, 'text-white')}>
@@ -594,7 +594,7 @@ export function RequestEngagementForm({ talent }: RequestEngagementFormProps) {
                         onChange={(e) => updateFormData('primaryGoal', e.target.value)}
                         placeholder="What's the main transformation outcome you're seeking?"
                         rows={3}
-                        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 resize-none"
+                        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 resize-none"
                         data-testid="primary-goal"
                       />
                     </div>
@@ -611,7 +611,7 @@ export function RequestEngagementForm({ talent }: RequestEngagementFormProps) {
                             className={cn(
                               'px-4 py-3 rounded-xl font-medium text-left transition-all',
                               formData.behaviorChanges.includes(behavior)
-                                ? 'bg-purple-500 text-white'
+                                ? 'bg-cyan-500 text-white'
                                 : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
                             )}
                             data-testid={`behavior-${behavior}`}
@@ -626,7 +626,7 @@ export function RequestEngagementForm({ talent }: RequestEngagementFormProps) {
                                 )}
                               >
                                 {formData.behaviorChanges.includes(behavior) && (
-                                  <Check className="w-4 h-4 text-purple-500" />
+                                  <Check className="w-4 h-4 text-cyan-500" />
                                 )}
                               </div>
                               <span className="text-sm">{behavior}</span>
@@ -645,7 +645,7 @@ export function RequestEngagementForm({ talent }: RequestEngagementFormProps) {
                         onChange={(e) => updateFormData('successMetrics', e.target.value)}
                         placeholder="How will you measure success? (e.g., 50% reduction in AI resistance, 80% team adoption rate)"
                         rows={3}
-                        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 resize-none"
+                        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 resize-none"
                         data-testid="success-metrics"
                       />
                     </div>
@@ -661,7 +661,7 @@ export function RequestEngagementForm({ talent }: RequestEngagementFormProps) {
                         }
                         placeholder="What obstacles are you facing right now?"
                         rows={3}
-                        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 resize-none"
+                        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 resize-none"
                         data-testid="current-challenges"
                       />
                     </div>
@@ -678,8 +678,8 @@ export function RequestEngagementForm({ talent }: RequestEngagementFormProps) {
                     className="space-y-6"
                   >
                     <div className="flex items-center gap-3 mb-8">
-                      <div className="w-12 h-12 rounded-xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center">
-                        <Users className="w-6 h-6 text-purple-400" />
+                      <div className="w-12 h-12 rounded-xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center">
+                        <Users className="w-6 h-6 text-cyan-400" />
                       </div>
                       <div>
                         <h2 className={cn(typography.heading.h3, 'text-white')}>
@@ -733,7 +733,7 @@ export function RequestEngagementForm({ talent }: RequestEngagementFormProps) {
                             className={cn(
                               'w-full p-4 rounded-xl text-left transition-all',
                               formData.engagementModel === model.value
-                                ? 'bg-purple-500/20 border-2 border-purple-500'
+                                ? 'bg-cyan-500/20 border-2 border-cyan-500'
                                 : 'bg-gray-800 border border-gray-700 hover:bg-gray-700'
                             )}
                             data-testid={`engagement-${model.value}`}
@@ -743,7 +743,7 @@ export function RequestEngagementForm({ talent }: RequestEngagementFormProps) {
                                 className={cn(
                                   'w-6 h-6 rounded-full border-2 flex items-center justify-center mt-0.5',
                                   formData.engagementModel === model.value
-                                    ? 'bg-purple-500 border-purple-500'
+                                    ? 'bg-cyan-500 border-cyan-500'
                                     : 'border-gray-600'
                                 )}
                               >
@@ -775,7 +775,7 @@ export function RequestEngagementForm({ talent }: RequestEngagementFormProps) {
                         onChange={(e) =>
                           updateFormData('preferredStartDate', e.target.value)
                         }
-                        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20"
+                        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20"
                         data-testid="start-date"
                       />
                     </div>
@@ -791,7 +791,7 @@ export function RequestEngagementForm({ talent }: RequestEngagementFormProps) {
                         }
                         placeholder="Any additional information you'd like to share?"
                         rows={4}
-                        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 resize-none"
+                        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 resize-none"
                         data-testid="additional-notes"
                       />
                     </div>
@@ -819,7 +819,7 @@ export function RequestEngagementForm({ talent }: RequestEngagementFormProps) {
                     className={cn(
                       'px-6 py-3 rounded-full font-semibold transition-all flex items-center gap-2 ml-auto',
                       isStepValid()
-                        ? 'bg-gradient-to-r from-purple-500 to-purple-600 text-white hover:shadow-lg hover:shadow-purple-500/50'
+                        ? 'bg-gradient-to-r from-cyan-500 to-cyan-600 text-white hover:shadow-lg hover:shadow-cyan-500/50'
                         : 'bg-gray-700 text-gray-500 cursor-not-allowed'
                     )}
                     data-testid="next-button"
@@ -834,7 +834,7 @@ export function RequestEngagementForm({ talent }: RequestEngagementFormProps) {
                     className={cn(
                       'px-8 py-4 rounded-full font-semibold transition-all flex items-center gap-2 ml-auto',
                       isStepValid() && !isSubmitting
-                        ? 'bg-gradient-to-r from-purple-500 to-purple-600 text-white hover:shadow-lg hover:shadow-purple-500/50'
+                        ? 'bg-gradient-to-r from-cyan-500 to-cyan-600 text-white hover:shadow-lg hover:shadow-cyan-500/50'
                         : 'bg-gray-700 text-gray-500 cursor-not-allowed'
                     )}
                     data-testid="submit-button"
@@ -859,14 +859,14 @@ export function RequestEngagementForm({ talent }: RequestEngagementFormProps) {
             <div className="lg:col-span-1">
               <div className="sticky top-24 p-6 rounded-3xl bg-white/5 border border-gray-700 space-y-6">
                 <div className="flex items-center gap-3 mb-4">
-                  <Sparkles className="w-5 h-5 text-purple-400" />
+                  <Sparkles className="w-5 h-5 text-cyan-400" />
                   <h3 className="font-semibold text-white">Request Summary</h3>
                 </div>
 
                 {/* Expert Info */}
-                <div className="p-4 rounded-xl bg-gradient-to-br from-purple-500/10 to-purple-600/5 border border-purple-500/20">
+                <div className="p-4 rounded-xl bg-gradient-to-br from-cyan-500/10 to-cyan-600/5 border border-cyan-500/20">
                   <div className="flex items-center gap-3 mb-2">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center text-white font-bold">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-cyan-600 flex items-center justify-center text-white font-bold">
                       {talent.name.split(' ').map((n) => n[0]).join('')}
                     </div>
                     <div>
@@ -876,7 +876,7 @@ export function RequestEngagementForm({ talent }: RequestEngagementFormProps) {
                       <div className="text-xs text-gray-400">{talent.title}</div>
                     </div>
                   </div>
-                  <div className="text-xs text-purple-300 mt-2">
+                  <div className="text-xs text-cyan-300 mt-2">
                     {talent.adaptabilityImpact.transformationSuccessRate}% Success Rate
                   </div>
                 </div>
@@ -897,7 +897,7 @@ export function RequestEngagementForm({ talent }: RequestEngagementFormProps) {
                 {formData.timeline && (
                   <div className="pt-6 border-t border-gray-700">
                     <div className="text-sm text-gray-400 mb-2">Estimated Investment</div>
-                    <div className="text-3xl font-bold text-purple-400">
+                    <div className="text-3xl font-bold text-cyan-400">
                       ${estimatedCost().toLocaleString()}
                     </div>
                     <div className="text-xs text-gray-500 mt-1">
@@ -922,7 +922,7 @@ export function RequestEngagementForm({ talent }: RequestEngagementFormProps) {
                         item.step < currentStep
                           ? 'text-green-400'
                           : item.step === currentStep
-                          ? 'text-purple-400'
+                          ? 'text-cyan-400'
                           : 'text-gray-600'
                       )}
                     >

@@ -57,11 +57,11 @@ const PillarCard = ({ pillar, icon, headline, description, features, cta, delay 
       bg: 'bg-amber-900/20'
     },
     marketplace: {
-      gradient: 'from-purple-500 to-pink-500',
-      border: 'border-purple-500/20',
+      gradient: 'from-cyan-500 to-pink-500',
+      border: 'border-cyan-500/20',
       glow: 'shadow-[0_0_40px_rgba(168,85,247,0.3)]',
-      icon: 'text-purple-400',
-      bg: 'bg-purple-900/20'
+      icon: 'text-cyan-400',
+      bg: 'bg-cyan-900/20'
     }
   }
 
@@ -175,7 +175,7 @@ const TransformationMetric = ({ value, label, delay = 0 }: TransformationMetricP
       transition={{ duration: 0.5, delay }}
       className="text-center"
     >
-      <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent mb-2">
+      <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent mb-2">
         {value.includes('+') ? `${displayValue.toLocaleString()}+` : value}
       </div>
       <div className="text-gray-400 text-sm md:text-base">{label}</div>
@@ -206,7 +206,7 @@ export function ManifestoHomepage() {
       >
         {/* Animated Background */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-purple-900/20 to-pink-900/20" />
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-cyan-900/20 to-pink-900/20" />
           <motion.div
             className="absolute top-1/4 -left-1/4 w-96 h-96 bg-blue-500/30 rounded-full blur-3xl"
             animate={{
@@ -216,7 +216,7 @@ export function ManifestoHomepage() {
             transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
           />
           <motion.div
-            className="absolute bottom-1/4 -right-1/4 w-96 h-96 bg-purple-500/30 rounded-full blur-3xl"
+            className="absolute bottom-1/4 -right-1/4 w-96 h-96 bg-cyan-500/30 rounded-full blur-3xl"
             animate={{
               scale: [1.2, 1, 1.2],
               opacity: [0.5, 0.3, 0.5],
@@ -243,7 +243,7 @@ export function ManifestoHomepage() {
             </motion.h1>
 
             <motion.h2
-              className="text-3xl md:text-5xl lg:text-6xl font-bold mb-8 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent"
+              className="text-3xl md:text-5xl lg:text-6xl font-bold mb-8 bg-gradient-to-r from-blue-400 via-cyan-400 to-pink-400 bg-clip-text text-transparent"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
@@ -409,7 +409,7 @@ export function ManifestoHomepage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="bg-gradient-to-r from-blue-900/30 to-purple-900/30 rounded-2xl border border-blue-500/30 p-8 md:p-12"
+            className="bg-gradient-to-r from-blue-900/30 to-cyan-900/30 rounded-2xl border border-blue-500/30 p-8 md:p-12"
           >
             <h3 className="text-3xl font-bold text-center text-white mb-12">What Transformation Looks Like</h3>
             <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-8">
@@ -501,7 +501,7 @@ export function ManifestoHomepage() {
           >
             <h2 className="text-4xl md:text-6xl font-extrabold mb-6">
               <span className="block text-white">We Don't Just Train.</span>
-              <span className="block bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+              <span className="block bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
                 We Future-Proof.
               </span>
             </h2>
@@ -580,7 +580,7 @@ export function ManifestoHomepage() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="bg-gradient-to-r from-blue-900/30 to-purple-900/30 rounded-2xl border border-blue-500/30 p-8 md:p-12 mb-16 text-center"
+            className="bg-gradient-to-r from-blue-900/30 to-cyan-900/30 rounded-2xl border border-blue-500/30 p-8 md:p-12 mb-16 text-center"
           >
             <p className="text-2xl md:text-3xl font-semibold text-white mb-6 italic">
               "We didn't just implement AI. We transformed how our people think about change."
@@ -602,7 +602,7 @@ export function ManifestoHomepage() {
       </section>
 
       {/* Final Rally */}
-      <section className="py-20 md:py-32 relative bg-gradient-to-b from-black via-blue-900/20 to-purple-900/20">
+      <section className="py-20 md:py-32 relative bg-gradient-to-b from-black via-blue-900/20 to-cyan-900/20">
         <div className="container max-w-7xl mx-auto px-4 sm:px-6 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -613,7 +613,7 @@ export function ManifestoHomepage() {
             <h2 className="text-4xl md:text-6xl lg:text-7xl font-extrabold mb-6 text-white">
               That's Human Glue.
             </h2>
-            <p className="text-3xl md:text-5xl font-bold mb-12 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+            <p className="text-3xl md:text-5xl font-bold mb-12 bg-gradient-to-r from-blue-400 via-cyan-400 to-pink-400 bg-clip-text text-transparent">
               The Bond That Glues the Future Together.
             </p>
 

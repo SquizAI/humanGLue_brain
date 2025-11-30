@@ -217,7 +217,7 @@ export default function InstructorProfilePage() {
             </div>
 
             {/* Cover Photo Section */}
-            <div className="relative h-48 bg-gradient-to-br from-purple-900/50 to-blue-900/50 rounded-t-2xl overflow-hidden border border-white/10 border-b-0">
+            <div className="relative h-48 bg-gradient-to-br from-cyan-900/50 to-blue-900/50 rounded-t-2xl overflow-hidden border border-white/10 border-b-0">
               {profile.coverPhoto ? (
                 <Image src={profile.coverPhoto} alt="Cover" fill className="object-cover" />
               ) : (
@@ -266,7 +266,7 @@ export default function InstructorProfilePage() {
                     <motion.button
                       whileHover={{ scale: 1.05 }}
                       onClick={() => avatarInputRef.current?.click()}
-                      className="absolute bottom-0 right-0 p-2 bg-purple-500 rounded-lg text-white hover:bg-purple-600 transition-all"
+                      className="absolute bottom-0 right-0 p-2 bg-cyan-500 rounded-lg text-white hover:bg-cyan-600 transition-all"
                     >
                       <Camera className="w-4 h-4" />
                     </motion.button>
@@ -334,7 +334,7 @@ export default function InstructorProfilePage() {
                   {/* Quick Stats */}
                   <div className="flex items-center gap-6 text-sm">
                     <div className="flex items-center gap-2">
-                      <Clock className="w-4 h-4 text-purple-400" />
+                      <Clock className="w-4 h-4 text-cyan-400" />
                       <span className="text-gray-400 font-diatype">{profile.yearsExperience} years experience</span>
                     </div>
                     <div className="flex items-center gap-2">
@@ -384,7 +384,7 @@ export default function InstructorProfilePage() {
                         </button>
                         <button
                           onClick={() => setEditingField(null)}
-                          className="px-4 py-2 rounded-lg bg-purple-500 text-white hover:bg-purple-600 font-diatype"
+                          className="px-4 py-2 rounded-lg bg-cyan-500 text-white hover:bg-cyan-600 font-diatype"
                         >
                           Save
                         </button>
@@ -406,13 +406,13 @@ export default function InstructorProfilePage() {
                           initial={{ scale: 0.8, opacity: 0 }}
                           animate={{ scale: 1, opacity: 1 }}
                           exit={{ scale: 0.8, opacity: 0 }}
-                          className="flex items-center gap-2 px-4 py-2 bg-purple-500/10 border border-purple-500/20 rounded-full text-purple-300 font-diatype"
+                          className="flex items-center gap-2 px-4 py-2 bg-cyan-500/10 border border-cyan-500/20 rounded-full text-cyan-300 font-diatype"
                         >
                           <span>{tag}</span>
                           {!isPreviewMode && (
                             <button
                               onClick={() => removeExpertiseTag(tag)}
-                              className="hover:text-purple-100"
+                              className="hover:text-cyan-100"
                             >
                               <X className="w-3 h-3" />
                             </button>
@@ -507,7 +507,7 @@ export default function InstructorProfilePage() {
                 <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2">
-                      <Award className="w-5 h-5 text-purple-400" />
+                      <Award className="w-5 h-5 text-cyan-400" />
                       <h3 className="text-xl font-semibold text-white font-gendy">Certifications</h3>
                     </div>
                     {!isPreviewMode && (
@@ -654,7 +654,7 @@ export default function InstructorProfilePage() {
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <BookOpen className="w-4 h-4 text-purple-400" />
+                        <BookOpen className="w-4 h-4 text-cyan-400" />
                         <span className="text-gray-400 font-diatype">Courses</span>
                       </div>
                       <span className="text-white font-semibold font-diatype">{profile.stats.totalCourses}</span>
@@ -692,7 +692,7 @@ export default function InstructorProfilePage() {
                       { key: 'twitter', icon: Twitter, label: 'Twitter', color: 'text-sky-400' },
                       { key: 'website', icon: Globe, label: 'Website', color: 'text-green-400' },
                       { key: 'youtube', icon: Youtube, label: 'YouTube', color: 'text-red-400' },
-                      { key: 'github', icon: Github, label: 'GitHub', color: 'text-purple-400' },
+                      { key: 'github', icon: Github, label: 'GitHub', color: 'text-cyan-400' },
                     ].map(({ key, icon: Icon, label, color }) => (
                       <div key={key} className="flex items-center gap-3">
                         <Icon className={cn("w-5 h-5", color)} />
@@ -780,7 +780,7 @@ export default function InstructorProfilePage() {
                         whileTap={{ scale: 0.95 }}
                         onClick={handleSave}
                         disabled={isSaving}
-                        className="px-6 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-blue-500 text-white font-semibold flex items-center gap-2 font-diatype disabled:opacity-50"
+                        className="px-6 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold flex items-center gap-2 font-diatype disabled:opacity-50"
                       >
                         {isSaving ? (
                           <>

@@ -48,25 +48,25 @@ const config: Config = {
         },
         'brand': {
           'cyan': '#61D8FE',
-          'purple': '#544AE9',
+          'cyan': '#61D8FE', // Legacy - now points to cyan
           'dark': '#1D212A',
           'gray': '#4D4D4D',
           'light': '#F2F2F2',
           // Dynamic branding colors (set via CSS variables by BrandingInjector)
           'primary': 'var(--color-primary, #3b82f6)',
-          'secondary': 'var(--color-secondary, #8b5cf6)',
+          'secondary': 'var(--color-secondary, #22d3ee)', // Changed from purple to cyan
           'accent': 'var(--color-accent, #10b981)',
         },
         'humanglue-blue': '#4285F4',
         'humanglue-green': '#34A853',
         'humanglue-yellow': '#FBBC05',
         'humanglue-red': '#EA4335',
-        'humanglue-purple': '#673AB7',
+        'humanglue-cyan': '#61D8FE', // Replaced purple
         'neon': {
           'blue': 'rgb(0, 149, 255)',
-          'purple': 'rgb(187, 134, 252)',
+          'cyan': 'rgb(97, 216, 254)', // Now cyan
           'pink': 'rgb(255, 0, 128)',
-          'cyan': 'rgb(0, 255, 255)',
+          'cyan': 'rgb(97, 216, 254)',
           'green': 'rgb(0, 255, 128)',
         },
         'glass': {

@@ -186,10 +186,10 @@ export default function InstructorWorkshopsPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="bg-gradient-to-br from-purple-900/30 to-purple-900/10 backdrop-blur-xl border border-purple-500/20 rounded-2xl p-6"
+              className="bg-gradient-to-br from-cyan-900/30 to-cyan-900/10 backdrop-blur-xl border border-cyan-500/20 rounded-2xl p-6"
             >
               <div className="flex items-center justify-between mb-2">
-                <Users className="w-6 h-6 text-purple-400" />
+                <Users className="w-6 h-6 text-cyan-400" />
               </div>
               <h3 className="text-2xl font-bold text-white mb-1 font-gendy">
                 {totalAttendees}
@@ -320,10 +320,10 @@ export default function InstructorWorkshopsPage() {
                     )}
 
                     {workshop.satisfaction && (
-                      <div className="bg-purple-500/10 border border-purple-500/20 rounded-xl p-3">
+                      <div className="bg-cyan-500/10 border border-cyan-500/20 rounded-xl p-3">
                         <div className="flex items-center gap-2 mb-1">
-                          <Star className="w-4 h-4 text-purple-400 fill-purple-400" />
-                          <span className="text-sm text-purple-400 font-diatype">Rating</span>
+                          <Star className="w-4 h-4 text-cyan-400 fill-cyan-400" />
+                          <span className="text-sm text-cyan-400 font-diatype">Rating</span>
                         </div>
                         <p className="text-xl font-bold text-white font-gendy">{workshop.satisfaction}</p>
                       </div>
@@ -356,7 +356,7 @@ export default function InstructorWorkshopsPage() {
                       <motion.button
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        className="w-full px-4 py-2 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-purple-300 rounded-lg transition-all flex items-center justify-center gap-2 font-diatype"
+                        className="w-full px-4 py-2 bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-cyan-300 rounded-lg transition-all flex items-center justify-center gap-2 font-diatype"
                       >
                         <Edit className="w-4 h-4" />
                         Edit
@@ -447,8 +447,8 @@ export default function InstructorWorkshopsPage() {
                       <p className="text-xs text-gray-400 font-diatype">Satisfaction</p>
                     </div>
                   )}
-                  <div className="bg-purple-500/10 border border-purple-500/20 rounded-xl p-4">
-                    <TrendingUp className="w-5 h-5 text-purple-400 mb-2" />
+                  <div className="bg-cyan-500/10 border border-cyan-500/20 rounded-xl p-4">
+                    <TrendingUp className="w-5 h-5 text-cyan-400 mb-2" />
                     <p className="text-2xl font-bold text-white mb-1 font-gendy">
                       ${selectedWorkshop.revenue.toLocaleString()}
                     </p>

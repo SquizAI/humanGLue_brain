@@ -50,12 +50,12 @@ export function PillarCard({
       glowColor: 'group-hover:shadow-amber-500/30',
     },
     marketplace: {
-      bgGradient: 'from-purple-500/10 via-purple-600/5 to-transparent',
-      borderColor: 'border-purple-500/30 hover:border-purple-400/60',
-      iconBg: 'bg-purple-500/20',
-      iconColor: 'text-purple-400',
-      buttonGradient: 'from-purple-500 to-purple-600',
-      glowColor: 'group-hover:shadow-purple-500/30',
+      bgGradient: 'from-cyan-500/10 via-cyan-600/5 to-transparent',
+      borderColor: 'border-cyan-500/30 hover:border-cyan-400/60',
+      iconBg: 'bg-cyan-500/20',
+      iconColor: 'text-cyan-400',
+      buttonGradient: 'from-cyan-500 to-cyan-600',
+      glowColor: 'group-hover:shadow-cyan-500/30',
     },
   }
 

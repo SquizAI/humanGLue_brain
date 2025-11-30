@@ -123,7 +123,7 @@ export default function AdminDashboard() {
       description: 'Create a new course module',
       icon: PlayCircle,
       href: '/admin/courses/new',
-      color: 'purple',
+      color: 'cyan',
       permission: 'canManageCourses',
     },
     {
@@ -183,7 +183,7 @@ export default function AdminDashboard() {
                   {!permissionsLoading && (
                     <>
                       {isSuperAdminCourses && (
-                        <span className="px-3 py-1 bg-purple-500/20 text-purple-400 rounded-full text-sm font-medium border border-purple-500/30">
+                        <span className="px-3 py-1 bg-cyan-500/20 text-cyan-400 rounded-full text-sm font-medium border border-cyan-500/30">
                           Course Management Only
                         </span>
                       )}
@@ -215,11 +215,11 @@ export default function AdminDashboard() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="bg-gradient-to-br from-purple-900/30 to-purple-900/10 backdrop-blur-xl border border-purple-500/20 rounded-2xl p-6"
+              className="bg-gradient-to-br from-cyan-900/30 to-cyan-900/10 backdrop-blur-xl border border-cyan-500/20 rounded-2xl p-6"
             >
               <div className="flex items-center justify-between mb-4">
-                <div className="p-3 bg-purple-500/20 rounded-xl">
-                  <PlayCircle className="w-6 h-6 text-purple-400" />
+                <div className="p-3 bg-cyan-500/20 rounded-xl">
+                  <PlayCircle className="w-6 h-6 text-cyan-400" />
                 </div>
                 <div className="text-right">
                   <p className="text-sm text-gray-400 font-diatype">Total Courses</p>
@@ -358,14 +358,14 @@ export default function AdminDashboard() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.1 * index }}
                       whileHover={{ scale: 1.02 }}
-                      className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl p-6 hover:border-purple-500/30 transition-all group cursor-pointer"
+                      className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl p-6 hover:border-cyan-500/30 transition-all group cursor-pointer"
                     >
                       <div className={`p-3 bg-${action.color}-500/20 rounded-xl inline-flex mb-4`}>
                         <Icon className={`w-6 h-6 text-${action.color}-400`} />
                       </div>
                       <h3 className="text-lg font-semibold text-white mb-2 font-gendy">{action.title}</h3>
                       <p className="text-sm text-gray-400 font-diatype">{action.description}</p>
-                      <div className="mt-4 flex items-center gap-2 text-purple-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <div className="mt-4 flex items-center gap-2 text-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity">
                         <span className="text-sm font-diatype">Get started</span>
                         <ArrowRight className="w-4 h-4" />
                       </div>
@@ -391,8 +391,8 @@ export default function AdminDashboard() {
                   <Link href="/admin/courses">
                     <div className="flex items-center justify-between p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-all group cursor-pointer">
                       <div className="flex items-center gap-4">
-                        <div className="p-2 bg-purple-500/20 rounded-lg">
-                          <PlayCircle className="w-5 h-5 text-purple-400" />
+                        <div className="p-2 bg-cyan-500/20 rounded-lg">
+                          <PlayCircle className="w-5 h-5 text-cyan-400" />
                         </div>
                         <div>
                           <h3 className="text-white font-semibold font-diatype">Manage Courses</h3>
@@ -452,8 +452,8 @@ export default function AdminDashboard() {
               <div className="space-y-4">
                 {recentActivity.map((activity) => (
                   <div key={activity.id} className="flex items-start gap-4 p-4 bg-white/5 rounded-xl">
-                    <div className="p-2 bg-purple-500/20 rounded-lg flex-shrink-0">
-                      <Clock className="w-4 h-4 text-purple-400" />
+                    <div className="p-2 bg-cyan-500/20 rounded-lg flex-shrink-0">
+                      <Clock className="w-4 h-4 text-cyan-400" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-white font-medium font-diatype">{activity.action}</p>

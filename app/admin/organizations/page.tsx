@@ -94,7 +94,7 @@ export default function OrganizationsAdmin() {
   const getSubBadge = (sub: string) => {
     const badges = {
       starter: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
-      professional: 'bg-purple-500/20 text-purple-300 border-purple-500/30',
+      professional: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30',
       enterprise: 'bg-amber-500/20 text-amber-300 border-amber-500/30',
     }
     return badges[sub as keyof typeof badges]
@@ -122,7 +122,7 @@ export default function OrganizationsAdmin() {
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center gap-2 font-diatype"
+                className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center gap-2 font-diatype"
               >
                 <Plus className="w-5 h-5" />
                 Add Organization
@@ -136,9 +136,9 @@ export default function OrganizationsAdmin() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-gradient-to-br from-purple-900/30 to-purple-900/10 backdrop-blur-xl border border-purple-500/20 rounded-2xl p-6"
+              className="bg-gradient-to-br from-cyan-900/30 to-cyan-900/10 backdrop-blur-xl border border-cyan-500/20 rounded-2xl p-6"
             >
-              <Building2 className="w-6 h-6 text-purple-400 mb-2" />
+              <Building2 className="w-6 h-6 text-cyan-400 mb-2" />
               <h3 className="text-2xl font-bold text-white mb-1 font-gendy">{orgs.length}</h3>
               <p className="text-sm text-gray-400 font-diatype">Total Organizations</p>
             </motion.div>
@@ -191,7 +191,7 @@ export default function OrganizationsAdmin() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search organizations..."
-                className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all font-diatype"
+                className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-diatype"
               />
             </div>
           </div>
@@ -203,11 +203,11 @@ export default function OrganizationsAdmin() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 hover:border-purple-500/30 transition-all"
+                className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 hover:border-cyan-500/30 transition-all"
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-blue-500 rounded-xl flex items-center justify-center">
+                    <div className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-xl flex items-center justify-center">
                       <Building2 className="w-6 h-6 text-white" />
                     </div>
                     <div>
@@ -253,7 +253,7 @@ export default function OrganizationsAdmin() {
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="flex-1 px-4 py-2 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-purple-300 rounded-lg transition-all flex items-center justify-center gap-2 font-diatype"
+                    className="flex-1 px-4 py-2 bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-cyan-300 rounded-lg transition-all flex items-center justify-center gap-2 font-diatype"
                   >
                     <Eye className="w-4 h-4" />
                     View Details

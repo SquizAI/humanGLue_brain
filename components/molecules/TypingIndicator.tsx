@@ -61,11 +61,11 @@ export function TypingIndicator({
         exit={{ opacity: 0, scale: 0.8 }}
         className={cn("flex items-center gap-2", className)}
       >
-        <div className="flex gap-1 p-3 rounded-lg bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-white/10">
+        <div className="flex gap-1 p-3 rounded-lg bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-white/10">
           {[0, 1, 2].map((i) => (
             <motion.div
               key={i}
-              className={cn(dotSize, "bg-gradient-to-r from-blue-400 to-purple-400 rounded-full")}
+              className={cn(dotSize, "bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full")}
               animate={{
                 scale: [1, 1.5, 1],
                 opacity: [0.5, 1, 0.5]

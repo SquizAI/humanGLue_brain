@@ -61,7 +61,7 @@ export function AskAIButton({
         onClick={handleClick}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
-        className={`inline-flex items-center justify-center rounded-full bg-purple-500/10 border border-purple-500/20 hover:bg-purple-500/20 hover:border-purple-500/30 transition-all ${sizeClasses[size]}`}
+        className={`inline-flex items-center justify-center rounded-full bg-cyan-500/10 border border-cyan-500/20 hover:bg-cyan-500/20 hover:border-cyan-500/30 transition-all ${sizeClasses[size]}`}
         title={`Ask about ${topic}`}
       >
         <MessageCircle className={iconSizes[size]} />
@@ -75,10 +75,10 @@ export function AskAIButton({
       <motion.button
         onClick={handleClick}
         whileHover={{ x: 2 }}
-        className="inline-flex items-center gap-1.5 text-purple-400 hover:text-purple-300 transition-colors text-sm font-medium group"
+        className="inline-flex items-center gap-1.5 text-cyan-400 hover:text-cyan-300 transition-colors text-sm font-medium group"
       >
         <Sparkles className="w-3.5 h-3.5 group-hover:rotate-12 transition-transform" />
-        <span className="underline decoration-purple-500/30 hover:decoration-purple-400/50">
+        <span className="underline decoration-cyan-500/30 hover:decoration-cyan-400/50">
           {label || `Ask about ${topic}`}
         </span>
       </motion.button>
@@ -92,7 +92,7 @@ export function AskAIButton({
         onClick={handleClick}
         whileHover={{ scale: 1.05, y: -2 }}
         whileTap={{ scale: 0.95 }}
-        className={`inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full shadow-lg hover:shadow-purple-500/50 transition-all font-semibold ${sizeClasses[size]}`}
+        className={`inline-flex items-center gap-2 bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-full shadow-lg hover:shadow-cyan-500/50 transition-all font-semibold ${sizeClasses[size]}`}
       >
         <div className="relative">
           <MessageCircle className={iconSizes[size]} />
@@ -120,13 +120,13 @@ export function AskAIButton({
       onClick={handleClick}
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
-      className={`inline-flex items-center gap-2 bg-white/5 backdrop-blur-sm border border-white/10 text-white rounded-lg hover:bg-white/10 hover:border-purple-500/30 transition-all font-medium group ${sizeClasses[size]}`}
+      className={`inline-flex items-center gap-2 bg-white/5 backdrop-blur-sm border border-white/10 text-white rounded-lg hover:bg-white/10 hover:border-cyan-500/30 transition-all font-medium group ${sizeClasses[size]}`}
     >
-      <div className="p-1.5 rounded-lg bg-gradient-to-br from-purple-500/20 to-blue-500/20 group-hover:from-purple-500/30 group-hover:to-blue-500/30 transition-all">
+      <div className="p-1.5 rounded-lg bg-gradient-to-br from-cyan-500/20 to-blue-500/20 group-hover:from-cyan-500/30 group-hover:to-blue-500/30 transition-all">
         <MessageCircle className={iconSizes[size]} />
       </div>
       <span>{label || `Ask about ${topic}`}</span>
-      <Sparkles className={`${iconSizes[size]} text-purple-400 opacity-0 group-hover:opacity-100 transition-opacity`} />
+      <Sparkles className={`${iconSizes[size]} text-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity`} />
     </motion.button>
   )
 }

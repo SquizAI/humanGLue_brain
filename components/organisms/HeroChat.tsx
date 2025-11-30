@@ -110,7 +110,7 @@ export function HeroChat({ onStartAssessment, className }: HeroChatProps) {
                       'transition-all duration-300',
                       'flex items-center justify-between group',
                       action.id === 'start'
-                        ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:shadow-lg hover:shadow-purple-500/30 hover:scale-[1.02]'
+                        ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white hover:shadow-lg hover:shadow-cyan-500/30 hover:scale-[1.02]'
                         : 'bg-gray-800/50 text-gray-300 hover:bg-gray-800 hover:text-white border border-gray-700/50'
                     )}
                   >
@@ -165,7 +165,7 @@ export function HeroChat({ onStartAssessment, className }: HeroChatProps) {
           </div>
 
           {/* Floating particles effect */}
-          <div className="absolute -inset-4 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-3xl blur-xl -z-10 animate-pulse" />
+          <div className="absolute -inset-4 bg-gradient-to-r from-blue-500/10 to-cyan-500/10 rounded-3xl blur-xl -z-10 animate-pulse" />
         </motion.div>
       )}
     </AnimatePresence>

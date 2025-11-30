@@ -114,7 +114,7 @@ export function DigitalWave({ className = '' }: DigitalWaveProps) {
   return (
     <div className={`relative ${className}`}>
       {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-blue-900/20 to-purple-900/30" />
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-blue-900/20 to-cyan-900/30" />
       
       {/* Fallback animated background if canvas fails */}
       <div className="absolute inset-0 opacity-50">

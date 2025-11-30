@@ -30,7 +30,7 @@ export default function AnalyticsPage() {
       change: '+12%',
       trend: 'up',
       icon: <TrendingUp className="w-6 h-6" />,
-      gradient: 'from-purple-500 to-blue-500',
+      gradient: 'from-cyan-500 to-blue-500',
     },
     {
       label: 'Adaptability Score',
@@ -82,7 +82,7 @@ export default function AnalyticsPage() {
       title: 'Downloaded Change Management Playbook',
       time: '2 days ago',
       type: 'resource',
-      icon: <BarChart3 className="w-5 h-5 text-purple-400" />,
+      icon: <BarChart3 className="w-5 h-5 text-cyan-400" />,
     },
     {
       title: 'Achieved Adaptability Milestone',
@@ -113,7 +113,7 @@ export default function AnalyticsPage() {
                 whileTap={{ scale: 0.95 }}
               >
                 <Link href="/dashboard">
-                  <button className="px-6 py-3 bg-white/5 backdrop-blur-xl border border-white/10 text-white rounded-xl font-semibold hover:bg-white/10 hover:border-purple-500/30 transition-all inline-flex items-center gap-2 font-diatype">
+                  <button className="px-6 py-3 bg-white/5 backdrop-blur-xl border border-white/10 text-white rounded-xl font-semibold hover:bg-white/10 hover:border-cyan-500/30 transition-all inline-flex items-center gap-2 font-diatype">
                     <ArrowRight className="w-5 h-5 rotate-180" />
                     Back to Dashboard
                   </button>
@@ -132,7 +132,7 @@ export default function AnalyticsPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 whileHover={{ y: -4, scale: 1.02 }}
-                className="group relative overflow-hidden rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 p-6 hover:border-purple-500/30 transition-all hover:shadow-[0_0_40px_rgba(168,85,247,0.15)]"
+                className="group relative overflow-hidden rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 p-6 hover:border-cyan-500/30 transition-all hover:shadow-[0_0_40px_rgba(168,85,247,0.15)]"
               >
                 <div className="relative z-10">
                   <div className={`inline-flex p-3 rounded-xl bg-gradient-to-br ${metric.gradient} mb-4`}>
@@ -162,7 +162,7 @@ export default function AnalyticsPage() {
                   <div key={i}>
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-gray-300 font-diatype">{metric.label}</span>
-                      <span className="text-purple-400 font-semibold font-diatype">
+                      <span className="text-cyan-400 font-semibold font-diatype">
                         {metric.value}/{metric.total}
                       </span>
                     </div>
@@ -171,7 +171,7 @@ export default function AnalyticsPage() {
                         initial={{ width: 0 }}
                         animate={{ width: `${metric.percentage}%` }}
                         transition={{ duration: 1, delay: i * 0.2 }}
-                        className="h-full bg-gradient-to-r from-purple-500 to-blue-500 rounded-full"
+                        className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full"
                       />
                     </div>
                   </div>
@@ -222,7 +222,7 @@ export default function AnalyticsPage() {
               Track your progress through our structured AI transformation journey
             </p>
             <div className="relative">
-              <div className="absolute left-4 top-0 bottom-0 w-px bg-gradient-to-b from-purple-500 to-blue-500" />
+              <div className="absolute left-4 top-0 bottom-0 w-px bg-gradient-to-b from-cyan-500 to-blue-500" />
               <div className="space-y-6">
                 {[
                   { phase: 'Assessment & Planning', status: 'completed', progress: 100 },
@@ -243,7 +243,7 @@ export default function AnalyticsPage() {
                       <h3 className="text-lg font-semibold text-white mb-2 font-gendy">{phase.phase}</h3>
                       <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
                         <div
-                          className="h-full bg-gradient-to-r from-purple-500 to-blue-500 rounded-full"
+                          className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full"
                           style={{ width: `${phase.progress}%` }}
                         />
                       </div>

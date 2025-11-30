@@ -149,7 +149,7 @@ export default function AssessmentsPage() {
       label: 'Total Assessments',
       value: mockAssessments.length.toString(),
       icon: <ClipboardList className="w-6 h-6" />,
-      gradient: 'from-purple-500 to-blue-500',
+      gradient: 'from-cyan-500 to-blue-500',
     },
     {
       label: 'Completed',
@@ -199,7 +199,7 @@ export default function AssessmentsPage() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-xl font-semibold hover:from-purple-700 hover:to-blue-700 transition-all inline-flex items-center gap-2 shadow-lg shadow-purple-500/50 font-diatype"
+                  className="px-6 py-3 bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-xl font-semibold hover:from-cyan-700 hover:to-blue-700 transition-all inline-flex items-center gap-2 shadow-lg shadow-cyan-500/50 font-diatype"
                 >
                   <Sparkles className="w-5 h-5" />
                   Start New Assessment
@@ -221,7 +221,7 @@ export default function AssessmentsPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 whileHover={{ y: -4, scale: 1.02 }}
-                className="group relative overflow-hidden rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 p-6 hover:border-purple-500/30 transition-all hover:shadow-[0_0_40px_rgba(168,85,247,0.15)]"
+                className="group relative overflow-hidden rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 p-6 hover:border-cyan-500/30 transition-all hover:shadow-[0_0_40px_rgba(168,85,247,0.15)]"
               >
                 <div
                   className={`absolute inset-0 bg-gradient-to-br ${stat.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}
@@ -256,7 +256,7 @@ export default function AssessmentsPage() {
                   placeholder="Search assessments..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-12 pr-4 py-3 bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500/30 transition-all font-diatype"
+                  className="w-full pl-12 pr-4 py-3 bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/30 transition-all font-diatype"
                 />
               </div>
 
@@ -267,8 +267,8 @@ export default function AssessmentsPage() {
                 onClick={() => setShowFilters(!showFilters)}
                 className={`px-6 py-3 rounded-xl font-semibold transition-all inline-flex items-center gap-2 font-diatype ${
                   showFilters
-                    ? 'bg-purple-500/20 border border-purple-500/30 text-purple-300'
-                    : 'bg-white/5 backdrop-blur-xl border border-white/10 text-gray-300 hover:border-purple-500/30'
+                    ? 'bg-cyan-500/20 border border-cyan-500/30 text-cyan-300'
+                    : 'bg-white/5 backdrop-blur-xl border border-white/10 text-gray-300 hover:border-cyan-500/30'
                 }`}
               >
                 <Filter className="w-5 h-5" />
@@ -295,7 +295,7 @@ export default function AssessmentsPage() {
                         <select
                           value={filterType}
                           onChange={(e) => setFilterType(e.target.value as AssessmentType | 'all')}
-                          className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/30 transition-all font-diatype"
+                          className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-cyan-500/30 transition-all font-diatype"
                         >
                           <option value="all">All Types</option>
                           <option value="individual">Individual</option>
@@ -313,7 +313,7 @@ export default function AssessmentsPage() {
                           onChange={(e) =>
                             setFilterStatus(e.target.value as AssessmentStatus | 'all')
                           }
-                          className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/30 transition-all font-diatype"
+                          className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-cyan-500/30 transition-all font-diatype"
                         >
                           <option value="all">All Statuses</option>
                           <option value="completed">Completed</option>
@@ -331,7 +331,7 @@ export default function AssessmentsPage() {
                           <select
                             value={sortBy}
                             onChange={(e) => setSortBy(e.target.value as 'date' | 'score' | 'title')}
-                            className="flex-1 px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/30 transition-all font-diatype"
+                            className="flex-1 px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-cyan-500/30 transition-all font-diatype"
                           >
                             <option value="date">Date</option>
                             <option value="score">Score</option>
@@ -339,7 +339,7 @@ export default function AssessmentsPage() {
                           </select>
                           <button
                             onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
-                            className="px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white hover:border-purple-500/30 transition-all"
+                            className="px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white hover:border-cyan-500/30 transition-all"
                           >
                             {sortOrder === 'asc' ? (
                               <SortAsc className="w-5 h-5" />
@@ -376,7 +376,7 @@ export default function AssessmentsPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: i * 0.05 }}
                   whileHover={{ y: -2 }}
-                  className="group relative overflow-hidden bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-6 hover:border-purple-500/30 transition-all hover:shadow-[0_0_40px_rgba(168,85,247,0.15)]"
+                  className="group relative overflow-hidden bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-6 hover:border-cyan-500/30 transition-all hover:shadow-[0_0_40px_rgba(168,85,247,0.15)]"
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1">
@@ -386,13 +386,13 @@ export default function AssessmentsPage() {
                           className={`p-3 rounded-xl ${
                             assessment.type === 'individual'
                               ? 'bg-gradient-to-br from-blue-500 to-cyan-500 bg-opacity-10'
-                              : 'bg-gradient-to-br from-purple-500 to-pink-500 bg-opacity-10'
+                              : 'bg-gradient-to-br from-cyan-500 to-pink-500 bg-opacity-10'
                           }`}
                         >
                           {assessment.type === 'individual' ? (
                             <User className="w-6 h-6 text-blue-400" />
                           ) : (
-                            <Users className="w-6 h-6 text-purple-400" />
+                            <Users className="w-6 h-6 text-cyan-400" />
                           )}
                         </div>
 
@@ -453,7 +453,7 @@ export default function AssessmentsPage() {
                                 <div className="text-xs text-gray-500 font-diatype">Score</div>
                               </div>
                               <div>
-                                <div className="text-2xl font-bold text-purple-400 mb-1 font-gendy">
+                                <div className="text-2xl font-bold text-cyan-400 mb-1 font-gendy">
                                   {assessment.maturityLevel?.split(' - ')[0]}
                                 </div>
                                 <div className="text-xs text-gray-500 font-diatype">
@@ -487,7 +487,7 @@ export default function AssessmentsPage() {
                           <motion.button
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            className="px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg font-semibold hover:from-purple-700 hover:to-blue-700 transition-all inline-flex items-center gap-2 shadow-lg shadow-purple-500/50 font-diatype text-sm"
+                            className="px-4 py-2 bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-lg font-semibold hover:from-cyan-700 hover:to-blue-700 transition-all inline-flex items-center gap-2 shadow-lg shadow-cyan-500/50 font-diatype text-sm"
                           >
                             <Eye className="w-4 h-4" />
                             View Report
@@ -496,7 +496,7 @@ export default function AssessmentsPage() {
                         <motion.button
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
-                          className="px-4 py-2 bg-white/5 backdrop-blur-xl border border-white/10 text-white rounded-lg font-semibold hover:bg-white/10 hover:border-purple-500/30 transition-all inline-flex items-center gap-2 font-diatype text-sm"
+                          className="px-4 py-2 bg-white/5 backdrop-blur-xl border border-white/10 text-white rounded-lg font-semibold hover:bg-white/10 hover:border-cyan-500/30 transition-all inline-flex items-center gap-2 font-diatype text-sm"
                         >
                           <Download className="w-4 h-4" />
                           Download

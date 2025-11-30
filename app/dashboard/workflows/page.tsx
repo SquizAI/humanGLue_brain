@@ -153,7 +153,7 @@ export default function WorkflowsPage() {
                 whileTap={{ scale: 0.95 }}
               >
                 <Link href="/dashboard">
-                  <button className="px-6 py-3 bg-white/5 backdrop-blur-xl border border-white/10 text-white rounded-xl font-semibold hover:bg-white/10 hover:border-purple-500/30 transition-all inline-flex items-center gap-2 font-diatype">
+                  <button className="px-6 py-3 bg-white/5 backdrop-blur-xl border border-white/10 text-white rounded-xl font-semibold hover:bg-white/10 hover:border-cyan-500/30 transition-all inline-flex items-center gap-2 font-diatype">
                     <ArrowRight className="w-5 h-5 rotate-180" />
                     Back to Dashboard
                   </button>
@@ -173,14 +173,14 @@ export default function WorkflowsPage() {
                   placeholder="Search workflow templates..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500/50 transition-colors font-diatype"
+                  className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-cyan-500/50 transition-colors font-diatype"
                 />
               </div>
 
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-purple-500/50 transition-colors font-diatype"
+                className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-cyan-500/50 transition-colors font-diatype"
               >
                 <option value="all">All Categories</option>
                 {categories.slice(1).map((category) => (
@@ -198,20 +198,20 @@ export default function WorkflowsPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 whileHover={{ y: -6, scale: 1.02 }}
-                className="group relative overflow-hidden bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 hover:border-purple-500/30 transition-all hover:shadow-[0_0_40px_rgba(168,85,247,0.15)]"
+                className="group relative overflow-hidden bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 hover:border-cyan-500/30 transition-all hover:shadow-[0_0_40px_rgba(168,85,247,0.15)]"
               >
                 <div className="p-6 space-y-4">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-2">
-                        <span className="px-2 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs font-semibold font-diatype">
+                        <span className="px-2 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-semibold font-diatype">
                           {workflow.category}
                         </span>
                         <span className={`px-2 py-1 rounded-full border text-xs font-semibold font-diatype ${getDifficultyColor(workflow.difficulty)}`}>
                           {workflow.difficulty}
                         </span>
                       </div>
-                      <h3 className="text-xl font-semibold text-white mb-2 font-gendy group-hover:text-purple-400 transition-colors">
+                      <h3 className="text-xl font-semibold text-white mb-2 font-gendy group-hover:text-cyan-400 transition-colors">
                         {workflow.title}
                       </h3>
                       <p className="text-gray-400 text-sm font-diatype leading-relaxed">
@@ -251,11 +251,11 @@ export default function WorkflowsPage() {
                   </div>
 
                   <div className="flex gap-2 pt-4">
-                    <button className="flex-1 px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg font-semibold hover:from-purple-700 hover:to-blue-700 transition-all inline-flex items-center justify-center gap-2 shadow-lg shadow-purple-500/50 font-diatype">
+                    <button className="flex-1 px-4 py-2 bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-lg font-semibold hover:from-cyan-700 hover:to-blue-700 transition-all inline-flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/50 font-diatype">
                       <Play className="w-4 h-4" />
                       Deploy
                     </button>
-                    <button className="px-4 py-2 bg-white/5 border border-white/10 text-white rounded-lg hover:bg-white/10 hover:border-purple-500/30 transition-all">
+                    <button className="px-4 py-2 bg-white/5 border border-white/10 text-white rounded-lg hover:bg-white/10 hover:border-cyan-500/30 transition-all">
                       <Download className="w-5 h-5" />
                     </button>
                   </div>

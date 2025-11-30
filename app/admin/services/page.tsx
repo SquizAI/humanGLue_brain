@@ -169,7 +169,7 @@ export default function ServicesOverview() {
     {
       title: 'Courses',
       icon: PlayCircle,
-      color: 'purple',
+      color: 'cyan',
       metrics: courseMetrics,
       href: '/admin/courses',
       description: 'Manage learning content',
@@ -325,10 +325,10 @@ export default function ServicesOverview() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="bg-gradient-to-br from-purple-900/30 to-purple-900/10 backdrop-blur-xl border border-purple-500/20 rounded-2xl p-6"
+              className="bg-gradient-to-br from-cyan-900/30 to-cyan-900/10 backdrop-blur-xl border border-cyan-500/20 rounded-2xl p-6"
             >
               <div className="flex items-center justify-between mb-2">
-                <BarChart3 className="w-6 h-6 text-purple-400" />
+                <BarChart3 className="w-6 h-6 text-cyan-400" />
                 <TrendingUp className="w-5 h-5 text-green-400" />
               </div>
               <h3 className="text-2xl font-bold text-white mb-1 font-gendy">
@@ -365,7 +365,7 @@ export default function ServicesOverview() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
-                    className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 hover:border-purple-500/30 transition-all group"
+                    className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 hover:border-cyan-500/30 transition-all group"
                   >
                     <div className="flex items-center justify-between mb-4">
                       <div className={`p-3 bg-${service.color}-500/20 rounded-xl`}>
@@ -465,7 +465,7 @@ export default function ServicesOverview() {
                 <h2 className="text-xl font-bold text-white font-gendy">Recent Activity</h2>
                 <Link
                   href="/admin/activity"
-                  className="text-sm text-purple-400 hover:text-purple-300 transition-colors font-diatype"
+                  className="text-sm text-cyan-400 hover:text-cyan-300 transition-colors font-diatype"
                 >
                   View all
                 </Link>
@@ -506,7 +506,7 @@ export default function ServicesOverview() {
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="w-full px-4 py-3 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-purple-300 rounded-lg transition-all flex items-center gap-3 font-diatype"
+                    className="w-full px-4 py-3 bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-cyan-300 rounded-lg transition-all flex items-center gap-3 font-diatype"
                   >
                     <PlayCircle className="w-5 h-5" />
                     <span>Create Course</span>

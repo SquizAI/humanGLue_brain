@@ -66,7 +66,7 @@ export function AnalysisLoader({ companyName }: AnalysisLoaderProps) {
                 duration: 1.5,
                 ease: "easeOut"
               }}
-              className="h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mt-2"
+              className="h-1 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full mt-2"
             />
           </div>
 

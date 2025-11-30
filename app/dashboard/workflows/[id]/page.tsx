@@ -524,7 +524,7 @@ export default function WorkflowDetailPage() {
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="p-2 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 hover:border-purple-500/30 transition-all"
+                    className="p-2 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 hover:border-cyan-500/30 transition-all"
                   >
                     <ArrowLeft className="w-5 h-5" />
                   </motion.button>
@@ -542,7 +542,7 @@ export default function WorkflowDetailPage() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="px-4 py-2 bg-white/5 border border-white/10 text-white rounded-xl hover:bg-white/10 hover:border-purple-500/30 transition-all inline-flex items-center gap-2 font-diatype"
+                  className="px-4 py-2 bg-white/5 border border-white/10 text-white rounded-xl hover:bg-white/10 hover:border-cyan-500/30 transition-all inline-flex items-center gap-2 font-diatype"
                 >
                   <Share2 className="w-4 h-4" />
                   Share
@@ -550,7 +550,7 @@ export default function WorkflowDetailPage() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-xl font-semibold hover:from-purple-700 hover:to-blue-700 transition-all inline-flex items-center gap-2 shadow-lg shadow-purple-500/50 font-diatype"
+                  className="px-4 py-2 bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-xl font-semibold hover:from-cyan-700 hover:to-blue-700 transition-all inline-flex items-center gap-2 shadow-lg shadow-cyan-500/50 font-diatype"
                 >
                   <Download className="w-4 h-4" />
                   Download Template
@@ -576,7 +576,7 @@ export default function WorkflowDetailPage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/50 to-transparent" />
                 <div className="absolute bottom-6 left-6 flex items-center gap-2">
-                  <span className="px-3 py-1 rounded-full bg-purple-500/20 border border-purple-500/30 text-purple-400 text-sm font-semibold font-diatype">
+                  <span className="px-3 py-1 rounded-full bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 text-sm font-semibold font-diatype">
                     {workflow.category}
                   </span>
                   <span className={`px-3 py-1 rounded-full border text-sm font-semibold font-diatype ${getDifficultyColor(workflow.difficulty)}`}>
@@ -614,7 +614,7 @@ export default function WorkflowDetailPage() {
                     <ul className="space-y-2">
                       {workflow.prerequisites.map((req, i) => (
                         <li key={i} className="text-gray-400 text-sm flex items-start gap-2 font-diatype">
-                          <Settings className="w-4 h-4 text-purple-400 flex-shrink-0 mt-0.5" />
+                          <Settings className="w-4 h-4 text-cyan-400 flex-shrink-0 mt-0.5" />
                           {req}
                         </li>
                       ))}
@@ -645,13 +645,13 @@ export default function WorkflowDetailPage() {
                   {workflow.steps.map((step, i) => (
                     <div key={step.number} className="bg-white/5 rounded-xl p-6 border border-white/10">
                       <div className="flex items-start gap-4 mb-4">
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-white font-bold font-gendy flex-shrink-0">
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center text-white font-bold font-gendy flex-shrink-0">
                           {step.number}
                         </div>
                         <div className="flex-1">
                           <div className="flex items-center justify-between mb-2">
                             <h4 className="text-xl font-semibold text-white font-gendy">{step.title}</h4>
-                            <span className="flex items-center gap-1 text-purple-400 text-sm font-diatype">
+                            <span className="flex items-center gap-1 text-cyan-400 text-sm font-diatype">
                               <Clock className="w-4 h-4" />
                               {step.duration}
                             </span>
@@ -746,7 +746,7 @@ export default function WorkflowDetailPage() {
                 <ul className="space-y-2">
                   {workflow.nextSteps.map((step, i) => (
                     <li key={i} className="text-gray-300 flex items-start gap-2 font-diatype">
-                      <Target className="w-5 h-5 text-purple-400 flex-shrink-0 mt-0.5" />
+                      <Target className="w-5 h-5 text-cyan-400 flex-shrink-0 mt-0.5" />
                       {step}
                     </li>
                   ))}
@@ -770,15 +770,15 @@ export default function WorkflowDetailPage() {
 
                 <div className="space-y-4 mb-6">
                   <div className="flex items-center gap-3 text-gray-300">
-                    <Clock className="w-5 h-5 text-purple-400" />
+                    <Clock className="w-5 h-5 text-cyan-400" />
                     <span className="font-diatype">{workflow.duration} to implement</span>
                   </div>
                   <div className="flex items-center gap-3 text-gray-300">
-                    <Users className="w-5 h-5 text-purple-400" />
+                    <Users className="w-5 h-5 text-cyan-400" />
                     <span className="font-diatype">{workflow.downloads.toLocaleString()} downloads</span>
                   </div>
                   <div className="flex items-center gap-3 text-gray-300">
-                    <FileText className="w-5 h-5 text-purple-400" />
+                    <FileText className="w-5 h-5 text-cyan-400" />
                     <span className="font-diatype">{workflow.steps.length} steps</span>
                   </div>
                 </div>
@@ -786,7 +786,7 @@ export default function WorkflowDetailPage() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="w-full px-6 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-xl font-semibold hover:from-purple-700 hover:to-blue-700 transition-all inline-flex items-center justify-center gap-2 shadow-lg shadow-purple-500/50 font-diatype mb-3"
+                  className="w-full px-6 py-4 bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-xl font-semibold hover:from-cyan-700 hover:to-blue-700 transition-all inline-flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/50 font-diatype mb-3"
                 >
                   <Play className="w-5 h-5" />
                   Start Implementation
@@ -796,7 +796,7 @@ export default function WorkflowDetailPage() {
                   <h4 className="text-white font-semibold mb-3 font-gendy">Use Cases</h4>
                   <div className="flex flex-wrap gap-2">
                     {workflow.useCases.map((useCase) => (
-                      <span key={useCase} className="px-2 py-1 rounded bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs font-semibold font-diatype">
+                      <span key={useCase} className="px-2 py-1 rounded bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-semibold font-diatype">
                         {useCase}
                       </span>
                     ))}

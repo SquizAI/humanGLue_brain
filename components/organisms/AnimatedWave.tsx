@@ -10,7 +10,7 @@ export function AnimatedWave({ className = '' }: AnimatedWaveProps) {
   return (
     <div className={`relative ${className}`}>
       {/* Base gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-blue-900/30 to-purple-900/40" />
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-blue-900/30 to-cyan-900/40" />
       
       {/* Animated wave layers */}
       <div className="absolute inset-0 overflow-hidden">
@@ -172,7 +172,7 @@ export function AnimatedWave({ className = '' }: AnimatedWaveProps) {
       />
       
       <motion.div
-        className="absolute bottom-1/3 right-1/3 w-40 h-40 bg-purple-500/20 rounded-full blur-2xl"
+        className="absolute bottom-1/3 right-1/3 w-40 h-40 bg-cyan-500/20 rounded-full blur-2xl"
         animate={{
           scale: [1, 1.2, 1],
           opacity: [0.2, 0.5, 0.2],

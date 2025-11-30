@@ -86,7 +86,7 @@ export function ModelSelector({ selectedModel, onModelChange, className }: Model
         )}
       >
         <div className="flex items-center gap-3">
-          <div className="p-1.5 rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20">
+          <div className="p-1.5 rounded-lg bg-gradient-to-br from-blue-500/20 to-cyan-500/20">
             <ModelIcon className="w-4 h-4 text-blue-400" />
           </div>
           <div className="text-left">

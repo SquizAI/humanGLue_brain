@@ -39,7 +39,7 @@ export function AssessmentProgress({
         {/* Progress Bar */}
         <div className="relative h-3 bg-gray-800 rounded-full overflow-hidden">
           <motion.div
-            className="absolute left-0 top-0 h-full bg-gradient-to-r from-blue-500 to-purple-500"
+            className="absolute left-0 top-0 h-full bg-gradient-to-r from-blue-500 to-cyan-500"
             initial={{ width: 0 }}
             animate={{ width: `${progress}%` }}
             transition={{ duration: 0.5, ease: 'easeOut' }}

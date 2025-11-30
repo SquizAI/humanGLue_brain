@@ -30,7 +30,7 @@ const quickActions: QuickAction[] = [
     label: 'Create Course',
     icon: PlayCircle,
     href: '/admin/courses',
-    color: 'purple',
+    color: 'cyan',
     description: 'Add new learning content',
   },
   {
@@ -128,7 +128,7 @@ export function QuickActions() {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsOpen(!isOpen)}
-        className="w-16 h-16 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full shadow-2xl flex items-center justify-center text-white hover:shadow-purple-500/50 transition-shadow"
+        className="w-16 h-16 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full shadow-2xl flex items-center justify-center text-white hover:shadow-cyan-500/50 transition-shadow"
       >
         <AnimatePresence mode="wait">
           {isOpen ? (

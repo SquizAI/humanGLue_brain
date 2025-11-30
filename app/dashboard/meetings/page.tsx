@@ -159,7 +159,7 @@ export default function MeetingsPage() {
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center gap-2 font-diatype"
+                  className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center gap-2 font-diatype"
                 >
                   <Plus className="w-5 h-5" />
                   Schedule Meeting
@@ -176,11 +176,11 @@ export default function MeetingsPage() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-gradient-to-br from-purple-900/30 to-purple-900/10 backdrop-blur-xl border border-purple-500/20 rounded-2xl p-6"
+              className="bg-gradient-to-br from-cyan-900/30 to-cyan-900/10 backdrop-blur-xl border border-cyan-500/20 rounded-2xl p-6"
             >
               <div className="flex items-center justify-between mb-4">
-                <div className="p-3 bg-purple-500/20 rounded-xl">
-                  <Calendar className="w-6 h-6 text-purple-400" />
+                <div className="p-3 bg-cyan-500/20 rounded-xl">
+                  <Calendar className="w-6 h-6 text-cyan-400" />
                 </div>
                 <div className="text-right">
                   <p className="text-sm text-gray-400 font-diatype">Upcoming</p>
@@ -256,7 +256,7 @@ export default function MeetingsPage() {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search meetings..."
-                    className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all font-diatype"
+                    className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
                   />
                 </div>
               </div>
@@ -267,7 +267,7 @@ export default function MeetingsPage() {
                     onClick={() => setSelectedFilter(filter)}
                     className={`px-6 py-3 rounded-xl font-semibold transition-all font-diatype ${
                       selectedFilter === filter
-                        ? 'bg-gradient-to-r from-purple-500 to-blue-500 text-white'
+                        ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white'
                         : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white'
                     }`}
                   >
@@ -286,7 +286,7 @@ export default function MeetingsPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
-                className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:border-purple-500/30 transition-all group"
+                className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:border-cyan-500/30 transition-all group"
               >
                 <div className="p-6">
                   <div className="flex items-start justify-between mb-4">
@@ -299,7 +299,7 @@ export default function MeetingsPage() {
                           </span>
                         )}
                         {meeting.aiAssistantEnabled && (
-                          <span className="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-xs font-semibold border border-purple-500/30 flex items-center gap-1">
+                          <span className="px-3 py-1 bg-cyan-500/20 text-cyan-300 rounded-full text-xs font-semibold border border-cyan-500/30 flex items-center gap-1">
                             <Sparkles className="w-3 h-3" />
                             AI Assistant
                           </span>
@@ -326,7 +326,7 @@ export default function MeetingsPage() {
                         <motion.button
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
-                          className="px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center gap-2 font-diatype"
+                          className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center gap-2 font-diatype"
                         >
                           <ExternalLink className="w-4 h-4" />
                           Join Meeting
@@ -355,7 +355,7 @@ export default function MeetingsPage() {
                       {meeting.recording && (
                         <Link href={`/dashboard/meetings/${meeting.id}/recording`}>
                           <div className="flex items-center gap-3 p-3 bg-white/5 rounded-xl hover:bg-white/10 transition-all cursor-pointer">
-                            <Video className="w-5 h-5 text-purple-400" />
+                            <Video className="w-5 h-5 text-cyan-400" />
                             <div>
                               <p className="text-sm font-semibold text-white font-diatype">Recording</p>
                               <p className="text-xs text-gray-400 font-diatype">{meeting.duration}</p>

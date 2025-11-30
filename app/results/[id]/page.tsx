@@ -183,7 +183,7 @@ export default function AssessmentResultsPage() {
                 whileTap={{ scale: 0.95 }}
                 onClick={handleDownloadPDF}
                 disabled={downloading}
-                className="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-xl font-semibold inline-flex items-center gap-2 disabled:opacity-50"
+                className="px-6 py-3 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-xl font-semibold inline-flex items-center gap-2 disabled:opacity-50"
               >
                 <Download className="w-5 h-5" />
                 {downloading ? 'Generating...' : 'Download PDF'}
@@ -208,11 +208,11 @@ export default function AssessmentResultsPage() {
             transition={{ delay: 0.2 }}
             className="mb-12"
           >
-            <div className="bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-2xl p-8 border border-white/10">
+            <div className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-2xl p-8 border border-white/10">
               <div className="text-center">
                 <Award className="w-12 h-12 text-blue-400 mx-auto mb-4" />
                 <h2 className="text-2xl font-semibold text-white mb-2">AI Transformation Score</h2>
-                <div className="text-7xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent mb-4">
+                <div className="text-7xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent mb-4">
                   {analysis.scoring.fitScore}
                   <span className="text-3xl">/100</span>
                 </div>
@@ -315,9 +315,9 @@ export default function AssessmentResultsPage() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.6 + i * 0.1 }}
                   whileHover={{ x: 10 }}
-                  className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-xl p-4 border border-blue-500/20 flex items-start gap-3 cursor-pointer group"
+                  className="bg-gradient-to-r from-blue-500/10 to-cyan-500/10 rounded-xl p-4 border border-blue-500/20 flex items-start gap-3 cursor-pointer group"
                 >
-                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center flex-shrink-0">
+                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center flex-shrink-0">
                     <span className="text-blue-400 font-bold">{i + 1}</span>
                   </div>
                   <p className="text-gray-200 flex-1">{action}</p>
@@ -356,7 +356,7 @@ export default function AssessmentResultsPage() {
                   label: 'Success Probability',
                   value: `${(analysis.predictions.successProbability * 100).toFixed(0)}%`,
                   icon: Award,
-                  color: 'purple'
+                  color: 'cyan'
                 }
               ].map((metric, i) => (
                 <motion.div
@@ -383,7 +383,7 @@ export default function AssessmentResultsPage() {
           >
             <div className="mb-6">
               <h2 className="text-3xl font-bold text-white mb-2 flex items-center gap-3">
-                <Sparkles className="w-8 h-8 text-purple-400" />
+                <Sparkles className="w-8 h-8 text-cyan-400" />
                 Your Personalized Resources
               </h2>
               <p className="text-gray-400 text-lg">
@@ -395,11 +395,11 @@ export default function AssessmentResultsPage() {
                 <motion.div
                   key={i}
                   whileHover={{ scale: 1.03, y: -4 }}
-                  className="relative bg-gradient-to-br from-purple-500/10 via-blue-500/10 to-cyan-500/10 rounded-2xl p-6 border-2 border-white/20 shadow-xl group cursor-pointer overflow-hidden"
+                  className="relative bg-gradient-to-br from-cyan-500/10 via-blue-500/10 to-cyan-500/10 rounded-2xl p-6 border-2 border-white/20 shadow-xl group cursor-pointer overflow-hidden"
                   onClick={() => handleGenerateResource(content, i)}
                 >
                   {/* Animated gradient background */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-blue-500/5 to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-blue-500/5 to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                   {/* Content */}
                   <div className="relative z-10">
@@ -417,18 +417,18 @@ export default function AssessmentResultsPage() {
                           <motion.div
                             animate={{ rotate: 360 }}
                             transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                            className="w-10 h-10 rounded-full border-2 border-purple-400 border-t-transparent"
+                            className="w-10 h-10 rounded-full border-2 border-cyan-400 border-t-transparent"
                           />
                         ) : (
-                          <div className="w-10 h-10 bg-purple-500/20 rounded-full flex items-center justify-center group-hover:bg-purple-500/30 transition-colors">
-                            <Download className="w-5 h-5 text-purple-400 group-hover:text-purple-300 transition-colors" />
+                          <div className="w-10 h-10 bg-cyan-500/20 rounded-full flex items-center justify-center group-hover:bg-cyan-500/30 transition-colors">
+                            <Download className="w-5 h-5 text-cyan-400 group-hover:text-cyan-300 transition-colors" />
                           </div>
                         )}
                       </div>
                     </div>
 
                     {/* Download CTA */}
-                    <div className="flex items-center gap-2 text-sm font-medium text-purple-400 group-hover:text-purple-300 transition-colors">
+                    <div className="flex items-center gap-2 text-sm font-medium text-cyan-400 group-hover:text-cyan-300 transition-colors">
                       <span>Click to generate & download</span>
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </div>
@@ -467,7 +467,7 @@ export default function AssessmentResultsPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8 }}
-            className="text-center bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-2xl p-12 border border-white/10"
+            className="text-center bg-gradient-to-r from-blue-500/10 to-cyan-500/10 rounded-2xl p-12 border border-white/10"
           >
             <h2 className="text-4xl font-bold text-white mb-4">
               Ready to Transform Your Organization?
@@ -479,7 +479,7 @@ export default function AssessmentResultsPage() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={handleScheduleCall}
-              className="px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-xl font-semibold inline-flex items-center gap-3 text-lg"
+              className="px-8 py-4 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-xl font-semibold inline-flex items-center gap-3 text-lg"
             >
               <Calendar className="w-6 h-6" />
               Schedule Your Strategy Session

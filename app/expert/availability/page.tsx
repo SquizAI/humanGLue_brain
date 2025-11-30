@@ -155,7 +155,7 @@ export default function ExpertAvailabilityPage() {
             {hasChanges && (
               <button
                 onClick={saveSchedule}
-                className="px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white font-semibold rounded-xl transition-all font-diatype flex items-center gap-2"
+                className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-semibold rounded-xl transition-all font-diatype flex items-center gap-2"
               >
                 <Save className="w-5 h-5" />
                 Save Changes
@@ -169,7 +169,7 @@ export default function ExpertAvailabilityPage() {
               <label className="block text-sm font-medium text-gray-300 mb-2 font-diatype">
                 Session Duration
               </label>
-              <select className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 font-diatype">
+              <select className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 font-diatype">
                 <option value="30">30 minutes</option>
                 <option value="60" selected>60 minutes</option>
                 <option value="90">90 minutes</option>
@@ -181,7 +181,7 @@ export default function ExpertAvailabilityPage() {
               <label className="block text-sm font-medium text-gray-300 mb-2 font-diatype">
                 Buffer Between Sessions
               </label>
-              <select className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 font-diatype">
+              <select className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 font-diatype">
                 <option value="0">No buffer</option>
                 <option value="15" selected>15 minutes</option>
                 <option value="30">30 minutes</option>
@@ -193,7 +193,7 @@ export default function ExpertAvailabilityPage() {
               <label className="block text-sm font-medium text-gray-300 mb-2 font-diatype">
                 Booking Notice
               </label>
-              <select className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 font-diatype">
+              <select className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 font-diatype">
                 <option value="0">Same day</option>
                 <option value="1" selected>1 day in advance</option>
                 <option value="2">2 days in advance</option>
@@ -220,14 +220,14 @@ export default function ExpertAvailabilityPage() {
                         type="checkbox"
                         checked={schedule[key].enabled}
                         onChange={() => toggleDay(key)}
-                        className="w-5 h-5 rounded border-white/20 bg-white/5 text-purple-500 focus:ring-purple-500/50"
+                        className="w-5 h-5 rounded border-white/20 bg-white/5 text-cyan-500 focus:ring-cyan-500/50"
                       />
                       <label className="text-lg font-semibold text-white font-gendy">{label}</label>
                     </div>
                     {schedule[key].enabled && (
                       <button
                         onClick={() => addTimeSlot(key)}
-                        className="px-3 py-1.5 bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 rounded-lg transition-all font-diatype text-sm flex items-center gap-1 border border-purple-500/30"
+                        className="px-3 py-1.5 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-400 rounded-lg transition-all font-diatype text-sm flex items-center gap-1 border border-cyan-500/30"
                       >
                         <Plus className="w-4 h-4" />
                         Add Slot
@@ -244,14 +244,14 @@ export default function ExpertAvailabilityPage() {
                             type="time"
                             value={slot.startTime}
                             onChange={(e) => updateTimeSlot(key, slot.id, 'startTime', e.target.value)}
-                            className="px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 font-diatype"
+                            className="px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 font-diatype"
                           />
                           <span className="text-gray-400">to</span>
                           <input
                             type="time"
                             value={slot.endTime}
                             onChange={(e) => updateTimeSlot(key, slot.id, 'endTime', e.target.value)}
-                            className="px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 font-diatype"
+                            className="px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 font-diatype"
                           />
                           {schedule[key].slots.length > 1 && (
                             <button

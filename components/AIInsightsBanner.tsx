@@ -20,7 +20,7 @@ const pageInsights = {
       title: "Success Tip",
       content: "Start with a quick assessment to identify your top 3 transformation opportunities",
       action: "Start now",
-      color: "from-purple-500 to-pink-500"
+      color: "from-cyan-500 to-pink-500"
     }
   ],
   '/solutions': [
@@ -45,7 +45,7 @@ const pageInsights = {
       title: "Timeline Tip",
       content: "Most organizations see measurable results within 90 days of starting",
       action: "View timeline",
-      color: "from-indigo-500 to-purple-500"
+      color: "from-indigo-500 to-cyan-500"
     },
     {
       icon: Lightbulb,

@@ -147,7 +147,7 @@ export default function ResultsPage() {
 
         {/* Animated Orbs */}
         <motion.div
-          className="absolute top-20 left-10 w-96 h-96 bg-purple-500/20 rounded-full blur-[120px]"
+          className="absolute top-20 left-10 w-96 h-96 bg-cyan-500/20 rounded-full blur-[120px]"
           animate={{
             scale: [1, 1.2, 1],
             opacity: [0.3, 0.5, 0.3],
@@ -179,9 +179,9 @@ export default function ResultsPage() {
             transition={{ duration: 0.6 }}
             className="max-w-4xl mx-auto text-center"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/10 backdrop-blur-sm border border-purple-500/20 mb-6">
-              <Award className="w-4 h-4 text-purple-400" />
-              <span className="text-sm text-purple-300 font-diatype">Measurable Transformation</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 backdrop-blur-sm border border-cyan-500/20 mb-6">
+              <Award className="w-4 h-4 text-cyan-400" />
+              <span className="text-sm text-cyan-300 font-diatype">Measurable Transformation</span>
             </div>
 
             <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 font-gendy leading-tight">
@@ -230,7 +230,7 @@ export default function ResultsPage() {
           {/* Journey Timeline */}
           <div className="relative">
             {/* Connection line */}
-            <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-purple-500 via-blue-500 to-cyan-500 hidden lg:block" />
+            <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-cyan-500 via-blue-500 to-cyan-500 hidden lg:block" />
 
             <div className="space-y-16">
               {transformationStages.map((stage, index) => (
@@ -246,7 +246,7 @@ export default function ResultsPage() {
                   <motion.div
                     whileHover={{ scale: 1.2, rotate: 360 }}
                     transition={{ duration: 0.5 }}
-                    className="absolute left-1/2 -translate-x-1/2 w-12 h-12 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full flex items-center justify-center text-white font-bold z-10 font-gendy"
+                    className="absolute left-1/2 -translate-x-1/2 w-12 h-12 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full flex items-center justify-center text-white font-bold z-10 font-gendy"
                   >
                     {index + 1}
                   </motion.div>
@@ -255,16 +255,16 @@ export default function ResultsPage() {
                   <div className={`flex-1 ${index % 2 === 0 ? 'text-right' : 'text-left'}`}>
                     <motion.div
                       whileHover={{ scale: 1.02 }}
-                      className="bg-white/5 backdrop-blur-xl rounded-2xl p-8 border border-white/10 hover:border-purple-500/30 transition-all"
+                      className="bg-white/5 backdrop-blur-xl rounded-2xl p-8 border border-white/10 hover:border-cyan-500/30 transition-all"
                     >
                       <div className={`flex items-center gap-4 mb-4 ${index % 2 === 0 ? 'justify-end' : ''}`}>
                         <h3 className="text-2xl font-bold text-white font-gendy">{stage.stage}</h3>
                         <motion.div
                           whileHover={{ rotate: 360 }}
                           transition={{ duration: 0.5 }}
-                          className="p-3 rounded-xl bg-gradient-to-br from-purple-500/20 to-blue-500/20"
+                          className="p-3 rounded-xl bg-gradient-to-br from-cyan-500/20 to-blue-500/20"
                         >
-                          <stage.icon className="w-6 h-6 text-purple-400" />
+                          <stage.icon className="w-6 h-6 text-cyan-400" />
                         </motion.div>
                       </div>
                       <p className="text-gray-300 mb-4 font-diatype">{stage.description}</p>
@@ -294,7 +294,7 @@ export default function ResultsPage() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <Target className="w-16 h-16 mx-auto mb-6 text-purple-400" />
+            <Target className="w-16 h-16 mx-auto mb-6 text-cyan-400" />
             <h2 className="text-4xl font-bold text-white mb-4">
               What You Can Expect
             </h2>
@@ -312,15 +312,15 @@ export default function ResultsPage() {
                 transition={{ delay: i * 0.1 }}
                 viewport={{ once: true }}
                 whileHover={{ y: -10 }}
-                className="bg-gradient-to-br from-gray-800/50 to-gray-700/30 rounded-2xl p-8 border border-gray-700 hover:border-purple-500/50 transition-all"
+                className="bg-gradient-to-br from-gray-800/50 to-gray-700/30 rounded-2xl p-8 border border-gray-700 hover:border-cyan-500/50 transition-all"
               >
                 <div className="flex items-start gap-4 mb-6">
                   <motion.div
                     whileHover={{ scale: 1.1, rotate: 360 }}
                     transition={{ duration: 0.5 }}
-                    className="p-4 rounded-xl bg-gradient-to-br from-purple-500/20 to-blue-500/20"
+                    className="p-4 rounded-xl bg-gradient-to-br from-cyan-500/20 to-blue-500/20"
                   >
-                    <outcome.icon className="w-8 h-8 text-purple-400" />
+                    <outcome.icon className="w-8 h-8 text-cyan-400" />
                   </motion.div>
                   <div>
                     <h3 className="text-2xl font-semibold text-white mb-2">{outcome.category}</h3>
@@ -505,7 +505,7 @@ export default function ResultsPage() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="relative bg-gradient-to-br from-purple-900/30 to-blue-900/30 backdrop-blur-xl rounded-3xl border border-white/10 p-12 md:p-16 overflow-hidden"
+            className="relative bg-gradient-to-br from-cyan-900/30 to-blue-900/30 backdrop-blur-xl rounded-3xl border border-white/10 p-12 md:p-16 overflow-hidden"
           >
             {/* Background Pattern */}
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(168,85,247,0.1),transparent_70%)]" />

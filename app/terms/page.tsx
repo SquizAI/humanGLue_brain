@@ -9,7 +9,7 @@ export default function TermsPage() {
   return (
     <div className="min-h-screen bg-gray-950 text-white">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 py-16">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+        <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
           Terms of Service
         </h1>
         <p className="text-gray-400 mb-12">Last updated: {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
@@ -251,7 +251,7 @@ export default function TermsPage() {
               <p className="text-gray-300">HumanGlue Inc.</p>
               <p className="text-gray-300">Email: legal@humanglue.ai</p>
               <p className="text-gray-300">Support: support@humanglue.ai</p>
-              <p className="text-gray-300 mt-2">Website: <a href="https://humanglue.ai" className="text-purple-400 hover:text-purple-300 transition-colors">https://humanglue.ai</a></p>
+              <p className="text-gray-300 mt-2">Website: <a href="https://humanglue.ai" className="text-cyan-400 hover:text-cyan-300 transition-colors">https://humanglue.ai</a></p>
             </div>
           </section>
 

@@ -273,7 +273,7 @@ export function MobileLayout({ children, backgroundState = 'default' }: MobileLa
                   onClick={() => setIsChatOpen(true)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="absolute -top-5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full p-3 shadow-lg active:shadow-xl transition-all"
+                  className="absolute -top-5 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full p-3 shadow-lg active:shadow-xl transition-all"
                   aria-label="Open AI chat assistant"
                 >
                   <MessageCircle className="w-6 h-6 text-white" />
@@ -281,7 +281,7 @@ export function MobileLayout({ children, backgroundState = 'default' }: MobileLa
                   <motion.div
                     animate={{ scale: [1, 1.2, 1] }}
                     transition={{ duration: 2, repeat: Infinity }}
-                    className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 opacity-30"
+                    className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 opacity-30"
                   />
                 </motion.button>
               </div>
@@ -397,7 +397,7 @@ export function MobileLayout({ children, backgroundState = 'default' }: MobileLa
               onClick={() => setIsChatOpen(true)}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="relative bg-gradient-to-r from-blue-500 to-purple-500 rounded-full p-4 shadow-lg active:shadow-xl transition-all"
+              className="relative bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full p-4 shadow-lg active:shadow-xl transition-all"
               aria-label="Open AI chat assistant"
             >
               <MessageCircle className="w-7 h-7 text-white" />
@@ -406,7 +406,7 @@ export function MobileLayout({ children, backgroundState = 'default' }: MobileLa
               <motion.div
                 animate={{ scale: [1, 1.2, 1] }}
                 transition={{ duration: 2, repeat: Infinity }}
-                className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 opacity-30"
+                className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 opacity-30"
               />
             </motion.button>
             <span className="text-xs font-medium text-blue-400 mt-1 block text-center">AI Chat</span>

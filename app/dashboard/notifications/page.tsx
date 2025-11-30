@@ -91,7 +91,7 @@ export default function NotificationsPage() {
       case 'warning':
         return 'text-yellow-400 bg-yellow-500/10'
       case 'update':
-        return 'text-purple-400 bg-purple-500/10'
+        return 'text-cyan-400 bg-cyan-500/10'
       default:
         return 'text-blue-400 bg-blue-500/10'
     }
@@ -117,7 +117,7 @@ export default function NotificationsPage() {
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
-              <Bell className="w-8 h-8 text-purple-400" />
+              <Bell className="w-8 h-8 text-cyan-400" />
               <h1 className="text-3xl font-bold text-white">Notifications</h1>
             </div>
             <Button
@@ -146,7 +146,7 @@ export default function NotificationsPage() {
                 <div className="text-sm text-gray-400">Total</div>
               </div>
               <div>
-                <div className="text-2xl font-bold text-purple-400">
+                <div className="text-2xl font-bold text-cyan-400">
                   {unreadCount}
                 </div>
                 <div className="text-sm text-gray-400">Unread</div>
@@ -175,7 +175,7 @@ export default function NotificationsPage() {
             className={cn(
               'px-4 py-2 rounded-lg font-medium text-sm transition-all',
               filter === 'all'
-                ? 'bg-purple-600 text-white'
+                ? 'bg-cyan-600 text-white'
                 : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
             )}
           >
@@ -186,7 +186,7 @@ export default function NotificationsPage() {
             className={cn(
               'px-4 py-2 rounded-lg font-medium text-sm transition-all',
               filter === 'unread'
-                ? 'bg-purple-600 text-white'
+                ? 'bg-cyan-600 text-white'
                 : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
             )}
           >
@@ -219,7 +219,7 @@ export default function NotificationsPage() {
                   'bg-gray-900/50 backdrop-blur-xl rounded-xl border transition-all duration-200',
                   notification.read
                     ? 'border-gray-800'
-                    : 'border-purple-500/30 bg-purple-500/5'
+                    : 'border-cyan-500/30 bg-cyan-500/5'
                 )}
               >
                 <div className="p-6">
@@ -267,7 +267,7 @@ export default function NotificationsPage() {
                         {!notification.read && (
                           <button
                             onClick={() => markAsRead(notification.id)}
-                            className="text-xs text-purple-400 hover:text-purple-300 transition-colors"
+                            className="text-xs text-cyan-400 hover:text-cyan-300 transition-colors"
                           >
                             Mark as read
                           </button>
