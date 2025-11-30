@@ -34,17 +34,22 @@ export async function GET(
         organization:organizations(
           id,
           name,
-          slug
+          slug,
+          industry
         ),
-        answers:assessment_answers(
+        responses:assessment_responses(
           id,
-          question_id,
+          question_code,
           dimension,
-          answer_type,
-          answer_value,
-          answer_text,
-          question_weight,
+          metadata,
           created_at
+        ),
+        sessions:assessment_sessions(
+          id,
+          total_questions,
+          questions_answered,
+          questions_skipped,
+          last_activity_at
         )
       `)
       .eq('id', id)

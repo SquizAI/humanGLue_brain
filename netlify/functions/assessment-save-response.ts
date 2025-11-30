@@ -94,19 +94,21 @@ export const handler: Handler = async (event, context) => {
 
     // Upsert answer (insert or update if already exists)
     const { data: answer, error: upsertError } = await supabase
-      .from('assessment_answers')
+      .from('assessment_responses')
       .upsert({
         assessment_id: assessmentId,
-        question_id: questionId,
+        question_code: questionId,
         dimension,
-        answer_type: answerType,
-        answer_value: answerValue || null,
-        answer_text: answerText || null,
-        question_text: questionText,
-        question_weight: questionWeight,
-        answered_at: new Date().toISOString()
+        metadata: {
+          answer_type: answerType,
+          answer_value: answerValue || null,
+          answer_text: answerText || null,
+          question_text: questionText,
+          question_weight: questionWeight,
+        },
+        created_at: new Date().toISOString()
       }, {
-        onConflict: 'assessment_id,question_id'
+        onConflict: 'assessment_id,question_code'
       })
       .select()
       .single()

@@ -89,7 +89,7 @@ export const handler: Handler = async (event, context) => {
 
     // Get all answers for the assessment
     const { data: answers, error: answersError } = await supabase
-      .from('assessment_answers')
+      .from('assessment_responses')
       .select('*')
       .eq('assessment_id', assessmentId)
 

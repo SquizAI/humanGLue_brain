@@ -54,8 +54,8 @@ export const handler: Handler = async (event, context) => {
 
     // Get answers grouped by dimension
     const { data: answers, error: answersError } = await supabase
-      .from('assessment_answers')
-      .select('dimension, answer_value')
+      .from('assessment_responses')
+      .select('dimension, response_value:metadata->answer_value')
       .eq('assessment_id', assessmentId)
 
     if (answersError) {

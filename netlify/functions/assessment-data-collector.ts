@@ -103,19 +103,21 @@ export const handler: Handler = async (event, context) => {
 
     // Store answer in database
     const { data: answer, error: insertError } = await supabase
-      .from('assessment_answers')
+      .from('assessment_responses')
       .upsert({
         assessment_id: data.assessmentId,
-        question_id: data.questionId,
+        question_code: data.questionId,
         dimension,
-        answer_type: 'scale', // Default to scale for backward compatibility
-        answer_value: data.scoreValue,
-        answer_text: data.response,
-        question_text: data.response, // Using response as question text for backward compatibility
-        question_weight: 1,
-        answered_at: data.timestamp || new Date().toISOString()
+        metadata: {
+          answer_type: 'scale', // Default to scale for backward compatibility
+          answer_value: data.scoreValue,
+          answer_text: data.response,
+          question_text: data.response, // Using response as question text for backward compatibility
+          question_weight: 1,
+        },
+        created_at: data.timestamp || new Date().toISOString()
       }, {
-        onConflict: 'assessment_id,question_id'
+        onConflict: 'assessment_id,question_code'
       })
       .select()
       .single()
@@ -126,7 +128,7 @@ export const handler: Handler = async (event, context) => {
 
     // Get count of answers for this assessment
     const { count } = await supabase
-      .from('assessment_answers')
+      .from('assessment_responses')
       .select('*', { count: 'exact', head: true })
       .eq('assessment_id', data.assessmentId)
 

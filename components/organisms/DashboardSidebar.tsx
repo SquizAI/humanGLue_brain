@@ -639,7 +639,7 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
           )}>
             <motion.div
               whileHover={{ scale: 1.05 }}
-              className="relative w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center"
+              className="relative w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center bg-black"
               title={isCollapsed ? "Human Glue" : undefined}
             >
               <Image
@@ -842,12 +842,8 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
 
         {/* Theme Toggle & Logout */}
         <div className={cn("p-4 border-t border-white/10 space-y-2", isCollapsed && "px-2")}>
-          {/* Theme Toggle */}
-          {isCollapsed ? (
-            <ThemeToggle variant="icon-only" className="w-full flex justify-center" />
-          ) : (
-            <ThemeToggle />
-          )}
+          {/* Theme Toggle - Compact version */}
+          <ThemeToggle variant="icon-only" className={cn("w-full flex", isCollapsed ? "justify-center" : "justify-start")} />
 
           {/* Logout */}
           <motion.button

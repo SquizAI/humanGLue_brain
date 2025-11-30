@@ -113,14 +113,11 @@ export async function GET(
           name,
           slug
         ),
-        answers:assessment_answers(
+        responses:assessment_responses(
           id,
-          question_id,
+          question_code,
           dimension,
-          answer_type,
-          answer_value,
-          answer_text,
-          question_weight
+          metadata
         )
       `)
       .eq('id', id)

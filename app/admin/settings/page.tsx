@@ -16,18 +16,28 @@ import {
   Code,
   Globe,
   CheckCircle,
+  Palette,
 } from 'lucide-react'
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
 import { useChat } from '@/lib/contexts/ChatContext'
 import { LoadingSpinner } from '@/components/atoms/LoadingSpinner'
 import { signOut } from '@/lib/auth/hooks'
+import { useTheme } from 'next-themes'
+import { Sun, Moon, Monitor } from 'lucide-react'
 
 export default function SettingsAdmin() {
   const router = useRouter()
   const { userData, authLoading } = useChat()
+  const { theme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
   const [showContent, setShowContent] = useState(false)
   const [activeTab, setActiveTab] = useState('general')
   const [showSuccess, setShowSuccess] = useState(false)
+
+  // Prevent hydration mismatch for theme
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   // Settings state
   const [settings, setSettings] = useState({
@@ -92,6 +102,7 @@ export default function SettingsAdmin() {
 
   const tabs = [
     { id: 'general', name: 'General', icon: Settings },
+    { id: 'appearance', name: 'Appearance', icon: Palette },
     { id: 'email', name: 'Email', icon: Mail },
     { id: 'notifications', name: 'Notifications', icon: Bell },
     { id: 'security', name: 'Security', icon: Shield },
@@ -192,6 +203,66 @@ export default function SettingsAdmin() {
                         onChange={(e) => setSettings({ ...settings, supportEmail: e.target.value })}
                         className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-diatype"
                       />
+                    </div>
+                  </div>
+                )}
+
+                {activeTab === 'appearance' && (
+                  <div className="space-y-6">
+                    <h2 className="text-xl font-bold text-white dark:text-white mb-4 font-gendy">Appearance Settings</h2>
+                    <div>
+                      <label className="block text-sm font-semibold text-white dark:text-white mb-4 font-diatype">
+                        Theme
+                      </label>
+                      <div className="grid grid-cols-3 gap-4">
+                        {/* Light Mode */}
+                        <button
+                          onClick={() => setTheme('light')}
+                          className={`p-4 rounded-xl border-2 transition-all flex flex-col items-center gap-3 ${
+                            mounted && theme === 'light'
+                              ? 'border-cyan-500 bg-cyan-500/10'
+                              : 'border-white/10 bg-white/5 hover:bg-white/10'
+                          }`}
+                        >
+                          <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center">
+                            <Sun className="w-6 h-6 text-yellow-500" />
+                          </div>
+                          <span className="text-white dark:text-white font-medium font-diatype">Light</span>
+                        </button>
+
+                        {/* Dark Mode */}
+                        <button
+                          onClick={() => setTheme('dark')}
+                          className={`p-4 rounded-xl border-2 transition-all flex flex-col items-center gap-3 ${
+                            mounted && theme === 'dark'
+                              ? 'border-cyan-500 bg-cyan-500/10'
+                              : 'border-white/10 bg-white/5 hover:bg-white/10'
+                          }`}
+                        >
+                          <div className="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center">
+                            <Moon className="w-6 h-6 text-blue-400" />
+                          </div>
+                          <span className="text-white dark:text-white font-medium font-diatype">Dark</span>
+                        </button>
+
+                        {/* System */}
+                        <button
+                          onClick={() => setTheme('system')}
+                          className={`p-4 rounded-xl border-2 transition-all flex flex-col items-center gap-3 ${
+                            mounted && theme === 'system'
+                              ? 'border-cyan-500 bg-cyan-500/10'
+                              : 'border-white/10 bg-white/5 hover:bg-white/10'
+                          }`}
+                        >
+                          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-white to-gray-800 flex items-center justify-center">
+                            <Monitor className="w-6 h-6 text-gray-600" />
+                          </div>
+                          <span className="text-white dark:text-white font-medium font-diatype">System</span>
+                        </button>
+                      </div>
+                      <p className="text-sm text-gray-400 mt-4 font-diatype">
+                        Choose how the dashboard appears to you. Select &quot;System&quot; to automatically match your device settings.
+                      </p>
                     </div>
                   </div>
                 )}

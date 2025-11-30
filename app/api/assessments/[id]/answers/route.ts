@@ -20,8 +20,10 @@ import { enforceRateLimit } from '@/lib/api/rate-limit'
  */
 function calculateDimensionScores(answers: Array<{
   dimension: string
-  answer_value: number
-  question_weight: number
+  metadata: {
+    answer_value?: number
+    question_weight?: number
+  }
 }>) {
   const dimensions = ['individual', 'leadership', 'cultural', 'embedding', 'velocity']
   const scores: Record<string, number> = {}
@@ -34,9 +36,9 @@ function calculateDimensionScores(answers: Array<{
       continue
     }
 
-    const totalWeight = dimensionAnswers.reduce((sum, a) => sum + a.question_weight, 0)
+    const totalWeight = dimensionAnswers.reduce((sum, a) => sum + (a.metadata?.question_weight || 1), 0)
     const weightedSum = dimensionAnswers.reduce(
-      (sum, a) => sum + a.answer_value * a.question_weight,
+      (sum, a) => sum + (a.metadata?.answer_value || 0) * (a.metadata?.question_weight || 1),
       0
     )
 
@@ -106,26 +108,28 @@ export async function POST(
     // Insert or update answers
     const answerRecords = answers.map(answer => ({
       assessment_id: assessmentId,
-      question_id: answer.questionId,
+      question_code: answer.questionId,
       dimension: answer.dimension,
-      answer_type: answer.answerType,
-      answer_value: answer.answerValue,
-      answer_text: answer.answerText,
-      question_weight: answer.questionWeight,
+      metadata: {
+        answer_type: answer.answerType,
+        answer_value: answer.answerValue,
+        answer_text: answer.answerText,
+        question_weight: answer.questionWeight,
+      },
     }))
 
     const { error: answersError } = await supabase
-      .from('assessment_answers')
+      .from('assessment_responses')
       .upsert(answerRecords, {
-        onConflict: 'assessment_id,question_id',
+        onConflict: 'assessment_id,question_code',
       })
 
     if (answersError) throw answersError
 
     // Get all answers for this assessment
     const { data: allAnswers, error: allAnswersError } = await supabase
-      .from('assessment_answers')
-      .select('dimension, answer_value, question_weight')
+      .from('assessment_responses')
+      .select('dimension, metadata')
       .eq('assessment_id', assessmentId)
 
     if (allAnswersError) throw allAnswersError
@@ -148,14 +152,11 @@ export async function POST(
           name,
           slug
         ),
-        answers:assessment_answers(
+        responses:assessment_responses(
           id,
-          question_id,
+          question_code,
           dimension,
-          answer_type,
-          answer_value,
-          answer_text,
-          question_weight
+          metadata
         )
       `)
       .single()
