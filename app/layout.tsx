@@ -105,7 +105,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" suppressHydrationWarning>
       <head>
         {/* Structured Data - Organization */}
         <script
@@ -173,7 +173,7 @@ export default function RootLayout({
         <meta name="application-name" content="Human Glue" />
         <meta name="apple-mobile-web-app-title" content="Human Glue" />
       </head>
-      <body className={`${inter.className} bg-gray-900 text-white antialiased`}>
+      <body className={`${inter.className} bg-black dark:bg-black light:bg-gray-50 text-gray-900 dark:text-white antialiased transition-colors duration-300`}>
         <Providers>
           {children}
         </Providers>

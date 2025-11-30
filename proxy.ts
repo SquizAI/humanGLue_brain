@@ -1,5 +1,5 @@
 /**
- * Next.js Middleware for Authentication and Authorization
+ * Next.js Proxy for Authentication and Authorization
  *
  * Security Features:
  * - Session refresh and validation
@@ -32,10 +32,10 @@ const ROUTE_RULES = {
   authenticated: ['/dashboard', '/profile', '/settings', '/checkout', '/results'],
 }
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  // Skip middleware for static files, API routes, and public assets
+  // Skip proxy for static files, API routes, and public assets
   if (
     pathname.startsWith('/_next') ||
     pathname.startsWith('/api') ||
@@ -60,7 +60,7 @@ export async function middleware(request: NextRequest) {
     // Organization detected via custom domain
     // Inject organization ID into request headers for auto-loading
     response.headers.set('x-organization-id', orgId)
-    console.log('[Middleware] Custom domain detected:', host, '-> Org ID:', orgId)
+    console.log('[Proxy] Custom domain detected:', host, '-> Org ID:', orgId)
   }
 
   // Create Supabase client with cookie handling
@@ -155,7 +155,7 @@ export async function middleware(request: NextRequest) {
       .eq('user_id', user.id)
       .or(`expires_at.is.null,expires_at.gt.${new Date().toISOString()}`)
 
-    console.log('[Middleware Roles]', {
+    console.log('[Proxy Roles]', {
       userRoles,
       rolesError: rolesError?.message,
       userId: user.id
@@ -168,47 +168,47 @@ export async function middleware(request: NextRequest) {
     const hasExpertRole = activeRoles.includes('expert')
     const hasClientRole = activeRoles.includes('client') || activeRoles.includes('user')
 
-    console.log('[Middleware] User accessing:', pathname, '| Active roles:', activeRoles)
+    console.log('[Proxy] User accessing:', pathname, '| Active roles:', activeRoles)
 
     // Check admin routes - allow access if user has admin role
     if (ROUTE_RULES.admin.some(route => pathname.startsWith(route))) {
-      console.log('[Middleware] Admin route detected, hasAdminRole:', hasAdminRole)
+      console.log('[Proxy] Admin route detected, hasAdminRole:', hasAdminRole)
       if (hasAdminRole) {
-        console.log('[Middleware] Admin access granted to admin route')
+        console.log('[Proxy] Admin access granted to admin route')
         return response
       }
       // Redirect non-admin users to dashboard
-      console.log('[Middleware] Non-admin user attempting to access admin route, redirecting to dashboard')
+      console.log('[Proxy] Non-admin user attempting to access admin route, redirecting to dashboard')
       return redirectToDashboard()
     }
 
     // Check instructor routes - allow access if user has instructor or admin role
     if (ROUTE_RULES.instructor.some(route => pathname.startsWith(route))) {
-      console.log('[Middleware] Instructor route detected, hasInstructorRole:', hasInstructorRole, 'hasAdminRole:', hasAdminRole)
+      console.log('[Proxy] Instructor route detected, hasInstructorRole:', hasInstructorRole, 'hasAdminRole:', hasAdminRole)
       if (hasInstructorRole || hasAdminRole) {
-        console.log('[Middleware] Instructor/Admin access granted to instructor route')
+        console.log('[Proxy] Instructor/Admin access granted to instructor route')
         return response
       }
       // Redirect non-instructor users to dashboard
-      console.log('[Middleware] Non-instructor user attempting to access instructor route, redirecting to dashboard')
+      console.log('[Proxy] Non-instructor user attempting to access instructor route, redirecting to dashboard')
       return redirectToDashboard()
     }
 
     // Check expert routes - allow access if user has expert or admin role
     if (ROUTE_RULES.expert.some(route => pathname.startsWith(route))) {
-      console.log('[Middleware] Expert route detected, hasExpertRole:', hasExpertRole, 'hasAdminRole:', hasAdminRole)
+      console.log('[Proxy] Expert route detected, hasExpertRole:', hasExpertRole, 'hasAdminRole:', hasAdminRole)
       if (hasExpertRole || hasAdminRole) {
-        console.log('[Middleware] Expert/Admin access granted to expert route')
+        console.log('[Proxy] Expert/Admin access granted to expert route')
         return response
       }
       // Redirect non-expert users to dashboard
-      console.log('[Middleware] Non-expert user attempting to access expert route, redirecting to dashboard')
+      console.log('[Proxy] Non-expert user attempting to access expert route, redirecting to dashboard')
       return redirectToDashboard()
     }
 
     // Allow any authenticated user to access dashboard routes and other authenticated routes
     if (pathname.startsWith('/dashboard') || ROUTE_RULES.authenticated.some(route => pathname === route || pathname.startsWith(route + '/'))) {
-      console.log('[Middleware] Allowing authenticated user to access route:', pathname)
+      console.log('[Proxy] Allowing authenticated user to access route:', pathname)
       return response
     }
   }

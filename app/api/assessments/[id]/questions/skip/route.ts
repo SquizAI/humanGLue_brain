@@ -104,13 +104,23 @@ export async function POST(
     })
 
     // Update session skipped count if exists
-    await supabase
+    // First get current values
+    const { data: session } = await supabase
       .from('assessment_sessions')
-      .update({
-        questions_skipped: supabase.rpc('increment_skipped'),
-        current_question_index: supabase.rpc('increment_index'),
-      })
+      .select('questions_skipped, current_question_index')
       .eq('assessment_id', assessmentId)
+      .single()
+
+    if (session) {
+      await supabase
+        .from('assessment_sessions')
+        .update({
+          questions_skipped: (session.questions_skipped || 0) + 1,
+          current_question_index: (session.current_question_index || 0) + 1,
+          last_activity_at: new Date().toISOString(),
+        })
+        .eq('assessment_id', assessmentId)
+    }
 
     // Get next question
     const nextQuestion = await getNextQuestion(assessmentId)

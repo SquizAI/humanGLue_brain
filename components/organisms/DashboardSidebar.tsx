@@ -40,6 +40,7 @@ import Image from 'next/image'
 import { CartIcon } from '@/components/molecules/CartIcon'
 import { CartDrawer } from '@/components/organisms/CartDrawer'
 import { MobileDashboardNav } from '@/components/organisms/MobileDashboardNav'
+import { ThemeToggle } from '@/components/molecules/ThemeToggle'
 import { useSocial } from '@/lib/contexts/SocialContext'
 import { useChat } from '@/lib/contexts/ChatContext'
 import { usePermissions } from '@/lib/hooks/usePermissions'
@@ -839,19 +840,27 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
           </div>
         )}
 
-        {/* Logout */}
-        <div className={cn("p-4 border-t border-white/10", isCollapsed && "px-2")}>
+        {/* Theme Toggle & Logout */}
+        <div className={cn("p-4 border-t border-white/10 space-y-2", isCollapsed && "px-2")}>
+          {/* Theme Toggle */}
+          {isCollapsed ? (
+            <ThemeToggle variant="icon-only" className="w-full flex justify-center" />
+          ) : (
+            <ThemeToggle />
+          )}
+
+          {/* Logout */}
           <motion.button
             whileHover={{ scale: 1.02, x: isCollapsed ? 0 : 4 }}
             whileTap={{ scale: 0.98 }}
             onClick={onLogout}
             className={cn(
-              "w-full flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-white/5 text-gray-400 hover:text-white transition-all group",
+              "w-full flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-white/5 dark:hover:bg-white/5 light:hover:bg-gray-200 text-gray-400 dark:text-gray-400 light:text-gray-600 hover:text-white dark:hover:text-white light:hover:text-gray-900 transition-all group",
               isCollapsed && "justify-center px-2"
             )}
             title={isCollapsed ? "Logout" : undefined}
           >
-            <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-white/5 group-hover:bg-red-500/10 transition-all">
+            <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-white/5 dark:bg-white/5 light:bg-gray-200 group-hover:bg-red-500/10 transition-all">
               <LogOut className="w-5 h-5 group-hover:text-red-400" />
             </div>
             {!isCollapsed && (
