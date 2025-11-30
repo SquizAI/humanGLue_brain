@@ -98,7 +98,7 @@ export function MobileFirstLanding({ onOpenChat }: MobileFirstLandingProps) {
   ]
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white overflow-x-hidden">
+    <div className="min-h-screen bg-black text-white overflow-x-hidden">
       
       {/* Mobile Header */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-gray-900/90 backdrop-blur-md border-b border-gray-800">

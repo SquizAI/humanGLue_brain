@@ -544,7 +544,7 @@ export default function CourseDetail() {
 
   if (!course) {
     return (
-      <div className="min-h-screen bg-gray-950">
+      <div className="min-h-screen bg-black">
         <DashboardSidebar onLogout={handleLogout} />
         <div className="ml-0 lg:ml-[var(--sidebar-width,280px)] pb-20 lg:pb-0 transition-all">
           <div className="px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
@@ -564,7 +564,7 @@ export default function CourseDetail() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-950">
+    <div className="min-h-screen bg-black">
       <DashboardSidebar onLogout={handleLogout} />
 
       {/* Toast Notification */}
@@ -661,7 +661,7 @@ export default function CourseDetail() {
               </div>
 
               {/* Social Stats */}
-              <div className="bg-gray-900/50 border border-white/10 rounded-xl p-6">
+              <div className="bg-black/50 border border-white/10 rounded-xl p-6">
                 <SocialStats
                   id={course.id.toString()}
                   type="course"
@@ -670,13 +670,13 @@ export default function CourseDetail() {
               </div>
 
               {/* About */}
-              <div className="bg-gray-900/50 border border-white/10 rounded-xl p-6">
+              <div className="bg-black/50 border border-white/10 rounded-xl p-6">
                 <h2 className="text-2xl font-bold text-white mb-4">About This Course</h2>
                 <p className="text-gray-300 leading-relaxed">{course.fullDescription}</p>
               </div>
 
               {/* Learning Outcomes */}
-              <div className="bg-gray-900/50 border border-white/10 rounded-xl p-6">
+              <div className="bg-black/50 border border-white/10 rounded-xl p-6">
                 <h2 className="text-2xl font-bold text-white mb-4">What You'll Learn</h2>
                 <ul className="space-y-3">
                   {course.outcomes.map((outcome, i) => (
@@ -689,7 +689,7 @@ export default function CourseDetail() {
               </div>
 
               {/* Syllabus */}
-              <div className="bg-gray-900/50 border border-white/10 rounded-xl p-6">
+              <div className="bg-black/50 border border-white/10 rounded-xl p-6">
                 <h2 className="text-2xl font-bold text-white mb-4">Course Curriculum</h2>
                 <div className="space-y-3">
                   {course.syllabus.map((module, i) => (
@@ -724,7 +724,7 @@ export default function CourseDetail() {
               </div>
 
               {/* Instructor */}
-              <div className="bg-gray-900/50 border border-white/10 rounded-xl p-6">
+              <div className="bg-black/50 border border-white/10 rounded-xl p-6">
                 <h2 className="text-2xl font-bold text-white mb-4">Instructor</h2>
                 <div className="flex items-start gap-4">
                   <Image
@@ -747,7 +747,7 @@ export default function CourseDetail() {
               </div>
 
               {/* Reviews */}
-              <div className="bg-gray-900/50 border border-white/10 rounded-xl p-6">
+              <div className="bg-black/50 border border-white/10 rounded-xl p-6">
                 <h2 className="text-2xl font-bold text-white mb-6">Student Reviews</h2>
                 <div className="space-y-4">
                   {course.testimonials.map((review, i) => (
@@ -858,7 +858,7 @@ export default function CourseDetail() {
               </div>
 
               {/* Skills */}
-              <div className="bg-gray-900/50 border border-white/10 rounded-xl p-6">
+              <div className="bg-black/50 border border-white/10 rounded-xl p-6">
                 <h3 className="text-lg font-bold text-white mb-4">Skills You'll Gain</h3>
                 <div className="flex flex-wrap gap-2">
                   {course.skills.map((skill, i) => (
@@ -873,7 +873,7 @@ export default function CourseDetail() {
               </div>
 
               {/* Requirements */}
-              <div className="bg-gray-900/50 border border-white/10 rounded-xl p-6">
+              <div className="bg-black/50 border border-white/10 rounded-xl p-6">
                 <h3 className="text-lg font-bold text-white mb-4">Requirements</h3>
                 <ul className="space-y-2">
                   {course.requirements.map((req, i) => (

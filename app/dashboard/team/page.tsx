@@ -193,7 +193,7 @@ export default function TeamPage() {
   const canAddMoreMembers = usage.users.limit === -1 || usage.users.used < usage.users.limit
 
   return (
-    <div className="min-h-screen bg-gray-950">
+    <div className="min-h-screen bg-black">
       <DashboardSidebar onLogout={handleLogout} />
 
       {/* Main Content - offset by sidebar */}

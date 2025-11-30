@@ -79,7 +79,7 @@ export default function BillingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-950">
+    <div className="min-h-screen bg-black">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
         {/* Header */}
         <div className="mb-8">
@@ -96,7 +96,7 @@ export default function BillingPage() {
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
             {/* Current Plan */}
-            <div className="bg-gray-900/50 backdrop-blur-xl rounded-xl border border-gray-800 p-6">
+            <div className="bg-black/50 backdrop-blur-xl rounded-xl border border-gray-800 p-6">
               <h2 className="text-xl font-bold text-white mb-6">Current Plan</h2>
 
               <div className="bg-gradient-to-br from-cyan-500/10 via-blue-500/10 to-cyan-500/10 rounded-xl p-6 border border-cyan-500/20 mb-6">
@@ -154,7 +154,7 @@ export default function BillingPage() {
             </div>
 
             {/* Payment Method */}
-            <div className="bg-gray-900/50 backdrop-blur-xl rounded-xl border border-gray-800 p-6">
+            <div className="bg-black/50 backdrop-blur-xl rounded-xl border border-gray-800 p-6">
               <h2 className="text-xl font-bold text-white mb-6">Payment Method</h2>
 
               <div className="bg-gray-800/50 rounded-xl p-4 flex items-center justify-between mb-4">
@@ -182,7 +182,7 @@ export default function BillingPage() {
             </div>
 
             {/* Invoices */}
-            <div className="bg-gray-900/50 backdrop-blur-xl rounded-xl border border-gray-800 p-6">
+            <div className="bg-black/50 backdrop-blur-xl rounded-xl border border-gray-800 p-6">
               <h2 className="text-xl font-bold text-white mb-6">Billing History</h2>
 
               <div className="space-y-3">
@@ -232,7 +232,7 @@ export default function BillingPage() {
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Usage Stats */}
-            <div className="bg-gray-900/50 backdrop-blur-xl rounded-xl border border-gray-800 p-6">
+            <div className="bg-black/50 backdrop-blur-xl rounded-xl border border-gray-800 p-6">
               <h3 className="font-bold text-white mb-4">Usage This Month</h3>
               <div className="space-y-4">
                 <div>
@@ -288,7 +288,7 @@ export default function BillingPage() {
             </div>
 
             {/* Need Help */}
-            <div className="bg-gray-900/50 backdrop-blur-xl rounded-xl border border-gray-800 p-6">
+            <div className="bg-black/50 backdrop-blur-xl rounded-xl border border-gray-800 p-6">
               <h3 className="font-bold text-white mb-3">Need Help?</h3>
               <p className="text-sm text-gray-400 mb-4">
                 Have questions about billing or subscriptions?

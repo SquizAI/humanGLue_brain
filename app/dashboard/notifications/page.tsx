@@ -111,7 +111,7 @@ export default function NotificationsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-950">
+    <div className="min-h-screen bg-black">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
         {/* Header */}
         <div className="mb-8">
@@ -136,7 +136,7 @@ export default function NotificationsPage() {
         </div>
 
         {/* Stats and Actions */}
-        <div className="bg-gray-900/50 backdrop-blur-xl rounded-xl border border-gray-800 p-6 mb-6">
+        <div className="bg-black/50 backdrop-blur-xl rounded-xl border border-gray-800 p-6 mb-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex items-center gap-6">
               <div>
@@ -216,7 +216,7 @@ export default function NotificationsPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
                 className={cn(
-                  'bg-gray-900/50 backdrop-blur-xl rounded-xl border transition-all duration-200',
+                  'bg-black/50 backdrop-blur-xl rounded-xl border transition-all duration-200',
                   notification.read
                     ? 'border-gray-800'
                     : 'border-cyan-500/30 bg-cyan-500/5'

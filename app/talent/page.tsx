@@ -20,7 +20,7 @@ export default function TalentPage() {
   // Show loading or nothing while checking auth
   if (!userData || !userData.email) {
     return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
+      <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-white text-xl">Authenticating...</div>
       </div>
     )

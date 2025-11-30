@@ -25,7 +25,7 @@ import { AskAIButton } from '@/components/molecules'
 
 export default function PurposePage() {
   return (
-    <div className="min-h-screen bg-gray-950">
+    <div className="min-h-screen bg-black">
       <Navigation />
 
       {/* Hero Section */}

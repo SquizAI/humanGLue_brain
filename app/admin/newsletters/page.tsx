@@ -19,6 +19,7 @@ import {
 } from 'lucide-react'
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
 import { useChat } from '@/lib/contexts/ChatContext'
+import { LoadingSpinner } from '@/components/atoms/LoadingSpinner'
 import { signOut } from '@/lib/auth/hooks'
 
 interface NewsletterList {
@@ -107,19 +108,22 @@ export default function NewslettersPage() {
 
   if (!showContent) {
     return (
-      <div className="min-h-screen bg-slate-900 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500"></div>
+      <div className="min-h-screen bg-black">
+        <DashboardSidebar onLogout={handleLogout} />
+        <div className="lg:ml-[var(--sidebar-width,280px)] transition-all duration-300 flex items-center justify-center min-h-screen">
+          <LoadingSpinner variant="neural" size="xl" text="Loading newsletters..." />
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gray-950">
+    <div className="min-h-screen bg-black">
       <DashboardSidebar onLogout={handleLogout} />
 
       <div className="lg:ml-[var(--sidebar-width,280px)] transition-all duration-300 pb-20 lg:pb-0">
         {/* Header */}
-        <div className="bg-gray-900/50 backdrop-blur-xl border-b border-white/10 sticky top-0 z-30">
+        <div className="bg-black/50 backdrop-blur-xl border-b border-white/10 sticky top-0 z-30">
           <div className="px-8 py-6">
             <div className="flex items-center justify-between">
               <div>
@@ -204,7 +208,7 @@ export default function NewslettersPage() {
           {/* Content */}
           {loading ? (
             <div className="flex items-center justify-center py-20">
-              <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-cyan-500"></div>
+              <LoadingSpinner variant="neural" size="lg" text="Loading data..." />
             </div>
           ) : activeTab === 'lists' ? (
             /* Lists View */

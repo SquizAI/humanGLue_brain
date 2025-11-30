@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HumanGlue Dashboard - Light/Dark Mode Demo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwindcss.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            cyan: {
+              400: '#61D8FE',
+              500: '#61D8FE',
+              600: '#4BC5EB',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+
+    /* Smooth transitions for theme change */
+    *, *::before, *::after {
+      transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease !important;
+    }
+  </style>
+</head>
+<body id="body" class="dark-mode">
+
+  <script>
+    // Initialize theme immediately to prevent flash
+    (function() {
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      document.getElementById('body').className = savedTheme === 'dark' ? 'dark-mode' : 'light-mode';
+    })();
+  </script>
+
+  <style>
+    /* ========== DARK MODE STYLES ========== */
+    .dark-mode {
+      --bg-primary: #000000;
+      --bg-secondary: rgba(255, 255, 255, 0.05);
+      --bg-tertiary: rgba(255, 255, 255, 0.02);
+      --bg-sidebar: rgba(0, 0, 0, 0.95);
+      --bg-card: rgba(255, 255, 255, 0.05);
+      --bg-card-hover: rgba(255, 255, 255, 0.08);
+      --bg-input: rgba(255, 255, 255, 0.05);
+      --text-primary: #ffffff;
+      --text-secondary: #9ca3af;
+      --text-muted: #6b7280;
+      --border-color: rgba(255, 255, 255, 0.1);
+      --border-hover: rgba(97, 216, 254, 0.3);
+      --cyan-text: #61D8FE;
+      --cyan-bg: rgba(97, 216, 254, 0.1);
+      --cyan-border: rgba(97, 216, 254, 0.3);
+      --shadow: none;
+      --scrollbar-track: #000;
+      --scrollbar-thumb: #333;
+    }
+
+    /* ========== LIGHT MODE STYLES ========== */
+    .light-mode {
+      --bg-primary: #f9fafb;
+      --bg-secondary: #ffffff;
+      --bg-tertiary: #f3f4f6;
+      --bg-sidebar: rgba(255, 255, 255, 0.95);
+      --bg-card: #ffffff;
+      --bg-card-hover: #f9fafb;
+      --bg-input: #f3f4f6;
+      --text-primary: #111827;
+      --text-secondary: #4b5563;
+      --text-muted: #9ca3af;
+      --border-color: #e5e7eb;
+      --border-hover: #61D8FE;
+      --cyan-text: #0891b2;
+      --cyan-bg: #ecfeff;
+      --cyan-border: #22d3ee;
+      --shadow: 0 1px 3px rgba(0,0,0,0.1);
+      --scrollbar-track: #f1f1f1;
+      --scrollbar-thumb: #ccc;
+    }
+
+    /* ========== APPLY VARIABLES ========== */
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      background-color: var(--bg-sidebar);
+      border-color: var(--border-color);
+    }
+
+    .card {
+      background-color: var(--bg-card);
+      border-color: var(--border-color);
+      box-shadow: var(--shadow);
+    }
+
+    .card:hover {
+      border-color: var(--border-hover);
+    }
+
+    .card-nested {
+      background-color: var(--bg-tertiary);
+      border-color: var(--border-color);
+    }
+
+    .text-primary { color: var(--text-primary); }
+    .text-secondary { color: var(--text-secondary); }
+    .text-muted { color: var(--text-muted); }
+    .text-cyan { color: var(--cyan-text); }
+    .bg-cyan { background-color: var(--cyan-bg); }
+    .border-main { border-color: var(--border-color); }
+
+    .nav-item {
+      background-color: transparent;
+    }
+    .nav-item:hover {
+      background-color: var(--bg-card-hover);
+    }
+    .nav-item-active {
+      background-color: var(--cyan-bg);
+      border-color: var(--cyan-border);
+    }
+    .nav-icon {
+      background-color: var(--bg-input);
+      color: var(--text-muted);
+    }
+    .nav-item:hover .nav-icon {
+      background-color: var(--bg-card-hover);
+      color: var(--text-secondary);
+    }
+
+    .progress-bg {
+      background-color: var(--bg-input);
+    }
+
+    .input-bg {
+      background-color: var(--bg-input);
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--scrollbar-track); }
+    ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 4px; }
+
+    /* Theme Toggle Button */
+    .theme-toggle {
+      background-color: var(--bg-card);
+      border-color: var(--border-color);
+    }
+    .theme-toggle-btn {
+      background-color: var(--bg-input);
+    }
+    .theme-toggle-btn:hover {
+      background-color: var(--bg-card-hover);
+    }
+  </style>
+
+  <!-- THEME TOGGLE (Floating) -->
+  <div class="fixed top-4 right-4 z-50 flex items-center gap-3 theme-toggle border rounded-full px-4 py-2 shadow-lg backdrop-blur-xl">
+    <span class="text-sm font-medium text-secondary">Theme:</span>
+    <button onclick="toggleTheme()" id="theme-toggle" class="theme-toggle-btn flex items-center gap-2 px-3 py-1.5 rounded-full transition-all">
+      <!-- Sun icon -->
+      <svg id="sun-icon" class="w-4 h-4 text-yellow-500" fill="currentColor" viewBox="0 0 20 20" style="display: none;">
+        <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+      </svg>
+      <!-- Moon icon -->
+      <svg id="moon-icon" class="w-4 h-4 text-gray-700" fill="currentColor" viewBox="0 0 20 20">
+        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+      </svg>
+      <span class="text-sm font-medium text-primary" id="theme-label">Dark</span>
+    </button>
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar fixed left-0 top-0 bottom-0 w-[280px] backdrop-blur-xl border-r z-40 flex flex-col">
+
+    <!-- Logo -->
+    <div class="px-6 py-6 border-b border-main flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 to-cyan-600 flex items-center justify-center">
+          <span class="text-black font-bold text-lg">H</span>
+        </div>
+        <div>
+          <h1 class="text-lg font-bold text-primary">Human Glue</h1>
+          <p class="text-xs text-muted">Student Portal</p>
+        </div>
+      </div>
+      <button class="p-2 rounded-lg nav-item text-muted hover:text-secondary transition-all">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+      </button>
+    </div>
+
+    <!-- User Profile -->
+    <div class="px-4 py-4 border-b border-main">
+      <div class="flex items-center gap-3 p-3 rounded-xl nav-item transition-all cursor-pointer">
+        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center text-white font-bold text-sm">S</div>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-medium text-primary truncate">Sarah Johnson</p>
+          <p class="text-xs text-muted">Student</p>
+        </div>
+        <svg class="w-4 h-4 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="flex-1 overflow-y-auto py-6">
+
+      <!-- Dashboard Section -->
+      <div class="mb-8">
+        <div class="px-6 mb-3">
+          <h3 class="text-xs font-semibold text-muted uppercase tracking-wider">Dashboard</h3>
+        </div>
+        <div class="px-3 space-y-1">
+          <!-- Active Item -->
+          <div class="relative group rounded-xl nav-item-active border">
+            <div class="flex items-center gap-3 py-3 px-3">
+              <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-500 text-white shadow-lg" style="box-shadow: 0 4px 14px rgba(97, 216, 254, 0.4);">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+              </div>
+              <div class="flex-1 min-w-0">
+                <span class="text-sm font-medium text-cyan">Overview</span>
+                <p class="text-xs text-muted mt-0.5">Your transformation dashboard</p>
+              </div>
+              <svg class="w-4 h-4 text-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </div>
+          </div>
+
+          <!-- Regular Item -->
+          <div class="relative group rounded-xl nav-item transition-all">
+            <div class="flex items-center gap-3 py-3 px-3">
+              <div class="nav-icon flex items-center justify-center w-10 h-10 rounded-lg transition-all">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2">
+                  <span class="text-sm font-medium text-secondary">Assessments</span>
+                  <span class="px-2 py-0.5 text-xs font-semibold bg-cyan text-cyan rounded-full">New</span>
+                </div>
+                <p class="text-xs text-muted mt-0.5">View your AI readiness results</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Learning Section -->
+      <div class="mb-8">
+        <div class="px-6 mb-3">
+          <h3 class="text-xs font-semibold text-muted uppercase tracking-wider">Learning</h3>
+        </div>
+        <div class="px-3 space-y-1">
+          <div class="relative group rounded-xl nav-item transition-all">
+            <div class="flex items-center gap-3 py-3 px-3">
+              <div class="nav-icon flex items-center justify-center w-10 h-10 rounded-lg transition-all">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              </div>
+              <div class="flex-1 min-w-0">
+                <span class="text-sm font-medium text-secondary">Courses</span>
+                <p class="text-xs text-muted mt-0.5">Masterclass-quality learning</p>
+              </div>
+            </div>
+          </div>
+          <div class="relative group rounded-xl nav-item transition-all">
+            <div class="flex items-center gap-3 py-3 px-3">
+              <div class="nav-icon flex items-center justify-center w-10 h-10 rounded-lg transition-all">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+              </div>
+              <div class="flex-1 min-w-0">
+                <span class="text-sm font-medium text-secondary">Live Workshops</span>
+                <p class="text-xs text-muted mt-0.5">Expert-led sessions</p>
+              </div>
+            </div>
+          </div>
+          <div class="relative group rounded-xl nav-item transition-all">
+            <div class="flex items-center gap-3 py-3 px-3">
+              <div class="nav-icon flex items-center justify-center w-10 h-10 rounded-lg transition-all">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+              </div>
+              <div class="flex-1 min-w-0">
+                <span class="text-sm font-medium text-secondary">Resources</span>
+                <p class="text-xs text-muted mt-0.5">Guides & frameworks</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Insights Section -->
+      <div class="mb-8">
+        <div class="px-6 mb-3">
+          <h3 class="text-xs font-semibold text-muted uppercase tracking-wider">Insights</h3>
+        </div>
+        <div class="px-3 space-y-1">
+          <div class="relative group rounded-xl nav-item transition-all">
+            <div class="flex items-center gap-3 py-3 px-3">
+              <div class="nav-icon flex items-center justify-center w-10 h-10 rounded-lg transition-all">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+              </div>
+              <div class="flex-1 min-w-0">
+                <span class="text-sm font-medium text-secondary">Analytics</span>
+                <p class="text-xs text-muted mt-0.5">Track your progress</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Upgrade Card -->
+    <div class="px-4 pb-4 border-t border-main pt-4">
+      <div class="relative overflow-hidden rounded-xl bg-gradient-to-br from-cyan-500/20 to-blue-500/20 backdrop-blur-xl border border-cyan-500/30 p-4">
+        <div class="relative">
+          <div class="flex items-center gap-2 mb-2">
+            <svg class="w-5 h-5 text-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+            <h3 class="text-sm font-semibold text-primary">Upgrade to Pro</h3>
+          </div>
+          <p class="text-xs text-muted mb-3">Unlock advanced analytics and unlimited workshops</p>
+          <button class="w-full px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white text-sm font-semibold rounded-lg shadow-lg" style="box-shadow: 0 4px 14px rgba(97, 216, 254, 0.4);">Upgrade Now</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Logout -->
+    <div class="p-4 border-t border-main">
+      <button class="w-full flex items-center gap-3 px-3 py-3 rounded-xl nav-item text-muted hover:text-secondary transition-all group">
+        <div class="nav-icon flex items-center justify-center w-10 h-10 rounded-lg transition-all group-hover:bg-red-500/10">
+          <svg class="w-5 h-5 group-hover:text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+        </div>
+        <span class="text-sm font-medium">Logout</span>
+      </button>
+    </div>
+
+  </aside>
+
+  <!-- MAIN CONTENT (offset by sidebar width) -->
+  <main class="ml-[280px] min-h-screen">
+    <div class="p-8">
+
+      <!-- Welcome Section -->
+      <div class="mb-8">
+        <h1 class="text-3xl font-bold mb-2 text-primary">Welcome back, <span class="text-cyan">Sarah</span></h1>
+        <p class="text-muted">Here's your AI maturity assessment overview</p>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+
+        <!-- Stat Card 1 -->
+        <div class="card border rounded-2xl p-6 transition">
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 rounded-xl bg-cyan flex items-center justify-center">
+              <svg class="w-6 h-6 text-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+              </svg>
+            </div>
+            <span class="text-green-500 text-sm font-medium">+12%</span>
+          </div>
+          <h3 class="text-muted text-sm mb-1">Maturity Score</h3>
+          <p class="text-3xl font-bold text-primary">7.2<span class="text-lg text-muted">/10</span></p>
+        </div>
+
+        <!-- Stat Card 2 -->
+        <div class="card border rounded-2xl p-6 transition">
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 rounded-xl bg-cyan flex items-center justify-center">
+              <svg class="w-6 h-6 text-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+              </svg>
+            </div>
+            <span class="text-cyan text-sm font-medium">3 pending</span>
+          </div>
+          <h3 class="text-muted text-sm mb-1">Assessments</h3>
+          <p class="text-3xl font-bold text-primary">12</p>
+        </div>
+
+        <!-- Stat Card 3 -->
+        <div class="card border rounded-2xl p-6 transition">
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 rounded-xl bg-cyan flex items-center justify-center">
+              <svg class="w-6 h-6 text-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+              </svg>
+            </div>
+            <span class="text-green-500 text-sm font-medium">+5 this week</span>
+          </div>
+          <h3 class="text-muted text-sm mb-1">Team Members</h3>
+          <p class="text-3xl font-bold text-primary">48</p>
+        </div>
+
+        <!-- Stat Card 4 -->
+        <div class="card border rounded-2xl p-6 transition">
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 rounded-xl bg-cyan flex items-center justify-center">
+              <svg class="w-6 h-6 text-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+              </svg>
+            </div>
+            <span class="text-green-500 text-sm font-medium">On track</span>
+          </div>
+          <h3 class="text-muted text-sm mb-1">ROI Projection</h3>
+          <p class="text-3xl font-bold text-primary">$2.4M</p>
+        </div>
+      </div>
+
+      <!-- Two Column Layout -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+
+        <!-- AI Maturity Breakdown -->
+        <div class="lg:col-span-2 card border rounded-2xl p-6">
+          <div class="flex items-center justify-between mb-6">
+            <h2 class="text-xl font-semibold text-primary">AI Maturity Breakdown</h2>
+            <button class="text-cyan text-sm hover:underline">View Details →</button>
+          </div>
+
+          <div class="space-y-5">
+            <div>
+              <div class="flex justify-between text-sm mb-2">
+                <span class="text-secondary">Data Infrastructure</span>
+                <span class="text-cyan">85%</span>
+              </div>
+              <div class="h-2 progress-bg rounded-full overflow-hidden">
+                <div class="h-full bg-gradient-to-r from-cyan-400 to-cyan-600 rounded-full" style="width: 85%"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-sm mb-2">
+                <span class="text-secondary">ML Operations</span>
+                <span class="text-cyan">72%</span>
+              </div>
+              <div class="h-2 progress-bg rounded-full overflow-hidden">
+                <div class="h-full bg-gradient-to-r from-cyan-400 to-cyan-600 rounded-full" style="width: 72%"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-sm mb-2">
+                <span class="text-secondary">AI Governance</span>
+                <span class="text-cyan">68%</span>
+              </div>
+              <div class="h-2 progress-bg rounded-full overflow-hidden">
+                <div class="h-full bg-gradient-to-r from-cyan-400 to-cyan-600 rounded-full" style="width: 68%"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-sm mb-2">
+                <span class="text-secondary">Team Readiness</span>
+                <span class="text-cyan">54%</span>
+              </div>
+              <div class="h-2 progress-bg rounded-full overflow-hidden">
+                <div class="h-full bg-gradient-to-r from-cyan-400 to-cyan-600 rounded-full" style="width: 54%"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-sm mb-2">
+                <span class="text-secondary">Cultural Adoption</span>
+                <span class="text-cyan">45%</span>
+              </div>
+              <div class="h-2 progress-bg rounded-full overflow-hidden">
+                <div class="h-full bg-gradient-to-r from-cyan-400 to-cyan-600 rounded-full" style="width: 45%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="card border rounded-2xl p-6">
+          <h2 class="text-xl font-semibold text-primary mb-6">Recent Activity</h2>
+          <div class="space-y-4">
+            <div class="flex items-start gap-3">
+              <div class="w-2 h-2 rounded-full bg-cyan-500 mt-2"></div>
+              <div>
+                <p class="text-sm text-secondary">Assessment completed</p>
+                <p class="text-xs text-muted">Data Infrastructure • 2h ago</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="w-2 h-2 rounded-full bg-green-500 mt-2"></div>
+              <div>
+                <p class="text-sm text-secondary">New team member added</p>
+                <p class="text-xs text-muted">John Smith • 5h ago</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="w-2 h-2 rounded-full bg-yellow-500 mt-2"></div>
+              <div>
+                <p class="text-sm text-secondary">Report generated</p>
+                <p class="text-xs text-muted">Q4 Analysis • 1d ago</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="w-2 h-2 rounded-full bg-cyan-500 mt-2"></div>
+              <div>
+                <p class="text-sm text-secondary">Benchmark updated</p>
+                <p class="text-xs text-muted">Industry Average • 2d ago</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recommendations Section -->
+      <div class="card border rounded-2xl p-6">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-xl font-semibold text-primary">AI-Powered Recommendations</h2>
+          <span class="px-3 py-1 rounded-full bg-cyan text-cyan text-sm">4 new insights</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="card-nested border rounded-xl p-5 transition hover:border-cyan-400/30">
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-lg bg-cyan flex items-center justify-center flex-shrink-0">
+                <svg class="w-5 h-5 text-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-medium mb-1 text-primary">Improve Data Pipeline Automation</h3>
+                <p class="text-sm text-muted">Implementing automated data validation could increase your ML model accuracy by 15%</p>
+                <button class="text-cyan text-sm mt-3 hover:underline">Learn more →</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-nested border rounded-xl p-5 transition hover:border-cyan-400/30">
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-lg bg-cyan flex items-center justify-center flex-shrink-0">
+                <svg class="w-5 h-5 text-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-medium mb-1 text-primary">Schedule Team Training</h3>
+                <p class="text-sm text-muted">Based on assessment results, 12 team members would benefit from advanced AI workshops</p>
+                <button class="text-cyan text-sm mt-3 hover:underline">Schedule now →</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-nested border rounded-xl p-5 transition hover:border-cyan-400/30">
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-lg bg-cyan flex items-center justify-center flex-shrink-0">
+                <svg class="w-5 h-5 text-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-medium mb-1 text-primary">Enhance AI Governance</h3>
+                <p class="text-sm text-muted">Your governance score is below industry average. Review our compliance checklist</p>
+                <button class="text-cyan text-sm mt-3 hover:underline">View checklist →</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-nested border rounded-xl p-5 transition hover:border-cyan-400/30">
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-lg bg-cyan flex items-center justify-center flex-shrink-0">
+                <svg class="w-5 h-5 text-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path>
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-medium mb-1 text-primary">Benchmark Analysis Ready</h3>
+                <p class="text-sm text-muted">Compare your progress against 50+ companies in your industry sector</p>
+                <button class="text-cyan text-sm mt-3 hover:underline">View benchmarks →</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t border-main py-6 px-8">
+      <div class="flex items-center justify-between text-sm text-muted">
+        <p>© 2025 HumanGlue. All rights reserved.</p>
+        <p class="text-cyan opacity-50">Light/Dark Mode Demo - Click toggle in top right</p>
+      </div>
+    </footer>
+
+  </main>
+
+  <script>
+    function toggleTheme() {
+      const body = document.getElementById('body');
+      const label = document.getElementById('theme-label');
+      const sunIcon = document.getElementById('sun-icon');
+      const moonIcon = document.getElementById('moon-icon');
+
+      if (body.classList.contains('dark-mode')) {
+        body.classList.remove('dark-mode');
+        body.classList.add('light-mode');
+        label.textContent = 'Light';
+        sunIcon.style.display = 'none';
+        moonIcon.style.display = 'block';
+        localStorage.setItem('theme', 'light');
+      } else {
+        body.classList.remove('light-mode');
+        body.classList.add('dark-mode');
+        label.textContent = 'Dark';
+        sunIcon.style.display = 'block';
+        moonIcon.style.display = 'none';
+        localStorage.setItem('theme', 'dark');
+      }
+    }
+
+    // Initialize icons on load
+    document.addEventListener('DOMContentLoaded', () => {
+      const body = document.getElementById('body');
+      const label = document.getElementById('theme-label');
+      const sunIcon = document.getElementById('sun-icon');
+      const moonIcon = document.getElementById('moon-icon');
+
+      if (body.classList.contains('dark-mode')) {
+        label.textContent = 'Dark';
+        sunIcon.style.display = 'block';
+        moonIcon.style.display = 'none';
+      } else {
+        label.textContent = 'Light';
+        sunIcon.style.display = 'none';
+        moonIcon.style.display = 'block';
+      }
+    });
+  </script>
+
+</body>
+</html>

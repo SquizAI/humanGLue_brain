@@ -254,7 +254,7 @@ export default function PricingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white">
+    <div className="min-h-screen bg-black text-white">
       {/* Hero Section */}
       <section className={cn(spacing.section.y, 'relative overflow-hidden')}>
         <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-cyan-900/20 to-gray-950 pointer-events-none" />
@@ -419,7 +419,7 @@ export default function PricingPage() {
       </section>
 
       {/* Feature Comparison Table */}
-      <section className={cn(spacing.section.y, 'bg-gray-900/50')}>
+      <section className={cn(spacing.section.y, 'bg-black/50')}>
         <div className={spacing.container.wide}>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -615,7 +615,7 @@ export default function PricingPage() {
       </section>
 
       {/* FAQ Section */}
-      <section className={cn(spacing.section.y, 'bg-gray-900/50')}>
+      <section className={cn(spacing.section.y, 'bg-black/50')}>
         <div className={spacing.container.narrow}>
           <motion.div
             initial={{ opacity: 0, y: 20 }}

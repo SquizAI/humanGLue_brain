@@ -22,7 +22,7 @@ export default function TestCallPage() {
             </p>
           </div>
 
-          <div className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-800">
+          <div className="bg-black/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-800">
             <div className="space-y-6">
               {/* Features */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">

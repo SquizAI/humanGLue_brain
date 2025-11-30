@@ -267,7 +267,7 @@ export default function ExpertProfile() {
 
   if (!expert) {
     return (
-      <div className="min-h-screen bg-gray-950">
+      <div className="min-h-screen bg-black">
         <DashboardSidebar onLogout={handleLogout} />
         <div className="ml-0 lg:ml-[var(--sidebar-width,280px)] pb-20 lg:pb-0 transition-all">
           <div className="px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
@@ -287,7 +287,7 @@ export default function ExpertProfile() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-950">
+    <div className="min-h-screen bg-black">
       <DashboardSidebar onLogout={handleLogout} />
       <div className="ml-0 lg:ml-[var(--sidebar-width,280px)] pb-20 lg:pb-0 transition-all">
         <div className="px-4 sm:px-6 lg:px-8 py-8 lg:py-12 max-w-6xl mx-auto">
@@ -368,12 +368,12 @@ export default function ExpertProfile() {
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2 space-y-8">
-              <div className="bg-gray-900/50 border border-white/10 rounded-xl p-6">
+              <div className="bg-black/50 border border-white/10 rounded-xl p-6">
                 <h2 className="text-2xl font-bold text-white mb-4">About</h2>
                 <p className="text-gray-300">{expert.fullBio}</p>
               </div>
 
-              <div className="bg-gray-900/50 border border-white/10 rounded-xl p-6">
+              <div className="bg-black/50 border border-white/10 rounded-xl p-6">
                 <h2 className="text-2xl font-bold text-white mb-4">Key Achievements</h2>
                 <ul className="space-y-3">
                   {expert.achievements.map((achievement, i) => (
@@ -385,7 +385,7 @@ export default function ExpertProfile() {
                 </ul>
               </div>
 
-              <div className="bg-gray-900/50 border border-white/10 rounded-xl p-6">
+              <div className="bg-black/50 border border-white/10 rounded-xl p-6">
                 <h2 className="text-2xl font-bold text-white mb-6">Client Testimonials</h2>
                 {expert.testimonials.map((t, i) => (
                   <div key={i} className="bg-white/5 rounded-lg p-5 border border-white/10">
@@ -403,7 +403,7 @@ export default function ExpertProfile() {
             </div>
 
             <div className="space-y-6">
-              <div className="bg-gray-900/50 border border-white/10 rounded-xl p-6">
+              <div className="bg-black/50 border border-white/10 rounded-xl p-6">
                 <h3 className="text-lg font-bold text-white mb-4">Industries</h3>
                 <div className="flex flex-wrap gap-2">
                   {expert.industries.map((ind, i) => (
@@ -417,7 +417,7 @@ export default function ExpertProfile() {
                 </div>
               </div>
 
-              <div className="bg-gray-900/50 border border-white/10 rounded-xl p-6">
+              <div className="bg-black/50 border border-white/10 rounded-xl p-6">
                 <h3 className="text-lg font-bold text-white mb-4">Certifications</h3>
                 <ul className="space-y-2">
                   {expert.certifications.map((cert, i) => (
@@ -429,7 +429,7 @@ export default function ExpertProfile() {
                 </ul>
               </div>
 
-              <div className="bg-gray-900/50 border border-white/10 rounded-xl p-6">
+              <div className="bg-black/50 border border-white/10 rounded-xl p-6">
                 <h3 className="text-lg font-bold text-white mb-4">Education</h3>
                 <ul className="space-y-2">
                   {expert.education.map((edu, i) => (
@@ -441,7 +441,7 @@ export default function ExpertProfile() {
                 </ul>
               </div>
 
-              <div className="bg-gray-900/50 border border-white/10 rounded-xl p-6">
+              <div className="bg-black/50 border border-white/10 rounded-xl p-6">
                 <h3 className="text-lg font-bold text-white mb-4">Languages</h3>
                 <div className="flex flex-wrap gap-2">
                   {expert.languages.map((lang, i) => (

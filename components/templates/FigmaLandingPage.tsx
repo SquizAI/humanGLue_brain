@@ -11,7 +11,7 @@ export function FigmaLandingPage() {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false)
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white">
+    <div className="min-h-screen bg-black text-white">
       {/* Navigation */}
       <Navigation />
       
@@ -268,7 +268,7 @@ export function FigmaLandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-950 border-t border-gray-800 py-12">
+      <footer className="bg-black border-t border-gray-800 py-12">
         <div className="container max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-start gap-8">
             <div>

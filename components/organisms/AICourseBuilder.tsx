@@ -196,7 +196,7 @@ export function AICourseBuilder({ onGenerate }: AICourseBuilderProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-950 p-8">
+    <div className="min-h-screen bg-black p-8">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">

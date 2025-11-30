@@ -614,15 +614,10 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
   return (
     <>
       {/* Desktop Sidebar - Hidden on mobile */}
-      <motion.aside
-        initial={{ x: isCollapsed ? -80 : -280 }}
-        animate={{
-          x: 0,
-          width: isCollapsed ? 80 : 280
-        }}
-        transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+      <aside
+        style={{ width: isCollapsed ? 80 : 280 }}
         className={cn(
-          'hidden lg:block fixed left-0 top-0 bottom-0 bg-gray-950/95 backdrop-blur-xl border-r border-white/10 z-40',
+          'hidden lg:block fixed left-0 top-0 bottom-0 bg-black backdrop-blur-xl border-r border-white/10 z-40 transition-[width] duration-300 ease-out',
           className
         )}
       >
@@ -868,7 +863,7 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
 
       {/* Cart Drawer - Only for clients */}
       {portalConfig.showCart && <CartDrawer />}
-    </motion.aside>
+    </aside>
 
       {/* Mobile Navigation - Shown on mobile only */}
       <MobileDashboardNav onLogout={onLogout} />

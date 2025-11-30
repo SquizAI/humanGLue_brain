@@ -55,7 +55,7 @@ export function MobileOptimizedPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white">
+    <div className="min-h-screen bg-black text-white">
       {/* Header - Minimal and Clean */}
       <header className="sticky top-0 z-40 bg-gray-900/90 backdrop-blur-md border-b border-gray-800">
         <div className="flex items-center justify-between px-4 py-3">
@@ -222,7 +222,7 @@ export function MobileOptimizedPage() {
         </section>
 
         {/* Footer */}
-        <section className="px-4 py-8 bg-gray-950">
+        <section className="px-4 py-8 bg-black">
           <div className="text-center space-y-4">
             <p className="text-sm font-semibold text-gray-400">humanglue</p>
             <div className="text-gray-400">

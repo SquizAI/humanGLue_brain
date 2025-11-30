@@ -88,7 +88,7 @@ export function PremiumTalentMarketplace({ userData }: PremiumTalentMarketplaceP
   const industryOptions = Array.from(new Set(mockTalent.flatMap((t) => t.focusAreas.industries)))
 
   return (
-    <div className="min-h-screen bg-gray-950">
+    <div className="min-h-screen bg-black">
       <Navigation />
 
       {/* Hero Section - Premium */}
@@ -154,7 +154,7 @@ export function PremiumTalentMarketplace({ userData }: PremiumTalentMarketplaceP
       </section>
 
       {/* Search & Filter Bar */}
-      <section className="sticky top-20 z-40 bg-gray-950/80 backdrop-blur-xl border-b border-white/5">
+      <section className="sticky top-20 z-40 bg-black/80 backdrop-blur-xl border-b border-white/5">
         <div className="container max-w-7xl mx-auto px-4 sm:px-6 py-6">
           <div className="flex flex-col md:flex-row gap-4">
             {/* Search */}

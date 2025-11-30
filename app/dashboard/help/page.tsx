@@ -126,7 +126,7 @@ export default function HelpPage() {
   })
 
   return (
-    <div className="min-h-screen bg-gray-950">
+    <div className="min-h-screen bg-black">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
         {/* Header */}
         <div className="mb-8 text-center">
@@ -148,7 +148,7 @@ export default function HelpPage() {
               placeholder="Search for help..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-4 py-4 bg-gray-900/50 border border-gray-800 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 transition-colors"
+              className="w-full pl-12 pr-4 py-4 bg-black/50 border border-gray-800 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 transition-colors"
             />
           </div>
         </div>
@@ -164,7 +164,7 @@ export default function HelpPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              className="bg-gray-900/50 backdrop-blur-xl rounded-xl border border-gray-800 p-6 hover:border-cyan-500/50 transition-all duration-300 group"
+              className="bg-black/50 backdrop-blur-xl rounded-xl border border-gray-800 p-6 hover:border-cyan-500/50 transition-all duration-300 group"
             >
               <div className="flex items-start justify-between mb-4">
                 <div className="w-12 h-12 bg-cyan-500/10 rounded-lg flex items-center justify-center text-cyan-400 group-hover:bg-cyan-500/20 transition-colors">
@@ -181,7 +181,7 @@ export default function HelpPage() {
         </div>
 
         {/* FAQ Section */}
-        <div className="bg-gray-900/50 backdrop-blur-xl rounded-xl border border-gray-800 p-6 md:p-8">
+        <div className="bg-black/50 backdrop-blur-xl rounded-xl border border-gray-800 p-6 md:p-8">
           <h2 className="text-2xl font-bold text-white mb-6">
             Frequently Asked Questions
           </h2>

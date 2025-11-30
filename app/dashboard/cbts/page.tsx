@@ -199,7 +199,7 @@ export default function CBTsPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-gray-950">
+    <div className="min-h-screen bg-black">
       <DashboardSidebar onLogout={handleLogout} />
 
       {/* Main Content - offset by sidebar */}

@@ -91,7 +91,7 @@ export default function CheckoutPage() {
   const isPaymentComplete = formData.cardNumber && formData.expiryDate && formData.cvv && formData.cardName
 
   return (
-    <div className="min-h-screen bg-gray-950">
+    <div className="min-h-screen bg-black">
       {/* Header */}
       <div className="border-b border-white/10 bg-gray-950/95 backdrop-blur-xl sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-6 py-4">
@@ -154,7 +154,7 @@ export default function CheckoutPage() {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-gray-900/50 backdrop-blur-xl border border-white/10 rounded-xl p-6"
+                className="bg-black/50 backdrop-blur-xl border border-white/10 rounded-xl p-6"
               >
                 <h2 className="text-xl font-bold text-white mb-6 font-gendy">Billing Information</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -263,7 +263,7 @@ export default function CheckoutPage() {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-gray-900/50 backdrop-blur-xl border border-white/10 rounded-xl p-6"
+                className="bg-black/50 backdrop-blur-xl border border-white/10 rounded-xl p-6"
               >
                 <div className="flex items-center gap-2 mb-6">
                   <Lock className="w-5 h-5 text-green-400" />
@@ -358,7 +358,7 @@ export default function CheckoutPage() {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-gray-900/50 backdrop-blur-xl border border-white/10 rounded-xl p-6"
+                className="bg-black/50 backdrop-blur-xl border border-white/10 rounded-xl p-6"
               >
                 <h2 className="text-xl font-bold text-white mb-6 font-gendy">Review & Confirm</h2>
 
@@ -406,7 +406,7 @@ export default function CheckoutPage() {
           {/* Right Column - Order Summary */}
           <div className="lg:col-span-1">
             <div className="sticky top-24 space-y-6">
-              <div className="bg-gray-900/50 backdrop-blur-xl border border-white/10 rounded-xl p-6">
+              <div className="bg-black/50 backdrop-blur-xl border border-white/10 rounded-xl p-6">
                 <h3 className="text-lg font-bold text-white mb-4 font-gendy">Order Summary</h3>
 
                 {/* Items */}
@@ -497,7 +497,7 @@ export default function CheckoutPage() {
               </div>
 
               {/* Security Badge */}
-              <div className="bg-gray-900/50 backdrop-blur-xl border border-white/10 rounded-xl p-4">
+              <div className="bg-black/50 backdrop-blur-xl border border-white/10 rounded-xl p-4">
                 <div className="flex items-center gap-3">
                   <Lock className="w-5 h-5 text-green-400" />
                   <div>

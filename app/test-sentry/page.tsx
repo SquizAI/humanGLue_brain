@@ -140,7 +140,7 @@ export default function TestSentryPage() {
             </button>
           </div>
 
-          <div className="mt-8 p-6 bg-gray-900/50 rounded-lg">
+          <div className="mt-8 p-6 bg-black/50 rounded-lg">
             <h2 className="text-lg font-semibold text-white mb-3">
               Test Instructions
             </h2>
@@ -168,7 +168,7 @@ export default function TestSentryPage() {
             </ol>
           </div>
 
-          <div className="mt-6 p-4 bg-gray-900/50 rounded-lg">
+          <div className="mt-6 p-4 bg-black/50 rounded-lg">
             <h3 className="text-sm font-semibold text-white mb-2">
               Environment Status
             </h3>

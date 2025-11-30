@@ -174,7 +174,7 @@ export function MobileDashboardNav({ onLogout }: MobileDashboardNavProps) {
       {/* Sticky Footer Navigation - Mobile Only */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50">
         {/* Main Navigation Bar */}
-        <div className="bg-gray-950/98 backdrop-blur-xl border-t border-white/10 safe-bottom">
+        <div className="bg-black/98 backdrop-blur-xl border-t border-white/10 safe-bottom">
           <div className="grid grid-cols-5 gap-1 px-2 py-1">
             {/* Main navigation items */}
             {navConfig.mainItems.map((item) => (
@@ -248,7 +248,7 @@ export function MobileDashboardNav({ onLogout }: MobileDashboardNavProps) {
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
               transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-gray-950/98 backdrop-blur-xl border-t border-white/10 rounded-t-3xl overflow-hidden"
+              className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-black/98 backdrop-blur-xl border-t border-white/10 rounded-t-3xl overflow-hidden"
               style={{ maxHeight: '70vh' }}
             >
               {/* Header */}

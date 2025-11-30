@@ -149,12 +149,12 @@ export default function TeachLessonPage() {
   const raisedHands = students.filter((s) => s.handRaised)
 
   return (
-    <div className="min-h-screen bg-gray-950">
+    <div className="min-h-screen bg-black">
       <DashboardSidebar onLogout={handleLogout} />
 
       <div className="lg:ml-[var(--sidebar-width,280px)] transition-all duration-300">
         {/* Header */}
-        <div className="bg-gray-900/50 backdrop-blur-xl border-b border-white/10 sticky top-0 z-30">
+        <div className="bg-black/50 backdrop-blur-xl border-b border-white/10 sticky top-0 z-30">
           <div className="px-8 py-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">

@@ -33,6 +33,9 @@ export const APIErrors = {
       { fields }
     ),
 
+  BAD_REQUEST: (message: string, details?: unknown) =>
+    new APIError('BAD_REQUEST', message, 400, details),
+
   // 401 - Unauthorized
   UNAUTHORIZED: (message = 'Authentication required') =>
     new APIError('UNAUTHORIZED', message, 401),

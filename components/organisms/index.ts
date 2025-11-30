@@ -12,4 +12,10 @@ export { VoiceAssessment } from './VoiceAssessment'
 export { DigitalWave } from './DigitalWave'
 export { AnimatedWave } from './AnimatedWave'
 
+// AI Insights & Visualization Components
+export { Toast, NewsletterPreviewModal, AnalysisModal, ReportsModal } from './AIInsightsModals'
+export { OrganizationVisualization } from './OrganizationVisualization'
+export { ProcessFlowVisualization } from './ProcessFlowVisualization'
+export { PsychometricProfileVisualization } from './PsychometricProfileVisualization'
+
 export type { ChatMessageProps } from './ChatMessage'

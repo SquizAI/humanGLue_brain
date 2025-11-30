@@ -192,7 +192,7 @@ export default function LearningPlatform() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-950">
+    <div className="min-h-screen bg-black">
       <DashboardSidebar onLogout={handleLogout} />
 
       {/* Toast Notification */}
@@ -321,7 +321,7 @@ export default function LearningPlatform() {
           </div>
 
           {/* Search and Filters */}
-          <div className="mb-8 bg-gray-900/50 backdrop-blur-xl border border-white/10 rounded-xl p-6">
+          <div className="mb-8 bg-black/50 backdrop-blur-xl border border-white/10 rounded-xl p-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="md:col-span-2 relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -364,7 +364,7 @@ export default function LearningPlatform() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
-                className="group bg-gray-900/50 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden hover:border-cyan-500/30 transition-all hover:shadow-[0_0_30px_rgba(168,85,247,0.1)]"
+                className="group bg-black/50 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden hover:border-cyan-500/30 transition-all hover:shadow-[0_0_30px_rgba(168,85,247,0.1)]"
               >
                 {/* Course Image */}
                 <div className="relative h-48 overflow-hidden">

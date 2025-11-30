@@ -906,7 +906,7 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
                 <div className="space-y-4">
                   {/* Scrollable messages area with optimized height */}
                   <div className="max-h-[35vh] overflow-y-auto overscroll-contain scroll-smooth
-                                bg-gray-950/30 rounded-2xl p-4 -mx-2">
+                                bg-black/30 rounded-2xl p-4 -mx-2">
                     {chatContent}
                   </div>
 

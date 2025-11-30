@@ -26,6 +26,8 @@ import {
 } from 'lucide-react'
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
 import { useChat } from '@/lib/contexts/ChatContext'
+import { LoadingSpinner } from '@/components/atoms/LoadingSpinner'
+import { signOut } from '@/lib/auth/hooks'
 
 // File types configuration
 const fileTypeConfig = {
@@ -406,9 +408,19 @@ export default function ContentLibrary() {
     return config ? config.color : 'gray'
   }
 
-  const handleLogout = () => {
-    localStorage.removeItem('humanglue_user')
-    router.push('/login')
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' })
+      await signOut()
+      localStorage.removeItem('humanglue_user')
+      localStorage.removeItem('demoUser')
+      document.cookie = 'demoUser=; path=/; max-age=0'
+      localStorage.removeItem('sb-egqqdscvxvtwcdwknbnt-auth-token')
+      window.location.href = '/login'
+    } catch (error) {
+      console.error('Logout error:', error)
+      window.location.href = '/login'
+    }
   }
 
   // Check admin access with timeout pattern
@@ -428,19 +440,22 @@ export default function ContentLibrary() {
 
   if (!showContent) {
     return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500"></div>
+      <div className="min-h-screen bg-black">
+        <DashboardSidebar onLogout={handleLogout} />
+        <div className="lg:ml-[var(--sidebar-width,280px)] transition-all duration-300 flex items-center justify-center min-h-screen">
+          <LoadingSpinner variant="neural" size="xl" text="Loading content..." />
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gray-950">
+    <div className="min-h-screen bg-black">
       <DashboardSidebar onLogout={handleLogout} />
 
       <div className="lg:ml-[var(--sidebar-width,280px)] transition-all duration-300 pb-20 lg:pb-0">
         {/* Header */}
-        <div className="bg-gray-900/50 backdrop-blur-xl border-b border-white/10 sticky top-0 z-30">
+        <div className="bg-black/50 backdrop-blur-xl border-b border-white/10 sticky top-0 z-30">
           <div className="px-8 py-6">
             <div className="flex items-center justify-between">
               <div>

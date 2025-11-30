@@ -113,7 +113,7 @@ export function MobileChatInterface({
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 25 }}
-            className="fixed inset-0 z-50 bg-gray-950 flex flex-col"
+            className="fixed inset-0 z-50 bg-black flex flex-col"
             style={{ paddingBottom: keyboardHeight }}
           >
             {/* Compact Header */}

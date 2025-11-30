@@ -3,6 +3,9 @@
 import { useState, useEffect, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { DashboardSidebar } from '../../../components/organisms/DashboardSidebar'
+import { LoadingSpinner } from '@/components/atoms/LoadingSpinner'
+import { useChat } from '@/lib/contexts/ChatContext'
+import { signOut } from '@/lib/auth/hooks'
 import { cn } from '../../../utils/cn'
 import {
   UserPlus,
@@ -383,6 +386,8 @@ const groupActivitiesByDate = (activities: Activity[]) => {
 }
 
 export default function ActivityFeedPage() {
+  const { userData, authLoading } = useChat()
+  const [showContent, setShowContent] = useState(false)
   const [activities, setActivities] = useState<Activity[]>([])
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('All')
@@ -392,6 +397,21 @@ export default function ActivityFeedPage() {
   const [newActivityCount, setNewActivityCount] = useState(0)
   const [showFilters, setShowFilters] = useState(false)
   const [selectedActivities, setSelectedActivities] = useState<Set<string>>(new Set())
+
+  // Auth check with proper loading pattern
+  useEffect(() => {
+    if (!authLoading && userData?.isAdmin) {
+      setShowContent(true)
+      return
+    }
+
+    const timeout = setTimeout(() => {
+      console.log('[ActivityAdmin] Auth timeout - trusting middleware protection')
+      setShowContent(true)
+    }, 3000)
+
+    return () => clearTimeout(timeout)
+  }, [authLoading, userData])
 
   // Initialize activities
   useEffect(() => {
@@ -444,6 +464,21 @@ export default function ActivityFeedPage() {
 
   const categories = ['All', 'Users', 'Courses', 'Assessments', 'Workshops', 'Experts', 'Payments', 'System']
 
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' })
+      await signOut()
+      localStorage.removeItem('humanglue_user')
+      localStorage.removeItem('demoUser')
+      document.cookie = 'demoUser=; path=/; max-age=0'
+      localStorage.removeItem('sb-egqqdscvxvtwcdwknbnt-auth-token')
+      window.location.href = '/login'
+    } catch (error) {
+      console.error('Logout error:', error)
+      window.location.href = '/login'
+    }
+  }
+
   const handleLoadNewActivities = () => {
     setActivities(generateMockActivities())
     setNewActivityCount(0)
@@ -469,9 +504,21 @@ export default function ActivityFeedPage() {
     setSelectedActivities(newSet)
   }
 
+  // Loading state - show sidebar with spinner
+  if (!showContent) {
+    return (
+      <div className="min-h-screen bg-black">
+        <DashboardSidebar onLogout={handleLogout} />
+        <div className="lg:ml-[var(--sidebar-width,280px)] transition-all duration-300 flex items-center justify-center min-h-screen">
+          <LoadingSpinner variant="neural" size="xl" text="Loading activity..." />
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-[#0A0A0A]">
-      <DashboardSidebar />
+      <DashboardSidebar onLogout={handleLogout} />
 
       <div className="lg:ml-[var(--sidebar-width,280px)] min-h-screen">
         {/* Header */}

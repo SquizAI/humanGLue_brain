@@ -132,7 +132,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-950 flex">
+    <div className="min-h-screen bg-black flex">
       {/* Left Side - Information Panel */}
       <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-gradient-to-br from-cyan-900/20 via-blue-900/20 to-cyan-900/20">
         {/* Animated Background */}

@@ -172,7 +172,7 @@ export default function TalentMarketplace() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-950">
+    <div className="min-h-screen bg-black">
       <DashboardSidebar onLogout={handleLogout} />
 
       <div className="ml-0 lg:ml-[var(--sidebar-width,280px)] pb-20 lg:pb-0 transition-all">
@@ -246,7 +246,7 @@ export default function TalentMarketplace() {
           </div>
 
           {/* Search and Filters */}
-          <div className="mb-8 bg-gray-900/50 backdrop-blur-xl border border-white/10 rounded-xl p-6">
+          <div className="mb-8 bg-black/50 backdrop-blur-xl border border-white/10 rounded-xl p-6">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
               {/* Search */}
               <div className="lg:col-span-2 relative">
@@ -336,7 +336,7 @@ export default function TalentMarketplace() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
-                className="group relative bg-gray-900/50 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden hover:border-cyan-500/30 transition-all hover:shadow-[0_0_30px_rgba(168,85,247,0.1)]"
+                className="group relative bg-black/50 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden hover:border-cyan-500/30 transition-all hover:shadow-[0_0_30px_rgba(168,85,247,0.1)]"
               >
                 {/* Social Actions - Top Right */}
                 <div className="absolute top-4 right-4 z-10 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">

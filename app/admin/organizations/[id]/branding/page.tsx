@@ -7,6 +7,8 @@ import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
 import { BrandingSettings } from '@/components/admin/BrandingSettings'
 import { BrandingProvider } from '@/lib/contexts/BrandingContext'
 import { useChat } from '@/lib/contexts/ChatContext'
+import { LoadingSpinner } from '@/components/atoms/LoadingSpinner'
+import { signOut } from '@/lib/auth/hooks'
 
 export default function OrganizationBrandingPage() {
   const router = useRouter()
@@ -30,26 +32,41 @@ export default function OrganizationBrandingPage() {
     return () => clearTimeout(timeout)
   }, [authLoading, userData])
 
-  if (!showContent) {
-    return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500"></div>
-      </div>
-    )
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' })
+      await signOut()
+      localStorage.removeItem('humanglue_user')
+      localStorage.removeItem('demoUser')
+      document.cookie = 'demoUser=; path=/; max-age=0'
+      localStorage.removeItem('sb-egqqdscvxvtwcdwknbnt-auth-token')
+      window.location.href = '/login'
+    } catch (error) {
+      console.error('Logout error:', error)
+      window.location.href = '/login'
+    }
   }
 
-  const handleLogout = () => {
-    localStorage.removeItem('humanglue_user')
-    router.push('/login')
+  if (!showContent) {
+    return (
+      <BrandingProvider>
+        <div className="min-h-screen bg-black">
+          <DashboardSidebar onLogout={handleLogout} />
+          <div className="lg:ml-[var(--sidebar-width,280px)] transition-all duration-300 flex items-center justify-center min-h-screen">
+            <LoadingSpinner variant="neural" size="xl" text="Loading branding settings..." />
+          </div>
+        </div>
+      </BrandingProvider>
+    )
   }
 
   return (
     <BrandingProvider>
-      <div className="min-h-screen bg-gray-950">
+      <div className="min-h-screen bg-black">
         <DashboardSidebar onLogout={handleLogout} />
 
         <div className="lg:ml-[var(--sidebar-width,280px)] transition-all duration-300 pb-20 lg:pb-0">
-          <div className="bg-gray-900/50 backdrop-blur-xl border-b border-white/10 sticky top-0 z-30">
+          <div className="bg-black/50 backdrop-blur-xl border-b border-white/10 sticky top-0 z-30">
             <div className="px-8 py-6">
               <Link
                 href="/admin/organizations"
