@@ -101,7 +101,8 @@ export default function InstructorWorkshopsPage() {
   const router = useRouter()
 
   // Trust middleware protection - no need for client-side auth checks
-  // Middleware already validates access before page loads  const [workshops] = useState<Workshop[]>(instructorWorkshops)
+  // Middleware already validates access before page loads
+  const [workshops] = useState<Workshop[]>(instructorWorkshops)
   const [selectedWorkshop, setSelectedWorkshop] = useState<Workshop | null>(null)
   const [showDetailsModal, setShowDetailsModal] = useState(false)
   const [selectedTab, setSelectedTab] = useState<'all' | 'upcoming' | 'completed'>('all')

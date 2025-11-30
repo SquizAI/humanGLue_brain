@@ -159,11 +159,7 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
 
     if (existingSession) {
       return NextResponse.json(
-        errorResponse({
-          code: 'SESSION_EXISTS',
-          message: 'Session already exists for this assessment. Use PATCH to update.',
-          statusCode: 409,
-        }),
+        errorResponse(APIErrors.CONFLICT('Session already exists for this assessment. Use PATCH to update.')),
         { status: 409 }
       )
     }

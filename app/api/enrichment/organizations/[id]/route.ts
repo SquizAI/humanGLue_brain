@@ -12,10 +12,10 @@ import {
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id: orgId } = params
+    const { id: orgId } = await params
     const supabase = await createClient()
 
     // Verify user has access to this organization
@@ -42,10 +42,10 @@ export async function GET(
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id: orgId } = params
+    const { id: orgId } = await params
     const supabase = await createClient()
 
     // Verify user has access to this organization

@@ -32,6 +32,8 @@ import {
   Clock,
   ChevronDown,
   Check,
+  Radio,
+  Mail,
 } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
@@ -252,6 +254,18 @@ const adminCommunicationsItems = [
     icon: Sparkles,
     description: 'Multi-channel AI communications',
     badge: 'AI',
+  },
+  {
+    href: '/admin/settings/channels',
+    label: 'Channels',
+    icon: Radio,
+    description: 'Manage communication channels',
+  },
+  {
+    href: '/admin/newsletters',
+    label: 'Newsletters',
+    icon: Mail,
+    description: 'Email list management',
   },
 ]
 

@@ -153,7 +153,7 @@ export async function calculatePlatformQuality(): Promise<DataQualityMetrics> {
     return acc
   }, {} as Record<string, string[]>)
 
-  const duplicates = Object.entries(domainCounts).filter(([_, ids]) => ids.length > 1)
+  const duplicates = (Object.entries(domainCounts) as [string, string[]][]).filter(([_, ids]) => ids.length > 1)
 
   if (duplicates.length > 0) {
     issues.push({

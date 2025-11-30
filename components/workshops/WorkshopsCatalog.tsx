@@ -480,7 +480,7 @@ function FilterButton({
     amber: active
       ? 'bg-amber-500 text-white'
       : 'bg-amber-500/10 text-amber-300 hover:bg-amber-500/20 border border-amber-500/20',
-    purple: active
+    cyan: active
       ? 'bg-cyan-500 text-white'
       : 'bg-cyan-500/10 text-cyan-300 hover:bg-cyan-500/20 border border-cyan-500/20',
   }

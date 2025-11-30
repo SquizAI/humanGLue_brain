@@ -16,9 +16,10 @@ import {
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id: orgId } = await params
     const supabase = await createClient()
 
     // Verify authentication
@@ -47,7 +48,7 @@ export async function GET(
 
     // Platform admins can access any org's branding
     const isPlatformAdmin = userData?.role === 'admin'
-    const belongsToOrg = userData?.organization_id === params.id
+    const belongsToOrg = userData?.organization_id === orgId
 
     if (!isPlatformAdmin && !belongsToOrg) {
       return NextResponse.json(
@@ -57,7 +58,7 @@ export async function GET(
     }
 
     // Fetch branding configuration
-    const branding = await getOrgBranding(params.id)
+    const branding = await getOrgBranding(orgId)
 
     return NextResponse.json({
       success: true,
@@ -85,9 +86,10 @@ export async function GET(
  */
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id: orgId } = await params
     const supabase = await createClient()
 
     // Verify authentication
@@ -115,7 +117,7 @@ export async function POST(
     }
 
     const isPlatformAdmin = userData?.role === 'admin'
-    const isOrgAdmin = userData?.role === 'org_admin' && userData?.organization_id === params.id
+    const isOrgAdmin = userData?.role === 'org_admin' && userData?.organization_id === orgId
 
     if (!isPlatformAdmin && !isOrgAdmin) {
       return NextResponse.json(
@@ -143,10 +145,10 @@ export async function POST(
     }
 
     // Update branding
-    await updateOrgBranding(params.id, branding)
+    await updateOrgBranding(orgId, branding)
 
     // Fetch updated branding to return
-    const updatedBranding = await getOrgBranding(params.id)
+    const updatedBranding = await getOrgBranding(orgId)
 
     return NextResponse.json({
       success: true,
@@ -173,7 +175,7 @@ export async function POST(
  */
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
-  return POST(request, { params })
+  return POST(request, context)
 }

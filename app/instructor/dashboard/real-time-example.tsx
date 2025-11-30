@@ -286,7 +286,7 @@ function StatCard({
   const colorClasses = {
     blue: 'bg-blue-500',
     green: 'bg-green-500',
-    purple: 'bg-cyan-500',
+    cyan: 'bg-cyan-500',
     yellow: 'bg-yellow-500',
   }
 

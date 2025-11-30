@@ -307,12 +307,22 @@ class MindReasonerService {
     file: Buffer | Blob,
     contentType: string
   ): Promise<void> {
+    // Convert Buffer to Blob for fetch compatibility
+    let body: Blob
+    if (file instanceof Blob) {
+      body = file
+    } else {
+      // Convert Node.js Buffer to Uint8Array for Blob compatibility
+      const uint8Array = new Uint8Array(file)
+      body = new Blob([uint8Array], { type: contentType })
+    }
+
     const response = await fetch(signedUrl, {
       method: 'PUT',
       headers: {
         'Content-Type': contentType,
       },
-      body: file,
+      body,
     })
 
     if (!response.ok) {

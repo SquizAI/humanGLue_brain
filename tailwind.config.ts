@@ -48,7 +48,6 @@ const config: Config = {
         },
         'brand': {
           'cyan': '#61D8FE',
-          'cyan': '#61D8FE', // Legacy - now points to cyan
           'dark': '#1D212A',
           'gray': '#4D4D4D',
           'light': '#F2F2F2',
@@ -64,9 +63,8 @@ const config: Config = {
         'humanglue-cyan': '#61D8FE', // Replaced purple
         'neon': {
           'blue': 'rgb(0, 149, 255)',
-          'cyan': 'rgb(97, 216, 254)', // Now cyan
-          'pink': 'rgb(255, 0, 128)',
           'cyan': 'rgb(97, 216, 254)',
+          'pink': 'rgb(255, 0, 128)',
           'green': 'rgb(0, 255, 128)',
         },
         'glass': {

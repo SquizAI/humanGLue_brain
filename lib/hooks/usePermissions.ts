@@ -63,32 +63,48 @@ export function usePermissions() {
         }
 
         // Get user's role from profiles
-        const { data: profile, error: profileError } = await supabase
+        const { data: profileData, error: profileError } = await supabase
           .from('profiles')
           .select('role')
           .eq('id', user.id)
-          .single()
+          .maybeSingle()
+
+        // Type assertion for profile data
+        const profile = profileData as { role?: string } | null
 
         if (profileError) throw profileError
 
         // Get user's permissions
-        const { data: permData, error: permError } = await supabase
+        const { data: permData } = await supabase
           .from('user_permissions')
           .select('*')
           .eq('user_id', user.id)
-          .single()
+          .maybeSingle()
+
+        // Type assertion for permData since maybeSingle can return null
+        const permissions = permData as {
+          can_access_financials?: boolean
+          can_manage_courses?: boolean
+          can_manage_users?: boolean
+          can_manage_organizations?: boolean
+          can_manage_experts?: boolean
+          can_manage_instructors?: boolean
+          can_view_analytics?: boolean
+          can_manage_payments?: boolean
+          can_manage_platform_settings?: boolean
+        } | null
 
         // If no permissions record exists (for non-admin users), use defaults
         const perms: UserPermissions = {
-          can_access_financials: permData?.can_access_financials ?? false,
-          can_manage_courses: permData?.can_manage_courses ?? false,
-          can_manage_users: permData?.can_manage_users ?? false,
-          can_manage_organizations: permData?.can_manage_organizations ?? false,
-          can_manage_experts: permData?.can_manage_experts ?? false,
-          can_manage_instructors: permData?.can_manage_instructors ?? false,
-          can_view_analytics: permData?.can_view_analytics ?? false,
-          can_manage_payments: permData?.can_manage_payments ?? false,
-          can_manage_platform_settings: permData?.can_manage_platform_settings ?? false,
+          can_access_financials: permissions?.can_access_financials ?? false,
+          can_manage_courses: permissions?.can_manage_courses ?? false,
+          can_manage_users: permissions?.can_manage_users ?? false,
+          can_manage_organizations: permissions?.can_manage_organizations ?? false,
+          can_manage_experts: permissions?.can_manage_experts ?? false,
+          can_manage_instructors: permissions?.can_manage_instructors ?? false,
+          can_view_analytics: permissions?.can_view_analytics ?? false,
+          can_manage_payments: permissions?.can_manage_payments ?? false,
+          can_manage_platform_settings: permissions?.can_manage_platform_settings ?? false,
           role: profile?.role as UserRole || null,
         }
 

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import {
@@ -162,7 +162,8 @@ export default function InstructorAnalyticsPage() {
   const router = useRouter()
 
   // Trust middleware protection - no need for client-side auth checks
-  // Middleware already validates access before page loads  const [timeRange, setTimeRange] = useState<TimeRange>('30d')
+  // Middleware already validates access before page loads
+  const [timeRange, setTimeRange] = useState<TimeRange>('30d')
   const [showDatePicker, setShowDatePicker] = useState(false)
   const [expandedCourse, setExpandedCourse] = useState<string | null>(null)
   const handleLogout = () => {

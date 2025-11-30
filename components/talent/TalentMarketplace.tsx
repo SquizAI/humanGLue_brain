@@ -735,7 +735,7 @@ function FilterButton({
     default: active
       ? 'bg-gray-700 text-white'
       : 'bg-gray-800 text-gray-400 hover:bg-gray-700',
-    purple: active
+    cyan: active
       ? 'bg-cyan-500 text-white'
       : 'bg-cyan-500/10 text-cyan-300 hover:bg-cyan-500/20 border border-cyan-500/20',
     green: active

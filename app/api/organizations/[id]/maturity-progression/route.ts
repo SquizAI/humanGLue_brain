@@ -8,10 +8,10 @@ import { getMaturityProgression } from '@/lib/neo4j/digital-twin'
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id: orgId } = params
+    const { id: orgId } = await params
     const supabase = await createClient()
 
     const { data: { user } } = await supabase.auth.getUser()

@@ -360,7 +360,7 @@ export default function PricingPage() {
 
                       <div className="flex items-baseline gap-2 mb-2">
                         {tier.id === 'enterprise' ? (
-                          <span className={cn(typography.heading.h2, typography.gradient.purple)}>
+                          <span className={cn(typography.heading.h2, typography.gradient.cyan)}>
                             Custom
                           </span>
                         ) : (
@@ -446,7 +446,7 @@ export default function PricingPage() {
                     <th key={tier.id} className="py-4 px-4 text-center">
                       <span className={cn(
                         'font-bold text-lg',
-                        tier.popular && typography.gradient.purple
+                        tier.popular && typography.gradient.cyan
                       )}>
                         {tier.name}
                       </span>
@@ -604,7 +604,7 @@ export default function PricingPage() {
                 </div>
                 <div className="border-t border-gray-700 pt-4 flex justify-between items-center">
                   <span className="font-semibold">Total Add-ons</span>
-                  <span className={cn(typography.heading.h4, typography.gradient.purple)}>
+                  <span className={cn(typography.heading.h4, typography.gradient.cyan)}>
                     ${calculateTotal().toLocaleString()}
                   </span>
                 </div>

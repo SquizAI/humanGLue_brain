@@ -365,7 +365,7 @@ function MetricCard({
   color: 'cyan' | 'blue' | 'green' | 'amber'
 }) {
   const colorConfig = {
-    purple: 'from-cyan-500/10 to-cyan-600/10 border-cyan-500/20 text-cyan-400',
+    cyan: 'from-cyan-500/10 to-cyan-600/10 border-cyan-500/20 text-cyan-400',
     blue: 'from-blue-500/10 to-blue-600/10 border-blue-500/20 text-blue-400',
     green: 'from-green-500/10 to-green-600/10 border-green-500/20 text-green-400',
     amber: 'from-amber-500/10 to-orange-500/10 border-amber-500/20 text-amber-400',

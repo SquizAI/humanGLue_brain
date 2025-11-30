@@ -86,7 +86,8 @@ export default function InstructorSettingsPage() {
   const router = useRouter()
 
   // Trust middleware protection - no need for client-side auth checks
-  // Middleware already validates access before page loads  const [activeTab, setActiveTab] = useState<TabType>('general')
+  // Middleware already validates access before page loads
+  const [activeTab, setActiveTab] = useState<TabType>('general')
   const [settings, setSettings] = useState(MOCK_SETTINGS)
   const [hasChanges, setHasChanges] = useState(false)
   const [isSaving, setIsSaving] = useState(false)

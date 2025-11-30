@@ -35,6 +35,7 @@ import {
 } from 'lucide-react'
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
 import { useBilling } from '@/lib/contexts/BillingContext'
+import { useChat } from '@/lib/contexts/ChatContext'
 import { SubscriptionManager } from '@/components/organisms/SubscriptionManager'
 import { PaymentMethodManager } from '@/components/organisms/PaymentMethodManager'
 import { PlanChangeModal } from '@/components/organisms/PlanChangeModal'
@@ -69,7 +70,7 @@ interface BillingHistory {
 
 export default function SettingsPage() {
   const router = useRouter()
-  const { setUserData } = useChat()
+  const { userData, setUserData } = useChat()
   const billing = useBilling()
   const [activeTab, setActiveTab] = useState<TabType>('profile')
   const [isLoading, setIsLoading] = useState(false)

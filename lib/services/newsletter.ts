@@ -655,11 +655,13 @@ class NewsletterService {
     })
 
     // Update subscriber email counts
-    await supabase.rpc('increment_subscriber_email_count', {
-      p_list_id: listId,
-    }).catch(() => {
+    try {
+      await supabase.rpc('increment_subscriber_email_count', {
+        p_list_id: listId,
+      })
+    } catch {
       // Function may not exist yet
-    })
+    }
 
     return {
       sentCount,

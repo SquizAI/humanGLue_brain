@@ -20,7 +20,17 @@ import {
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
 export default function ProfilePage() {
   const router = useRouter()
-    const [activeTab, setActiveTab] = useState('profile')
+  const [activeTab, setActiveTab] = useState('profile')
+
+  // User data - in production, this would come from auth context or API
+  const userData = {
+    name: '',
+    email: '',
+    company: '',
+    location: '',
+    phone: '',
+    website: ''
+  }
 
   const handleLogout = () => {
     localStorage.removeItem('humanglue_user')

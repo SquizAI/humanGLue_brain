@@ -385,13 +385,28 @@ export async function updateOrganizationMaturityLevel(
   const supabase = await createClient()
   const maturityLevel = calculateMaturityLevel(assessmentScore)
 
+  // First fetch current metadata
+  const { data: org, error: fetchError } = await supabase
+    .from('organizations')
+    .select('metadata')
+    .eq('id', organizationId)
+    .single()
+
+  if (fetchError) {
+    throw new Error(`Failed to fetch organization: ${fetchError.message}`)
+  }
+
+  // Merge with existing metadata
+  const currentMetadata = (org?.metadata as Record<string, unknown>) || {}
+  const updatedMetadata = {
+    ...currentMetadata,
+    latest_maturity_level: maturityLevel
+  }
+
   const { error } = await supabase
     .from('organizations')
     .update({
-      metadata: supabase.raw(`
-        COALESCE(metadata, '{}'::jsonb) ||
-        jsonb_build_object('latest_maturity_level', ${maturityLevel})
-      `),
+      metadata: updatedMetadata,
       updated_at: new Date().toISOString(),
     })
     .eq('id', organizationId)

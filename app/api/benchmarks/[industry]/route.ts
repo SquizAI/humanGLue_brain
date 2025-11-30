@@ -8,10 +8,10 @@ import { getIndustryBenchmark } from '@/lib/services/industry-benchmarks'
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { industry: string } }
+  { params }: { params: Promise<{ industry: string }> }
 ) {
   try {
-    const { industry } = params
+    const { industry } = await params
     const supabase = await createClient()
 
     const { data: { user } } = await supabase.auth.getUser()

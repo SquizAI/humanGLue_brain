@@ -407,7 +407,7 @@ function UsageCard({ icon: Icon, label, used, limit, unit = '', color }: UsageCa
   const isUnlimited = limit === -1
 
   const colorClasses = {
-    purple: 'from-cyan-500 to-blue-500',
+    cyan: 'from-cyan-500 to-blue-500',
     blue: 'from-blue-500 to-cyan-500',
     amber: 'from-amber-500 to-orange-500'
   }
