@@ -5,21 +5,22 @@ import { forwardRef } from 'react'
 import { cn } from '../../utils/cn'
 
 export interface ButtonProps extends HTMLMotionProps<"button"> {
-  variant?: 'primary' | 'secondary' | 'ghost' | 'danger' | 'gradient'
-  size?: 'sm' | 'md' | 'lg'
+  variant?: 'primary' | 'secondary' | 'ghost' | 'danger' | 'cyan' | 'outline'
+  size?: 'xs' | 'sm' | 'md' | 'lg'
   isLoading?: boolean
   icon?: React.ReactNode
   iconPosition?: 'left' | 'right'
   ariaLabel?: string
   ariaPressed?: boolean
   ariaExpanded?: boolean
+  fullWidth?: boolean
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ 
-    children, 
-    className, 
-    variant = 'primary', 
+  ({
+    children,
+    className,
+    variant = 'primary',
     size = 'md',
     isLoading = false,
     icon,
@@ -28,20 +29,64 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     ariaLabel,
     ariaPressed,
     ariaExpanded,
-    ...props 
+    fullWidth = false,
+    ...props
   }, ref) => {
+    // Theme-aware button variants using CSS variables
     const variants = {
-      primary: 'bg-gradient-to-r from-neon-blue to-neon-cyan text-white hover:shadow-[0_0_20px_rgba(0,149,255,0.5)] disabled:from-gray-600 disabled:to-gray-700',
-      secondary: 'bg-white/5 backdrop-blur-sm border border-white/10 text-white hover:border-white/20 hover:bg-white/10',
-      ghost: 'bg-transparent hover:bg-white/5 text-white',
-      danger: 'bg-gradient-to-r from-red-600 to-pink-600 text-white hover:shadow-[0_0_20px_rgba(255,0,128,0.5)] disabled:from-gray-600 disabled:to-gray-700',
-      gradient: 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white hover:shadow-[0_0_20px_rgba(168,85,247,0.5)] hover:from-cyan-700 hover:to-blue-700 disabled:from-gray-600 disabled:to-gray-700'
+      // Primary - uses cyan gradient (brand color)
+      primary: cn(
+        'bg-gradient-to-r from-cyan-500 to-cyan-600',
+        'text-white',
+        'hover:from-cyan-600 hover:to-cyan-700',
+        'hover:shadow-[0_0_20px_rgba(97,216,254,0.4)]',
+        'disabled:from-gray-500 disabled:to-gray-600'
+      ),
+      // Cyan variant - solid cyan
+      cyan: cn(
+        'bg-[var(--hg-cyan-text)]',
+        'text-black dark:text-black',
+        'hover:opacity-90',
+        'hover:shadow-[0_0_20px_rgba(97,216,254,0.5)]',
+        'disabled:bg-gray-500'
+      ),
+      // Secondary - glass effect with theme colors
+      secondary: cn(
+        'hg-bg-secondary',
+        'hg-text-primary',
+        'hg-border border',
+        'hover:bg-[var(--hg-bg-hover)]',
+        'backdrop-blur-sm'
+      ),
+      // Ghost - transparent with hover
+      ghost: cn(
+        'bg-transparent',
+        'hg-text-secondary',
+        'hover:bg-[var(--hg-bg-hover)]',
+        'hover:hg-text-primary'
+      ),
+      // Outline - bordered
+      outline: cn(
+        'bg-transparent',
+        'hg-text-primary',
+        'hg-border border',
+        'hover:bg-[var(--hg-bg-hover)]'
+      ),
+      // Danger - red gradient for destructive actions
+      danger: cn(
+        'bg-gradient-to-r from-red-500 to-red-600',
+        'text-white',
+        'hover:from-red-600 hover:to-red-700',
+        'hover:shadow-[0_0_20px_rgba(239,68,68,0.4)]',
+        'disabled:from-gray-500 disabled:to-gray-600'
+      )
     }
 
     const sizes = {
+      xs: 'px-2 py-1 text-xs',
       sm: 'px-3 py-1.5 text-sm',
-      md: 'px-4 py-2',
-      lg: 'px-6 py-3 text-lg'
+      md: 'px-4 py-2 text-sm',
+      lg: 'px-6 py-3 text-base'
     }
 
     return (
@@ -50,12 +95,14 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         whileHover={{ scale: disabled || isLoading ? 1 : 1.02 }}
         whileTap={{ scale: disabled || isLoading ? 1 : 0.98 }}
         className={cn(
-          'rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-humanglue-blue',
+          'rounded-lg font-medium transition-all duration-200',
+          'focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500',
+          'dark:focus:ring-offset-black',
           'disabled:cursor-not-allowed disabled:opacity-50',
           'flex items-center justify-center gap-2',
-          'font-gendy',
           variants[variant],
           sizes[size],
+          fullWidth && 'w-full',
           className
         )}
         disabled={disabled || isLoading}
@@ -81,8 +128,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
 Button.displayName = 'Button'
 
-const LoadingSpinner = ({ size }: { size: 'sm' | 'md' | 'lg' }) => {
+const LoadingSpinner = ({ size }: { size: 'xs' | 'sm' | 'md' | 'lg' }) => {
   const spinnerSizes = {
+    xs: 'w-3 h-3',
     sm: 'w-3 h-3',
     md: 'w-4 h-4',
     lg: 'w-5 h-5'

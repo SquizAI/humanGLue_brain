@@ -4,39 +4,48 @@ import { motion } from 'framer-motion'
 import { cn } from '../../utils/cn'
 import { ComponentPropsWithoutRef } from 'react'
 
-type TextElement = 'p' | 'span' | 'div' | 'label'
+type TextElement = 'p' | 'span' | 'div' | 'label' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
 
 export interface TextProps extends ComponentPropsWithoutRef<'p'> {
-  variant?: 'body' | 'caption' | 'label' | 'error' | 'success'
-  size?: 'xs' | 'sm' | 'md' | 'lg'
+  variant?: 'primary' | 'secondary' | 'muted' | 'cyan' | 'error' | 'success' | 'warning'
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl'
   weight?: 'normal' | 'medium' | 'semibold' | 'bold'
   as?: TextElement
+  animate?: boolean
 }
 
-export function Text({ 
-  children, 
-  className, 
-  variant = 'body', 
+export function Text({
+  children,
+  className,
+  variant = 'primary',
   size = 'md',
   weight = 'normal',
   as = 'p',
-  ...props 
+  animate = false,
+  ...props
 }: TextProps) {
-  const Component = motion[as] as any
+  const Component = animate ? (motion[as] as any) : as
 
+  // Use CSS variables for theme-aware colors
   const variants = {
-    body: 'text-gray-900 dark:text-gray-100',
-    caption: 'text-gray-600 dark:text-gray-400',
-    label: 'text-gray-700 dark:text-gray-300',
-    error: 'text-red-600 dark:text-red-400',
-    success: 'text-green-600 dark:text-green-400'
+    primary: 'hg-text-primary',
+    secondary: 'hg-text-secondary',
+    muted: 'hg-text-muted',
+    cyan: 'hg-text-cyan',
+    error: 'text-red-500 dark:text-red-400',
+    success: 'text-emerald-500 dark:text-emerald-400',
+    warning: 'text-amber-500 dark:text-amber-400'
   }
 
   const sizes = {
     xs: 'text-xs',
     sm: 'text-sm',
     md: 'text-base',
-    lg: 'text-lg'
+    lg: 'text-lg',
+    xl: 'text-xl',
+    '2xl': 'text-2xl',
+    '3xl': 'text-3xl',
+    '4xl': 'text-4xl'
   }
 
   const weights = {
@@ -46,17 +55,57 @@ export function Text({
     bold: 'font-bold'
   }
 
+  const baseProps = {
+    className: cn(
+      variants[variant],
+      sizes[size],
+      weights[weight],
+      className
+    ),
+    ...props
+  }
+
+  if (animate) {
+    return (
+      <Component {...baseProps}>
+        {children}
+      </Component>
+    )
+  }
+
+  const Tag = as
   return (
-    <Component
-      className={cn(
-        variants[variant],
-        sizes[size],
-        weights[weight],
-        className
-      )}
+    <Tag {...baseProps}>
+      {children}
+    </Tag>
+  )
+}
+
+// Specialized heading components for convenience
+export function Heading({
+  children,
+  level = 1,
+  className,
+  ...props
+}: TextProps & { level?: 1 | 2 | 3 | 4 | 5 | 6 }) {
+  const sizes: Record<number, TextProps['size']> = {
+    1: '4xl',
+    2: '3xl',
+    3: '2xl',
+    4: 'xl',
+    5: 'lg',
+    6: 'md'
+  }
+
+  return (
+    <Text
+      as={`h${level}` as TextElement}
+      size={sizes[level]}
+      weight="bold"
+      className={cn('tracking-tight', className)}
       {...props}
     >
       {children}
-    </Component>
+    </Text>
   )
 }

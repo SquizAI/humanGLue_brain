@@ -524,7 +524,7 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
     <div className="mb-8">
       {!isCollapsed && (
         <div className="px-6 mb-3">
-          <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider font-diatype">
+          <h3 style={{ color: 'var(--hg-text-muted)' }} className="text-xs font-semibold uppercase tracking-wider font-diatype">
             {title}
           </h3>
         </div>
@@ -537,29 +537,26 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
           return (
             <Link key={item.href} href={item.href}>
               <div
+                style={{
+                  backgroundColor: isActive ? 'var(--hg-cyan-bg)' : 'transparent',
+                  borderColor: isActive ? 'var(--hg-cyan-border)' : 'transparent'
+                }}
                 className={cn(
-                  'relative group rounded-xl transition-all duration-200',
-                  isActive
-                    ? 'bg-gradient-to-r from-cyan-500/10 to-blue-500/10 backdrop-blur-xl'
-                    : 'hover:bg-white/5'
+                  'relative group rounded-xl transition-all duration-200 border',
+                  !isActive && 'hover:opacity-80'
                 )}
                 title={isCollapsed ? item.label : undefined}
               >
-                {isActive && (
-                  <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-xl border border-cyan-500/30" />
-                )}
-
                 <div className={cn(
                   "relative flex items-center gap-3 py-3",
                   isCollapsed ? "px-2 justify-center" : "px-3"
                 )}>
                   <div
-                    className={cn(
-                      'flex items-center justify-center w-10 h-10 rounded-lg transition-all',
-                      isActive
-                        ? 'bg-gradient-to-br from-cyan-500 to-blue-500 text-white shadow-lg shadow-cyan-500/50'
-                        : 'bg-white/5 text-gray-400 group-hover:bg-white/10 group-hover:text-white'
-                    )}
+                    style={{
+                      backgroundColor: isActive ? 'var(--hg-cyan-text)' : 'var(--hg-bg-secondary)',
+                      color: isActive ? '#ffffff' : 'var(--hg-text-muted)'
+                    }}
+                    className="flex items-center justify-center w-10 h-10 rounded-lg transition-all"
                   >
                     <Icon className="w-5 h-5" />
                   </div>
@@ -568,15 +565,13 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
                         <span
-                          className={cn(
-                            'text-sm font-medium font-diatype',
-                            isActive ? 'text-white' : 'text-gray-300 group-hover:text-white'
-                          )}
+                          style={{ color: isActive ? 'var(--hg-cyan-text)' : 'var(--hg-text-primary)' }}
+                          className="text-sm font-medium font-diatype"
                         >
                           {item.label}
                         </span>
                         {'badge' in item && item.badge && (
-                          <span className="px-2 py-0.5 text-xs font-semibold bg-cyan-500/20 text-cyan-300 rounded-full font-diatype">
+                          <span style={{ backgroundColor: 'var(--hg-cyan-bg)', color: 'var(--hg-cyan-text)' }} className="px-2 py-0.5 text-xs font-semibold rounded-full font-diatype">
                             {item.badge}
                           </span>
                         )}
@@ -587,7 +582,7 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
                           </span>
                         )}
                       </div>
-                      <p className="text-xs text-gray-500 mt-0.5 font-diatype">
+                      <p style={{ color: 'var(--hg-text-muted)' }} className="text-xs mt-0.5 font-diatype">
                         {item.description}
                       </p>
                     </div>
@@ -595,11 +590,10 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
 
                   {!isCollapsed && (
                     <ChevronRight
+                      style={{ color: isActive ? 'var(--hg-cyan-text)' : 'var(--hg-text-muted)' }}
                       className={cn(
                         'w-4 h-4 transition-all',
-                        isActive
-                          ? 'text-cyan-400 opacity-100'
-                          : 'text-gray-600 opacity-0 group-hover:opacity-100'
+                        isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
                       )}
                     />
                   )}
@@ -616,18 +610,25 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
     <>
       {/* Desktop Sidebar - Hidden on mobile */}
       <aside
-        style={{ width: isCollapsed ? 80 : 280 }}
+        style={{
+          width: isCollapsed ? 80 : 280,
+          backgroundColor: 'var(--hg-bg-sidebar)',
+          borderColor: 'var(--hg-border-color)'
+        }}
         className={cn(
-          'hidden lg:block fixed left-0 top-0 bottom-0 bg-black backdrop-blur-xl border-r border-white/10 z-40 transition-[width] duration-300 ease-out',
+          'hidden lg:block fixed left-0 top-0 bottom-0 backdrop-blur-xl border-r z-40 transition-[width] duration-300 ease-out',
           className
         )}
       >
       <div className="flex flex-col h-full">
         {/* Logo & Toggle */}
-        <div className={cn(
-          "py-6 border-b border-white/10 flex items-center",
-          isCollapsed ? "px-4 justify-center flex-col gap-3" : "px-6 justify-between"
-        )}>
+        <div
+          style={{ borderColor: 'var(--hg-border-color)' }}
+          className={cn(
+            "py-6 border-b flex items-center",
+            isCollapsed ? "px-4 justify-center flex-col gap-3" : "px-6 justify-between"
+          )}
+        >
           <Link href={
             currentActiveRole === 'admin' ? "/admin" :
             currentActiveRole === 'expert' ? "/expert" :
@@ -652,8 +653,8 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
             </motion.div>
             {!isCollapsed && (
               <div>
-                <h1 className="text-lg font-bold text-white font-gendy">Human Glue</h1>
-                <p className="text-xs text-gray-500 font-diatype">{portalConfig.title}</p>
+                <h1 style={{ color: 'var(--hg-text-primary)' }} className="text-lg font-bold font-gendy">Human Glue</h1>
+                <p style={{ color: 'var(--hg-text-muted)' }} className="text-xs font-diatype">{portalConfig.title}</p>
               </div>
             )}
           </Link>
@@ -663,8 +664,9 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
             onClick={() => setIsCollapsed(!isCollapsed)}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            style={{ color: 'var(--hg-text-muted)' }}
             className={cn(
-              "p-2 rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition-all",
+              "p-2 rounded-lg transition-all hover:opacity-80",
               isCollapsed && "w-full justify-center"
             )}
             title={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
@@ -679,24 +681,25 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
 
         {/* Role Switcher - Show only if user has multiple roles */}
         {availableRoles.length > 1 && !isCollapsed && (
-          <div className="px-4 py-3 border-b border-white/10">
+          <div style={{ borderColor: 'var(--hg-border-color)' }} className="px-4 py-3 border-b">
             <div className="relative">
               <button
                 onClick={() => setShowRoleSwitcher(!showRoleSwitcher)}
-                className="w-full flex items-center justify-between p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-all group"
+                style={{ backgroundColor: 'var(--hg-bg-secondary)' }}
+                className="w-full flex items-center justify-between p-3 rounded-xl hover:opacity-90 transition-all group"
               >
                 <div className="flex items-center gap-3">
                   {(() => {
                     const CurrentRoleIcon = availableRoles.find(r => r.id === currentActiveRole)?.icon || LayoutDashboard
-                    return <CurrentRoleIcon className="w-5 h-5 text-cyan-400" />
+                    return <CurrentRoleIcon style={{ color: 'var(--hg-cyan-text)' }} className="w-5 h-5" />
                   })()}
                   <div className="text-left">
-                    <p className="text-sm font-medium text-white font-diatype">{portalConfig.title}</p>
-                    <p className="text-xs text-gray-500 font-diatype">Switch portal</p>
+                    <p style={{ color: 'var(--hg-text-primary)' }} className="text-sm font-medium font-diatype">{portalConfig.title}</p>
+                    <p style={{ color: 'var(--hg-text-muted)' }} className="text-xs font-diatype">Switch portal</p>
                   </div>
                 </div>
-                <ChevronDown className={cn(
-                  "w-4 h-4 text-gray-400 transition-transform",
+                <ChevronDown style={{ color: 'var(--hg-text-muted)' }} className={cn(
+                  "w-4 h-4 transition-transform",
                   showRoleSwitcher && "rotate-180"
                 )} />
               </button>
@@ -708,7 +711,12 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
-                    className="absolute top-full left-0 right-0 mt-2 bg-gray-800 border border-white/10 rounded-xl shadow-xl overflow-hidden z-50"
+                    style={{
+                      backgroundColor: 'var(--hg-bg-card)',
+                      borderColor: 'var(--hg-border-color)',
+                      boxShadow: 'var(--hg-shadow-lg)'
+                    }}
+                    className="absolute top-full left-0 right-0 mt-2 border rounded-xl overflow-hidden z-50"
                   >
                     {availableRoles.map((role) => {
                       const RoleIcon = role.icon
@@ -721,27 +729,21 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
                           onClick={() => setShowRoleSwitcher(false)}
                         >
                           <motion.div
-                            whileHover={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
-                            className={cn(
-                              "px-4 py-3 flex items-center gap-3 transition-colors cursor-pointer",
-                              isActive && "bg-cyan-500/10"
-                            )}
+                            whileHover={{ opacity: 0.8 }}
+                            style={{
+                              backgroundColor: isActive ? 'var(--hg-cyan-bg)' : 'transparent'
+                            }}
+                            className="px-4 py-3 flex items-center gap-3 transition-colors cursor-pointer"
                           >
-                            <RoleIcon className={cn(
-                              "w-5 h-5",
-                              isActive ? "text-cyan-400" : "text-gray-400"
-                            )} />
+                            <RoleIcon style={{ color: isActive ? 'var(--hg-cyan-text)' : 'var(--hg-text-muted)' }} className="w-5 h-5" />
                             <div className="flex-1">
-                              <p className={cn(
-                                "text-sm font-medium font-diatype",
-                                isActive ? "text-cyan-300" : "text-white"
-                              )}>
+                              <p style={{ color: isActive ? 'var(--hg-cyan-text)' : 'var(--hg-text-primary)' }} className="text-sm font-medium font-diatype">
                                 {role.label}
                               </p>
-                              <p className="text-xs text-gray-500 font-diatype">{role.description}</p>
+                              <p style={{ color: 'var(--hg-text-muted)' }} className="text-xs font-diatype">{role.description}</p>
                             </div>
                             {isActive && (
-                              <Check className="w-4 h-4 text-cyan-400" />
+                              <Check style={{ color: 'var(--hg-cyan-text)' }} className="w-4 h-4" />
                             )}
                           </motion.div>
                         </Link>
@@ -756,7 +758,7 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
 
         {/* User Profile Section */}
         {!isCollapsed && (
-          <div className="px-4 py-4 border-b border-white/10">
+          <div style={{ borderColor: 'var(--hg-border-color)' }} className="px-4 py-4 border-b">
             <Link
               href={
                 currentActiveRole === 'admin' ? '/admin/settings' :
@@ -767,20 +769,20 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
             >
               <motion.div
                 whileHover={{ scale: 1.02 }}
-                className="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-all cursor-pointer"
+                className="flex items-center gap-3 p-3 rounded-xl hover:opacity-80 transition-all cursor-pointer"
               >
                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center text-white font-bold text-sm">
                   {userData?.name ? userData.name.charAt(0).toUpperCase() : 'U'}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-white font-diatype truncate">
+                  <p style={{ color: 'var(--hg-text-primary)' }} className="text-sm font-medium font-diatype truncate">
                     {userData?.name || 'User'}
                   </p>
-                  <p className="text-xs text-gray-500 font-diatype">
+                  <p style={{ color: 'var(--hg-text-muted)' }} className="text-xs font-diatype">
                     {currentActiveRole === 'admin' ? 'Admin' : currentActiveRole === 'expert' ? 'Expert' : currentActiveRole === 'instructor' ? 'Instructor' : 'Student'}
                   </p>
                 </div>
-                <Settings className="w-4 h-4 text-gray-500" />
+                <Settings style={{ color: 'var(--hg-text-muted)' }} className="w-4 h-4" />
               </motion.div>
             </Link>
           </div>
@@ -795,7 +797,7 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
 
         {/* Cart & Upgrade Section - Only for clients */}
         {(portalConfig.showCart || portalConfig.showUpgrade) && (
-          <div className="border-t border-white/10">
+          <div style={{ borderColor: 'var(--hg-border-color)' }} className="border-t">
             {/* Cart Button */}
             {portalConfig.showCart && (
               <div className={cn("p-4", isCollapsed && "px-2")}>
@@ -814,16 +816,18 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
               <div className="px-4 pb-4">
                 <motion.div
                   whileHover={{ scale: 1.02 }}
-                  className="relative overflow-hidden rounded-xl bg-gradient-to-br from-cyan-900/50 to-blue-900/50 backdrop-blur-xl border border-cyan-500/30 p-4"
+                  style={{
+                    backgroundColor: 'var(--hg-cyan-bg)',
+                    borderColor: 'var(--hg-cyan-border)'
+                  }}
+                  className="relative overflow-hidden rounded-xl border p-4"
                 >
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(168,85,247,0.1),transparent_70%)]" />
-
                   <div className="relative">
                     <div className="flex items-center gap-2 mb-2">
-                      <Award className="w-5 h-5 text-cyan-400" />
-                      <h3 className="text-sm font-semibold text-white font-gendy">Upgrade to Pro</h3>
+                      <Award style={{ color: 'var(--hg-cyan-text)' }} className="w-5 h-5" />
+                      <h3 style={{ color: 'var(--hg-text-primary)' }} className="text-sm font-semibold font-gendy">Upgrade to Pro</h3>
                     </div>
-                    <p className="text-xs text-gray-400 mb-3 font-diatype">
+                    <p style={{ color: 'var(--hg-text-secondary)' }} className="text-xs mb-3 font-diatype">
                       Unlock advanced analytics and unlimited workshops
                     </p>
                     <motion.button
@@ -841,7 +845,7 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
         )}
 
         {/* Theme Toggle & Logout */}
-        <div className={cn("p-4 border-t border-white/10 space-y-2", isCollapsed && "px-2")}>
+        <div style={{ borderColor: 'var(--hg-border-color)' }} className={cn("p-4 border-t space-y-2", isCollapsed && "px-2")}>
           {/* Theme Toggle - Compact version */}
           <ThemeToggle variant="icon-only" className={cn("w-full flex", isCollapsed ? "justify-center" : "justify-start")} />
 
@@ -850,17 +854,18 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
             whileHover={{ scale: 1.02, x: isCollapsed ? 0 : 4 }}
             whileTap={{ scale: 0.98 }}
             onClick={onLogout}
+            style={{ color: 'var(--hg-text-muted)' }}
             className={cn(
-              "w-full flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-white/5 dark:hover:bg-white/5 light:hover:bg-gray-200 text-gray-400 dark:text-gray-400 light:text-gray-600 hover:text-white dark:hover:text-white light:hover:text-gray-900 transition-all group",
+              "w-full flex items-center gap-3 px-3 py-3 rounded-xl hover:opacity-80 transition-all group",
               isCollapsed && "justify-center px-2"
             )}
             title={isCollapsed ? "Logout" : undefined}
           >
-            <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-white/5 dark:bg-white/5 light:bg-gray-200 group-hover:bg-red-500/10 transition-all">
+            <div style={{ backgroundColor: 'var(--hg-bg-secondary)' }} className="flex items-center justify-center w-10 h-10 rounded-lg group-hover:bg-red-500/10 transition-all">
               <LogOut className="w-5 h-5 group-hover:text-red-400" />
             </div>
             {!isCollapsed && (
-              <span className="text-sm font-medium font-diatype">Logout</span>
+              <span style={{ color: 'var(--hg-text-secondary)' }} className="text-sm font-medium font-diatype">Logout</span>
             )}
           </motion.button>
         </div>

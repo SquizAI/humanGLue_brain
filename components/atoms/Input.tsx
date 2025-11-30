@@ -1,52 +1,213 @@
 'use client'
 
-import { forwardRef } from 'react'
-import { motion, HTMLMotionProps } from 'framer-motion'
+import { forwardRef, InputHTMLAttributes, TextareaHTMLAttributes } from 'react'
 import { cn } from '../../utils/cn'
 
-export interface InputProps extends Omit<HTMLMotionProps<"input">, 'size'> {
-  size?: 'sm' | 'md' | 'lg'
+export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  variant?: 'default' | 'filled' | 'outline'
+  inputSize?: 'sm' | 'md' | 'lg'
   error?: boolean
   icon?: React.ReactNode
-  ariaLabel?: string
-  ariaDescribedBy?: string
+  iconPosition?: 'left' | 'right'
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ className, size = 'md', error = false, icon, ...props }, ref) => {
+  ({
+    className,
+    variant = 'default',
+    inputSize = 'md',
+    error = false,
+    icon,
+    iconPosition = 'left',
+    type = 'text',
+    ...props
+  }, ref) => {
+    // Theme-aware input variants using CSS variables
+    const variants = {
+      default: cn(
+        'hg-bg-secondary',
+        'hg-text-primary',
+        'hg-border border',
+        'placeholder:text-[var(--hg-text-muted)]',
+        'focus:border-[var(--hg-cyan-border)]',
+        'focus:ring-1 focus:ring-[var(--hg-cyan-border)]'
+      ),
+      filled: cn(
+        'bg-[var(--hg-bg-hover)]',
+        'hg-text-primary',
+        'border-transparent',
+        'placeholder:text-[var(--hg-text-muted)]',
+        'focus:bg-[var(--hg-bg-secondary)]',
+        'focus:border-[var(--hg-cyan-border)]'
+      ),
+      outline: cn(
+        'bg-transparent',
+        'hg-text-primary',
+        'hg-border border',
+        'placeholder:text-[var(--hg-text-muted)]',
+        'focus:border-[var(--hg-cyan-text)]'
+      )
+    }
+
     const sizes = {
       sm: 'px-3 py-1.5 text-sm',
-      md: 'px-4 py-2',
-      lg: 'px-4 py-3 text-lg'
+      md: 'px-4 py-2 text-sm',
+      lg: 'px-4 py-3 text-base'
+    }
+
+    const errorClasses = error
+      ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20'
+      : ''
+
+    const iconPadding = icon
+      ? iconPosition === 'left'
+        ? 'pl-10'
+        : 'pr-10'
+      : ''
+
+    if (icon) {
+      return (
+        <div className="relative">
+          <span
+            className={cn(
+              'absolute top-1/2 -translate-y-1/2 hg-text-muted',
+              iconPosition === 'left' ? 'left-3' : 'right-3'
+            )}
+          >
+            {icon}
+          </span>
+          <input
+            ref={ref}
+            type={type}
+            className={cn(
+              'w-full rounded-lg transition-colors duration-200',
+              'outline-none',
+              variants[variant],
+              sizes[inputSize],
+              errorClasses,
+              iconPadding,
+              className
+            )}
+            {...props}
+          />
+        </div>
+      )
     }
 
     return (
-      <div className="relative">
-        {icon && (
-          <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
-            {icon}
-          </div>
+      <input
+        ref={ref}
+        type={type}
+        className={cn(
+          'w-full rounded-lg transition-colors duration-200',
+          'outline-none',
+          variants[variant],
+          sizes[inputSize],
+          errorClasses,
+          className
         )}
-        <motion.input
-          ref={ref}
-          whileFocus={{ scale: 1.01 }}
-          className={cn(
-            'w-full rounded-lg border glass',
-            'focus:outline-none focus:ring-2 focus:ring-offset-0',
-            'transition-all duration-200',
-            'placeholder:text-gray-500',
-            error 
-              ? 'border-red-500/50 focus:ring-red-500/50 focus:border-red-500' 
-              : 'border-white/10 focus:ring-neon-blue/50 focus:border-neon-blue/50',
-            sizes[size],
-            icon && 'pl-10',
-            className
-          )}
-          {...props}
-        />
-      </div>
+        {...props}
+      />
     )
   }
 )
 
 Input.displayName = 'Input'
+
+// Textarea component
+export interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+  variant?: 'default' | 'filled' | 'outline'
+  inputSize?: 'sm' | 'md' | 'lg'
+  error?: boolean
+}
+
+export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
+  ({
+    className,
+    variant = 'default',
+    inputSize = 'md',
+    error = false,
+    ...props
+  }, ref) => {
+    const variants = {
+      default: cn(
+        'hg-bg-secondary',
+        'hg-text-primary',
+        'hg-border border',
+        'placeholder:text-[var(--hg-text-muted)]',
+        'focus:border-[var(--hg-cyan-border)]',
+        'focus:ring-1 focus:ring-[var(--hg-cyan-border)]'
+      ),
+      filled: cn(
+        'bg-[var(--hg-bg-hover)]',
+        'hg-text-primary',
+        'border-transparent',
+        'placeholder:text-[var(--hg-text-muted)]',
+        'focus:bg-[var(--hg-bg-secondary)]',
+        'focus:border-[var(--hg-cyan-border)]'
+      ),
+      outline: cn(
+        'bg-transparent',
+        'hg-text-primary',
+        'hg-border border',
+        'placeholder:text-[var(--hg-text-muted)]',
+        'focus:border-[var(--hg-cyan-text)]'
+      )
+    }
+
+    const sizes = {
+      sm: 'px-3 py-1.5 text-sm',
+      md: 'px-4 py-2 text-sm',
+      lg: 'px-4 py-3 text-base'
+    }
+
+    const errorClasses = error
+      ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20'
+      : ''
+
+    return (
+      <textarea
+        ref={ref}
+        className={cn(
+          'w-full rounded-lg transition-colors duration-200',
+          'outline-none resize-none',
+          'min-h-[100px]',
+          variants[variant],
+          sizes[inputSize],
+          errorClasses,
+          className
+        )}
+        {...props}
+      />
+    )
+  }
+)
+
+Textarea.displayName = 'Textarea'
+
+// Label component
+export interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
+  required?: boolean
+}
+
+export function Label({
+  children,
+  className,
+  required = false,
+  ...props
+}: LabelProps) {
+  return (
+    <label
+      className={cn(
+        'text-sm font-medium',
+        'hg-text-primary',
+        'mb-1.5 block',
+        className
+      )}
+      {...props}
+    >
+      {children}
+      {required && <span className="text-red-500 ml-1">*</span>}
+    </label>
+  )
+}

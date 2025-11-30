@@ -358,3 +358,108 @@ export type NotificationGroupedByDate = {
 export type NotificationGroupedByType = {
   [K in NotificationType]?: Notification[]
 }
+
+// =====================================================================================
+// COMMUNICATION TYPES
+// =====================================================================================
+
+export type CommunicationChannel = 'sms' | 'email' | 'whatsapp' | 'voice' | 'chat'
+
+export type CommunicationDirection = 'inbound' | 'outbound'
+
+export type CommunicationStatus =
+  | 'pending'
+  | 'sent'
+  | 'delivered'
+  | 'read'
+  | 'failed'
+  | 'queued'
+
+export interface CommunicationMessage {
+  id: string
+  user_id: string
+  organization_id?: string
+  channel: CommunicationChannel
+  provider: string
+  direction: CommunicationDirection
+  recipient: string
+  sender?: string
+  content: string
+  subject?: string
+  external_id?: string
+  status: CommunicationStatus
+  metadata?: Record<string, any>
+  error_message?: string
+  created_at: string
+  updated_at: string
+}
+
+export interface MessagingChannel {
+  id: string
+  organization_id: string
+  name: string
+  channel_type: CommunicationChannel
+  provider: string
+  external_channel_id: string
+  external_connector_id?: string
+  phone_number?: string
+  is_active: boolean
+  configuration?: Record<string, any>
+  created_at: string
+  updated_at: string
+}
+
+export interface CommunicationConversation {
+  id: string
+  organization_id: string
+  contact_identifier: string
+  channel_type: CommunicationChannel
+  channel_id?: string
+  last_message_at: string
+  unread_count: number
+  status: 'active' | 'archived' | 'closed'
+  metadata?: Record<string, any>
+  created_at: string
+}
+
+export interface ConversationWithMessages extends CommunicationConversation {
+  messages: CommunicationMessage[]
+}
+
+// =====================================================================================
+// COMMUNICATION REALTIME TYPES
+// =====================================================================================
+
+export interface RealtimeCommunicationEvent {
+  type: 'communication'
+  action: 'new_message' | 'status_update' | 'new_conversation'
+  payload: CommunicationMessage | CommunicationConversation
+}
+
+export interface UseCommunicationsReturn {
+  messages: CommunicationMessage[]
+  conversations: CommunicationConversation[]
+  channels: MessagingChannel[]
+  loading: boolean
+  error: Error | null
+  sendMessage: (options: SendMessageOptions) => Promise<CommunicationMessage>
+  markAsRead: (messageId: string) => Promise<void>
+  refetch: () => Promise<void>
+}
+
+export interface SendMessageOptions {
+  to: string
+  message: string
+  channel?: CommunicationChannel
+  channelId?: string
+  subject?: string
+}
+
+export interface CommunicationFilters {
+  channel?: CommunicationChannel[]
+  direction?: CommunicationDirection
+  status?: CommunicationStatus[]
+  dateFrom?: string
+  dateTo?: string
+  contactIdentifier?: string
+}
