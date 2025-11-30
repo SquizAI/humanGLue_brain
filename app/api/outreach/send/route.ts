@@ -7,14 +7,27 @@ import { NextRequest, NextResponse } from 'next/server'
 import { emailTemplates } from '@/lib/email-templates'
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+// Lazy initialization to prevent build-time errors when env vars are not set
+function getResendClient(): Resend {
+  const apiKey = process.env.RESEND_API_KEY
+  if (!apiKey) {
+    throw new Error('RESEND_API_KEY environment variable is not configured')
+  }
+  return new Resend(apiKey)
+}
 
-const FROM_EMAIL = process.env.RESEND_FROM_EMAIL
-  ? `HumanGlue <${process.env.RESEND_FROM_EMAIL}>`
-  : 'HumanGlue <onboarding@resend.dev>'
+function getFromEmail(): string {
+  return process.env.RESEND_FROM_EMAIL
+    ? `HumanGlue <${process.env.RESEND_FROM_EMAIL}>`
+    : 'HumanGlue <onboarding@resend.dev>'
+}
 
 export async function POST(request: NextRequest) {
   try {
+    // Initialize client at runtime, not build time
+    const resend = getResendClient()
+    const FROM_EMAIL = getFromEmail()
+
     const body = await request.json()
     const {
       recipientName,

@@ -24,6 +24,7 @@ import {
   Sparkles,
 } from 'lucide-react'
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
+import { LoadingSpinner } from '@/components/atoms/LoadingSpinner'
 import { useChat } from '@/lib/contexts/ChatContext'
 import { signOut } from '@/lib/auth/hooks'
 import { usePermissions } from '@/lib/hooks/usePermissions'
@@ -77,14 +78,6 @@ export default function AdminDashboard() {
 
   // NO CLIENT-SIDE REDIRECT - Trust middleware to handle access control
   // Middleware has already validated admin access before this page loads
-
-  if (!showContent) {
-    return (
-      <div className="min-h-screen bg-slate-900 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500"></div>
-      </div>
-    )
-  }
 
   const handleLogout = async () => {
     try {
@@ -173,6 +166,13 @@ export default function AdminDashboard() {
       <DashboardSidebar onLogout={handleLogout} />
 
       <div className="lg:ml-[var(--sidebar-width,280px)] transition-all duration-300 pb-20 lg:pb-0">
+        {!showContent ? (
+          /* Loading state - sidebar stays visible, content area shows cool spinner */
+          <div className="flex items-center justify-center min-h-screen">
+            <LoadingSpinner variant="neural" size="xl" text="Loading dashboard..." />
+          </div>
+        ) : (
+          <>
         {/* Header */}
         <div className="bg-gray-900/50 backdrop-blur-xl border-b border-white/10 sticky top-0 z-30">
           <div className="px-8 py-6">
@@ -475,6 +475,8 @@ export default function AdminDashboard() {
             </div>
           </div>
         </div>
+          </>
+        )}
       </div>
     </div>
   )
