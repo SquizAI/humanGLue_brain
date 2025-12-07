@@ -1,0 +1,12 @@
+{
+  "name": "humanglue-project-manager",
+  "version": "1.0.0",
+  "description": "Interactive project management and development roadmap tool for the HumanGlue platform",
+  "private": true,
+  "scripts": {
+    "start": "npx serve .",
+    "deploy": "netlify deploy --prod --dir=."
+  },
+  "author": "HumanGlue Team",
+  "license": "MIT"
+}
