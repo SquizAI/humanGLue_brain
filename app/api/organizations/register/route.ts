@@ -212,9 +212,9 @@ export async function POST(request: NextRequest) {
         })
       }
 
-      // Send verification email
+      // Send magic link for email verification
       await supabaseAdmin.auth.admin.generateLink({
-        type: 'signup',
+        type: 'magiclink',
         email: data.adminEmail,
         options: {
           redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback?next=/dashboard`,
