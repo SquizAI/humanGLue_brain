@@ -39,6 +39,7 @@ export const workshopStatusSchema = z.enum([
   'published',
   'archived',
   'cancelled',
+  'all', // 'all' is for admin filtering
 ])
 
 export const workshopFilterSchema = z.object({
@@ -118,8 +119,8 @@ export const answerTypeSchema = z.enum([
 ])
 
 export const createAssessmentSchema = z.object({
-  assessmentType: assessmentTypeSchema,
-  organizationId: z.string().uuid().optional(),
+  templateId: z.string().uuid(),
+  organizationId: z.string().uuid(),
 })
 
 export const submitAnswerSchema = z.object({
@@ -137,7 +138,7 @@ export const submitAnswersSchema = z.object({
 
 export const assessmentFilterSchema = z.object({
   status: assessmentStatusSchema.optional(),
-  assessmentType: assessmentTypeSchema.optional(),
+  templateId: z.string().uuid().optional(),
   fromDate: z.string().datetime().optional(),
   toDate: z.string().datetime().optional(),
   ...paginationSchema.shape,
@@ -206,7 +207,7 @@ export type UpdateProfileInput = z.infer<typeof updateProfileSchema>
 // Course Schemas
 // ============================================================================
 
-export const courseStatusSchema = z.enum(['draft', 'published', 'archived'])
+export const courseStatusSchema = z.enum(['draft', 'published', 'archived', 'all']) // 'all' is for admin filtering
 
 export const courseDifficultySchema = z.enum(['beginner', 'intermediate', 'advanced'])
 

@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
 import { DynamicAssessmentFlow } from '@/components/assessment/DynamicAssessmentFlow'
+import { useAuth } from '@/lib/auth/hooks'
 import {
   ArrowRight,
   Check,
@@ -17,10 +18,16 @@ import {
   AlertCircle,
 } from 'lucide-react'
 
+// Default template ID for the AI Adaptability Assessment
+const DEFAULT_TEMPLATE_ID = '2dfb928e-6101-42cd-820f-2e20db341d27'
+// Default organization for users without one
+const DEFAULT_ORGANIZATION_ID = '11111111-1111-1111-1111-111111111111'
+
 function NewAssessmentContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const continueId = searchParams.get('continue')
+  const { profile } = useAuth()
 
   const [assessmentStarted, setAssessmentStarted] = useState(false)
   const [assessmentId, setAssessmentId] = useState<string | null>(null)
@@ -71,8 +78,8 @@ function NewAssessmentContent() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          assessmentType: 'full_maturity',
-          // organization_id would come from user context in production
+          templateId: DEFAULT_TEMPLATE_ID,
+          organizationId: profile?.organization_id || DEFAULT_ORGANIZATION_ID,
         }),
       })
 

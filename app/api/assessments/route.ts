@@ -60,8 +60,8 @@ export async function GET(request: NextRequest) {
       query = query.eq('status', filters.status)
     }
 
-    if (filters.assessmentType) {
-      query = query.eq('assessment_type', filters.assessmentType)
+    if (filters.templateId) {
+      query = query.eq('template_id', filters.templateId)
     }
 
     if (filters.fromDate) {
@@ -131,7 +131,7 @@ export async function POST(request: NextRequest) {
       .insert({
         user_id: user.id,
         organization_id: assessmentData.organizationId,
-        assessment_type: assessmentData.assessmentType,
+        template_id: assessmentData.templateId,
         status: 'in_progress',
         individual_score: 0,
         leadership_score: 0,
