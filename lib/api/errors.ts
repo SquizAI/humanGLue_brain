@@ -36,6 +36,9 @@ export const APIErrors = {
   BAD_REQUEST: (message: string, details?: unknown) =>
     new APIError('BAD_REQUEST', message, 400, details),
 
+  INVALID_ID: (idType = 'ID') =>
+    new APIError('INVALID_ID', `Invalid ${idType} format`, 400),
+
   // 401 - Unauthorized
   UNAUTHORIZED: (message = 'Authentication required') =>
     new APIError('UNAUTHORIZED', message, 401),
@@ -161,8 +164,17 @@ export function handleUnknownError(error: unknown): APIError {
       if (pgError.code === 'PGRST116') {
         return APIErrors.NOT_FOUND('Resource')
       }
+      // Handle invalid UUID format error
+      if (pgError.code === '22P02' && pgError.message.includes('uuid')) {
+        return APIErrors.INVALID_ID('UUID')
+      }
 
       return APIErrors.DATABASE_ERROR(pgError.message)
+    }
+
+    // Check for UUID validation errors by message pattern
+    if (error.message.includes('invalid input syntax for type uuid')) {
+      return APIErrors.INVALID_ID('UUID')
     }
 
     return APIErrors.INTERNAL_ERROR(error.message)
