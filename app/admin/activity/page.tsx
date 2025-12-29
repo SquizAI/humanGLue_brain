@@ -4,6 +4,9 @@ import { useState, useEffect, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { DashboardSidebar } from '../../../components/organisms/DashboardSidebar'
 import { LoadingSpinner } from '@/components/atoms/LoadingSpinner'
+import { Button } from '@/components/atoms/Button'
+import { Card } from '@/components/atoms/Card'
+import { Text, Heading } from '@/components/atoms/Text'
 import { useChat } from '@/lib/contexts/ChatContext'
 import { signOut } from '@/lib/auth/hooks'
 import { cn } from '../../../utils/cn'
@@ -89,7 +92,7 @@ const activityConfig: Record<ActivityType, {
 }> = {
   user_registered: {
     icon: UserPlus,
-    color: 'text-blue-400',
+    color: 'text-[var(--hg-cyan-text)]',
     bgColor: 'bg-blue-500/20',
     category: 'Users'
   },
@@ -101,7 +104,7 @@ const activityConfig: Record<ActivityType, {
   },
   assessment_completed: {
     icon: FileText,
-    color: 'text-green-400',
+    color: 'text-[var(--hg-cyan-text)]',
     bgColor: 'bg-green-500/20',
     category: 'Assessments'
   },
@@ -137,7 +140,7 @@ const activityConfig: Record<ActivityType, {
   },
   profile_updated: {
     icon: UserCircle,
-    color: 'text-blue-400',
+    color: 'text-[var(--hg-cyan-text)]',
     bgColor: 'bg-blue-500/20',
     category: 'Users'
   },
@@ -507,7 +510,7 @@ export default function ActivityFeedPage() {
   // Loading state - show sidebar with spinner
   if (!showContent) {
     return (
-      <div className="min-h-screen bg-black">
+      <div className="min-h-screen" style={{ backgroundColor: 'var(--hg-bg-primary)' }}>
         <DashboardSidebar onLogout={handleLogout} />
         <div className="lg:ml-[var(--sidebar-width,280px)] transition-all duration-300 flex items-center justify-center min-h-screen">
           <LoadingSpinner variant="neural" size="xl" text="Loading activity..." />
@@ -517,73 +520,61 @@ export default function ActivityFeedPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A]">
+    <div className="min-h-screen" style={{ backgroundColor: 'var(--hg-bg-primary)' }}>
       <DashboardSidebar onLogout={handleLogout} />
 
       <div className="lg:ml-[var(--sidebar-width,280px)] min-h-screen">
         {/* Header */}
-        <header className="sticky top-0 z-30 border-b border-white/10 bg-gray-950/95 backdrop-blur-xl">
+        <header className="sticky top-0 z-30 border-b hg-bg-sidebar hg-border">
           <div className="px-8 py-6">
             <div className="flex items-center justify-between mb-6">
               <div>
                 <div className="flex items-center gap-3 mb-2">
-                  <h1 className="text-3xl font-bold text-white font-gendy">Activity Feed</h1>
-                  <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/20 border border-green-500/30">
+                  <Heading as="h1" size="3xl">Activity Feed</Heading>
+                  <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/30">
                     <motion.div
                       animate={{ scale: [1, 1.2, 1] }}
                       transition={{ duration: 2, repeat: Infinity }}
-                      className="w-2 h-2 bg-green-400 rounded-full"
+                      className="w-2 h-2 bg-emerald-400 rounded-full"
                     />
-                    <span className="text-xs font-semibold text-green-400 font-diatype">Live</span>
+                    <Text size="xs" weight="semibold" className="text-emerald-400">Live</Text>
                   </div>
                 </div>
-                <p className="text-gray-400 font-diatype">
+                <Text variant="muted">
                   Real-time activity monitoring across your platform
-                </p>
+                </Text>
               </div>
 
               <div className="flex items-center gap-3">
                 {/* Auto Refresh Toggle */}
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                <Button
+                  variant={autoRefresh ? 'success' : 'secondary'}
+                  size="sm"
                   onClick={() => setAutoRefresh(!autoRefresh)}
-                  className={cn(
-                    'flex items-center gap-2 px-4 py-2 rounded-lg transition-all font-diatype text-sm font-medium',
-                    autoRefresh
-                      ? 'bg-green-500/20 text-green-400 border border-green-500/30'
-                      : 'bg-white/5 text-gray-400 border border-white/10 hover:bg-white/10'
-                  )}
+                  icon={<RefreshCw className={cn('w-4 h-4', autoRefresh && 'animate-spin')} />}
                 >
-                  <RefreshCw className={cn('w-4 h-4', autoRefresh && 'animate-spin')} />
                   Auto Refresh
-                </motion.button>
+                </Button>
 
                 {/* Sound Toggle */}
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                <Button
+                  variant={soundEnabled ? 'cyan' : 'secondary'}
+                  size="sm"
                   onClick={() => setSoundEnabled(!soundEnabled)}
-                  className={cn(
-                    'p-2 rounded-lg transition-all',
-                    soundEnabled
-                      ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30'
-                      : 'bg-white/5 text-gray-400 border border-white/10 hover:bg-white/10'
-                  )}
+                  className="px-2"
                 >
                   {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
-                </motion.button>
+                </Button>
 
                 {/* Export Button */}
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                <Button
+                  variant="secondary"
+                  size="sm"
                   onClick={handleExport}
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 text-gray-400 border border-white/10 hover:bg-white/10 transition-all font-diatype text-sm font-medium"
+                  icon={<Download className="w-4 h-4" />}
                 >
-                  <Download className="w-4 h-4" />
                   Export
-                </motion.button>
+                </Button>
               </div>
             </div>
 
@@ -591,31 +582,28 @@ export default function ActivityFeedPage() {
             <div className="flex items-center gap-4">
               {/* Search */}
               <div className="flex-1 relative">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 hg-text-muted" />
                 <input
                   type="text"
                   placeholder="Search activities, users, or actions..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 focus:bg-white/10 transition-all font-diatype"
+                  className="w-full pl-12 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-all hg-bg-secondary hg-border hg-text-primary"
+                  style={{ '--tw-ring-color': 'var(--hg-cyan-border)' } as React.CSSProperties}
                 />
               </div>
 
               {/* Category Filter */}
-              <div className="flex items-center gap-2 p-1 bg-white/5 rounded-lg border border-white/10">
+              <div className="flex items-center gap-2 p-1 rounded-lg border hg-bg-secondary hg-border">
                 {categories.map(category => (
-                  <button
+                  <Button
                     key={category}
+                    variant={selectedCategory === category ? 'primary' : 'ghost'}
+                    size="sm"
                     onClick={() => setSelectedCategory(category)}
-                    className={cn(
-                      'px-4 py-2 rounded-md text-sm font-medium transition-all font-diatype',
-                      selectedCategory === category
-                        ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/50'
-                        : 'text-gray-400 hover:text-white hover:bg-white/10'
-                    )}
                   >
                     {category}
-                  </button>
+                  </Button>
                 ))}
               </div>
             </div>
@@ -629,21 +617,16 @@ export default function ActivityFeedPage() {
                   exit={{ height: 0, opacity: 0 }}
                   className="mt-4 overflow-hidden"
                 >
-                  <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-lg border border-cyan-500/30">
+                  <div className="flex items-center justify-between px-4 py-3 rounded-lg border hg-cyan-bg hg-cyan-border">
                     <div className="flex items-center gap-3">
-                      <Bell className="w-5 h-5 text-cyan-400" />
-                      <span className="text-sm font-medium text-white font-diatype">
+                      <Bell className="w-5 h-5 hg-cyan-text" />
+                      <Text size="sm" weight="medium">
                         {newActivityCount} new {newActivityCount === 1 ? 'activity' : 'activities'} available
-                      </span>
+                      </Text>
                     </div>
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      onClick={handleLoadNewActivities}
-                      className="px-4 py-2 bg-cyan-500 text-white text-sm font-medium rounded-lg font-diatype"
-                    >
+                    <Button variant="primary" size="sm" onClick={handleLoadNewActivities}>
                       Load New Activities
-                    </motion.button>
+                    </Button>
                   </div>
                 </motion.div>
               )}
@@ -658,10 +641,10 @@ export default function ActivityFeedPage() {
               <div key={dateLabel} className="mb-8">
                 {/* Date Header */}
                 <div className="sticky top-[180px] z-20 mb-6">
-                  <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-900/95 backdrop-blur-xl border border-white/10 rounded-lg">
-                    <Clock className="w-4 h-4 text-cyan-400" />
-                    <span className="text-sm font-semibold text-white font-diatype">{dateLabel}</span>
-                    <span className="text-xs text-gray-500 font-diatype">({dateActivities.length})</span>
+                  <div className="inline-flex items-center gap-2 px-4 py-2 backdrop-blur-xl border rounded-lg" style={{ backgroundColor: 'var(--hg-bg-card)', borderColor: 'var(--hg-border-color)' }}>
+                    <Clock className="w-4 h-4" style={{ color: 'var(--hg-cyan-text)' }} />
+                    <span className="text-sm font-semibold font-diatype" style={{ color: 'var(--hg-text-primary)' }}>{dateLabel}</span>
+                    <span className="text-xs font-diatype" style={{ color: 'var(--hg-text-muted)' }}>({dateActivities.length})</span>
                   </div>
                 </div>
 
@@ -687,12 +670,11 @@ export default function ActivityFeedPage() {
                           {/* Activity Card */}
                           <motion.div
                             whileHover={{ scale: 1.01, x: 8 }}
-                            className={cn(
-                              'relative pl-16 pr-6 py-4 rounded-xl border transition-all cursor-pointer group',
-                              isSelected
-                                ? 'bg-cyan-500/10 border-cyan-500/30'
-                                : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-cyan-500/30'
-                            )}
+                            className="relative pl-16 pr-6 py-4 rounded-xl border transition-all cursor-pointer group hover:border-[var(--hg-cyan-border)]"
+                            style={{
+                              backgroundColor: isSelected ? 'var(--hg-cyan-bg)' : 'var(--hg-bg-card)',
+                              borderColor: isSelected ? 'var(--hg-cyan-border)' : 'var(--hg-border-color)'
+                            }}
                             onClick={() => setSelectedActivity(activity)}
                           >
                             {/* Icon */}
@@ -700,9 +682,8 @@ export default function ActivityFeedPage() {
                               <div className={cn(
                                 'w-10 h-10 rounded-lg flex items-center justify-center border',
                                 config.bgColor,
-                                config.color,
-                                'border-white/10'
-                              )}>
+                                config.color
+                              )} style={{ borderColor: 'var(--hg-border-color)' }}>
                                 <Icon className="w-5 h-5" />
                               </div>
                             </div>
@@ -712,23 +693,23 @@ export default function ActivityFeedPage() {
                               <div className="flex-1 min-w-0">
                                 <div className="flex items-center gap-3 mb-2">
                                   {/* User Avatar */}
-                                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center text-white text-xs font-bold font-diatype">
+                                  <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold font-diatype" style={{ backgroundColor: 'var(--hg-cyan-text)' }}>
                                     {activity.user.avatar}
                                   </div>
 
                                   <div className="flex-1 min-w-0">
-                                    <h3 className="text-sm font-semibold text-white font-diatype truncate">
+                                    <h3 className="text-sm font-semibold font-diatype truncate" style={{ color: 'var(--hg-text-primary)' }}>
                                       {activity.title}
                                     </h3>
                                   </div>
 
-                                  <span className="text-xs text-gray-500 font-diatype whitespace-nowrap">
+                                  <span className="text-xs font-diatype whitespace-nowrap" style={{ color: 'var(--hg-text-muted)' }}>
                                     {formatTimestamp(activity.timestamp)}
                                   </span>
                                 </div>
 
-                                <p className="text-sm text-gray-400 font-diatype">
-                                  <span className="font-medium text-gray-300">{activity.user.name}</span>
+                                <p className="text-sm font-diatype" style={{ color: 'var(--hg-text-muted)' }}>
+                                  <span className="font-medium" style={{ color: 'var(--hg-text-secondary)' }}>{activity.user.name}</span>
                                   {' '}
                                   {activity.description.replace(activity.user.name, '')}
                                 </p>
@@ -755,7 +736,7 @@ export default function ActivityFeedPage() {
                                       </div>
                                     )}
                                     {activity.metadata.score !== undefined && (
-                                      <div className="flex items-center gap-1 px-2 py-1 bg-green-500/10 rounded text-xs text-green-400 font-diatype font-semibold">
+                                      <div className="flex items-center gap-1 px-2 py-1 bg-green-500/10 rounded text-xs text-[var(--hg-cyan-text)] font-diatype font-semibold">
                                         <CheckCircle2 className="w-3 h-3" />
                                         Score: {activity.metadata.score}%
                                       </div>
@@ -778,7 +759,7 @@ export default function ActivityFeedPage() {
 
                               {/* View Details Icon */}
                               <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-                                <Eye className="w-4 h-4 text-gray-500" />
+                                <Eye className="w-4 h-4" style={{ color: 'var(--hg-text-muted)' }} />
                               </div>
                             </div>
                           </motion.div>
@@ -797,13 +778,13 @@ export default function ActivityFeedPage() {
                 animate={{ opacity: 1, y: 0 }}
                 className="text-center py-20"
               >
-                <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-white/5 flex items-center justify-center">
-                  <Activity className="w-10 h-10 text-gray-600" />
+                <div className="w-20 h-20 mx-auto mb-6 rounded-full flex items-center justify-center hg-bg-secondary">
+                  <Activity className="w-10 h-10 hg-text-muted" />
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-2 font-gendy">No Activities Found</h3>
-                <p className="text-gray-500 font-diatype">
+                <Heading as="h3" size="xl" className="mb-2">No Activities Found</Heading>
+                <Text variant="muted">
                   Try adjusting your search or filters to see more results
-                </p>
+                </Text>
               </motion.div>
             )}
           </div>
@@ -824,11 +805,12 @@ export default function ActivityFeedPage() {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-gray-900 rounded-2xl border border-white/10 max-w-2xl w-full max-h-[80vh] overflow-hidden"
+              className="rounded-2xl border max-w-2xl w-full max-h-[80vh] overflow-hidden"
+              style={{ backgroundColor: 'var(--hg-bg-card)', borderColor: 'var(--hg-border-color)' }}
               onClick={(e) => e.stopPropagation()}
             >
               {/* Modal Header */}
-              <div className="px-6 py-4 border-b border-white/10 flex items-center justify-between">
+              <div className="px-6 py-4 border-b flex items-center justify-between" style={{ borderColor: 'var(--hg-border-color)' }}>
                 <div className="flex items-center gap-3">
                   <div className={cn(
                     'w-10 h-10 rounded-lg flex items-center justify-center',
@@ -841,8 +823,8 @@ export default function ActivityFeedPage() {
                     })()}
                   </div>
                   <div>
-                    <h2 className="text-lg font-semibold text-white font-gendy">Activity Details</h2>
-                    <p className="text-xs text-gray-500 font-diatype">
+                    <h2 className="text-lg font-semibold font-gendy" style={{ color: 'var(--hg-text-primary)' }}>Activity Details</h2>
+                    <p className="text-xs font-diatype" style={{ color: 'var(--hg-text-muted)' }}>
                       {formatTimestamp(selectedActivity.timestamp)}
                     </p>
                   </div>
@@ -851,9 +833,10 @@ export default function ActivityFeedPage() {
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                   onClick={() => setSelectedActivity(null)}
-                  className="p-2 hover:bg-white/10 rounded-lg transition-all"
+                  className="p-2 rounded-lg transition-all"
+                  style={{ color: 'var(--hg-text-muted)' }}
                 >
-                  <X className="w-5 h-5 text-gray-400" />
+                  <X className="w-5 h-5" />
                 </motion.button>
               </div>
 
@@ -861,59 +844,59 @@ export default function ActivityFeedPage() {
               <div className="p-6 overflow-y-auto max-h-[calc(80vh-80px)]">
                 {/* User Info */}
                 <div className="mb-6">
-                  <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3 font-diatype">
+                  <h3 className="text-sm font-semibold uppercase tracking-wider mb-3 font-diatype" style={{ color: 'var(--hg-text-muted)' }}>
                     User Information
                   </h3>
-                  <div className="flex items-center gap-4 p-4 bg-white/5 rounded-lg border border-white/10">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center text-white font-bold font-diatype">
+                  <div className="flex items-center gap-4 p-4 rounded-lg border" style={{ backgroundColor: 'var(--hg-bg-secondary)', borderColor: 'var(--hg-border-color)' }}>
+                    <div className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold font-diatype" style={{ backgroundColor: 'var(--hg-cyan-text)' }}>
                       {selectedActivity.user.avatar}
                     </div>
                     <div>
-                      <p className="text-white font-medium font-diatype">{selectedActivity.user.name}</p>
-                      <p className="text-sm text-gray-500 font-diatype">{selectedActivity.user.email}</p>
+                      <p className="font-medium font-diatype" style={{ color: 'var(--hg-text-primary)' }}>{selectedActivity.user.name}</p>
+                      <p className="text-sm font-diatype" style={{ color: 'var(--hg-text-muted)' }}>{selectedActivity.user.email}</p>
                     </div>
                   </div>
                 </div>
 
                 {/* Activity Description */}
                 <div className="mb-6">
-                  <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3 font-diatype">
+                  <h3 className="text-sm font-semibold uppercase tracking-wider mb-3 font-diatype" style={{ color: 'var(--hg-text-muted)' }}>
                     Description
                   </h3>
-                  <p className="text-gray-300 font-diatype">{selectedActivity.description}</p>
+                  <p className="font-diatype" style={{ color: 'var(--hg-text-secondary)' }}>{selectedActivity.description}</p>
                 </div>
 
                 {/* Metadata */}
                 {selectedActivity.metadata && (
                   <div className="mb-6">
-                    <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3 font-diatype">
+                    <h3 className="text-sm font-semibold uppercase tracking-wider mb-3 font-diatype" style={{ color: 'var(--hg-text-muted)' }}>
                       Additional Information
                     </h3>
                     <div className="space-y-3">
                       {selectedActivity.metadata.ipAddress && (
-                        <div className="flex items-center gap-3 p-3 bg-white/5 rounded-lg border border-white/10">
-                          <MapPin className="w-4 h-4 text-gray-500" />
+                        <div className="flex items-center gap-3 p-3 rounded-lg border" style={{ backgroundColor: 'var(--hg-bg-secondary)', borderColor: 'var(--hg-border-color)' }}>
+                          <MapPin className="w-4 h-4" style={{ color: 'var(--hg-text-muted)' }} />
                           <div>
-                            <p className="text-xs text-gray-500 font-diatype">IP Address</p>
-                            <p className="text-sm text-white font-diatype">{selectedActivity.metadata.ipAddress}</p>
+                            <p className="text-xs font-diatype" style={{ color: 'var(--hg-text-muted)' }}>IP Address</p>
+                            <p className="text-sm font-diatype" style={{ color: 'var(--hg-text-primary)' }}>{selectedActivity.metadata.ipAddress}</p>
                           </div>
                         </div>
                       )}
                       {selectedActivity.metadata.device && (
-                        <div className="flex items-center gap-3 p-3 bg-white/5 rounded-lg border border-white/10">
-                          <Monitor className="w-4 h-4 text-gray-500" />
+                        <div className="flex items-center gap-3 p-3 rounded-lg border" style={{ backgroundColor: 'var(--hg-bg-secondary)', borderColor: 'var(--hg-border-color)' }}>
+                          <Monitor className="w-4 h-4" style={{ color: 'var(--hg-text-muted)' }} />
                           <div>
-                            <p className="text-xs text-gray-500 font-diatype">Device</p>
-                            <p className="text-sm text-white font-diatype">{selectedActivity.metadata.device}</p>
+                            <p className="text-xs font-diatype" style={{ color: 'var(--hg-text-muted)' }}>Device</p>
+                            <p className="text-sm font-diatype" style={{ color: 'var(--hg-text-primary)' }}>{selectedActivity.metadata.device}</p>
                           </div>
                         </div>
                       )}
                       {selectedActivity.metadata.location && (
-                        <div className="flex items-center gap-3 p-3 bg-white/5 rounded-lg border border-white/10">
-                          <MapPin className="w-4 h-4 text-gray-500" />
+                        <div className="flex items-center gap-3 p-3 rounded-lg border" style={{ backgroundColor: 'var(--hg-bg-secondary)', borderColor: 'var(--hg-border-color)' }}>
+                          <MapPin className="w-4 h-4" style={{ color: 'var(--hg-text-muted)' }} />
                           <div>
-                            <p className="text-xs text-gray-500 font-diatype">Location</p>
-                            <p className="text-sm text-white font-diatype">{selectedActivity.metadata.location}</p>
+                            <p className="text-xs font-diatype" style={{ color: 'var(--hg-text-muted)' }}>Location</p>
+                            <p className="text-sm font-diatype" style={{ color: 'var(--hg-text-primary)' }}>{selectedActivity.metadata.location}</p>
                           </div>
                         </div>
                       )}
@@ -923,20 +906,12 @@ export default function ActivityFeedPage() {
 
                 {/* Actions */}
                 <div className="flex gap-3">
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="flex-1 px-4 py-3 bg-cyan-500 text-white rounded-lg font-medium font-diatype"
-                  >
+                  <Button variant="primary" fullWidth>
                     View User Profile
-                  </motion.button>
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="px-4 py-3 bg-white/5 text-gray-300 rounded-lg font-medium font-diatype border border-white/10"
-                  >
+                  </Button>
+                  <Button variant="secondary">
                     Related Activities
-                  </motion.button>
+                  </Button>
                 </div>
               </div>
             </motion.div>

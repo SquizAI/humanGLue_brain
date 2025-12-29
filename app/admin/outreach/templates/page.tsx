@@ -282,9 +282,9 @@ const mockTemplates: EmailTemplate[] = [
 const CATEGORY_COLORS: Record<EmailTemplate['category'], { bg: string; text: string; icon: React.ReactNode }> = {
   promotional: { bg: 'bg-purple-500/20', text: 'text-purple-400', icon: <Sparkles className="w-4 h-4" /> },
   newsletter: { bg: 'bg-cyan-500/20', text: 'text-cyan-400', icon: <FileText className="w-4 h-4" /> },
-  transactional: { bg: 'bg-green-500/20', text: 'text-green-400', icon: <CheckCircle className="w-4 h-4" /> },
+  transactional: { bg: 'bg-green-500/20', text: 'text-[var(--hg-cyan-text)]', icon: <CheckCircle className="w-4 h-4" /> },
   automated: { bg: 'bg-amber-500/20', text: 'text-amber-400', icon: <Zap className="w-4 h-4" /> },
-  workshop: { bg: 'bg-blue-500/20', text: 'text-blue-400', icon: <Calendar className="w-4 h-4" /> },
+  workshop: { bg: 'bg-blue-500/20', text: 'text-[var(--hg-cyan-text)]', icon: <Calendar className="w-4 h-4" /> },
 }
 
 // =============================================================================

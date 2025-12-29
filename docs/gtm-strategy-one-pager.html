@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HumanGlue GTM Strategy - One Page Map</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+
+        @font-face {
+            font-family: 'Gendy';
+            src: url('/fonts/Gendy2.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'ABCDiatype';
+            src: url('/fonts/ABCDiatype-Regular.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @page {
+            size: A4 landscape;
+            margin: 0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'ABCDiatype', 'Inter', sans-serif;
+            background: #000000;
+            color: #ffffff;
+            padding: 20px;
+            width: 297mm;
+            height: 210mm;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* HumanGlue animated background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(6, 182, 212, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.06) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.04) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-rows: auto 1fr;
+            gap: 15px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            background: linear-gradient(90deg, rgba(97,216,254,0.1) 0%, rgba(139,92,246,0.1) 100%);
+            border: 2px solid rgba(97,216,254,0.3);
+            border-radius: 12px;
+            padding: 15px 20px;
+        }
+
+        .header h1 {
+            font-family: 'Gendy', sans-serif;
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(90deg, #06B6D4, #8B5CF6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .logo {
+            height: 50px;
+            width: auto;
+        }
+
+        .header .tagline {
+            font-size: 14px;
+            color: #9ca3af;
+            font-weight: 500;
+        }
+
+        /* Main Content Grid */
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto 1fr auto;
+            gap: 15px;
+        }
+
+        /* Maturity Journey - Full Width */
+        .journey {
+            grid-column: 1 / -1;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 15px;
+        }
+
+        .journey-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #06B6D4;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .stages {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+        }
+
+        .stage {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .stage:hover {
+            border-color: #06B6D4;
+            transform: translateY(-2px);
+        }
+
+        .stage-icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .stage-label {
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stage-score {
+            font-size: 9px;
+            color: #9ca3af;
+            margin-bottom: 5px;
+        }
+
+        .stage-solution {
+            font-size: 10px;
+            font-weight: 600;
+            color: #06B6D4;
+            margin-bottom: 3px;
+        }
+
+        .stage-price {
+            font-size: 9px;
+            color: #10B981;
+            font-weight: 600;
+        }
+
+        /* Revenue Evolution */
+        .revenue {
+            background: rgba(16,185,129,0.05);
+            border: 1px solid rgba(16,185,129,0.2);
+            border-radius: 12px;
+            padding: 15px;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #10B981;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .revenue-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .revenue-year {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .revenue-label {
+            font-size: 11px;
+            font-weight: 600;
+            min-width: 60px;
+        }
+
+        .revenue-bar {
+            flex: 1;
+            height: 24px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .revenue-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #10B981, #059669);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .revenue-split {
+            font-size: 8px;
+            color: #9ca3af;
+            margin-top: 2px;
+        }
+
+        /* Growth Levers */
+        .levers {
+            background: rgba(139,92,246,0.05);
+            border: 1px solid rgba(139,92,246,0.2);
+            border-radius: 12px;
+            padding: 15px;
+        }
+
+        .section-title.purple {
+            color: #8B5CF6;
+        }
+
+        .lever-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .lever {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            padding: 8px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 6px;
+        }
+
+        .lever-icon {
+            font-size: 18px;
+            min-width: 24px;
+        }
+
+        .lever-content {
+            flex: 1;
+        }
+
+        .lever-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: #8B5CF6;
+            margin-bottom: 2px;
+        }
+
+        .lever-desc {
+            font-size: 9px;
+            color: #9ca3af;
+            line-height: 1.3;
+        }
+
+        /* Key Metrics */
+        .metrics {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 10px;
+        }
+
+        .metric {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 20px;
+            font-weight: 800;
+            background: linear-gradient(90deg, #06B6D4, #3B82F6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 2px;
+        }
+
+        .metric-label {
+            font-size: 8px;
+            color: #9ca3af;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .metric-sublabel {
+            font-size: 7px;
+            color: #6b7280;
+            margin-top: 2px;
+        }
+
+        /* Phases */
+        .phases {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .phase {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 12px;
+        }
+
+        .phase-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .phase-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: #06B6D4;
+        }
+
+        .phase-timeline {
+            font-size: 9px;
+            color: #9ca3af;
+            background: rgba(97,216,254,0.1);
+            padding: 3px 8px;
+            border-radius: 10px;
+        }
+
+        .phase-target {
+            font-size: 9px;
+            color: #F59E0B;
+            margin-bottom: 6px;
+        }
+
+        .phase-tactics {
+            font-size: 8px;
+            color: #d1d5db;
+            line-height: 1.4;
+        }
+
+        .phase-tactics li {
+            margin-bottom: 2px;
+            list-style-position: inside;
+        }
+
+        .phase-metric {
+            font-size: 9px;
+            font-weight: 700;
+            color: #10B981;
+            margin-top: 6px;
+            padding-top: 6px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Footer */
+        .footer {
+            grid-column: 1 / -1;
+            text-align: center;
+            font-size: 9px;
+            color: #6b7280;
+            padding: 8px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .footer strong {
+            color: #06B6D4;
+            font-weight: 700;
+        }
+
+        @media print {
+            body::before {
+                display: none;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+
+            .header {
+                background: #f3f4f6;
+                border-color: #d1d5db;
+            }
+
+            .stage, .metric, .phase, .lever, .revenue, .levers {
+                background: #f9fafb;
+                border-color: #e5e7eb;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo-container">
+                <img src="../public/HumnaGlue_logo_hero.png" alt="HumanGlue" class="logo">
+            </div>
+            <h1>Analog to Automated: GTM Strategy</h1>
+            <div class="tagline">The AI Maturity Transformation Journey - One-Page Strategic Map</div>
+        </div>
+
+        <div class="content">
+            <!-- Maturity Journey -->
+            <div class="journey">
+                <div class="journey-title">🎯 THE MATURITY CONTINUUM: Customer Journey & Revenue Model</div>
+                <div class="stages">
+                    <div class="stage">
+                        <div class="stage-icon">🔴</div>
+                        <div class="stage-label">ANALOG</div>
+                        <div class="stage-score">Score 0-2</div>
+                        <div class="stage-solution">White-Glove Consulting</div>
+                        <div class="stage-price">$5K-$15K</div>
+                    </div>
+                    <div class="stage">
+                        <div class="stage-icon">🟡</div>
+                        <div class="stage-label">EXPLORING</div>
+                        <div class="stage-score">Score 3-4</div>
+                        <div class="stage-solution">Workshops + Experts</div>
+                        <div class="stage-price">$3K-$8K</div>
+                    </div>
+                    <div class="stage">
+                        <div class="stage-icon">🟠</div>
+                        <div class="stage-label">IMPLEMENTING</div>
+                        <div class="stage-score">Score 5-6</div>
+                        <div class="stage-solution">Courses + Templates</div>
+                        <div class="stage-price">$2K-$5K</div>
+                    </div>
+                    <div class="stage">
+                        <div class="stage-icon">🟢</div>
+                        <div class="stage-label">SCALING</div>
+                        <div class="stage-score">Score 7-8</div>
+                        <div class="stage-solution">Self-Service Platform</div>
+                        <div class="stage-price">$500-$2K/mo</div>
+                    </div>
+                    <div class="stage">
+                        <div class="stage-icon">🔵</div>
+                        <div class="stage-label">AUTOMATED</div>
+                        <div class="stage-score">Score 9-10</div>
+                        <div class="stage-solution">Enterprise + API</div>
+                        <div class="stage-price">$5K-$20K/mo</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Revenue Evolution -->
+            <div class="revenue">
+                <div class="section-title">💰 Revenue Model Evolution</div>
+                <div class="revenue-bars">
+                    <div class="revenue-year">
+                        <div class="revenue-label">Year 1</div>
+                        <div class="revenue-bar">
+                            <div class="revenue-fill" style="width: 30%;">$450K</div>
+                        </div>
+                    </div>
+                    <div class="revenue-split">70% Services → 30% Platform</div>
+
+                    <div class="revenue-year">
+                        <div class="revenue-label">Year 2</div>
+                        <div class="revenue-bar">
+                            <div class="revenue-fill" style="width: 70%;">$1.05M</div>
+                        </div>
+                    </div>
+                    <div class="revenue-split">40% Services → 60% Platform</div>
+
+                    <div class="revenue-year">
+                        <div class="revenue-label">Year 3</div>
+                        <div class="revenue-bar">
+                            <div class="revenue-fill" style="width: 100%;">$1.95M</div>
+                        </div>
+                    </div>
+                    <div class="revenue-split">20% Services → 80% Platform</div>
+                </div>
+            </div>
+
+            <!-- Growth Levers -->
+            <div class="levers">
+                <div class="section-title purple">🚀 Growth Levers</div>
+                <div class="lever-list">
+                    <div class="lever">
+                        <div class="lever-icon">📊</div>
+                        <div class="lever-content">
+                            <div class="lever-title">Viral Assessment</div>
+                            <div class="lever-desc">Free AI Maturity Assessment → 1K/month leads by M6</div>
+                        </div>
+                    </div>
+                    <div class="lever">
+                        <div class="lever-icon">🌐</div>
+                        <div class="lever-content">
+                            <div class="lever-title">Community Flywheel</div>
+                            <div class="lever-desc">Clients become experts at Level 7+ → 200 active by Y2</div>
+                        </div>
+                    </div>
+                    <div class="lever">
+                        <div class="lever-icon">🏢</div>
+                        <div class="lever-content">
+                            <div class="lever-title">Enterprise Expansion</div>
+                            <div class="lever-desc">Land 1 team, expand org-wide → 3 deals ($100K+) by Y1</div>
+                        </div>
+                    </div>
+                    <div class="lever">
+                        <div class="lever-icon">🔌</div>
+                        <div class="lever-content">
+                            <div class="lever-title">White-Label Partners</div>
+                            <div class="lever-desc">Enable consultancies to rebrand → 10 partners by Y1</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 90-Day Phases -->
+            <div class="phases">
+                <div class="phase">
+                    <div class="phase-header">
+                        <div class="phase-title">Phase 1: Foundation</div>
+                        <div class="phase-timeline">M1-M3</div>
+                    </div>
+                    <div class="phase-target">Target: Analog & Exploring (0-4)</div>
+                    <ul class="phase-tactics">
+                        <li>✓ Launch free assessment</li>
+                        <li>✓ Expert-led workshops</li>
+                        <li>✓ Case studies & thought leadership</li>
+                        <li>✓ Partner with consultancies</li>
+                    </ul>
+                    <div class="phase-metric">50 assessments • 10 engagements • $75K</div>
+                </div>
+
+                <div class="phase">
+                    <div class="phase-header">
+                        <div class="phase-title">Phase 2: Scale</div>
+                        <div class="phase-timeline">M4-M8</div>
+                    </div>
+                    <div class="phase-target">Target: Implementing (5-6)</div>
+                    <ul class="phase-tactics">
+                        <li>✓ Launch course library</li>
+                        <li>✓ Template marketplace</li>
+                        <li>✓ Monthly group workshops</li>
+                        <li>✓ Community forum</li>
+                    </ul>
+                    <div class="phase-metric">200 enrollments • 30 workshops • $150K</div>
+                </div>
+
+                <div class="phase">
+                    <div class="phase-header">
+                        <div class="phase-title">Phase 3: Automation</div>
+                        <div class="phase-timeline">M9-M12</div>
+                    </div>
+                    <div class="phase-target">Target: Scaling & Automated (7-10)</div>
+                    <ul class="phase-tactics">
+                        <li>✓ SaaS platform launch</li>
+                        <li>✓ AI recommendation engine</li>
+                        <li>✓ No-code workflow builder</li>
+                        <li>✓ Enterprise API</li>
+                    </ul>
+                    <div class="phase-metric">100 subscribers • 70% self-serve • $250K MRR</div>
+                </div>
+            </div>
+
+            <!-- Key Metrics -->
+            <div class="metrics">
+                <div class="metric">
+                    <div class="metric-value">2K</div>
+                    <div class="metric-label">Assessments</div>
+                    <div class="metric-sublabel">by M12</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">150</div>
+                    <div class="metric-label">Customers</div>
+                    <div class="metric-sublabel">paying</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">$100K</div>
+                    <div class="metric-label">MRR</div>
+                    <div class="metric-sublabel">by Y1</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">5.5</div>
+                    <div class="metric-label">Avg Score</div>
+                    <div class="metric-sublabel">maturity</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">$30K</div>
+                    <div class="metric-label">LTV</div>
+                    <div class="metric-sublabel">lifetime</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">$1K</div>
+                    <div class="metric-label">CAC</div>
+                    <div class="metric-sublabel">acquisition</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">125%</div>
+                    <div class="metric-label">NRR</div>
+                    <div class="metric-sublabel">retention</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">65%</div>
+                    <div class="metric-label">Platform</div>
+                    <div class="metric-sublabel">adoption</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <strong>North Star:</strong> Move organizations from Analog (0-2) to Implementing (5+) in 90 days •
+            <strong>Core Insight:</strong> Win by offering the right solution at the right maturity stage •
+            <strong>Last Updated:</strong> December 7, 2025
+        </div>
+    </div>
+</body>
+</html>

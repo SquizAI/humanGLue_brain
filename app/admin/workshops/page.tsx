@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import {
   Calendar,
   Plus,
@@ -28,7 +27,12 @@ import {
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
 import { useChat } from '@/lib/contexts/ChatContext'
 import { LoadingSpinner } from '@/components/atoms/LoadingSpinner'
+import { Button } from '@/components/atoms/Button'
+import { Card } from '@/components/atoms/Card'
+import { Text, Heading } from '@/components/atoms/Text'
 import { signOut } from '@/lib/auth/hooks'
+import Image from 'next/image'
+import { ImageGenerator } from '@/components/organisms/admin'
 
 // Workshop types
 type WorkshopStatus = 'upcoming' | 'in-progress' | 'completed' | 'draft'
@@ -54,79 +58,76 @@ interface Workshop {
   image: string
 }
 
-const initialWorkshops: Workshop[] = [
-  {
-    id: 1,
-    title: 'AI Strategy & Implementation',
-    instructor: 'Sarah Chen',
-    type: 'hybrid',
-    status: 'upcoming',
-    date: '2025-10-15',
-    time: '14:00',
-    duration: '3 hours',
-    capacity: 30,
-    enrolled: 24,
-    waitlist: 5,
-    location: 'Innovation Hub, NYC',
-    meetingLink: 'https://meet.humanglue.ai/workshop-1',
-    price: 499,
-    image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=500&fit=crop',
-  },
-  {
-    id: 2,
-    title: 'Change Management Masterclass',
-    instructor: 'Dr. Marcus Thompson',
-    type: 'online',
-    status: 'upcoming',
-    date: '2025-10-20',
-    time: '10:00',
-    duration: '4 hours',
-    capacity: 50,
-    enrolled: 45,
-    waitlist: 12,
-    meetingLink: 'https://meet.humanglue.ai/workshop-2',
-    price: 399,
-    image: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=800&h=500&fit=crop',
-  },
-  {
-    id: 3,
-    title: 'Leadership in AI Era',
-    instructor: 'Jennifer Wu',
-    type: 'in-person',
-    status: 'in-progress',
-    date: '2025-10-04',
-    time: '09:00',
-    duration: '6 hours',
-    capacity: 25,
-    enrolled: 25,
-    waitlist: 8,
-    location: 'Tech Center, San Francisco',
-    price: 699,
-    image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=500&fit=crop',
-  },
-  {
-    id: 4,
-    title: 'Data Ethics Workshop',
-    instructor: 'Prof. David Kim',
-    type: 'online',
-    status: 'completed',
-    date: '2025-09-28',
-    time: '13:00',
-    duration: '2 hours',
-    capacity: 40,
-    enrolled: 38,
-    waitlist: 0,
-    meetingLink: 'https://meet.humanglue.ai/workshop-4',
-    price: 299,
-    image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=500&fit=crop',
-  },
-]
+// DB Workshop interface
+interface DBWorkshop {
+  id: string
+  title: string
+  description?: string
+  instructor_id?: string
+  instructor?: {
+    id: string
+    full_name: string
+    avatar_url?: string
+  }
+  pillar?: string
+  level?: string
+  format?: string
+  schedule_date?: string
+  schedule_time?: string
+  duration_minutes?: number
+  capacity_total?: number
+  capacity_remaining?: number
+  price_amount?: number
+  price_currency?: string
+  thumbnail_url?: string
+  video_url?: string
+  status: string
+  is_featured?: boolean
+  enrolled_count?: number
+  registrations?: { count: number }[]
+  created_at?: string
+  updated_at?: string
+}
+
+// Transform DB workshop to display format
+const transformWorkshop = (workshop: DBWorkshop): Workshop => ({
+  id: parseInt(workshop.id) || 0, // Map UUID to number for compatibility
+  title: workshop.title,
+  instructor: workshop.instructor?.full_name || 'Unknown Instructor',
+  type: (workshop.format || 'online') as WorkshopType,
+  status: mapDBStatusToUIStatus(workshop.status, workshop.schedule_date),
+  date: workshop.schedule_date || '',
+  time: workshop.schedule_time || '',
+  duration: workshop.duration_minutes ? `${Math.round(workshop.duration_minutes / 60)} hours` : 'TBD',
+  capacity: workshop.capacity_total || 30,
+  enrolled: workshop.enrolled_count || workshop.registrations?.[0]?.count || 0,
+  waitlist: 0, // Not tracked in current schema
+  location: workshop.format === 'in_person' || workshop.format === 'hybrid' ? 'Location TBD' : undefined,
+  meetingLink: workshop.video_url,
+  description: workshop.description,
+  price: workshop.price_amount || 0,
+  image: workshop.thumbnail_url || 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=500&fit=crop',
+})
+
+// Map DB status to UI status
+const mapDBStatusToUIStatus = (dbStatus: string, scheduleDate?: string): WorkshopStatus => {
+  if (dbStatus === 'draft') return 'draft'
+  if (dbStatus === 'archived' || dbStatus === 'cancelled') return 'completed'
+  if (dbStatus === 'published' && scheduleDate) {
+    const workshopDate = new Date(scheduleDate)
+    const now = new Date()
+    if (workshopDate < now) return 'completed'
+    return 'upcoming'
+  }
+  return 'draft'
+}
 
 export default function WorkshopsAdmin() {
-  const router = useRouter()
   const { userData, authLoading } = useChat()
   const [showContent, setShowContent] = useState(false)
-  const [workshops, setWorkshops] = useState<Workshop[]>(initialWorkshops)
+  const [workshops, setWorkshops] = useState<Workshop[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [loadError, setLoadError] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedStatus, setSelectedStatus] = useState<string>('all')
   const [selectedType, setSelectedType] = useState<string>('all')
@@ -137,6 +138,7 @@ export default function WorkshopsAdmin() {
   const [showSuccessMessage, setShowSuccessMessage] = useState(false)
   const [selectedWorkshop, setSelectedWorkshop] = useState<Workshop | null>(null)
   const [showAttendanceModal, setShowAttendanceModal] = useState(false)
+  const [showImageGenerator, setShowImageGenerator] = useState(false)
 
   // Form state
   const [formData, setFormData] = useState({
@@ -171,6 +173,38 @@ export default function WorkshopsAdmin() {
     return () => clearTimeout(timeout)
   }, [authLoading, userData])
 
+  // Fetch workshops from database
+  useEffect(() => {
+    const fetchWorkshops = async () => {
+      try {
+        setIsLoading(true)
+        setLoadError(null)
+
+        // Fetch all workshops (including drafts for admin)
+        const response = await fetch('/api/workshops?status=all&limit=100')
+        const result = await response.json()
+
+        if (result.success && result.data) {
+          const transformedWorkshops = result.data.map(transformWorkshop)
+          setWorkshops(transformedWorkshops)
+        } else if (result.error) {
+          console.log('[WorkshopsAdmin] API response:', result)
+          setWorkshops([])
+        }
+      } catch (error) {
+        console.error('[WorkshopsAdmin] Failed to fetch workshops:', error)
+        setLoadError('Failed to load workshops from database')
+        setWorkshops([])
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    if (showContent) {
+      fetchWorkshops()
+    }
+  }, [showContent])
+
   const handleLogout = async () => {
     try {
       await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' })
@@ -186,12 +220,27 @@ export default function WorkshopsAdmin() {
     }
   }
 
-  if (!showContent) {
+  if (!showContent || isLoading) {
     return (
-      <div className="min-h-screen bg-black">
+      <div className="min-h-screen" style={{ backgroundColor: 'var(--hg-bg-primary)' }}>
         <DashboardSidebar onLogout={handleLogout} />
         <div className="lg:ml-[var(--sidebar-width,280px)] transition-all duration-300 flex items-center justify-center min-h-screen">
           <LoadingSpinner variant="neural" size="xl" text="Loading workshops..." />
+        </div>
+      </div>
+    )
+  }
+
+  // Show error state if loading failed
+  if (loadError) {
+    return (
+      <div className="min-h-screen" style={{ backgroundColor: 'var(--hg-bg-primary)' }}>
+        <DashboardSidebar onLogout={handleLogout} />
+        <div className="lg:ml-[var(--sidebar-width,280px)] transition-all duration-300 flex flex-col items-center justify-center min-h-screen gap-4">
+          <Text className="text-red-400">{loadError}</Text>
+          <Button variant="cyan" onClick={() => window.location.reload()}>
+            Retry
+          </Button>
         </div>
       </div>
     )
@@ -322,8 +371,8 @@ export default function WorkshopsAdmin() {
 
   const getStatusBadge = (status: WorkshopStatus) => {
     const badges = {
-      upcoming: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
-      'in-progress': 'bg-green-500/20 text-green-300 border-green-500/30',
+      upcoming: 'bg-blue-500/20 text-[var(--hg-cyan-text)] border-blue-500/30',
+      'in-progress': 'bg-green-500/20 text-[var(--hg-cyan-text)] border-green-500/30',
       completed: 'bg-gray-500/20 text-gray-300 border-gray-500/30',
       draft: 'bg-amber-500/20 text-amber-300 border-amber-500/30',
     }
@@ -340,51 +389,51 @@ export default function WorkshopsAdmin() {
   }
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen" style={{ backgroundColor: 'var(--hg-bg-primary)' }}>
       <DashboardSidebar onLogout={handleLogout} />
 
       <div className="lg:ml-[var(--sidebar-width,280px)] transition-all duration-300 pb-20 lg:pb-0">
         {/* Header */}
-        <div className="bg-black/50 backdrop-blur-xl border-b border-white/10 sticky top-0 z-30">
+        <div className="border-b sticky top-0 z-30 hg-bg-sidebar hg-border">
           <div className="px-8 py-6">
             <div className="flex items-center justify-between">
               <div>
                 <div className="flex items-center gap-3 mb-2">
-                  <Link href="/admin" className="text-gray-400 hover:text-white transition-colors">
-                    <span className="font-diatype">← Back to Dashboard</span>
+                  <Link href="/admin" className="transition-colors hover:underline hg-text-muted">
+                    <Text size="sm">← Back to Dashboard</Text>
                   </Link>
                 </div>
-                <h1 className="text-3xl font-bold text-white mb-2 font-gendy">Workshop Management</h1>
-                <p className="text-gray-400 font-diatype">
+                <Heading as="h1" size="3xl" className="mb-2">Workshop Management</Heading>
+                <Text variant="muted">
                   Manage live training sessions ({filteredWorkshops.length} workshops)
-                </p>
+                </Text>
               </div>
-              <motion.button
+              <Button
+                variant="primary"
+                size="lg"
                 onClick={handleOpenCreateModal}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="px-6 py-3 bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center gap-2 font-diatype"
+                icon={<Plus className="w-5 h-5" />}
               >
-                <Plus className="w-5 h-5" />
                 Schedule Workshop
-              </motion.button>
+              </Button>
             </div>
           </div>
         </div>
 
         {/* Filters */}
         <div className="p-8">
-          <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 mb-6">
+          <Card padding="lg" className="mb-6">
             <div className="flex flex-col lg:flex-row gap-4">
               <div className="flex-1">
                 <div className="relative">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 hg-text-muted" />
                   <input
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search workshops, instructors..."
-                    className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all font-diatype"
+                    className="w-full pl-12 pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all font-diatype hg-bg-secondary hg-border hg-text-primary"
+                    style={{ '--tw-ring-color': 'var(--hg-cyan-border)' } as React.CSSProperties}
                   />
                 </div>
               </div>
@@ -392,7 +441,8 @@ export default function WorkshopsAdmin() {
               <select
                 value={selectedStatus}
                 onChange={(e) => setSelectedStatus(e.target.value)}
-                className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all font-diatype"
+                className="px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all font-diatype hg-bg-secondary hg-border hg-text-primary"
+                style={{ '--tw-ring-color': 'var(--hg-cyan-border)' } as React.CSSProperties}
               >
                 <option value="all">All Status</option>
                 <option value="upcoming">Upcoming</option>
@@ -404,7 +454,8 @@ export default function WorkshopsAdmin() {
               <select
                 value={selectedType}
                 onChange={(e) => setSelectedType(e.target.value)}
-                className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all font-diatype"
+                className="px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all font-diatype hg-bg-secondary hg-border hg-text-primary"
+                style={{ '--tw-ring-color': 'var(--hg-cyan-border)' } as React.CSSProperties}
               >
                 <option value="all">All Types</option>
                 <option value="online">Online</option>
@@ -412,7 +463,7 @@ export default function WorkshopsAdmin() {
                 <option value="hybrid">Hybrid</option>
               </select>
             </div>
-          </div>
+          </Card>
 
           {/* Workshops Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
@@ -422,10 +473,11 @@ export default function WorkshopsAdmin() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
-                className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:border-blue-500/30 transition-all group"
+                className="border rounded-2xl overflow-hidden hover:border-[var(--hg-cyan-border)] transition-all group"
+                style={{ backgroundColor: 'var(--hg-bg-card)', borderColor: 'var(--hg-border-color)' }}
               >
                 {/* Workshop Image */}
-                <div className="relative h-48 bg-gradient-to-br from-blue-900/30 to-cyan-900/30">
+                <div className="relative h-48" style={{ backgroundColor: 'var(--hg-bg-secondary)' }}>
                   <img
                     src={workshop.image}
                     alt={workshop.title}
@@ -445,31 +497,31 @@ export default function WorkshopsAdmin() {
 
                   {/* Date Badge */}
                   <div className="absolute bottom-4 left-4">
-                    <div className="bg-black/50 backdrop-blur-sm rounded-lg p-2 border border-white/10">
-                      <p className="text-white text-sm font-semibold font-diatype">
+                    <div className="backdrop-blur-sm rounded-lg p-2 border" style={{ backgroundColor: 'rgba(0,0,0,0.5)', borderColor: 'var(--hg-border-color)' }}>
+                      <p className="text-sm font-semibold font-diatype" style={{ color: 'var(--hg-text-primary)' }}>
                         {new Date(workshop.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                       </p>
-                      <p className="text-gray-400 text-xs font-diatype">{workshop.time}</p>
+                      <p className="text-xs font-diatype" style={{ color: 'var(--hg-text-muted)' }}>{workshop.time}</p>
                     </div>
                   </div>
                 </div>
 
                 {/* Workshop Info */}
                 <div className="p-6">
-                  <h3 className="text-lg font-bold text-white mb-2 font-gendy line-clamp-2">
+                  <h3 className="text-lg font-bold mb-2 font-gendy line-clamp-2" style={{ color: 'var(--hg-text-primary)' }}>
                     {workshop.title}
                   </h3>
-                  <p className="text-sm text-gray-400 mb-4 font-diatype">By {workshop.instructor}</p>
+                  <p className="text-sm mb-4 font-diatype" style={{ color: 'var(--hg-text-muted)' }}>By {workshop.instructor}</p>
 
                   {/* Stats */}
                   <div className="grid grid-cols-2 gap-3 mb-4">
-                    <div className="flex items-center gap-2 text-sm text-gray-400">
+                    <div className="flex items-center gap-2 text-sm" style={{ color: 'var(--hg-text-muted)' }}>
                       <Users className="w-4 h-4" />
                       <span className="font-diatype">
                         {workshop.enrolled}/{workshop.capacity}
                       </span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-gray-400">
+                    <div className="flex items-center gap-2 text-sm" style={{ color: 'var(--hg-text-muted)' }}>
                       <Clock className="w-4 h-4" />
                       <span className="font-diatype">{workshop.duration}</span>
                     </div>
@@ -479,7 +531,7 @@ export default function WorkshopsAdmin() {
                         <span className="font-diatype">{workshop.waitlist} waitlist</span>
                       </div>
                     )}
-                    <div className="flex items-center gap-2 text-sm text-gray-400">
+                    <div className="flex items-center gap-2 text-sm" style={{ color: 'var(--hg-text-muted)' }}>
                       {workshop.type === 'online' ? (
                         <Video className="w-4 h-4" />
                       ) : (
@@ -493,42 +545,38 @@ export default function WorkshopsAdmin() {
 
                   {/* Price */}
                   <div className="mb-4">
-                    <span className="text-2xl font-bold text-white font-gendy">${workshop.price}</span>
-                    <span className="text-gray-400 text-sm font-diatype"> per person</span>
+                    <span className="text-2xl font-bold font-gendy" style={{ color: 'var(--hg-text-primary)' }}>${workshop.price}</span>
+                    <span className="text-sm font-diatype" style={{ color: 'var(--hg-text-muted)' }}> per person</span>
                   </div>
 
                   {/* Action Buttons */}
                   <div className="flex gap-2">
-                    <motion.button
+                    <Button
+                      variant="cyan"
+                      size="sm"
                       onClick={() => handleOpenEditModal(workshop)}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      className="flex-1 px-4 py-2 bg-blue-500/20 hover:bg-blue-500/30 border border-blue-500/30 text-blue-300 rounded-lg transition-all flex items-center justify-center gap-2 font-diatype"
+                      icon={<Edit className="w-4 h-4" />}
+                      fullWidth
                     >
-                      <Edit className="w-4 h-4" />
                       Edit
-                    </motion.button>
+                    </Button>
                     {workshop.status !== 'draft' && (
-                      <motion.button
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
+                      <Button
+                        variant="success"
+                        size="sm"
                         onClick={() => {
                           setSelectedWorkshop(workshop)
                           setShowAttendanceModal(true)
                         }}
-                        className="px-4 py-2 bg-green-500/20 hover:bg-green-500/30 border border-green-500/30 text-green-300 rounded-lg transition-all font-diatype"
-                      >
-                        <Users className="w-4 h-4" />
-                      </motion.button>
+                        icon={<Users className="w-4 h-4" />}
+                      />
                     )}
-                    <motion.button
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
+                    <Button
+                      variant="danger"
+                      size="sm"
                       onClick={() => setShowDeleteConfirm(workshop.id)}
-                      className="px-4 py-2 bg-red-500/20 hover:bg-red-500/30 border border-red-500/30 text-red-300 rounded-lg transition-all font-diatype"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </motion.button>
+                      icon={<Trash2 className="w-4 h-4" />}
+                    />
                   </div>
                 </div>
               </motion.div>
@@ -537,9 +585,9 @@ export default function WorkshopsAdmin() {
 
           {filteredWorkshops.length === 0 && (
             <div className="text-center py-12">
-              <Calendar className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-white mb-2 font-gendy">No workshops found</h3>
-              <p className="text-gray-400 font-diatype">Try adjusting your filters or schedule a new workshop</p>
+              <Calendar className="w-16 h-16 mx-auto mb-4 hg-text-muted" />
+              <Heading as="h3" size="xl" className="mb-2">No workshops found</Heading>
+              <Text variant="muted">Try adjusting your filters or schedule a new workshop</Text>
             </div>
           )}
         </div>
@@ -575,29 +623,31 @@ export default function WorkshopsAdmin() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-gray-900 border border-white/10 rounded-2xl w-full max-w-4xl my-8"
+              className="border rounded-2xl w-full max-w-4xl my-8"
+              style={{ backgroundColor: 'var(--hg-bg-card)', borderColor: 'var(--hg-border-color)' }}
             >
-              <div className="flex items-center justify-between p-6 border-b border-white/10">
+              <div className="flex items-center justify-between p-6 border-b" style={{ borderColor: 'var(--hg-border-color)' }}>
                 <div>
-                  <h2 className="text-2xl font-bold text-white mb-1 font-gendy">
+                  <h2 className="text-2xl font-bold mb-1 font-gendy" style={{ color: 'var(--hg-text-primary)' }}>
                     {editingWorkshop ? 'Edit Workshop' : 'Schedule New Workshop'}
                   </h2>
-                  <p className="text-sm text-gray-400 font-diatype">
+                  <p className="text-sm font-diatype" style={{ color: 'var(--hg-text-muted)' }}>
                     Fill in the details for the workshop session
                   </p>
                 </div>
                 <button
                   onClick={handleCloseModal}
-                  className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                  className="p-2 rounded-lg transition-colors"
+                  style={{ color: 'var(--hg-text-muted)' }}
                 >
-                  <X className="w-6 h-6 text-gray-400" />
+                  <X className="w-6 h-6" />
                 </button>
               </div>
 
               <div className="p-6 max-h-[70vh] overflow-y-auto">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-semibold text-white mb-2 font-diatype">
+                    <label className="block text-sm font-semibold mb-2 font-diatype" style={{ color: 'var(--hg-text-primary)' }}>
                       Workshop Title <span className="text-red-400">*</span>
                     </label>
                     <input
@@ -605,9 +655,13 @@ export default function WorkshopsAdmin() {
                       value={formData.title}
                       onChange={(e) => handleFormChange('title', e.target.value)}
                       placeholder="e.g., AI Strategy & Implementation"
-                      className={`w-full px-4 py-3 bg-white/5 border ${
-                        formErrors.title ? 'border-red-500' : 'border-white/10'
-                      } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-diatype`}
+                      className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all font-diatype"
+                      style={{
+                        backgroundColor: 'var(--hg-bg-secondary)',
+                        borderColor: formErrors.title ? 'var(--hg-danger)' : 'var(--hg-border-color)',
+                        color: 'var(--hg-text-primary)',
+                        '--tw-ring-color': 'var(--hg-cyan-border)'
+                      } as React.CSSProperties}
                     />
                     {formErrors.title && (
                       <p className="text-red-400 text-sm mt-1 font-diatype">{formErrors.title}</p>
@@ -615,7 +669,7 @@ export default function WorkshopsAdmin() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-white mb-2 font-diatype">
+                    <label className="block text-sm font-semibold mb-2 font-diatype" style={{ color: 'var(--hg-text-primary)' }}>
                       Instructor <span className="text-red-400">*</span>
                     </label>
                     <input
@@ -623,9 +677,13 @@ export default function WorkshopsAdmin() {
                       value={formData.instructor}
                       onChange={(e) => handleFormChange('instructor', e.target.value)}
                       placeholder="e.g., Sarah Chen"
-                      className={`w-full px-4 py-3 bg-white/5 border ${
-                        formErrors.instructor ? 'border-red-500' : 'border-white/10'
-                      } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-diatype`}
+                      className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all font-diatype"
+                      style={{
+                        backgroundColor: 'var(--hg-bg-secondary)',
+                        borderColor: formErrors.instructor ? 'var(--hg-danger)' : 'var(--hg-border-color)',
+                        color: 'var(--hg-text-primary)',
+                        '--tw-ring-color': 'var(--hg-cyan-border)'
+                      } as React.CSSProperties}
                     />
                     {formErrors.instructor && (
                       <p className="text-red-400 text-sm mt-1 font-diatype">{formErrors.instructor}</p>
@@ -633,13 +691,19 @@ export default function WorkshopsAdmin() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-white mb-2 font-diatype">
+                    <label className="block text-sm font-semibold mb-2 font-diatype" style={{ color: 'var(--hg-text-primary)' }}>
                       Workshop Type
                     </label>
                     <select
                       value={formData.type}
                       onChange={(e) => handleFormChange('type', e.target.value)}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-diatype"
+                      className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all font-diatype"
+                      style={{
+                        backgroundColor: 'var(--hg-bg-secondary)',
+                        borderColor: 'var(--hg-border-color)',
+                        color: 'var(--hg-text-primary)',
+                        '--tw-ring-color': 'var(--hg-cyan-border)'
+                      } as React.CSSProperties}
                     >
                       <option value="online">Online</option>
                       <option value="in-person">In-Person</option>
@@ -648,16 +712,20 @@ export default function WorkshopsAdmin() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-white mb-2 font-diatype">
+                    <label className="block text-sm font-semibold mb-2 font-diatype" style={{ color: 'var(--hg-text-primary)' }}>
                       Date <span className="text-red-400">*</span>
                     </label>
                     <input
                       type="date"
                       value={formData.date}
                       onChange={(e) => handleFormChange('date', e.target.value)}
-                      className={`w-full px-4 py-3 bg-white/5 border ${
-                        formErrors.date ? 'border-red-500' : 'border-white/10'
-                      } rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-diatype`}
+                      className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all font-diatype"
+                      style={{
+                        backgroundColor: 'var(--hg-bg-secondary)',
+                        borderColor: formErrors.date ? 'var(--hg-danger)' : 'var(--hg-border-color)',
+                        color: 'var(--hg-text-primary)',
+                        '--tw-ring-color': 'var(--hg-cyan-border)'
+                      } as React.CSSProperties}
                     />
                     {formErrors.date && (
                       <p className="text-red-400 text-sm mt-1 font-diatype">{formErrors.date}</p>
@@ -665,16 +733,20 @@ export default function WorkshopsAdmin() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-white mb-2 font-diatype">
+                    <label className="block text-sm font-semibold mb-2 font-diatype" style={{ color: 'var(--hg-text-primary)' }}>
                       Time <span className="text-red-400">*</span>
                     </label>
                     <input
                       type="time"
                       value={formData.time}
                       onChange={(e) => handleFormChange('time', e.target.value)}
-                      className={`w-full px-4 py-3 bg-white/5 border ${
-                        formErrors.time ? 'border-red-500' : 'border-white/10'
-                      } rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-diatype`}
+                      className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all font-diatype"
+                      style={{
+                        backgroundColor: 'var(--hg-bg-secondary)',
+                        borderColor: formErrors.time ? 'var(--hg-danger)' : 'var(--hg-border-color)',
+                        color: 'var(--hg-text-primary)',
+                        '--tw-ring-color': 'var(--hg-cyan-border)'
+                      } as React.CSSProperties}
                     />
                     {formErrors.time && (
                       <p className="text-red-400 text-sm mt-1 font-diatype">{formErrors.time}</p>
@@ -682,7 +754,7 @@ export default function WorkshopsAdmin() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-white mb-2 font-diatype">
+                    <label className="block text-sm font-semibold mb-2 font-diatype" style={{ color: 'var(--hg-text-primary)' }}>
                       Duration <span className="text-red-400">*</span>
                     </label>
                     <input
@@ -690,9 +762,13 @@ export default function WorkshopsAdmin() {
                       value={formData.duration}
                       onChange={(e) => handleFormChange('duration', e.target.value)}
                       placeholder="e.g., 3 hours"
-                      className={`w-full px-4 py-3 bg-white/5 border ${
-                        formErrors.duration ? 'border-red-500' : 'border-white/10'
-                      } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-diatype`}
+                      className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all font-diatype"
+                      style={{
+                        backgroundColor: 'var(--hg-bg-secondary)',
+                        borderColor: formErrors.duration ? 'var(--hg-danger)' : 'var(--hg-border-color)',
+                        color: 'var(--hg-text-primary)',
+                        '--tw-ring-color': 'var(--hg-cyan-border)'
+                      } as React.CSSProperties}
                     />
                     {formErrors.duration && (
                       <p className="text-red-400 text-sm mt-1 font-diatype">{formErrors.duration}</p>
@@ -700,7 +776,7 @@ export default function WorkshopsAdmin() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-white mb-2 font-diatype">
+                    <label className="block text-sm font-semibold mb-2 font-diatype" style={{ color: 'var(--hg-text-primary)' }}>
                       Capacity <span className="text-red-400">*</span>
                     </label>
                     <input
@@ -709,9 +785,13 @@ export default function WorkshopsAdmin() {
                       onChange={(e) => handleFormChange('capacity', parseInt(e.target.value) || 0)}
                       placeholder="e.g., 30"
                       min="1"
-                      className={`w-full px-4 py-3 bg-white/5 border ${
-                        formErrors.capacity ? 'border-red-500' : 'border-white/10'
-                      } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-diatype`}
+                      className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all font-diatype"
+                      style={{
+                        backgroundColor: 'var(--hg-bg-secondary)',
+                        borderColor: formErrors.capacity ? 'var(--hg-danger)' : 'var(--hg-border-color)',
+                        color: 'var(--hg-text-primary)',
+                        '--tw-ring-color': 'var(--hg-cyan-border)'
+                      } as React.CSSProperties}
                     />
                     {formErrors.capacity && (
                       <p className="text-red-400 text-sm mt-1 font-diatype">{formErrors.capacity}</p>
@@ -719,7 +799,7 @@ export default function WorkshopsAdmin() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-white mb-2 font-diatype">Price ($)</label>
+                    <label className="block text-sm font-semibold mb-2 font-diatype" style={{ color: 'var(--hg-text-primary)' }}>Price ($)</label>
                     <input
                       type="number"
                       value={formData.price}
@@ -727,13 +807,19 @@ export default function WorkshopsAdmin() {
                       placeholder="e.g., 499"
                       min="0"
                       step="0.01"
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-diatype"
+                      className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all font-diatype"
+                      style={{
+                        backgroundColor: 'var(--hg-bg-secondary)',
+                        borderColor: 'var(--hg-border-color)',
+                        color: 'var(--hg-text-primary)',
+                        '--tw-ring-color': 'var(--hg-cyan-border)'
+                      } as React.CSSProperties}
                     />
                   </div>
 
                   {(formData.type === 'in-person' || formData.type === 'hybrid') && (
                     <div className="md:col-span-2">
-                      <label className="block text-sm font-semibold text-white mb-2 font-diatype">
+                      <label className="block text-sm font-semibold mb-2 font-diatype" style={{ color: 'var(--hg-text-primary)' }}>
                         Location
                       </label>
                       <input
@@ -741,14 +827,20 @@ export default function WorkshopsAdmin() {
                         value={formData.location}
                         onChange={(e) => handleFormChange('location', e.target.value)}
                         placeholder="e.g., Innovation Hub, NYC"
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-diatype"
+                        className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all font-diatype"
+                        style={{
+                          backgroundColor: 'var(--hg-bg-secondary)',
+                          borderColor: 'var(--hg-border-color)',
+                          color: 'var(--hg-text-primary)',
+                          '--tw-ring-color': 'var(--hg-cyan-border)'
+                        } as React.CSSProperties}
                       />
                     </div>
                   )}
 
                   {(formData.type === 'online' || formData.type === 'hybrid') && (
                     <div className="md:col-span-2">
-                      <label className="block text-sm font-semibold text-white mb-2 font-diatype">
+                      <label className="block text-sm font-semibold mb-2 font-diatype" style={{ color: 'var(--hg-text-primary)' }}>
                         Meeting Link
                       </label>
                       <input
@@ -756,31 +848,69 @@ export default function WorkshopsAdmin() {
                         value={formData.meetingLink}
                         onChange={(e) => handleFormChange('meetingLink', e.target.value)}
                         placeholder="https://meet.humanglue.ai/workshop-..."
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-diatype"
+                        className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all font-diatype"
+                        style={{
+                          backgroundColor: 'var(--hg-bg-secondary)',
+                          borderColor: 'var(--hg-border-color)',
+                          color: 'var(--hg-text-primary)',
+                          '--tw-ring-color': 'var(--hg-cyan-border)'
+                        } as React.CSSProperties}
                       />
                     </div>
                   )}
 
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-semibold text-white mb-2 font-diatype">
+                    <label className="block text-sm font-semibold mb-2 font-diatype" style={{ color: 'var(--hg-text-primary)' }}>
                       Image URL <span className="text-red-400">*</span>
                     </label>
-                    <input
-                      type="url"
-                      value={formData.image}
-                      onChange={(e) => handleFormChange('image', e.target.value)}
-                      placeholder="https://images.unsplash.com/photo-..."
-                      className={`w-full px-4 py-3 bg-white/5 border ${
-                        formErrors.image ? 'border-red-500' : 'border-white/10'
-                      } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-diatype`}
-                    />
+                    <div className="flex gap-2">
+                      <input
+                        type="url"
+                        value={formData.image}
+                        onChange={(e) => handleFormChange('image', e.target.value)}
+                        placeholder="https://images.unsplash.com/photo-..."
+                        className="flex-1 px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all font-diatype"
+                        style={{
+                          backgroundColor: 'var(--hg-bg-secondary)',
+                          borderColor: formErrors.image ? 'var(--hg-danger)' : 'var(--hg-border-color)',
+                          color: 'var(--hg-text-primary)',
+                          '--tw-ring-color': 'var(--hg-cyan-border)'
+                        } as React.CSSProperties}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowImageGenerator(true)}
+                        className="px-4 py-3 rounded-xl font-semibold font-diatype transition-all flex items-center gap-2"
+                        style={{
+                          background: 'linear-gradient(135deg, var(--hg-cyan), var(--hg-magenta))',
+                          color: 'white'
+                        }}
+                      >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        AI Generate
+                      </button>
+                    </div>
                     {formErrors.image && (
                       <p className="text-red-400 text-sm mt-1 font-diatype">{formErrors.image}</p>
+                    )}
+                    {formData.image && (
+                      <div className="mt-3 relative rounded-xl overflow-hidden border" style={{ borderColor: 'var(--hg-border-color)' }}>
+                        <Image
+                          src={formData.image}
+                          alt="Workshop preview"
+                          width={400}
+                          height={200}
+                          className="w-full h-48 object-cover"
+                          unoptimized={formData.image.startsWith('data:')}
+                        />
+                      </div>
                     )}
                   </div>
 
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-semibold text-white mb-2 font-diatype">
+                    <label className="block text-sm font-semibold mb-2 font-diatype" style={{ color: 'var(--hg-text-primary)' }}>
                       Description
                     </label>
                     <textarea
@@ -788,42 +918,36 @@ export default function WorkshopsAdmin() {
                       onChange={(e) => handleFormChange('description', e.target.value)}
                       placeholder="Provide a detailed description of the workshop..."
                       rows={4}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-diatype resize-none"
+                      className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all font-diatype resize-none"
+                      style={{
+                        backgroundColor: 'var(--hg-bg-secondary)',
+                        borderColor: 'var(--hg-border-color)',
+                        color: 'var(--hg-text-primary)',
+                        '--tw-ring-color': 'var(--hg-cyan-border)'
+                      } as React.CSSProperties}
                     />
                   </div>
                 </div>
               </div>
 
-              <div className="flex gap-3 p-6 border-t border-white/10">
-                <button
+              <div className="flex gap-3 p-6 border-t hg-border">
+                <Button
+                  variant="secondary"
                   onClick={handleCloseModal}
                   disabled={isSubmitting}
-                  className="flex-1 px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white rounded-xl transition-all font-semibold font-diatype disabled:opacity-50"
+                  fullWidth
                 >
                   Cancel
-                </button>
-                <button
+                </Button>
+                <Button
+                  variant="primary"
                   onClick={handleSaveWorkshop}
                   disabled={isSubmitting}
-                  className="flex-1 px-6 py-3 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white rounded-xl transition-all font-semibold flex items-center justify-center gap-2 font-diatype disabled:opacity-50"
+                  icon={<Save className={`w-5 h-5 ${isSubmitting ? 'animate-spin' : ''}`} />}
+                  fullWidth
                 >
-                  {isSubmitting ? (
-                    <>
-                      <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-                      >
-                        <Save className="w-5 h-5" />
-                      </motion.div>
-                      Saving...
-                    </>
-                  ) : (
-                    <>
-                      <Save className="w-5 h-5" />
-                      {editingWorkshop ? 'Update Workshop' : 'Save Workshop'}
-                    </>
-                  )}
-                </button>
+                  {isSubmitting ? 'Saving...' : (editingWorkshop ? 'Update Workshop' : 'Save Workshop')}
+                </Button>
               </div>
             </motion.div>
           </motion.div>
@@ -845,35 +969,53 @@ export default function WorkshopsAdmin() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-gray-900 border border-white/10 rounded-2xl p-8 max-w-md w-full"
+              className="max-w-md w-full"
             >
-              <div className="text-center mb-6">
-                <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Trash2 className="w-8 h-8 text-red-400" />
+              <Card padding="xl">
+                <div className="text-center mb-6">
+                  <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Trash2 className="w-8 h-8 text-red-400" />
+                  </div>
+                  <Heading as="h3" size="2xl" className="mb-2">Delete Workshop?</Heading>
+                  <Text variant="muted">
+                    This action cannot be undone. All participant data will be preserved.
+                  </Text>
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-2 font-gendy">Delete Workshop?</h3>
-                <p className="text-gray-400 font-diatype">
-                  This action cannot be undone. All participant data will be preserved.
-                </p>
-              </div>
-              <div className="flex gap-3">
-                <button
-                  onClick={() => setShowDeleteConfirm(null)}
-                  className="flex-1 px-4 py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white rounded-xl transition-all font-diatype"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={() => handleDeleteWorkshop(showDeleteConfirm)}
-                  className="flex-1 px-4 py-3 bg-red-500 hover:bg-red-600 text-white rounded-xl transition-all font-diatype"
-                >
-                  Delete
-                </button>
-              </div>
+                <div className="flex gap-3">
+                  <Button
+                    variant="secondary"
+                    onClick={() => setShowDeleteConfirm(null)}
+                    fullWidth
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    variant="danger"
+                    onClick={() => handleDeleteWorkshop(showDeleteConfirm)}
+                    fullWidth
+                  >
+                    Delete
+                  </Button>
+                </div>
+              </Card>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Image Generator Modal */}
+      <ImageGenerator
+        mode="modal"
+        isOpen={showImageGenerator}
+        onClose={() => setShowImageGenerator(false)}
+        currentImage={formData.image}
+        contentTitle={formData.title}
+        contentType="workshop"
+        onImageSelect={(imageUrl) => {
+          handleFormChange('image', imageUrl)
+          setShowImageGenerator(false)
+        }}
+      />
     </div>
   )
 }

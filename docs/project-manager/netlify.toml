@@ -1,6 +1,6 @@
 [build]
   publish = "_site"
-  command = "mkdir -p _site && cp index.html _site/"
+  command = "mkdir -p _site && sed -e \"s|__SUPABASE_URL__|$SUPABASE_URL|g\" -e \"s|__SUPABASE_ANON_KEY__|$SUPABASE_ANON_KEY|g\" index.html > _site/index.html"
   functions = "netlify/functions"
   ignore = "exit 0"
 
@@ -9,12 +9,6 @@
 
 [functions]
   node_bundler = "esbuild"
-
-# Disable Next.js plugin - this is a static HTML site
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
-  [plugins.inputs]
-    disable = true
 
 [build.processing]
   skip_processing = false

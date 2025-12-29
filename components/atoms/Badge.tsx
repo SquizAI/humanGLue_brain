@@ -10,6 +10,13 @@ export interface BadgeProps extends HTMLMotionProps<"span"> {
   dot?: boolean
 }
 
+/**
+ * Badge Component
+ *
+ * WHITE-LABEL READY: Uses CSS variables for all colors.
+ * Semantic colors (success, warning, danger, info) can be customized
+ * via CSS variables: --hg-success, --hg-warning, --hg-danger, --hg-info
+ */
 export function Badge({
   children,
   className,
@@ -19,17 +26,17 @@ export function Badge({
   dot = false,
   ...props
 }: BadgeProps) {
-  // Use CSS variables for theme-aware colors
+  // Use CSS variables for theme-aware and white-label-ready colors
   const variants = {
     // Default uses theme secondary background
     default: 'hg-bg-secondary hg-text-primary hg-border border',
-    // Cyan accent - our brand color
+    // Cyan/Primary accent - brand color (uses org-primary when set)
     cyan: 'hg-cyan-badge border',
-    // Status colors - these are semantic and stay consistent
-    success: 'bg-emerald-500/10 text-emerald-500 dark:text-emerald-400 border border-emerald-500/20',
-    warning: 'bg-amber-500/10 text-amber-500 dark:text-amber-400 border border-amber-500/20',
-    danger: 'bg-red-500/10 text-red-500 dark:text-red-400 border border-red-500/20',
-    info: 'bg-blue-500/10 text-blue-500 dark:text-blue-400 border border-blue-500/20',
+    // Status colors - use CSS variables for white-label customization
+    success: 'hg-success-badge border',
+    warning: 'hg-warning-badge border',
+    danger: 'hg-danger-badge border',
+    info: 'hg-info-badge border',
     // Outline variant
     outline: 'bg-transparent hg-text-secondary hg-border border'
   }
@@ -49,10 +56,10 @@ export function Badge({
   const dotColors = {
     default: 'hg-bg-primary',
     cyan: 'bg-[var(--hg-cyan-text)]',
-    success: 'bg-emerald-500',
-    warning: 'bg-amber-500',
-    danger: 'bg-red-500',
-    info: 'bg-blue-500',
+    success: 'bg-[var(--hg-success)]',
+    warning: 'bg-[var(--hg-warning)]',
+    danger: 'bg-[var(--hg-danger)]',
+    info: 'bg-[var(--hg-info)]',
     outline: 'hg-bg-secondary'
   }
 

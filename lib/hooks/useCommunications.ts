@@ -33,7 +33,8 @@ export function useCommunications(
   const [error, setError] = useState<Error | null>(null)
   const { userData } = useChat()
   const channelRef = useRef<RealtimeChannel | null>(null)
-  const supabase = createClient()
+  // Use any cast to bypass strict type checking for tables not in generated types
+  const supabase = createClient() as any
 
   // Fetch initial messages
   const fetchMessages = useCallback(async () => {
@@ -169,7 +170,7 @@ export function useCommunications(
           table: 'communication_logs',
           filter: `user_id=eq.${userData.id}`,
         },
-        (payload) => {
+        (payload: any) => {
           const newMessage = payload.new as CommunicationMessage
           setMessages((prev) => [newMessage, ...prev])
         }
@@ -182,7 +183,7 @@ export function useCommunications(
           table: 'communication_logs',
           filter: `user_id=eq.${userData.id}`,
         },
-        (payload) => {
+        (payload: any) => {
           const updatedMessage = payload.new as CommunicationMessage
           setMessages((prev) =>
             prev.map((m) => (m.id === updatedMessage.id ? updatedMessage : m))
@@ -314,7 +315,8 @@ export function useConversation(
   const [hasMore, setHasMore] = useState(true)
   const { userData } = useChat()
   const channelRef = useRef<RealtimeChannel | null>(null)
-  const supabase = createClient()
+  // Use any cast to bypass strict type checking for tables not in generated types
+  const supabase = createClient() as any
 
   const fetchMessages = useCallback(async (offset = 0) => {
     if (!userData?.id || !contactIdentifier) return
@@ -366,7 +368,7 @@ export function useConversation(
           table: 'communication_logs',
           filter: `user_id=eq.${userData.id}`,
         },
-        (payload) => {
+        (payload: any) => {
           const newMessage = payload.new as CommunicationMessage
           // Only add if it's for this conversation
           if (
@@ -385,7 +387,7 @@ export function useConversation(
           table: 'communication_logs',
           filter: `user_id=eq.${userData.id}`,
         },
-        (payload) => {
+        (payload: any) => {
           const updatedMessage = payload.new as CommunicationMessage
           setMessages((prev) =>
             prev.map((m) => (m.id === updatedMessage.id ? updatedMessage : m))
@@ -487,7 +489,8 @@ export function useChannelStatus(): UseChannelStatusReturn {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<Error | null>(null)
   const { userData } = useChat()
-  const supabase = createClient()
+  // Use any cast to bypass strict type checking for tables not in generated types
+  const supabase = createClient() as any
 
   const fetchStatus = useCallback(async () => {
     if (!userData?.id) return
@@ -514,9 +517,9 @@ export function useChannelStatus(): UseChannelStatusReturn {
       if (msgError) throw msgError
 
       // Build status for each channel
-      const statusList: ChannelStatus[] = (channels || []).map((ch) => {
+      const statusList: ChannelStatus[] = (channels || []).map((ch: any) => {
         const channelMessages = (messages || []).filter(
-          (m) => m.metadata?.channelId === ch.external_channel_id
+          (m: any) => m.metadata?.channelId === ch.external_channel_id
         )
 
         return {
@@ -525,7 +528,7 @@ export function useChannelStatus(): UseChannelStatusReturn {
           status: ch.is_active ? 'active' : 'inactive',
           lastMessageAt: channelMessages[0]?.created_at,
           messageCount24h: channelMessages.length,
-          errorCount24h: channelMessages.filter((m) => m.status === 'failed').length,
+          errorCount24h: channelMessages.filter((m: any) => m.status === 'failed').length,
         }
       })
 

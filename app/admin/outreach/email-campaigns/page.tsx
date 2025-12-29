@@ -82,9 +82,9 @@ interface ChatMessage {
 
 const CAMPAIGN_STATUS_COLORS: Record<string, { bg: string; text: string; icon: React.ReactNode }> = {
   draft: { bg: 'bg-gray-500/20', text: 'text-gray-400', icon: <FileText className="w-4 h-4" /> },
-  scheduled: { bg: 'bg-blue-500/20', text: 'text-blue-400', icon: <Calendar className="w-4 h-4" /> },
+  scheduled: { bg: 'bg-blue-500/20', text: 'text-[var(--hg-cyan-text)]', icon: <Calendar className="w-4 h-4" /> },
   sending: { bg: 'bg-yellow-500/20', text: 'text-yellow-400', icon: <Send className="w-4 h-4" /> },
-  sent: { bg: 'bg-green-500/20', text: 'text-green-400', icon: <CheckCircle className="w-4 h-4" /> },
+  sent: { bg: 'bg-green-500/20', text: 'text-[var(--hg-cyan-text)]', icon: <CheckCircle className="w-4 h-4" /> },
   paused: { bg: 'bg-orange-500/20', text: 'text-orange-400', icon: <Pause className="w-4 h-4" /> },
 }
 
@@ -517,14 +517,14 @@ export default function EmailCampaignsPage() {
                           {campaign.stats && campaign.stats.sent > 0 && (
                             <div className="grid grid-cols-3 gap-4 mt-4 pt-4 border-t border-white/10">
                               <div className="text-center">
-                                <div className="flex items-center justify-center gap-1 text-green-400">
+                                <div className="flex items-center justify-center gap-1 text-[var(--hg-cyan-text)]">
                                   <MailOpen className="w-4 h-4" />
                                   <span className="font-semibold">{campaign.stats.openRate}%</span>
                                 </div>
                                 <p className="text-xs text-gray-500">Open Rate</p>
                               </div>
                               <div className="text-center">
-                                <div className="flex items-center justify-center gap-1 text-blue-400">
+                                <div className="flex items-center justify-center gap-1 text-[var(--hg-cyan-text)]">
                                   <MousePointerClick className="w-4 h-4" />
                                   <span className="font-semibold">{campaign.stats.clickRate}%</span>
                                 </div>
@@ -893,7 +893,7 @@ export default function EmailCampaignsPage() {
                         <div className={`p-2 bg-${stat.color}-500/20 rounded-lg text-${stat.color}-400`}>
                           {stat.icon}
                         </div>
-                        <span className={`text-sm font-medium ${stat.change.startsWith('+') ? 'text-green-400' : stat.change.startsWith('-') && stat.label === 'Unsubscribe Rate' ? 'text-green-400' : 'text-red-400'}`}>
+                        <span className={`text-sm font-medium ${stat.change.startsWith('+') ? 'text-[var(--hg-cyan-text)]' : stat.change.startsWith('-') && stat.label === 'Unsubscribe Rate' ? 'text-[var(--hg-cyan-text)]' : 'text-red-400'}`}>
                           {stat.change}
                         </span>
                       </div>
@@ -928,10 +928,10 @@ export default function EmailCampaignsPage() {
                             </td>
                             <td className="px-6 py-4 text-gray-400">{campaign.stats?.sent.toLocaleString()}</td>
                             <td className="px-6 py-4">
-                              <span className="text-green-400 font-medium">{campaign.stats?.openRate}%</span>
+                              <span className="text-[var(--hg-cyan-text)] font-medium">{campaign.stats?.openRate}%</span>
                             </td>
                             <td className="px-6 py-4">
-                              <span className="text-blue-400 font-medium">{campaign.stats?.clickRate}%</span>
+                              <span className="text-[var(--hg-cyan-text)] font-medium">{campaign.stats?.clickRate}%</span>
                             </td>
                             <td className="px-6 py-4">
                               <span className={`px-2 py-1 rounded-full text-xs ${CAMPAIGN_STATUS_COLORS[campaign.status].bg} ${CAMPAIGN_STATUS_COLORS[campaign.status].text}`}>

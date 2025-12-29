@@ -1,0 +1,1676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HumanGlue Development Roadmap - Interactive Planning Tool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/panzoom@9.4.3/dist/panzoom.min.js"></script>
+    <style>
+        :root {
+            --hg-cyan: #61D8FE;
+            --hg-purple: #8B5CF6;
+            --hg-blue: #3B82F6;
+            --hg-green: #10B981;
+            --hg-amber: #F59E0B;
+            --hg-red: #EF4444;
+            --hg-bg-primary: #0a0a0f;
+            --hg-bg-secondary: #12121a;
+            --hg-bg-sidebar: #0f0f16;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background: var(--hg-bg-primary);
+            color: #e5e7eb;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--hg-cyan), var(--hg-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Layout */
+        .app-container {
+            display: grid;
+            grid-template-columns: 280px 1fr 380px;
+            grid-template-rows: 60px 1fr;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .header {
+            grid-column: 1 / -1;
+            background: var(--hg-bg-sidebar);
+            border-bottom: 1px solid rgba(97, 216, 254, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+        }
+
+        .sidebar {
+            background: var(--hg-bg-sidebar);
+            border-right: 1px solid rgba(97, 216, 254, 0.1);
+            overflow-y: auto;
+            padding: 16px;
+        }
+
+        .main-canvas {
+            background: var(--hg-bg-primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .right-panel {
+            background: var(--hg-bg-sidebar);
+            border-left: 1px solid rgba(97, 216, 254, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Sidebar Styles */
+        .nav-section {
+            margin-bottom: 24px;
+        }
+
+        .nav-section-title {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #6b7280;
+            margin-bottom: 8px;
+            padding: 0 8px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 14px;
+            color: #9ca3af;
+        }
+
+        .nav-item:hover {
+            background: rgba(97, 216, 254, 0.1);
+            color: white;
+        }
+
+        .nav-item.active {
+            background: rgba(97, 216, 254, 0.15);
+            color: var(--hg-cyan);
+            border-left: 2px solid var(--hg-cyan);
+        }
+
+        .nav-item-badge {
+            margin-left: auto;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .badge-green { background: rgba(16, 185, 129, 0.2); color: #10B981; }
+        .badge-amber { background: rgba(245, 158, 11, 0.2); color: #F59E0B; }
+        .badge-purple { background: rgba(139, 92, 246, 0.2); color: #8B5CF6; }
+        .badge-red { background: rgba(239, 68, 68, 0.2); color: #EF4444; }
+
+        /* Canvas Controls */
+        .canvas-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            display: flex;
+            gap: 8px;
+            z-index: 100;
+        }
+
+        .control-btn {
+            width: 40px;
+            height: 40px;
+            background: var(--hg-bg-secondary);
+            border: 1px solid rgba(97, 216, 254, 0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #9ca3af;
+            transition: all 0.2s;
+        }
+
+        .control-btn:hover {
+            background: rgba(97, 216, 254, 0.1);
+            color: var(--hg-cyan);
+            border-color: var(--hg-cyan);
+        }
+
+        .zoom-display {
+            background: var(--hg-bg-secondary);
+            border: 1px solid rgba(97, 216, 254, 0.2);
+            border-radius: 8px;
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+            color: #9ca3af;
+            font-size: 13px;
+        }
+
+        /* Diagram Container */
+        .diagram-container {
+            width: 100%;
+            height: 100%;
+            cursor: grab;
+        }
+
+        .diagram-container:active {
+            cursor: grabbing;
+        }
+
+        .diagram-wrapper {
+            padding: 40px;
+            min-width: 1200px;
+            min-height: 800px;
+        }
+
+        /* Mermaid Customization */
+        .mermaid {
+            background: transparent !important;
+        }
+
+        .mermaid .node rect,
+        .mermaid .node circle,
+        .mermaid .node polygon {
+            cursor: pointer !important;
+        }
+
+        /* Right Panel Tabs */
+        .panel-tabs {
+            display: flex;
+            border-bottom: 1px solid rgba(97, 216, 254, 0.1);
+        }
+
+        .panel-tab {
+            flex: 1;
+            padding: 14px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 500;
+            color: #6b7280;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .panel-tab:hover {
+            color: #9ca3af;
+            background: rgba(97, 216, 254, 0.05);
+        }
+
+        .panel-tab.active {
+            color: var(--hg-cyan);
+            border-bottom-color: var(--hg-cyan);
+        }
+
+        .panel-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+        }
+
+        /* Notes Panel */
+        .note-card {
+            background: var(--hg-bg-primary);
+            border: 1px solid rgba(97, 216, 254, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .note-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .note-card-title {
+            font-weight: 600;
+            font-size: 14px;
+            color: white;
+        }
+
+        .note-card-status {
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .note-card-body {
+            font-size: 13px;
+            color: #9ca3af;
+            line-height: 1.5;
+        }
+
+        .note-card-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 12px;
+            font-size: 11px;
+            color: #6b7280;
+        }
+
+        .add-note-btn {
+            width: 100%;
+            padding: 12px;
+            background: rgba(97, 216, 254, 0.1);
+            border: 1px dashed rgba(97, 216, 254, 0.3);
+            border-radius: 8px;
+            color: var(--hg-cyan);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .add-note-btn:hover {
+            background: rgba(97, 216, 254, 0.15);
+            border-color: var(--hg-cyan);
+        }
+
+        /* AI Chat Panel */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+        }
+
+        .chat-message {
+            margin-bottom: 16px;
+        }
+
+        .chat-message.user {
+            text-align: right;
+        }
+
+        .chat-message-bubble {
+            display: inline-block;
+            max-width: 85%;
+            padding: 12px 16px;
+            border-radius: 16px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .chat-message.assistant .chat-message-bubble {
+            background: var(--hg-bg-primary);
+            border: 1px solid rgba(97, 216, 254, 0.1);
+            color: #e5e7eb;
+            border-bottom-left-radius: 4px;
+        }
+
+        .chat-message.user .chat-message-bubble {
+            background: linear-gradient(135deg, var(--hg-cyan), var(--hg-purple));
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .chat-input-container {
+            padding: 16px;
+            border-top: 1px solid rgba(97, 216, 254, 0.1);
+        }
+
+        .chat-input-wrapper {
+            display: flex;
+            gap: 8px;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 12px 16px;
+            background: var(--hg-bg-primary);
+            border: 1px solid rgba(97, 216, 254, 0.2);
+            border-radius: 12px;
+            color: white;
+            font-size: 13px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .chat-input:focus {
+            border-color: var(--hg-cyan);
+        }
+
+        .chat-send-btn {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--hg-cyan), var(--hg-purple));
+            border: none;
+            border-radius: 12px;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        .chat-send-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .chat-send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal {
+            background: var(--hg-bg-secondary);
+            border: 1px solid rgba(97, 216, 254, 0.2);
+            border-radius: 16px;
+            width: 500px;
+            max-width: 90vw;
+            max-height: 90vh;
+            overflow: hidden;
+            transform: scale(0.95);
+            transition: transform 0.2s;
+        }
+
+        .modal-overlay.active .modal {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid rgba(97, 216, 254, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            background: transparent;
+            border: none;
+            color: #6b7280;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--hg-red);
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: #9ca3af;
+            margin-bottom: 8px;
+        }
+
+        .form-input,
+        .form-textarea,
+        .form-select {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--hg-bg-primary);
+            border: 1px solid rgba(97, 216, 254, 0.2);
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
+            border-color: var(--hg-cyan);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-select {
+            cursor: pointer;
+        }
+
+        .modal-actions {
+            padding: 16px 24px;
+            border-top: 1px solid rgba(97, 216, 254, 0.1);
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .btn-secondary {
+            background: var(--hg-bg-primary);
+            border: 1px solid rgba(97, 216, 254, 0.2);
+            color: #9ca3af;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(97, 216, 254, 0.1);
+            color: white;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--hg-cyan), var(--hg-purple));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(97, 216, 254, 0.3);
+        }
+
+        /* Status Colors */
+        .status-todo { background: rgba(107, 114, 128, 0.2); color: #9ca3af; }
+        .status-in-progress { background: rgba(245, 158, 11, 0.2); color: #F59E0B; }
+        .status-completed { background: rgba(16, 185, 129, 0.2); color: #10B981; }
+        .status-blocked { background: rgba(239, 68, 68, 0.2); color: #EF4444; }
+
+        /* Priority Colors */
+        .priority-low { border-left: 3px solid #6b7280; }
+        .priority-medium { border-left: 3px solid var(--hg-amber); }
+        .priority-high { border-left: 3px solid var(--hg-red); }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .app-container {
+                grid-template-columns: 1fr;
+                grid-template-rows: 60px 1fr auto;
+            }
+            .sidebar { display: none; }
+            .right-panel {
+                height: 300px;
+                border-left: none;
+                border-top: 1px solid rgba(97, 216, 254, 0.1);
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(97, 216, 254, 0.2); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(97, 216, 254, 0.3); }
+
+        /* Typing indicator */
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 12px 16px;
+        }
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--hg-cyan);
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-4px); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <svg width="32" height="32" viewBox="0 0 40 40" fill="none">
+                    <circle cx="20" cy="20" r="18" stroke="url(#headerGrad)" stroke-width="2"/>
+                    <circle cx="20" cy="20" r="8" fill="url(#headerGrad)"/>
+                    <defs>
+                        <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#61D8FE"/>
+                            <stop offset="100%" style="stop-color:#8B5CF6"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <div>
+                    <h1 style="font-size: 18px; font-weight: 700; color: white; margin: 0;">Development Roadmap</h1>
+                    <p style="font-size: 12px; color: #6b7280; margin: 0;">Interactive Planning Tool</p>
+                </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <div style="font-size: 13px; color: #6b7280;">
+                    Last saved: <span id="lastSaved">Never</span>
+                </div>
+                <button onclick="exportNotes()" class="btn btn-secondary" style="padding: 8px 16px;">
+                    Export Notes
+                </button>
+                <button onclick="window.open('project-status-for-alex.html', '_blank')" class="btn btn-primary" style="padding: 8px 16px;">
+                    View Status Report
+                </button>
+            </div>
+        </header>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="nav-section">
+                <div class="nav-section-title">Architecture Diagrams</div>
+                <div class="nav-item active" onclick="loadDiagram('platform')">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                    </svg>
+                    Platform Overview
+                    <span class="nav-item-badge badge-green">Core</span>
+                </div>
+                <div class="nav-item" onclick="loadDiagram('roles')">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                    </svg>
+                    User Roles
+                    <span class="nav-item-badge badge-green">6</span>
+                </div>
+                <div class="nav-item" onclick="loadDiagram('whitelabel')">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
+                    </svg>
+                    White-Label System
+                    <span class="nav-item-badge badge-amber">WIP</span>
+                </div>
+                <div class="nav-item" onclick="loadDiagram('database')">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/>
+                    </svg>
+                    Database Schema
+                    <span class="nav-item-badge badge-green">Supabase</span>
+                </div>
+                <div class="nav-item" onclick="loadDiagram('assessment')">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+                    </svg>
+                    Assessment Flow
+                    <span class="nav-item-badge badge-green">AI</span>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Development Status</div>
+                <div class="nav-item" onclick="loadDiagram('roadmap')">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
+                    </svg>
+                    Feature Roadmap
+                    <span class="nav-item-badge badge-purple">Q1-Q4</span>
+                </div>
+                <div class="nav-item" onclick="loadDiagram('sprint')">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                    </svg>
+                    Current Sprint
+                    <span class="nav-item-badge badge-amber">Active</span>
+                </div>
+                <div class="nav-item" onclick="loadDiagram('blockers')">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                    </svg>
+                    Blockers & Risks
+                    <span class="nav-item-badge badge-red">2</span>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Quick Stats</div>
+                <div style="padding: 12px; background: var(--hg-bg-primary); border-radius: 12px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <span style="color: #6b7280; font-size: 12px;">Completed</span>
+                        <span style="color: #10B981; font-size: 14px; font-weight: 600;">42</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <span style="color: #6b7280; font-size: 12px;">In Progress</span>
+                        <span style="color: #F59E0B; font-size: 14px; font-weight: 600;">8</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <span style="color: #6b7280; font-size: 12px;">Planned</span>
+                        <span style="color: #8B5CF6; font-size: 14px; font-weight: 600;">15</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="color: #6b7280; font-size: 12px;">Blocked</span>
+                        <span style="color: #EF4444; font-size: 14px; font-weight: 600;">2</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Canvas -->
+        <main class="main-canvas">
+            <div id="diagramContainer" class="diagram-container">
+                <div class="diagram-wrapper">
+                    <div id="mermaidDiagram" class="mermaid"></div>
+                </div>
+            </div>
+
+            <!-- Canvas Controls -->
+            <div class="canvas-controls">
+                <button class="control-btn" onclick="zoomIn()" title="Zoom In">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/>
+                    </svg>
+                </button>
+                <button class="control-btn" onclick="zoomOut()" title="Zoom Out">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM13 10H7"/>
+                    </svg>
+                </button>
+                <button class="control-btn" onclick="resetZoom()" title="Reset View">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
+                    </svg>
+                </button>
+                <div class="zoom-display">
+                    <span id="zoomLevel">100%</span>
+                </div>
+                <button class="control-btn" onclick="fitToScreen()" title="Fit to Screen">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Diagram Title -->
+            <div style="position: absolute; top: 20px; left: 20px; z-index: 100;">
+                <h2 id="diagramTitle" style="font-size: 24px; font-weight: 700; color: white; margin: 0;">Platform Overview</h2>
+                <p id="diagramSubtitle" style="font-size: 13px; color: #6b7280; margin: 4px 0 0 0;">Click nodes to add notes</p>
+            </div>
+        </main>
+
+        <!-- Right Panel -->
+        <aside class="right-panel">
+            <div class="panel-tabs">
+                <div class="panel-tab active" onclick="switchTab('notes')">Notes</div>
+                <div class="panel-tab" onclick="switchTab('chat')">AI Assistant</div>
+            </div>
+
+            <!-- Notes Panel -->
+            <div id="notesPanel" class="panel-content">
+                <div id="notesList"></div>
+                <button class="add-note-btn" onclick="openNoteModal()">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                    </svg>
+                    Add Development Note
+                </button>
+            </div>
+
+            <!-- Chat Panel -->
+            <div id="chatPanel" class="panel-content" style="display: none;">
+                <div class="chat-container">
+                    <div id="chatMessages" class="chat-messages">
+                        <div class="chat-message assistant">
+                            <div class="chat-message-bubble">
+                                Hi! I'm your development assistant. I can help you with:
+                                <br><br>
+                                - Understanding the architecture
+                                <br>- Planning feature implementations
+                                <br>- Identifying dependencies
+                                <br>- Estimating complexity
+                                <br><br>
+                                What would you like to know about the HumanGlue platform?
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat-input-container">
+                        <div class="chat-input-wrapper">
+                            <input type="text" id="chatInput" class="chat-input" placeholder="Ask about the architecture..." onkeypress="if(event.key==='Enter')sendMessage()">
+                            <button class="chat-send-btn" onclick="sendMessage()">
+                                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Add Note Modal -->
+    <div id="noteModal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Add Development Note</h3>
+                <button class="modal-close" onclick="closeNoteModal()">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Title</label>
+                    <input type="text" id="noteTitle" class="form-input" placeholder="e.g., Implement Stripe webhooks">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Description</label>
+                    <textarea id="noteDescription" class="form-textarea" placeholder="Describe what needs to be built or changed..."></textarea>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                    <div class="form-group">
+                        <label class="form-label">Status</label>
+                        <select id="noteStatus" class="form-select">
+                            <option value="todo">To Do</option>
+                            <option value="in-progress">In Progress</option>
+                            <option value="completed">Completed</option>
+                            <option value="blocked">Blocked</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Priority</label>
+                        <select id="notePriority" class="form-select">
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Related Component</label>
+                    <select id="noteComponent" class="form-select">
+                        <option value="platform">Platform Core</option>
+                        <option value="auth">Authentication</option>
+                        <option value="admin">Admin Dashboard</option>
+                        <option value="assessment">Assessment System</option>
+                        <option value="whitelabel">White-Label</option>
+                        <option value="payments">Payments</option>
+                        <option value="communications">Communications</option>
+                        <option value="video">Video Conferencing</option>
+                        <option value="lms">Learning Management</option>
+                        <option value="experts">Expert Marketplace</option>
+                        <option value="analytics">Analytics</option>
+                        <option value="mobile">Mobile</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeNoteModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="saveNote()">Save Note</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({
+            startOnLoad: false,
+            theme: 'dark',
+            themeVariables: {
+                primaryColor: '#1e293b',
+                primaryTextColor: '#e5e7eb',
+                primaryBorderColor: '#61D8FE',
+                lineColor: '#61D8FE',
+                secondaryColor: '#12121a',
+                tertiaryColor: '#0f0f16',
+                background: '#0a0a0f',
+                mainBkg: '#1e293b',
+                nodeBorder: '#61D8FE',
+                clusterBkg: '#12121a',
+                clusterBorder: '#8B5CF6',
+                titleColor: '#61D8FE',
+                edgeLabelBackground: '#12121a'
+            },
+            flowchart: {
+                curve: 'basis',
+                padding: 20
+            }
+        });
+
+        // State
+        let panzoomInstance = null;
+        let currentDiagram = 'platform';
+        let notes = JSON.parse(localStorage.getItem('hg_dev_notes') || '[]');
+        let chatHistory = [];
+
+        // Diagram definitions
+        const diagrams = {
+            platform: {
+                title: 'Platform Overview',
+                subtitle: 'Core architecture and data flow',
+                code: `
+flowchart TB
+    subgraph Client["Client Layer"]
+        Browser[Browser/PWA]
+        Mobile[Mobile App]
+    end
+
+    subgraph Frontend["Frontend - Next.js 14"]
+        AppRouter[App Router]
+        Pages[Pages & Layouts]
+        Components[Component Library]
+        Contexts[Context Providers]
+    end
+
+    subgraph Backend["Backend Services"]
+        API[API Routes]
+        Auth[Auth Service]
+        Email[Resend Email]
+        SMS[Twilio SMS]
+        Voice[VAPI Voice AI]
+    end
+
+    subgraph Database["Supabase"]
+        PG[(PostgreSQL)]
+        Storage[File Storage]
+        RLS[Row Level Security]
+    end
+
+    subgraph External["External Services"]
+        Stripe[Stripe Payments]
+        Zoom[Zoom Video]
+        Neo4j[Neo4j Graph]
+    end
+
+    Browser --> AppRouter
+    Mobile --> AppRouter
+    AppRouter --> Pages
+    Pages --> Components
+    Components --> Contexts
+    Contexts --> API
+    API --> Auth
+    API --> Email
+    API --> SMS
+    API --> Voice
+    Auth --> PG
+    API --> PG
+    API --> Storage
+    PG --> RLS
+    API --> Stripe
+    API --> Zoom
+    Voice --> Neo4j
+
+    style Browser fill:#1e293b,stroke:#61D8FE
+    style Mobile fill:#1e293b,stroke:#61D8FE
+    style AppRouter fill:#1e293b,stroke:#8B5CF6
+    style PG fill:#1e293b,stroke:#10B981
+    style Voice fill:#1e293b,stroke:#F59E0B
+    style Stripe fill:#1e293b,stroke:#EF4444
+    style Zoom fill:#1e293b,stroke:#EF4444
+`
+            },
+            roles: {
+                title: 'User Roles & Permissions',
+                subtitle: 'Role hierarchy and capabilities',
+                code: `
+flowchart TB
+    subgraph Hierarchy["Role Hierarchy"]
+        SA[Super Admin - Full]
+        SAC[Super Admin - Courses]
+        Admin[Platform Admin]
+        Instructor[Instructor]
+        Expert[Expert]
+        Client[Client]
+    end
+
+    subgraph SuperCaps["Super Admin Capabilities"]
+        AllOrgs[Manage All Orgs]
+        AllUsers[Manage All Users]
+        SystemSettings[System Settings]
+        Billing[Billing Access]
+        WhiteLabel[White-Label Config]
+    end
+
+    subgraph AdminCaps["Admin Capabilities"]
+        OrgUsers[Org User Management]
+        Content[Content Management]
+        Reports[Reports & Analytics]
+        Workshops[Workshop Management]
+        Courses[Course Management]
+    end
+
+    subgraph InstructorCaps["Instructor Capabilities"]
+        Teach[Teach Courses]
+        Lessons[Create Lessons]
+        Students[View Students]
+        InstAnalytics[Instructor Analytics]
+    end
+
+    subgraph ExpertCaps["Expert Capabilities"]
+        Consult[Consultations]
+        Avail[Set Availability]
+        Earnings[Track Earnings]
+        Profile[Expert Profile]
+    end
+
+    subgraph ClientCaps["Client Capabilities"]
+        Assess[Take Assessments]
+        Results[View Results]
+        Book[Book Workshops]
+        Learn[Access Courses]
+        Hire[Hire Experts]
+    end
+
+    SA --> SuperCaps
+    SA --> AdminCaps
+    SAC --> Courses
+    Admin --> AdminCaps
+    Instructor --> InstructorCaps
+    Expert --> ExpertCaps
+    Client --> ClientCaps
+
+    style SA fill:#1e293b,stroke:#10B981
+    style SAC fill:#1e293b,stroke:#10B981
+    style Admin fill:#1e293b,stroke:#8B5CF6
+    style Instructor fill:#1e293b,stroke:#61D8FE
+    style Expert fill:#1e293b,stroke:#F59E0B
+    style Client fill:#1e293b,stroke:#3B82F6
+`
+            },
+            whitelabel: {
+                title: 'White-Label System',
+                subtitle: 'Organization branding flow',
+                code: `
+sequenceDiagram
+    participant User
+    participant App as Next.js App
+    participant BC as BrandingContext
+    participant API as /api/branding
+    participant DB as Supabase
+
+    Note over User,DB: User Login Flow
+    User->>App: Logs in
+    App->>BC: Initialize context
+    BC->>BC: Load default branding
+
+    Note over User,DB: Organization Branding
+    alt User has organization
+        App->>BC: loadBranding(orgId)
+        BC->>API: GET /api/organizations/[id]/branding
+        API->>DB: SELECT FROM org_branding
+        DB-->>API: Branding data
+        API-->>BC: {company_name, logo, colors...}
+        BC->>BC: Update branding state
+    end
+
+    BC-->>App: useBranding() hook
+    App->>User: Render with org branding
+
+    Note over User,DB: Components Using Branding
+    App->>App: Footer - company name, social links
+    App->>App: Login - logo, colors
+    App->>App: Charts - branded colors
+    App->>App: Emails - branded templates
+    App->>App: PDFs - branded reports
+`
+            },
+            database: {
+                title: 'Database Schema',
+                subtitle: 'Core Supabase tables',
+                code: `
+erDiagram
+    organizations ||--o{ users : "belongs to"
+    organizations ||--|| org_branding : "has"
+    users ||--o{ user_roles : "has"
+    users ||--o{ assessments : "takes"
+    users ||--o{ workshop_enrollments : "enrolls"
+    users ||--o{ course_enrollments : "enrolls"
+
+    organizations {
+        uuid id PK
+        string name
+        string slug
+        string subscription_tier
+        timestamp created_at
+    }
+
+    org_branding {
+        uuid id PK
+        uuid org_id FK
+        string company_name
+        string logo_url
+        json colors
+        json email_config
+        json social_links
+    }
+
+    users {
+        uuid id PK
+        uuid org_id FK
+        string email
+        string full_name
+        string avatar_url
+        timestamp created_at
+    }
+
+    user_roles {
+        uuid id PK
+        uuid user_id FK
+        string role
+        timestamp granted_at
+    }
+
+    assessments {
+        uuid id PK
+        uuid user_id FK
+        json responses
+        int maturity_score
+        json recommendations
+        timestamp completed_at
+    }
+
+    workshops {
+        uuid id PK
+        string title
+        text description
+        timestamp start_date
+        int max_participants
+    }
+
+    courses {
+        uuid id PK
+        string title
+        text description
+        uuid instructor_id FK
+        string status
+    }
+`
+            },
+            assessment: {
+                title: 'Assessment Flow',
+                subtitle: 'AI-powered maturity assessment',
+                code: `
+flowchart TB
+    subgraph Entry["Entry Points"]
+        Chat[Chat Widget]
+        Direct[Direct Link]
+        CTA[CTA Button]
+    end
+
+    subgraph Assessment["Assessment Process"]
+        VAPI[VAPI Voice AI]
+        Questions[Dynamic Questions]
+        Analysis[Response Analysis]
+        Scoring[Maturity Scoring]
+    end
+
+    subgraph Results["Results & Actions"]
+        Report[PDF Report]
+        Dashboard[Results Dashboard]
+        Recs[AI Recommendations]
+        Solutions[Solution Matching]
+    end
+
+    subgraph Storage["Data Storage"]
+        Responses[(assessment_responses)]
+        Users[(users)]
+        Orgs[(organizations)]
+    end
+
+    subgraph Follow["Follow-up"]
+        Email[Email Summary]
+        Workshop[Workshop Invite]
+        Expert[Expert Match]
+    end
+
+    Chat --> VAPI
+    Direct --> VAPI
+    CTA --> VAPI
+    VAPI --> Questions
+    Questions --> Analysis
+    Analysis --> Scoring
+    Scoring --> Report
+    Scoring --> Dashboard
+    Scoring --> Recs
+    Recs --> Solutions
+    Scoring --> Responses
+    Responses --> Users
+    Users --> Orgs
+    Report --> Email
+    Solutions --> Workshop
+    Solutions --> Expert
+
+    style VAPI fill:#1e293b,stroke:#F59E0B
+    style Scoring fill:#1e293b,stroke:#10B981
+    style Report fill:#1e293b,stroke:#8B5CF6
+`
+            },
+            roadmap: {
+                title: 'Feature Roadmap',
+                subtitle: '2026 development timeline',
+                code: `
+gantt
+    title HumanGlue Development Roadmap 2026
+    dateFormat YYYY-MM
+    section Q1 2026
+        Payment System           :active, pay, 2026-01, 2026-03
+        Stripe Integration       :pay1, 2026-01, 30d
+        Subscription Billing     :pay2, after pay1, 30d
+        Expert Payouts          :pay3, after pay2, 30d
+        Video Conferencing      :vid, 2026-01, 2026-03
+        Zoom Integration        :vid1, 2026-01, 45d
+        Workshop Rooms          :vid2, after vid1, 30d
+    section Q2 2026
+        Advanced LMS            :lms, 2026-04, 2026-06
+        Course Builder          :lms1, 2026-04, 45d
+        Progress Tracking       :lms2, after lms1, 30d
+        Certificates            :lms3, after lms2, 15d
+        Expert Marketplace      :exp, 2026-04, 2026-06
+        Profile Pages           :exp1, 2026-04, 30d
+        Booking System          :exp2, after exp1, 45d
+    section Q3 2026
+        Advanced Analytics      :ana, 2026-07, 2026-09
+        AI Insights             :ana1, 2026-07, 45d
+        Custom Reports          :ana2, after ana1, 30d
+        ROI Tracking            :ana3, after ana2, 15d
+    section Q4 2026
+        Mobile Experience       :mob, 2026-10, 2026-12
+        PWA Optimization        :mob1, 2026-10, 30d
+        Push Notifications      :mob2, after mob1, 30d
+        Native Apps             :mob3, after mob2, 30d
+`
+            },
+            sprint: {
+                title: 'Current Sprint',
+                subtitle: 'Active development work',
+                code: `
+flowchart LR
+    subgraph InProgress["In Progress"]
+        WL[White-Label Audit]
+        Discord[Discord Bot]
+        Agent[HumanGlue Agent]
+        Branding[Branding UI]
+    end
+
+    subgraph Todo["To Do"]
+        WL2[Dashboard Components]
+        WL3[PDF Templates]
+        D1[MindReasoner Integration]
+        D2[Docker Deploy]
+    end
+
+    subgraph Done["Done This Sprint"]
+        WL1[Reduced hex: 224->78]
+        Footer[Footer White-Label]
+        Login[Login White-Label]
+        OrgFix[Org Page Fix]
+    end
+
+    WL --> WL2
+    WL --> WL3
+    Discord --> D1
+    Discord --> D2
+    WL1 --> WL
+    Footer --> WL
+    Login --> WL
+
+    style WL fill:#1e293b,stroke:#F59E0B
+    style Discord fill:#1e293b,stroke:#F59E0B
+    style Agent fill:#1e293b,stroke:#F59E0B
+    style WL1 fill:#1e293b,stroke:#10B981
+    style Footer fill:#1e293b,stroke:#10B981
+    style Login fill:#1e293b,stroke:#10B981
+    style OrgFix fill:#1e293b,stroke:#10B981
+    style WL2 fill:#1e293b,stroke:#6b7280
+    style WL3 fill:#1e293b,stroke:#6b7280
+    style D1 fill:#1e293b,stroke:#6b7280
+    style D2 fill:#1e293b,stroke:#6b7280
+`
+            },
+            blockers: {
+                title: 'Blockers & Risks',
+                subtitle: 'Issues requiring attention',
+                code: `
+flowchart TB
+    subgraph Blockers["Current Blockers"]
+        B1[Zoom API Access]
+        B2[Stripe Account Setup]
+    end
+
+    subgraph Impact["Impact"]
+        I1[Video Conferencing]
+        I2[Workshop Rooms]
+        I3[Payment Processing]
+        I4[Subscriptions]
+        I5[Expert Payouts]
+    end
+
+    subgraph Resolution["Resolution Steps"]
+        R1[Apply for Zoom Marketplace]
+        R2[Complete Stripe onboarding]
+        R3[Submit KYC documents]
+    end
+
+    subgraph Timeline["Expected Timeline"]
+        T1[2-4 weeks approval]
+        T2[1-2 weeks setup]
+    end
+
+    B1 --> I1
+    B1 --> I2
+    B2 --> I3
+    B2 --> I4
+    B2 --> I5
+
+    B1 --> R1
+    R1 --> T1
+
+    B2 --> R2
+    R2 --> R3
+    R3 --> T2
+
+    style B1 fill:#7f1d1d,stroke:#EF4444
+    style B2 fill:#7f1d1d,stroke:#EF4444
+    style I1 fill:#1e293b,stroke:#F59E0B
+    style I2 fill:#1e293b,stroke:#F59E0B
+    style I3 fill:#1e293b,stroke:#F59E0B
+    style I4 fill:#1e293b,stroke:#F59E0B
+    style I5 fill:#1e293b,stroke:#F59E0B
+`
+            }
+        };
+
+        // AI responses (simulated - could connect to real API)
+        const aiResponses = {
+            'stripe': 'For Stripe integration, you\'ll need:\n\n1. **Stripe Account Setup** - Business verification, KYC\n2. **API Keys** - Add to env variables\n3. **Webhook Endpoint** - /api/webhooks/stripe\n4. **Products/Prices** - Create in Stripe dashboard\n5. **Customer Portal** - For subscription management\n\nEstimated complexity: Medium (2-3 weeks)',
+            'zoom': 'Zoom integration requires:\n\n1. **Marketplace App** - Apply at marketplace.zoom.us\n2. **OAuth Flow** - User authorization\n3. **Meeting SDK** - Embed meetings\n4. **Webhooks** - Meeting events\n\nBlocker: Marketplace approval (2-4 weeks)',
+            'white-label': 'White-label system uses:\n\n1. **BrandingContext** - React context provider\n2. **org_branding table** - Stores per-org settings\n3. **CSS Variables** - --hg-* for theming\n4. **useBranding() hook** - Access in components\n\nProgress: 65% of hardcoded colors removed',
+            'assessment': 'Assessment flow:\n\n1. **Entry** - Chat widget, direct link, CTA\n2. **VAPI Voice AI** - Conversational interface\n3. **Dynamic Questions** - Based on responses\n4. **Scoring** - 0-10 maturity scale\n5. **Results** - PDF, dashboard, recommendations\n\nFully implemented and working!',
+            'roles': '6 user roles:\n\n1. **Super Admin (Full)** - Everything\n2. **Super Admin (Courses)** - Limited scope\n3. **Platform Admin** - Org management\n4. **Instructor** - Teaching features\n5. **Expert** - Consultations\n6. **Client** - End user features\n\nRBAC implemented via user_roles table',
+            'database': 'Using Supabase PostgreSQL:\n\n- **organizations** - Multi-tenant support\n- **users** - Auth & profiles\n- **user_roles** - RBAC\n- **assessments** - AI assessment data\n- **org_branding** - White-label config\n\nRLS policies protect all tables',
+            'default': 'I can help with:\n\n- **Architecture** - Platform structure\n- **Features** - Implementation details\n- **Integrations** - Stripe, Zoom, etc.\n- **Database** - Schema questions\n- **Roadmap** - Timeline planning\n\nWhat specific area would you like to explore?'
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadDiagram('platform');
+            renderNotes();
+            updateLastSaved();
+        });
+
+        // Load diagram
+        async function loadDiagram(name) {
+            currentDiagram = name;
+            const diagram = diagrams[name];
+
+            // Update nav
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            event?.target?.closest('.nav-item')?.classList.add('active');
+
+            // Update title
+            document.getElementById('diagramTitle').textContent = diagram.title;
+            document.getElementById('diagramSubtitle').textContent = diagram.subtitle;
+
+            // Render mermaid
+            const container = document.getElementById('mermaidDiagram');
+            container.innerHTML = diagram.code;
+
+            try {
+                await mermaid.run({ nodes: [container] });
+
+                // Initialize panzoom
+                if (panzoomInstance) {
+                    panzoomInstance.dispose();
+                }
+
+                const wrapper = document.querySelector('.diagram-wrapper');
+                panzoomInstance = panzoom(wrapper, {
+                    maxZoom: 3,
+                    minZoom: 0.3,
+                    bounds: true,
+                    boundsPadding: 0.1
+                });
+
+                panzoomInstance.on('transform', (e) => {
+                    const transform = panzoomInstance.getTransform();
+                    document.getElementById('zoomLevel').textContent = Math.round(transform.scale * 100) + '%';
+                });
+
+                // Add click handlers to nodes
+                setTimeout(() => {
+                    document.querySelectorAll('.node').forEach(node => {
+                        node.style.cursor = 'pointer';
+                        node.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            const text = node.textContent?.trim() || 'Unknown';
+                            openNoteModal(text);
+                        });
+                    });
+                }, 500);
+
+            } catch (err) {
+                console.error('Mermaid error:', err);
+            }
+        }
+
+        // Zoom controls
+        function zoomIn() {
+            if (panzoomInstance) {
+                const transform = panzoomInstance.getTransform();
+                panzoomInstance.smoothZoom(window.innerWidth / 2, window.innerHeight / 2, 1.3);
+            }
+        }
+
+        function zoomOut() {
+            if (panzoomInstance) {
+                panzoomInstance.smoothZoom(window.innerWidth / 2, window.innerHeight / 2, 0.7);
+            }
+        }
+
+        function resetZoom() {
+            if (panzoomInstance) {
+                panzoomInstance.moveTo(0, 0);
+                panzoomInstance.zoomAbs(0, 0, 1);
+            }
+        }
+
+        function fitToScreen() {
+            resetZoom();
+            if (panzoomInstance) {
+                panzoomInstance.smoothZoom(window.innerWidth / 2, window.innerHeight / 2, 0.6);
+            }
+        }
+
+        // Tab switching
+        function switchTab(tab) {
+            document.querySelectorAll('.panel-tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+
+            document.getElementById('notesPanel').style.display = tab === 'notes' ? 'block' : 'none';
+            document.getElementById('chatPanel').style.display = tab === 'chat' ? 'flex' : 'none';
+        }
+
+        // Notes management
+        function renderNotes() {
+            const container = document.getElementById('notesList');
+            const filteredNotes = notes.filter(n => !n.component || n.component === currentDiagram || currentDiagram === 'platform');
+
+            if (filteredNotes.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 40px 20px; color: #6b7280;">
+                        <svg width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin: 0 auto 16px;">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                        <p style="margin: 0;">No notes yet</p>
+                        <p style="font-size: 12px; margin-top: 4px;">Click nodes or use the button below</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = filteredNotes.map((note, index) => `
+                <div class="note-card priority-${note.priority}" onclick="editNote(${notes.indexOf(note)})">
+                    <div class="note-card-header">
+                        <span class="note-card-title">${note.title}</span>
+                        <span class="note-card-status status-${note.status}">${note.status.replace('-', ' ')}</span>
+                    </div>
+                    <div class="note-card-body">${note.description}</div>
+                    <div class="note-card-meta">
+                        <span>${note.component}</span>
+                        <span>${new Date(note.created).toLocaleDateString()}</span>
+                        <button onclick="event.stopPropagation(); deleteNote(${notes.indexOf(note)})" style="margin-left: auto; background: none; border: none; color: #EF4444; cursor: pointer; padding: 4px;">
+                            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        let editingNoteIndex = null;
+
+        function openNoteModal(defaultTitle = '') {
+            editingNoteIndex = null;
+            document.getElementById('noteTitle').value = defaultTitle;
+            document.getElementById('noteDescription').value = '';
+            document.getElementById('noteStatus').value = 'todo';
+            document.getElementById('notePriority').value = 'medium';
+            document.getElementById('noteComponent').value = currentDiagram;
+            document.getElementById('noteModal').classList.add('active');
+        }
+
+        function editNote(index) {
+            editingNoteIndex = index;
+            const note = notes[index];
+            document.getElementById('noteTitle').value = note.title;
+            document.getElementById('noteDescription').value = note.description;
+            document.getElementById('noteStatus').value = note.status;
+            document.getElementById('notePriority').value = note.priority;
+            document.getElementById('noteComponent').value = note.component;
+            document.getElementById('noteModal').classList.add('active');
+        }
+
+        function closeNoteModal() {
+            document.getElementById('noteModal').classList.remove('active');
+            editingNoteIndex = null;
+        }
+
+        function saveNote() {
+            const note = {
+                title: document.getElementById('noteTitle').value,
+                description: document.getElementById('noteDescription').value,
+                status: document.getElementById('noteStatus').value,
+                priority: document.getElementById('notePriority').value,
+                component: document.getElementById('noteComponent').value,
+                created: editingNoteIndex !== null ? notes[editingNoteIndex].created : new Date().toISOString(),
+                updated: new Date().toISOString()
+            };
+
+            if (!note.title) {
+                alert('Please enter a title');
+                return;
+            }
+
+            if (editingNoteIndex !== null) {
+                notes[editingNoteIndex] = note;
+            } else {
+                notes.push(note);
+            }
+
+            localStorage.setItem('hg_dev_notes', JSON.stringify(notes));
+            renderNotes();
+            closeNoteModal();
+            updateLastSaved();
+        }
+
+        function deleteNote(index) {
+            if (confirm('Delete this note?')) {
+                notes.splice(index, 1);
+                localStorage.setItem('hg_dev_notes', JSON.stringify(notes));
+                renderNotes();
+                updateLastSaved();
+            }
+        }
+
+        function updateLastSaved() {
+            document.getElementById('lastSaved').textContent = new Date().toLocaleTimeString();
+        }
+
+        function exportNotes() {
+            const data = {
+                exportDate: new Date().toISOString(),
+                notes: notes,
+                stats: {
+                    total: notes.length,
+                    todo: notes.filter(n => n.status === 'todo').length,
+                    inProgress: notes.filter(n => n.status === 'in-progress').length,
+                    completed: notes.filter(n => n.status === 'completed').length,
+                    blocked: notes.filter(n => n.status === 'blocked').length
+                }
+            };
+
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `humanglue-dev-notes-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Chat functionality
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            if (!message) return;
+
+            // Add user message
+            addChatMessage(message, 'user');
+            input.value = '';
+
+            // Show typing indicator
+            const typingId = showTypingIndicator();
+
+            // Simulate AI response
+            setTimeout(() => {
+                removeTypingIndicator(typingId);
+                const response = getAIResponse(message);
+                addChatMessage(response, 'assistant');
+            }, 1000 + Math.random() * 1000);
+        }
+
+        function addChatMessage(text, role) {
+            const container = document.getElementById('chatMessages');
+            const div = document.createElement('div');
+            div.className = `chat-message ${role}`;
+            div.innerHTML = `<div class="chat-message-bubble">${text.replace(/\n/g, '<br>')}</div>`;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            const container = document.getElementById('chatMessages');
+            const div = document.createElement('div');
+            div.className = 'chat-message assistant';
+            div.id = 'typing-' + Date.now();
+            div.innerHTML = `
+                <div class="chat-message-bubble">
+                    <div class="typing-indicator">
+                        <span class="typing-dot"></span>
+                        <span class="typing-dot"></span>
+                        <span class="typing-dot"></span>
+                    </div>
+                </div>
+            `;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+            return div.id;
+        }
+
+        function removeTypingIndicator(id) {
+            const el = document.getElementById(id);
+            if (el) el.remove();
+        }
+
+        function getAIResponse(message) {
+            const lower = message.toLowerCase();
+
+            if (lower.includes('stripe') || lower.includes('payment')) {
+                return aiResponses.stripe;
+            } else if (lower.includes('zoom') || lower.includes('video')) {
+                return aiResponses.zoom;
+            } else if (lower.includes('white') || lower.includes('label') || lower.includes('brand')) {
+                return aiResponses['white-label'];
+            } else if (lower.includes('assess')) {
+                return aiResponses.assessment;
+            } else if (lower.includes('role') || lower.includes('permission')) {
+                return aiResponses.roles;
+            } else if (lower.includes('database') || lower.includes('schema') || lower.includes('table')) {
+                return aiResponses.database;
+            } else {
+                return aiResponses.default;
+            }
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeNoteModal();
+            }
+            if (e.key === '+' && (e.ctrlKey || e.metaKey)) {
+                e.preventDefault();
+                zoomIn();
+            }
+            if (e.key === '-' && (e.ctrlKey || e.metaKey)) {
+                e.preventDefault();
+                zoomOut();
+            }
+            if (e.key === '0' && (e.ctrlKey || e.metaKey)) {
+                e.preventDefault();
+                resetZoom();
+            }
+        });
+    </script>
+</body>
+</html>

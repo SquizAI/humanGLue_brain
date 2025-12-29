@@ -512,9 +512,9 @@ export default function NewExpert() {
               {/* Info Box */}
               <div className="mt-6 p-4 bg-blue-500/10 border border-blue-500/20 rounded-xl">
                 <div className="flex items-start gap-3">
-                  <Users className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
+                  <Users className="w-5 h-5 text-[var(--hg-cyan-text)] flex-shrink-0 mt-0.5" />
                   <div>
-                    <h4 className="text-sm font-semibold text-blue-300 mb-1 font-diatype">
+                    <h4 className="text-sm font-semibold text-[var(--hg-cyan-text)] mb-1 font-diatype">
                       Expert Profile
                     </h4>
                     <p className="text-sm text-blue-200/80 font-diatype">

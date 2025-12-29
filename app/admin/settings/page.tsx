@@ -1,32 +1,32 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import {
   Settings,
   Save,
   Mail,
   Bell,
-  Lock,
   Database,
   Zap,
   Shield,
-  Code,
-  Globe,
   CheckCircle,
   Palette,
+  Sun,
+  Moon,
+  Monitor,
 } from 'lucide-react'
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
 import { useChat } from '@/lib/contexts/ChatContext'
 import { LoadingSpinner } from '@/components/atoms/LoadingSpinner'
+import { Button } from '@/components/atoms/Button'
+import { Card } from '@/components/atoms/Card'
+import { Text, Heading } from '@/components/atoms/Text'
 import { signOut } from '@/lib/auth/hooks'
 import { useTheme } from 'next-themes'
-import { Sun, Moon, Monitor } from 'lucide-react'
 
 export default function SettingsAdmin() {
-  const router = useRouter()
   const { userData, authLoading } = useChat()
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
@@ -85,7 +85,7 @@ export default function SettingsAdmin() {
 
   if (!showContent) {
     return (
-      <div className="min-h-screen bg-black">
+      <div className="min-h-screen" style={{ backgroundColor: 'var(--hg-bg-primary)' }}>
         <DashboardSidebar onLogout={handleLogout} />
         <div className="lg:ml-[var(--sidebar-width,280px)] transition-all duration-300 flex items-center justify-center min-h-screen">
           <LoadingSpinner variant="neural" size="xl" text="Loading settings..." />
@@ -111,29 +111,23 @@ export default function SettingsAdmin() {
   ]
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen" style={{ backgroundColor: 'var(--hg-bg-primary)' }}>
       <DashboardSidebar onLogout={handleLogout} />
 
       <div className="lg:ml-[var(--sidebar-width,280px)] transition-all duration-300 pb-20 lg:pb-0">
-        <div className="bg-black/50 backdrop-blur-xl border-b border-white/10 sticky top-0 z-30">
+        <div className="border-b hg-bg-sidebar hg-border">
           <div className="px-8 py-6">
             <div className="flex items-center justify-between">
               <div>
-                <Link href="/admin" className="text-gray-400 hover:text-white transition-colors mb-2 inline-block">
-                  <span className="font-diatype">← Back to Dashboard</span>
+                <Link href="/admin">
+                  <Text variant="muted" size="sm" className="hover:underline mb-2 inline-block">← Back to Dashboard</Text>
                 </Link>
-                <h1 className="text-3xl font-bold text-white mb-2 font-gendy">System Settings</h1>
-                <p className="text-gray-400 font-diatype">Configure platform settings and integrations</p>
+                <Heading as="h1" size="3xl" className="mb-2">System Settings</Heading>
+                <Text variant="muted">Configure platform settings and integrations</Text>
               </div>
-              <motion.button
-                onClick={handleSave}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="px-6 py-3 bg-gradient-to-r from-green-500 to-cyan-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center gap-2 font-diatype"
-              >
-                <Save className="w-5 h-5" />
+              <Button variant="primary" size="lg" onClick={handleSave} icon={<Save className="w-5 h-5" />}>
                 Save Changes
-              </motion.button>
+              </Button>
             </div>
           </div>
         </div>
@@ -142,66 +136,68 @@ export default function SettingsAdmin() {
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {/* Tabs Sidebar */}
             <div className="lg:col-span-1">
-              <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-4">
+              <Card padding="md">
                 <div className="space-y-2">
                   {tabs.map((tab) => {
                     const Icon = tab.icon
+                    const isActive = activeTab === tab.id
                     return (
-                      <button
+                      <Button
                         key={tab.id}
+                        variant={isActive ? 'cyan' : 'ghost'}
                         onClick={() => setActiveTab(tab.id)}
-                        className={`w-full px-4 py-3 rounded-xl transition-all flex items-center gap-3 font-diatype ${
-                          activeTab === tab.id
-                            ? 'bg-cyan-500/20 border border-cyan-500/30 text-cyan-300'
-                            : 'bg-transparent hover:bg-white/5 text-gray-400'
-                        }`}
+                        fullWidth
+                        className={`justify-start gap-3 ${!isActive ? 'hg-text-muted' : ''}`}
                       >
                         <Icon className="w-5 h-5" />
                         {tab.name}
-                      </button>
+                      </Button>
                     )
                   })}
                 </div>
-              </div>
+              </Card>
             </div>
 
             {/* Settings Content */}
             <div className="lg:col-span-3">
-              <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
+              <Card padding="lg">
                 {activeTab === 'general' && (
                   <div className="space-y-6">
-                    <h2 className="text-xl font-bold text-white mb-4 font-gendy">General Settings</h2>
+                    <Heading as="h2" size="xl" className="mb-4">General Settings</Heading>
                     <div>
-                      <label className="block text-sm font-semibold text-white mb-2 font-diatype">
+                      <Text weight="semibold" size="sm" className="block mb-2">
                         Platform Name
-                      </label>
+                      </Text>
                       <input
                         type="text"
                         value={settings.platformName}
                         onChange={(e) => setSettings({ ...settings, platformName: e.target.value })}
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-diatype"
+                        className="w-full px-4 py-3 rounded-xl transition-all hg-border border focus:outline-none focus:ring-2 hg-bg-secondary hg-text-primary"
+                        style={{ '--tw-ring-color': 'var(--hg-cyan-border)' } as React.CSSProperties}
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-white mb-2 font-diatype">
+                      <Text weight="semibold" size="sm" className="block mb-2">
                         Platform URL
-                      </label>
+                      </Text>
                       <input
                         type="url"
                         value={settings.platformUrl}
                         onChange={(e) => setSettings({ ...settings, platformUrl: e.target.value })}
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-diatype"
+                        className="w-full px-4 py-3 rounded-xl transition-all hg-border border focus:outline-none focus:ring-2 hg-bg-secondary hg-text-primary"
+                        style={{ '--tw-ring-color': 'var(--hg-cyan-border)' } as React.CSSProperties}
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-white mb-2 font-diatype">
+                      <Text weight="semibold" size="sm" className="block mb-2">
                         Support Email
-                      </label>
+                      </Text>
                       <input
                         type="email"
                         value={settings.supportEmail}
                         onChange={(e) => setSettings({ ...settings, supportEmail: e.target.value })}
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-diatype"
+                        className="w-full px-4 py-3 rounded-xl transition-all hg-border border focus:outline-none focus:ring-2 hg-bg-secondary hg-text-primary"
+                        style={{ '--tw-ring-color': 'var(--hg-cyan-border)' } as React.CSSProperties}
                       />
                     </div>
                   </div>
@@ -209,76 +205,70 @@ export default function SettingsAdmin() {
 
                 {activeTab === 'appearance' && (
                   <div className="space-y-6">
-                    <h2 className="text-xl font-bold text-white dark:text-white mb-4 font-gendy">Appearance Settings</h2>
+                    <Heading as="h2" size="xl" className="mb-4">Appearance Settings</Heading>
                     <div>
-                      <label className="block text-sm font-semibold text-white dark:text-white mb-4 font-diatype">
+                      <Text weight="semibold" size="sm" className="block mb-4">
                         Theme
-                      </label>
+                      </Text>
                       <div className="grid grid-cols-3 gap-4">
                         {/* Light Mode */}
                         <button
                           onClick={() => setTheme('light')}
                           className={`p-4 rounded-xl border-2 transition-all flex flex-col items-center gap-3 ${
-                            mounted && theme === 'light'
-                              ? 'border-cyan-500 bg-cyan-500/10'
-                              : 'border-white/10 bg-white/5 hover:bg-white/10'
+                            mounted && theme === 'light' ? 'hg-cyan-bg hg-cyan-border' : 'hg-bg-secondary hg-border'
                           }`}
                         >
                           <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center">
                             <Sun className="w-6 h-6 text-yellow-500" />
                           </div>
-                          <span className="text-white dark:text-white font-medium font-diatype">Light</span>
+                          <Text weight="medium">Light</Text>
                         </button>
 
                         {/* Dark Mode */}
                         <button
                           onClick={() => setTheme('dark')}
                           className={`p-4 rounded-xl border-2 transition-all flex flex-col items-center gap-3 ${
-                            mounted && theme === 'dark'
-                              ? 'border-cyan-500 bg-cyan-500/10'
-                              : 'border-white/10 bg-white/5 hover:bg-white/10'
+                            mounted && theme === 'dark' ? 'hg-cyan-bg hg-cyan-border' : 'hg-bg-secondary hg-border'
                           }`}
                         >
                           <div className="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center">
-                            <Moon className="w-6 h-6 text-blue-400" />
+                            <Moon className="w-6 h-6 hg-cyan-text" />
                           </div>
-                          <span className="text-white dark:text-white font-medium font-diatype">Dark</span>
+                          <Text weight="medium">Dark</Text>
                         </button>
 
                         {/* System */}
                         <button
                           onClick={() => setTheme('system')}
                           className={`p-4 rounded-xl border-2 transition-all flex flex-col items-center gap-3 ${
-                            mounted && theme === 'system'
-                              ? 'border-cyan-500 bg-cyan-500/10'
-                              : 'border-white/10 bg-white/5 hover:bg-white/10'
+                            mounted && theme === 'system' ? 'hg-cyan-bg hg-cyan-border' : 'hg-bg-secondary hg-border'
                           }`}
                         >
                           <div className="w-12 h-12 rounded-full bg-gradient-to-br from-white to-gray-800 flex items-center justify-center">
                             <Monitor className="w-6 h-6 text-gray-600" />
                           </div>
-                          <span className="text-white dark:text-white font-medium font-diatype">System</span>
+                          <Text weight="medium">System</Text>
                         </button>
                       </div>
-                      <p className="text-sm text-gray-400 mt-4 font-diatype">
+                      <Text variant="muted" size="sm" className="mt-4">
                         Choose how the dashboard appears to you. Select &quot;System&quot; to automatically match your device settings.
-                      </p>
+                      </Text>
                     </div>
                   </div>
                 )}
 
                 {activeTab === 'notifications' && (
                   <div className="space-y-6">
-                    <h2 className="text-xl font-bold text-white mb-4 font-gendy">Notification Settings</h2>
-                    <div className="flex items-center justify-between p-4 bg-white/5 rounded-xl">
+                    <Heading as="h2" size="xl" className="mb-4">Notification Settings</Heading>
+                    <div className="flex items-center justify-between p-4 rounded-xl hg-bg-secondary">
                       <div>
-                        <h3 className="text-white font-semibold font-diatype">Email Notifications</h3>
-                        <p className="text-sm text-gray-400 font-diatype">Receive email alerts for important events</p>
+                        <Text weight="semibold">Email Notifications</Text>
+                        <Text variant="muted" size="sm">Receive email alerts for important events</Text>
                       </div>
                       <button
                         onClick={() => setSettings({ ...settings, emailNotifications: !settings.emailNotifications })}
                         className={`relative w-14 h-7 rounded-full transition-colors ${
-                          settings.emailNotifications ? 'bg-green-500' : 'bg-gray-600'
+                          settings.emailNotifications ? 'bg-emerald-500' : 'bg-gray-600'
                         }`}
                       >
                         <div
@@ -288,15 +278,15 @@ export default function SettingsAdmin() {
                         />
                       </button>
                     </div>
-                    <div className="flex items-center justify-between p-4 bg-white/5 rounded-xl">
+                    <div className="flex items-center justify-between p-4 rounded-xl hg-bg-secondary">
                       <div>
-                        <h3 className="text-white font-semibold font-diatype">Slack Notifications</h3>
-                        <p className="text-sm text-gray-400 font-diatype">Send notifications to Slack channel</p>
+                        <Text weight="semibold">Slack Notifications</Text>
+                        <Text variant="muted" size="sm">Send notifications to Slack channel</Text>
                       </div>
                       <button
                         onClick={() => setSettings({ ...settings, slackNotifications: !settings.slackNotifications })}
                         className={`relative w-14 h-7 rounded-full transition-colors ${
-                          settings.slackNotifications ? 'bg-green-500' : 'bg-gray-600'
+                          settings.slackNotifications ? 'bg-emerald-500' : 'bg-gray-600'
                         }`}
                       >
                         <div
@@ -311,16 +301,16 @@ export default function SettingsAdmin() {
 
                 {activeTab === 'security' && (
                   <div className="space-y-6">
-                    <h2 className="text-xl font-bold text-white mb-4 font-gendy">Security Settings</h2>
-                    <div className="flex items-center justify-between p-4 bg-white/5 rounded-xl">
+                    <Heading as="h2" size="xl" className="mb-4">Security Settings</Heading>
+                    <div className="flex items-center justify-between p-4 rounded-xl hg-bg-secondary">
                       <div>
-                        <h3 className="text-white font-semibold font-diatype">Two-Factor Authentication</h3>
-                        <p className="text-sm text-gray-400 font-diatype">Require 2FA for admin accounts</p>
+                        <Text weight="semibold">Two-Factor Authentication</Text>
+                        <Text variant="muted" size="sm">Require 2FA for admin accounts</Text>
                       </div>
                       <button
                         onClick={() => setSettings({ ...settings, twoFactorAuth: !settings.twoFactorAuth })}
                         className={`relative w-14 h-7 rounded-full transition-colors ${
-                          settings.twoFactorAuth ? 'bg-green-500' : 'bg-gray-600'
+                          settings.twoFactorAuth ? 'bg-emerald-500' : 'bg-gray-600'
                         }`}
                       >
                         <div
@@ -331,14 +321,15 @@ export default function SettingsAdmin() {
                       </button>
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-white mb-2 font-diatype">
+                      <Text weight="semibold" size="sm" className="block mb-2">
                         API Rate Limit (requests/hour)
-                      </label>
+                      </Text>
                       <input
                         type="number"
                         value={settings.apiRateLimit}
                         onChange={(e) => setSettings({ ...settings, apiRateLimit: parseInt(e.target.value) })}
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-diatype"
+                        className="w-full px-4 py-3 rounded-xl transition-all hg-border border focus:outline-none focus:ring-2 hg-bg-secondary hg-text-primary"
+                        style={{ '--tw-ring-color': 'var(--hg-cyan-border)' } as React.CSSProperties}
                       />
                     </div>
                   </div>
@@ -346,88 +337,134 @@ export default function SettingsAdmin() {
 
                 {activeTab === 'integrations' && (
                   <div className="space-y-6">
-                    <h2 className="text-xl font-bold text-white mb-4 font-gendy">Integrations</h2>
-                    <div>
-                      <label className="block text-sm font-semibold text-white mb-2 font-diatype">
-                        Supabase URL
-                      </label>
-                      <input
-                        type="url"
-                        value={settings.supabaseUrl}
-                        onChange={(e) => setSettings({ ...settings, supabaseUrl: e.target.value })}
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-diatype"
-                      />
+                    <Heading as="h2" size="xl" className="mb-4">Integrations</Heading>
+                    <Text variant="muted">
+                      Configure bots, webhooks, voice assistants, CRM connections, and more.
+                    </Text>
+
+                    {/* Integration Categories */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {/* Bots & Agents */}
+                      <Link href="/admin/settings/integrations">
+                        <Card hover animate className="p-6 cursor-pointer" variant="flat">
+                          <div className="flex items-center gap-4 mb-3">
+                            <div className="p-3 rounded-xl hg-cyan-bg">
+                              <Zap className="w-6 h-6 hg-cyan-text" />
+                            </div>
+                            <div>
+                              <Text weight="semibold" className="font-gendy">Bots & Agents</Text>
+                              <Text variant="muted" size="sm">Discord, Slack, Telegram, Web</Text>
+                            </div>
+                          </div>
+                          <Text variant="muted" size="sm">
+                            Manage AI bots and agents across platforms
+                          </Text>
+                        </Card>
+                      </Link>
+
+                      {/* Communication Channels */}
+                      <Link href="/admin/settings/channels">
+                        <Card hover animate className="p-6 cursor-pointer" variant="flat">
+                          <div className="flex items-center gap-4 mb-3">
+                            <div className="p-3 rounded-xl hg-cyan-bg">
+                              <Bell className="w-6 h-6 hg-cyan-text" />
+                            </div>
+                            <div>
+                              <Text weight="semibold" className="font-gendy">Communication Channels</Text>
+                              <Text variant="muted" size="sm">Email, Social, Newsletter</Text>
+                            </div>
+                          </div>
+                          <Text variant="muted" size="sm">
+                            Configure email, social media, and newsletters
+                          </Text>
+                        </Card>
+                      </Link>
                     </div>
-                    <div>
-                      <label className="block text-sm font-semibold text-white mb-2 font-diatype">
-                        Stripe Public Key
-                      </label>
-                      <input
-                        type="text"
-                        value={settings.stripePublicKey}
-                        onChange={(e) => setSettings({ ...settings, stripePublicKey: e.target.value })}
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-diatype"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-semibold text-white mb-2 font-diatype">
-                        OpenAI API Key
-                      </label>
-                      <input
-                        type="password"
-                        value={settings.openaiApiKey}
-                        onChange={(e) => setSettings({ ...settings, openaiApiKey: e.target.value })}
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-diatype"
-                      />
+
+                    {/* API Keys */}
+                    <div className="mt-6">
+                      <Text weight="semibold" className="mb-4 font-gendy block">API Configuration</Text>
+                      <div className="space-y-4">
+                        <div>
+                          <Text weight="semibold" size="sm" className="block mb-2">
+                            Supabase URL
+                          </Text>
+                          <input
+                            type="url"
+                            value={settings.supabaseUrl}
+                            onChange={(e) => setSettings({ ...settings, supabaseUrl: e.target.value })}
+                            className="w-full px-4 py-3 rounded-xl transition-all hg-border border focus:outline-none focus:ring-2 hg-bg-secondary hg-text-primary"
+                            style={{ '--tw-ring-color': 'var(--hg-cyan-border)' } as React.CSSProperties}
+                          />
+                        </div>
+                        <div>
+                          <Text weight="semibold" size="sm" className="block mb-2">
+                            Stripe Public Key
+                          </Text>
+                          <input
+                            type="text"
+                            value={settings.stripePublicKey}
+                            onChange={(e) => setSettings({ ...settings, stripePublicKey: e.target.value })}
+                            className="w-full px-4 py-3 rounded-xl transition-all hg-border border focus:outline-none focus:ring-2 hg-bg-secondary hg-text-primary"
+                            style={{ '--tw-ring-color': 'var(--hg-cyan-border)' } as React.CSSProperties}
+                          />
+                        </div>
+                        <div>
+                          <Text weight="semibold" size="sm" className="block mb-2">
+                            OpenAI API Key
+                          </Text>
+                          <input
+                            type="password"
+                            value={settings.openaiApiKey}
+                            onChange={(e) => setSettings({ ...settings, openaiApiKey: e.target.value })}
+                            className="w-full px-4 py-3 rounded-xl transition-all hg-border border focus:outline-none focus:ring-2 hg-bg-secondary hg-text-primary"
+                            style={{ '--tw-ring-color': 'var(--hg-cyan-border)' } as React.CSSProperties}
+                          />
+                        </div>
+                      </div>
                     </div>
                   </div>
                 )}
 
                 {activeTab === 'backup' && (
                   <div className="space-y-6">
-                    <h2 className="text-xl font-bold text-white mb-4 font-gendy">Backup & Restore</h2>
-                    <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-6">
-                      <h3 className="text-white font-semibold mb-2 font-diatype">Automatic Backups</h3>
-                      <p className="text-sm text-gray-400 mb-4 font-diatype">
+                    <Heading as="h2" size="xl" className="mb-4">Backup & Restore</Heading>
+                    <div className="rounded-xl p-6 border hg-cyan-bg hg-cyan-border">
+                      <Text weight="semibold" className="mb-2">Automatic Backups</Text>
+                      <Text variant="muted" size="sm" className="mb-4">
                         Database backups run daily at 2:00 AM UTC
-                      </p>
+                      </Text>
                       <div className="flex gap-3">
-                        <motion.button
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                          className="px-4 py-2 bg-blue-500/20 hover:bg-blue-500/30 border border-blue-500/30 text-blue-300 rounded-lg transition-all font-diatype"
-                        >
+                        <Button variant="cyan" size="sm">
                           Backup Now
-                        </motion.button>
-                        <motion.button
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                          className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white rounded-lg transition-all font-diatype"
-                        >
+                        </Button>
+                        <Button variant="secondary" size="sm">
                           View Backups
-                        </motion.button>
+                        </Button>
                       </div>
                     </div>
                   </div>
                 )}
-              </div>
+              </Card>
             </div>
           </div>
         </div>
       </div>
 
       {/* Success Message */}
-      {showSuccess && (
-        <motion.div
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -50 }}
-          className="fixed top-8 right-8 z-[60] bg-green-500 text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3"
-        >
-          <CheckCircle className="w-6 h-6" />
-          <span className="font-semibold font-diatype">Settings saved successfully!</span>
-        </motion.div>
-      )}
+      <AnimatePresence>
+        {showSuccess && (
+          <motion.div
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -50 }}
+            className="fixed top-8 right-8 z-[60] bg-green-500 text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3"
+          >
+            <CheckCircle className="w-6 h-6" />
+            <Text weight="semibold" className="text-white">Settings saved successfully!</Text>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }

@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: humanglue-web
+  namespace: humanglue
+spec:
+  replicas: 3
+  template:
+    spec:
+      containers:
+        - name: nextjs
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "500m"
+            limits:
+              memory: "2Gi"
+              cpu: "2000m"

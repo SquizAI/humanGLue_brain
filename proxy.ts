@@ -18,7 +18,7 @@ import { getOrgByDomain } from '@/services/branding'
 // Define route access rules
 const ROUTE_RULES = {
   // Public routes (no auth required)
-  public: ['/', '/login', '/signup', '/reset-password', '/about', '/pricing', '/contact', '/solutions', '/purpose', '/results', '/privacy', '/terms', '/workshops', '/talent'],
+  public: ['/', '/login', '/signup', '/reset-password', '/about', '/pricing', '/contact', '/solutions', '/purpose', '/results', '/privacy', '/terms', '/workshops', '/talent', '/apply'],
 
   // Auth routes (redirect to dashboard if already logged in)
   authPages: ['/login', '/signup'],

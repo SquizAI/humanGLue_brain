@@ -573,7 +573,7 @@ export default function SocialMediaPage() {
                   {mentions.map((mention) => (
                     <span
                       key={mention}
-                      className="flex items-center gap-1 px-3 py-1 bg-blue-500/10 text-blue-400 rounded-full text-sm"
+                      className="flex items-center gap-1 px-3 py-1 bg-blue-500/10 text-[var(--hg-cyan-text)] rounded-full text-sm"
                     >
                       @{mention}
                       <button onClick={() => removeMention(mention)} className="hover:text-white">

@@ -207,7 +207,7 @@ export default function OrganizationMembersPage() {
       case 'org_admin':
         return <ShieldCheck className="w-4 h-4 text-cyan-400" />
       case 'team_lead':
-        return <Shield className="w-4 h-4 text-blue-400" />
+        return <Shield className="w-4 h-4 text-[var(--hg-cyan-text)]" />
       default:
         return <Users className="w-4 h-4 text-gray-400" />
     }
@@ -368,7 +368,7 @@ export default function OrganizationMembersPage() {
                   <tr key={member.id} className="hover:bg-white/5 transition-colors">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full flex items-center justify-center text-white font-semibold">
+                        <div className="w-10 h-10 bg-[var(--hg-cyan-text)] rounded-full flex items-center justify-center text-white font-semibold">
                           {member.user?.full_name?.charAt(0) || '?'}
                         </div>
                         <div>
@@ -460,7 +460,7 @@ export default function OrganizationMembersPage() {
               {inviteSuccess ? (
                 <div className="text-center py-8">
                   <div className="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Check className="w-8 h-8 text-green-400" />
+                    <Check className="w-8 h-8 text-[var(--hg-cyan-text)]" />
                   </div>
                   <h3 className="text-xl font-semibold text-white mb-2 font-gendy">
                     Invitation Sent!

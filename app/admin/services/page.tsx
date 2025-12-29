@@ -171,7 +171,7 @@ export default function ServicesOverview() {
 
   if (!showContent) {
     return (
-      <div className="min-h-screen bg-black">
+      <div className="min-h-screen" style={{ backgroundColor: 'var(--hg-bg-primary)' }}>
         <DashboardSidebar onLogout={handleLogout} />
         <div className="lg:ml-[var(--sidebar-width,280px)] transition-all duration-300 flex items-center justify-center min-h-screen">
           <LoadingSpinner variant="neural" size="xl" text="Loading services..." />
@@ -226,9 +226,9 @@ export default function ServicesOverview() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'success':
-        return 'text-green-400 bg-green-500/20 border-green-500/30'
+        return 'text-emerald-400 bg-emerald-500/20 border-emerald-500/30'
       case 'info':
-        return 'text-blue-400 bg-blue-500/20 border-blue-500/30'
+        return 'text-[var(--hg-cyan-text)] bg-blue-500/20 border-blue-500/30'
       case 'warning':
         return 'text-amber-400 bg-amber-500/20 border-amber-500/30'
       case 'error':
@@ -256,22 +256,22 @@ export default function ServicesOverview() {
   }
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen" style={{ backgroundColor: 'var(--hg-bg-primary)' }}>
       <DashboardSidebar onLogout={handleLogout} />
 
       <div className="lg:ml-[var(--sidebar-width,280px)] transition-all duration-300 pb-20 lg:pb-0">
         {/* Header */}
-        <div className="bg-black/50 backdrop-blur-xl border-b border-white/10 sticky top-0 z-30">
+        <div className="border-b sticky top-0 z-30" style={{ backgroundColor: 'var(--hg-bg-sidebar)', borderColor: 'var(--hg-border-color)' }}>
           <div className="px-8 py-6">
             <div className="flex items-center justify-between">
               <div>
                 <div className="flex items-center gap-3 mb-2">
-                  <Link href="/admin" className="text-gray-400 hover:text-white transition-colors">
+                  <Link href="/admin" className="text-sm hover:underline" style={{ color: 'var(--hg-text-muted)' }}>
                     <span className="font-diatype">← Back to Dashboard</span>
                   </Link>
                 </div>
-                <h1 className="text-3xl font-bold text-white mb-2 font-gendy">Service Management</h1>
-                <p className="text-gray-400 font-diatype">
+                <h1 className="text-3xl font-bold mb-2 font-gendy" style={{ color: 'var(--hg-text-primary)' }}>Service Management</h1>
+                <p className="font-diatype" style={{ color: 'var(--hg-text-muted)' }}>
                   Monitor and manage all platform services
                 </p>
               </div>
@@ -279,19 +279,19 @@ export default function ServicesOverview() {
                 <div
                   className={`px-4 py-2 rounded-lg border ${
                     systemHealth.status === 'operational'
-                      ? 'bg-green-500/10 border-green-500/20'
+                      ? 'bg-emerald-500/10 border-emerald-500/20'
                       : 'bg-red-500/10 border-red-500/20'
                   }`}
                 >
                   <div className="flex items-center gap-2">
                     <div
                       className={`w-2 h-2 rounded-full ${
-                        systemHealth.status === 'operational' ? 'bg-green-400' : 'bg-red-400'
+                        systemHealth.status === 'operational' ? 'bg-emerald-400' : 'bg-red-400'
                       } animate-pulse`}
                     />
                     <span
                       className={`text-sm font-diatype ${
-                        systemHealth.status === 'operational' ? 'text-green-400' : 'text-red-400'
+                        systemHealth.status === 'operational' ? 'text-emerald-400' : 'text-red-400'
                       }`}
                     >
                       {systemHealth.status === 'operational' ? 'All Systems Operational' : 'System Issues'}
@@ -310,66 +310,70 @@ export default function ServicesOverview() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-gradient-to-br from-green-900/30 to-green-900/10 backdrop-blur-xl border border-green-500/20 rounded-2xl p-6"
+              className="border rounded-2xl p-6 transition-all hover:border-[var(--hg-cyan-border)]"
+              style={{ backgroundColor: 'var(--hg-bg-card)', borderColor: 'var(--hg-border-color)', boxShadow: 'var(--hg-shadow)' }}
             >
               <div className="flex items-center justify-between mb-2">
-                <CheckCircle className="w-6 h-6 text-green-400" />
-                <span className="text-green-400 text-sm font-diatype">{systemHealth.uptime}%</span>
+                <CheckCircle className="w-6 h-6" style={{ color: 'var(--hg-cyan-text)' }} />
+                <span className="text-sm font-diatype" style={{ color: 'var(--hg-cyan-text)' }}>{systemHealth.uptime}%</span>
               </div>
-              <h3 className="text-2xl font-bold text-white mb-1 font-gendy">Uptime</h3>
-              <p className="text-sm text-gray-400 font-diatype">Last 30 days</p>
+              <h3 className="text-2xl font-bold mb-1 font-gendy" style={{ color: 'var(--hg-text-primary)' }}>Uptime</h3>
+              <p className="text-sm font-diatype" style={{ color: 'var(--hg-text-muted)' }}>Last 30 days</p>
             </motion.div>
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="bg-gradient-to-br from-blue-900/30 to-blue-900/10 backdrop-blur-xl border border-blue-500/20 rounded-2xl p-6"
+              className="border rounded-2xl p-6 transition-all hover:border-[var(--hg-cyan-border)]"
+              style={{ backgroundColor: 'var(--hg-bg-card)', borderColor: 'var(--hg-border-color)', boxShadow: 'var(--hg-shadow)' }}
             >
               <div className="flex items-center justify-between mb-2">
-                <Users className="w-6 h-6 text-blue-400" />
-                <Activity className="w-5 h-5 text-blue-400" />
+                <Users className="w-6 h-6" style={{ color: 'var(--hg-cyan-text)' }} />
+                <Activity className="w-5 h-5" style={{ color: 'var(--hg-cyan-text)' }} />
               </div>
-              <h3 className="text-2xl font-bold text-white mb-1 font-gendy">
+              <h3 className="text-2xl font-bold mb-1 font-gendy" style={{ color: 'var(--hg-text-primary)' }}>
                 {systemHealth.activeUsers}
               </h3>
-              <p className="text-sm text-gray-400 font-diatype">Active users</p>
+              <p className="text-sm font-diatype" style={{ color: 'var(--hg-text-muted)' }}>Active users</p>
             </motion.div>
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="bg-gradient-to-br from-cyan-900/30 to-cyan-900/10 backdrop-blur-xl border border-cyan-500/20 rounded-2xl p-6"
+              className="border rounded-2xl p-6 transition-all hover:border-[var(--hg-cyan-border)]"
+              style={{ backgroundColor: 'var(--hg-bg-card)', borderColor: 'var(--hg-border-color)', boxShadow: 'var(--hg-shadow)' }}
             >
               <div className="flex items-center justify-between mb-2">
-                <BarChart3 className="w-6 h-6 text-cyan-400" />
-                <TrendingUp className="w-5 h-5 text-green-400" />
+                <BarChart3 className="w-6 h-6" style={{ color: 'var(--hg-cyan-text)' }} />
+                <TrendingUp className="w-5 h-5" style={{ color: 'var(--hg-cyan-text)' }} />
               </div>
-              <h3 className="text-2xl font-bold text-white mb-1 font-gendy">
+              <h3 className="text-2xl font-bold mb-1 font-gendy" style={{ color: 'var(--hg-text-primary)' }}>
                 {systemHealth.apiCalls.toLocaleString()}
               </h3>
-              <p className="text-sm text-gray-400 font-diatype">API calls today</p>
+              <p className="text-sm font-diatype" style={{ color: 'var(--hg-text-muted)' }}>API calls today</p>
             </motion.div>
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="bg-gradient-to-br from-amber-900/30 to-amber-900/10 backdrop-blur-xl border border-amber-500/20 rounded-2xl p-6"
+              className="border rounded-2xl p-6 transition-all hover:border-[var(--hg-cyan-border)]"
+              style={{ backgroundColor: 'var(--hg-bg-card)', borderColor: 'var(--hg-border-color)', boxShadow: 'var(--hg-shadow)' }}
             >
               <div className="flex items-center justify-between mb-2">
                 <Activity className="w-6 h-6 text-amber-400" />
                 <Clock className="w-5 h-5 text-amber-400" />
               </div>
-              <h3 className="text-2xl font-bold text-white mb-1 font-gendy">98.5%</h3>
-              <p className="text-sm text-gray-400 font-diatype">Service availability</p>
+              <h3 className="text-2xl font-bold mb-1 font-gendy" style={{ color: 'var(--hg-text-primary)' }}>98.5%</h3>
+              <p className="text-sm font-diatype" style={{ color: 'var(--hg-text-muted)' }}>Service availability</p>
             </motion.div>
           </div>
 
           {/* Service Cards */}
           <div className="mb-8">
-            <h2 className="text-xl font-bold text-white mb-4 font-gendy">Services Overview</h2>
+            <h2 className="text-xl font-bold mb-4 font-gendy" style={{ color: 'var(--hg-text-primary)' }}>Services Overview</h2>
             <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
               {serviceCards.map((service, index) => {
                 const Icon = service.icon
@@ -380,62 +384,64 @@ export default function ServicesOverview() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
-                    className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 hover:border-cyan-500/30 transition-all group"
+                    className="border rounded-2xl p-6 hover:border-[var(--hg-cyan-border)] transition-all group"
+                    style={{ backgroundColor: 'var(--hg-bg-card)', borderColor: 'var(--hg-border-color)' }}
                   >
                     <div className="flex items-center justify-between mb-4">
-                      <div className={`p-3 bg-${service.color}-500/20 rounded-xl`}>
-                        <Icon className={`w-6 h-6 text-${service.color}-400`} />
+                      <div className="p-3 rounded-xl" style={{ backgroundColor: 'var(--hg-cyan-bg)' }}>
+                        <Icon className="w-6 h-6" style={{ color: 'var(--hg-cyan-text)' }} />
                       </div>
                       <Link href={service.href}>
                         <motion.button
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
-                          className="p-2 bg-white/5 hover:bg-white/10 rounded-lg transition-all"
+                          className="p-2 rounded-lg transition-all"
+                          style={{ backgroundColor: 'var(--hg-bg-secondary)' }}
                         >
-                          <Settings className="w-5 h-5 text-gray-400" />
+                          <Settings className="w-5 h-5" style={{ color: 'var(--hg-text-muted)' }} />
                         </motion.button>
                       </Link>
                     </div>
 
-                    <h3 className="text-xl font-bold text-white mb-1 font-gendy">
+                    <h3 className="text-xl font-bold mb-1 font-gendy" style={{ color: 'var(--hg-text-primary)' }}>
                       {service.title}
                     </h3>
-                    <p className="text-sm text-gray-400 mb-4 font-diatype">
+                    <p className="text-sm mb-4 font-diatype" style={{ color: 'var(--hg-text-muted)' }}>
                       {service.description}
                     </p>
 
                     {/* Metrics */}
                     <div className="grid grid-cols-2 gap-3 mb-4">
                       {metrics.total && (
-                        <div className="bg-white/5 rounded-lg p-3">
-                          <p className="text-2xl font-bold text-white mb-1 font-gendy">
+                        <div className="rounded-lg p-3" style={{ backgroundColor: 'var(--hg-bg-secondary)' }}>
+                          <p className="text-2xl font-bold mb-1 font-gendy" style={{ color: 'var(--hg-text-primary)' }}>
                             {metrics.total}
                           </p>
-                          <p className="text-xs text-gray-400 font-diatype">Total</p>
+                          <p className="text-xs font-diatype" style={{ color: 'var(--hg-text-muted)' }}>Total</p>
                         </div>
                       )}
                       {metrics.active !== undefined && (
-                        <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-3">
-                          <p className="text-2xl font-bold text-green-400 mb-1 font-gendy">
+                        <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-3">
+                          <p className="text-2xl font-bold text-emerald-400 mb-1 font-gendy">
                             {metrics.active}
                           </p>
-                          <p className="text-xs text-green-400 font-diatype">Active</p>
+                          <p className="text-xs text-emerald-400 font-diatype">Active</p>
                         </div>
                       )}
                       {metrics.scheduled !== undefined && (
-                        <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-3">
-                          <p className="text-2xl font-bold text-blue-400 mb-1 font-gendy">
+                        <div className="rounded-lg p-3 border" style={{ backgroundColor: 'var(--hg-cyan-bg)', borderColor: 'var(--hg-cyan-border)' }}>
+                          <p className="text-2xl font-bold mb-1 font-gendy" style={{ color: 'var(--hg-cyan-text)' }}>
                             {metrics.scheduled}
                           </p>
-                          <p className="text-xs text-blue-400 font-diatype">Scheduled</p>
+                          <p className="text-xs font-diatype" style={{ color: 'var(--hg-cyan-text)' }}>Scheduled</p>
                         </div>
                       )}
                       {metrics.published !== undefined && (
-                        <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-3">
-                          <p className="text-2xl font-bold text-green-400 mb-1 font-gendy">
+                        <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-3">
+                          <p className="text-2xl font-bold text-emerald-400 mb-1 font-gendy">
                             {metrics.published}
                           </p>
-                          <p className="text-xs text-green-400 font-diatype">Published</p>
+                          <p className="text-xs text-emerald-400 font-diatype">Published</p>
                         </div>
                       )}
                       {metrics.draft !== undefined && metrics.draft > 0 && (
@@ -460,7 +466,8 @@ export default function ServicesOverview() {
                       <motion.button
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        className={`w-full px-4 py-3 bg-${service.color}-500/20 hover:bg-${service.color}-500/30 border border-${service.color}-500/30 text-${service.color}-300 rounded-lg transition-all flex items-center justify-center gap-2 font-diatype`}
+                        className="w-full px-4 py-3 rounded-lg transition-all flex items-center justify-center gap-2 font-diatype border"
+                        style={{ backgroundColor: 'var(--hg-cyan-bg)', borderColor: 'var(--hg-cyan-border)', color: 'var(--hg-cyan-text)' }}
                       >
                         <span>Manage {service.title}</span>
                         <ArrowRight className="w-4 h-4" />
@@ -475,12 +482,13 @@ export default function ServicesOverview() {
           {/* Recent Activity & Quick Actions */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Recent Activity */}
-            <div className="lg:col-span-2 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
+            <div className="lg:col-span-2 border rounded-2xl p-6" style={{ backgroundColor: 'var(--hg-bg-card)', borderColor: 'var(--hg-border-color)' }}>
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold text-white font-gendy">Recent Activity</h2>
+                <h2 className="text-xl font-bold font-gendy" style={{ color: 'var(--hg-text-primary)' }}>Recent Activity</h2>
                 <Link
                   href="/admin/activity"
-                  className="text-sm text-cyan-400 hover:text-cyan-300 transition-colors font-diatype"
+                  className="text-sm hover:underline transition-colors font-diatype"
+                  style={{ color: 'var(--hg-cyan-text)' }}
                 >
                   View all
                 </Link>
@@ -492,20 +500,21 @@ export default function ServicesOverview() {
                   return (
                     <div
                       key={activity.id}
-                      className="flex items-center gap-4 p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-all"
+                      className="flex items-center gap-4 p-4 rounded-xl transition-all"
+                      style={{ backgroundColor: 'var(--hg-bg-secondary)' }}
                     >
-                      <div className={`p-2 rounded-lg ${getStatusColor(activity.status)}`}>
+                      <div className={`p-2 rounded-lg border ${getStatusColor(activity.status)}`}>
                         <Icon className="w-5 h-5" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-white font-medium font-diatype">{activity.action}</p>
-                        <p className="text-sm text-gray-400 font-diatype truncate">
+                        <p className="font-medium font-diatype" style={{ color: 'var(--hg-text-primary)' }}>{activity.action}</p>
+                        <p className="text-sm font-diatype truncate" style={{ color: 'var(--hg-text-muted)' }}>
                           {activity.title}
                         </p>
                       </div>
                       <div className="text-right">
-                        <p className="text-xs text-gray-500 font-diatype">{activity.time}</p>
-                        <p className="text-xs text-gray-400 font-diatype">{activity.user}</p>
+                        <p className="text-xs font-diatype" style={{ color: 'var(--hg-text-muted)' }}>{activity.time}</p>
+                        <p className="text-xs font-diatype" style={{ color: 'var(--hg-text-secondary)' }}>{activity.user}</p>
                       </div>
                     </div>
                   )
@@ -514,14 +523,15 @@ export default function ServicesOverview() {
             </div>
 
             {/* Quick Actions */}
-            <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
-              <h2 className="text-xl font-bold text-white mb-6 font-gendy">Quick Actions</h2>
+            <div className="border rounded-2xl p-6" style={{ backgroundColor: 'var(--hg-bg-card)', borderColor: 'var(--hg-border-color)' }}>
+              <h2 className="text-xl font-bold mb-6 font-gendy" style={{ color: 'var(--hg-text-primary)' }}>Quick Actions</h2>
               <div className="space-y-3">
                 <Link href="/admin/courses">
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="w-full px-4 py-3 bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-cyan-300 rounded-lg transition-all flex items-center gap-3 font-diatype"
+                    className="w-full px-4 py-3 rounded-lg transition-all flex items-center gap-3 font-diatype border"
+                    style={{ backgroundColor: 'var(--hg-cyan-bg)', borderColor: 'var(--hg-cyan-border)', color: 'var(--hg-cyan-text)' }}
                   >
                     <PlayCircle className="w-5 h-5" />
                     <span>Create Course</span>
@@ -532,7 +542,8 @@ export default function ServicesOverview() {
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="w-full px-4 py-3 bg-blue-500/20 hover:bg-blue-500/30 border border-blue-500/30 text-blue-300 rounded-lg transition-all flex items-center gap-3 font-diatype"
+                    className="w-full px-4 py-3 rounded-lg transition-all flex items-center gap-3 font-diatype border"
+                    style={{ backgroundColor: 'var(--hg-cyan-bg)', borderColor: 'var(--hg-cyan-border)', color: 'var(--hg-cyan-text)' }}
                   >
                     <Calendar className="w-5 h-5" />
                     <span>Schedule Workshop</span>
@@ -543,7 +554,7 @@ export default function ServicesOverview() {
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="w-full px-4 py-3 bg-green-500/20 hover:bg-green-500/30 border border-green-500/30 text-green-300 rounded-lg transition-all flex items-center gap-3 font-diatype"
+                    className="w-full px-4 py-3 bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/30 text-emerald-400 rounded-lg transition-all flex items-center gap-3 font-diatype"
                   >
                     <Users className="w-5 h-5" />
                     <span>Invite User</span>
@@ -565,7 +576,8 @@ export default function ServicesOverview() {
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="w-full px-4 py-3 bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-cyan-300 rounded-lg transition-all flex items-center gap-3 font-diatype"
+                    className="w-full px-4 py-3 rounded-lg transition-all flex items-center gap-3 font-diatype border"
+                    style={{ backgroundColor: 'var(--hg-bg-secondary)', borderColor: 'var(--hg-border-color)', color: 'var(--hg-text-secondary)' }}
                   >
                     <Settings className="w-5 h-5" />
                     <span>System Settings</span>

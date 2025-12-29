@@ -1,0 +1,104 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: humanglue-agent
+  namespace: humanglue
+  labels:
+    app: humanglue-agent
+    tier: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: humanglue-agent
+  template:
+    metadata:
+      labels:
+        app: humanglue-agent
+        tier: backend
+    spec:
+      containers:
+        - name: agent
+          image: registry.digitalocean.com/humanglue/humanglue-agent:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: PORT
+              value: "3000"
+            - name: NODE_ENV
+              value: "production"
+            - name: ANTHROPIC_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: humanglue-secrets
+                  key: ANTHROPIC_API_KEY
+            - name: FIRECRAWL_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: humanglue-secrets
+                  key: FIRECRAWL_API_KEY
+            - name: MINDREASONER_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: humanglue-secrets
+                  key: MINDREASONER_API_KEY
+                  optional: true
+            - name: NEO4J_URI
+              valueFrom:
+                secretKeyRef:
+                  name: humanglue-secrets
+                  key: NEO4J_URI
+                  optional: true
+            - name: NEO4J_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: humanglue-secrets
+                  key: NEO4J_PASSWORD
+                  optional: true
+            - name: SUPABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: humanglue-secrets
+                  key: SUPABASE_URL
+                  optional: true
+            - name: SUPABASE_SERVICE_ROLE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: humanglue-secrets
+                  key: SUPABASE_SERVICE_ROLE_KEY
+                  optional: true
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+      imagePullSecrets:
+        - name: do-registry
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: humanglue-agent
+  namespace: humanglue
+spec:
+  type: ClusterIP
+  selector:
+    app: humanglue-agent
+  ports:
+    - port: 80
+      targetPort: 3000
+      protocol: TCP

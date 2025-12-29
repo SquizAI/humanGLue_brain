@@ -13,10 +13,12 @@ import {
   Calendar
 } from 'lucide-react'
 import { useChat } from '../../lib/contexts/ChatContext'
+import { useBranding } from '../../lib/contexts/BrandingContext'
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
   const { userData } = useChat()
+  const { branding } = useBranding()
 
   const footerLinks = {
     solutions: [
@@ -34,7 +36,7 @@ export function Footer() {
       { name: 'Start Free Assessment', href: '/?chat=true' },
       { name: 'Schedule Demo', href: '/?chat=true' },
       { name: 'Client Portal', href: '/dashboard' },
-      { name: 'Contact Us', href: 'mailto:info@humanglue.ai' }
+      { name: 'Contact Us', href: `mailto:${branding?.email?.support_email || 'info@humanglue.ai'}` }
     ]
   }
 
@@ -114,21 +116,21 @@ export function Footer() {
           <div className="lg:col-span-2">
             <div className="flex items-center gap-3 mb-4">
               <Image
-                src="/favcon_HG.png"
-                alt="Human Glue Logo"
+                src={branding?.logo?.url || '/favcon_HG.png'}
+                alt={`${branding?.company_name || 'Human Glue'} Logo`}
                 width={32}
                 height={32}
                 className="w-8 h-8"
               />
-              <span className="text-2xl font-bold text-white font-gendy">Human Glue</span>
+              <span className="text-2xl font-bold text-white font-gendy">{branding?.company_name || 'Human Glue'}</span>
             </div>
             <p className="text-gray-300 mb-6 max-w-sm font-diatype leading-relaxed">
               The glue that binds AI capabilities with human adaptability. We help organizations embed behavioral change at every level to thrive in continuous transformation.
             </p>
             <div className="space-y-3">
-              <a href="mailto:info@humanglue.ai" className="flex items-center gap-3 text-gray-300 hover:text-cyan-400 transition-colors font-diatype">
+              <a href={`mailto:${branding?.email?.support_email || 'info@humanglue.ai'}`} className="flex items-center gap-3 text-gray-300 hover:text-cyan-400 transition-colors font-diatype">
                 <Mail className="w-5 h-5" />
-                <span>info@humanglue.ai</span>
+                <span>{branding?.email?.support_email || 'info@humanglue.ai'}</span>
               </a>
               <Link href="/?chat=true" className="flex items-center gap-3 text-gray-300 hover:text-cyan-400 transition-colors font-diatype">
                 <Calendar className="w-5 h-5" />
@@ -186,7 +188,7 @@ export function Footer() {
         <div className="mt-12 pt-8 border-t border-gray-800">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="text-gray-400 text-sm font-diatype">
-              © {currentYear} Human Glue AI. All rights reserved.
+              © {currentYear} {branding?.company_name || 'Human Glue'} AI. All rights reserved.
             </div>
             <div className="flex items-center gap-6">
               <Link href="/privacy" className="text-gray-400 hover:text-cyan-400 text-sm transition-colors font-diatype">
@@ -196,12 +198,16 @@ export function Footer() {
                 Terms of Service
               </Link>
               <div className="flex items-center gap-4">
-                <a href="https://linkedin.com/company/humanglue" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-cyan-400 transition-colors" aria-label="LinkedIn">
-                  <Linkedin className="w-5 h-5" />
-                </a>
-                <a href="https://twitter.com/humanglue" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-cyan-400 transition-colors" aria-label="Twitter">
-                  <Twitter className="w-5 h-5" />
-                </a>
+                {branding?.social?.linkedin && (
+                  <a href={`https://linkedin.com/${branding.social.linkedin}`} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-cyan-400 transition-colors" aria-label="LinkedIn">
+                    <Linkedin className="w-5 h-5" />
+                  </a>
+                )}
+                {branding?.social?.twitter && (
+                  <a href={`https://twitter.com/${branding.social.twitter.replace('@', '')}`} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-cyan-400 transition-colors" aria-label="Twitter">
+                    <Twitter className="w-5 h-5" />
+                  </a>
+                )}
               </div>
             </div>
           </div>

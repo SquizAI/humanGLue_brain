@@ -67,12 +67,13 @@ export async function GET(request: NextRequest) {
       query = query.eq('format', filters.format)
     }
 
-    if (filters.status) {
+    if (filters.status && filters.status !== 'all') {
       query = query.eq('status', filters.status)
-    } else {
-      // Default to published workshops only
+    } else if (!filters.status) {
+      // Default to published workshops only for non-admin requests
       query = query.eq('status', 'published')
     }
+    // If status=all, don't filter by status (admin view)
 
     if (filters.isFeatured !== undefined) {
       query = query.eq('is_featured', filters.isFeatured)

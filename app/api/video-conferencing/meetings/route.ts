@@ -180,8 +180,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       meeting: {
-        id: savedMeeting?.id || meeting.id,
         ...meeting,
+        id: savedMeeting?.id || meeting.id,
       },
     })
   } catch (error) {

@@ -29,6 +29,10 @@ import {
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
 import { useChat } from '@/lib/contexts/ChatContext'
 import { LoadingSpinner } from '@/components/atoms/LoadingSpinner'
+import { Button } from '@/components/atoms/Button'
+import { Card } from '@/components/atoms/Card'
+import { StatCard } from '@/components/atoms/StatCard'
+import { Text, Heading } from '@/components/atoms/Text'
 import { signOut } from '@/lib/auth/hooks'
 import Image from 'next/image'
 
@@ -226,7 +230,7 @@ export default function ExpertsAdmin() {
 
   if (!showContent) {
     return (
-      <div className="min-h-screen bg-black">
+      <div className="min-h-screen" style={{ backgroundColor: 'var(--hg-bg-primary)' }}>
         <DashboardSidebar onLogout={handleLogout} />
         <div className="lg:ml-[var(--sidebar-width,280px)] transition-all duration-300 flex items-center justify-center min-h-screen">
           <LoadingSpinner variant="neural" size="xl" text="Loading experts..." />
@@ -445,52 +449,57 @@ export default function ExpertsAdmin() {
   }
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen" style={{ backgroundColor: 'var(--hg-bg-primary)' }}>
       <DashboardSidebar onLogout={handleLogout} />
 
       <div className="lg:ml-[var(--sidebar-width,280px)] transition-all duration-300 pb-20 lg:pb-0">
         {/* Header */}
-        <div className="bg-black/50 backdrop-blur-xl border-b border-white/10 sticky top-0 z-30">
+        <div className="border-b sticky top-0 z-30" style={{ backgroundColor: 'var(--hg-bg-sidebar)', borderColor: 'var(--hg-border-color)' }}>
           <div className="px-8 py-6">
             <div className="flex items-center justify-between">
               <div>
                 <div className="flex items-center gap-3 mb-2">
-                  <Link href="/admin" className="text-gray-400 hover:text-white transition-colors">
-                    <span className="font-diatype">← Back to Dashboard</span>
+                  <Link href="/admin">
+                    <Text variant="muted" size="sm" className="hover:underline">← Back to Dashboard</Text>
                   </Link>
                 </div>
-                <h1 className="text-3xl font-bold text-white mb-2 font-gendy">Expert Network</h1>
-                <p className="text-gray-400 font-diatype">
+                <Heading as="h1" size="3xl" className="mb-2">Expert Network</Heading>
+                <Text variant="muted">
                   Manage your expert talent pool ({filteredExperts.length} experts)
-                </p>
+                </Text>
               </div>
-              <motion.button
+              <Button
+                variant="primary"
+                size="lg"
+                icon={<Plus className="w-5 h-5" />}
                 onClick={handleOpenCreateModal}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center gap-2 font-diatype"
               >
-                <Plus className="w-5 h-5" />
                 Add New Expert
-              </motion.button>
+              </Button>
             </div>
           </div>
         </div>
 
         {/* Filters & Search */}
         <div className="p-8">
-          <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 mb-6">
+          <div className="border rounded-2xl p-6 mb-6" style={{ backgroundColor: 'var(--hg-bg-card)', borderColor: 'var(--hg-border-color)' }}>
             <div className="flex flex-col lg:flex-row gap-4">
               {/* Search */}
               <div className="flex-1">
                 <div className="relative">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5" style={{ color: 'var(--hg-text-muted)' }} />
                   <input
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search experts, expertise..."
-                    className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
+                    className="w-full pl-12 pr-4 py-3 rounded-xl focus:outline-none focus:ring-2 transition-all font-diatype border"
+                    style={{
+                      backgroundColor: 'var(--hg-bg-secondary)',
+                      borderColor: 'var(--hg-border-color)',
+                      color: 'var(--hg-text-primary)',
+                      '--tw-ring-color': 'var(--hg-cyan-border)'
+                    } as React.CSSProperties}
                   />
                 </div>
               </div>
@@ -499,7 +508,13 @@ export default function ExpertsAdmin() {
               <select
                 value={selectedAvailability}
                 onChange={(e) => setSelectedAvailability(e.target.value)}
-                className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
+                className="px-4 py-3 rounded-xl focus:outline-none focus:ring-2 transition-all font-diatype border"
+                style={{
+                  backgroundColor: 'var(--hg-bg-secondary)',
+                  borderColor: 'var(--hg-border-color)',
+                  color: 'var(--hg-text-primary)',
+                  '--tw-ring-color': 'var(--hg-cyan-border)'
+                } as React.CSSProperties}
               >
                 <option value="all">All Availability</option>
                 <option value="available">Available</option>
@@ -511,7 +526,13 @@ export default function ExpertsAdmin() {
               <select
                 value={selectedStatus}
                 onChange={(e) => setSelectedStatus(e.target.value)}
-                className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
+                className="px-4 py-3 rounded-xl focus:outline-none focus:ring-2 transition-all font-diatype border"
+                style={{
+                  backgroundColor: 'var(--hg-bg-secondary)',
+                  borderColor: 'var(--hg-border-color)',
+                  color: 'var(--hg-text-primary)',
+                  '--tw-ring-color': 'var(--hg-cyan-border)'
+                } as React.CSSProperties}
               >
                 <option value="all">All Status</option>
                 <option value="active">Active</option>
@@ -528,10 +549,11 @@ export default function ExpertsAdmin() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
-                className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:border-cyan-500/30 transition-all group"
+                className="border rounded-2xl overflow-hidden hover:border-[var(--hg-cyan-border)] transition-all group"
+                style={{ backgroundColor: 'var(--hg-bg-card)', borderColor: 'var(--hg-border-color)' }}
               >
                 {/* Expert Header */}
-                <div className="p-6 border-b border-white/10">
+                <div className="p-6 border-b" style={{ borderColor: 'var(--hg-border-color)' }}>
                   <div className="flex items-start gap-4 mb-4">
                     <div className="relative w-20 h-20 rounded-xl overflow-hidden flex-shrink-0">
                       <Image
@@ -542,16 +564,17 @@ export default function ExpertsAdmin() {
                       />
                       {/* Status Indicator */}
                       <div
-                        className={`absolute -top-1 -right-1 w-5 h-5 rounded-full border-2 border-gray-900 ${
-                          expert.status === 'active' ? 'bg-green-500' : 'bg-gray-500'
+                        className={`absolute -top-1 -right-1 w-5 h-5 rounded-full border-2 ${
+                          expert.status === 'active' ? 'bg-emerald-500' : 'bg-gray-500'
                         }`}
+                        style={{ borderColor: 'var(--hg-bg-primary)' }}
                       />
                     </div>
 
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-lg font-bold text-white mb-1 font-gendy">{expert.name}</h3>
-                      <p className="text-sm text-gray-400 mb-2 font-diatype">{expert.title}</p>
-                      <div className="flex items-center gap-2 text-sm text-gray-500">
+                      <h3 className="text-lg font-bold mb-1 font-gendy" style={{ color: 'var(--hg-text-primary)' }}>{expert.name}</h3>
+                      <p className="text-sm mb-2 font-diatype" style={{ color: 'var(--hg-text-muted)' }}>{expert.title}</p>
+                      <div className="flex items-center gap-2 text-sm" style={{ color: 'var(--hg-text-muted)' }}>
                         <MapPin className="w-4 h-4" />
                         <span className="font-diatype">{expert.location}</span>
                       </div>
@@ -576,7 +599,7 @@ export default function ExpertsAdmin() {
                     <div
                       className={`px-3 py-1 rounded-full text-xs font-semibold ${
                         expert.status === 'active'
-                          ? 'bg-green-500/20 text-green-300 border border-green-500/30'
+                          ? 'bg-green-500/20 text-[var(--hg-cyan-text)] border border-green-500/30'
                           : 'bg-gray-500/20 text-gray-300 border border-gray-500/30'
                       }`}
                     >
@@ -586,49 +609,50 @@ export default function ExpertsAdmin() {
                 </div>
 
                 {/* Expert Stats */}
-                <div className="p-6 border-b border-white/10">
+                <div className="p-6 border-b" style={{ borderColor: 'var(--hg-border-color)' }}>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <div className="flex items-center gap-2 mb-1">
                         <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
-                        <span className="text-sm text-gray-400 font-diatype">Rating</span>
+                        <span className="text-sm font-diatype" style={{ color: 'var(--hg-text-muted)' }}>Rating</span>
                       </div>
-                      <p className="text-lg font-bold text-white font-gendy">
-                        {expert.rating} <span className="text-sm text-gray-400">({expert.reviews})</span>
+                      <p className="text-lg font-bold font-gendy" style={{ color: 'var(--hg-text-primary)' }}>
+                        {expert.rating} <span className="text-sm" style={{ color: 'var(--hg-text-muted)' }}>({expert.reviews})</span>
                       </p>
                     </div>
                     <div>
                       <div className="flex items-center gap-2 mb-1">
-                        <DollarSign className="w-4 h-4 text-green-400" />
-                        <span className="text-sm text-gray-400 font-diatype">Rate</span>
+                        <DollarSign className="w-4 h-4" style={{ color: 'var(--hg-cyan-text)' }} />
+                        <span className="text-sm font-diatype" style={{ color: 'var(--hg-text-muted)' }}>Rate</span>
                       </div>
-                      <p className="text-lg font-bold text-white font-gendy">${expert.hourlyRate}/hr</p>
+                      <p className="text-lg font-bold font-gendy" style={{ color: 'var(--hg-text-primary)' }}>${expert.hourlyRate}/hr</p>
                     </div>
                     <div>
                       <div className="flex items-center gap-2 mb-1">
-                        <Award className="w-4 h-4 text-cyan-400" />
-                        <span className="text-sm text-gray-400 font-diatype">Experience</span>
+                        <Award className="w-4 h-4" style={{ color: 'var(--hg-cyan-text)' }} />
+                        <span className="text-sm font-diatype" style={{ color: 'var(--hg-text-muted)' }}>Experience</span>
                       </div>
-                      <p className="text-lg font-bold text-white font-gendy">{expert.yearsExp} years</p>
+                      <p className="text-lg font-bold font-gendy" style={{ color: 'var(--hg-text-primary)' }}>{expert.yearsExp} years</p>
                     </div>
                     <div>
                       <div className="flex items-center gap-2 mb-1">
-                        <CheckCircle className="w-4 h-4 text-blue-400" />
-                        <span className="text-sm text-gray-400 font-diatype">Projects</span>
+                        <CheckCircle className="w-4 h-4" style={{ color: 'var(--hg-cyan-text)' }} />
+                        <span className="text-sm font-diatype" style={{ color: 'var(--hg-text-muted)' }}>Projects</span>
                       </div>
-                      <p className="text-lg font-bold text-white font-gendy">{expert.projectsCompleted}</p>
+                      <p className="text-lg font-bold font-gendy" style={{ color: 'var(--hg-text-primary)' }}>{expert.projectsCompleted}</p>
                     </div>
                   </div>
                 </div>
 
                 {/* Expertise Tags */}
-                <div className="p-6 border-b border-white/10">
-                  <p className="text-xs text-gray-500 mb-2 font-diatype">Expertise</p>
+                <div className="p-6 border-b" style={{ borderColor: 'var(--hg-border-color)' }}>
+                  <p className="text-xs mb-2 font-diatype" style={{ color: 'var(--hg-text-muted)' }}>Expertise</p>
                   <div className="flex flex-wrap gap-2">
                     {expert.expertise.slice(0, 3).map((skill, i) => (
                       <span
                         key={i}
-                        className="px-2 py-1 bg-cyan-500/10 text-cyan-300 rounded-lg text-xs font-diatype"
+                        className="px-2 py-1 rounded-lg text-xs font-diatype"
+                        style={{ backgroundColor: 'var(--hg-cyan-bg)', color: 'var(--hg-cyan-text)' }}
                       >
                         {skill}
                       </span>
@@ -637,10 +661,10 @@ export default function ExpertsAdmin() {
                 </div>
 
                 {/* Last Active */}
-                <div className="px-6 py-3 bg-white/5">
+                <div className="px-6 py-3" style={{ backgroundColor: 'var(--hg-bg-secondary)' }}>
                   <div className="flex items-center justify-between text-xs">
-                    <span className="text-gray-500 font-diatype">Last active</span>
-                    <span className="text-gray-400 font-diatype">
+                    <span className="font-diatype" style={{ color: 'var(--hg-text-muted)' }}>Last active</span>
+                    <span className="font-diatype" style={{ color: 'var(--hg-text-secondary)' }}>
                       {new Date(expert.lastActive).toLocaleDateString()}
                     </span>
                   </div>
@@ -652,7 +676,8 @@ export default function ExpertsAdmin() {
                     onClick={() => handleOpenEditModal(expert)}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="flex-1 px-4 py-2 bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-cyan-300 rounded-lg transition-all flex items-center justify-center gap-2 font-diatype"
+                    className="flex-1 px-4 py-2 rounded-lg transition-all flex items-center justify-center gap-2 font-diatype border"
+                    style={{ backgroundColor: 'var(--hg-cyan-bg)', borderColor: 'var(--hg-cyan-border)', color: 'var(--hg-cyan-text)' }}
                   >
                     <Edit className="w-4 h-4" />
                     Edit
@@ -661,7 +686,7 @@ export default function ExpertsAdmin() {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => handleToggleStatus(expert.id)}
-                    className="px-4 py-2 bg-green-500/20 hover:bg-green-500/30 border border-green-500/30 text-green-300 rounded-lg transition-all font-diatype"
+                    className="px-4 py-2 bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/30 text-emerald-400 rounded-lg transition-all font-diatype"
                   >
                     <Eye className="w-4 h-4" />
                   </motion.button>
@@ -680,9 +705,9 @@ export default function ExpertsAdmin() {
 
           {filteredExperts.length === 0 && (
             <div className="text-center py-12">
-              <Users className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-white mb-2 font-gendy">No experts found</h3>
-              <p className="text-gray-400 font-diatype">Try adjusting your filters or add a new expert</p>
+              <Users className="w-16 h-16 mx-auto mb-4" style={{ color: 'var(--hg-text-muted)' }} />
+              <h3 className="text-xl font-semibold mb-2 font-gendy" style={{ color: 'var(--hg-text-primary)' }}>No experts found</h3>
+              <p className="font-diatype" style={{ color: 'var(--hg-text-muted)' }}>Try adjusting your filters or add a new expert</p>
             </div>
           )}
         </div>
@@ -720,15 +745,16 @@ export default function ExpertsAdmin() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-gray-900 border border-white/10 rounded-2xl w-full max-w-4xl my-8"
+              className="border rounded-2xl w-full max-w-4xl my-8"
+              style={{ backgroundColor: 'var(--hg-bg-card)', borderColor: 'var(--hg-border-color)' }}
             >
               {/* Modal Header */}
-              <div className="flex items-center justify-between p-6 border-b border-white/10">
+              <div className="flex items-center justify-between p-6 border-b" style={{ borderColor: 'var(--hg-border-color)' }}>
                 <div>
-                  <h2 className="text-2xl font-bold text-white mb-1 font-gendy">
+                  <h2 className="text-2xl font-bold mb-1 font-gendy" style={{ color: 'var(--hg-text-primary)' }}>
                     {editingExpert ? 'Edit Expert' : 'Create New Expert'}
                   </h2>
-                  <p className="text-sm text-gray-400 font-diatype">
+                  <p className="text-sm font-diatype" style={{ color: 'var(--hg-text-muted)' }}>
                     {editingExpert
                       ? 'Update expert profile and details'
                       : 'Fill in the details to add a new expert to your network'}
@@ -738,7 +764,7 @@ export default function ExpertsAdmin() {
                   onClick={handleCloseModal}
                   className="p-2 hover:bg-white/10 rounded-lg transition-colors"
                 >
-                  <X className="w-6 h-6 text-gray-400" />
+                  <X className="w-6 h-6" style={{ color: 'var(--hg-text-muted)' }} />
                 </button>
               </div>
 
@@ -747,7 +773,7 @@ export default function ExpertsAdmin() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Name */}
                   <div>
-                    <label className="block text-sm font-semibold text-white mb-2 font-diatype">
+                    <label className="block text-sm font-semibold mb-2 font-diatype" style={{ color: 'var(--hg-text-primary)' }}>
                       Name <span className="text-red-400">*</span>
                     </label>
                     <input
@@ -755,9 +781,13 @@ export default function ExpertsAdmin() {
                       value={formData.name}
                       onChange={(e) => handleFormChange('name', e.target.value)}
                       placeholder="e.g., Sarah Chen"
-                      className={`w-full px-4 py-3 bg-white/5 border ${
-                        formErrors.name ? 'border-red-500' : 'border-white/10'
-                      } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype`}
+                      className="w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 transition-all font-diatype border"
+                      style={{
+                        backgroundColor: 'var(--hg-bg-secondary)',
+                        borderColor: formErrors.name ? 'var(--hg-danger)' : 'var(--hg-border-color)',
+                        color: 'var(--hg-text-primary)',
+                        '--tw-ring-color': 'var(--hg-cyan-border)'
+                      } as React.CSSProperties}
                     />
                     {formErrors.name && (
                       <p className="text-red-400 text-sm mt-1 font-diatype">{formErrors.name}</p>
@@ -766,7 +796,7 @@ export default function ExpertsAdmin() {
 
                   {/* Title/Role */}
                   <div>
-                    <label className="block text-sm font-semibold text-white mb-2 font-diatype">
+                    <label className="block text-sm font-semibold mb-2 font-diatype" style={{ color: 'var(--hg-text-primary)' }}>
                       Title/Role <span className="text-red-400">*</span>
                     </label>
                     <input
@@ -774,9 +804,13 @@ export default function ExpertsAdmin() {
                       value={formData.title}
                       onChange={(e) => handleFormChange('title', e.target.value)}
                       placeholder="e.g., AI Strategy & Transformation"
-                      className={`w-full px-4 py-3 bg-white/5 border ${
-                        formErrors.title ? 'border-red-500' : 'border-white/10'
-                      } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype`}
+                      className="w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 transition-all font-diatype border"
+                      style={{
+                        backgroundColor: 'var(--hg-bg-secondary)',
+                        borderColor: formErrors.title ? 'var(--hg-danger)' : 'var(--hg-border-color)',
+                        color: 'var(--hg-text-primary)',
+                        '--tw-ring-color': 'var(--hg-cyan-border)'
+                      } as React.CSSProperties}
                     />
                     {formErrors.title && (
                       <p className="text-red-400 text-sm mt-1 font-diatype">{formErrors.title}</p>
@@ -785,7 +819,7 @@ export default function ExpertsAdmin() {
 
                   {/* Company */}
                   <div>
-                    <label className="block text-sm font-semibold text-white mb-2 font-diatype">
+                    <label className="block text-sm font-semibold mb-2 font-diatype" style={{ color: 'var(--hg-text-primary)' }}>
                       Company/Location
                     </label>
                     <input
@@ -793,13 +827,19 @@ export default function ExpertsAdmin() {
                       value={formData.company}
                       onChange={(e) => handleFormChange('company', e.target.value)}
                       placeholder="e.g., San Francisco, CA"
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
+                      className="w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 transition-all font-diatype border"
+                      style={{
+                        backgroundColor: 'var(--hg-bg-secondary)',
+                        borderColor: 'var(--hg-border-color)',
+                        color: 'var(--hg-text-primary)',
+                        '--tw-ring-color': 'var(--hg-cyan-border)'
+                      } as React.CSSProperties}
                     />
                   </div>
 
                   {/* Email */}
                   <div>
-                    <label className="block text-sm font-semibold text-white mb-2 font-diatype">
+                    <label className="block text-sm font-semibold mb-2 font-diatype" style={{ color: 'var(--hg-text-primary)' }}>
                       Email <span className="text-red-400">*</span>
                     </label>
                     <input
@@ -807,9 +847,13 @@ export default function ExpertsAdmin() {
                       value={formData.email}
                       onChange={(e) => handleFormChange('email', e.target.value)}
                       placeholder="expert@example.com"
-                      className={`w-full px-4 py-3 bg-white/5 border ${
-                        formErrors.email ? 'border-red-500' : 'border-white/10'
-                      } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype`}
+                      className="w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 transition-all font-diatype border"
+                      style={{
+                        backgroundColor: 'var(--hg-bg-secondary)',
+                        borderColor: formErrors.email ? 'var(--hg-danger)' : 'var(--hg-border-color)',
+                        color: 'var(--hg-text-primary)',
+                        '--tw-ring-color': 'var(--hg-cyan-border)'
+                      } as React.CSSProperties}
                     />
                     {formErrors.email && (
                       <p className="text-red-400 text-sm mt-1 font-diatype">{formErrors.email}</p>
@@ -818,7 +862,7 @@ export default function ExpertsAdmin() {
 
                   {/* Phone */}
                   <div>
-                    <label className="block text-sm font-semibold text-white mb-2 font-diatype">
+                    <label className="block text-sm font-semibold mb-2 font-diatype" style={{ color: 'var(--hg-text-primary)' }}>
                       Phone
                     </label>
                     <input
@@ -826,13 +870,19 @@ export default function ExpertsAdmin() {
                       value={formData.phone}
                       onChange={(e) => handleFormChange('phone', e.target.value)}
                       placeholder="+1 (555) 123-4567"
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
+                      className="w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 transition-all font-diatype border"
+                      style={{
+                        backgroundColor: 'var(--hg-bg-secondary)',
+                        borderColor: 'var(--hg-border-color)',
+                        color: 'var(--hg-text-primary)',
+                        '--tw-ring-color': 'var(--hg-cyan-border)'
+                      } as React.CSSProperties}
                     />
                   </div>
 
                   {/* LinkedIn URL */}
                   <div>
-                    <label className="block text-sm font-semibold text-white mb-2 font-diatype">
+                    <label className="block text-sm font-semibold mb-2 font-diatype" style={{ color: 'var(--hg-text-primary)' }}>
                       LinkedIn URL
                     </label>
                     <input
@@ -840,13 +890,19 @@ export default function ExpertsAdmin() {
                       value={formData.linkedinUrl}
                       onChange={(e) => handleFormChange('linkedinUrl', e.target.value)}
                       placeholder="https://linkedin.com/in/username"
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
+                      className="w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 transition-all font-diatype border"
+                      style={{
+                        backgroundColor: 'var(--hg-bg-secondary)',
+                        borderColor: 'var(--hg-border-color)',
+                        color: 'var(--hg-text-primary)',
+                        '--tw-ring-color': 'var(--hg-cyan-border)'
+                      } as React.CSSProperties}
                     />
                   </div>
 
                   {/* Hourly Rate */}
                   <div>
-                    <label className="block text-sm font-semibold text-white mb-2 font-diatype">
+                    <label className="block text-sm font-semibold mb-2 font-diatype" style={{ color: 'var(--hg-text-primary)' }}>
                       Hourly Rate ($) <span className="text-red-400">*</span>
                     </label>
                     <input
@@ -856,9 +912,13 @@ export default function ExpertsAdmin() {
                       placeholder="650"
                       min="0"
                       step="10"
-                      className={`w-full px-4 py-3 bg-white/5 border ${
-                        formErrors.hourlyRate ? 'border-red-500' : 'border-white/10'
-                      } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype`}
+                      className="w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 transition-all font-diatype border"
+                      style={{
+                        backgroundColor: 'var(--hg-bg-secondary)',
+                        borderColor: formErrors.hourlyRate ? 'var(--hg-danger)' : 'var(--hg-border-color)',
+                        color: 'var(--hg-text-primary)',
+                        '--tw-ring-color': 'var(--hg-cyan-border)'
+                      } as React.CSSProperties}
                     />
                     {formErrors.hourlyRate && (
                       <p className="text-red-400 text-sm mt-1 font-diatype">{formErrors.hourlyRate}</p>
@@ -867,7 +927,7 @@ export default function ExpertsAdmin() {
 
                   {/* Years of Experience */}
                   <div>
-                    <label className="block text-sm font-semibold text-white mb-2 font-diatype">
+                    <label className="block text-sm font-semibold mb-2 font-diatype" style={{ color: 'var(--hg-text-primary)' }}>
                       Years of Experience <span className="text-red-400">*</span>
                     </label>
                     <input
@@ -876,9 +936,13 @@ export default function ExpertsAdmin() {
                       onChange={(e) => handleFormChange('yearsExp', parseInt(e.target.value) || 0)}
                       placeholder="15"
                       min="0"
-                      className={`w-full px-4 py-3 bg-white/5 border ${
-                        formErrors.yearsExp ? 'border-red-500' : 'border-white/10'
-                      } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype`}
+                      className="w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 transition-all font-diatype border"
+                      style={{
+                        backgroundColor: 'var(--hg-bg-secondary)',
+                        borderColor: formErrors.yearsExp ? 'var(--hg-danger)' : 'var(--hg-border-color)',
+                        color: 'var(--hg-text-primary)',
+                        '--tw-ring-color': 'var(--hg-cyan-border)'
+                      } as React.CSSProperties}
                     />
                     {formErrors.yearsExp && (
                       <p className="text-red-400 text-sm mt-1 font-diatype">{formErrors.yearsExp}</p>
@@ -887,13 +951,19 @@ export default function ExpertsAdmin() {
 
                   {/* Availability */}
                   <div>
-                    <label className="block text-sm font-semibold text-white mb-2 font-diatype">
+                    <label className="block text-sm font-semibold mb-2 font-diatype" style={{ color: 'var(--hg-text-primary)' }}>
                       Availability
                     </label>
                     <select
                       value={formData.availability}
                       onChange={(e) => handleFormChange('availability', e.target.value)}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
+                      className="w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 transition-all font-diatype border"
+                      style={{
+                        backgroundColor: 'var(--hg-bg-secondary)',
+                        borderColor: 'var(--hg-border-color)',
+                        color: 'var(--hg-text-primary)',
+                        '--tw-ring-color': 'var(--hg-cyan-border)'
+                      } as React.CSSProperties}
                     >
                       {availabilityOptions.map((option) => (
                         <option key={option.value} value={option.value}>
@@ -905,13 +975,19 @@ export default function ExpertsAdmin() {
 
                   {/* Status */}
                   <div>
-                    <label className="block text-sm font-semibold text-white mb-2 font-diatype">
+                    <label className="block text-sm font-semibold mb-2 font-diatype" style={{ color: 'var(--hg-text-primary)' }}>
                       Status
                     </label>
                     <select
                       value={formData.status}
                       onChange={(e) => handleFormChange('status', e.target.value)}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
+                      className="w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 transition-all font-diatype border"
+                      style={{
+                        backgroundColor: 'var(--hg-bg-secondary)',
+                        borderColor: 'var(--hg-border-color)',
+                        color: 'var(--hg-text-primary)',
+                        '--tw-ring-color': 'var(--hg-cyan-border)'
+                      } as React.CSSProperties}
                     >
                       {statusOptions.map((option) => (
                         <option key={option.value} value={option.value}>
@@ -923,7 +999,7 @@ export default function ExpertsAdmin() {
 
                   {/* Specialties */}
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-semibold text-white mb-2 font-diatype">
+                    <label className="block text-sm font-semibold mb-2 font-diatype" style={{ color: 'var(--hg-text-primary)' }}>
                       Specialties
                     </label>
                     <div className="flex flex-wrap gap-2">
@@ -932,11 +1008,11 @@ export default function ExpertsAdmin() {
                           key={specialty}
                           type="button"
                           onClick={() => toggleSpecialty(specialty)}
-                          className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all font-diatype ${
-                            formData.specialties.includes(specialty)
-                              ? 'bg-cyan-500 text-white border-2 border-cyan-400'
-                              : 'bg-white/5 text-gray-300 border-2 border-white/10 hover:border-cyan-500/50'
-                          }`}
+                          className="px-4 py-2 rounded-lg text-sm font-semibold transition-all font-diatype border-2"
+                          style={formData.specialties.includes(specialty)
+                            ? { backgroundColor: 'var(--hg-cyan-bg)', borderColor: 'var(--hg-cyan-border)', color: 'var(--hg-cyan-text)' }
+                            : { backgroundColor: 'var(--hg-bg-secondary)', borderColor: 'var(--hg-border-color)', color: 'var(--hg-text-secondary)' }
+                          }
                         >
                           {specialty}
                         </button>
@@ -946,7 +1022,7 @@ export default function ExpertsAdmin() {
 
                   {/* Profile Image URL */}
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-semibold text-white mb-2 font-diatype">
+                    <label className="block text-sm font-semibold mb-2 font-diatype" style={{ color: 'var(--hg-text-primary)' }}>
                       Profile Image URL <span className="text-red-400">*</span>
                     </label>
                     <div className="flex gap-2">
@@ -955,13 +1031,18 @@ export default function ExpertsAdmin() {
                         value={formData.image}
                         onChange={(e) => handleFormChange('image', e.target.value)}
                         placeholder="https://images.unsplash.com/photo-..."
-                        className={`flex-1 px-4 py-3 bg-white/5 border ${
-                          formErrors.image ? 'border-red-500' : 'border-white/10'
-                        } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype`}
+                        className="flex-1 px-4 py-3 rounded-xl focus:outline-none focus:ring-2 transition-all font-diatype border"
+                        style={{
+                          backgroundColor: 'var(--hg-bg-secondary)',
+                          borderColor: formErrors.image ? 'var(--hg-danger)' : 'var(--hg-border-color)',
+                          color: 'var(--hg-text-primary)',
+                          '--tw-ring-color': 'var(--hg-cyan-border)'
+                        } as React.CSSProperties}
                       />
                       <button
                         type="button"
-                        className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-gray-400 hover:text-white hover:bg-white/10 transition-all"
+                        className="px-4 py-3 rounded-xl hover:bg-white/10 transition-all border"
+                        style={{ backgroundColor: 'var(--hg-bg-secondary)', borderColor: 'var(--hg-border-color)', color: 'var(--hg-text-muted)' }}
                       >
                         <ImageIcon className="w-5 h-5" />
                       </button>
@@ -971,7 +1052,7 @@ export default function ExpertsAdmin() {
                     )}
                     {/* Image Preview */}
                     {formData.image && !formErrors.image && (
-                      <div className="mt-4 relative h-48 rounded-xl overflow-hidden border border-white/10">
+                      <div className="mt-4 relative h-48 rounded-xl overflow-hidden border" style={{ borderColor: 'var(--hg-border-color)' }}>
                         <Image
                           src={formData.image}
                           alt="Preview"
@@ -985,7 +1066,7 @@ export default function ExpertsAdmin() {
 
                   {/* Bio */}
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-semibold text-white mb-2 font-diatype">
+                    <label className="block text-sm font-semibold mb-2 font-diatype" style={{ color: 'var(--hg-text-primary)' }}>
                       Bio <span className="text-red-400">*</span>
                     </label>
                     <textarea
@@ -993,9 +1074,13 @@ export default function ExpertsAdmin() {
                       onChange={(e) => handleFormChange('bio', e.target.value)}
                       placeholder="Provide a detailed bio about the expert's background, expertise, and achievements..."
                       rows={4}
-                      className={`w-full px-4 py-3 bg-white/5 border ${
-                        formErrors.bio ? 'border-red-500' : 'border-white/10'
-                      } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype resize-none`}
+                      className="w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 transition-all font-diatype resize-none border"
+                      style={{
+                        backgroundColor: 'var(--hg-bg-secondary)',
+                        borderColor: formErrors.bio ? 'var(--hg-danger)' : 'var(--hg-border-color)',
+                        color: 'var(--hg-text-primary)',
+                        '--tw-ring-color': 'var(--hg-cyan-border)'
+                      } as React.CSSProperties}
                     />
                     {formErrors.bio && (
                       <p className="text-red-400 text-sm mt-1 font-diatype">{formErrors.bio}</p>
@@ -1005,11 +1090,12 @@ export default function ExpertsAdmin() {
               </div>
 
               {/* Modal Footer */}
-              <div className="flex gap-3 p-6 border-t border-white/10">
+              <div className="flex gap-3 p-6 border-t" style={{ borderColor: 'var(--hg-border-color)' }}>
                 <button
                   onClick={handleCloseModal}
                   disabled={isSubmitting}
-                  className="flex-1 px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white rounded-xl transition-all font-semibold font-diatype disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 px-6 py-3 rounded-xl transition-all font-semibold font-diatype disabled:opacity-50 disabled:cursor-not-allowed border"
+                  style={{ backgroundColor: 'var(--hg-bg-secondary)', borderColor: 'var(--hg-border-color)', color: 'var(--hg-text-primary)' }}
                 >
                   Cancel
                 </button>
@@ -1017,6 +1103,7 @@ export default function ExpertsAdmin() {
                   onClick={handleSaveExpert}
                   disabled={isSubmitting}
                   className="flex-1 px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white rounded-xl transition-all font-semibold flex items-center justify-center gap-2 font-diatype disabled:opacity-50 disabled:cursor-not-allowed"
+                  style={{ boxShadow: '0 4px 14px rgba(97, 216, 254, 0.4)' }}
                 >
                   {isSubmitting ? (
                     <>
@@ -1056,21 +1143,23 @@ export default function ExpertsAdmin() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-gray-900 border border-white/10 rounded-2xl p-8 max-w-md w-full"
+              className="border rounded-2xl p-8 max-w-md w-full"
+              style={{ backgroundColor: 'var(--hg-bg-card)', borderColor: 'var(--hg-border-color)' }}
             >
               <div className="text-center mb-6">
                 <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Trash2 className="w-8 h-8 text-red-400" />
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-2 font-gendy">Remove Expert?</h3>
-                <p className="text-gray-400 font-diatype">
+                <h3 className="text-2xl font-bold mb-2 font-gendy" style={{ color: 'var(--hg-text-primary)' }}>Remove Expert?</h3>
+                <p className="font-diatype" style={{ color: 'var(--hg-text-muted)' }}>
                   Are you sure you want to remove this expert from your network? This action cannot be undone.
                 </p>
               </div>
               <div className="flex gap-3">
                 <button
                   onClick={() => setShowDeleteConfirm(null)}
-                  className="flex-1 px-4 py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white rounded-xl transition-all font-diatype"
+                  className="flex-1 px-4 py-3 rounded-xl transition-all font-diatype border"
+                  style={{ backgroundColor: 'var(--hg-bg-secondary)', borderColor: 'var(--hg-border-color)', color: 'var(--hg-text-primary)' }}
                 >
                   Cancel
                 </button>

@@ -371,8 +371,8 @@ export default function ChannelSettingsPage() {
         {successMessage && (
           <div className="mx-8 mt-4">
             <div className="flex items-center gap-3 p-4 bg-green-500/10 border border-green-500/30 rounded-xl">
-              <CheckCircle className="w-5 h-5 text-green-400" />
-              <span className="text-green-400">{successMessage}</span>
+              <CheckCircle className="w-5 h-5 text-[var(--hg-cyan-text)]" />
+              <span className="text-[var(--hg-cyan-text)]">{successMessage}</span>
             </div>
           </div>
         )}
@@ -562,7 +562,7 @@ export default function ChannelSettingsPage() {
 
                   {data.social.configuredPlatforms.length < 7 && (
                     <div className="flex items-center gap-3 p-4 bg-blue-500/10 border border-blue-500/30 rounded-xl">
-                      <Settings className="w-5 h-5 text-blue-400" />
+                      <Settings className="w-5 h-5 text-[var(--hg-cyan-text)]" />
                       <div>
                         <h4 className="text-white font-medium">Platform Configuration</h4>
                         <p className="text-sm text-gray-400">
@@ -624,8 +624,8 @@ export default function ChannelSettingsPage() {
 
                       {data.email?.domainVerified && (
                         <div className="flex items-center gap-3 p-4 bg-green-500/10 border border-green-500/30 rounded-xl">
-                          <CheckCircle className="w-5 h-5 text-green-400" />
-                          <span className="text-green-400">Domain verified and ready to send</span>
+                          <CheckCircle className="w-5 h-5 text-[var(--hg-cyan-text)]" />
+                          <span className="text-[var(--hg-cyan-text)]">Domain verified and ready to send</span>
                         </div>
                       )}
 

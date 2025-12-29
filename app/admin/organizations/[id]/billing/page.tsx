@@ -237,7 +237,7 @@ export default function OrganizationBillingPage() {
                         {currentPlan?.name || 'Free'}
                       </h3>
                       {subscription?.status === 'active' && (
-                        <span className="px-2 py-0.5 bg-green-500/20 text-green-400 text-xs rounded-full">
+                        <span className="px-2 py-0.5 bg-green-500/20 text-[var(--hg-cyan-text)] text-xs rounded-full">
                           Active
                         </span>
                       )}
@@ -291,7 +291,7 @@ export default function OrganizationBillingPage() {
                       .map(([feature]) => (
                         <div key={feature} className="flex items-center gap-2">
                           <div className="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center">
-                            <Check className="w-3 h-3 text-green-400" />
+                            <Check className="w-3 h-3 text-[var(--hg-cyan-text)]" />
                           </div>
                           <span className="text-sm text-gray-300 font-diatype capitalize">
                             {feature.replace(/_/g, ' ')}
@@ -331,7 +331,7 @@ export default function OrganizationBillingPage() {
                   }`}
                 >
                   Yearly
-                  <span className="text-xs bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full">
+                  <span className="text-xs bg-green-500/20 text-[var(--hg-cyan-text)] px-2 py-0.5 rounded-full">
                     Save 20%
                   </span>
                 </button>
@@ -456,7 +456,7 @@ export default function OrganizationBillingPage() {
                               ? 'bg-red-500'
                               : usage.teams.percent > 75
                               ? 'bg-yellow-500'
-                              : 'bg-gradient-to-r from-green-500 to-emerald-500'
+                              : 'bg-emerald-500'
                           }`}
                           style={{ width: `${Math.min(usage.teams.percent, 100)}%` }}
                         />

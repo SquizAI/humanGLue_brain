@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: discord-bot
+  namespace: humanglue
+  labels:
+    app: discord-bot
+    component: bot
+spec:
+  replicas: 1  # Discord bots should only have 1 replica to avoid duplicate responses
+  selector:
+    matchLabels:
+      app: discord-bot
+  template:
+    metadata:
+      labels:
+        app: discord-bot
+        component: bot
+    spec:
+      containers:
+        - name: discord-bot
+          image: registry.digitalocean.com/humanglue/discord-bot:latest
+          imagePullPolicy: Always
+          envFrom:
+            - secretRef:
+                name: discord-bot-secrets
+            - configMapRef:
+                name: discord-bot-config
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          livenessProbe:
+            exec:
+              command:
+                - node
+                - -e
+                - "console.log('alive')"
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            timeoutSeconds: 10
+          readinessProbe:
+            exec:
+              command:
+                - node
+                - -e
+                - "console.log('ready')"
+            initialDelaySeconds: 10
+            periodSeconds: 10
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: discord-bot-config
+  namespace: humanglue
+data:
+  NODE_ENV: "production"
+  LOG_LEVEL: "info"
+  AI_PROVIDER: "anthropic"
+  AI_MODEL: "claude-sonnet-4-5-20250929"
+  AGENT_SERVICE_URL: "http://humanglue-agent.humanglue.svc.cluster.local"
+  HUMANGLUE_API_URL: "https://hmnglue.com/api"

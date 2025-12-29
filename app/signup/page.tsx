@@ -6,8 +6,10 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { UserPlus, Mail, Lock, User, Check, X, Target, Rocket, Users2, GraduationCap } from 'lucide-react'
 import Image from 'next/image'
+import { useBranding } from '@/lib/contexts/BrandingContext'
 
 export default function SignupPage() {
+  const { branding } = useBranding()
   const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -116,8 +118,8 @@ export default function SignupPage() {
           {/* Logo */}
           <Link href="/" className="mb-12 inline-block">
             <Image
-              src="/HumnaGlue_logo_white_blue.png"
-              alt="HumanGlue"
+              src={branding?.logo?.url || '/HumnaGlue_logo_white_blue.png'}
+              alt={branding?.company_name || 'HumanGlue'}
               width={200}
               height={50}
               className="h-10 w-auto"
@@ -215,8 +217,8 @@ export default function SignupPage() {
           {/* Mobile Logo */}
           <Link href="/" className="lg:hidden mb-8 inline-block">
             <Image
-              src="/HumnaGlue_logo_white_blue.png"
-              alt="HumanGlue"
+              src={branding?.logo?.url || '/HumnaGlue_logo_white_blue.png'}
+              alt={branding?.company_name || 'HumanGlue'}
               width={180}
               height={50}
               className="h-10 w-auto"

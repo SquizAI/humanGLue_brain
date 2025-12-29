@@ -33,8 +33,13 @@ import {
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
 import { useChat } from '@/lib/contexts/ChatContext'
 import { LoadingSpinner } from '@/components/atoms/LoadingSpinner'
+import { Button } from '@/components/atoms/Button'
+import { Card } from '@/components/atoms/Card'
+import { StatCard } from '@/components/atoms/StatCard'
+import { Text, Heading } from '@/components/atoms/Text'
 import { signOut } from '@/lib/auth/hooks'
 import Image from 'next/image'
+import { ImageGenerator } from '@/components/organisms/admin'
 
 // Course categories
 const categories = [
@@ -48,126 +53,78 @@ const categories = [
 
 const levels = ['Beginner', 'Intermediate', 'Advanced', 'Executive']
 
-// Sample courses data (in production, this would come from a database)
-const initialCourses = [
-  {
-    id: 1,
-    title: 'AI Transformation for Executives',
-    instructor: 'Sarah Chen',
-    category: 'ai-adoption',
-    level: 'Executive',
-    duration: '6 hours',
-    lessons: 12,
-    students: 2847,
-    rating: 4.9,
-    reviews: 384,
-    price: 299,
-    image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=500&fit=crop',
-    status: 'published',
-    lastUpdated: '2025-10-01',
-  },
-  {
-    id: 2,
-    title: 'Change Management Masterclass',
-    instructor: 'Dr. Marcus Thompson',
-    category: 'change-management',
-    level: 'Advanced',
-    duration: '8 hours',
-    lessons: 16,
-    students: 1923,
-    rating: 4.8,
-    reviews: 267,
-    price: 349,
-    image: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=800&h=500&fit=crop',
-    status: 'published',
-    lastUpdated: '2025-09-28',
-  },
-  {
-    id: 3,
-    title: 'Building AI-Ready Teams',
-    instructor: 'Jennifer Wu',
-    category: 'leadership',
-    level: 'Intermediate',
-    duration: '5 hours',
-    lessons: 10,
-    students: 3156,
-    rating: 4.9,
-    reviews: 421,
-    price: 249,
-    image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=500&fit=crop',
-    status: 'published',
-    lastUpdated: '2025-09-25',
-  },
-  {
-    id: 4,
-    title: 'Data Governance & AI Ethics',
-    instructor: 'Prof. David Kim',
-    category: 'ethics',
-    level: 'Advanced',
-    duration: '7 hours',
-    lessons: 14,
-    students: 1456,
-    rating: 4.7,
-    reviews: 198,
-    price: 399,
-    image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=500&fit=crop',
-    status: 'published',
-    lastUpdated: '2025-09-20',
-  },
-  {
-    id: 5,
-    title: 'AI Strategy Workshop',
-    instructor: 'Sarah Chen',
-    category: 'ai-adoption',
-    level: 'Executive',
-    duration: '4 hours',
-    lessons: 8,
-    students: 892,
-    rating: 4.8,
-    reviews: 124,
-    price: 449,
-    image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&h=500&fit=crop',
-    status: 'draft',
-    lastUpdated: '2025-10-02',
-  },
-  {
-    id: 6,
-    title: 'Machine Learning Fundamentals',
-    instructor: 'Dr. Raj Patel',
-    category: 'data-ai',
-    level: 'Beginner',
-    duration: '10 hours',
-    lessons: 20,
-    students: 4521,
-    rating: 4.9,
-    reviews: 587,
-    price: 199,
-    image: 'https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=800&h=500&fit=crop',
-    status: 'published',
-    lastUpdated: '2025-09-15',
-  },
-]
+// Course interface matching database schema
+interface Course {
+  id: string
+  title: string
+  description?: string
+  instructor_id?: string
+  instructor?: {
+    id: string
+    full_name: string
+    avatar_url?: string
+  }
+  pillar?: string
+  difficulty_level?: string
+  duration_weeks?: number
+  estimated_hours?: number
+  price_amount?: number
+  price_currency?: string
+  thumbnail_url?: string
+  status: string
+  category?: string
+  tags?: string[]
+  enrolled_count?: number
+  completed_count?: number
+  average_rating?: number
+  review_count?: number
+  created_at?: string
+  updated_at?: string
+}
+
+// Transform DB course to display format
+const transformCourse = (course: Course) => ({
+  id: course.id,
+  title: course.title,
+  instructor: course.instructor?.full_name || 'Unknown Instructor',
+  category: course.category || course.pillar || 'ai-adoption',
+  level: course.difficulty_level || 'Intermediate',
+  duration: course.estimated_hours ? `${course.estimated_hours} hours` : course.duration_weeks ? `${course.duration_weeks} weeks` : 'TBD',
+  lessons: 0, // Not tracked in current schema
+  students: course.enrolled_count || 0,
+  rating: course.average_rating || 0,
+  reviews: course.review_count || 0,
+  price: course.price_amount || 0,
+  image: course.thumbnail_url || 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=500&fit=crop',
+  status: course.status || 'draft',
+  lastUpdated: course.updated_at ? new Date(course.updated_at).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
+  description: course.description,
+  tags: course.tags,
+})
 
 export default function CoursesAdmin() {
   const router = useRouter()
   const { userData, authLoading } = useChat()
   const [showContent, setShowContent] = useState(false)
-  const [courses, setCourses] = useState(initialCourses)
+  const [courses, setCourses] = useState<ReturnType<typeof transformCourse>[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [loadError, setLoadError] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
   const [selectedStatus, setSelectedStatus] = useState<string>('all')
   const [showFilters, setShowFilters] = useState(false)
   const [editingCourse, setEditingCourse] = useState<any>(null)
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState<number | null>(null)
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState<string | null>(null)
   const [showCourseModal, setShowCourseModal] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [showSuccessMessage, setShowSuccessMessage] = useState(false)
   const [successMessageType, setSuccessMessageType] = useState<'create' | 'update'>('create')
-  const [selectedCourses, setSelectedCourses] = useState<number[]>([])
+  const [selectedCourses, setSelectedCourses] = useState<string[]>([])
   const [showBulkActions, setShowBulkActions] = useState(false)
   const [showScheduleModal, setShowScheduleModal] = useState(false)
   const [showAnalyticsModal, setShowAnalyticsModal] = useState(false)
   const [selectedCourseForAnalytics, setSelectedCourseForAnalytics] = useState<any>(null)
+  const [showImageGenerator, setShowImageGenerator] = useState(false)
 
   // Form state
   const [formData, setFormData] = useState({
@@ -199,6 +156,39 @@ export default function CoursesAdmin() {
     return () => clearTimeout(timeout)
   }, [authLoading, userData])
 
+  // Fetch courses from database
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        setIsLoading(true)
+        setLoadError(null)
+
+        // Fetch all courses (including drafts for admin)
+        const response = await fetch('/api/courses?status=all&limit=100')
+        const result = await response.json()
+
+        if (result.success && result.data) {
+          const transformedCourses = result.data.map(transformCourse)
+          setCourses(transformedCourses)
+        } else if (result.error) {
+          // If no courses found or permission issue, show empty state
+          console.log('[CoursesAdmin] API response:', result)
+          setCourses([])
+        }
+      } catch (error) {
+        console.error('[CoursesAdmin] Failed to fetch courses:', error)
+        setLoadError('Failed to load courses from database')
+        setCourses([])
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    if (showContent) {
+      fetchCourses()
+    }
+  }, [showContent])
+
   const handleLogout = async () => {
     try {
       await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' })
@@ -214,12 +204,30 @@ export default function CoursesAdmin() {
     }
   }
 
-  if (!showContent) {
+  if (!showContent || isLoading) {
     return (
-      <div className="min-h-screen bg-black">
+      <div className="min-h-screen" style={{ backgroundColor: 'var(--hg-bg-primary)' }}>
         <DashboardSidebar onLogout={handleLogout} />
         <div className="lg:ml-[var(--sidebar-width,280px)] transition-all duration-300 flex items-center justify-center min-h-screen">
           <LoadingSpinner variant="neural" size="xl" text="Loading courses..." />
+        </div>
+      </div>
+    )
+  }
+
+  // Show error state if loading failed
+  if (loadError) {
+    return (
+      <div className="min-h-screen" style={{ backgroundColor: 'var(--hg-bg-primary)' }}>
+        <DashboardSidebar onLogout={handleLogout} />
+        <div className="lg:ml-[var(--sidebar-width,280px)] transition-all duration-300 flex flex-col items-center justify-center min-h-screen gap-4">
+          <p className="text-red-400 font-diatype">{loadError}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 bg-cyan-500/20 text-cyan-300 rounded-lg hover:bg-cyan-500/30 transition-colors font-diatype"
+          >
+            Retry
+          </button>
         </div>
       </div>
     )
@@ -235,12 +243,12 @@ export default function CoursesAdmin() {
     return matchesSearch && matchesCategory && matchesStatus
   })
 
-  const handleDeleteCourse = (courseId: number) => {
+  const handleDeleteCourse = (courseId: string) => {
     setCourses(courses.filter((c) => c.id !== courseId))
     setShowDeleteConfirm(null)
   }
 
-  const handleToggleStatus = (courseId: number) => {
+  const handleToggleStatus = (courseId: string) => {
     setCourses(
       courses.map((c) =>
         c.id === courseId
@@ -256,7 +264,7 @@ export default function CoursesAdmin() {
   }
 
   // Bulk Actions
-  const handleSelectCourse = (courseId: number) => {
+  const handleSelectCourse = (courseId: string) => {
     setSelectedCourses((prev) =>
       prev.includes(courseId) ? prev.filter((id) => id !== courseId) : [...prev, courseId]
     )
@@ -296,7 +304,7 @@ export default function CoursesAdmin() {
   const handleCloneCourse = (course: any) => {
     const clonedCourse = {
       ...course,
-      id: Math.max(...courses.map((c) => c.id)) + 1,
+      id: `temp-${Date.now()}`, // Generate temporary string ID for local clone
       title: `${course.title} (Copy)`,
       status: 'draft',
       students: 0,
@@ -418,11 +426,12 @@ export default function CoursesAdmin() {
     } else {
       // Create new course
       const newCourse = {
-        id: Math.max(...courses.map((c) => c.id)) + 1,
+        id: `temp-${Date.now()}`, // Generate temporary string ID for local course
         ...formData,
         students: 0,
         rating: 0,
         reviews: 0,
+        tags: undefined,
         lastUpdated: new Date().toISOString().split('T')[0],
       }
       setCourses([newCourse, ...courses])
@@ -440,34 +449,33 @@ export default function CoursesAdmin() {
   }
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen" style={{ backgroundColor: 'var(--hg-bg-primary)' }}>
       <DashboardSidebar onLogout={handleLogout} />
 
       <div className="lg:ml-[var(--sidebar-width,280px)] transition-all duration-300 pb-20 lg:pb-0">
         {/* Header */}
-        <div className="bg-black/50 backdrop-blur-xl border-b border-white/10 sticky top-0 z-30">
+        <div className="border-b" style={{ backgroundColor: 'var(--hg-bg-sidebar)', borderColor: 'var(--hg-border-color)' }}>
           <div className="px-8 py-6">
             <div className="flex items-center justify-between">
               <div>
                 <div className="flex items-center gap-3 mb-2">
-                  <Link href="/admin" className="text-gray-400 hover:text-white transition-colors">
-                    <span className="font-diatype">← Back to Dashboard</span>
+                  <Link href="/admin">
+                    <Text variant="muted" size="sm" className="hover:underline">← Back to Dashboard</Text>
                   </Link>
                 </div>
-                <h1 className="text-3xl font-bold text-white mb-2 font-gendy">Course Management</h1>
-                <p className="text-gray-400 font-diatype">
+                <Heading as="h1" size="3xl" className="mb-2">Course Management</Heading>
+                <Text variant="muted">
                   Manage your learning platform content ({filteredCourses.length} courses)
-                </p>
+                </Text>
               </div>
-              <motion.button
+              <Button
+                variant="primary"
+                size="lg"
+                icon={<Plus className="w-5 h-5" />}
                 onClick={handleOpenCreateModal}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center gap-2 font-diatype"
               >
-                <Plus className="w-5 h-5" />
                 Add New Course
-              </motion.button>
+              </Button>
             </div>
           </div>
         </div>
@@ -481,12 +489,13 @@ export default function CoursesAdmin() {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
-                className="bg-cyan-500/20 border border-cyan-500/30 backdrop-blur-xl rounded-2xl p-4 mb-6"
+                className="rounded-2xl p-4 mb-6 border"
+                style={{ backgroundColor: 'var(--hg-cyan-bg)', borderColor: 'var(--hg-cyan-border)' }}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
-                    <CheckSquare className="w-5 h-5 text-cyan-400" />
-                    <span className="text-white font-semibold font-diatype">
+                    <CheckSquare className="w-5 h-5" style={{ color: 'var(--hg-cyan-text)' }} />
+                    <span className="font-semibold font-diatype" style={{ color: 'var(--hg-text-primary)' }}>
                       {selectedCourses.length} course{selectedCourses.length > 1 ? 's' : ''} selected
                     </span>
                   </div>
@@ -495,7 +504,7 @@ export default function CoursesAdmin() {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={handleBulkPublish}
-                      className="px-4 py-2 bg-green-500/20 hover:bg-green-500/30 border border-green-500/30 text-green-300 rounded-lg transition-all flex items-center gap-2 font-diatype"
+                      className="px-4 py-2 bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/30 text-emerald-400 rounded-lg transition-all flex items-center gap-2 font-diatype"
                     >
                       <CheckCircle className="w-4 h-4" />
                       Publish
@@ -504,7 +513,8 @@ export default function CoursesAdmin() {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={handleBulkExport}
-                      className="px-4 py-2 bg-blue-500/20 hover:bg-blue-500/30 border border-blue-500/30 text-blue-300 rounded-lg transition-all flex items-center gap-2 font-diatype"
+                      className="px-4 py-2 rounded-lg transition-all flex items-center gap-2 font-diatype border"
+                      style={{ backgroundColor: 'var(--hg-cyan-bg)', borderColor: 'var(--hg-cyan-border)', color: 'var(--hg-cyan-text)' }}
                     >
                       <Download className="w-4 h-4" />
                       Export
@@ -522,7 +532,8 @@ export default function CoursesAdmin() {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => setSelectedCourses([])}
-                      className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white rounded-lg transition-all font-diatype"
+                      className="px-4 py-2 rounded-lg transition-all font-diatype border"
+                      style={{ backgroundColor: 'var(--hg-bg-secondary)', borderColor: 'var(--hg-border-color)', color: 'var(--hg-text-primary)' }}
                     >
                       Cancel
                     </motion.button>
@@ -532,32 +543,39 @@ export default function CoursesAdmin() {
             )}
           </AnimatePresence>
 
-          <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 mb-6">
+          <div className="border rounded-2xl p-6 mb-6" style={{ backgroundColor: 'var(--hg-bg-card)', borderColor: 'var(--hg-border-color)' }}>
             <div className="flex flex-col lg:flex-row gap-4">
               {/* Select All Checkbox */}
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleSelectAll}
-                className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-all flex items-center gap-2"
+                className="px-4 py-3 rounded-xl transition-all flex items-center gap-2 border"
+                style={{ backgroundColor: 'var(--hg-bg-secondary)', borderColor: 'var(--hg-border-color)' }}
               >
                 {selectedCourses.length === filteredCourses.length ? (
-                  <CheckSquare className="w-5 h-5 text-cyan-400" />
+                  <CheckSquare className="w-5 h-5" style={{ color: 'var(--hg-cyan-text)' }} />
                 ) : (
-                  <Square className="w-5 h-5 text-gray-400" />
+                  <Square className="w-5 h-5" style={{ color: 'var(--hg-text-muted)' }} />
                 )}
-                <span className="text-white font-diatype text-sm">Select All</span>
+                <span className="font-diatype text-sm" style={{ color: 'var(--hg-text-primary)' }}>Select All</span>
               </motion.button>
               {/* Search */}
               <div className="flex-1">
                 <div className="relative">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5" style={{ color: 'var(--hg-text-muted)' }} />
                   <input
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search courses, instructors..."
-                    className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
+                    className="w-full pl-12 pr-4 py-3 rounded-xl transition-all font-diatype border focus:outline-none focus:ring-2"
+                    style={{
+                      backgroundColor: 'var(--hg-bg-secondary)',
+                      borderColor: 'var(--hg-border-color)',
+                      color: 'var(--hg-text-primary)',
+                      '--tw-ring-color': 'var(--hg-cyan-border)'
+                    } as React.CSSProperties}
                   />
                 </div>
               </div>
@@ -566,7 +584,8 @@ export default function CoursesAdmin() {
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
+                className="px-4 py-3 rounded-xl transition-all font-diatype border focus:outline-none"
+                style={{ backgroundColor: 'var(--hg-bg-secondary)', borderColor: 'var(--hg-border-color)', color: 'var(--hg-text-primary)' }}
               >
                 <option value="all">All Categories</option>
                 {categories.map((cat) => (
@@ -580,7 +599,8 @@ export default function CoursesAdmin() {
               <select
                 value={selectedStatus}
                 onChange={(e) => setSelectedStatus(e.target.value)}
-                className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
+                className="px-4 py-3 rounded-xl transition-all font-diatype border focus:outline-none"
+                style={{ backgroundColor: 'var(--hg-bg-secondary)', borderColor: 'var(--hg-border-color)', color: 'var(--hg-text-primary)' }}
               >
                 <option value="all">All Status</option>
                 <option value="published">Published</option>
@@ -597,7 +617,8 @@ export default function CoursesAdmin() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
-                className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:border-cyan-500/30 transition-all group"
+                className="border rounded-2xl overflow-hidden transition-all group hover:border-[var(--hg-cyan-border)]"
+                style={{ backgroundColor: 'var(--hg-bg-card)', borderColor: 'var(--hg-border-color)' }}
               >
                 {/* Course Image */}
                 <div className="relative h-48 overflow-hidden">
@@ -631,7 +652,7 @@ export default function CoursesAdmin() {
                     <div
                       className={`px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-sm ${
                         course.status === 'published'
-                          ? 'bg-green-500/20 text-green-300 border border-green-500/30'
+                          ? 'bg-green-500/20 text-[var(--hg-cyan-text)] border border-green-500/30'
                           : 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
                       }`}
                     >
@@ -655,28 +676,28 @@ export default function CoursesAdmin() {
 
                 {/* Course Info */}
                 <div className="p-6">
-                  <h3 className="text-lg font-bold text-white mb-2 font-gendy line-clamp-2">
+                  <h3 className="text-lg font-bold mb-2 font-gendy line-clamp-2" style={{ color: 'var(--hg-text-primary)' }}>
                     {course.title}
                   </h3>
-                  <p className="text-sm text-gray-400 mb-4 font-diatype">By {course.instructor}</p>
+                  <p className="text-sm mb-4 font-diatype" style={{ color: 'var(--hg-text-muted)' }}>By {course.instructor}</p>
 
                   {/* Stats */}
                   <div className="grid grid-cols-2 gap-3 mb-4">
-                    <div className="flex items-center gap-2 text-sm text-gray-400">
+                    <div className="flex items-center gap-2 text-sm" style={{ color: 'var(--hg-text-muted)' }}>
                       <Users className="w-4 h-4" />
                       <span className="font-diatype">{course.students.toLocaleString()}</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-gray-400">
+                    <div className="flex items-center gap-2 text-sm" style={{ color: 'var(--hg-text-muted)' }}>
                       <Clock className="w-4 h-4" />
                       <span className="font-diatype">{course.duration}</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-gray-400">
+                    <div className="flex items-center gap-2 text-sm" style={{ color: 'var(--hg-text-muted)' }}>
                       <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
                       <span className="font-diatype">
                         {course.rating} ({course.reviews})
                       </span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-gray-400">
+                    <div className="flex items-center gap-2 text-sm" style={{ color: 'var(--hg-text-muted)' }}>
                       <DollarSign className="w-4 h-4" />
                       <span className="font-diatype">${course.price}</span>
                     </div>
@@ -684,14 +705,14 @@ export default function CoursesAdmin() {
 
                   {/* Level & Lessons */}
                   <div className="flex items-center justify-between mb-4 text-sm">
-                    <span className="px-3 py-1 bg-white/5 rounded-lg text-gray-300 font-diatype">
+                    <span className="px-3 py-1 rounded-lg font-diatype" style={{ backgroundColor: 'var(--hg-bg-secondary)', color: 'var(--hg-text-secondary)' }}>
                       {course.level}
                     </span>
-                    <span className="text-gray-400 font-diatype">{course.lessons} lessons</span>
+                    <span className="font-diatype" style={{ color: 'var(--hg-text-muted)' }}>{course.lessons} lessons</span>
                   </div>
 
                   {/* Last Updated */}
-                  <p className="text-xs text-gray-500 mb-4 font-diatype">
+                  <p className="text-xs mb-4 font-diatype" style={{ color: 'var(--hg-text-muted)' }}>
                     Last updated: {new Date(course.lastUpdated).toLocaleDateString()}
                   </p>
 
@@ -702,7 +723,8 @@ export default function CoursesAdmin() {
                         onClick={() => handleOpenEditModal(course)}
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        className="flex-1 px-4 py-2 bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-cyan-300 rounded-lg transition-all flex items-center justify-center gap-2 font-diatype"
+                        className="flex-1 px-4 py-2 rounded-lg transition-all flex items-center justify-center gap-2 font-diatype border"
+                        style={{ backgroundColor: 'var(--hg-cyan-bg)', borderColor: 'var(--hg-cyan-border)', color: 'var(--hg-cyan-text)' }}
                       >
                         <Edit className="w-4 h-4" />
                         Edit
@@ -711,7 +733,8 @@ export default function CoursesAdmin() {
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={() => handleCloneCourse(course)}
-                        className="px-4 py-2 bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-cyan-300 rounded-lg transition-all font-diatype"
+                        className="px-4 py-2 rounded-lg transition-all font-diatype border"
+                        style={{ backgroundColor: 'var(--hg-cyan-bg)', borderColor: 'var(--hg-cyan-border)', color: 'var(--hg-cyan-text)' }}
                         title="Clone course"
                       >
                         <Copy className="w-4 h-4" />
@@ -741,7 +764,7 @@ export default function CoursesAdmin() {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => handleToggleStatus(course.id)}
-                      className="w-full px-4 py-2 bg-green-500/20 hover:bg-green-500/30 border border-green-500/30 text-green-300 rounded-lg transition-all flex items-center justify-center gap-2 font-diatype"
+                      className="w-full px-4 py-2 bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/30 text-emerald-400 rounded-lg transition-all flex items-center justify-center gap-2 font-diatype"
                     >
                       <Eye className="w-4 h-4" />
                       {course.status === 'published' ? 'Preview' : 'Publish & Preview'}
@@ -754,9 +777,9 @@ export default function CoursesAdmin() {
 
           {filteredCourses.length === 0 && (
             <div className="text-center py-12">
-              <PlayCircle className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-white mb-2 font-gendy">No courses found</h3>
-              <p className="text-gray-400 font-diatype">Try adjusting your filters or create a new course</p>
+              <PlayCircle className="w-16 h-16 mx-auto mb-4" style={{ color: 'var(--hg-text-muted)' }} />
+              <h3 className="text-xl font-semibold mb-2 font-gendy" style={{ color: 'var(--hg-text-primary)' }}>No courses found</h3>
+              <p className="font-diatype" style={{ color: 'var(--hg-text-muted)' }}>Try adjusting your filters or create a new course</p>
             </div>
           )}
         </div>
@@ -971,7 +994,7 @@ export default function CoursesAdmin() {
                   {/* Image URL */}
                   <div className="md:col-span-2">
                     <label className="block text-sm font-semibold text-white mb-2 font-diatype">
-                      Image URL <span className="text-red-400">*</span>
+                      Course Image <span className="text-red-400">*</span>
                     </label>
                     <div className="flex gap-2">
                       <input
@@ -983,8 +1006,16 @@ export default function CoursesAdmin() {
                           formErrors.image ? 'border-red-500' : 'border-white/10'
                         } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype`}
                       />
-                      <button className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-gray-400 hover:text-white hover:bg-white/10 transition-all">
-                        <ImageIcon className="w-5 h-5" />
+                      <button
+                        type="button"
+                        onClick={() => setShowImageGenerator(true)}
+                        className="px-4 py-3 bg-gradient-to-r from-purple-500/20 to-blue-500/20 border border-purple-500/30 rounded-xl text-purple-300 hover:text-white hover:from-purple-500/30 hover:to-blue-500/30 transition-all flex items-center gap-2"
+                        title="Generate with AI"
+                      >
+                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                        </svg>
+                        <span className="font-diatype text-sm">AI Generate</span>
                       </button>
                     </div>
                     {formErrors.image && (
@@ -998,6 +1029,7 @@ export default function CoursesAdmin() {
                           alt="Preview"
                           fill
                           className="object-cover"
+                          unoptimized={formData.image.startsWith('data:')}
                           onError={() => handleFormChange('image', '')}
                         />
                       </div>
@@ -1090,14 +1122,14 @@ export default function CoursesAdmin() {
               <div className="p-6">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                   <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-4">
-                    <Users className="w-5 h-5 text-blue-400 mb-2" />
+                    <Users className="w-5 h-5 text-[var(--hg-cyan-text)] mb-2" />
                     <p className="text-2xl font-bold text-white mb-1 font-gendy">
                       {selectedCourseForAnalytics.students}
                     </p>
                     <p className="text-xs text-gray-400 font-diatype">Enrollments</p>
                   </div>
                   <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-4">
-                    <CheckCircle className="w-5 h-5 text-green-400 mb-2" />
+                    <CheckCircle className="w-5 h-5 text-[var(--hg-cyan-text)] mb-2" />
                     <p className="text-2xl font-bold text-white mb-1 font-gendy">87%</p>
                     <p className="text-xs text-gray-400 font-diatype">Completion Rate</p>
                   </div>
@@ -1136,7 +1168,7 @@ export default function CoursesAdmin() {
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="flex-1 px-4 py-3 bg-blue-500/20 hover:bg-blue-500/30 border border-blue-500/30 text-blue-300 rounded-lg transition-all flex items-center justify-center gap-2 font-diatype"
+                    className="flex-1 px-4 py-3 bg-blue-500/20 hover:bg-blue-500/30 border border-blue-500/30 text-[var(--hg-cyan-text)] rounded-lg transition-all flex items-center justify-center gap-2 font-diatype"
                   >
                     <Download className="w-5 h-5" />
                     Export Data
@@ -1200,6 +1232,20 @@ export default function CoursesAdmin() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Image Generator Modal */}
+      <ImageGenerator
+        mode="modal"
+        isOpen={showImageGenerator}
+        onClose={() => setShowImageGenerator(false)}
+        currentImage={formData.image}
+        contentTitle={formData.title}
+        contentType="course"
+        onImageSelect={(imageUrl) => {
+          handleFormChange('image', imageUrl)
+          setShowImageGenerator(false)
+        }}
+      />
     </div>
   )
 }

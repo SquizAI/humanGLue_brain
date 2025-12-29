@@ -5,8 +5,12 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase/server'
+import { createClient, createAdminClient } from '@/lib/supabase/server'
 import { z } from 'zod'
+import {
+  sendApplicationConfirmation,
+  notifyAdminsOfNewApplication,
+} from '@/lib/services/expert-application-emails'
 
 // Validation schema for creating an application
 const createApplicationSchema = z.object({
@@ -203,6 +207,7 @@ export async function POST(request: NextRequest) {
 
     const data = validation.data
     const supabase = await createClient()
+    const adminSupabase = await createAdminClient()
 
     // Get current user (optional)
     const { data: { user } } = await supabase.auth.getUser()
@@ -251,8 +256,8 @@ export async function POST(request: NextRequest) {
                'unknown'
     const userAgent = request.headers.get('user-agent') || 'unknown'
 
-    // Create application
-    const { data: application, error } = await supabase
+    // Create application using admin client (bypasses RLS for public form submissions)
+    const { data: application, error } = await adminSupabase
       .from('expert_applications')
       .insert({
         user_id: user?.id || null,
@@ -300,8 +305,28 @@ export async function POST(request: NextRequest) {
 
     if (error) throw error
 
-    // TODO: Send confirmation email to applicant
-    // TODO: Notify admins of new submission
+    // Send email notifications if application was submitted (not just saved as draft)
+    if (data.submitNow && application) {
+      try {
+        const applicationData = {
+          id: application.id,
+          full_name: application.full_name,
+          email: application.email,
+          professional_title: application.professional_title,
+          headline: application.headline,
+          expertise_areas: application.expertise_areas,
+        }
+
+        // Send confirmation to applicant
+        await sendApplicationConfirmation(applicationData)
+
+        // Notify admins of new submission
+        await notifyAdminsOfNewApplication(applicationData)
+      } catch (emailError) {
+        // Log but don't fail the request - application was still created
+        console.error('Failed to send email notifications:', emailError)
+      }
+    }
 
     return NextResponse.json(
       {

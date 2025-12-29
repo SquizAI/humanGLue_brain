@@ -1,0 +1,2942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HumanGlue 90-Day Execution Tracker</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+        @font-face {
+            font-family: 'Gendy';
+            src: url('/fonts/Gendy2.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'ABCDiatype';
+            src: url('/fonts/ABCDiatype-Regular.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'ABCDiatype', 'Inter', sans-serif;
+            background: #000000;
+            color: #ffffff;
+            padding: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* HumanGlue animated background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(6, 182, 212, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.06) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.04) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(97,216,254,0.1), rgba(139,92,246,0.1));
+            border-radius: 20px;
+            border: 2px solid rgba(97,216,254,0.3);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .logo {
+            height: 60px;
+            width: auto;
+        }
+
+        .header h1 {
+            font-family: 'Gendy', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #06B6D4, #8B5CF6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #9ca3af;
+            font-size: 16px;
+        }
+
+        .month-section {
+            margin-bottom: 50px;
+        }
+
+        .month-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: rgba(255,255,255,0.03);
+            border-left: 4px solid #61D8FE;
+            border-radius: 10px;
+        }
+
+        .month-icon {
+            font-size: 32px;
+        }
+
+        .month-title {
+            flex: 1;
+        }
+
+        .month-title h2 {
+            font-size: 24px;
+            color: #06B6D4;
+            margin-bottom: 5px;
+        }
+
+        .month-title p {
+            font-size: 14px;
+            color: #9ca3af;
+        }
+
+        .month-goal {
+            background: rgba(16,185,129,0.1);
+            border: 1px solid rgba(16,185,129,0.3);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #10B981;
+            font-weight: 600;
+        }
+
+        .weeks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .week-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+
+        .week-card:hover {
+            border-color: #06B6D4;
+            transform: translateY(-2px);
+        }
+
+        .week-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .week-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .week-focus {
+            font-size: 12px;
+            background: rgba(139,92,246,0.2);
+            color: #8B5CF6;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+
+        .week-goal {
+            font-size: 13px;
+            color: #F59E0B;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .tasks {
+            list-style: none;
+        }
+
+        .task {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-size: 13px;
+            line-height: 1.5;
+            color: #d1d5db;
+        }
+
+        .task input[type="checkbox"] {
+            margin-top: 3px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #06B6D4;
+        }
+
+        .task label {
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .task input[type="checkbox"]:checked + label {
+            text-decoration: line-through;
+            color: #6b7280;
+        }
+
+        .week-outcome {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 12px;
+            color: #10B981;
+            font-weight: 600;
+        }
+
+        .metrics-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .metric-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .metric-label {
+            font-size: 12px;
+            color: #9ca3af;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .metric-value {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #06B6D4, #3B82F6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .metric-input {
+            width: 100%;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 6px;
+            padding: 8px;
+            color: #ffffff;
+            font-size: 24px;
+            font-weight: 700;
+            text-align: center;
+            margin-top: 5px;
+        }
+
+        .decision-point {
+            background: rgba(239,68,68,0.1);
+            border: 2px solid rgba(239,68,68,0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+
+        .decision-point h3 {
+            color: #EF4444;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .decision-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .decision-option {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .decision-option h4 {
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .decision-option.green h4 { color: #10B981; }
+        .decision-option.yellow h4 { color: #F59E0B; }
+        .decision-option.red h4 { color: #EF4444; }
+
+        .decision-option ul {
+            list-style: none;
+            font-size: 12px;
+            color: #9ca3af;
+        }
+
+        .decision-option li {
+            margin-bottom: 5px;
+            padding-left: 15px;
+            position: relative;
+        }
+
+        .decision-option li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+        }
+
+        .quick-start {
+            background: linear-gradient(135deg, rgba(16,185,129,0.1), rgba(59,130,246,0.1));
+            border: 2px solid rgba(16,185,129,0.3);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 40px;
+        }
+
+        .quick-start h2 {
+            color: #10B981;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .quick-start-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .quick-start-day {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .quick-start-day h4 {
+            font-size: 14px;
+            color: #06B6D4;
+            margin-bottom: 10px;
+        }
+
+        .quick-start-day ul {
+            list-style: none;
+            font-size: 11px;
+            color: #d1d5db;
+        }
+
+        .quick-start-day li {
+            margin-bottom: 5px;
+            display: flex;
+            gap: 5px;
+        }
+
+        .quick-start-day input[type="checkbox"] {
+            width: 14px;
+            height: 14px;
+            margin-top: 2px;
+        }
+
+        .day-detail {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .day-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .day-number {
+            font-size: 16px;
+            font-weight: 700;
+            color: #06B6D4;
+        }
+
+        .day-focus {
+            font-size: 11px;
+            background: rgba(139,92,246,0.15);
+            color: #8B5CF6;
+            padding: 4px 10px;
+            border-radius: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .day-goal {
+            font-size: 13px;
+            color: #F59E0B;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .day-tasks {
+            list-style: none;
+            margin-bottom: 12px;
+        }
+
+        .day-task {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 8px;
+            font-size: 12px;
+            line-height: 1.6;
+            color: #d1d5db;
+        }
+
+        .day-task input[type="checkbox"] {
+            margin-top: 3px;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            accent-color: #06B6D4;
+            flex-shrink: 0;
+        }
+
+        .day-deliverable {
+            margin-top: 12px;
+            padding: 10px;
+            background: rgba(16,185,129,0.08);
+            border-left: 3px solid #10B981;
+            border-radius: 4px;
+            font-size: 11px;
+            color: #10B981;
+        }
+
+        .week-days-container {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid rgba(97,216,254,0.2);
+        }
+
+        .week-days-title {
+            font-size: 14px;
+            color: #9ca3af;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo-container">
+            <img src="../public/HumnaGlue_logo_hero.png" alt="HumanGlue" class="logo">
+        </div>
+        <h1>🚀 90-Day Execution Tracker</h1>
+        <p>Realistic, Week-by-Week Roadmap • Print This & Check Off As You Go</p>
+    </div>
+
+    <!-- Quick Start -->
+    <div class="quick-start">
+        <h2>🎯 START HERE: Your First 7 Days</h2>
+        <div class="quick-start-grid">
+            <div class="quick-start-day">
+                <h4>Day 1 (Today!)</h4>
+                <ul>
+                    <li><input type="checkbox"> List 10 target companies</li>
+                    <li><input type="checkbox"> Draft assessment email</li>
+                    <li><input type="checkbox"> Create Google Form (10 questions)</li>
+                </ul>
+            </div>
+            <div class="quick-start-day">
+                <h4>Day 2</h4>
+                <ul>
+                    <li><input type="checkbox"> Send to 5 warm contacts</li>
+                    <li><input type="checkbox"> LinkedIn post on AI maturity</li>
+                    <li><input type="checkbox"> Schedule 3 coffee chats</li>
+                </ul>
+            </div>
+            <div class="quick-start-day">
+                <h4>Day 3</h4>
+                <ul>
+                    <li><input type="checkbox"> Send to 5 more contacts</li>
+                    <li><input type="checkbox"> Build scoring rubric</li>
+                    <li><input type="checkbox"> Research 3 potential partners</li>
+                </ul>
+            </div>
+            <div class="quick-start-day">
+                <h4>Day 4</h4>
+                <ul>
+                    <li><input type="checkbox"> Review responses</li>
+                    <li><input type="checkbox"> Reach out to 5 new prospects</li>
+                    <li><input type="checkbox"> Draft 1-page service offer</li>
+                </ul>
+            </div>
+            <div class="quick-start-day">
+                <h4>Day 5</h4>
+                <ul>
+                    <li><input type="checkbox"> Send personalized results</li>
+                    <li><input type="checkbox"> Offer 15-min calls</li>
+                    <li><input type="checkbox"> LinkedIn update on findings</li>
+                </ul>
+            </div>
+            <div class="quick-start-day">
+                <h4>Day 6-7</h4>
+                <ul>
+                    <li><input type="checkbox"> Conduct booked calls</li>
+                    <li><input type="checkbox"> Review what you learned</li>
+                    <li><input type="checkbox"> Plan Week 2 outreach</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- MONTH 1 -->
+    <div class="month-section">
+        <div class="month-header">
+            <div class="month-icon">📅</div>
+            <div class="month-title">
+                <h2>Month 1: Foundation & Validation</h2>
+                <p>Prove people will actually pay for this</p>
+            </div>
+            <div class="month-goal">Goal: $0-5K Revenue</div>
+        </div>
+
+        <div class="weeks-grid">
+            <!-- Week 1 -->
+            <div class="week-card">
+                <div class="week-header">
+                    <div class="week-title">Week 1</div>
+                    <div class="week-focus">Setup</div>
+                </div>
+                <div class="week-goal">🎯 Get organized & validate assumptions</div>
+
+                <div class="week-days-container">
+                    <div class="week-days-title">Day-by-Day Breakdown</div>
+
+                    <!-- Day 1 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 1: Foundation Setup</div>
+                            <div class="day-focus">Research</div>
+                        </div>
+                        <div class="day-goal">Define who you're serving and what problem you're solving</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d1t1">
+                                <label for="d1t1">Write down 10 companies that could use AI maturity guidance (be specific: names, size, industry)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d1t2">
+                                <label for="d1t2">For each company, identify the decision maker (CTO, VP Eng, Chief AI Officer, Head of Product)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d1t3">
+                                <label for="d1t3">Create simple ICP doc: company size (50-500? 500-5000?), industry verticals, budget range</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d1t4">
+                                <label for="d1t4">Set up Google Sheet with tabs: Leads, Activities, Deals, Metrics</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d1t5">
+                                <label for="d1t5">Draft 1 email template: "Free AI Maturity Assessment" - keep it to 3 sentences max</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: ICP doc + 10 target companies + tracking sheet + email template</div>
+                    </div>
+
+                    <!-- Day 2 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 2: Assessment MVP</div>
+                            <div class="day-focus">Build</div>
+                        </div>
+                        <div class="day-goal">Create simplest possible assessment tool</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d2t1">
+                                <label for="d2t1">Create Google Form with 10-15 questions (mix of multiple choice and 1-10 scale)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d2t2">
+                                <label for="d2t2">Questions should cover: AI awareness, current usage, strategy, culture/readiness, skills/training</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d2t3">
+                                <label for="d2t3">Set up auto-confirmation email: "Thanks! We'll send your results within 24 hours"</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d2t4">
+                                <label for="d2t4">Create simple scoring rubric (Google Sheet): 0-2 = Beginner, 3-5 = Aware, 6-7 = Implementing, 8-9 = Advanced, 10 = Leading</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d2t5">
+                                <label for="d2t5">Draft 1-page results template (Word/Google Doc) with: Score, What this means, 3 recommended next steps</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Working assessment form + scoring system + results template</div>
+                    </div>
+
+                    <!-- Day 3 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 3: First Outreach</div>
+                            <div class="day-focus">Outreach</div>
+                        </div>
+                        <div class="day-goal">Start getting data from real prospects</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d3t1">
+                                <label for="d3t1">Send assessment to 5 warm contacts (friends, former colleagues, LinkedIn connections)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d3t2">
+                                <label for="d3t2">Write LinkedIn post: "The 5 stages of AI maturity - where is your company?" (300 words max)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d3t3">
+                                <label for="d3t3">Reach out to 3 people for 15-min "research calls" - ask about their AI challenges</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d3t4">
+                                <label for="d3t4">Join 2-3 LinkedIn groups related to AI, digital transformation, or your target industry</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d3t5">
+                                <label for="d3t5">Comment thoughtfully on 5 LinkedIn posts about AI (add value, don't pitch)</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: 5 assessment invites sent + 1 LinkedIn post + 3 call requests</div>
+                    </div>
+
+                    <!-- Day 4 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 4: Research Calls</div>
+                            <div class="day-focus">Discovery</div>
+                        </div>
+                        <div class="day-goal">Understand real pain points from target market</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d4t1">
+                                <label for="d4t1">Conduct 2-3 research calls - ask: "What's your biggest AI challenge?" "Have you tried training/consulting?" "What would you pay for?"</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d4t2">
+                                <label for="d4t2">Take detailed notes in a "Research Findings" doc - capture exact quotes and pain points</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d4t3">
+                                <label for="d4t3">Review any assessment responses you've received - manually score them</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d4t4">
+                                <label for="d4t4">Send personalized results to assessment takers + offer 15-min follow-up call</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d4t5">
+                                <label for="d4t5">Build list of 20 more prospects on LinkedIn (save profiles, note why they're good fit)</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Research notes from 3 calls + scored assessments + 20 new prospects</div>
+                    </div>
+
+                    <!-- Day 5 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 5: Content Creation</div>
+                            <div class="day-focus">Marketing</div>
+                        </div>
+                        <div class="day-goal">Create assets to establish credibility</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d5t1">
+                                <label for="d5t1">Write 800-word blog post: "The 5 Stages of AI Maturity" (use what you learned from calls)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d5t2">
+                                <label for="d5t2">Create simple infographic in Canva showing the maturity model (Beginner → Leading)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d5t3">
+                                <label for="d5t3">Draft 3 LinkedIn posts based on research findings (1 for each common pain point)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d5t4">
+                                <label for="d5t4">Create simple website landing page OR LinkedIn featured section with assessment link</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d5t5">
+                                <label for="d5t5">Update email signature with tagline: "AI Maturity Assessment - Free Scorecard"</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Blog post + infographic + 3 LinkedIn posts + landing page</div>
+                    </div>
+
+                    <!-- Day 6 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 6: Service Offering</div>
+                            <div class="day-focus">Packaging</div>
+                        </div>
+                        <div class="day-goal">Define what you'll actually sell</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d6t1">
+                                <label for="d6t1">Based on research calls, pick 1 service to offer: Workshop ($2,500) or Assessment + Roadmap ($5,000)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d6t2">
+                                <label for="d6t2">Create 1-page service description: What's included, timeline, price, outcomes</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d6t3">
+                                <label for="d6t3">Set up payment method (Stripe payment link, PayPal invoice, or simple contract template)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d6t4">
+                                <label for="d6t4">Draft "Next Steps" email to send after discovery calls with warm prospects</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d6t5">
+                                <label for="d6t5">Create simple pitch deck (10 slides): Problem, Solution, How it works, Pricing, Next steps</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Defined service offering + pricing + payment setup + pitch deck</div>
+                    </div>
+
+                    <!-- Day 7 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 7: Week Review & Planning</div>
+                            <div class="day-focus">Analysis</div>
+                        </div>
+                        <div class="day-goal">Assess what's working and plan Week 2</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d7t1">
+                                <label for="d7t1">Review metrics: How many assessments? How many calls? Any interest in paid services?</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d7t2">
+                                <label for="d7t2">Identify common themes from research calls - what pain point keeps coming up?</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d7t3">
+                                <label for="d7t3">Adjust assessment questions if any were confusing or didn't provide value</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d7t4">
+                                <label for="d7t4">Plan Week 2 outreach: Build list of 25 new prospects to contact</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d7t5">
+                                <label for="d7t5">Celebrate small wins! Document what you learned and what to do differently</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Week 1 metrics + learnings doc + Week 2 outreach list</div>
+                    </div>
+                </div>
+
+                <div class="week-outcome">✅ Clear target customer + key pain point + working assessment + first service offering</div>
+            </div>
+
+            <!-- Week 2 -->
+            <div class="week-card">
+                <div class="week-header">
+                    <div class="week-title">Week 2</div>
+                    <div class="week-focus">MVP</div>
+                </div>
+                <div class="week-goal">🎯 Launch simplest assessment</div>
+
+                <div class="week-days-container">
+                    <div class="week-days-title">Day-by-Day Breakdown</div>
+
+                    <!-- Day 8 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 8: Outreach Scaling</div>
+                            <div class="day-focus">Growth</div>
+                        </div>
+                        <div class="day-goal">Scale your outreach while refining your message</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d8t1">
+                                <label for="d8t1">Send personalized assessment invite to 10 people from your prospect list (use names, reference their company/role)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d8t2">
+                                <label for="d8t2">Post your blog article "5 Stages of AI Maturity" on LinkedIn with call-to-action for assessment</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d8t3">
+                                <label for="d8t3">Share the infographic on Twitter/X with 3 key takeaways in the tweet</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d8t4">
+                                <label for="d8t4">Follow up with anyone who hasn't responded from Week 1 (gentle nudge: "Just wanted to make sure you saw this")</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d8t5">
+                                <label for="d8t5">Track response rates in your sheet - which outreach method is working best?</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: 10 outreach messages + 2 social posts + response rate data</div>
+                    </div>
+
+                    <!-- Day 9 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 9: Discovery Calls</div>
+                            <div class="day-focus">Sales</div>
+                        </div>
+                        <div class="day-goal">Convert assessment takers into sales conversations</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d9t1">
+                                <label for="d9t1">Book 2-3 discovery calls with people who took the assessment</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d9t2">
+                                <label for="d9t2">Prepare talk track: Understand their challenges → Show expertise → Soft intro to paid offering</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d9t3">
+                                <label for="d9t3">During calls, ask: "If we could solve [their pain], what would that be worth to your company?"</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d9t4">
+                                <label for="d9t4">Take notes on objections/concerns - these will inform your positioning</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d9t5">
+                                <label for="d9t5">After calls, send personalized follow-up with 2-3 specific recommendations from the conversation</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: 3 discovery calls completed + objection log + follow-ups sent</div>
+                    </div>
+
+                    <!-- Day 10 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 10: Partner Research</div>
+                            <div class="day-focus">Strategy</div>
+                        </div>
+                        <div class="day-goal">Identify potential white-label partners for future scale</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d10t1">
+                                <label for="d10t1">Research 5 potential partners: consulting firms, training companies, or agencies serving your target market</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d10t2">
+                                <label for="d10t2">Check their services - do they offer AI training/consulting? Could your assessment fill a gap?</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d10t3">
+                                <label for="d10t3">Find contact info for their BD/partnerships lead (LinkedIn, company website)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d10t4">
+                                <label for="d10t4">Draft partnership intro email: "We help companies assess AI maturity - could be valuable for your clients"</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d10t5">
+                                <label for="d10t5">Create "Partner Info" doc with notes on each potential partner (client base, how you'd work together, contact info)</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: List of 5 potential partners + outreach template + partnership notes</div>
+                    </div>
+
+                    <!-- Day 11 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 11: Content Engine</div>
+                            <div class="day-focus">Marketing</div>
+                        </div>
+                        <div class="day-goal">Build consistent content pipeline</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d11t1">
+                                <label for="d11t1">Write 2nd blog post based on research findings: "The #1 AI Mistake Companies Make"</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d11t2">
+                                <label for="d11t2">Create content calendar for next 2 weeks: 3 LinkedIn posts/week, 1 blog post/week</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d11t3">
+                                <label for="d11t3">Draft all LinkedIn posts for next week in advance (batch content creation)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d11t4">
+                                <label for="d11t4">Engage on 10 relevant LinkedIn posts (thoughtful comments that show expertise)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d11t5">
+                                <label for="d11t5">Start building email list: Add signup form to landing page for "AI Maturity Newsletter"</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Blog post #2 + content calendar + 9 pre-written LinkedIn posts + email signup</div>
+                    </div>
+
+                    <!-- Day 12 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 12: Offer Refinement</div>
+                            <div class="day-focus">Product</div>
+                        </div>
+                        <div class="day-goal">Refine your service offering based on feedback</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d12t1">
+                                <label for="d12t1">Review all discovery call notes - what do prospects ask for most?</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d12t2">
+                                <label for="d12t2">Refine your service offering to address the most common pain point</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d12t3">
+                                <label for="d12t3">Create detailed workshop outline (if offering workshop): Agenda, activities, outcomes, duration</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d12t4">
+                                <label for="d12t4">Build simple proposal template: Situation, Solution, Timeline, Investment, Next Steps</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d12t5">
+                                <label for="d12t5">Practice your pitch out loud 3 times - time it (should be under 5 minutes)</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Refined offering + workshop outline + proposal template + practiced pitch</div>
+                    </div>
+
+                    <!-- Day 13 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 13: Testimonial Gathering</div>
+                            <div class="day-focus">Social Proof</div>
+                        </div>
+                        <div class="day-goal">Build credibility with early social proof</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d13t1">
+                                <label for="d13t1">Reach out to 5 assessment takers who gave positive feedback - ask for testimonial</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d13t2">
+                                <label for="d13t2">Make it easy: "Can I quote you saying [their positive feedback]? Just reply 'yes' if that's OK"</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d13t3">
+                                <label for="d13t3">Ask 2-3 people for LinkedIn recommendations (specifically about your AI expertise)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d13t4">
+                                <label for="d13t4">Create "Social Proof" doc with all testimonials, quotes, and metrics (# assessments done, avg score improvement, etc.)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d13t5">
+                                <label for="d13t5">Update your pitch deck and landing page with these testimonials</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: 3-5 testimonials + LinkedIn recommendations + updated marketing materials</div>
+                    </div>
+
+                    <!-- Day 14 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 14: Week Review & Momentum</div>
+                            <div class="day-focus">Analysis</div>
+                        </div>
+                        <div class="day-goal">Assess progress and plan Week 3 push</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d14t1">
+                                <label for="d14t1">Update metrics: Total assessments (goal: 15+), discovery calls (goal: 5+), warm leads (goal: 2+)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d14t2">
+                                <label for="d14t2">Analyze conversion rates: Outreach → Assessment, Assessment → Call, Call → Interest</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d14t3">
+                                <label for="d14t3">Identify your best channel: LinkedIn? Email? Referrals? Double down on what's working</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d14t4">
+                                <label for="d14t4">Plan Week 3: Focus on converting 1-2 warm leads into paying customers</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d14t5">
+                                <label for="d14t5">Prep for Week 3 webinar: Choose topic based on most common questions from calls</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Week 2 metrics + conversion analysis + Week 3 plan + webinar topic</div>
+                    </div>
+                </div>
+
+                <div class="week-outcome">✅ 15+ assessments completed + refined offering + testimonials + content pipeline</div>
+            </div>
+
+            <!-- Week 3 -->
+            <div class="week-card">
+                <div class="week-header">
+                    <div class="week-title">Week 3</div>
+                    <div class="week-focus">Content</div>
+                </div>
+                <div class="week-goal">🎯 Build credibility assets</div>
+
+                <div class="week-days-container">
+                    <div class="week-days-title">Day-by-Day Breakdown</div>
+
+                    <!-- Day 15 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 15: Webinar Prep</div>
+                            <div class="day-focus">Event</div>
+                        </div>
+                        <div class="day-goal">Prepare free value webinar to convert warm leads</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d15t1">
+                                <label for="d15t1">Create webinar slides (20-30 slides): Intro, AI Maturity Model, Common Challenges, Solutions, Q&A, Soft CTA</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d15t2">
+                                <label for="d15t2">Set up webinar platform (Zoom is fine, or Google Meet)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d15t3">
+                                <label for="d15t3">Schedule webinar for 2-3 days out (gives time to promote but maintains urgency)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d15t4">
+                                <label for="d15t4">Create email invite with clear value prop: "Learn how to assess your AI readiness + get personalized feedback"</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d15t5">
+                                <label for="d15t5">Send invite to all assessment takers + prospects who showed interest (50-75 people)</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Webinar slides + scheduled event + 50+ invites sent</div>
+                    </div>
+
+                    <!-- Day 16 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 16: Closing Conversations</div>
+                            <div class="day-focus">Sales</div>
+                        </div>
+                        <div class="day-goal">Move warm leads toward decision</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d16t1">
+                                <label for="d16t1">Reach out to 2-3 warmest leads: "Based on our conversation, I think [service] would help you solve [pain point]"</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d16t2">
+                                <label for="d16t2">Send each one a custom 1-pager: Their situation, your solution, expected outcomes, next steps</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d16t3">
+                                <label for="d16t3">Offer early bird pricing: "20% off for first 3 customers, ends [date this week]"</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d16t4">
+                                <label for="d16t4">Schedule follow-up calls with interested prospects - book them within 48 hours to maintain momentum</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d16t5">
+                                <label for="d16t5">Prepare objection handling doc: Price too high → ROI calculation, Not now → urgency builder, Need approval → multi-stakeholder materials</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Custom proposals to 3 leads + early bird offer + objection handling prep</div>
+                    </div>
+
+                    <!-- Day 17 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 17: Webinar Delivery</div>
+                            <div class="day-focus">Event</div>
+                        </div>
+                        <div class="day-goal">Deliver valuable webinar and soft pitch services</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d17t1">
+                                <label for="d17t1">Send reminder email 2 hours before webinar to all registrants</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d17t2">
+                                <label for="d17t2">Conduct 45-min webinar: 30 min content, 10 min Q&A, 5 min soft pitch of your service</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d17t3">
+                                <label for="d17t3">Record the webinar for future use (can repurpose into content or evergreen lead magnet)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d17t4">
+                                <label for="d17t4">At end, offer free 15-min "personalized assessment debrief" to attendees</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d17t5">
+                                <label for="d17t5">Follow up within 1 hour: Send recording, slides, and booking link for 1:1 calls</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Webinar delivered + recorded + follow-up sent to all attendees</div>
+                    </div>
+
+                    <!-- Day 18 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 18: Rapid Follow-Up</div>
+                            <div class="day-focus">Conversion</div>
+                        </div>
+                        <div class="day-goal">Convert webinar attendees into customers</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d18t1">
+                                <label for="d18t1">Email everyone who attended: "Thanks for joining! Here's your exclusive offer (early bird pricing ends tomorrow)"</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d18t2">
+                                <label for="d18t2">Call or DM the 3-5 most engaged attendees (those who asked questions or stayed entire time)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d18t3">
+                                <label for="d18t3">Book 1:1 debrief calls with interested prospects</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d18t4">
+                                <label for="d18t4">During calls, use consultative approach: Understand their specific situation → Show how your service addresses it → Ask for the sale</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d18t5">
+                                <label for="d18t5">Send proposal/contract same day to anyone who says "I'm interested" - strike while iron is hot!</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Personalized follow-ups + 3-5 debrief calls + 1-2 proposals sent</div>
+                    </div>
+
+                    <!-- Day 19 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 19: Content Amplification</div>
+                            <div class="day-focus">Marketing</div>
+                        </div>
+                        <div class="day-goal">Repurpose webinar into multiple content assets</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d19t1">
+                                <label for="d19t1">Extract 3 best moments from webinar recording - create short video clips (2-3 min each)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d19t2">
+                                <label for="d19t2">Post clips on LinkedIn with insights: "Here's what I shared about AI maturity in our recent workshop"</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d19t3">
+                                <label for="d19t3">Write blog post from webinar content: Turn your slides/talk track into 1,000-word article</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d19t4">
+                                <label for="d19t4">Create infographic of "5 Key Takeaways from the Webinar"</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d19t5">
+                                <label for="d19t5">Share webinar recording as gated content on landing page: "Watch the Full Workshop" (email required)</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: 3 video clips + blog post + infographic + gated webinar replay</div>
+                    </div>
+
+                    <!-- Day 20 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 20: First Sale Push</div>
+                            <div class="day-focus">Closing</div>
+                        </div>
+                        <div class="day-goal">Close your first paying customer</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d20t1">
+                                <label for="d20t1">Follow up with anyone who received a proposal: "Do you have any questions? I'd love to get started with you"</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d20t2">
+                                <label for="d20t2">Address any last objections with confidence - price, timing, value proof</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d20t3">
+                                <label for="d20t3">If still hesitant, offer payment plan: "We can split into 2-3 payments to make it easier"</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d20t4">
+                                <label for="d20t4">Once someone says yes: Send contract/invoice immediately, get signature + deposit within 24 hours</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d20t5">
+                                <label for="d20t5">If no one closes yet: Extend early bird for "one final person" - create FOMO</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: GOAL = 1st paying customer secured! Or extended deadline with clear next steps</div>
+                    </div>
+
+                    <!-- Day 21 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 21: Week Review & Prep</div>
+                            <div class="day-focus">Planning</div>
+                        </div>
+                        <div class="day-goal">Assess Week 3 and prepare for Month 1 close-out</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d21t1">
+                                <label for="d21t1">Update metrics: Webinar attendees, proposals sent, closes (or warm pipeline)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d21t2">
+                                <label for="d21t2">If you closed first customer: Plan delivery timeline, send welcome email, schedule kickoff</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d21t3">
+                                <label for="d21t3">If not closed yet: Analyze why - price? value prop? trust? Adjust for Week 4</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d21t4">
+                                <label for="d21t4">Plan Week 4: Will focus on either (a) delivering to first customer or (b) closing remaining leads</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d21t5">
+                                <label for="d21t5">Celebrate progress! You've completed 3 weeks. Review what you've built so far</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Week 3 metrics + delivery plan OR revised closing strategy for Week 4</div>
+                    </div>
+                </div>
+
+                <div class="week-outcome">✅ Webinar delivered + first sale closed (or very close!) + content library growing</div>
+            </div>
+
+            <!-- Week 4 -->
+            <div class="week-card">
+                <div class="week-header">
+                    <div class="week-title">Week 4</div>
+                    <div class="week-focus">Sales</div>
+                </div>
+                <div class="week-goal">🎯 First conversations & potential customer</div>
+
+                <div class="week-days-container">
+                    <div class="week-days-title">Day-by-Day Breakdown</div>
+
+                    <!-- Day 22 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 22: Delivery Prep</div>
+                            <div class="day-focus">Operations</div>
+                        </div>
+                        <div class="day-goal">Prepare to deliver amazing first customer experience</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d22t1">
+                                <label for="d22t1">Create detailed workshop/consulting agenda with timing (intro, content blocks, activities, wrap-up)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d22t2">
+                                <label for="d22t2">Prepare all materials: Slides, workbooks, templates, resources to share</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d22t3">
+                                <label for="d22t3">Send welcome email to first customer: Agenda, what to prepare, what they'll get out of it</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d22t4">
+                                <label for="d22t4">Plan "over-delivery" elements: Bonus template, extra resources, follow-up session - exceed expectations!</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d22t5">
+                                <label for="d22t5">Practice delivery - run through entire workshop/consultation out loud, time each section</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Complete delivery package + welcome email sent + rehearsed presentation</div>
+                    </div>
+
+                    <!-- Day 23 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 23: First Delivery</div>
+                            <div class="day-focus">Execution</div>
+                        </div>
+                        <div class="day-goal">Deliver exceptional value to first paying customer</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d23t1">
+                                <label for="d23t1">Conduct workshop/consulting session - be present, energetic, responsive to their needs</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d23t2">
+                                <label for="d23t2">Take notes on what resonates, what questions they ask, what they struggle with</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d23t3">
+                                <label for="d23t3">Deliver bonus materials during session - surprise them with extra value</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d23t4">
+                                <label for="d23t4">Take photos/screenshots for case study (with permission)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d23t5">
+                                <label for="d23t5">End with clear next steps for them + offer 30-day check-in call</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Workshop delivered + notes on what worked + photos for case study</div>
+                    </div>
+
+                    <!-- Day 24 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 24: Immediate Follow-Up</div>
+                            <div class="day-focus">Retention</div>
+                        </div>
+                        <div class="day-goal">Cement relationship and get testimonial while experience is fresh</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d24t1">
+                                <label for="d24t1">Send thank you email within 4 hours of delivery - include all promised resources + bonus items</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d24t2">
+                                <label for="d24t2">Ask for testimonial while experience is fresh: "What did you find most valuable? Can I quote you?"</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d24t3">
+                                <label for="d24t3">Request 2-3 referrals: "Who else do you know that could benefit from this?"</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d24t4">
+                                <label for="d24t4">Schedule 30-day check-in to see how implementation is going</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d24t5">
+                                <label for="d24t5">Document lessons learned: What worked? What would you improve next time?</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Follow-up sent + testimonial request + 3 referral asks + lessons learned doc</div>
+                    </div>
+
+                    <!-- Day 25 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 25: Case Study Creation</div>
+                            <div class="day-focus">Marketing</div>
+                        </div>
+                        <div class="day-goal">Turn first success into powerful marketing asset</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d25t1">
+                                <label for="d25t1">Write case study (500-800 words): Challenge, Solution, Process, Results (even if early/preliminary)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d25t2">
+                                <label for="d25t2">Include specific details: Company size/industry, what they struggled with, what you delivered, initial feedback</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d25t3">
+                                <label for="d25t3">Add customer testimonial quote prominently</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d25t4">
+                                <label for="d25t4">Get customer approval to share publicly (offer to anonymize if needed)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d25t5">
+                                <label for="d25t5">Create visual: Before/After diagram or key outcomes infographic</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Complete case study + approved testimonial + visual asset</div>
+                    </div>
+
+                    <!-- Day 26 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 26: Social Proof Campaign</div>
+                            <div class="day-focus">Promotion</div>
+                        </div>
+                        <div class="day-goal">Leverage success to attract more customers</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d26t1">
+                                <label for="d26t1">Post case study on LinkedIn with key takeaways and customer quote</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d26t2">
+                                <label for="d26t2">Add case study to website/landing page prominently</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d26t3">
+                                <label for="d26t3">Email case study to all warm prospects: "Here's how we helped [Company]..."</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d26t4">
+                                <label for="d26t4">Update pitch deck with case study slide</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d26t5">
+                                <label for="d26t5">Reach out to 10 new prospects referencing the case study as proof</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Case study live on all channels + 10 new outreach messages with proof</div>
+                    </div>
+
+                    <!-- Day 27 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 27: Pipeline Building</div>
+                            <div class="day-focus">Sales</div>
+                        </div>
+                        <div class="day-goal">Build pipeline for Month 2 revenue</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d27t1">
+                                <label for="d27t1">Follow up with referrals from first customer - warm intro makes all the difference</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d27t2">
+                                <label for="d27t2">Book 5-7 discovery calls for next week using case study as hook</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d27t3">
+                                <label for="d27t3">Create "2nd Cohort" offering: Workshop/consulting starting [date 2 weeks out]</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d27t4">
+                                <label for="d27t4">Announce 2nd cohort on LinkedIn with case study results</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d27t5">
+                                <label for="d27t5">Reach out to 15 prospects with cohort offer + early bird pricing for quick action</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Referral outreach + 5-7 calls booked + 2nd cohort announced</div>
+                    </div>
+
+                    <!-- Day 28 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 28: Month 1 Review</div>
+                            <div class="day-focus">Reflection</div>
+                        </div>
+                        <div class="day-goal">Assess Month 1 and set Month 2 strategy</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d28t1">
+                                <label for="d28t1">Complete metrics: Assessments done, calls held, proposals sent, customers closed, revenue earned</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d28t2">
+                                <label for="d28t2">Analyze what worked: Best lead source? Best messaging? What converts best?</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d28t3">
+                                <label for="d28t3">Identify what didn't work: Where did prospects drop off? What objections came up?</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d28t4">
+                                <label for="d28t4">Set Month 2 goals based on Month 1 learnings: Revenue target, customer count, new initiatives</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d28t5">
+                                <label for="d28t5">Celebrate! You completed Month 1. You went from idea to paying customer in 28 days!</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Month 1 report + Month 2 goals + celebration of progress!</div>
+                    </div>
+                </div>
+
+                <div class="week-outcome">✅ First customer delivered + case study live + Month 2 pipeline building</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Month 1 Decision Point -->
+    <div class="decision-point">
+        <h3>🚦 DECISION POINT: After Month 1 - Continue or Pivot?</h3>
+        <div class="decision-options">
+            <div class="decision-option green">
+                <h4>🟢 GREEN LIGHT - Keep Going!</h4>
+                <ul>
+                    <li>10+ assessments completed</li>
+                    <li>3+ sales conversations</li>
+                    <li>1 person says "I'd pay for this"</li>
+                </ul>
+            </div>
+            <div class="decision-option yellow">
+                <h4>🟡 YELLOW LIGHT - Adjust</h4>
+                <ul>
+                    <li>Less than 5 assessments</li>
+                    <li>No one willing to pay</li>
+                    <li>→ Change pricing/offer/target</li>
+                </ul>
+            </div>
+            <div class="decision-option red">
+                <h4>🔴 RED LIGHT - Major Pivot</h4>
+                <ul>
+                    <li>Zero interest after 30 contacts</li>
+                    <li>No one sees the value</li>
+                    <li>→ Rethink entire approach</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Month 1 Metrics -->
+    <div class="metrics-row">
+        <div class="metric-card">
+            <div class="metric-label">Assessments</div>
+            <input type="number" class="metric-input" placeholder="0" min="0">
+        </div>
+        <div class="metric-card">
+            <div class="metric-label">Sales Calls</div>
+            <input type="number" class="metric-input" placeholder="0" min="0">
+        </div>
+        <div class="metric-card">
+            <div class="metric-label">Revenue</div>
+            <input type="text" class="metric-input" placeholder="$0">
+        </div>
+    </div>
+
+    <!-- MONTH 2 -->
+    <div class="month-section">
+        <div class="month-header">
+            <div class="month-icon">💰</div>
+            <div class="month-title">
+                <h2>Month 2: First Revenue & Refinement</h2>
+                <p>Get someone to actually pay you</p>
+            </div>
+            <div class="month-goal">Goal: $5K-10K Revenue</div>
+        </div>
+
+        <div class="weeks-grid">
+            <!-- Week 5 -->
+            <div class="week-card">
+                <div class="week-header">
+                    <div class="week-title">Week 5: Close First Deal</div>
+                    <div class="week-focus">Close</div>
+                </div>
+                <div class="week-goal">🎯 Get someone to pay you</div>
+
+                <div class="week-days-container">
+                    <!-- Day 29 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 29: Warm Lead Activation</div>
+                            <div class="day-focus">Follow-Up</div>
+                        </div>
+                        <div class="day-goal">Re-engage everyone who showed interest in Month 1</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d29t1">
+                                <label for="d29t1">Review all Month 1 conversations - create list of warm leads (anyone who engaged, took assessment, or attended webinar)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d29t2">
+                                <label for="d29t2">Segment leads by interest level: Hot (asked for pricing), Warm (engaged but no ask), Cold (ghosted)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d29t3">
+                                <label for="d29t3">Draft personalized follow-up emails for each segment - reference their specific situation/assessment results</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d29t4">
+                                <label for="d29t4">Send follow-ups to HOT leads (max 10 people) with clear CTA: "Ready to move forward with [service]?"</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d29t5">
+                                <label for="d29t5">Book 3-5 calls for this week with hot leads to discuss next steps</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Segmented lead list + personalized outreach to 10 hot prospects + 3-5 calls booked</div>
+                    </div>
+
+                    <!-- Day 30 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 30: Early Bird Offer Creation</div>
+                            <div class="day-focus">Pricing</div>
+                        </div>
+                        <div class="day-goal">Create urgency with limited-time pricing</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d30t1">
+                                <label for="d30t1">Define standard pricing for your workshop/consulting service (e.g., $2,500 for 3-hour workshop, $5,000 for assessment + roadmap)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d30t2">
+                                <label for="d30t2">Create Early Bird offer: 20% off for first 3 customers who commit by [date 7 days from now]</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d30t3">
+                                <label for="d30t3">Design simple one-pager: What's included, pricing, early bird discount, deadline, testimonial (if you have one)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d30t4">
+                                <label for="d30t4">Set up payment method: Stripe payment link or simple invoice template</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d30t5">
+                                <label for="d30t5">Email the early bird offer to WARM leads (15-20 people) - "I'm taking on 3 clients this month..."</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Pricing structure + early bird one-pager + payment link + 20 outreach emails sent</div>
+                    </div>
+
+                    <!-- Day 31 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 31: Webinar Prep</div>
+                            <div class="day-focus">Content</div>
+                        </div>
+                        <div class="day-goal">Create free webinar to provide value and soft pitch</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d31t1">
+                                <label for="d31t1">Create webinar title: "AI Maturity Assessment Results Explained: Where You Stand & What's Next"</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d31t2">
+                                <label for="d31t2">Build slide deck (20-25 slides): Intro (2), The 5 Maturity Levels (10), Common Challenges by Level (5), Roadmap Examples (3), How to Get Started (2), Soft Pitch (2), Q&A</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d31t3">
+                                <label for="d31t3">Set up Zoom/Google Meet webinar link (max 100 participants)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d31t4">
+                                <label for="d31t4">Create Eventbrite/Luma event page or simple Calendly link for registration</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d31t5">
+                                <label for="d31t5">Schedule webinar for Day 33 (2 days from now) at 12pm PT / 3pm ET</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Webinar deck + registration page + Zoom link + date set</div>
+                    </div>
+
+                    <!-- Day 32 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 32: Webinar Promotion</div>
+                            <div class="day-focus">Marketing</div>
+                        </div>
+                        <div class="day-goal">Fill the webinar with qualified prospects</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d32t1">
+                                <label for="d32t1">Email all assessment takers (everyone from Month 1) with webinar invite - "Free training tomorrow at noon"</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d32t2">
+                                <label for="d32t2">Post webinar announcement on LinkedIn with registration link - share 3 key takeaways people will learn</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d32t3">
+                                <label for="d32t3">DM 20 LinkedIn connections who might be interested: "I'm hosting a free webinar tomorrow... thought you'd find it valuable"</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d32t4">
+                                <label for="d32t4">Send reminder email to registrants the night before (Day 32 evening)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d32t5">
+                                <label for="d32t5">Conduct discovery calls booked from Day 29 - understand pain points, assess fit, mention early bird offer</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: 20+ webinar registrations + LinkedIn post live + discovery calls completed</div>
+                    </div>
+
+                    <!-- Day 33 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 33: Webinar Delivery</div>
+                            <div class="day-focus">Teaching</div>
+                        </div>
+                        <div class="day-goal">Deliver massive value and introduce your service naturally</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d33t1">
+                                <label for="d33t1">Send final reminder 1 hour before webinar to all registrants</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d33t2">
+                                <label for="d33t2">Host 45-minute webinar: Teach the maturity model, share examples, answer questions (record it!)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d33t3">
+                                <label for="d33t3">Final 5 minutes - soft pitch: "If you want help implementing this, I'm taking 3 clients this month at early bird pricing..."</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d33t4">
+                                <label for="d33t4">Share one-pager in chat with early bird offer and booking link</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d33t5">
+                                <label for="d33t5">Immediately after: Send follow-up email to attendees with recording, slides, and CTA to book consultation</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Webinar delivered + recorded + follow-up sent + booking link shared</div>
+                    </div>
+
+                    <!-- Day 34 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 34: Conversion Push</div>
+                            <div class="day-focus">Closing</div>
+                        </div>
+                        <div class="day-goal">Convert webinar attendees into paying customers</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d34t1">
+                                <label for="d34t1">Review webinar engagement: Who stayed the whole time? Who asked questions? Who downloaded resources?</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d34t2">
+                                <label for="d34t2">Personalized follow-up to engaged attendees (top 10): "Loved your question about [X]... want to hop on a call?"</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d34t3">
+                                <label for="d34t3">Email to no-shows: "Here's the recording + special offer if you book by Friday"</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d34t4">
+                                <label for="d34t4">Book 5+ consultation calls for next week with webinar attendees</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d34t5">
+                                <label for="d34t5">Create urgency: "Only 2 early bird spots left - deadline Friday" (even if that's flexible)</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Personalized outreach to top prospects + 5 consultation calls booked</div>
+                    </div>
+
+                    <!-- Day 35 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 35: Week Review & Close</div>
+                            <div class="day-focus">Reflection</div>
+                        </div>
+                        <div class="day-goal">Assess Week 5 progress and lock in first payment</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d35t1">
+                                <label for="d35t1">Week 5 metrics: Webinar registrations? Attendees? Calls booked? Proposals sent? Customers closed?</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d35t2">
+                                <label for="d35t2">If you have a YES: Send contract/agreement + payment link immediately (strike while iron is hot!)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d35t3">
+                                <label for="d35t3">If no YES yet: Identify the 3 closest prospects and schedule calls for Monday to push them over the line</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d35t4">
+                                <label for="d35t4">Review objections you heard - update messaging/pricing/offer based on feedback</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d35t5">
+                                <label for="d35t5">Plan Week 6: If customer signed, prep for delivery. If not, plan aggressive follow-up strategy.</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Week 5 report + first payment received OR aggressive follow-up plan</div>
+                    </div>
+                </div>
+
+                <div class="week-outcome">✅ $2,500-5,000 in committed revenue (ideally first payment received!)</div>
+            </div>
+
+            <!-- Week 6 -->
+            <div class="week-card">
+                <div class="week-header">
+                    <div class="week-title">Week 6: Deliver Excellence</div>
+                    <div class="week-focus">Deliver</div>
+                </div>
+                <div class="week-goal">🎯 Deliver amazing first experience</div>
+
+                <div class="week-days-container">
+                    <!-- Day 36 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 36: Delivery Preparation</div>
+                            <div class="day-focus">Planning</div>
+                        </div>
+                        <div class="day-goal">Prepare to over-deliver for your first customer</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d36t1">
+                                <label for="d36t1">Create detailed workshop agenda (3 hours): Intro (15min), Assessment review (30min), Maturity model deep-dive (45min), Break (15min), Roadmap creation (60min), Q&A (15min)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d36t2">
+                                <label for="d36t2">Build workshop slide deck (30-40 slides) with customer's specific data/assessment results integrated</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d36t3">
+                                <label for="d36t3">Create bonus materials: AI Maturity Roadmap template (Notion/Excel), Implementation checklist, Resource library (articles, tools, frameworks)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d36t4">
+                                <label for="d36t4">Send pre-workshop email to customer: Agenda, what to prepare, who should attend, Zoom link</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d36t5">
+                                <label for="d36t5">Practice your delivery - run through slides, time yourself, prepare for likely questions</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Workshop agenda + customized deck + bonus materials ready + pre-work sent</div>
+                    </div>
+
+                    <!-- Day 37 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 37: Workshop Delivery (Part 1)</div>
+                            <div class="day-focus">Teaching</div>
+                        </div>
+                        <div class="day-goal">Conduct first half of workshop - establish expertise and build trust</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d37t1">
+                                <label for="d37t1">Send final reminder 2 hours before workshop with Zoom link and "what to have ready"</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d37t2">
+                                <label for="d37t2">Deliver workshop (record it!): Start with rapport building, review their assessment, explain maturity levels, identify their current state</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d37t3">
+                                <label for="d37t3">Facilitate interactive exercises: Have them map current AI initiatives, identify gaps, prioritize areas for improvement</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d37t4">
+                                <label for="d37t4">Create their custom 90-day roadmap together during the session (not just templated - personalized!)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d37t5">
+                                <label for="d37t5">End strong: Summarize key takeaways, share next steps, ask what was most valuable</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: 3-hour workshop delivered + recorded + custom roadmap created</div>
+                    </div>
+
+                    <!-- Day 38 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 38: Over-Delivery & Follow-Up</div>
+                            <div class="day-focus">Delight</div>
+                        </div>
+                        <div class="day-goal">Exceed expectations with bonus value</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d38t1">
+                                <label for="d38t1">Within 24 hours: Send follow-up email with workshop recording, slides, and all bonus materials</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d38t2">
+                                <label for="d38t2">Add surprise bonus: Personalized Loom video (5 mins) with additional insights specific to their situation</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d38t3">
+                                <label for="d38t3">Send curated list of 5 resources tailored to their maturity level: Articles, tools, case studies, frameworks</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d38t4">
+                                <label for="d38t4">Offer 30-min follow-up call in 2 weeks: "Check in on progress, answer any questions as you implement"</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d38t5">
+                                <label for="d38t5">Ask for feedback: "On a scale of 1-10, how valuable was this? What could be better?"</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Complete follow-up package sent + surprise bonus + feedback requested</div>
+                    </div>
+
+                    <!-- Day 39 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 39: Documentation & Improvement</div>
+                            <div class="day-focus">Learning</div>
+                        </div>
+                        <div class="day-goal">Document what worked and what to improve for next customer</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d39t1">
+                                <label for="d39t1">Watch recording of workshop - note what flowed well and what felt awkward</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d39t2">
+                                <label for="d39t2">Create "Lessons Learned" doc: What questions did they ask? What surprised them? What content resonated most?</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d39t3">
+                                <label for="d39t3">Update workshop deck based on feedback - improve unclear slides, add missing content</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d39t4">
+                                <label for="d39t4">Refine timing: Did you rush? Run over? Adjust agenda for next delivery</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d39t5">
+                                <label for="d39t5">Create "Workshop Delivery Checklist" so you don't forget anything next time: Pre-work, materials, tech setup, follow-up</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Lessons learned doc + updated workshop materials + delivery checklist</div>
+                    </div>
+
+                    <!-- Day 40 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 40: Testimonial Request</div>
+                            <div class="day-focus">Social Proof</div>
+                        </div>
+                        <div class="day-goal">Capture customer success while it's fresh</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d40t1">
+                                <label for="d40t1">If customer gave 9-10 rating: Email testimonial request immediately - "Would you be willing to share your experience?"</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d40t2">
+                                <label for="d40t2">Make it easy: Send 3 specific questions instead of blank request - "What was your biggest challenge?" "What did you learn?" "What would you tell others?"</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d40t3">
+                                <label for="d40t3">Offer to write it for them: "I can draft something based on our conversation - you just edit/approve"</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d40t4">
+                                <label for="d40t4">Get permission to share: "Can I share your testimonial on LinkedIn/website? Would you prefer full name or first name/title only?"</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d40t5">
+                                <label for="d40t5">Bonus ask: "Would you be open to a 5-min Loom video testimonial? Even more powerful than text"</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Testimonial requested + easy format provided + approval for sharing</div>
+                    </div>
+
+                    <!-- Day 41 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 41: Referral Generation</div>
+                            <div class="day-focus">Growth</div>
+                        </div>
+                        <div class="day-goal">Turn happy customer into referral engine</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d41t1">
+                                <label for="d41t1">Schedule 15-min "check-in" call with customer to see how implementation is going</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d41t2">
+                                <label for="d41t2">On the call: Ask "Who else do you know who might benefit from this?" - get 2-3 specific names</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d41t3">
+                                <label for="d41t3">Make referrals easy: "Would you be comfortable making a warm intro via email? I can draft it for you"</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d41t4">
+                                <label for="d41t4">Create referral incentive: "For every referral that books, I'll give you [bonus session/discount/resource]"</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d41t5">
+                                <label for="d41t5">Send referral email template they can forward: Short, focused, includes booking link</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: 2-3 referral names secured + warm intro process started + referral template sent</div>
+                    </div>
+
+                    <!-- Day 42 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 42: Week Review</div>
+                            <div class="day-focus">Reflection</div>
+                        </div>
+                        <div class="day-goal">Assess Week 6 and celebrate first successful delivery</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d42t1">
+                                <label for="d42t1">Week 6 metrics: Workshop delivered? Customer satisfaction (1-10)? Testimonial received? Referrals secured?</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d42t2">
+                                <label for="d42t2">Update case study materials: Customer name, challenge, solution, results (even if preliminary)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d42t3">
+                                <label for="d42t3">Organize all workshop materials in one place for easy reuse: Deck, agenda, templates, follow-up emails</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d42t4">
+                                <label for="d42t4">Follow up with referrals: If customer made intro, reach out within 24 hours</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d42t5">
+                                <label for="d42t5">Celebrate! You delivered your first paid workshop successfully. Document your wins!</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Week 6 report + case study materials + organized workshop library + celebration!</div>
+                    </div>
+                </div>
+
+                <div class="week-outcome">✅ 1 happy customer + testimonial + 2-3 warm referrals</div>
+            </div>
+
+            <!-- Week 7 -->
+            <div class="week-card">
+                <div class="week-header">
+                    <div class="week-title">Week 7: Case Study & Scale</div>
+                    <div class="week-focus">Proof</div>
+                </div>
+                <div class="week-goal">🎯 Create & share case study</div>
+
+                <div class="week-days-container">
+                    <!-- Day 43 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 43: Case Study Writing</div>
+                            <div class="day-focus">Content Creation</div>
+                        </div>
+                        <div class="day-goal">Create compelling success story with customer</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d43t1">
+                                <label for="d43t1">Draft case study structure (500-800 words): Company background (100 words), Challenge/Problem (150 words), Solution/What you did (200 words), Results/Impact (200 words), Customer quote (50 words)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d43t2">
+                                <label for="d43t2">Include specific numbers/metrics: "Went from Level 2 to Level 4 readiness" or "Created 90-day AI roadmap with 12 specific initiatives"</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d43t3">
+                                <label for="d43t3">Add before/after: "Before: No AI strategy, ad-hoc tools. After: Clear roadmap, executive buy-in, pilot projects defined"</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d43t4">
+                                <label for="d43t4">Make it skimmable: Use subheadings, bullet points, bold key stats, pull quotes</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d43t5">
+                                <label for="d43t5">Send draft to customer for review: "Does this accurately capture our work? Any changes needed?"</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Complete case study draft sent to customer for approval</div>
+                    </div>
+
+                    <!-- Day 44 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 44: Visual Assets Creation</div>
+                            <div class="day-focus">Design</div>
+                        </div>
+                        <div class="day-goal">Create shareable visual assets from case study</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d44t1">
+                                <label for="d44t1">Design case study one-pager in Canva: Customer logo, challenge/solution, key results, your branding</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d44t2">
+                                <label for="d44t2">Create 3 LinkedIn carousel graphics: Slide 1 (Hook - "How [Company] went from..."), Slides 2-4 (Journey), Slide 5 (Results + CTA)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d44t3">
+                                <label for="d44t3">Design quote graphic: Customer testimonial quote on branded background for Instagram/LinkedIn</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d44t4">
+                                <label for="d44t4">Create "Results" stat cards: 3 key metrics on individual graphics (e.g., "90-day roadmap", "12 initiatives", "Level 4 readiness")</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d44t5">
+                                <label for="d44t5">Get final approval from customer on all visual assets before posting</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Case study one-pager + LinkedIn carousel + quote graphic + stat cards approved</div>
+                    </div>
+
+                    <!-- Day 45 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 45: Launch Case Study Campaign</div>
+                            <div class="day-focus">Promotion</div>
+                        </div>
+                        <div class="day-goal">Share case study everywhere with strategic messaging</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d45t1">
+                                <label for="d45t1">Post LinkedIn article: Full case study with carousel images, tag customer (if they agree), use hashtags #AIMaturity #AITransformation #ChangeManagement</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d45t2">
+                                <label for="d45t2">Add case study to website: Create dedicated case studies page or add to homepage as social proof</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d45t3">
+                                <label for="d45t3">Update pitch deck: Add case study slide with customer logo, results, testimonial quote</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d45t4">
+                                <label for="d45t4">Email blast to your list (all warm contacts): "Here's how we helped [Company] achieve [results]... Want similar outcomes?"</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d45t5">
+                                <label for="d45t5">Engage on LinkedIn: Respond to every comment on your case study post within 2 hours, ask questions to keep conversation going</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Case study live on LinkedIn + website + pitch deck + email blast sent</div>
+                    </div>
+
+                    <!-- Day 46 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 46: Outreach Amplification</div>
+                            <div class="day-focus">Sales</div>
+                        </div>
+                        <div class="day-goal">Use case study as hook for new prospect outreach</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d46t1">
+                                <label for="d46t1">Build targeted prospect list: 25 companies similar to your case study customer (same industry, size, challenges)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d46t2">
+                                <label for="d46t2">Draft personalized outreach template: "I recently helped [Similar Company] with [specific challenge]. Noticed you're in [same industry]... curious if you're facing similar issues?"</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d46t3">
+                                <label for="d46t3">Send 10 personalized emails referencing the case study as proof - not templated, actually personalized</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d46t4">
+                                <label for="d46t4">LinkedIn outreach: Connect with 15 decision-makers at target companies with note mentioning case study</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d46t5">
+                                <label for="d46t5">Set up 5-7 discovery calls with prospects who respond positively</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: 25 personalized outreach messages sent + 5-7 discovery calls booked</div>
+                    </div>
+
+                    <!-- Day 47 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 47: Discovery Calls & Qualification</div>
+                            <div class="day-focus">Sales</div>
+                        </div>
+                        <div class="day-goal">Conduct discovery calls using proven framework</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d47t1">
+                                <label for="d47t1">Prepare discovery call framework: Intro (5 min), Their challenges (15 min), Assessment pitch (5 min), Workshop overview (10 min), Next steps (5 min)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d47t2">
+                                <label for="d47t2">Conduct 3-5 discovery calls: Focus on understanding their AI maturity, pain points, budget, timeline, decision process</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d47t3">
+                                <label for="d47t3">Share case study during call: "Here's how we helped a company like yours..." - makes it real and tangible</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d47t4">
+                                <label for="d47t4">Qualify hard: Budget available? Timeline urgent? Decision maker on call? If not all yes, nurture differently</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d47t5">
+                                <label for="d47t5">Send follow-up within 2 hours: Recap of conversation, case study link, proposal (if qualified), next steps</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: 3-5 discovery calls completed + follow-ups sent + pipeline updated</div>
+                    </div>
+
+                    <!-- Day 48 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 48: Content Repurposing</div>
+                            <div class="day-focus">Marketing</div>
+                        </div>
+                        <div class="day-goal">Squeeze maximum value from case study across channels</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d48t1">
+                                <label for="d48t1">Write 3 LinkedIn posts from case study insights: Post 1 (Biggest lesson learned), Post 2 (Common mistake to avoid), Post 3 (Framework that worked)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d48t2">
+                                <label for="d48t2">Create 2-minute Loom video: Walk through the case study results, share behind-the-scenes, invite viewers to book call</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d48t3">
+                                <label for="d48t3">Turn case study into newsletter content: "Case Study: How [Company] transformed their AI strategy in 30 days"</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d48t4">
+                                <label for="d48t4">Update email signature: Add link to case study - "See how we helped [Company] achieve [result]"</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d48t5">
+                                <label for="d48t5">Post case study to relevant communities: Reddit, Discord, Slack groups (where appropriate, not spammy)</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: 3 LinkedIn posts + Loom video + newsletter + updated signature + community posts</div>
+                    </div>
+
+                    <!-- Day 49 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 49: Week Review & Pipeline Planning</div>
+                            <div class="day-focus">Reflection</div>
+                        </div>
+                        <div class="day-goal">Assess Week 7 and set up strong Week 8</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d49t1">
+                                <label for="d49t1">Week 7 metrics: Case study published? Reach/engagement on LinkedIn? Discovery calls held? Proposals sent? Deals advancing?</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d49t2">
+                                <label for="d49t2">Review pipeline: Who's hot (ready to close)? Who's warm (needs nurturing)? Who's cold (drop or re-engage later)?</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d49t3">
+                                <label for="d49t3">Identify next 2-3 customers to focus on: Who's most likely to close in Week 8? What do they need to say yes?</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d49t4">
+                                <label for="d49t4">Schedule follow-ups for Week 8: Book calls with hot prospects, send proposals to warm ones, create nurture sequence for cold</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d49t5">
+                                <label for="d49t5">Prep for Month 2 close-out: You're at Day 49, Week 8 is final push - what do you need to hit Month 2 revenue goal?</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Week 7 report + qualified pipeline + Week 8 game plan + Month 2 forecast</div>
+                    </div>
+                </div>
+
+                <div class="week-outcome">✅ Case study live + 5-7 qualified leads in pipeline + social proof working</div>
+            </div>
+
+            <!-- Week 8 -->
+            <div class="week-card">
+                <div class="week-header">
+                    <div class="week-title">Week 8: Productize & Close Month 2</div>
+                    <div class="week-focus">Productize</div>
+                </div>
+                <div class="week-goal">🎯 Make service repeatable</div>
+
+                <div class="week-days-container">
+                    <!-- Day 50 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 50: Template Creation</div>
+                            <div class="day-focus">Productization</div>
+                        </div>
+                        <div class="day-goal">Build reusable workshop template that works for any customer</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d50t1">
+                                <label for="d50t1">Consolidate workshop decks from all customers into one master template with modular sections you can swap in/out</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d50t2">
+                                <label for="d50t2">Create "fill-in-the-blank" slides: Customer name, industry, assessment results go in designated spots</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d50t3">
+                                <label for="d50t3">Build modular content library: Industry examples (fintech, healthcare, etc.), maturity level deep-dives (Levels 1-5), common challenges by sector</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d50t4">
+                                <label for="d50t4">Standardize timing: Set times for each section so you always finish in 3 hours - no more running over</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d50t5">
+                                <label for="d50t5">Create workshop "run sheet": Exact order, timing, talking points, transitions - so delivery is consistent every time</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Master workshop template + modular content library + run sheet</div>
+                    </div>
+
+                    <!-- Day 51 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 51: Participant Workbook</div>
+                            <div class="day-focus">Productization</div>
+                        </div>
+                        <div class="day-goal">Create professional workbook that participants use during workshop</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d51t1">
+                                <label for="d51t1">Design workbook structure (15-20 pages): Cover page, Agenda, Maturity assessment self-scoring, Interactive exercises (3-4), Roadmap planning template, Resources/next steps</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d51t2">
+                                <label for="d51t2">Create interactive exercises: "Current State Mapping" worksheet, "Gap Analysis" template, "90-Day Roadmap Builder", "Quick Wins Identifier"</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d51t3">
+                                <label for="d51t3">Design in Canva or Notion: Professional branding, your logo, clean formatting, space for notes</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d51t4">
+                                <label for="d51t4">Create both PDF and editable versions: PDF for reference, Notion/Google Doc for live collaboration during workshop</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d51t5">
+                                <label for="d51t5">Test with friend/colleague: Have someone go through it - is it clear? Easy to use? Does it add value?</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Professional participant workbook (PDF + editable version)</div>
+                    </div>
+
+                    <!-- Day 52 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 52: Standard Pricing & Packages</div>
+                            <div class="day-focus">Business Model</div>
+                        </div>
+                        <div class="day-goal">Create clear tiered offering - no more custom quotes</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d52t1">
+                                <label for="d52t1">Define 3 service tiers based on Month 1-2 learnings: STARTER ($2,500): Assessment + 2-hour workshop + roadmap template, GROWTH ($5,000): Everything in Starter + 3-hour workshop + custom roadmap + 2 follow-up calls, TRANSFORMATION ($10,000): Everything in Growth + implementation support + monthly check-ins for 3 months</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d52t2">
+                                <label for="d52t2">Document exactly what's included in each tier: Deliverables, timeline, access/support, what's NOT included (set boundaries)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d52t3">
+                                <label for="d52t3">Create pricing sheet: Professional 1-pager with all 3 tiers side-by-side for easy comparison</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d52t4">
+                                <label for="d52t4">Set payment terms: 50% upfront, 50% on delivery OR full payment upfront for 10% discount</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d52t5">
+                                <label for="d52t5">Update website/pitch deck with new tiered pricing - make it easy for prospects to self-select</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: 3-tier pricing model + pricing sheet + updated sales materials</div>
+                    </div>
+
+                    <!-- Day 53 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 53: Sales Process Documentation</div>
+                            <div class="day-focus">Systems</div>
+                        </div>
+                        <div class="day-goal">Document repeatable sales process so you can eventually delegate</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d53t1">
+                                <label for="d53t1">Map out your sales funnel: Lead source → Initial contact → Discovery call → Proposal → Close → Delivery → Referral</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d53t2">
+                                <label for="d53t2">Create email templates library: Initial outreach (3 variations), Follow-up sequences (3 touches), Post-discovery recap, Proposal email, Onboarding welcome, Post-delivery thank you</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d53t3">
+                                <label for="d53t3">Document discovery call script: Questions to ask, qualification criteria, how to pitch each tier, common objections + responses</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d53t4">
+                                <label for="d53t4">Create proposal template: Scope of work, timeline, deliverables, pricing, payment terms, next steps - just fill in customer name/details</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d53t5">
+                                <label for="d53t5">Build simple CRM/pipeline tracker: Google Sheet or Notion with stages, contact info, next actions, deal size</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Sales playbook + email templates + discovery script + proposal template + CRM tracker</div>
+                    </div>
+
+                    <!-- Day 54 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 54: Close Month 2 Deals</div>
+                            <div class="day-focus">Closing</div>
+                        </div>
+                        <div class="day-goal">Final push to hit Month 2 revenue target</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d54t1">
+                                <label for="d54t1">Review pipeline: Who's in proposal stage? Who's "thinking about it"? Who needs one more nudge?</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d54t2">
+                                <label for="d54t2">Call/email top 3 hot prospects: "Hey, I'm closing my books for the month - any final questions before we get started?"</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d54t3">
+                                <label for="d54t3">Create urgency with deadline: "I can squeeze in 2 more clients this month, but need to start planning next week"</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d54t4">
+                                <label for="d54t4">Offer Month 2 special: "Book by Friday and I'll throw in [bonus: extra follow-up call, priority scheduling, bonus template]"</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d54t5">
+                                <label for="d54t5">Close at least 1-2 more deals: Push hard but don't be desperate - you have proof now, you're worth it</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: 1-2 deals closed + Month 2 revenue target hit (or close to it)</div>
+                    </div>
+
+                    <!-- Day 55 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 55: Month 2 Analysis</div>
+                            <div class="day-focus">Reflection</div>
+                        </div>
+                        <div class="day-goal">Deep dive into what worked and what didn't in Month 2</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d55t1">
+                                <label for="d55t1">Month 2 metrics: Total customers? Total revenue? Compared to Month 1? Assessment completion rate? Sales conversion rate?</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d55t2">
+                                <label for="d55t2">What worked REALLY well? Which lead sources? Which messaging? Which tier sold best? What made customers say yes?</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d55t3">
+                                <label for="d55t3">What didn't work? Where did prospects drop off? What objections killed deals? What pricing felt wrong?</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d55t4">
+                                <label for="d55t4">Customer feedback: What did customers love? What could be better? Would they refer others? NPS score?</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d55t5">
+                                <label for="d55t5">Document key learnings: "If I could redo Month 2, I would..." - capture this while it's fresh</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Comprehensive Month 2 analysis with metrics + insights + lessons learned</div>
+                    </div>
+
+                    <!-- Day 56 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 56: Month 3 Planning</div>
+                            <div class="day-focus">Strategy</div>
+                        </div>
+                        <div class="day-goal">Set Month 3 goals and prepare to scale</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d56t1">
+                                <label for="d56t1">Set Month 3 goals based on Month 2 performance: Revenue target (realistic stretch), Customer count, Course launch (new!), Community building</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d56t2">
+                                <label for="d56t2">Decide: Do you keep doing services OR pivot to course? Or both? Based on what's working and what you want to do</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d56t3">
+                                <label for="d56t3">Plan Week 9 (Course Creation): You'll turn your workshop into self-serve content - start outlining module structure</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d56t4">
+                                <label for="d56t4">Prep upcoming deliveries: Review calendar for Month 3 - who needs workshops delivered? When? Any conflicts?</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d56t5">
+                                <label for="d56t5">Celebrate Month 2! You went from 1 customer to 2-3+ customers, built repeatable systems, have social proof. That's huge!</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Month 3 goals + Week 9 course outline + celebration of Month 2 wins!</div>
+                    </div>
+                </div>
+
+                <div class="week-outcome">✅ Repeatable service package + $5K-10K Month 2 revenue + 2-3 total customers + systems documented</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Month 2 Metrics -->
+    <div class="metrics-row">
+        <div class="metric-card">
+            <div class="metric-label">Total Customers</div>
+            <input type="number" class="metric-input" placeholder="0" min="0">
+        </div>
+        <div class="metric-card">
+            <div class="metric-label">Total Revenue (M2)</div>
+            <input type="text" class="metric-input" placeholder="$0">
+        </div>
+        <div class="metric-card">
+            <div class="metric-label">Case Studies</div>
+            <input type="number" class="metric-input" placeholder="0" min="0">
+        </div>
+    </div>
+
+    <!-- MONTH 3 -->
+    <div class="month-section">
+        <div class="month-header">
+            <div class="month-icon">📈</div>
+            <div class="month-title">
+                <h2>Month 3: Systematize & Scale</h2>
+                <p>Create self-serve options</p>
+            </div>
+            <div class="month-goal">Goal: $15K-25K Total</div>
+        </div>
+
+        <div class="weeks-grid">
+            <!-- Week 9 -->
+            <div class="week-card">
+                <div class="week-header">
+                    <div class="week-title">Week 9: Create Course MVP</div>
+                    <div class="week-focus">Course</div>
+                </div>
+                <div class="week-goal">🎯 Turn workshop into content</div>
+
+                <div class="week-days-container">
+                    <!-- Day 57 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 57: Course Structure Planning</div>
+                            <div class="day-focus">Planning</div>
+                        </div>
+                        <div class="day-goal">Design course structure before recording anything</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d57t1">
+                                <label for="d57t1">Map out 6-8 course modules from workshop content: Module 1 (Intro: Why AI Maturity Matters), Module 2 (The 5 Maturity Levels Explained), Module 3 (Assessing Your Current State), Module 4 (Creating Your Roadmap), Module 5 (Quick Wins to Start), Module 6 (Common Pitfalls to Avoid), Module 7 (Building Executive Buy-In), Module 8 (Next Steps & Resources)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d57t2">
+                                <label for="d57t2">Write learning objectives for each module: "By the end of this module, you'll be able to..."</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d57t3">
+                                <label for="d57t3">Plan module length: Keep each 10-15 mins max (attention span!). Total course: 90-120 minutes</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d57t4">
+                                <label for="d57t4">Create course workbook: Downloadable PDF with exercises, worksheets, templates for each module</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d57t5">
+                                <label for="d57t5">Write script outline for Module 1: Intro, hook, what they'll learn, how course is structured (5 mins)</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Complete course outline + module objectives + workbook template + Module 1 script</div>
+                    </div>
+
+                    <!-- Day 58 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 58: Recording Setup & Module 1-2</div>
+                            <div class="day-focus">Content Creation</div>
+                        </div>
+                        <div class="day-goal">Set up recording environment and record first 2 modules</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d58t1">
+                                <label for="d58t1">Recording setup: Loom or Zoom (screen + webcam), good lighting, quiet space, test audio quality</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d58t2">
+                                <label for="d58t2">Create simple slide deck for each module: Title slide, 3-5 content slides with visuals, action item slide</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d58t3">
+                                <label for="d58t3">Record Module 1: Introduction (10-12 mins). Be energetic! This sets the tone for entire course</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d58t4">
+                                <label for="d58t4">Record Module 2: The 5 Maturity Levels (15 mins). Deep dive into each level with examples</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d58t5">
+                                <label for="d58t5">Review recordings: Watch both - any awkward parts? Re-record sections if needed. Don't aim for perfect, aim for valuable</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Module 1 + Module 2 recorded and reviewed</div>
+                    </div>
+
+                    <!-- Day 59 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 59: Record Modules 3-5</div>
+                            <div class="day-focus">Content Creation</div>
+                        </div>
+                        <div class="day-goal">Bulk record core content modules</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d59t1">
+                                <label for="d59t1">Record Module 3: Assessing Your Current State (12 mins) - walk through assessment framework, show examples</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d59t2">
+                                <label for="d59t2">Record Module 4: Creating Your Roadmap (15 mins) - step-by-step roadmap creation process, show template in action</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d59t3">
+                                <label for="d59t3">Record Module 5: Quick Wins to Start (10 mins) - practical, immediately actionable steps by maturity level</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d59t4">
+                                <label for="d59t4">Review all 3 recordings: Check audio quality, pacing, clarity. Make quick edits if needed</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d59t5">
+                                <label for="d59t5">You're 5/8 modules done! Pat yourself on the back. This is real progress</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Modules 3, 4, 5 recorded + 5/8 modules complete!</div>
+                    </div>
+
+                    <!-- Day 60 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 60: Record Modules 6-8 & Wrap</div>
+                            <div class="day-focus">Content Creation</div>
+                        </div>
+                        <div class="day-goal">Finish recording all course content</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d60t1">
+                                <label for="d60t1">Record Module 6: Common Pitfalls to Avoid (10 mins) - share real mistakes you've seen, how to avoid them</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d60t2">
+                                <label for="d60t2">Record Module 7: Building Executive Buy-In (12 mins) - how to present AI maturity to leadership, get budget approved</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d60t3">
+                                <label for="d60t3">Record Module 8: Next Steps & Resources (8 mins) - recap, call to action (book consultation?), resource list</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d60t4">
+                                <label for="d60t4">Review final 3 modules: Make sure course flows well from Module 1 to Module 8</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d60t5">
+                                <label for="d60t5">Create intro/outro bumpers: 15-second branded intro, 30-second outro with CTA</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: All 8 modules recorded + intro/outro + complete course content!</div>
+                    </div>
+
+                    <!-- Day 61 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 61: Course Platform Setup</div>
+                            <div class="day-focus">Platform</div>
+                        </div>
+                        <div class="day-goal">Get course hosted and ready for students</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d61t1">
+                                <label for="d61t1">Choose platform: Teachable ($39/mo, easiest), Gumroad (simple, one-time products), or YouTube (private playlist + Notion workbook for free MVP)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d61t2">
+                                <label for="d61t2">Upload all 8 modules to platform: Add titles, descriptions, organize in correct order</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d61t3">
+                                <label for="d61t3">Upload course workbook as downloadable resource for students</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d61t4">
+                                <label for="d61t4">Create course landing page: Headline, what they'll learn (8 modules), testimonials (if you have), pricing, CTA button</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d61t5">
+                                <label for="d61t5">Set up payment/enrollment: Connect Stripe, test checkout flow, make sure everything works</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Course live on platform + landing page + payment working!</div>
+                    </div>
+
+                    <!-- Day 62 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 62: Test & Polish</div>
+                            <div class="day-focus">QA</div>
+                        </div>
+                        <div class="day-goal">Test student experience and fix any issues</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d62t1">
+                                <label for="d62t1">Invite 3 beta testers (friends/colleagues): Give them free access, ask them to go through entire course</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d62t2">
+                                <label for="d62t2">Get feedback: What worked? What was confusing? What's missing? How long did it take them? Would they recommend it?</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d62t3">
+                                <label for="d62t3">Make quick improvements based on feedback: Fix unclear parts, add missing content, improve pacing</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d62t4">
+                                <label for="d62t4">Test entire purchase flow yourself: Sign up, pay, access content - make sure it's smooth</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d62t5">
+                                <label for="d62t5">Polish landing page copy: Add beta tester testimonials, improve headline, clarify value proposition</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Course tested + feedback incorporated + ready to launch!</div>
+                    </div>
+
+                    <!-- Day 63 -->
+                    <div class="day-detail">
+                        <div class="day-header">
+                            <div class="day-number">Day 63: Course Launch Prep</div>
+                            <div class="day-focus">Marketing</div>
+                        </div>
+                        <div class="day-goal">Prepare launch campaign for Week 10</div>
+                        <ul class="day-tasks">
+                            <li class="day-task">
+                                <input type="checkbox" id="d63t1">
+                                <label for="d63t1">Create launch email sequence: Email 1 (Announcement + value), Email 2 (Student testimonial), Email 3 (Last chance + urgency)</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d63t2">
+                                <label for="d63t2">Draft 5 LinkedIn posts for launch week: Announce launch, Share module preview, Student testimonial, Behind-the-scenes, Last call</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d63t3">
+                                <label for="d63t3">Create promo graphics: Course thumbnail, module previews, stat cards (e.g., "8 modules", "90 mins", "Lifetime access")</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d63t4">
+                                <label for="d63t4">Decide on launch pricing: DIY tier at $299? Launch discount (30% off first 20 students = $209)?</label>
+                            </li>
+                            <li class="day-task">
+                                <input type="checkbox" id="d63t5">
+                                <label for="d63t5">Schedule Week 10 launch: Set date for Monday Day 64, plan 7-day launch campaign</label>
+                            </li>
+                        </ul>
+                        <div class="day-deliverable">📦 Deliverable: Launch email sequence + LinkedIn posts + promo graphics + launch plan ready!</div>
+                    </div>
+                </div>
+
+                <div class="week-outcome">✅ Self-serve course live + tested + ready to launch Week 10!</div>
+            </div>
+
+            <!-- Week 10 -->
+            <div class="week-card">
+                <div class="week-header">
+                    <div class="week-title">Week 10</div>
+                    <div class="week-focus">Tiers</div>
+                </div>
+                <div class="week-goal">🎯 Test pricing tiers</div>
+                <ul class="tasks">
+                    <li class="task">
+                        <input type="checkbox" id="w10t1">
+                        <label for="w10t1">DIY: Course only ($299)</label>
+                    </li>
+                    <li class="task">
+                        <input type="checkbox" id="w10t2">
+                        <label for="w10t2">Guided: Course + group calls ($799)</label>
+                    </li>
+                    <li class="task">
+                        <input type="checkbox" id="w10t3">
+                        <label for="w10t3">Done-with-you: + consulting ($2,999)</label>
+                    </li>
+                    <li class="task">
+                        <input type="checkbox" id="w10t4">
+                        <label for="w10t4">Email all assessment takers</label>
+                    </li>
+                    <li class="task">
+                        <input type="checkbox" id="w10t5">
+                        <label for="w10t5">Launch discount (30% off first 20)</label>
+                    </li>
+                </ul>
+                <div class="week-outcome">✅ 3-5 course sales</div>
+            </div>
+
+            <!-- Week 11 -->
+            <div class="week-card">
+                <div class="week-header">
+                    <div class="week-title">Week 11</div>
+                    <div class="week-focus">Community</div>
+                </div>
+                <div class="week-goal">🎯 Build engagement beyond 1-time</div>
+                <ul class="tasks">
+                    <li class="task">
+                        <input type="checkbox" id="w11t1">
+                        <label for="w11t1">Create private Slack/Discord</label>
+                    </li>
+                    <li class="task">
+                        <input type="checkbox" id="w11t2">
+                        <label for="w11t2">Host first "office hours" (1 hr Q&A)</label>
+                    </li>
+                    <li class="task">
+                        <input type="checkbox" id="w11t3">
+                        <label for="w11t3">Share templates & resources</label>
+                    </li>
+                    <li class="task">
+                        <input type="checkbox" id="w11t4">
+                        <label for="w11t4">Post 3x/week on LinkedIn</label>
+                    </li>
+                    <li class="task">
+                        <input type="checkbox" id="w11t5">
+                        <label for="w11t5">Start email newsletter (weekly)</label>
+                    </li>
+                </ul>
+                <div class="week-outcome">✅ Community of 10-15 active members</div>
+            </div>
+
+            <!-- Week 12 -->
+            <div class="week-card">
+                <div class="week-header">
+                    <div class="week-title">Week 12</div>
+                    <div class="week-focus">Review</div>
+                </div>
+                <div class="week-goal">🎯 Assess Q1 & plan Q2</div>
+                <ul class="tasks">
+                    <li class="task">
+                        <input type="checkbox" id="w12t1">
+                        <label for="w12t1">Review all Q1 metrics</label>
+                    </li>
+                    <li class="task">
+                        <input type="checkbox" id="w12t2">
+                        <label for="w12t2">What's working? What's not?</label>
+                    </li>
+                    <li class="task">
+                        <input type="checkbox" id="w12t3">
+                        <label for="w12t3">Document learnings</label>
+                    </li>
+                    <li class="task">
+                        <input type="checkbox" id="w12t4">
+                        <label for="w12t4">Set realistic Q2 goals</label>
+                    </li>
+                    <li class="task">
+                        <input type="checkbox" id="w12t5">
+                        <label for="w12t5">Celebrate wins! 🎉</label>
+                    </li>
+                </ul>
+                <div class="week-outcome">✅ Clear Q2 roadmap</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q1 Final Metrics -->
+    <div class="metrics-row">
+        <div class="metric-card">
+            <div class="metric-label">Total Assessments (Q1)</div>
+            <input type="number" class="metric-input" placeholder="50+" min="0">
+        </div>
+        <div class="metric-card">
+            <div class="metric-label">Total Customers (Q1)</div>
+            <input type="number" class="metric-input" placeholder="5-10" min="0">
+        </div>
+        <div class="metric-card">
+            <div class="metric-label">Total Revenue (Q1)</div>
+            <input type="text" class="metric-input" placeholder="$15-25K">
+        </div>
+        <div class="metric-card">
+            <div class="metric-label">Course Sales</div>
+            <input type="number" class="metric-input" placeholder="3-5" min="0">
+        </div>
+    </div>
+
+    <!-- Final Decision Point -->
+    <div class="decision-point">
+        <h3>🚦 DECISION POINT: After Quarter 1 - Scale or Refine?</h3>
+        <div class="decision-options">
+            <div class="decision-option green">
+                <h4>🟢 SCALE - Double Down!</h4>
+                <ul>
+                    <li>$15K+ revenue</li>
+                    <li>5+ happy customers</li>
+                    <li>Clear repeatability in sales</li>
+                    <li>→ Hire help, run ads, build platform</li>
+                </ul>
+            </div>
+            <div class="decision-option yellow">
+                <h4>🟡 REFINE - Focus on Quality</h4>
+                <ul>
+                    <li>$5K-15K revenue</li>
+                    <li>2-4 customers</li>
+                    <li>→ Focus on retention & referrals</li>
+                    <li>→ Don't scale yet</li>
+                </ul>
+            </div>
+            <div class="decision-option red">
+                <h4>🔴 PIVOT - Something's Off</h4>
+                <ul>
+                    <li><$5K revenue</li>
+                    <li>Customers not satisfied</li>
+                    <li>→ Major rethink needed</li>
+                    <li>→ Back to discovery phase</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-top: 60px; text-align: center; color: #6b7280; font-size: 14px; padding: 30px; border-top: 1px solid rgba(255,255,255,0.1);">
+        <p><strong style="color: #06B6D4;">Remember:</strong> You're not building a billion-dollar company in 90 days.</p>
+        <p style="margin-top: 10px;">You're validating that people will pay you to solve a real problem.</p>
+        <p style="margin-top: 10px; font-size: 18px; font-weight: 700; color: #10B981;">🎯 Success = 1 happy customer who refers 2 more</p>
+        <p style="margin-top: 20px; font-size: 12px;">Print this page • Check boxes as you complete tasks • Adjust based on learnings</p>
+        <p style="margin-top: 15px; font-size: 11px; opacity: 0.6;">Powered by HumanGlue • AI Maturity Transformation Platform</p>
+    </div>
+
+</body>
+</html>

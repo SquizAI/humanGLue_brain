@@ -4,9 +4,10 @@ import { motion, HTMLMotionProps } from 'framer-motion'
 import { cn } from '../../utils/cn'
 import { ReactNode } from 'react'
 
-export interface CardProps extends HTMLMotionProps<"div"> {
+export interface CardProps extends Omit<HTMLMotionProps<"div">, 'children'> {
+  children?: ReactNode
   variant?: 'default' | 'glass' | 'outline' | 'flat'
-  padding?: 'none' | 'sm' | 'md' | 'lg'
+  padding?: 'none' | 'sm' | 'md' | 'lg' | 'xl'
   hover?: boolean
   animate?: boolean
 }
@@ -52,7 +53,8 @@ export function Card({
     none: '',
     sm: 'p-3',
     md: 'p-4 sm:p-6',
-    lg: 'p-6 sm:p-8'
+    lg: 'p-6 sm:p-8',
+    xl: 'p-8 sm:p-10'
   }
 
   const hoverClasses = hover

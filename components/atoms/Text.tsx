@@ -2,12 +2,13 @@
 
 import { motion } from 'framer-motion'
 import { cn } from '../../utils/cn'
-import { ComponentPropsWithoutRef } from 'react'
+import { ReactNode, HTMLAttributes } from 'react'
 
 type TextElement = 'p' | 'span' | 'div' | 'label' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
 
-export interface TextProps extends ComponentPropsWithoutRef<'p'> {
-  variant?: 'primary' | 'secondary' | 'muted' | 'cyan' | 'error' | 'success' | 'warning'
+export interface TextProps extends Omit<HTMLAttributes<HTMLElement>, 'children'> {
+  children?: ReactNode
+  variant?: 'primary' | 'secondary' | 'muted' | 'cyan' | 'error' | 'success' | 'warning' | 'label' | 'caption'
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl'
   weight?: 'normal' | 'medium' | 'semibold' | 'bold'
   as?: TextElement
@@ -34,7 +35,9 @@ export function Text({
     cyan: 'hg-text-cyan',
     error: 'text-red-500 dark:text-red-400',
     success: 'text-emerald-500 dark:text-emerald-400',
-    warning: 'text-amber-500 dark:text-amber-400'
+    warning: 'text-amber-500 dark:text-amber-400',
+    label: 'hg-text-primary',
+    caption: 'hg-text-muted'
   }
 
   const sizes = {

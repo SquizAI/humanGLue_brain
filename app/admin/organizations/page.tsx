@@ -1,16 +1,13 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import {
   Building2,
   Plus,
   Search,
   Users,
   DollarSign,
-  TrendingUp,
   Settings,
   Eye,
   Crown,
@@ -18,6 +15,10 @@ import {
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
 import { useChat } from '@/lib/contexts/ChatContext'
 import { LoadingSpinner } from '@/components/atoms/LoadingSpinner'
+import { Button } from '@/components/atoms/Button'
+import { Card } from '@/components/atoms/Card'
+import { StatCard } from '@/components/atoms/StatCard'
+import { Text, Heading } from '@/components/atoms/Text'
 import { signOut } from '@/lib/auth/hooks'
 
 interface Organization {
@@ -55,7 +56,6 @@ const initialOrgs: Organization[] = [
 ]
 
 export default function OrganizationsAdmin() {
-  const router = useRouter()
   const { userData, authLoading } = useChat()
   const [showContent, setShowContent] = useState(false)
   const [orgs, setOrgs] = useState<Organization[]>(initialOrgs)
@@ -93,7 +93,7 @@ export default function OrganizationsAdmin() {
 
   if (!showContent) {
     return (
-      <div className="min-h-screen bg-black">
+      <div className="min-h-screen" style={{ backgroundColor: 'var(--hg-bg-primary)' }}>
         <DashboardSidebar onLogout={handleLogout} />
         <div className="lg:ml-[var(--sidebar-width,280px)] transition-all duration-300 flex items-center justify-center min-h-screen">
           <LoadingSpinner variant="neural" size="xl" text="Loading organizations..." />
@@ -108,7 +108,7 @@ export default function OrganizationsAdmin() {
 
   const getSubBadge = (sub: string) => {
     const badges = {
-      starter: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
+      starter: 'bg-blue-500/20 text-[var(--hg-cyan-text)] border-blue-500/30',
       professional: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30',
       enterprise: 'bg-amber-500/20 text-amber-300 border-amber-500/30',
     }
@@ -116,117 +116,98 @@ export default function OrganizationsAdmin() {
   }
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen" style={{ backgroundColor: 'var(--hg-bg-primary)' }}>
       <DashboardSidebar onLogout={handleLogout} />
 
       <div className="lg:ml-[var(--sidebar-width,280px)] transition-all duration-300 pb-20 lg:pb-0">
-        <div className="bg-black/50 backdrop-blur-xl border-b border-white/10 sticky top-0 z-30">
+        {/* Header */}
+        <div className="border-b hg-bg-sidebar hg-border">
           <div className="px-8 py-6">
             <div className="flex items-center justify-between">
               <div>
-                <Link href="/admin" className="text-gray-400 hover:text-white transition-colors mb-2 inline-block">
-                  <span className="font-diatype">← Back to Dashboard</span>
+                <Link href="/admin">
+                  <Text variant="muted" size="sm" className="hover:underline mb-2 inline-block">← Back to Dashboard</Text>
                 </Link>
-                <h1 className="text-3xl font-bold text-white mb-2 font-gendy">
+                <Heading as="h1" size="3xl" className="mb-2">
                   Organization Management
-                </h1>
-                <p className="text-gray-400 font-diatype">
+                </Heading>
+                <Text variant="muted">
                   Manage enterprise accounts ({filteredOrgs.length} organizations)
-                </p>
+                </Text>
               </div>
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center gap-2 font-diatype"
-              >
-                <Plus className="w-5 h-5" />
-                Add Organization
-              </motion.button>
+              <Link href="/signup/organization">
+                <Button variant="primary" size="lg" icon={<Plus className="w-5 h-5" />}>
+                  Add Organization
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
 
         <div className="p-8">
+          {/* Stats Grid - Demo Layout */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="bg-gradient-to-br from-cyan-900/30 to-cyan-900/10 backdrop-blur-xl border border-cyan-500/20 rounded-2xl p-6"
-            >
-              <Building2 className="w-6 h-6 text-cyan-400 mb-2" />
-              <h3 className="text-2xl font-bold text-white mb-1 font-gendy">{orgs.length}</h3>
-              <p className="text-sm text-gray-400 font-diatype">Total Organizations</p>
-            </motion.div>
+            <StatCard
+              title="Total Organizations"
+              value={orgs.length}
+              subtitle="All time"
+              icon={<Building2 className="w-5 h-5" />}
+              variant="cyan"
+            />
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="bg-gradient-to-br from-blue-900/30 to-blue-900/10 backdrop-blur-xl border border-blue-500/20 rounded-2xl p-6"
-            >
-              <Users className="w-6 h-6 text-blue-400 mb-2" />
-              <h3 className="text-2xl font-bold text-white mb-1 font-gendy">
-                {orgs.reduce((sum, o) => sum + o.members, 0)}
-              </h3>
-              <p className="text-sm text-gray-400 font-diatype">Total Members</p>
-            </motion.div>
+            <StatCard
+              title="Total Members"
+              value={orgs.reduce((sum, o) => sum + o.members, 0)}
+              icon={<Users className="w-5 h-5" />}
+              variant="cyan"
+              trend={{ value: 12, label: 'this month', direction: 'up' }}
+            />
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="bg-gradient-to-br from-green-900/30 to-green-900/10 backdrop-blur-xl border border-green-500/20 rounded-2xl p-6"
-            >
-              <DollarSign className="w-6 h-6 text-green-400 mb-2" />
-              <h3 className="text-2xl font-bold text-white mb-1 font-gendy">
-                ${orgs.reduce((sum, o) => sum + o.mrr, 0).toLocaleString()}
-              </h3>
-              <p className="text-sm text-gray-400 font-diatype">Total MRR</p>
-            </motion.div>
+            <StatCard
+              title="Total MRR"
+              value={`$${orgs.reduce((sum, o) => sum + o.mrr, 0).toLocaleString()}`}
+              icon={<DollarSign className="w-5 h-5" />}
+              variant="cyan"
+              trend={{ value: 8, direction: 'up' }}
+            />
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="bg-gradient-to-br from-amber-900/30 to-amber-900/10 backdrop-blur-xl border border-amber-500/20 rounded-2xl p-6"
-            >
-              <Crown className="w-6 h-6 text-amber-400 mb-2" />
-              <h3 className="text-2xl font-bold text-white mb-1 font-gendy">
-                {orgs.filter((o) => o.subscription === 'enterprise').length}
-              </h3>
-              <p className="text-sm text-gray-400 font-diatype">Enterprise Clients</p>
-            </motion.div>
+            <StatCard
+              title="Enterprise Clients"
+              value={orgs.filter((o) => o.subscription === 'enterprise').length}
+              subtitle="Premium"
+              icon={<Crown className="w-5 h-5" />}
+              variant="warning"
+            />
           </div>
 
-          <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 mb-6">
+          {/* Search */}
+          <Card padding="lg" className="mb-6">
             <div className="relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 hg-text-muted" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search organizations..."
-                className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-diatype"
+                className="w-full pl-12 pr-4 py-3 rounded-xl transition-all hg-border border focus:outline-none focus:ring-2 hg-bg-secondary hg-text-primary"
+                style={{ '--tw-ring-color': 'var(--hg-cyan-border)' } as React.CSSProperties}
               />
             </div>
-          </div>
+          </Card>
 
+          {/* Organization Cards */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {filteredOrgs.map((org, index) => (
-              <motion.div
-                key={org.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 hover:border-cyan-500/30 transition-all"
-              >
+              <Card key={org.id} animate hover padding="lg">
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-xl flex items-center justify-center">
+                    <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-gradient-to-br from-cyan-500 to-blue-500">
                       <Building2 className="w-6 h-6 text-white" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-bold text-white font-gendy">{org.name}</h3>
+                      <Link href={`/admin/organizations/${org.id}/branding`} className="hover:underline">
+                        <Heading as="h3" size="lg">{org.name}</Heading>
+                      </Link>
                       <span
                         className={`px-2 py-1 rounded-full text-xs font-semibold border ${getSubBadge(
                           org.subscription
@@ -236,52 +217,45 @@ export default function OrganizationsAdmin() {
                       </span>
                     </div>
                   </div>
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="p-2 bg-white/5 hover:bg-white/10 rounded-lg transition-all"
-                  >
-                    <Settings className="w-5 h-5 text-gray-400" />
-                  </motion.button>
+                  <Link href={`/admin/organizations/${org.id}/branding`}>
+                    <Button variant="secondary" size="sm">
+                      <Settings className="w-5 h-5" />
+                    </Button>
+                  </Link>
                 </div>
 
                 <div className="grid grid-cols-3 gap-3 mb-4">
-                  <div className="bg-white/5 rounded-lg p-3">
-                    <p className="text-2xl font-bold text-white mb-1 font-gendy">{org.members}</p>
-                    <p className="text-xs text-gray-400 font-diatype">Members</p>
+                  <div className="rounded-lg p-3 hg-bg-secondary">
+                    <Heading as="h4" size="2xl" className="mb-1">{org.members}</Heading>
+                    <Text variant="muted" size="xs">Members</Text>
                   </div>
-                  <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-3">
-                    <p className="text-2xl font-bold text-green-400 mb-1 font-gendy">
+                  <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-3">
+                    <Heading as="h4" size="2xl" className="text-emerald-400 mb-1">
                       {org.activeUsers}
-                    </p>
-                    <p className="text-xs text-green-400 font-diatype">Active</p>
+                    </Heading>
+                    <Text size="xs" className="text-emerald-400">Active</Text>
                   </div>
-                  <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-3">
-                    <p className="text-2xl font-bold text-blue-400 mb-1 font-gendy">
+                  <div className="rounded-lg p-3 bg-[var(--hg-cyan-bg)]">
+                    <Heading as="h4" size="2xl" className="text-[var(--hg-cyan-text)] mb-1">
                       ${org.mrr}
-                    </p>
-                    <p className="text-xs text-blue-400 font-diatype">MRR</p>
+                    </Heading>
+                    <Text variant="cyan" size="xs">MRR</Text>
                   </div>
                 </div>
 
                 <div className="flex gap-2">
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="flex-1 px-4 py-2 bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-cyan-300 rounded-lg transition-all flex items-center justify-center gap-2 font-diatype"
-                  >
-                    <Eye className="w-4 h-4" />
-                    View Details
-                  </motion.button>
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="px-4 py-2 bg-blue-500/20 hover:bg-blue-500/30 border border-blue-500/30 text-blue-300 rounded-lg transition-all font-diatype"
-                  >
-                    <Users className="w-4 h-4" />
-                  </motion.button>
+                  <Link href={`/admin/organizations/${org.id}/branding`} className="flex-1">
+                    <Button variant="cyan" className="w-full" icon={<Eye className="w-4 h-4" />}>
+                      View Details
+                    </Button>
+                  </Link>
+                  <Link href={`/admin/organizations/${org.id}/members`}>
+                    <Button variant="secondary">
+                      <Users className="w-4 h-4" />
+                    </Button>
+                  </Link>
                 </div>
-              </motion.div>
+              </Card>
             ))}
           </div>
         </div>

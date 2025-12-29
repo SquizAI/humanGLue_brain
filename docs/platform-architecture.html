@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HumanGlue Platform Architecture</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            /* HumanGlue Color Palette */
+            --hg-cyan-primary: #61D8FE;
+            --hg-cyan-dark: #06B6D4;
+            --hg-cyan-darker: #0891b2;
+            --hg-purple: #8B5CF6;
+            --hg-blue: #3B82F6;
+            --hg-green: #10B981;
+            --hg-amber: #F59E0B;
+            --hg-red: #EF4444;
+            --hg-bg-dark: #000000;
+            --hg-bg-card: rgba(255, 255, 255, 0.05);
+            --hg-border: rgba(255, 255, 255, 0.1);
+            --hg-text: #ffffff;
+            --hg-text-muted: #9ca3af;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--hg-bg-dark);
+            color: var(--hg-text);
+            min-height: 100vh;
+            padding: 40px;
+            line-height: 1.6;
+        }
+
+        /* Animated background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(97, 216, 254, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.06) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.04) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--hg-cyan-primary), var(--hg-blue));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--hg-cyan-primary), var(--hg-blue), var(--hg-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: var(--hg-text-muted);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .section {
+            margin-bottom: 60px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--hg-border);
+        }
+
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--hg-text);
+        }
+
+        .diagram-container {
+            background: var(--hg-bg-card);
+            border: 1px solid var(--hg-border);
+            border-radius: 20px;
+            padding: 40px;
+            overflow-x: auto;
+            backdrop-filter: blur(10px);
+        }
+
+        .mermaid {
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Grid layouts */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .grid-5 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--hg-bg-card);
+            border: 1px solid var(--hg-border);
+            border-radius: 16px;
+            padding: 24px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--hg-cyan-primary);
+            transform: translateY(-2px);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .card-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .card-subtitle {
+            font-size: 0.85rem;
+            color: var(--hg-text-muted);
+        }
+
+        .card ul {
+            list-style: none;
+        }
+
+        .card li {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--hg-border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+        }
+
+        .card li:last-child {
+            border-bottom: none;
+        }
+
+        .card li::before {
+            content: '→';
+            color: var(--hg-cyan-primary);
+        }
+
+        /* Role badges */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .badge-super-admin { background: linear-gradient(135deg, var(--hg-green), #059669); color: white; }
+        .badge-admin { background: linear-gradient(135deg, var(--hg-purple), #7c3aed); color: white; }
+        .badge-instructor { background: linear-gradient(135deg, var(--hg-blue), #2563eb); color: white; }
+        .badge-expert { background: linear-gradient(135deg, var(--hg-amber), #d97706); color: white; }
+        .badge-client { background: linear-gradient(135deg, var(--hg-cyan-dark), var(--hg-cyan-darker)); color: white; }
+
+        /* Icon colors */
+        .icon-cyan { background: linear-gradient(135deg, var(--hg-cyan-primary), var(--hg-cyan-dark)); }
+        .icon-purple { background: linear-gradient(135deg, var(--hg-purple), #7c3aed); }
+        .icon-blue { background: linear-gradient(135deg, var(--hg-blue), #2563eb); }
+        .icon-green { background: linear-gradient(135deg, var(--hg-green), #059669); }
+        .icon-amber { background: linear-gradient(135deg, var(--hg-amber), #d97706); }
+        .icon-red { background: linear-gradient(135deg, var(--hg-red), #dc2626); }
+
+        /* Route table */
+        .route-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .route-table th,
+        .route-table td {
+            padding: 14px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--hg-border);
+        }
+
+        .route-table th {
+            color: var(--hg-cyan-primary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .route-table td {
+            font-size: 0.95rem;
+        }
+
+        .route-table code {
+            background: rgba(97, 216, 254, 0.1);
+            color: var(--hg-cyan-primary);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.85rem;
+        }
+
+        .route-table tr:hover {
+            background: var(--hg-bg-card);
+        }
+
+        /* Stats */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .stat-card {
+            background: var(--hg-bg-card);
+            border: 1px solid var(--hg-border);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--hg-cyan-primary), var(--hg-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--hg-text-muted);
+            margin-top: 5px;
+        }
+
+        /* Feature list */
+        .feature-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .feature-tag {
+            background: var(--hg-bg-card);
+            border: 1px solid var(--hg-border);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--hg-text-muted);
+        }
+
+        .feature-tag.active {
+            border-color: var(--hg-cyan-primary);
+            color: var(--hg-cyan-primary);
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid var(--hg-border);
+            text-align: center;
+            color: var(--hg-text-muted);
+            font-size: 0.9rem;
+        }
+
+        .footer a {
+            color: var(--hg-cyan-primary);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">
+            <div class="logo-icon">HG</div>
+            <span style="font-size: 1.5rem; font-weight: 600;">HumanGlue</span>
+        </div>
+        <h1>Platform Architecture</h1>
+        <p class="subtitle">Complete system overview showing user roles, white-label capabilities, data flow, and all platform features</p>
+    </div>
+
+    <!-- Platform Stats -->
+    <div class="stat-grid">
+        <div class="stat-card">
+            <div class="stat-value">6</div>
+            <div class="stat-label">User Roles</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">5</div>
+            <div class="stat-label">Dashboards</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">50+</div>
+            <div class="stat-label">Admin Pages</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">100%</div>
+            <div class="stat-label">White-Label Ready</div>
+        </div>
+    </div>
+
+    <!-- Master Architecture Diagram -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-icon icon-cyan">🏗️</div>
+            <h2 class="section-title">Complete Platform Architecture</h2>
+        </div>
+        <div class="diagram-container">
+            <div class="mermaid">
+flowchart TB
+    subgraph Auth["🔐 Authentication Layer"]
+        Login["/login"]
+        Signup["/signup"]
+        AuthAPI["Auth API"]
+        Session["Session Management"]
+    end
+
+    subgraph Roles["👥 User Roles"]
+        SA["🟢 Super Admin<br/>(Full Access)"]
+        SAC["🟢 Super Admin<br/>(Courses Only)"]
+        Admin["🟣 Platform Admin"]
+        Inst["🔵 Instructor"]
+        Exp["🟠 Expert"]
+        Client["🔷 Client"]
+    end
+
+    subgraph AdminDash["🟣 Admin Dashboard (/admin/*)"]
+        direction TB
+        ADHome["Dashboard Home"]
+        ADOrgs["Organizations"]
+        ADUsers["User Management"]
+        ADAnalytics["Analytics & Reports"]
+        ADCourses["Course Management"]
+        ADWorkshops["Workshop Management"]
+        ADExperts["Expert Management"]
+        ADContent["Content Management"]
+        ADPayments["Payments & Billing"]
+        ADSettings["Platform Settings"]
+        ADActivity["Activity Logs"]
+        ADNewsletters["Newsletters"]
+        ADOutreach["Outreach & Marketing"]
+        ADAssessments["Assessment Management"]
+        ADApplications["Applications"]
+    end
+
+    subgraph OrgMgmt["🏢 Organization Management"]
+        OrgList["Organization List"]
+        OrgBranding["⚙️ Branding Settings"]
+        OrgMembers["👥 Members"]
+        OrgTeams["🏷️ Teams"]
+        OrgBilling["💳 Billing"]
+    end
+
+    subgraph InstDash["🔵 Instructor Dashboard (/instructor/*)"]
+        direction TB
+        IDHome["Dashboard Home"]
+        IDCourses["My Courses"]
+        IDWorkshops["My Workshops"]
+        IDStudents["Students"]
+        IDAnalytics["Analytics"]
+        IDProfile["Profile"]
+        IDSettings["Settings"]
+    end
+
+    subgraph ExpDash["🟠 Expert Dashboard (/expert/*)"]
+        direction TB
+        EDHome["Dashboard Home"]
+        EDSchedule["Schedule"]
+        EDClients["Clients"]
+        EDAval["Availability"]
+        EDEarnings["Earnings"]
+        EDResources["Resources"]
+        EDProfile["Profile"]
+        EDSettings["Settings"]
+    end
+
+    subgraph ClientDash["🔷 Client Dashboard (/dashboard/*)"]
+        direction TB
+        CDHome["Dashboard Home"]
+        CDAssess["Assessments"]
+        CDLearning["Learning"]
+        CDWorkshops["Workshops"]
+        CDTalent["Find Experts"]
+        CDTeam["Team Management"]
+        CDWorkflows["AI Workflows"]
+        CDResources["Resources"]
+        CDProfile["Profile"]
+        CDSettings["Settings"]
+        CDHelp["Help Center"]
+    end
+
+    subgraph WhiteLabel["🎨 White-Label System"]
+        BC["BrandingContext"]
+        BrandAPI["/api/organizations/[id]/branding"]
+        DefaultBrand["Default HumanGlue<br/>Branding"]
+    end
+
+    subgraph BrandedUI["🖼️ Branded Components"]
+        UIFooter["Footer"]
+        UILogin["Login Page"]
+        UISignup["Signup Page"]
+        UIEmails["Email Templates"]
+        UIPDFs["PDF Reports"]
+        UICharts["Chart Colors"]
+    end
+
+    subgraph Database["🗄️ Supabase Database"]
+        DBUsers[("users")]
+        DBOrgs[("organizations")]
+        DBBranding[("org_branding")]
+        DBAssess[("assessments")]
+        DBCourses[("courses")]
+        DBWorkshops[("workshops")]
+    end
+
+    %% Auth Flow
+    Login --> AuthAPI
+    Signup --> AuthAPI
+    AuthAPI --> Session
+    Session --> Roles
+
+    %% Role Routing
+    SA --> AdminDash
+    SAC -.->|"limited"| ADCourses
+    Admin --> AdminDash
+    Inst --> InstDash
+    Exp --> ExpDash
+    Client --> ClientDash
+
+    %% Admin Structure
+    ADOrgs --> OrgMgmt
+    OrgList --> OrgBranding
+    OrgList --> OrgMembers
+    OrgList --> OrgTeams
+    OrgList --> OrgBilling
+
+    %% White-label Flow
+    OrgBranding -->|"saves"| BrandAPI
+    BrandAPI --> DBBranding
+    BC -->|"loads"| BrandAPI
+    BC -->|"fallback"| DefaultBrand
+    BC --> BrandedUI
+
+    %% Database Connections
+    AuthAPI --> DBUsers
+    ADOrgs --> DBOrgs
+    ADAssessments --> DBAssess
+    ADCourses --> DBCourses
+    ADWorkshops --> DBWorkshops
+
+    %% Styling
+    classDef authNode fill:#06B6D4,stroke:#0891b2,color:#fff
+    classDef roleNode fill:#8B5CF6,stroke:#7c3aed,color:#fff
+    classDef adminNode fill:#3B82F6,stroke:#2563eb,color:#fff
+    classDef instNode fill:#3B82F6,stroke:#2563eb,color:#fff
+    classDef expNode fill:#F59E0B,stroke:#d97706,color:#fff
+    classDef clientNode fill:#06B6D4,stroke:#0891b2,color:#fff
+    classDef brandNode fill:#10B981,stroke:#059669,color:#fff
+    classDef dbNode fill:#374151,stroke:#4b5563,color:#fff
+
+    class Login,Signup,AuthAPI,Session authNode
+    class SA,SAC,Admin,Inst,Exp,Client roleNode
+    class BC,BrandAPI,DefaultBrand,OrgBranding brandNode
+            </div>
+        </div>
+    </div>
+
+    <!-- User Roles Section -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-icon icon-purple">👥</div>
+            <h2 class="section-title">User Roles & Capabilities</h2>
+        </div>
+        <div class="grid-3">
+            <!-- Super Admin -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon icon-green">👑</div>
+                    <div>
+                        <div class="card-title">Super Admin (Full)</div>
+                        <div class="card-subtitle">Complete platform control</div>
+                    </div>
+                </div>
+                <ul>
+                    <li>Manage ALL organizations</li>
+                    <li>Access ALL user data</li>
+                    <li>System configuration</li>
+                    <li>Billing & payments</li>
+                    <li>White-label settings</li>
+                    <li>Platform analytics</li>
+                    <li>Content management</li>
+                    <li>Expert approvals</li>
+                </ul>
+                <div class="feature-list">
+                    <span class="feature-tag active">/admin/*</span>
+                </div>
+            </div>
+
+            <!-- Super Admin Courses -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon icon-green">📚</div>
+                    <div>
+                        <div class="card-title">Super Admin (Courses)</div>
+                        <div class="card-subtitle">Course-focused access</div>
+                    </div>
+                </div>
+                <ul>
+                    <li>Manage all courses</li>
+                    <li>Create course content</li>
+                    <li>Assign instructors</li>
+                    <li>View course analytics</li>
+                    <li>Manage enrollments</li>
+                </ul>
+                <div class="feature-list">
+                    <span class="feature-tag active">/admin/courses/*</span>
+                </div>
+            </div>
+
+            <!-- Platform Admin -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon icon-purple">🔧</div>
+                    <div>
+                        <div class="card-title">Platform Admin</div>
+                        <div class="card-subtitle">Organization management</div>
+                    </div>
+                </div>
+                <ul>
+                    <li>Manage org users</li>
+                    <li>View org analytics</li>
+                    <li>Manage content</li>
+                    <li>Workshop scheduling</li>
+                    <li>Course assignments</li>
+                    <li>Reports & exports</li>
+                </ul>
+                <div class="feature-list">
+                    <span class="feature-tag active">/admin/*</span>
+                    <span class="feature-tag">org-scoped</span>
+                </div>
+            </div>
+
+            <!-- Instructor -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon icon-blue">🎓</div>
+                    <div>
+                        <div class="card-title">Instructor</div>
+                        <div class="card-subtitle">Teaching & content creation</div>
+                    </div>
+                </div>
+                <ul>
+                    <li>Create courses</li>
+                    <li>Build lessons</li>
+                    <li>Host workshops</li>
+                    <li>View student progress</li>
+                    <li>Grading & feedback</li>
+                    <li>Teaching analytics</li>
+                </ul>
+                <div class="feature-list">
+                    <span class="feature-tag active">/instructor/*</span>
+                </div>
+            </div>
+
+            <!-- Expert -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon icon-amber">💼</div>
+                    <div>
+                        <div class="card-title">Expert</div>
+                        <div class="card-subtitle">Consultations & advisory</div>
+                    </div>
+                </div>
+                <ul>
+                    <li>Set availability</li>
+                    <li>Accept bookings</li>
+                    <li>Client consultations</li>
+                    <li>Track earnings</li>
+                    <li>Manage resources</li>
+                    <li>Profile management</li>
+                </ul>
+                <div class="feature-list">
+                    <span class="feature-tag active">/expert/*</span>
+                </div>
+            </div>
+
+            <!-- Client -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon icon-cyan">🎯</div>
+                    <div>
+                        <div class="card-title">Client</div>
+                        <div class="card-subtitle">Learning & assessment</div>
+                    </div>
+                </div>
+                <ul>
+                    <li>Take assessments</li>
+                    <li>View AI maturity score</li>
+                    <li>Access courses</li>
+                    <li>Book workshops</li>
+                    <li>Hire experts</li>
+                    <li>Team management</li>
+                    <li>AI workflows</li>
+                </ul>
+                <div class="feature-list">
+                    <span class="feature-tag active">/dashboard/*</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- White-Label System -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-icon icon-green">🎨</div>
+            <h2 class="section-title">White-Label System</h2>
+        </div>
+        <div class="grid-2">
+            <div class="diagram-container">
+                <div class="mermaid">
+sequenceDiagram
+    participant Admin as 🟣 Admin
+    participant UI as 🖥️ Branding UI
+    participant API as ⚡ API
+    participant DB as 🗄️ Database
+    participant BC as 🎨 BrandingContext
+    participant User as 🔷 End User
+
+    Note over Admin,User: Setting Up Organization Branding
+
+    Admin->>UI: Navigate to /admin/organizations/[id]/branding
+    Admin->>UI: Configure: logo, colors, company name, emails
+    UI->>API: POST branding settings
+    API->>DB: Save to org_branding table
+    DB-->>API: ✓ Success
+    API-->>UI: Branding saved
+
+    Note over Admin,User: End User Experience
+
+    User->>BC: Login (org member)
+    BC->>API: GET /api/organizations/123/branding
+    API->>DB: Query org_branding
+    DB-->>API: Return branding config
+    API-->>BC: {logo, colors, name...}
+    BC-->>User: Render with custom branding
+                </div>
+            </div>
+            <div>
+                <div class="card" style="margin-bottom: 20px;">
+                    <div class="card-header">
+                        <div class="card-icon icon-green">⚙️</div>
+                        <div>
+                            <div class="card-title">Branding Configuration</div>
+                            <div class="card-subtitle">What can be customized</div>
+                        </div>
+                    </div>
+                    <ul>
+                        <li><strong>Company Name</strong> - Displayed throughout platform</li>
+                        <li><strong>Logo</strong> - Header, footer, emails, PDFs</li>
+                        <li><strong>Primary Color</strong> - Buttons, links, accents</li>
+                        <li><strong>Secondary Color</strong> - Backgrounds, highlights</li>
+                        <li><strong>Support Email</strong> - Contact links</li>
+                        <li><strong>Social Links</strong> - LinkedIn, Twitter</li>
+                        <li><strong>Footer Text</strong> - Copyright, legal</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon icon-cyan">🖼️</div>
+                        <div>
+                            <div class="card-title">Branded Components</div>
+                            <div class="card-subtitle">Where branding appears</div>
+                        </div>
+                    </div>
+                    <ul>
+                        <li><strong>Footer</strong> - Logo, name, email, social</li>
+                        <li><strong>Login Page</strong> - Logo, company name</li>
+                        <li><strong>Signup Page</strong> - Logo, company name</li>
+                        <li><strong>Email Templates</strong> - All transactional emails</li>
+                        <li><strong>PDF Reports</strong> - Assessment exports</li>
+                        <li><strong>Charts</strong> - Data visualization colors</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Route Reference -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-icon icon-blue">🗺️</div>
+            <h2 class="section-title">Complete Route Reference</h2>
+        </div>
+        <div class="diagram-container">
+            <table class="route-table">
+                <thead>
+                    <tr>
+                        <th>Route</th>
+                        <th>Description</th>
+                        <th>Access</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td colspan="3" style="background: rgba(16, 185, 129, 0.1); color: #10B981; font-weight: 600;">Admin Routes</td></tr>
+                    <tr><td><code>/admin</code></td><td>Admin dashboard home</td><td><span class="badge badge-admin">Admin+</span></td></tr>
+                    <tr><td><code>/admin/organizations</code></td><td>Organization management</td><td><span class="badge badge-super-admin">Super Admin</span></td></tr>
+                    <tr><td><code>/admin/organizations/[id]/branding</code></td><td>White-label settings</td><td><span class="badge badge-super-admin">Super Admin</span></td></tr>
+                    <tr><td><code>/admin/organizations/[id]/members</code></td><td>Organization members</td><td><span class="badge badge-admin">Admin+</span></td></tr>
+                    <tr><td><code>/admin/organizations/[id]/teams</code></td><td>Team management</td><td><span class="badge badge-admin">Admin+</span></td></tr>
+                    <tr><td><code>/admin/organizations/[id]/billing</code></td><td>Billing & invoices</td><td><span class="badge badge-super-admin">Super Admin</span></td></tr>
+                    <tr><td><code>/admin/users</code></td><td>User management</td><td><span class="badge badge-admin">Admin+</span></td></tr>
+                    <tr><td><code>/admin/analytics</code></td><td>Platform analytics</td><td><span class="badge badge-admin">Admin+</span></td></tr>
+                    <tr><td><code>/admin/courses</code></td><td>Course management</td><td><span class="badge badge-admin">Admin+</span></td></tr>
+                    <tr><td><code>/admin/workshops</code></td><td>Workshop management</td><td><span class="badge badge-admin">Admin+</span></td></tr>
+                    <tr><td><code>/admin/experts</code></td><td>Expert management</td><td><span class="badge badge-admin">Admin+</span></td></tr>
+                    <tr><td><code>/admin/assessments</code></td><td>Assessment management</td><td><span class="badge badge-admin">Admin+</span></td></tr>
+                    <tr><td><code>/admin/content</code></td><td>Content management</td><td><span class="badge badge-admin">Admin+</span></td></tr>
+                    <tr><td><code>/admin/payments</code></td><td>Payment management</td><td><span class="badge badge-super-admin">Super Admin</span></td></tr>
+                    <tr><td><code>/admin/settings</code></td><td>Platform settings</td><td><span class="badge badge-super-admin">Super Admin</span></td></tr>
+                    <tr><td><code>/admin/outreach</code></td><td>Marketing & outreach</td><td><span class="badge badge-admin">Admin+</span></td></tr>
+
+                    <tr><td colspan="3" style="background: rgba(59, 130, 246, 0.1); color: #3B82F6; font-weight: 600;">Instructor Routes</td></tr>
+                    <tr><td><code>/instructor</code></td><td>Instructor dashboard</td><td><span class="badge badge-instructor">Instructor</span></td></tr>
+                    <tr><td><code>/instructor/courses</code></td><td>My courses</td><td><span class="badge badge-instructor">Instructor</span></td></tr>
+                    <tr><td><code>/instructor/courses/new</code></td><td>Create new course</td><td><span class="badge badge-instructor">Instructor</span></td></tr>
+                    <tr><td><code>/instructor/workshops</code></td><td>My workshops</td><td><span class="badge badge-instructor">Instructor</span></td></tr>
+                    <tr><td><code>/instructor/students</code></td><td>Student management</td><td><span class="badge badge-instructor">Instructor</span></td></tr>
+                    <tr><td><code>/instructor/analytics</code></td><td>Teaching analytics</td><td><span class="badge badge-instructor">Instructor</span></td></tr>
+
+                    <tr><td colspan="3" style="background: rgba(245, 158, 11, 0.1); color: #F59E0B; font-weight: 600;">Expert Routes</td></tr>
+                    <tr><td><code>/expert</code></td><td>Expert dashboard</td><td><span class="badge badge-expert">Expert</span></td></tr>
+                    <tr><td><code>/expert/schedule</code></td><td>Schedule management</td><td><span class="badge badge-expert">Expert</span></td></tr>
+                    <tr><td><code>/expert/availability</code></td><td>Set availability</td><td><span class="badge badge-expert">Expert</span></td></tr>
+                    <tr><td><code>/expert/clients</code></td><td>Client list</td><td><span class="badge badge-expert">Expert</span></td></tr>
+                    <tr><td><code>/expert/earnings</code></td><td>Earnings & payouts</td><td><span class="badge badge-expert">Expert</span></td></tr>
+                    <tr><td><code>/expert/resources</code></td><td>Expert resources</td><td><span class="badge badge-expert">Expert</span></td></tr>
+
+                    <tr><td colspan="3" style="background: rgba(6, 182, 212, 0.1); color: #06B6D4; font-weight: 600;">Client Routes</td></tr>
+                    <tr><td><code>/dashboard</code></td><td>Client dashboard</td><td><span class="badge badge-client">Client</span></td></tr>
+                    <tr><td><code>/dashboard/assessments</code></td><td>AI maturity assessments</td><td><span class="badge badge-client">Client</span></td></tr>
+                    <tr><td><code>/dashboard/assessments/new</code></td><td>Take new assessment</td><td><span class="badge badge-client">Client</span></td></tr>
+                    <tr><td><code>/dashboard/learning</code></td><td>Learning center</td><td><span class="badge badge-client">Client</span></td></tr>
+                    <tr><td><code>/dashboard/workshops</code></td><td>Workshop bookings</td><td><span class="badge badge-client">Client</span></td></tr>
+                    <tr><td><code>/dashboard/talent</code></td><td>Find experts</td><td><span class="badge badge-client">Client</span></td></tr>
+                    <tr><td><code>/dashboard/team</code></td><td>Team management</td><td><span class="badge badge-client">Client</span></td></tr>
+                    <tr><td><code>/dashboard/workflows</code></td><td>AI workflows</td><td><span class="badge badge-client">Client</span></td></tr>
+                    <tr><td><code>/dashboard/resources</code></td><td>Resources library</td><td><span class="badge badge-client">Client</span></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Database Schema -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-icon icon-amber">🗄️</div>
+            <h2 class="section-title">Database Schema Overview</h2>
+        </div>
+        <div class="diagram-container">
+            <div class="mermaid">
+erDiagram
+    users ||--o{ user_roles : has
+    users ||--o{ assessments : takes
+    users ||--o{ course_enrollments : enrolls
+    users ||--o{ workshop_registrations : registers
+
+    organizations ||--o{ users : contains
+    organizations ||--o| org_branding : has
+    organizations ||--o{ teams : has
+
+    org_branding {
+        uuid id PK
+        uuid organization_id FK
+        string company_name
+        string logo_url
+        string primary_color
+        string secondary_color
+        string support_email
+        json social_links
+    }
+
+    users {
+        uuid id PK
+        string email
+        string full_name
+        uuid organization_id FK
+        timestamp created_at
+    }
+
+    user_roles {
+        uuid id PK
+        uuid user_id FK
+        string role
+        json permissions
+    }
+
+    assessments {
+        uuid id PK
+        uuid user_id FK
+        int maturity_score
+        json responses
+        timestamp completed_at
+    }
+
+    courses ||--o{ lessons : contains
+    courses ||--o{ course_enrollments : has
+
+    courses {
+        uuid id PK
+        string title
+        uuid instructor_id FK
+        string status
+    }
+
+    workshops ||--o{ workshop_registrations : has
+
+    workshops {
+        uuid id PK
+        string title
+        uuid instructor_id FK
+        timestamp scheduled_at
+        int capacity
+    }
+
+    experts ||--o{ consultations : provides
+
+    experts {
+        uuid id PK
+        uuid user_id FK
+        json expertise
+        decimal hourly_rate
+        json availability
+    }
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>HumanGlue Platform Architecture Documentation</p>
+        <p style="margin-top: 10px;">
+            <a href="http://localhost:5040">View Live Platform</a> ·
+            <a href="http://localhost:5040/admin">Admin Dashboard</a> ·
+            <a href="http://localhost:5040/admin/organizations">Organization Management</a>
+        </p>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            themeVariables: {
+                primaryColor: '#3b82f6',
+                primaryTextColor: '#fff',
+                primaryBorderColor: '#60a5fa',
+                lineColor: '#4b5563',
+                secondaryColor: '#8b5cf6',
+                tertiaryColor: '#1f2937',
+                background: '#000000',
+                mainBkg: '#1f2937',
+                secondBkg: '#374151',
+                nodeBorder: '#4b5563',
+                clusterBkg: 'rgba(59, 130, 246, 0.05)',
+                clusterBorder: 'rgba(59, 130, 246, 0.2)',
+                titleColor: '#61D8FE',
+                edgeLabelBackground: '#1f2937',
+                nodeTextColor: '#f3f4f6',
+                actorBkg: '#1f2937',
+                actorBorder: '#61D8FE',
+                actorTextColor: '#fff',
+                actorLineColor: '#4b5563',
+                signalColor: '#61D8FE',
+                signalTextColor: '#fff',
+                labelBoxBkgColor: '#1f2937',
+                labelBoxBorderColor: '#4b5563',
+                labelTextColor: '#f3f4f6',
+                loopTextColor: '#f3f4f6',
+                noteBorderColor: '#61D8FE',
+                noteBkgColor: 'rgba(97, 216, 254, 0.1)',
+                noteTextColor: '#f3f4f6',
+                activationBorderColor: '#61D8FE',
+                activationBkgColor: 'rgba(97, 216, 254, 0.2)',
+                sequenceNumberColor: '#000'
+            },
+            flowchart: {
+                curve: 'basis',
+                padding: 20,
+                nodeSpacing: 50,
+                rankSpacing: 50
+            },
+            sequence: {
+                actorMargin: 80,
+                boxMargin: 10,
+                boxTextMargin: 5,
+                noteMargin: 10,
+                messageMargin: 40,
+                mirrorActors: false
+            },
+            er: {
+                layoutDirection: 'TB',
+                minEntityWidth: 100,
+                minEntityHeight: 75,
+                entityPadding: 15,
+                stroke: '#4b5563',
+                fill: '#1f2937'
+            }
+        });
+    </script>
+</body>
+</html>

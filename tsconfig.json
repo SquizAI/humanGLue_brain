@@ -44,6 +44,8 @@
     "**/*.spec.tsx",
     "vapi_enhanced_assessment_config.ts",
     "vitest.config.ts",
-    "playwright.config.ts"
+    "playwright.config.ts",
+    "mcp-code-executor",
+    "services"
   ]
 }

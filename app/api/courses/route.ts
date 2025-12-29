@@ -63,12 +63,13 @@ export async function GET(request: NextRequest) {
       query = query.eq('difficulty', filters.difficulty)
     }
 
-    if (filters.status) {
+    if (filters.status && filters.status !== 'all') {
       query = query.eq('status', filters.status)
-    } else {
-      // Default to published courses only
+    } else if (!filters.status) {
+      // Default to published courses only for non-admin requests
       query = query.eq('status', 'published')
     }
+    // If status=all, don't filter by status (admin view)
 
     if (filters.tags) {
       const tags = filters.tags.split(',').map(t => t.trim())

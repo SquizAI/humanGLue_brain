@@ -108,8 +108,8 @@ interface ChatMessage {
 
 const WORKSHOP_STATUS_COLORS: Record<string, { bg: string; text: string; icon: React.ReactNode }> = {
   draft: { bg: 'bg-gray-500/20', text: 'text-gray-400', icon: <FileText className="w-4 h-4" /> },
-  published: { bg: 'bg-blue-500/20', text: 'text-blue-400', icon: <Globe className="w-4 h-4" /> },
-  promoted: { bg: 'bg-green-500/20', text: 'text-green-400', icon: <TrendingUp className="w-4 h-4" /> },
+  published: { bg: 'bg-blue-500/20', text: 'text-[var(--hg-cyan-text)]', icon: <Globe className="w-4 h-4" /> },
+  promoted: { bg: 'bg-green-500/20', text: 'text-[var(--hg-cyan-text)]', icon: <TrendingUp className="w-4 h-4" /> },
   completed: { bg: 'bg-purple-500/20', text: 'text-purple-400', icon: <CheckCircle className="w-4 h-4" /> },
   cancelled: { bg: 'bg-red-500/20', text: 'text-red-400', icon: <X className="w-4 h-4" /> },
 }
@@ -461,8 +461,8 @@ export default function WorkshopAnnouncementsPage() {
     const percentage = (workshop.registered / workshop.capacity) * 100
     if (percentage >= 90) return { status: 'Almost Full', color: 'text-red-400' }
     if (percentage >= 70) return { status: 'Filling Up', color: 'text-orange-400' }
-    if (percentage >= 40) return { status: 'Good Availability', color: 'text-green-400' }
-    return { status: 'Open', color: 'text-blue-400' }
+    if (percentage >= 40) return { status: 'Good Availability', color: 'text-[var(--hg-cyan-text)]' }
+    return { status: 'Open', color: 'text-[var(--hg-cyan-text)]' }
   }
 
   const filteredWorkshops = workshops.filter((workshop) => {
@@ -619,8 +619,8 @@ export default function WorkshopAnnouncementsPage() {
                                     )}
                                   </div>
                                   <div className="flex items-center gap-2">
-                                    {workshop.type === 'virtual' && <Video className="w-4 h-4 text-blue-400" />}
-                                    {workshop.type === 'in-person' && <MapPin className="w-4 h-4 text-green-400" />}
+                                    {workshop.type === 'virtual' && <Video className="w-4 h-4 text-[var(--hg-cyan-text)]" />}
+                                    {workshop.type === 'in-person' && <MapPin className="w-4 h-4 text-[var(--hg-cyan-text)]" />}
                                     {workshop.type === 'hybrid' && <Globe className="w-4 h-4 text-purple-400" />}
                                     <span className="text-xs text-gray-500 capitalize">{workshop.type}</span>
                                   </div>
@@ -745,7 +745,7 @@ export default function WorkshopAnnouncementsPage() {
                               className="flex items-center gap-4 p-3 bg-white/5 rounded-lg"
                             >
                               <div className={`p-2 rounded-lg ${
-                                post.platform === 'linkedin' ? 'bg-blue-500/20 text-blue-400' :
+                                post.platform === 'linkedin' ? 'bg-blue-500/20 text-[var(--hg-cyan-text)]' :
                                 post.platform === 'twitter' ? 'bg-sky-500/20 text-sky-400' :
                                 'bg-indigo-500/20 text-indigo-400'
                               }`}>
@@ -759,8 +759,8 @@ export default function WorkshopAnnouncementsPage() {
                                 </p>
                               </div>
                               <span className={`px-2 py-1 rounded-full text-xs ${
-                                post.status === 'posted' ? 'bg-green-500/20 text-green-400' :
-                                post.status === 'scheduled' ? 'bg-blue-500/20 text-blue-400' :
+                                post.status === 'posted' ? 'bg-green-500/20 text-[var(--hg-cyan-text)]' :
+                                post.status === 'scheduled' ? 'bg-blue-500/20 text-[var(--hg-cyan-text)]' :
                                 'bg-red-500/20 text-red-400'
                               }`}>
                                 {post.status}
@@ -783,8 +783,8 @@ export default function WorkshopAnnouncementsPage() {
                                 </p>
                               </div>
                               <span className={`px-2 py-1 rounded-full text-xs ${
-                                campaign.status === 'sent' ? 'bg-green-500/20 text-green-400' :
-                                'bg-blue-500/20 text-blue-400'
+                                campaign.status === 'sent' ? 'bg-green-500/20 text-[var(--hg-cyan-text)]' :
+                                'bg-blue-500/20 text-[var(--hg-cyan-text)]'
                               }`}>
                                 {campaign.status}
                               </span>
@@ -834,7 +834,7 @@ export default function WorkshopAnnouncementsPage() {
                             <div className="flex flex-col items-center">
                               <div className={`p-2 rounded-lg ${
                                 item.type === 'email' ? 'bg-cyan-500/20 text-cyan-400' :
-                                item.platform === 'linkedin' ? 'bg-blue-500/20 text-blue-400' :
+                                item.platform === 'linkedin' ? 'bg-blue-500/20 text-[var(--hg-cyan-text)]' :
                                 item.platform === 'twitter' ? 'bg-sky-500/20 text-sky-400' :
                                 'bg-indigo-500/20 text-indigo-400'
                               }`}>

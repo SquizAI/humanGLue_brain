@@ -50,6 +50,7 @@ import {
   Radar,
 } from 'recharts'
 import { cn } from '@/utils/cn'
+import { chartColors, chartSemanticColors, chartTooltipStyle } from '@/lib/chart-colors'
 
 // Mock data for instructor-specific analytics
 const revenueData = [
@@ -79,9 +80,9 @@ const studentEngagementData = [
 ]
 
 const revenueBreakdownData = [
-  { name: 'Course Sales', value: 18500, color: '#8B5CF6' },
-  { name: 'Workshop Fees', value: 7200, color: '#3B82F6' },
-  { name: 'Consultation', value: 3050, color: '#F59E0B' },
+  { name: 'Course Sales', value: 18500, color: chartSemanticColors.courses },
+  { name: 'Workshop Fees', value: 7200, color: chartSemanticColors.workshops },
+  { name: 'Consultation', value: 3050, color: chartSemanticColors.consultations },
 ]
 
 const coursePerformanceData = [
@@ -344,7 +345,7 @@ export default function InstructorAnalyticsPage() {
                     <Line
                       type="monotone"
                       dataKey="revenue"
-                      stroke="#10B981"
+                      stroke={chartColors.tertiary}
                       strokeWidth={2}
                       dot={false}
                     />
@@ -451,25 +452,21 @@ export default function InstructorAnalyticsPage() {
                   <LineChart data={revenueData}>
                     <defs>
                       <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#10B981" stopOpacity={0.3} />
-                        <stop offset="95%" stopColor="#10B981" stopOpacity={0} />
+                        <stop offset="5%" stopColor={chartColors.tertiary} stopOpacity={0.3} />
+                        <stop offset="95%" stopColor={chartColors.tertiary} stopOpacity={0} />
                       </linearGradient>
                     </defs>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                    <XAxis dataKey="month" stroke="#9CA3AF" style={{ fontSize: '12px' }} />
-                    <YAxis stroke="#9CA3AF" style={{ fontSize: '12px' }} />
+                    <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />
+                    <XAxis dataKey="month" stroke={chartColors.axis} style={{ fontSize: '12px' }} />
+                    <YAxis stroke={chartColors.axis} style={{ fontSize: '12px' }} />
                     <Tooltip
-                      contentStyle={{
-                        backgroundColor: '#1F2937',
-                        border: '1px solid #374151',
-                        borderRadius: '8px',
-                      }}
-                      labelStyle={{ color: '#F3F4F6' }}
+                      contentStyle={chartTooltipStyle}
+                      labelStyle={{ color: chartColors.tooltipText }}
                     />
                     <Area
                       type="monotone"
                       dataKey="revenue"
-                      stroke="#10B981"
+                      stroke={chartColors.tertiary}
                       strokeWidth={3}
                       fill="url(#revenueGradient)"
                     />
@@ -496,20 +493,14 @@ export default function InstructorAnalyticsPage() {
                       labelLine={false}
                       label={({ name, percent }: any) => `${name} ${(percent * 100).toFixed(0)}%`}
                       outerRadius={100}
-                      fill="#8884d8"
+                      fill={chartColors.primary}
                       dataKey="value"
                     >
                       {revenueBreakdownData.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={entry.color} />
                       ))}
                     </Pie>
-                    <Tooltip
-                      contentStyle={{
-                        backgroundColor: '#1F2937',
-                        border: '1px solid #374151',
-                        borderRadius: '8px',
-                      }}
-                    />
+                    <Tooltip contentStyle={chartTooltipStyle} />
                   </PieChart>
                 </ResponsiveContainer>
               </div>
@@ -543,20 +534,14 @@ export default function InstructorAnalyticsPage() {
             <div className="h-80">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={courseEnrollmentData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                  <XAxis dataKey="course" stroke="#9CA3AF" style={{ fontSize: '12px' }} />
-                  <YAxis stroke="#9CA3AF" style={{ fontSize: '12px' }} />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: '#1F2937',
-                      border: '1px solid #374151',
-                      borderRadius: '8px',
-                    }}
-                  />
+                  <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />
+                  <XAxis dataKey="course" stroke={chartColors.axis} style={{ fontSize: '12px' }} />
+                  <YAxis stroke={chartColors.axis} style={{ fontSize: '12px' }} />
+                  <Tooltip contentStyle={chartTooltipStyle} />
                   <Legend />
-                  <Bar dataKey="enrollments" fill="#8B5CF6" name="Enrollments" radius={[8, 8, 0, 0]} />
-                  <Bar dataKey="completions" fill="#10B981" name="Completions" radius={[8, 8, 0, 0]} />
-                  <Bar dataKey="active" fill="#3B82F6" name="Active" radius={[8, 8, 0, 0]} />
+                  <Bar dataKey="enrollments" fill={chartColors.primary} name="Enrollments" radius={[8, 8, 0, 0]} />
+                  <Bar dataKey="completions" fill={chartSemanticColors.completed} name="Completions" radius={[8, 8, 0, 0]} />
+                  <Bar dataKey="active" fill={chartSemanticColors.total} name="Active" radius={[8, 8, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -575,33 +560,27 @@ export default function InstructorAnalyticsPage() {
                 <AreaChart data={studentEngagementData}>
                   <defs>
                     <linearGradient id="activeGradient" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.3} />
-                      <stop offset="95%" stopColor="#3B82F6" stopOpacity={0} />
+                      <stop offset="5%" stopColor={chartColors.secondary} stopOpacity={0.3} />
+                      <stop offset="95%" stopColor={chartColors.secondary} stopOpacity={0} />
                     </linearGradient>
                     <linearGradient id="completedGradient" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#10B981" stopOpacity={0.3} />
-                      <stop offset="95%" stopColor="#10B981" stopOpacity={0} />
+                      <stop offset="5%" stopColor={chartColors.tertiary} stopOpacity={0.3} />
+                      <stop offset="95%" stopColor={chartColors.tertiary} stopOpacity={0} />
                     </linearGradient>
                     <linearGradient id="watchingGradient" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#8B5CF6" stopOpacity={0.3} />
-                      <stop offset="95%" stopColor="#8B5CF6" stopOpacity={0} />
+                      <stop offset="5%" stopColor={chartColors.primary} stopOpacity={0.3} />
+                      <stop offset="95%" stopColor={chartColors.primary} stopOpacity={0} />
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                  <XAxis dataKey="week" stroke="#9CA3AF" style={{ fontSize: '12px' }} />
-                  <YAxis stroke="#9CA3AF" style={{ fontSize: '12px' }} />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: '#1F2937',
-                      border: '1px solid #374151',
-                      borderRadius: '8px',
-                    }}
-                  />
+                  <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />
+                  <XAxis dataKey="week" stroke={chartColors.axis} style={{ fontSize: '12px' }} />
+                  <YAxis stroke={chartColors.axis} style={{ fontSize: '12px' }} />
+                  <Tooltip contentStyle={chartTooltipStyle} />
                   <Legend />
                   <Area
                     type="monotone"
                     dataKey="watching"
-                    stroke="#8B5CF6"
+                    stroke={chartColors.primary}
                     strokeWidth={2}
                     fill="url(#watchingGradient)"
                     name="Currently Watching"
@@ -609,7 +588,7 @@ export default function InstructorAnalyticsPage() {
                   <Area
                     type="monotone"
                     dataKey="active"
-                    stroke="#3B82F6"
+                    stroke={chartColors.secondary}
                     strokeWidth={2}
                     fill="url(#activeGradient)"
                     name="Active Students"
@@ -617,7 +596,7 @@ export default function InstructorAnalyticsPage() {
                   <Area
                     type="monotone"
                     dataKey="completed"
-                    stroke="#10B981"
+                    stroke={chartColors.tertiary}
                     strokeWidth={2}
                     fill="url(#completedGradient)"
                     name="Completed Lessons"
@@ -640,24 +619,18 @@ export default function InstructorAnalyticsPage() {
               <div className="h-80">
                 <ResponsiveContainer width="100%" height="100%">
                   <RadarChart data={engagementMetricsData}>
-                    <PolarGrid stroke="#374151" />
-                    <PolarAngleAxis dataKey="metric" stroke="#9CA3AF" style={{ fontSize: '12px' }} />
-                    <PolarRadiusAxis angle={90} domain={[0, 100]} stroke="#9CA3AF" />
+                    <PolarGrid stroke={chartColors.grid} />
+                    <PolarAngleAxis dataKey="metric" stroke={chartColors.axis} style={{ fontSize: '12px' }} />
+                    <PolarRadiusAxis angle={90} domain={[0, 100]} stroke={chartColors.axis} />
                     <Radar
                       name="Performance"
                       dataKey="score"
-                      stroke="#8B5CF6"
-                      fill="#8B5CF6"
+                      stroke={chartColors.primary}
+                      fill={chartColors.primary}
                       fillOpacity={0.3}
                       strokeWidth={2}
                     />
-                    <Tooltip
-                      contentStyle={{
-                        backgroundColor: '#1F2937',
-                        border: '1px solid #374151',
-                        borderRadius: '8px',
-                      }}
-                    />
+                    <Tooltip contentStyle={chartTooltipStyle} />
                   </RadarChart>
                 </ResponsiveContainer>
               </div>

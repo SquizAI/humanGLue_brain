@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { useRouter } from 'next/navigation'
 import {
   TrendingUp,
   TrendingDown,
@@ -29,6 +28,9 @@ import {
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
 import { useChat } from '@/lib/contexts/ChatContext'
 import { LoadingSpinner } from '@/components/atoms/LoadingSpinner'
+import { Button } from '@/components/atoms/Button'
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/atoms/Card'
+import { Text, Heading } from '@/components/atoms/Text'
 import { signOut } from '@/lib/auth/hooks'
 import {
   LineChart,
@@ -53,6 +55,7 @@ import {
   Radar,
 } from 'recharts'
 import { cn } from '@/utils/cn'
+import { chartColors, chartSemanticColors, chartTooltipStyle } from '@/lib/chart-colors'
 
 // Mock data for charts
 const revenueData = [
@@ -121,16 +124,16 @@ const maturityScoresData = [
 ]
 
 const scoreDistributionData = [
-  { level: 'Beginner', count: 342, color: '#EF4444' },
-  { level: 'Intermediate', count: 856, color: '#F59E0B' },
-  { level: 'Advanced', count: 1124, color: '#10B981' },
-  { level: 'Expert', count: 525, color: '#8B5CF6' },
+  { level: 'Beginner', count: 342, color: chartSemanticColors.beginner },
+  { level: 'Intermediate', count: 856, color: chartSemanticColors.intermediate },
+  { level: 'Advanced', count: 1124, color: chartSemanticColors.advanced },
+  { level: 'Expert', count: 525, color: chartSemanticColors.expert },
 ]
 
 const revenueBreakdownData = [
-  { name: 'Courses', value: 48000, color: '#8B5CF6' },
-  { name: 'Workshops', value: 30000, color: '#3B82F6' },
-  { name: 'Consultations', value: 11750, color: '#F59E0B' },
+  { name: 'Courses', value: 48000, color: chartSemanticColors.courses },
+  { name: 'Workshops', value: 30000, color: chartSemanticColors.workshops },
+  { name: 'Consultations', value: 11750, color: chartSemanticColors.consultations },
 ]
 
 const activityHeatmapData = [
@@ -146,7 +149,6 @@ const activityHeatmapData = [
 type TimeRange = '7d' | '30d' | '90d' | '1y' | 'all'
 
 export default function AnalyticsPage() {
-  const router = useRouter()
   const { userData, authLoading } = useChat()
   const [timeRange, setTimeRange] = useState<TimeRange>('30d')
   const [showDatePicker, setShowDatePicker] = useState(false)
@@ -184,7 +186,7 @@ export default function AnalyticsPage() {
 
   if (!showContent) {
     return (
-      <div className="min-h-screen bg-black">
+      <div className="min-h-screen" style={{ backgroundColor: 'var(--hg-bg-primary)' }}>
         <DashboardSidebar onLogout={handleLogout} />
         <div className="lg:ml-[var(--sidebar-width,280px)] transition-all duration-300 flex items-center justify-center min-h-screen">
           <LoadingSpinner variant="neural" size="xl" text="Loading analytics..." />
@@ -238,41 +240,39 @@ export default function AnalyticsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen" style={{ backgroundColor: 'var(--hg-bg-primary)' }}>
       <DashboardSidebar onLogout={handleLogout} />
 
       <div className="lg:ml-[var(--sidebar-width,280px)] transition-all duration-300 pb-20 lg:pb-0">
         {/* Header */}
-        <div className="bg-black/50 backdrop-blur-xl border-b border-white/10 sticky top-0 z-30">
+        <div className="border-b sticky top-0 z-30 hg-bg-sidebar hg-border">
           <div className="px-8 py-6">
             <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-3xl font-bold text-white mb-2 font-gendy">Platform Analytics</h1>
-                <p className="text-gray-400 font-diatype">Comprehensive insights and performance metrics</p>
+                <Heading as="h1" size="3xl" className="mb-2">Platform Analytics</Heading>
+                <Text variant="muted">Comprehensive insights and performance metrics</Text>
               </div>
               <div className="flex items-center gap-3">
                 {/* Time Range Selector */}
                 <div className="relative">
-                  <button
+                  <Button
+                    variant="secondary"
                     onClick={() => setShowDatePicker(!showDatePicker)}
-                    className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg flex items-center gap-2 text-white transition-all"
+                    icon={<Calendar className="w-4 h-4" />}
                   >
-                    <Calendar className="w-4 h-4" />
-                    <span className="text-sm font-diatype">
-                      {timeRange === '7d' && 'Last 7 Days'}
-                      {timeRange === '30d' && 'Last 30 Days'}
-                      {timeRange === '90d' && 'Last 90 Days'}
-                      {timeRange === '1y' && 'Last Year'}
-                      {timeRange === 'all' && 'All Time'}
-                    </span>
-                    <ChevronDown className="w-4 h-4" />
-                  </button>
+                    {timeRange === '7d' && 'Last 7 Days'}
+                    {timeRange === '30d' && 'Last 30 Days'}
+                    {timeRange === '90d' && 'Last 90 Days'}
+                    {timeRange === '1y' && 'Last Year'}
+                    {timeRange === 'all' && 'All Time'}
+                    <ChevronDown className="w-4 h-4 ml-2" />
+                  </Button>
 
                   {showDatePicker && (
                     <motion.div
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="absolute right-0 mt-2 w-48 bg-gray-900 border border-white/10 rounded-lg shadow-xl overflow-hidden"
+                      className="absolute right-0 mt-2 w-48 hg-border border rounded-lg shadow-xl overflow-hidden hg-bg-card z-50"
                     >
                       {(['7d', '30d', '90d', '1y', 'all'] as TimeRange[]).map((range) => (
                         <button
@@ -282,8 +282,8 @@ export default function AnalyticsPage() {
                             setShowDatePicker(false)
                           }}
                           className={cn(
-                            'w-full px-4 py-2 text-left text-sm hover:bg-white/5 transition-all font-diatype',
-                            timeRange === range ? 'bg-cyan-500/10 text-cyan-400' : 'text-gray-300'
+                            'w-full px-4 py-2 text-left text-sm transition-all',
+                            timeRange === range ? 'bg-[var(--hg-cyan-bg)] text-[var(--hg-cyan-text)]' : 'hg-text-secondary hover:hg-bg-secondary'
                           )}
                         >
                           {range === '7d' && 'Last 7 Days'}
@@ -298,26 +298,22 @@ export default function AnalyticsPage() {
                 </div>
 
                 {/* Export Button */}
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                <Button
+                  variant="secondary"
                   onClick={handleExport}
-                  className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg flex items-center gap-2 text-white transition-all"
+                  icon={<Download className="w-4 h-4" />}
                 >
-                  <Download className="w-4 h-4" />
-                  <span className="text-sm font-diatype">Export</span>
-                </motion.button>
+                  Export
+                </Button>
 
                 {/* Print Button */}
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                <Button
+                  variant="secondary"
                   onClick={handlePrint}
-                  className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg flex items-center gap-2 text-white transition-all"
+                  icon={<Printer className="w-4 h-4" />}
                 >
-                  <Printer className="w-4 h-4" />
-                  <span className="text-sm font-diatype">Print</span>
-                </motion.button>
+                  Print
+                </Button>
               </div>
             </div>
           </div>
@@ -328,214 +324,170 @@ export default function AnalyticsPage() {
           {/* Key Metrics Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Total Revenue */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="bg-gradient-to-br from-green-900/30 to-emerald-900/10 backdrop-blur-xl border border-green-500/20 rounded-2xl p-6 group hover:border-green-500/40 transition-all"
-            >
+            <Card animate hover variant="glass" padding="lg" className="group">
               <div className="flex items-center justify-between mb-4">
-                <div className="p-3 bg-green-500/20 rounded-xl group-hover:scale-110 transition-transform">
-                  <DollarSign className="w-6 h-6 text-green-400" />
+                <div className="p-3 rounded-xl group-hover:scale-110 transition-transform bg-[var(--hg-cyan-bg)]">
+                  <DollarSign className="w-6 h-6 text-[var(--hg-cyan-text)]" />
                 </div>
-                <div className="flex items-center gap-1 text-green-400 text-sm font-diatype">
+                <Text variant="cyan" size="sm" className="flex items-center gap-1">
                   <TrendingUp className="w-4 h-4" />
                   <span>+18%</span>
-                </div>
+                </Text>
               </div>
-              <h3 className="text-sm text-gray-400 font-diatype mb-2">Total Revenue</h3>
-              <p className="text-3xl font-bold text-white font-gendy mb-2">
+              <Text variant="muted" size="sm" className="mb-2">Total Revenue</Text>
+              <Heading as="h3" size="3xl" className="mb-2">
                 <AnimatedCounter value={89750} prefix="$" />
-              </p>
+              </Heading>
               <div className="h-12 mt-4">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={revenueData.slice(-5)}>
                     <Line
                       type="monotone"
                       dataKey="revenue"
-                      stroke="#10B981"
+                      stroke={chartColors.tertiary}
                       strokeWidth={2}
                       dot={false}
                     />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
-            </motion.div>
+            </Card>
 
             {/* Active Users */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="bg-gradient-to-br from-blue-900/30 to-cyan-900/10 backdrop-blur-xl border border-blue-500/20 rounded-2xl p-6 group hover:border-blue-500/40 transition-all"
-            >
+            <Card animate hover variant="glass" padding="lg" className="group">
               <div className="flex items-center justify-between mb-4">
-                <div className="p-3 bg-blue-500/20 rounded-xl group-hover:scale-110 transition-transform">
-                  <Users className="w-6 h-6 text-blue-400" />
+                <div className="p-3 rounded-xl group-hover:scale-110 transition-transform bg-[var(--hg-cyan-bg)]">
+                  <Users className="w-6 h-6 text-[var(--hg-cyan-text)]" />
                 </div>
-                <div className="flex items-center gap-1 text-green-400 text-sm font-diatype">
+                <Text variant="cyan" size="sm" className="flex items-center gap-1">
                   <TrendingUp className="w-4 h-4" />
                   <span>+8.3%</span>
-                </div>
+                </Text>
               </div>
-              <h3 className="text-sm text-gray-400 font-diatype mb-2">Active Users</h3>
-              <p className="text-3xl font-bold text-white font-gendy mb-2">
+              <Text variant="muted" size="sm" className="mb-2">Active Users</Text>
+              <Heading as="h3" size="3xl" className="mb-2">
                 <AnimatedCounter value={2380} />
-              </p>
-              <p className="text-sm text-gray-500 font-diatype">of 2,847 total users</p>
-            </motion.div>
+              </Heading>
+              <Text variant="muted" size="sm">of 2,847 total users</Text>
+            </Card>
 
             {/* Course Completions */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="bg-gradient-to-br from-cyan-900/30 to-pink-900/10 backdrop-blur-xl border border-cyan-500/20 rounded-2xl p-6 group hover:border-cyan-500/40 transition-all"
-            >
+            <Card animate hover variant="glass" padding="lg" className="group">
               <div className="flex items-center justify-between mb-4">
-                <div className="p-3 bg-cyan-500/20 rounded-xl group-hover:scale-110 transition-transform">
-                  <Award className="w-6 h-6 text-cyan-400" />
+                <div className="p-3 rounded-xl group-hover:scale-110 transition-transform bg-[var(--hg-cyan-bg)]">
+                  <Award className="w-6 h-6 text-[var(--hg-cyan-text)]" />
                 </div>
-                <div className="flex items-center gap-1 text-green-400 text-sm font-diatype">
+                <Text variant="cyan" size="sm" className="flex items-center gap-1">
                   <TrendingUp className="w-4 h-4" />
                   <span>+12%</span>
-                </div>
+                </Text>
               </div>
-              <h3 className="text-sm text-gray-400 font-diatype mb-2">Course Completions</h3>
-              <p className="text-3xl font-bold text-white font-gendy mb-2">
+              <Text variant="muted" size="sm" className="mb-2">Course Completions</Text>
+              <Heading as="h3" size="3xl" className="mb-2">
                 <AnimatedCounter value={1686} />
-              </p>
-              <div className="w-full bg-gray-800 rounded-full h-2 mt-4">
+              </Heading>
+              <div className="w-full rounded-full h-2 mt-4 hg-bg-secondary">
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: '87%' }}
                   transition={{ duration: 1, delay: 0.5 }}
-                  className="bg-gradient-to-r from-cyan-500 to-pink-500 h-2 rounded-full"
+                  className="bg-gradient-to-r from-cyan-500 to-blue-500 h-2 rounded-full"
                 />
               </div>
-              <p className="text-sm text-gray-500 font-diatype mt-2">87% of target</p>
-            </motion.div>
+              <Text variant="muted" size="sm" className="mt-2">87% of target</Text>
+            </Card>
 
             {/* Avg Session Duration */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="bg-gradient-to-br from-amber-900/30 to-orange-900/10 backdrop-blur-xl border border-amber-500/20 rounded-2xl p-6 group hover:border-amber-500/40 transition-all"
-            >
+            <Card animate hover variant="glass" padding="lg" className="group">
               <div className="flex items-center justify-between mb-4">
-                <div className="p-3 bg-amber-500/20 rounded-xl group-hover:scale-110 transition-transform">
+                <div className="p-3 rounded-xl group-hover:scale-110 transition-transform bg-amber-500/10">
                   <Clock className="w-6 h-6 text-amber-400" />
                 </div>
-                <div className="flex items-center gap-1 text-green-400 text-sm font-diatype">
+                <Text variant="cyan" size="sm" className="flex items-center gap-1">
                   <TrendingUp className="w-4 h-4" />
                   <span>+5 min</span>
-                </div>
+                </Text>
               </div>
-              <h3 className="text-sm text-gray-400 font-diatype mb-2">Avg. Session Duration</h3>
-              <p className="text-3xl font-bold text-white font-gendy mb-2">
+              <Text variant="muted" size="sm" className="mb-2">Avg. Session Duration</Text>
+              <Heading as="h3" size="3xl" className="mb-2">
                 <AnimatedCounter value={42} /> min
-              </p>
-              <p className="text-sm text-gray-500 font-diatype">vs. 37 min last month</p>
-            </motion.div>
+              </Heading>
+              <Text variant="muted" size="sm">vs. 37 min last month</Text>
+            </Card>
 
             {/* Assessment Completion Rate */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="bg-gradient-to-br from-cyan-900/30 to-teal-900/10 backdrop-blur-xl border border-cyan-500/20 rounded-2xl p-6 group hover:border-cyan-500/40 transition-all"
-            >
+            <Card animate hover variant="glass" padding="lg" className="group">
               <div className="flex items-center justify-between mb-4">
-                <div className="p-3 bg-cyan-500/20 rounded-xl group-hover:scale-110 transition-transform">
-                  <CheckCircle2 className="w-6 h-6 text-cyan-400" />
+                <div className="p-3 rounded-xl group-hover:scale-110 transition-transform bg-[var(--hg-cyan-bg)]">
+                  <CheckCircle2 className="w-6 h-6 text-[var(--hg-cyan-text)]" />
                 </div>
-                <div className="flex items-center gap-1 text-green-400 text-sm font-diatype">
+                <Text variant="cyan" size="sm" className="flex items-center gap-1">
                   <TrendingUp className="w-4 h-4" />
                   <span>+3%</span>
-                </div>
+                </Text>
               </div>
-              <h3 className="text-sm text-gray-400 font-diatype mb-2">Assessment Completion</h3>
-              <p className="text-3xl font-bold text-white font-gendy mb-2">
+              <Text variant="muted" size="sm" className="mb-2">Assessment Completion</Text>
+              <Heading as="h3" size="3xl" className="mb-2">
                 <AnimatedCounter value={73} />%
-              </p>
-              <p className="text-sm text-gray-500 font-diatype">528 completed this month</p>
-            </motion.div>
+              </Heading>
+              <Text variant="muted" size="sm">528 completed this month</Text>
+            </Card>
 
             {/* Expert Consultations */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-              className="bg-gradient-to-br from-pink-900/30 to-rose-900/10 backdrop-blur-xl border border-pink-500/20 rounded-2xl p-6 group hover:border-pink-500/40 transition-all"
-            >
+            <Card animate hover variant="glass" padding="lg" className="group">
               <div className="flex items-center justify-between mb-4">
-                <div className="p-3 bg-pink-500/20 rounded-xl group-hover:scale-110 transition-transform">
-                  <UserCheck className="w-6 h-6 text-pink-400" />
+                <div className="p-3 rounded-xl group-hover:scale-110 transition-transform bg-[var(--hg-cyan-bg)]">
+                  <UserCheck className="w-6 h-6 text-[var(--hg-cyan-text)]" />
                 </div>
-                <div className="flex items-center gap-1 text-green-400 text-sm font-diatype">
+                <Text variant="cyan" size="sm" className="flex items-center gap-1">
                   <TrendingUp className="w-4 h-4" />
                   <span>+15%</span>
-                </div>
+                </Text>
               </div>
-              <h3 className="text-sm text-gray-400 font-diatype mb-2">Expert Consultations</h3>
-              <p className="text-3xl font-bold text-white font-gendy mb-2">
+              <Text variant="muted" size="sm" className="mb-2">Expert Consultations</Text>
+              <Heading as="h3" size="3xl" className="mb-2">
                 <AnimatedCounter value={196} />
-              </p>
-              <p className="text-sm text-gray-500 font-diatype">392 hours this month</p>
-            </motion.div>
+              </Heading>
+              <Text variant="muted" size="sm">392 hours this month</Text>
+            </Card>
           </div>
 
           {/* Revenue Analytics Section */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Revenue Over Time */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.7 }}
-              className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6"
-            >
-              <h2 className="text-xl font-bold text-white mb-6 font-gendy">Revenue Over Time</h2>
+            <Card animate variant="glass" padding="lg">
+              <Heading as="h2" size="xl" className="mb-6">Revenue Over Time</Heading>
               <div className="h-80">
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart data={revenueData}>
                     <defs>
                       <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#8B5CF6" stopOpacity={0.3} />
-                        <stop offset="95%" stopColor="#8B5CF6" stopOpacity={0} />
+                        <stop offset="5%" stopColor={chartColors.primary} stopOpacity={0.3} />
+                        <stop offset="95%" stopColor={chartColors.primary} stopOpacity={0} />
                       </linearGradient>
                     </defs>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                    <XAxis dataKey="month" stroke="#9CA3AF" style={{ fontSize: '12px' }} />
-                    <YAxis stroke="#9CA3AF" style={{ fontSize: '12px' }} />
+                    <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />
+                    <XAxis dataKey="month" stroke={chartColors.axis} style={{ fontSize: '12px' }} />
+                    <YAxis stroke={chartColors.axis} style={{ fontSize: '12px' }} />
                     <Tooltip
-                      contentStyle={{
-                        backgroundColor: '#1F2937',
-                        border: '1px solid #374151',
-                        borderRadius: '8px',
-                      }}
-                      labelStyle={{ color: '#F3F4F6' }}
+                      contentStyle={chartTooltipStyle}
+                      labelStyle={{ color: chartColors.tooltipText }}
                     />
                     <Area
                       type="monotone"
                       dataKey="revenue"
-                      stroke="#8B5CF6"
+                      stroke={chartColors.primary}
                       strokeWidth={2}
                       fill="url(#revenueGradient)"
                     />
                   </AreaChart>
                 </ResponsiveContainer>
               </div>
-            </motion.div>
+            </Card>
 
             {/* Revenue Breakdown */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8 }}
-              className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6"
-            >
-              <h2 className="text-xl font-bold text-white mb-6 font-gendy">Revenue Breakdown</h2>
+            <Card animate variant="glass" padding="lg">
+              <Heading as="h2" size="xl" className="mb-6">Revenue Breakdown</Heading>
               <div className="h-80">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
@@ -546,20 +498,14 @@ export default function AnalyticsPage() {
                       labelLine={false}
                       label={({ name, percent }: any) => `${name} ${(percent * 100).toFixed(0)}%`}
                       outerRadius={100}
-                      fill="#8884d8"
+                      fill={chartColors.primary}
                       dataKey="value"
                     >
                       {revenueBreakdownData.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={entry.color} />
                       ))}
                     </Pie>
-                    <Tooltip
-                      contentStyle={{
-                        backgroundColor: '#1F2937',
-                        border: '1px solid #374151',
-                        borderRadius: '8px',
-                      }}
-                    />
+                    <Tooltip contentStyle={chartTooltipStyle} />
                   </PieChart>
                 </ResponsiveContainer>
               </div>
@@ -571,127 +517,102 @@ export default function AnalyticsPage() {
                         className="w-3 h-3 rounded-full"
                         style={{ backgroundColor: item.color }}
                       />
-                      <span className="text-xs text-gray-400 font-diatype">{item.name}</span>
+                      <Text variant="muted" size="xs">{item.name}</Text>
                     </div>
-                    <p className="text-lg font-bold text-white font-gendy">
+                    <Heading as="h4" size="lg">
                       ${(item.value / 1000).toFixed(0)}k
-                    </p>
+                    </Heading>
                   </div>
                 ))}
               </div>
-            </motion.div>
+            </Card>
           </div>
 
           {/* Top Revenue Courses */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.9 }}
-            className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6"
-          >
-            <h2 className="text-xl font-bold text-white mb-6 font-gendy">Top Revenue Generating Courses</h2>
+          <Card animate variant="glass" padding="lg">
+            <Heading as="h2" size="xl" className="mb-6">Top Revenue Generating Courses</Heading>
             <div className="space-y-4">
               {coursePerformanceData.map((course, index) => (
                 <div
                   key={index}
-                  className="flex items-center gap-4 p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-all"
+                  className="flex items-center gap-4 p-4 rounded-xl transition-all hg-bg-secondary"
                 >
-                  <div className="flex items-center justify-center w-12 h-12 bg-cyan-500/20 rounded-xl">
-                    <PlayCircle className="w-6 h-6 text-cyan-400" />
+                  <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-[var(--hg-cyan-bg)]">
+                    <PlayCircle className="w-6 h-6 text-[var(--hg-cyan-text)]" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-white font-semibold font-diatype">{course.name}</h3>
-                    <p className="text-sm text-gray-400 font-diatype">
+                    <Text weight="semibold">{course.name}</Text>
+                    <Text variant="muted" size="sm">
                       {course.enrollments} enrollments • {course.completions} completions
-                    </p>
+                    </Text>
                   </div>
                   <div className="text-right">
-                    <p className="text-lg font-bold text-green-400 font-gendy">
+                    <Text variant="cyan" size="lg" weight="bold">
                       ${course.revenue.toLocaleString()}
-                    </p>
+                    </Text>
                     <div className="flex items-center gap-1 text-amber-400">
                       <Star className="w-4 h-4 fill-amber-400" />
-                      <span className="text-sm font-diatype">{course.rating}</span>
+                      <Text size="sm" className="text-amber-400">{course.rating}</Text>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
-          </motion.div>
+          </Card>
 
           {/* User Engagement Section */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Active Users Chart */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.0 }}
-              className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6"
-            >
+            <Card animate variant="glass" padding="lg">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold text-white font-gendy">User Growth</h2>
+                <Heading as="h2" size="xl">User Growth</Heading>
                 <div className="flex gap-2">
                   {(['daily', 'weekly', 'monthly'] as const).map((tab) => (
-                    <button
+                    <Button
                       key={tab}
+                      variant={activeTab === tab ? 'cyan' : 'secondary'}
+                      size="sm"
                       onClick={() => setActiveTab(tab)}
-                      className={cn(
-                        'px-3 py-1 rounded-lg text-xs font-diatype transition-all',
-                        activeTab === tab
-                          ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30'
-                          : 'bg-white/5 text-gray-400 hover:bg-white/10'
-                      )}
                     >
                       {tab.charAt(0).toUpperCase() + tab.slice(1)}
-                    </button>
+                    </Button>
                   ))}
                 </div>
               </div>
               <div className="h-80">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={userGrowthData}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                    <XAxis dataKey="month" stroke="#9CA3AF" style={{ fontSize: '12px' }} />
-                    <YAxis stroke="#9CA3AF" style={{ fontSize: '12px' }} />
-                    <Tooltip
-                      contentStyle={{
-                        backgroundColor: '#1F2937',
-                        border: '1px solid #374151',
-                        borderRadius: '8px',
-                      }}
-                    />
+                    <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />
+                    <XAxis dataKey="month" stroke={chartColors.axis} style={{ fontSize: '12px' }} />
+                    <YAxis stroke={chartColors.axis} style={{ fontSize: '12px' }} />
+                    <Tooltip contentStyle={chartTooltipStyle} />
                     <Legend />
                     <Line
                       type="monotone"
                       dataKey="users"
-                      stroke="#3B82F6"
+                      stroke={chartSemanticColors.total}
                       strokeWidth={2}
                       name="Total Users"
                     />
                     <Line
                       type="monotone"
                       dataKey="active"
-                      stroke="#10B981"
+                      stroke={chartSemanticColors.active}
                       strokeWidth={2}
                       name="Active Users"
                     />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
-            </motion.div>
+            </Card>
 
             {/* User Activity Heatmap */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.1 }}
-              className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6"
-            >
-              <h2 className="text-xl font-bold text-white mb-6 font-gendy">Activity Heatmap</h2>
+            <Card animate variant="glass" padding="lg">
+              <Heading as="h2" size="xl" className="mb-6">Activity Heatmap</Heading>
               <div className="space-y-2">
                 {activityHeatmapData.map((day, dayIndex) => (
                   <div key={dayIndex} className="flex items-center gap-2">
-                    <span className="text-xs text-gray-400 w-12 font-diatype">{day.day}</span>
+                    <Text variant="muted" size="xs" className="w-12">{day.day}</Text>
                     <div className="flex-1 grid grid-cols-12 gap-1">
                       {day.hours.map((value, hourIndex) => {
                         const intensity = Math.min(value / 40, 1)
@@ -709,35 +630,30 @@ export default function AnalyticsPage() {
                     </div>
                   </div>
                 ))}
-                <div className="flex items-center justify-between mt-4 pt-4 border-t border-white/10">
-                  <span className="text-xs text-gray-500 font-diatype">12 AM</span>
-                  <span className="text-xs text-gray-500 font-diatype">6 AM</span>
-                  <span className="text-xs text-gray-500 font-diatype">12 PM</span>
-                  <span className="text-xs text-gray-500 font-diatype">6 PM</span>
-                  <span className="text-xs text-gray-500 font-diatype">12 AM</span>
+                <div className="flex items-center justify-between mt-4 pt-4 border-t hg-border">
+                  <Text variant="muted" size="xs">12 AM</Text>
+                  <Text variant="muted" size="xs">6 AM</Text>
+                  <Text variant="muted" size="xs">12 PM</Text>
+                  <Text variant="muted" size="xs">6 PM</Text>
+                  <Text variant="muted" size="xs">12 AM</Text>
                 </div>
               </div>
-            </motion.div>
+            </Card>
           </div>
 
           {/* Top Engaged Users */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.2 }}
-            className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6"
-          >
-            <h2 className="text-xl font-bold text-white mb-6 font-gendy">Top Engaged Users</h2>
+          <Card animate variant="glass" padding="lg">
+            <Heading as="h2" size="xl" className="mb-6">Top Engaged Users</Heading>
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="text-left border-b border-white/10">
-                    <th className="pb-3 text-sm font-semibold text-gray-400 font-diatype">Rank</th>
-                    <th className="pb-3 text-sm font-semibold text-gray-400 font-diatype">User</th>
-                    <th className="pb-3 text-sm font-semibold text-gray-400 font-diatype">Courses</th>
-                    <th className="pb-3 text-sm font-semibold text-gray-400 font-diatype">Hours</th>
-                    <th className="pb-3 text-sm font-semibold text-gray-400 font-diatype">Assessments</th>
-                    <th className="pb-3 text-sm font-semibold text-gray-400 font-diatype">Engagement</th>
+                  <tr className="text-left border-b hg-border">
+                    <th className="pb-3"><Text variant="muted" size="sm" weight="semibold">Rank</Text></th>
+                    <th className="pb-3"><Text variant="muted" size="sm" weight="semibold">User</Text></th>
+                    <th className="pb-3"><Text variant="muted" size="sm" weight="semibold">Courses</Text></th>
+                    <th className="pb-3"><Text variant="muted" size="sm" weight="semibold">Hours</Text></th>
+                    <th className="pb-3"><Text variant="muted" size="sm" weight="semibold">Assessments</Text></th>
+                    <th className="pb-3"><Text variant="muted" size="sm" weight="semibold">Engagement</Text></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -750,26 +666,26 @@ export default function AnalyticsPage() {
                   ].map((user, index) => (
                     <tr
                       key={index}
-                      className="border-b border-white/5 hover:bg-white/5 transition-all"
+                      className="border-b transition-all hg-border"
                     >
                       <td className="py-4">
-                        <div className="flex items-center justify-center w-8 h-8 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full text-white text-sm font-bold font-gendy">
+                        <div className="flex items-center justify-center w-8 h-8 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full text-white text-sm font-bold">
                           {index + 1}
                         </div>
                       </td>
-                      <td className="py-4 text-white font-diatype">{user.name}</td>
-                      <td className="py-4 text-gray-300 font-diatype">{user.courses}</td>
-                      <td className="py-4 text-gray-300 font-diatype">{user.hours}h</td>
-                      <td className="py-4 text-gray-300 font-diatype">{user.assessments}</td>
+                      <td className="py-4"><Text>{user.name}</Text></td>
+                      <td className="py-4"><Text variant="secondary">{user.courses}</Text></td>
+                      <td className="py-4"><Text variant="secondary">{user.hours}h</Text></td>
+                      <td className="py-4"><Text variant="secondary">{user.assessments}</Text></td>
                       <td className="py-4">
                         <div className="flex items-center gap-2">
-                          <div className="flex-1 bg-gray-800 rounded-full h-2">
+                          <div className="flex-1 rounded-full h-2 hg-bg-secondary">
                             <div
-                              className="bg-gradient-to-r from-green-500 to-emerald-500 h-2 rounded-full"
+                              className="bg-emerald-500 h-2 rounded-full"
                               style={{ width: `${user.engagement}%` }}
                             />
                           </div>
-                          <span className="text-sm text-gray-300 font-diatype w-12">{user.engagement}%</span>
+                          <Text variant="secondary" size="sm" className="w-12">{user.engagement}%</Text>
                         </div>
                       </td>
                     </tr>
@@ -777,64 +693,48 @@ export default function AnalyticsPage() {
                 </tbody>
               </table>
             </div>
-          </motion.div>
+          </Card>
 
           {/* Course Analytics */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.3 }}
-            className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6"
-          >
-            <h2 className="text-xl font-bold text-white mb-6 font-gendy">Course Performance Analytics</h2>
+          <Card animate variant="glass" padding="lg">
+            <Heading as="h2" size="xl" className="mb-6">Course Performance Analytics</Heading>
             <div className="h-80">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={coursePerformanceData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                  <XAxis dataKey="name" stroke="#9CA3AF" style={{ fontSize: '10px' }} angle={-45} textAnchor="end" height={100} />
-                  <YAxis stroke="#9CA3AF" style={{ fontSize: '12px' }} />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: '#1F2937',
-                      border: '1px solid #374151',
-                      borderRadius: '8px',
-                    }}
-                  />
+                  <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />
+                  <XAxis dataKey="name" stroke={chartColors.axis} style={{ fontSize: '10px' }} angle={-45} textAnchor="end" height={100} />
+                  <YAxis stroke={chartColors.axis} style={{ fontSize: '12px' }} />
+                  <Tooltip contentStyle={chartTooltipStyle} />
                   <Legend />
-                  <Bar dataKey="enrollments" fill="#8B5CF6" name="Enrollments" />
-                  <Bar dataKey="completions" fill="#10B981" name="Completions" />
+                  <Bar dataKey="enrollments" fill={chartColors.primary} name="Enrollments" />
+                  <Bar dataKey="completions" fill={chartSemanticColors.completed} name="Completions" />
                 </BarChart>
               </ResponsiveContainer>
             </div>
-          </motion.div>
+          </Card>
 
           {/* Workshop Analytics */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.4 }}
-            className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6"
-          >
-            <h2 className="text-xl font-bold text-white mb-6 font-gendy">Workshop Analytics</h2>
+          <Card animate variant="glass" padding="lg">
+            <Heading as="h2" size="xl" className="mb-6">Workshop Analytics</Heading>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {workshopData.map((workshop, index) => (
                 <div
                   key={index}
-                  className="p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-all"
+                  className="p-4 rounded-xl transition-all hg-bg-secondary"
                 >
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex items-center gap-3">
-                      <div className="p-2 bg-blue-500/20 rounded-lg">
-                        <Video className="w-5 h-5 text-blue-400" />
+                      <div className="p-2 rounded-lg bg-[var(--hg-cyan-bg)]">
+                        <Video className="w-5 h-5 text-[var(--hg-cyan-text)]" />
                       </div>
                       <div>
-                        <h3 className="text-white font-semibold font-diatype">{workshop.name}</h3>
+                        <Text weight="semibold">{workshop.name}</Text>
                         <span
                           className={cn(
-                            'inline-block px-2 py-0.5 text-xs rounded-full font-diatype mt-1',
+                            'inline-block px-2 py-0.5 text-xs rounded-full mt-1',
                             workshop.status === 'completed'
-                              ? 'bg-green-500/20 text-green-400'
-                              : 'bg-blue-500/20 text-blue-400'
+                              ? 'bg-emerald-500/20 text-emerald-400'
+                              : 'bg-[var(--hg-cyan-bg)] text-[var(--hg-cyan-text)]'
                           )}
                         >
                           {workshop.status === 'completed' ? 'Completed' : 'Upcoming'}
@@ -844,19 +744,19 @@ export default function AnalyticsPage() {
                   </div>
                   <div className="grid grid-cols-2 gap-4 mt-4">
                     <div>
-                      <p className="text-xs text-gray-400 font-diatype">Registered</p>
-                      <p className="text-xl font-bold text-white font-gendy">{workshop.registered}</p>
+                      <Text variant="muted" size="xs">Registered</Text>
+                      <Heading as="h4" size="xl">{workshop.registered}</Heading>
                     </div>
                     {workshop.status === 'completed' && (
                       <>
                         <div>
-                          <p className="text-xs text-gray-400 font-diatype">Attended</p>
-                          <p className="text-xl font-bold text-white font-gendy">{workshop.attended}</p>
+                          <Text variant="muted" size="xs">Attended</Text>
+                          <Heading as="h4" size="xl">{workshop.attended}</Heading>
                         </div>
                         <div className="col-span-2">
-                          <p className="text-xs text-gray-400 font-diatype mb-2">Satisfaction Score</p>
+                          <Text variant="muted" size="xs" className="mb-2">Satisfaction Score</Text>
                           <div className="flex items-center gap-2">
-                            <div className="flex-1 bg-gray-800 rounded-full h-2">
+                            <div className="flex-1 rounded-full h-2 hg-bg-primary">
                               <div
                                 className="bg-gradient-to-r from-amber-500 to-orange-500 h-2 rounded-full"
                                 style={{ width: `${(workshop.satisfaction / 5) * 100}%` }}
@@ -864,7 +764,7 @@ export default function AnalyticsPage() {
                             </div>
                             <div className="flex items-center gap-1">
                               <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
-                              <span className="text-sm text-white font-diatype">{workshop.satisfaction}</span>
+                              <Text size="sm">{workshop.satisfaction}</Text>
                             </div>
                           </div>
                         </div>
@@ -874,149 +774,117 @@ export default function AnalyticsPage() {
                 </div>
               ))}
             </div>
-          </motion.div>
+          </Card>
 
           {/* Expert Performance */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.5 }}
-            className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6"
-          >
-            <h2 className="text-xl font-bold text-white mb-6 font-gendy">Expert Performance</h2>
+          <Card animate variant="glass" padding="lg">
+            <Heading as="h2" size="xl" className="mb-6">Expert Performance</Heading>
             <div className="space-y-4">
               {expertPerformanceData.map((expert, index) => (
                 <div
                   key={index}
-                  className="flex items-center gap-4 p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-all"
+                  className="flex items-center gap-4 p-4 rounded-xl transition-all hg-bg-secondary"
                 >
-                  <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full text-white text-lg font-bold font-gendy">
+                  <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full text-white text-lg font-bold">
                     {expert.name.charAt(0)}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-white font-semibold font-diatype">{expert.name}</h3>
+                    <Text weight="semibold">{expert.name}</Text>
                     <div className="flex items-center gap-4 mt-1">
-                      <span className="text-sm text-gray-400 font-diatype">
+                      <Text variant="muted" size="sm">
                         {expert.consultations} consultations
-                      </span>
-                      <span className="text-sm text-gray-400 font-diatype">
+                      </Text>
+                      <Text variant="muted" size="sm">
                         {expert.hours}h logged
-                      </span>
+                      </Text>
                     </div>
                   </div>
                   <div className="text-right">
                     <div className="flex items-center gap-1 text-amber-400 mb-1">
                       <Star className="w-4 h-4 fill-amber-400" />
-                      <span className="font-semibold font-diatype">{expert.rating}</span>
+                      <Text weight="semibold" className="text-amber-400">{expert.rating}</Text>
                     </div>
                     <div className="flex items-center gap-2">
-                      <div className="w-24 bg-gray-800 rounded-full h-2">
+                      <div className="w-24 rounded-full h-2 hg-bg-primary">
                         <div
-                          className="bg-gradient-to-r from-green-500 to-emerald-500 h-2 rounded-full"
+                          className="bg-emerald-500 h-2 rounded-full"
                           style={{ width: `${expert.utilization}%` }}
                         />
                       </div>
-                      <span className="text-xs text-gray-400 font-diatype">{expert.utilization}%</span>
+                      <Text variant="muted" size="xs">{expert.utilization}%</Text>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
-          </motion.div>
+          </Card>
 
           {/* Assessment Insights */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Assessments Completed Over Time */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.6 }}
-              className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6"
-            >
-              <h2 className="text-xl font-bold text-white mb-6 font-gendy">Assessments Completed</h2>
+            <Card animate variant="glass" padding="lg">
+              <Heading as="h2" size="xl" className="mb-6">Assessments Completed</Heading>
               <div className="h-80">
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart data={assessmentData}>
                     <defs>
                       <linearGradient id="assessmentGradient" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.3} />
-                        <stop offset="95%" stopColor="#3B82F6" stopOpacity={0} />
+                        <stop offset="5%" stopColor={chartColors.secondary} stopOpacity={0.3} />
+                        <stop offset="95%" stopColor={chartColors.secondary} stopOpacity={0} />
                       </linearGradient>
                     </defs>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                    <XAxis dataKey="week" stroke="#9CA3AF" style={{ fontSize: '12px' }} />
-                    <YAxis stroke="#9CA3AF" style={{ fontSize: '12px' }} />
-                    <Tooltip
-                      contentStyle={{
-                        backgroundColor: '#1F2937',
-                        border: '1px solid #374151',
-                        borderRadius: '8px',
-                      }}
-                    />
+                    <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />
+                    <XAxis dataKey="week" stroke={chartColors.axis} style={{ fontSize: '12px' }} />
+                    <YAxis stroke={chartColors.axis} style={{ fontSize: '12px' }} />
+                    <Tooltip contentStyle={chartTooltipStyle} />
                     <Area
                       type="monotone"
                       dataKey="completed"
-                      stroke="#3B82F6"
+                      stroke={chartColors.secondary}
                       strokeWidth={2}
                       fill="url(#assessmentGradient)"
                     />
                   </AreaChart>
                 </ResponsiveContainer>
               </div>
-            </motion.div>
+            </Card>
 
             {/* Average Maturity Scores */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.7 }}
-              className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6"
-            >
-              <h2 className="text-xl font-bold text-white mb-6 font-gendy">Avg. Maturity Scores</h2>
+            <Card animate variant="glass" padding="lg">
+              <Heading as="h2" size="xl" className="mb-6">Avg. Maturity Scores</Heading>
               <div className="h-80">
                 <ResponsiveContainer width="100%" height="100%">
                   <RadarChart data={maturityScoresData}>
-                    <PolarGrid stroke="#374151" />
-                    <PolarAngleAxis dataKey="dimension" stroke="#9CA3AF" style={{ fontSize: '12px' }} />
-                    <PolarRadiusAxis angle={90} domain={[0, 100]} stroke="#9CA3AF" />
+                    <PolarGrid stroke={chartColors.grid} />
+                    <PolarAngleAxis dataKey="dimension" stroke={chartColors.axis} style={{ fontSize: '12px' }} />
+                    <PolarRadiusAxis angle={90} domain={[0, 100]} stroke={chartColors.axis} />
                     <Radar
                       name="Maturity Score"
                       dataKey="score"
-                      stroke="#8B5CF6"
-                      fill="#8B5CF6"
+                      stroke={chartColors.primary}
+                      fill={chartColors.primary}
                       fillOpacity={0.3}
                     />
-                    <Tooltip
-                      contentStyle={{
-                        backgroundColor: '#1F2937',
-                        border: '1px solid #374151',
-                        borderRadius: '8px',
-                      }}
-                    />
+                    <Tooltip contentStyle={chartTooltipStyle} />
                   </RadarChart>
                 </ResponsiveContainer>
               </div>
-            </motion.div>
+            </Card>
           </div>
 
           {/* Score Distribution */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.8 }}
-            className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6"
-          >
-            <h2 className="text-xl font-bold text-white mb-6 font-gendy">Score Distribution</h2>
+          <Card animate variant="glass" padding="lg">
+            <Heading as="h2" size="xl" className="mb-6">Score Distribution</Heading>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               {scoreDistributionData.map((level, index) => (
                 <div
                   key={index}
-                  className="p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-all"
+                  className="p-4 rounded-xl transition-all hg-bg-secondary"
                   style={{ borderLeft: `4px solid ${level.color}` }}
                 >
-                  <h3 className="text-sm text-gray-400 font-diatype mb-2">{level.level}</h3>
-                  <p className="text-3xl font-bold text-white font-gendy mb-2">{level.count}</p>
-                  <div className="w-full bg-gray-800 rounded-full h-2">
+                  <Text variant="muted" size="sm" className="mb-2">{level.level}</Text>
+                  <Heading as="h3" size="3xl" className="mb-2">{level.count}</Heading>
+                  <div className="w-full rounded-full h-2 hg-bg-primary">
                     <div
                       className="h-2 rounded-full"
                       style={{
@@ -1025,13 +893,13 @@ export default function AnalyticsPage() {
                       }}
                     />
                   </div>
-                  <p className="text-xs text-gray-500 font-diatype mt-2">
+                  <Text variant="muted" size="xs" className="mt-2">
                     {((level.count / 2847) * 100).toFixed(1)}% of users
-                  </p>
+                  </Text>
                 </div>
               ))}
             </div>
-          </motion.div>
+          </Card>
         </div>
       </div>
     </div>

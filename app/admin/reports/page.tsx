@@ -114,7 +114,7 @@ export default function ReportsAdmin() {
 
   if (!showContent) {
     return (
-      <div className="min-h-screen bg-black">
+      <div className="min-h-screen" style={{ backgroundColor: 'var(--hg-bg-primary)' }}>
         <DashboardSidebar onLogout={handleLogout} />
         <div className="lg:ml-[var(--sidebar-width,280px)] transition-all duration-300 flex items-center justify-center min-h-screen">
           <LoadingSpinner variant="neural" size="xl" text="Loading reports..." />
@@ -128,19 +128,19 @@ export default function ReportsAdmin() {
   }
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen" style={{ backgroundColor: 'var(--hg-bg-primary)' }}>
       <DashboardSidebar onLogout={handleLogout} />
 
       <div className="lg:ml-[var(--sidebar-width,280px)] transition-all duration-300 pb-20 lg:pb-0">
-        <div className="bg-black/50 backdrop-blur-xl border-b border-white/10 sticky top-0 z-30">
+        <div className="border-b sticky top-0 z-30" style={{ backgroundColor: 'var(--hg-bg-sidebar)', borderColor: 'var(--hg-border-color)' }}>
           <div className="px-8 py-6">
             <div className="flex items-center justify-between">
               <div>
-                <Link href="/admin" className="text-gray-400 hover:text-white transition-colors mb-2 inline-block">
+                <Link href="/admin" className="text-sm hover:underline mb-2 inline-block" style={{ color: 'var(--hg-text-muted)' }}>
                   <span className="font-diatype">← Back to Dashboard</span>
                 </Link>
-                <h1 className="text-3xl font-bold text-white mb-2 font-gendy">Reports & Analytics</h1>
-                <p className="text-gray-400 font-diatype">
+                <h1 className="text-3xl font-bold mb-2 font-gendy" style={{ color: 'var(--hg-text-primary)' }}>Reports & Analytics</h1>
+                <p className="font-diatype" style={{ color: 'var(--hg-text-muted)' }}>
                   Generate insights and export data reports
                 </p>
               </div>
@@ -151,10 +151,11 @@ export default function ReportsAdmin() {
         <div className="p-8">
           {/* Report Templates */}
           <div className="mb-8">
-            <h2 className="text-xl font-bold text-white mb-4 font-gendy">Report Templates</h2>
+            <h2 className="text-xl font-bold mb-4 font-gendy" style={{ color: 'var(--hg-text-primary)' }}>Report Templates</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {reportTemplates.map((report, index) => {
                 const Icon = report.icon
+                const isSelected = selectedReport === report.id
                 return (
                   <motion.div
                     key={report.id}
@@ -162,21 +163,23 @@ export default function ReportsAdmin() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
                     onClick={() => setSelectedReport(report.id)}
-                    className={`bg-white/5 backdrop-blur-xl border rounded-2xl p-6 cursor-pointer transition-all ${
-                      selectedReport === report.id
-                        ? `border-${report.color}-500/50 bg-${report.color}-500/10`
-                        : 'border-white/10 hover:border-cyan-500/30'
+                    className={`border rounded-2xl p-6 cursor-pointer transition-all hover:border-[var(--hg-cyan-border)] ${
+                      isSelected ? 'border-[var(--hg-cyan-border)]' : ''
                     }`}
+                    style={{
+                      backgroundColor: isSelected ? 'var(--hg-cyan-bg)' : 'var(--hg-bg-card)',
+                      borderColor: isSelected ? 'var(--hg-cyan-border)' : 'var(--hg-border-color)'
+                    }}
                   >
-                    <div className={`p-3 bg-${report.color}-500/20 rounded-xl inline-flex mb-4`}>
-                      <Icon className={`w-6 h-6 text-${report.color}-400`} />
+                    <div className="p-3 rounded-xl inline-flex mb-4" style={{ backgroundColor: 'var(--hg-cyan-bg)' }}>
+                      <Icon className="w-6 h-6" style={{ color: 'var(--hg-cyan-text)' }} />
                     </div>
-                    <h3 className="text-lg font-bold text-white mb-2 font-gendy">{report.name}</h3>
-                    <p className="text-sm text-gray-400 mb-4 font-diatype">{report.description}</p>
+                    <h3 className="text-lg font-bold mb-2 font-gendy" style={{ color: 'var(--hg-text-primary)' }}>{report.name}</h3>
+                    <p className="text-sm mb-4 font-diatype" style={{ color: 'var(--hg-text-muted)' }}>{report.description}</p>
                     <div className="space-y-1">
                       {report.metrics.map((metric) => (
-                        <div key={metric} className="flex items-center gap-2 text-xs text-gray-500">
-                          <div className={`w-1.5 h-1.5 rounded-full bg-${report.color}-400`} />
+                        <div key={metric} className="flex items-center gap-2 text-xs" style={{ color: 'var(--hg-text-muted)' }}>
+                          <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: 'var(--hg-cyan-text)' }} />
                           <span className="font-diatype">{metric}</span>
                         </div>
                       ))}
@@ -189,13 +192,13 @@ export default function ReportsAdmin() {
 
           {/* Report Configuration */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
-              <h2 className="text-xl font-bold text-white mb-6 font-gendy">Report Configuration</h2>
+            <div className="lg:col-span-2 border rounded-2xl p-6" style={{ backgroundColor: 'var(--hg-bg-card)', borderColor: 'var(--hg-border-color)' }}>
+              <h2 className="text-xl font-bold mb-6 font-gendy" style={{ color: 'var(--hg-text-primary)' }}>Report Configuration</h2>
 
               <div className="space-y-6">
                 {/* Date Range */}
                 <div>
-                  <label className="block text-sm font-semibold text-white mb-3 font-diatype">
+                  <label className="block text-sm font-semibold mb-3 font-diatype" style={{ color: 'var(--hg-text-primary)' }}>
                     Date Range
                   </label>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -203,11 +206,12 @@ export default function ReportsAdmin() {
                       <button
                         key={range}
                         onClick={() => setDateRange(range)}
-                        className={`px-4 py-3 rounded-xl transition-all font-diatype ${
-                          dateRange === range
-                            ? 'bg-cyan-500/20 border-2 border-cyan-500/50 text-cyan-300'
-                            : 'bg-white/5 border border-white/10 text-gray-400 hover:bg-white/10'
-                        }`}
+                        className="px-4 py-3 rounded-xl transition-all font-diatype border"
+                        style={{
+                          backgroundColor: dateRange === range ? 'var(--hg-cyan-bg)' : 'var(--hg-bg-secondary)',
+                          borderColor: dateRange === range ? 'var(--hg-cyan-border)' : 'var(--hg-border-color)',
+                          color: dateRange === range ? 'var(--hg-cyan-text)' : 'var(--hg-text-muted)'
+                        }}
                       >
                         {range === '7days'
                           ? 'Last 7 Days'
@@ -225,25 +229,37 @@ export default function ReportsAdmin() {
                 {dateRange === 'custom' && (
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-semibold text-white mb-2 font-diatype">
+                      <label className="block text-sm font-semibold mb-2 font-diatype" style={{ color: 'var(--hg-text-primary)' }}>
                         Start Date
                       </label>
                       <input
                         type="date"
                         value={customStartDate}
                         onChange={(e) => setCustomStartDate(e.target.value)}
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-diatype"
+                        className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all font-diatype"
+                        style={{
+                          backgroundColor: 'var(--hg-bg-secondary)',
+                          borderColor: 'var(--hg-border-color)',
+                          color: 'var(--hg-text-primary)',
+                          '--tw-ring-color': 'var(--hg-cyan-border)'
+                        } as React.CSSProperties}
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-white mb-2 font-diatype">
+                      <label className="block text-sm font-semibold mb-2 font-diatype" style={{ color: 'var(--hg-text-primary)' }}>
                         End Date
                       </label>
                       <input
                         type="date"
                         value={customEndDate}
                         onChange={(e) => setCustomEndDate(e.target.value)}
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-diatype"
+                        className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all font-diatype"
+                        style={{
+                          backgroundColor: 'var(--hg-bg-secondary)',
+                          borderColor: 'var(--hg-border-color)',
+                          color: 'var(--hg-text-primary)',
+                          '--tw-ring-color': 'var(--hg-cyan-border)'
+                        } as React.CSSProperties}
                       />
                     </div>
                   </div>
@@ -251,14 +267,19 @@ export default function ReportsAdmin() {
 
                 {/* Export Format */}
                 <div>
-                  <label className="block text-sm font-semibold text-white mb-3 font-diatype">
+                  <label className="block text-sm font-semibold mb-3 font-diatype" style={{ color: 'var(--hg-text-primary)' }}>
                     Export Format
                   </label>
                   <div className="grid grid-cols-3 gap-3">
                     {['CSV', 'PDF', 'Excel'].map((format) => (
                       <button
                         key={format}
-                        className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-gray-400 hover:bg-white/10 hover:text-white transition-all font-diatype"
+                        className="px-4 py-3 border rounded-xl hover:border-[var(--hg-cyan-border)] transition-all font-diatype"
+                        style={{
+                          backgroundColor: 'var(--hg-bg-secondary)',
+                          borderColor: 'var(--hg-border-color)',
+                          color: 'var(--hg-text-muted)'
+                        }}
                       >
                         {format}
                       </button>
@@ -274,6 +295,7 @@ export default function ReportsAdmin() {
                     onClick={handleGenerateReport}
                     disabled={!selectedReport}
                     className="flex-1 px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white rounded-xl transition-all font-semibold flex items-center justify-center gap-2 font-diatype disabled:opacity-50 disabled:cursor-not-allowed"
+                    style={{ boxShadow: '0 4px 14px rgba(97, 216, 254, 0.4)' }}
                   >
                     <Download className="w-5 h-5" />
                     Generate Report
@@ -283,31 +305,32 @@ export default function ReportsAdmin() {
             </div>
 
             {/* Scheduled Reports */}
-            <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
-              <h2 className="text-xl font-bold text-white mb-6 font-gendy">Scheduled Reports</h2>
+            <div className="border rounded-2xl p-6" style={{ backgroundColor: 'var(--hg-bg-card)', borderColor: 'var(--hg-border-color)' }}>
+              <h2 className="text-xl font-bold mb-6 font-gendy" style={{ color: 'var(--hg-text-primary)' }}>Scheduled Reports</h2>
               <div className="space-y-4">
-                <div className="bg-white/5 rounded-xl p-4">
+                <div className="rounded-xl p-4" style={{ backgroundColor: 'var(--hg-bg-secondary)' }}>
                   <div className="flex items-center gap-3 mb-2">
-                    <Mail className="w-5 h-5 text-blue-400" />
-                    <h3 className="text-white font-semibold font-diatype">Weekly Revenue</h3>
+                    <Mail className="w-5 h-5" style={{ color: 'var(--hg-cyan-text)' }} />
+                    <h3 className="font-semibold font-diatype" style={{ color: 'var(--hg-text-primary)' }}>Weekly Revenue</h3>
                   </div>
-                  <p className="text-sm text-gray-400 mb-2 font-diatype">Every Monday at 9:00 AM</p>
-                  <span className="text-xs text-green-400 font-diatype">Active</span>
+                  <p className="text-sm mb-2 font-diatype" style={{ color: 'var(--hg-text-muted)' }}>Every Monday at 9:00 AM</p>
+                  <span className="text-xs font-diatype text-emerald-400">Active</span>
                 </div>
 
-                <div className="bg-white/5 rounded-xl p-4">
+                <div className="rounded-xl p-4" style={{ backgroundColor: 'var(--hg-bg-secondary)' }}>
                   <div className="flex items-center gap-3 mb-2">
-                    <Mail className="w-5 h-5 text-cyan-400" />
-                    <h3 className="text-white font-semibold font-diatype">Monthly Summary</h3>
+                    <Mail className="w-5 h-5" style={{ color: 'var(--hg-cyan-text)' }} />
+                    <h3 className="font-semibold font-diatype" style={{ color: 'var(--hg-text-primary)' }}>Monthly Summary</h3>
                   </div>
-                  <p className="text-sm text-gray-400 mb-2 font-diatype">1st of each month</p>
-                  <span className="text-xs text-green-400 font-diatype">Active</span>
+                  <p className="text-sm mb-2 font-diatype" style={{ color: 'var(--hg-text-muted)' }}>1st of each month</p>
+                  <span className="text-xs font-diatype text-emerald-400">Active</span>
                 </div>
 
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full px-4 py-3 bg-blue-500/20 hover:bg-blue-500/30 border border-blue-500/30 text-blue-300 rounded-xl transition-all flex items-center justify-center gap-2 font-diatype"
+                  className="w-full px-4 py-3 rounded-xl transition-all flex items-center justify-center gap-2 font-diatype border"
+                  style={{ backgroundColor: 'var(--hg-cyan-bg)', borderColor: 'var(--hg-cyan-border)', color: 'var(--hg-cyan-text)' }}
                 >
                   <Clock className="w-5 h-5" />
                   Schedule New Report

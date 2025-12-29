@@ -1,7 +1,10 @@
 /**
  * HumanGlue Email Template System
  *
- * Brand Guidelines:
+ * WHITE-LABEL READY: All colors and branding can be overridden per organization.
+ * Use getOrgBrand(orgBranding) to get organization-specific brand values.
+ *
+ * Default Brand Guidelines:
  * - Primary Cyan: #61D8FE
  * - Secondary Cyan: #22D3EE
  * - Dark Background: #1D212A
@@ -13,19 +16,53 @@
  * Website: https://hmnglue.com
  */
 
-// Brand constants
+// Organization branding type (matches database schema)
+export interface OrgBranding {
+  colors?: {
+    primary?: string
+    secondary?: string
+    accent?: string
+  }
+  logo_url?: string
+  icon_url?: string
+  company_name?: string
+  tagline?: string
+  website_url?: string
+  support_email?: string
+}
+
+// Default brand constants
 export const BRAND = {
   colors: {
-    cyan: '#61D8FE',
-    purple: '#22D3EE', // Now cyan for backwards compatibility
+    // Primary brand colors
+    primary: '#61D8FE',    // Main brand color (cyan)
+    secondary: '#22D3EE',  // Secondary brand color
+    accent: '#8B5CF6',     // Accent color (purple)
+    cyan: '#61D8FE',       // Alias for backwards compatibility
+    purple: '#22D3EE',     // Now cyan for backwards compatibility
+
+    // Text colors
+    text: '#1F2937',       // Primary text
+    mutedText: '#6B7280',  // Muted text
+    secondaryText: '#9CA3AF', // Secondary/lighter text
+
+    // Background colors
     dark: '#1D212A',
     gray: '#4D4D4D',
     lightGray: '#6B7280',
     light: '#F2F2F2',
+    lightBg: '#F0F9FF',    // Light accent background
+    cardBg: '#F9FAFB',     // Card background
     white: '#FFFFFF',
+
+    // UI colors
     border: '#E5E7EB',
+
+    // Status colors
     success: '#10B981',
     warning: '#F59E0B',
+    error: '#EF4444',
+    info: '#3B82F6',
   },
   fonts: {
     primary: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
@@ -42,7 +79,37 @@ export const BRAND = {
     name: 'HumanGlue',
     tagline: 'AI-Powered Organizational Transformation',
     address: 'Miami, FL',
+    supportEmail: 'support@hmnglue.com',
   },
+}
+
+/**
+ * Get organization-specific brand values with fallbacks to default BRAND.
+ * Use this for white-label email customization.
+ */
+export function getOrgBrand(orgBranding?: OrgBranding | null) {
+  return {
+    colors: {
+      ...BRAND.colors,
+      primary: orgBranding?.colors?.primary || BRAND.colors.primary,
+      secondary: orgBranding?.colors?.secondary || BRAND.colors.secondary,
+      cyan: orgBranding?.colors?.primary || BRAND.colors.cyan,
+      purple: orgBranding?.colors?.secondary || BRAND.colors.purple,
+    },
+    fonts: BRAND.fonts,
+    urls: {
+      ...BRAND.urls,
+      logo: orgBranding?.logo_url || BRAND.urls.logo,
+      icon: orgBranding?.icon_url || BRAND.urls.icon,
+      website: orgBranding?.website_url || BRAND.urls.website,
+    },
+    company: {
+      ...BRAND.company,
+      name: orgBranding?.company_name || BRAND.company.name,
+      tagline: orgBranding?.tagline || BRAND.company.tagline,
+      supportEmail: orgBranding?.support_email || BRAND.company.supportEmail,
+    },
+  }
 }
 
 // Base wrapper for all emails

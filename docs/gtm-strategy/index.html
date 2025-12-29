@@ -1,0 +1,1649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HumanGlue GTM Strategy - Analog to Automated</title>
+    <meta name="description" content="Interactive Go-To-Market strategy for HumanGlue's AI Maturity Transformation Platform">
+    <link rel="icon" href="https://hmnglue.com/favcon_HG.png" type="image/png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --hg-cyan: #06B6D4;
+            --hg-blue: #3B82F6;
+            --hg-purple: #8B5CF6;
+            --hg-green: #10B981;
+            --hg-amber: #F59E0B;
+            --hg-red: #EF4444;
+            --hg-bg-primary: #0a0a0f;
+            --hg-bg-secondary: #12121a;
+            --hg-bg-sidebar: #0f0f16;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--hg-bg-primary);
+            color: #e5e7eb;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--hg-cyan), var(--hg-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .app-container {
+            display: grid;
+            grid-template-columns: 280px 1fr 360px;
+            grid-template-rows: 64px 1fr;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .header {
+            grid-column: 1 / -1;
+            background: var(--hg-bg-sidebar);
+            border-bottom: 1px solid rgba(6, 182, 212, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+        }
+
+        .sidebar {
+            background: var(--hg-bg-sidebar);
+            border-right: 1px solid rgba(6, 182, 212, 0.1);
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .main-content {
+            background: var(--hg-bg-primary);
+            overflow-y: auto;
+            padding: 32px;
+        }
+
+        .right-panel {
+            background: var(--hg-bg-sidebar);
+            border-left: 1px solid rgba(6, 182, 212, 0.1);
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .logo {
+            height: 40px;
+            width: auto;
+        }
+
+        .nav-section {
+            margin-bottom: 28px;
+        }
+
+        .nav-section-title {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #6b7280;
+            margin-bottom: 12px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 4px;
+            transition: all 0.2s;
+            color: #9ca3af;
+        }
+
+        .nav-item:hover {
+            background: rgba(6, 182, 212, 0.1);
+            color: var(--hg-cyan);
+        }
+
+        .nav-item.active {
+            background: rgba(6, 182, 212, 0.15);
+            color: var(--hg-cyan);
+            font-weight: 500;
+        }
+
+        .nav-item svg {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+        }
+
+        .card {
+            background: var(--hg-bg-secondary);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-cyan {
+            background: rgba(6, 182, 212, 0.15);
+            color: var(--hg-cyan);
+        }
+
+        .badge-green {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--hg-green);
+        }
+
+        .badge-amber {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--hg-amber);
+        }
+
+        .badge-red {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--hg-red);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--hg-cyan), var(--hg-blue));
+            transition: width 0.3s ease;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--hg-cyan), var(--hg-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #9ca3af;
+            margin-top: 4px;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 32px;
+            margin-bottom: 24px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 24px;
+            width: 2px;
+            height: calc(100% - 8px);
+            background: rgba(6, 182, 212, 0.2);
+        }
+
+        .timeline-item:last-child::before {
+            display: none;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 0;
+            top: 4px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--hg-cyan);
+            border: 3px solid var(--hg-bg-primary);
+        }
+
+        .timeline-content {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .timeline-title {
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .timeline-meta {
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 12px;
+        }
+
+        .checklist {
+            list-style: none;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            margin-right: 10px;
+            margin-top: 2px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--hg-cyan);
+        }
+
+        .checklist-item input[type="checkbox"]:checked + span {
+            text-decoration: line-through;
+            opacity: 0.5;
+        }
+
+        .metric-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            padding: 8px 12px;
+            color: #fff;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .metric-input:focus {
+            outline: none;
+            border-color: var(--hg-cyan);
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--hg-cyan), var(--hg-blue));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(6, 182, 212, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: #e5e7eb;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .stage-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .stage-card:hover {
+            border-color: var(--hg-cyan);
+            background: rgba(6, 182, 212, 0.05);
+        }
+
+        .stage-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .stage-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .stage-score {
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 8px;
+        }
+
+        .stage-solution {
+            font-size: 14px;
+            color: var(--hg-cyan);
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .stage-price {
+            font-size: 14px;
+            color: var(--hg-green);
+            font-weight: 600;
+        }
+
+        .tab-nav {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .tab-btn {
+            padding: 12px 20px;
+            background: none;
+            border: none;
+            color: #9ca3af;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-bottom: 2px solid transparent;
+            font-weight: 500;
+        }
+
+        .tab-btn:hover {
+            color: var(--hg-cyan);
+        }
+
+        .tab-btn.active {
+            color: var(--hg-cyan);
+            border-bottom-color: var(--hg-cyan);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(6, 182, 212, 0.3);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(6, 182, 212, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="flex items-center gap-4">
+                <img src="https://hmnglue.com/HumnaGlue_logo_hero.png" alt="HumanGlue" class="logo">
+                <h1 class="text-xl font-bold gradient-text">GTM Strategy</h1>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="badge badge-green" id="currentPhase">Phase 1: Foundation</span>
+                <button class="btn btn-secondary" onclick="exportPDF()">Export PDF</button>
+            </div>
+        </div>
+
+        <!-- Left Sidebar -->
+        <div class="sidebar">
+            <div class="nav-section">
+                <div class="nav-section-title">Strategy Overview</div>
+                <div class="nav-item active" onclick="showSection('overview')">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                    <span>Maturity Continuum</span>
+                </div>
+                <div class="nav-item" onclick="showSection('phases')">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    <span>90-Day Phases</span>
+                </div>
+                <div class="nav-item" onclick="showSection('revenue')">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span>Revenue Model</span>
+                </div>
+                <div class="nav-item" onclick="showSection('communication')">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+                    <span>Communication Scripts</span>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Execution</div>
+                <div class="nav-item" onclick="showSection('tracker')">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+                    <span>Week-by-Week Tracker</span>
+                </div>
+                <div class="nav-item" onclick="showSection('metrics')">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path></svg>
+                    <span>Key Metrics</span>
+                </div>
+                <div class="nav-item" onclick="showSection('decisions')">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span>Decision Points</span>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Quick Actions</div>
+                <button class="btn btn-primary w-full mb-2" onclick="showQuickStart()">
+                    🚀 Start Week 1
+                </button>
+                <button class="btn btn-secondary w-full" onclick="viewTemplates()">
+                    📧 View Email Templates
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content" id="mainContent">
+            <!-- Content will be dynamically loaded here -->
+        </div>
+
+        <!-- Right Panel -->
+        <div class="right-panel">
+            <div class="tab-nav">
+                <button class="tab-btn active" onclick="switchTab('progress')">Progress</button>
+                <button class="tab-btn" onclick="switchTab('notes')">Notes</button>
+            </div>
+
+            <!-- Progress Tab -->
+            <div class="tab-content active" id="progressTab">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Overall Progress</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="overallProgress" style="width: 0%"></div>
+                    </div>
+                    <div class="stat-grid">
+                        <div class="stat-card">
+                            <div class="stat-value" id="weekNumber">1</div>
+                            <div class="stat-label">Current Week</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="tasksCompleted">0</div>
+                            <div class="stat-label">Tasks Done</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">This Week's Goals</div>
+                    <ul class="checklist" id="weeklyGoals">
+                        <li class="checklist-item">
+                            <input type="checkbox" onchange="updateProgress()">
+                            <span>Define target customer</span>
+                        </li>
+                        <li class="checklist-item">
+                            <input type="checkbox" onchange="updateProgress()">
+                            <span>Interview 5 prospects</span>
+                        </li>
+                        <li class="checklist-item">
+                            <input type="checkbox" onchange="updateProgress()">
+                            <span>Create assessment tool</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Metrics Tracker</div>
+                    <div style="margin-top: 12px;">
+                        <label style="font-size: 12px; color: #9ca3af;">Assessments Completed</label>
+                        <input type="number" class="metric-input" placeholder="0" id="assessmentsInput">
+                    </div>
+                    <div style="margin-top: 12px;">
+                        <label style="font-size: 12px; color: #9ca3af;">Sales Calls</label>
+                        <input type="number" class="metric-input" placeholder="0" id="callsInput">
+                    </div>
+                    <div style="margin-top: 12px;">
+                        <label style="font-size: 12px; color: #9ca3af;">Revenue ($)</label>
+                        <input type="number" class="metric-input" placeholder="0" id="revenueInput">
+                    </div>
+                    <button class="btn btn-primary w-full mt-4" onclick="saveMetrics()">Save Metrics</button>
+                </div>
+            </div>
+
+            <!-- Notes Tab -->
+            <div class="tab-content" id="notesTab">
+                <div class="card">
+                    <div class="card-title">Quick Notes</div>
+                    <textarea
+                        class="metric-input"
+                        style="min-height: 150px; margin-top: 12px;"
+                        placeholder="Take notes on your progress, learnings, or next steps..."
+                        id="notesTextarea"
+                    ></textarea>
+                    <button class="btn btn-primary w-full mt-4" onclick="saveNotes()">Save Notes</button>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Saved Notes</div>
+                    <div id="savedNotes" style="margin-top: 12px; font-size: 14px; color: #9ca3af;">
+                        No notes saved yet...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadFromLocalStorage();
+            showSection('overview');
+        });
+
+        // Tab switching
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+            event.target.classList.add('active');
+            document.getElementById(tabName + 'Tab').classList.add('active');
+        }
+
+        // Section navigation
+        function showSection(section) {
+            // Update active nav item
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            event.target.closest('.nav-item').classList.add('active');
+
+            const mainContent = document.getElementById('mainContent');
+
+            switch(section) {
+                case 'overview':
+                    mainContent.innerHTML = getOverviewContent();
+                    break;
+                case 'phases':
+                    mainContent.innerHTML = getPhasesContent();
+                    break;
+                case 'revenue':
+                    mainContent.innerHTML = getRevenueContent();
+                    break;
+                case 'communication':
+                    mainContent.innerHTML = getCommunicationContent();
+                    break;
+                case 'tracker':
+                    mainContent.innerHTML = getTrackerContent();
+                    break;
+                case 'metrics':
+                    mainContent.innerHTML = getMetricsContent();
+                    break;
+                case 'decisions':
+                    mainContent.innerHTML = getDecisionsContent();
+                    break;
+            }
+        }
+
+        // Content generators
+        function getOverviewContent() {
+            return `
+                <h1 class="text-3xl font-bold mb-2 gradient-text">The Maturity Continuum</h1>
+                <p class="text-gray-400 mb-8">From Analog to Fully Automated: Your Go-To-Market Roadmap</p>
+
+                <div class="grid grid-cols-5 gap-4 mb-8">
+                    <div class="stage-card">
+                        <div class="stage-icon">🔴</div>
+                        <div class="stage-title">ANALOG</div>
+                        <div class="stage-score">Score 0-2</div>
+                        <div class="stage-solution">White-Glove Consulting</div>
+                        <div class="stage-price">$5K-$15K</div>
+                    </div>
+                    <div class="stage-card">
+                        <div class="stage-icon">🟡</div>
+                        <div class="stage-title">EXPLORING</div>
+                        <div class="stage-score">Score 3-4</div>
+                        <div class="stage-solution">Workshops + Experts</div>
+                        <div class="stage-price">$3K-$8K</div>
+                    </div>
+                    <div class="stage-card">
+                        <div class="stage-icon">🟠</div>
+                        <div class="stage-title">IMPLEMENTING</div>
+                        <div class="stage-score">Score 5-6</div>
+                        <div class="stage-solution">Courses + Templates</div>
+                        <div class="stage-price">$2K-$5K</div>
+                    </div>
+                    <div class="stage-card">
+                        <div class="stage-icon">🟢</div>
+                        <div class="stage-title">SCALING</div>
+                        <div class="stage-score">Score 7-8</div>
+                        <div class="stage-solution">Self-Service Platform</div>
+                        <div class="stage-price">$500-$2K/mo</div>
+                    </div>
+                    <div class="stage-card">
+                        <div class="stage-icon">🔵</div>
+                        <div class="stage-title">AUTOMATED</div>
+                        <div class="stage-score">Score 9-10</div>
+                        <div class="stage-solution">Enterprise + API</div>
+                        <div class="stage-price">$5K-$20K/mo</div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="card">
+                        <div class="card-title">Core Value Proposition</div>
+                        <p class="text-sm text-gray-400 mt-4 leading-relaxed">
+                            Most companies know they need AI, but they're stuck. We provide a clear roadmap from
+                            wherever you are to AI excellence through:
+                        </p>
+                        <ul class="mt-4 space-y-2 text-sm text-gray-300">
+                            <li>✅ <strong>Assessment:</strong> Understand current AI maturity (0-10 score)</li>
+                            <li>✅ <strong>Roadmap:</strong> Get personalized plan for next level</li>
+                            <li>✅ <strong>Implementation:</strong> Choose DIY, guided, or done-for-you</li>
+                            <li>✅ <strong>Results:</strong> Measurable improvement in 90 days</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title">Target Outcomes</div>
+                        <p class="text-sm text-gray-400 mt-4">
+                            Companies increase AI maturity by 2-3 levels in 90 days:
+                        </p>
+                        <div class="stat-grid mt-4">
+                            <div class="stat-card">
+                                <div class="stat-value">10-15</div>
+                                <div class="stat-label">Hours saved/week</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">30-40%</div>
+                                <div class="stat-label">Reduced waste</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">3x</div>
+                                <div class="stat-label">Faster launches</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">4x</div>
+                                <div class="stat-label">Average ROI</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getPhasesContent() {
+            return `
+                <h1 class="text-3xl font-bold mb-2 gradient-text">90-Day Execution Plan</h1>
+                <p class="text-gray-400 mb-8">Three phases to validated revenue</p>
+
+                <div class="grid grid-cols-3 gap-6 mb-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Phase 1: Foundation</div>
+                            <span class="badge badge-cyan">M1-M3</span>
+                        </div>
+                        <p class="text-sm text-amber-400 mb-4">Target: Analog & Exploring (0-4)</p>
+                        <ul class="text-sm text-gray-300 space-y-2">
+                            <li>✓ Launch free assessment</li>
+                            <li>✓ Expert-led workshops</li>
+                            <li>✓ Case studies & thought leadership</li>
+                            <li>✓ Partner with consultancies</li>
+                        </ul>
+                        <div class="mt-4 pt-4 border-t border-gray-700 text-sm text-green-400 font-semibold">
+                            Goal: 50 assessments • 10 engagements • $75K
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Phase 2: Scale</div>
+                            <span class="badge badge-cyan">M4-M8</span>
+                        </div>
+                        <p class="text-sm text-amber-400 mb-4">Target: Implementing (5-6)</p>
+                        <ul class="text-sm text-gray-300 space-y-2">
+                            <li>✓ Launch course library</li>
+                            <li>✓ Template marketplace</li>
+                            <li>✓ Monthly group workshops</li>
+                            <li>✓ Community forum</li>
+                        </ul>
+                        <div class="mt-4 pt-4 border-t border-gray-700 text-sm text-green-400 font-semibold">
+                            Goal: 200 enrollments • 30 workshops • $150K
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Phase 3: Automation</div>
+                            <span class="badge badge-cyan">M9-M12</span>
+                        </div>
+                        <p class="text-sm text-amber-400 mb-4">Target: Scaling & Automated (7-10)</p>
+                        <ul class="text-sm text-gray-300 space-y-2">
+                            <li>✓ SaaS platform launch</li>
+                            <li>✓ AI recommendation engine</li>
+                            <li>✓ No-code workflow builder</li>
+                            <li>✓ Enterprise API</li>
+                        </ul>
+                        <div class="mt-4 pt-4 border-t border-gray-700 text-sm text-green-400 font-semibold">
+                            Goal: 100 subscribers • 70% self-serve • $250K MRR
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title mb-4">Growth Levers</div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">📊 Viral Assessment</div>
+                                <p class="text-sm text-gray-400">Free AI Maturity Assessment → 1K leads/month by M6</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">🌐 Community Flywheel</div>
+                                <p class="text-sm text-gray-400">Clients become experts at Level 7+ → 200 active by Y2</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">🏢 Enterprise Expansion</div>
+                                <p class="text-sm text-gray-400">Land 1 team, expand org-wide → 3 deals ($100K+) by Y1</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">🔌 White-Label Partners</div>
+                                <p class="text-sm text-gray-400">Enable consultancies to rebrand → 10 partners by Y1</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getRevenueContent() {
+            return `
+                <h1 class="text-3xl font-bold mb-2 gradient-text">Revenue Model Evolution</h1>
+                <p class="text-gray-400 mb-8">From services-heavy to platform-led growth</p>
+
+                <div class="card">
+                    <div class="card-title mb-6">3-Year Revenue Progression</div>
+                    <div class="space-y-6">
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="font-semibold">Year 1: $450K</span>
+                                <span class="text-sm text-gray-400">70% Services → 30% Platform</span>
+                            </div>
+                            <div class="progress-bar" style="height: 24px;">
+                                <div class="progress-fill flex items-center justify-center text-sm font-semibold" style="width: 30%;">$450K</div>
+                            </div>
+                            <div class="text-sm text-gray-400 mt-2">Consulting: $200K • Workshops: $150K • Platform: $100K</div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="font-semibold">Year 2: $1.05M</span>
+                                <span class="text-sm text-gray-400">40% Services → 60% Platform</span>
+                            </div>
+                            <div class="progress-bar" style="height: 24px;">
+                                <div class="progress-fill flex items-center justify-center text-sm font-semibold" style="width: 70%;">$1.05M</div>
+                            </div>
+                            <div class="text-sm text-gray-400 mt-2">Consulting: $250K • Workshops: $200K • Platform: $600K</div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="font-semibold">Year 3: $1.95M</span>
+                                <span class="text-sm text-gray-400">20% Services → 80% Platform</span>
+                            </div>
+                            <div class="progress-bar" style="height: 24px;">
+                                <div class="progress-fill flex items-center justify-center text-sm font-semibold" style="width: 100%;">$1.95M</div>
+                            </div>
+                            <div class="text-sm text-gray-400 mt-2">Consulting: $300K • Workshops: $150K • Platform: $1.5M</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-6 mt-6">
+                    <div class="card">
+                        <div class="card-title mb-4">Pricing Strategy</div>
+                        <div class="space-y-4">
+                            <div class="p-3 bg-white/5 rounded-lg border border-white/5">
+                                <div class="flex justify-between items-start mb-2">
+                                    <div class="font-semibold text-cyan-400">Free Assessment</div>
+                                    <span class="badge badge-green">$0</span>
+                                </div>
+                                <p class="text-sm text-gray-400">10-min AI maturity score + benchmarks</p>
+                                <p class="text-xs text-gray-500 mt-1">Lead gen • 20% conversion to paid</p>
+                            </div>
+
+                            <div class="p-3 bg-white/5 rounded-lg border border-white/5">
+                                <div class="flex justify-between items-start mb-2">
+                                    <div class="font-semibold text-cyan-400">Strategy Workshop</div>
+                                    <span class="badge badge-green">$2.5-5K</span>
+                                </div>
+                                <p class="text-sm text-gray-400">3-hour workshop + 90-day roadmap</p>
+                                <p class="text-xs text-gray-500 mt-1">For Level 0-4 • 4x ROI</p>
+                            </div>
+
+                            <div class="p-3 bg-white/5 rounded-lg border border-white/5">
+                                <div class="flex justify-between items-start mb-2">
+                                    <div class="font-semibold text-cyan-400">Implementation Program</div>
+                                    <span class="badge badge-green">$10-15K</span>
+                                </div>
+                                <p class="text-sm text-gray-400">Workshop + 90 days coaching</p>
+                                <p class="text-xs text-gray-500 mt-1">For Level 3-6 • 4x ROI</p>
+                            </div>
+
+                            <div class="p-3 bg-white/5 rounded-lg border border-white/5">
+                                <div class="flex justify-between items-start mb-2">
+                                    <div class="font-semibold text-cyan-400">Online Course</div>
+                                    <span class="badge badge-green">$299-799</span>
+                                </div>
+                                <p class="text-sm text-gray-400">Self-paced + group Q&A</p>
+                                <p class="text-xs text-gray-500 mt-1">For Level 5-7 • 3.5-9x ROI</p>
+                            </div>
+
+                            <div class="p-3 bg-white/5 rounded-lg border border-white/5">
+                                <div class="flex justify-between items-start mb-2">
+                                    <div class="font-semibold text-cyan-400">Platform Subscription</div>
+                                    <span class="badge badge-green">$500-2K/mo</span>
+                                </div>
+                                <p class="text-sm text-gray-400">Full platform access</p>
+                                <p class="text-xs text-gray-500 mt-1">For Level 7-10 • 2.4x ROI</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title mb-4">ROI Calculator Example</div>
+                        <div class="space-y-4 text-sm">
+                            <div>
+                                <div class="text-gray-400 mb-2">CURRENT STATE (Without HumanGlue):</div>
+                                <div class="space-y-1 text-gray-300">
+                                    <div>AI Tool Spending: <span class="text-red-400 font-semibold">$3,000/month</span></div>
+                                    <div>Utilization Rate: <span class="text-amber-400">30%</span></div>
+                                    <div>Wasted Spend: <span class="text-red-400 font-semibold">$2,100/month</span></div>
+                                    <div class="pt-2 mt-2 border-t border-gray-700">
+                                        <strong class="text-red-400">Total Cost: $91,600/year</strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="text-gray-400 mb-2">FUTURE STATE (With HumanGlue):</div>
+                                <div class="space-y-1 text-gray-300">
+                                    <div>AI Tool Spending: <span class="text-green-400 font-semibold">$1,500/month</span></div>
+                                    <div>Utilization Rate: <span class="text-green-400">85%</span></div>
+                                    <div>Value Created: <span class="text-green-400 font-semibold">$2,000/week</span></div>
+                                    <div class="pt-2 mt-2 border-t border-gray-700">
+                                        <strong class="text-green-400">Total Savings: $43,500/year</strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="p-4 bg-green-500/10 border border-green-500/20 rounded-lg">
+                                <div class="font-semibold text-green-400 mb-1">Net ROI Year 1:</div>
+                                <div class="text-2xl font-bold text-green-400">$28,500</div>
+                                <div class="text-xs text-gray-400 mt-1">190% ROI • 4.1 month payback</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getCommunicationContent() {
+            return `
+                <h1 class="text-3xl font-bold mb-2 gradient-text">Communication Scripts</h1>
+                <p class="text-gray-400 mb-8">Copy-paste templates for every stage</p>
+
+                <div class="card">
+                    <div class="card-title mb-4">Email Templates</div>
+                    <div class="space-y-4">
+                        <div class="p-4 bg-white/5 rounded-lg border border-white/5">
+                            <div class="flex justify-between items-center mb-3">
+                                <div class="font-semibold">Cold Outreach</div>
+                                <button class="btn btn-secondary text-xs py-1 px-3" onclick="copyTemplate('coldEmail')">Copy</button>
+                            </div>
+                            <div class="text-sm text-gray-400 font-mono leading-relaxed p-3 bg-black/30 rounded" id="coldEmail">
+Subject: Quick question about [Company]'s AI strategy
+
+Hi [Name],
+
+I've been following [Company] and noticed [specific observation].
+
+Quick question: Have you assessed where your organization stands on AI readiness?
+
+I'm working with companies in [industry] to benchmark their AI maturity. Most are surprised to learn they're either further ahead (missing quick wins) or behind (at risk vs competitors).
+
+Would you be open to a free 10-minute AI Maturity Assessment? You'll get:
+- Your AI maturity score (0-10 scale)
+- Comparison to industry benchmarks
+- 3 specific next steps for your level
+
+No sales pitch - just useful insights. Game?
+
+[Your Name]
+[Calendar Link]
+
+P.S. This typically takes 10 minutes and most people find it eye-opening.
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-white/5 rounded-lg border border-white/5">
+                            <div class="flex justify-between items-center mb-3">
+                                <div class="font-semibold">Assessment Results Follow-Up</div>
+                                <button class="btn btn-secondary text-xs py-1 px-3" onclick="copyTemplate('resultsEmail')">Copy</button>
+                            </div>
+                            <div class="text-sm text-gray-400 font-mono leading-relaxed p-3 bg-black/30 rounded" id="resultsEmail">
+Subject: Your AI Maturity Results: [Score]/10 - [Company Name]
+
+Hi [Name],
+
+Thanks for taking the AI Maturity Assessment! Here are your results:
+
+🎯 Your Score: [X]/10
+
+What This Means:
+You're at the [STAGE] level.
+
+Companies at this level typically:
+- [Challenge 1 based on their score]
+- [Challenge 2 based on their score]
+- [Challenge 3 based on their score]
+
+Good News: [Specific strength based on answers]
+Opportunity: [Specific gap to close for next level]
+
+Your Personalized Next Steps:
+1. [Specific action 1]
+2. [Specific action 2]
+3. [Specific action 3]
+
+Want to discuss? I'd be happy to jump on a 15-minute call to:
+- Explain what companies at [X+1] level are doing differently
+- Share roadmap for getting from [X] to [X+2] in 90 days
+
+[Calendar Link]
+
+Best,
+[Your Name]
+
+P.S. Based on your score, I think [specific workshop/service] would be perfect.
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-white/5 rounded-lg border border-white/5">
+                            <div class="flex justify-between items-center mb-3">
+                                <div class="font-semibold">Workshop Invitation</div>
+                                <button class="btn btn-secondary text-xs py-1 px-3" onclick="copyTemplate('workshopEmail')">Copy</button>
+                            </div>
+                            <div class="text-sm text-gray-400 font-mono leading-relaxed p-3 bg-black/30 rounded" id="workshopEmail">
+Subject: [Free Workshop] AI Implementation Playbook for [Industry]
+
+Hi [Name],
+
+I'm hosting a free 90-minute workshop next [Date/Time]:
+
+"From Confusion to Clarity: The AI Implementation Playbook for [Industry]"
+
+What You'll Learn:
+✅ The 5-stage AI maturity model (where you are now)
+✅ Common mistakes at each stage (and how to avoid them)
+✅ 30-day quick wins you can implement immediately
+✅ How to calculate ROI on AI investments
+✅ Real case studies from [Industry] companies
+
+Who Should Attend:
+- CTOs/VPs tired of AI experiments that go nowhere
+- Teams that started with ChatGPT but don't know what's next
+- Leaders who need to prove ROI on AI initiatives
+
+Bonus: Attendees get a free personalized AI roadmap ($500 value)
+
+[Registration Link]
+
+Limited to 15 people for Q&A quality.
+
+See you there?
+[Your Name]
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-6 mt-6">
+                    <div class="card">
+                        <div class="card-title mb-4">Objection Handling</div>
+                        <div class="space-y-4 text-sm">
+                            <div class="p-3 bg-white/5 rounded-lg">
+                                <div class="font-semibold text-amber-400 mb-2">"We're already using ChatGPT"</div>
+                                <p class="text-gray-400 text-xs leading-relaxed">
+                                    "That's great! Quick question - are you tracking ROI? Most companies have teams using it with no consistency, governance, or measurement. We help take that experiment and turn it into strategy with standard procedures and actual ROI tracking."
+                                </p>
+                            </div>
+
+                            <div class="p-3 bg-white/5 rounded-lg">
+                                <div class="font-semibold text-amber-400 mb-2">"We don't have budget"</div>
+                                <p class="text-gray-400 text-xs leading-relaxed">
+                                    "I understand. Are you currently paying for AI tools? Most companies spend $2-3K/month on tools but get 20% value. Our workshop typically identifies $1-2K/month savings from consolidating. The $5K investment pays for itself in 3 months."
+                                </p>
+                            </div>
+
+                            <div class="p-3 bg-white/5 rounded-lg">
+                                <div class="font-semibold text-amber-400 mb-2">"Need to talk to team first"</div>
+                                <p class="text-gray-400 text-xs leading-relaxed">
+                                    "Absolutely. Let me send you a one-pager to share with your team outlining what we'd cover, time commitment, and ROI. Then we can do a 15-minute group call for questions. Also - want to take the free assessment first so you have specific data to share?"
+                                </p>
+                            </div>
+
+                            <div class="p-3 bg-white/5 rounded-lg">
+                                <div class="font-semibold text-amber-400 mb-2">"We tried AI training before"</div>
+                                <p class="text-gray-400 text-xs leading-relaxed">
+                                    "What didn't work? Most AI training fails because it's too generic, no implementation support, or one-size-fits-all. We start with YOUR use cases, industry-specific examples, and 30 days of support so you don't get stuck."
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title mb-4">Value Statements by Level</div>
+                        <div class="space-y-3 text-sm">
+                            <div class="p-3 bg-white/5 rounded-lg border-l-4 border-red-500">
+                                <div class="font-semibold mb-1">Level 0-2 (Analog)</div>
+                                <p class="text-gray-400 text-xs">
+                                    "Most companies at your stage waste $10-20K trying random AI tools. Our workshop identifies the exact 3 things you should do first. Previous clients avoided $50K in wasted experiments."
+                                </p>
+                            </div>
+
+                            <div class="p-3 bg-white/5 rounded-lg border-l-4 border-yellow-500">
+                                <div class="font-semibold mb-1">Level 3-4 (Exploring)</div>
+                                <p class="text-gray-400 text-xs">
+                                    "Companies at your level typically spend $3-5K/month on AI tools with <30% utilization. We help you consolidate, standardize, and measure - usually saving $2K/month while doubling results."
+                                </p>
+                            </div>
+
+                            <div class="p-3 bg-white/5 rounded-lg border-l-4 border-orange-500">
+                                <div class="font-semibold mb-1">Level 5-6 (Implementing)</div>
+                                <p class="text-gray-400 text-xs">
+                                    "You know what you need - you just need proven frameworks to do it faster. Our program gives you battle-tested templates and weekly expert guidance. Companies move 3x faster than going alone."
+                                </p>
+                            </div>
+
+                            <div class="p-3 bg-white/5 rounded-lg border-l-4 border-green-500">
+                                <div class="font-semibold mb-1">Level 7-8 (Scaling)</div>
+                                <p class="text-gray-400 text-xs">
+                                    "Our platform keeps you on the cutting edge with monthly workshops on emerging techniques, peer benchmarking, and priority access to new frameworks. Think of it as your AI innovation insurance."
+                                </p>
+                            </div>
+
+                            <div class="p-3 bg-white/5 rounded-lg border-l-4 border-blue-500">
+                                <div class="font-semibold mb-1">Level 9-10 (Automated)</div>
+                                <p class="text-gray-400 text-xs">
+                                    "At your level, you should be monetizing your AI expertise. We can white-label our platform so you can offer AI maturity assessments to your clients. Previous partners added $200K+ in annual revenue."
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getTrackerContent() {
+            return `
+                <h1 class="text-3xl font-bold mb-2 gradient-text">Week-by-Week Tracker</h1>
+                <p class="text-gray-400 mb-8">Check off tasks as you complete them</p>
+
+                <div class="card mb-6">
+                    <div class="card-title mb-4">Quick Start: Your First 7 Days</div>
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="p-4 bg-white/5 rounded-lg">
+                            <div class="font-semibold mb-3 text-cyan-400">Day 1 (Today!)</div>
+                            <ul class="checklist space-y-2">
+                                <li class="checklist-item">
+                                    <input type="checkbox" onchange="updateProgress()">
+                                    <span>List 10 target companies</span>
+                                </li>
+                                <li class="checklist-item">
+                                    <input type="checkbox" onchange="updateProgress()">
+                                    <span>Draft assessment email</span>
+                                </li>
+                                <li class="checklist-item">
+                                    <input type="checkbox" onchange="updateProgress()">
+                                    <span>Create Google Form</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="p-4 bg-white/5 rounded-lg">
+                            <div class="font-semibold mb-3 text-cyan-400">Day 2-3</div>
+                            <ul class="checklist space-y-2">
+                                <li class="checklist-item">
+                                    <input type="checkbox" onchange="updateProgress()">
+                                    <span>Send to 5 warm contacts</span>
+                                </li>
+                                <li class="checklist-item">
+                                    <input type="checkbox" onchange="updateProgress()">
+                                    <span>LinkedIn post on AI maturity</span>
+                                </li>
+                                <li class="checklist-item">
+                                    <input type="checkbox" onchange="updateProgress()">
+                                    <span>Build scoring rubric</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="p-4 bg-white/5 rounded-lg">
+                            <div class="font-semibold mb-3 text-cyan-400">Day 4-7</div>
+                            <ul class="checklist space-y-2">
+                                <li class="checklist-item">
+                                    <input type="checkbox" onchange="updateProgress()">
+                                    <span>Review responses</span>
+                                </li>
+                                <li class="checklist-item">
+                                    <input type="checkbox" onchange="updateProgress()">
+                                    <span>Send personalized results</span>
+                                </li>
+                                <li class="checklist-item">
+                                    <input type="checkbox" onchange="updateProgress()">
+                                    <span>Plan Week 2 outreach</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                ${[1,2,3,4,5,6,7,8,9,10,11,12].map(week => `
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">Week ${week}</div>
+                            <div class="timeline-meta">Month ${Math.ceil(week/4)} • Phase ${Math.ceil(week/4)}</div>
+                            <div class="text-sm text-gray-400 mb-3">${getWeekDescription(week)}</div>
+                            <ul class="checklist space-y-2">
+                                ${getWeekTasks(week).map(task => `
+                                    <li class="checklist-item">
+                                        <input type="checkbox" onchange="updateProgress()">
+                                        <span>${task}</span>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                `).join('')}
+            `;
+        }
+
+        function getMetricsContent() {
+            return `
+                <h1 class="text-3xl font-bold mb-2 gradient-text">Key Metrics Dashboard</h1>
+                <p class="text-gray-400 mb-8">Track your progress against goals</p>
+
+                <div class="grid grid-cols-4 gap-4 mb-6">
+                    <div class="card">
+                        <div class="text-sm text-gray-400 mb-2">Assessments</div>
+                        <div class="stat-value">0</div>
+                        <div class="stat-label">Goal: 50 by M3</div>
+                        <div class="progress-bar mt-3">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="text-sm text-gray-400 mb-2">Sales Calls</div>
+                        <div class="stat-value">0</div>
+                        <div class="stat-label">Goal: 20 by M3</div>
+                        <div class="progress-bar mt-3">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="text-sm text-gray-400 mb-2">Customers</div>
+                        <div class="stat-value">0</div>
+                        <div class="stat-label">Goal: 5 by M3</div>
+                        <div class="progress-bar mt-3">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="text-sm text-gray-400 mb-2">Revenue</div>
+                        <div class="stat-value">$0</div>
+                        <div class="stat-label">Goal: $15K by M3</div>
+                        <div class="progress-bar mt-3">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="card">
+                        <div class="card-title mb-4">Monthly Milestones</div>
+                        <div class="space-y-4">
+                            <div class="p-4 bg-white/5 rounded-lg">
+                                <div class="flex justify-between items-center mb-2">
+                                    <div class="font-semibold">Month 1</div>
+                                    <span class="badge badge-cyan">Current</span>
+                                </div>
+                                <div class="text-sm text-gray-400 space-y-1">
+                                    <div>• 15 assessments completed</div>
+                                    <div>• 5 sales conversations</div>
+                                    <div>• 1-2 warm leads</div>
+                                    <div class="text-green-400 font-semibold">Goal: $0-5K</div>
+                                </div>
+                            </div>
+
+                            <div class="p-4 bg-white/5 rounded-lg opacity-50">
+                                <div class="flex justify-between items-center mb-2">
+                                    <div class="font-semibold">Month 2</div>
+                                    <span class="badge badge-amber">Upcoming</span>
+                                </div>
+                                <div class="text-sm text-gray-400 space-y-1">
+                                    <div>• 2-3 paying customers</div>
+                                    <div>• 1 detailed case study</div>
+                                    <div>• Repeatable package</div>
+                                    <div class="text-green-400 font-semibold">Goal: $5-10K</div>
+                                </div>
+                            </div>
+
+                            <div class="p-4 bg-white/5 rounded-lg opacity-50">
+                                <div class="flex justify-between items-center mb-2">
+                                    <div class="font-semibold">Month 3</div>
+                                    <span class="badge badge-amber">Upcoming</span>
+                                </div>
+                                <div class="text-sm text-gray-400 space-y-1">
+                                    <div>• Self-serve course available</div>
+                                    <div>• 3-5 course sales</div>
+                                    <div>• Community of 10-15</div>
+                                    <div class="text-green-400 font-semibold">Goal: $15-25K total</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title mb-4">Year 1 Projections</div>
+                        <div class="space-y-4">
+                            <div class="p-4 bg-cyan-500/10 border border-cyan-500/20 rounded-lg">
+                                <div class="text-sm text-gray-400 mb-1">Q1 Target</div>
+                                <div class="text-3xl font-bold text-cyan-400">$15-25K</div>
+                                <div class="text-xs text-gray-500 mt-2">5-10 customers • 50+ assessments</div>
+                            </div>
+
+                            <div class="p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+                                <div class="text-sm text-gray-400 mb-1">Q2 Target</div>
+                                <div class="text-3xl font-bold text-blue-400">$50-75K</div>
+                                <div class="text-xs text-gray-500 mt-2">15-25 customers • Platform beta</div>
+                            </div>
+
+                            <div class="p-4 bg-purple-500/10 border border-purple-500/20 rounded-lg">
+                                <div class="text-sm text-gray-400 mb-1">Year End Target</div>
+                                <div class="text-3xl font-bold text-purple-400">$450K</div>
+                                <div class="text-xs text-gray-500 mt-2">70% services • 30% platform</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getDecisionsContent() {
+            return `
+                <h1 class="text-3xl font-bold mb-2 gradient-text">Decision Points</h1>
+                <p class="text-gray-400 mb-8">When to continue, adjust, or pivot</p>
+
+                <div class="card mb-6">
+                    <div class="card-title mb-4">After Month 1: Continue or Pivot?</div>
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="p-4 bg-green-500/10 border border-green-500/20 rounded-lg">
+                            <div class="font-semibold text-green-400 mb-3 flex items-center gap-2">
+                                <span>🟢</span> GREEN LIGHT
+                            </div>
+                            <div class="text-sm text-gray-300 space-y-2">
+                                <div>✓ 10+ assessments completed</div>
+                                <div>✓ 3+ sales conversations</div>
+                                <div>✓ 1+ person says "I'd pay"</div>
+                            </div>
+                            <div class="mt-4 pt-4 border-t border-green-500/20 text-sm font-semibold text-green-400">
+                                → Keep going! Scale up outreach.
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
+                            <div class="font-semibold text-yellow-400 mb-3 flex items-center gap-2">
+                                <span>🟡</span> YELLOW LIGHT
+                            </div>
+                            <div class="text-sm text-gray-300 space-y-2">
+                                <div>⚠ Less than 5 assessments</div>
+                                <div>⚠ No one willing to pay</div>
+                                <div>⚠ Low response rate</div>
+                            </div>
+                            <div class="mt-4 pt-4 border-t border-yellow-500/20 text-sm font-semibold text-yellow-400">
+                                → Adjust pricing, offer, or target market
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-red-500/10 border border-red-500/20 rounded-lg">
+                            <div class="font-semibold text-red-400 mb-3 flex items-center gap-2">
+                                <span>🔴</span> RED LIGHT
+                            </div>
+                            <div class="text-sm text-gray-300 space-y-2">
+                                <div>✗ Zero interest after 30 contacts</div>
+                                <div>✗ No one sees the value</div>
+                                <div>✗ Wrong market fit</div>
+                            </div>
+                            <div class="mt-4 pt-4 border-t border-red-500/20 text-sm font-semibold text-red-400">
+                                → Major pivot needed. Rethink approach.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title mb-4">After Quarter 1: Scale or Refine?</div>
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="p-4 bg-green-500/10 border border-green-500/20 rounded-lg">
+                            <div class="font-semibold text-green-400 mb-3">🟢 SCALE</div>
+                            <div class="text-sm text-gray-300 space-y-2 mb-4">
+                                <div>✓ $15K+ revenue</div>
+                                <div>✓ 5+ happy customers</div>
+                                <div>✓ Clear repeatability</div>
+                            </div>
+                            <div class="text-sm font-semibold text-green-400">
+                                → Double down! Hire help, run ads, build platform
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
+                            <div class="font-semibold text-yellow-400 mb-3">🟡 REFINE</div>
+                            <div class="text-sm text-gray-300 space-y-2 mb-4">
+                                <div>⚠ $5-15K revenue</div>
+                                <div>⚠ 2-4 customers</div>
+                                <div>⚠ Some inconsistency</div>
+                            </div>
+                            <div class="text-sm font-semibold text-yellow-400">
+                                → Focus on retention & referrals. Don't scale yet.
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-red-500/10 border border-red-500/20 rounded-lg">
+                            <div class="font-semibold text-red-400 mb-3">🔴 PIVOT</div>
+                            <div class="text-sm text-gray-300 space-y-2 mb-4">
+                                <div>✗ <$5K revenue</div>
+                                <div>✗ Customers not satisfied</div>
+                                <div>✗ No repeatable process</div>
+                            </div>
+                            <div class="text-sm font-semibold text-red-400">
+                                → Something fundamental isn't working. Back to discovery.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-6 mt-6">
+                    <div class="card">
+                        <div class="card-title mb-4">Weekly Checkpoints</div>
+                        <div class="space-y-3 text-sm">
+                            <div class="p-3 bg-white/5 rounded-lg">
+                                <div class="font-semibold mb-2">Every Monday Morning</div>
+                                <ul class="space-y-1 text-gray-400">
+                                    <li>• Review last week's numbers</li>
+                                    <li>• Set 3 goals for this week</li>
+                                    <li>• Plan outreach for the week</li>
+                                </ul>
+                            </div>
+
+                            <div class="p-3 bg-white/5 rounded-lg">
+                                <div class="font-semibold mb-2">Every Wednesday</div>
+                                <ul class="space-y-1 text-gray-400">
+                                    <li>• Check in on weekly goals</li>
+                                    <li>• Adjust if needed</li>
+                                    <li>• 30 mins social engagement</li>
+                                </ul>
+                            </div>
+
+                            <div class="p-3 bg-white/5 rounded-lg">
+                                <div class="font-semibold mb-2">Every Friday Afternoon</div>
+                                <ul class="space-y-1 text-gray-400">
+                                    <li>• Week review: What worked?</li>
+                                    <li>• Update metrics spreadsheet</li>
+                                    <li>• Plan next week</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title mb-4">Success Indicators</div>
+                        <div class="space-y-3 text-sm">
+                            <div class="p-3 bg-green-500/10 border-l-4 border-green-500 rounded">
+                                <div class="font-semibold text-green-400 mb-1">Leading Indicators (Early Signs)</div>
+                                <ul class="space-y-1 text-gray-400">
+                                    <li>• People responding to outreach</li>
+                                    <li>• Assessment completion rate >50%</li>
+                                    <li>• Call-to-meeting conversion >20%</li>
+                                    <li>• Positive feedback on value</li>
+                                </ul>
+                            </div>
+
+                            <div class="p-3 bg-cyan-500/10 border-l-4 border-cyan-500 rounded">
+                                <div class="font-semibold text-cyan-400 mb-1">Lagging Indicators (Results)</div>
+                                <ul class="space-y-1 text-gray-400">
+                                    <li>• Closed deals</li>
+                                    <li>• Testimonials received</li>
+                                    <li>• Referrals coming in</li>
+                                    <li>• Repeat business</li>
+                                </ul>
+                            </div>
+
+                            <div class="p-3 bg-purple-500/10 border-l-4 border-purple-500 rounded">
+                                <div class="font-semibold text-purple-400 mb-1">North Star Metric</div>
+                                <div class="text-lg font-bold text-purple-400 mt-2">
+                                    1 happy customer who refers 2 more
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Helper functions
+        function getWeekDescription(week) {
+            const descriptions = {
+                1: "Setup & Validation - Get organized and validate assumptions",
+                2: "MVP Assessment - Launch simplest possible assessment",
+                3: "Content & Outreach - Build credibility assets",
+                4: "First Sales - First conversations & potential customer",
+                5: "Close First Deal - Get someone to pay you",
+                6: "Deliver Amazing - Deliver amazing first experience",
+                7: "Create Proof - Create & share case study",
+                8: "Productize - Make service repeatable",
+                9: "Create Course - Turn workshop into content",
+                10: "Test Tiers - Test pricing tiers",
+                11: "Build Community - Build engagement beyond 1-time",
+                12: "Quarter Review - Assess Q1 & plan Q2"
+            };
+            return descriptions[week] || "";
+        }
+
+        function getWeekTasks(week) {
+            const tasks = {
+                1: ["Define exact target customer", "Interview 5 people in target market", "Set up tracking spreadsheet", "Create 10-slide pitch deck", "Pick 1 pain point to focus on"],
+                2: ["Create 10-15 assessment questions", "Set up Google Form/Typeform", "Create result template", "Test with 10 friends", "Fix confusing questions"],
+                3: ["Write '5 Stages of AI Maturity' post", "Create maturity model infographic", "Build list of 50 target contacts", "Send 10 personalized messages", "Post on LinkedIn + engage 5x"],
+                4: ["Send 15 more messages", "Book 5-7 discovery calls", "Create first service offering", "Set up payment link", "Month 1 review"],
+                5: ["Follow up all warm leads from M1", "Offer early bird pricing (20% off)", "Host free webinar", "Soft pitch at end", "Reach out to 10 new contacts"],
+                6: ["Conduct workshop/consulting", "Over-deliver with bonus", "Document what worked", "Ask for testimonial", "Request 2-3 referrals"],
+                7: ["Write case study (500 words)", "Get customer approval", "Post on LinkedIn + website", "Reach out to 25 new prospects", "Book 5-7 more calls"],
+                8: ["Create standard workshop template", "Build reusable slide deck", "Create workbook/templates", "Set standard pricing", "Month 2 review"],
+                9: ["Record workshop", "Break into 6-8 modules", "Create simple slides", "Set up Teachable/Gumroad", "Test user experience"],
+                10: ["DIY: Course only ($299)", "Guided: Course + calls ($799)", "Done-with-you: + consulting ($2,999)", "Email all assessment takers", "Launch discount"],
+                11: ["Create private Slack/Discord", "Host first 'office hours'", "Share templates & resources", "Post 3x/week on LinkedIn", "Start email newsletter"],
+                12: ["Review all Q1 metrics", "What's working? What's not?", "Document learnings", "Set realistic Q2 goals", "Celebrate wins! 🎉"]
+            };
+            return tasks[week] || [];
+        }
+
+        function updateProgress() {
+            const allCheckboxes = document.querySelectorAll('input[type="checkbox"]');
+            const checkedBoxes = document.querySelectorAll('input[type="checkbox"]:checked');
+            const percentage = (checkedBoxes.length / allCheckboxes.length) * 100;
+
+            document.getElementById('overallProgress').style.width = percentage + '%';
+            document.getElementById('tasksCompleted').textContent = checkedBoxes.length;
+
+            saveToLocalStorage();
+        }
+
+        function copyTemplate(templateId) {
+            const template = document.getElementById(templateId).textContent;
+            navigator.clipboard.writeText(template).then(() => {
+                alert('Template copied to clipboard!');
+            });
+        }
+
+        function showQuickStart() {
+            showSection({target: document.querySelector('[onclick*="tracker"]')});
+        }
+
+        function viewTemplates() {
+            showSection({target: document.querySelector('[onclick*="communication"]')});
+        }
+
+        function saveMetrics() {
+            const assessments = document.getElementById('assessmentsInput').value;
+            const calls = document.getElementById('callsInput').value;
+            const revenue = document.getElementById('revenueInput').value;
+
+            localStorage.setItem('metrics', JSON.stringify({
+                assessments, calls, revenue, date: new Date().toISOString()
+            }));
+
+            alert('Metrics saved!');
+        }
+
+        function saveNotes() {
+            const notes = document.getElementById('notesTextarea').value;
+            const savedNotes = JSON.parse(localStorage.getItem('notes') || '[]');
+            savedNotes.unshift({ text: notes, date: new Date().toISOString() });
+            localStorage.setItem('notes', JSON.stringify(savedNotes));
+
+            document.getElementById('notesTextarea').value = '';
+            loadNotes();
+        }
+
+        function loadNotes() {
+            const savedNotes = JSON.parse(localStorage.getItem('notes') || '[]');
+            const notesContainer = document.getElementById('savedNotes');
+
+            if (savedNotes.length === 0) {
+                notesContainer.innerHTML = '<div class="text-gray-500 text-sm">No notes saved yet...</div>';
+                return;
+            }
+
+            notesContainer.innerHTML = savedNotes.map(note => `
+                <div class="p-3 bg-white/5 rounded-lg mb-2">
+                    <div class="text-xs text-gray-500 mb-1">${new Date(note.date).toLocaleDateString()}</div>
+                    <div class="text-sm text-gray-300">${note.text}</div>
+                </div>
+            `).join('');
+        }
+
+        function saveToLocalStorage() {
+            const checkboxStates = [];
+            document.querySelectorAll('input[type="checkbox"]').forEach((cb, index) => {
+                checkboxStates.push({ index, checked: cb.checked });
+            });
+            localStorage.setItem('checkboxStates', JSON.stringify(checkboxStates));
+        }
+
+        function loadFromLocalStorage() {
+            const checkboxStates = JSON.parse(localStorage.getItem('checkboxStates') || '[]');
+            checkboxStates.forEach(state => {
+                const checkbox = document.querySelectorAll('input[type="checkbox"]')[state.index];
+                if (checkbox) checkbox.checked = state.checked;
+            });
+
+            const metrics = JSON.parse(localStorage.getItem('metrics') || '{}');
+            if (metrics.assessments) document.getElementById('assessmentsInput').value = metrics.assessments;
+            if (metrics.calls) document.getElementById('callsInput').value = metrics.calls;
+            if (metrics.revenue) document.getElementById('revenueInput').value = metrics.revenue;
+
+            loadNotes();
+            updateProgress();
+        }
+
+        function exportPDF() {
+            window.print();
+        }
+    </script>
+</body>
+</html>

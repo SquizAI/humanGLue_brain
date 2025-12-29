@@ -51,3 +51,10 @@ next-env.d.ts
 SECURITY_AUDIT_REPORT.md
 .env.local.bak
 *.zip
+
+# Services folder (contains secrets and node_modules)
+services/
+
+# MCP servers with potential secrets
+mcp-servers/
+mcp-code-executor/

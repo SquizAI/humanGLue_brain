@@ -4,8 +4,26 @@ import { motion, HTMLMotionProps } from 'framer-motion'
 import { forwardRef } from 'react'
 import { cn } from '../../utils/cn'
 
+/**
+ * Button Component
+ *
+ * WHITE-LABEL READY: All button variants use CSS variables that can be customized
+ * per-organization. The 'primary' variant uses --hg-cyan-text which maps to
+ * org-primary when organization branding is active.
+ *
+ * Variants:
+ * - primary: Main CTA button (uses brand primary color)
+ * - cyan: Solid cyan button
+ * - secondary: Glass effect secondary button
+ * - ghost: Transparent hover button
+ * - outline: Bordered button
+ * - danger: Destructive action button
+ * - success: Positive action button
+ * - info: Informational button
+ * - gradient: Purple to blue gradient
+ */
 export interface ButtonProps extends HTMLMotionProps<"button"> {
-  variant?: 'primary' | 'secondary' | 'ghost' | 'danger' | 'cyan' | 'outline'
+  variant?: 'primary' | 'secondary' | 'ghost' | 'danger' | 'cyan' | 'outline' | 'gradient' | 'success' | 'info'
   size?: 'xs' | 'sm' | 'md' | 'lg'
   isLoading?: boolean
   icon?: React.ReactNode
@@ -32,15 +50,13 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     fullWidth = false,
     ...props
   }, ref) => {
-    // Theme-aware button variants using CSS variables
+    // Theme-aware button variants using CSS variables for white-label support
     const variants = {
-      // Primary - uses cyan gradient (brand color)
+      // Primary - uses CSS variable-based gradient (brand color)
+      // WHITE-LABEL: Inherits from --hg-cyan-text which maps to org-primary
       primary: cn(
-        'bg-gradient-to-r from-cyan-500 to-cyan-600',
-        'text-white',
-        'hover:from-cyan-600 hover:to-cyan-700',
-        'hover:shadow-[0_0_20px_rgba(97,216,254,0.4)]',
-        'disabled:from-gray-500 disabled:to-gray-600'
+        'hg-btn-primary',
+        'disabled:opacity-50 disabled:bg-gray-500'
       ),
       // Cyan variant - solid cyan
       cyan: cn(
@@ -72,12 +88,27 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         'hg-border border',
         'hover:bg-[var(--hg-bg-hover)]'
       ),
-      // Danger - red gradient for destructive actions
+      // Danger - uses CSS variable-based gradient
       danger: cn(
-        'bg-gradient-to-r from-red-500 to-red-600',
+        'hg-btn-danger',
+        'disabled:opacity-50 disabled:bg-gray-500'
+      ),
+      // Success - uses CSS variable-based gradient
+      success: cn(
+        'hg-btn-success',
+        'disabled:opacity-50 disabled:bg-gray-500'
+      ),
+      // Info - uses CSS variable-based gradient
+      info: cn(
+        'hg-btn-info',
+        'disabled:opacity-50 disabled:bg-gray-500'
+      ),
+      // Gradient - purple to blue gradient (static, not white-label)
+      gradient: cn(
+        'bg-gradient-to-r from-purple-600 to-blue-600',
         'text-white',
-        'hover:from-red-600 hover:to-red-700',
-        'hover:shadow-[0_0_20px_rgba(239,68,68,0.4)]',
+        'hover:from-purple-700 hover:to-blue-700',
+        'hover:shadow-[0_0_20px_rgba(147,51,234,0.4)]',
         'disabled:from-gray-500 disabled:to-gray-600'
       )
     }

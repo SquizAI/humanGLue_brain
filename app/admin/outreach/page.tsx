@@ -493,8 +493,8 @@ const getTierColor = (tier?: NewsletterTier) => {
 const getStatusColor = (status: CommunicationStatus) => {
   switch (status) {
     case 'draft': return { bg: 'bg-gray-500/20', text: 'text-gray-400' }
-    case 'scheduled': return { bg: 'bg-blue-500/20', text: 'text-blue-400' }
-    case 'sent': return { bg: 'bg-green-500/20', text: 'text-green-400' }
+    case 'scheduled': return { bg: 'bg-blue-500/20', text: 'text-[var(--hg-cyan-text)]' }
+    case 'sent': return { bg: 'bg-green-500/20', text: 'text-[var(--hg-cyan-text)]' }
     case 'paused': return { bg: 'bg-amber-500/20', text: 'text-amber-400' }
   }
 }
@@ -596,12 +596,12 @@ function NewsletterHierarchyCard({ communication, level = 0, onSelect }: {
               <span className="flex items-center gap-1">
                 {communication.sentAt ? (
                   <>
-                    <CheckCircle className="w-3 h-3 text-green-400" />
+                    <CheckCircle className="w-3 h-3 text-[var(--hg-cyan-text)]" />
                     Sent {formatDate(communication.sentAt)}
                   </>
                 ) : communication.scheduledAt ? (
                   <>
-                    <Clock className="w-3 h-3 text-blue-400" />
+                    <Clock className="w-3 h-3 text-[var(--hg-cyan-text)]" />
                     Scheduled {formatDate(communication.scheduledAt)}
                   </>
                 ) : (
@@ -622,7 +622,7 @@ function NewsletterHierarchyCard({ communication, level = 0, onSelect }: {
                 <p className="text-xs text-gray-500">Open Rate</p>
               </div>
               <div className="text-center">
-                <p className="text-green-400 font-semibold">
+                <p className="text-[var(--hg-cyan-text)] font-semibold">
                   {communication.metrics.delivered > 0
                     ? Math.round((communication.metrics.clicked / communication.metrics.delivered) * 100)
                     : 0}%
@@ -783,7 +783,7 @@ function AgenticInsightsPanel() {
               >
                 <div className="flex items-start gap-3">
                   <div className={`p-1.5 rounded-lg ${
-                    insight.type === 'opportunity' ? 'bg-green-500/20 text-green-400' :
+                    insight.type === 'opportunity' ? 'bg-green-500/20 text-[var(--hg-cyan-text)]' :
                     insight.type === 'alert' ? 'bg-amber-500/20 text-amber-400' :
                     'bg-cyan-500/20 text-cyan-400'
                   }`}>
@@ -896,14 +896,14 @@ function QuickStats({ communications }: { communications: Communication[] }) {
           <MousePointerClick className="w-4 h-4" />
           <span className="text-xs">Avg Click Rate</span>
         </div>
-        <p className="text-2xl font-bold text-green-400">{stats.avgClickRate}%</p>
+        <p className="text-2xl font-bold text-[var(--hg-cyan-text)]">{stats.avgClickRate}%</p>
       </div>
       <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl p-4">
         <div className="flex items-center gap-2 text-gray-400 mb-2">
           <Clock className="w-4 h-4" />
           <span className="text-xs">Scheduled</span>
         </div>
-        <p className="text-2xl font-bold text-blue-400">{stats.scheduled}</p>
+        <p className="text-2xl font-bold text-[var(--hg-cyan-text)]">{stats.scheduled}</p>
       </div>
     </div>
   )
@@ -1043,11 +1043,11 @@ function CommunicationDetailSlideout({
             >
               <div className="flex items-center gap-3">
                 <div className="p-3 bg-blue-500/20 rounded-lg">
-                  <Timer className="w-6 h-6 text-blue-400" />
+                  <Timer className="w-6 h-6 text-[var(--hg-cyan-text)]" />
                 </div>
                 <div className="flex-1">
                   <p className="text-sm text-gray-400">Scheduled to send in</p>
-                  <p className="text-2xl font-bold text-blue-400 font-mono">{timeUntilSend}</p>
+                  <p className="text-2xl font-bold text-[var(--hg-cyan-text)] font-mono">{timeUntilSend}</p>
                   <p className="text-xs text-gray-500 mt-1">
                     {formatDate(communication.scheduledAt)}
                   </p>
@@ -1186,12 +1186,12 @@ function CommunicationDetailSlideout({
                   </p>
                 </div>
 
-                <div className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/30 rounded-lg p-4">
+                <div className="rounded-lg p-4 border" style={{ backgroundColor: 'var(--hg-cyan-bg)', borderColor: 'var(--hg-cyan-border)' }}>
                   <div className="flex items-center gap-2 mb-2">
-                    <MousePointerClick className="w-4 h-4 text-green-400" />
+                    <MousePointerClick className="w-4 h-4 text-[var(--hg-cyan-text)]" />
                     <span className="text-xs text-gray-400">Click Rate</span>
                   </div>
-                  <p className="text-2xl font-bold text-green-400">
+                  <p className="text-2xl font-bold text-[var(--hg-cyan-text)]">
                     {Math.round((communication.metrics.clicked / communication.metrics.delivered) * 100)}%
                   </p>
                   <p className="text-xs text-gray-500 mt-1">
@@ -1201,7 +1201,7 @@ function CommunicationDetailSlideout({
 
                 <div className="bg-white/5 border border-white/10 rounded-lg p-4">
                   <div className="flex items-center gap-2 mb-2">
-                    <Send className="w-4 h-4 text-blue-400" />
+                    <Send className="w-4 h-4 text-[var(--hg-cyan-text)]" />
                     <span className="text-xs text-gray-400">Delivery Rate</span>
                   </div>
                   <p className="text-2xl font-bold text-white">
@@ -1247,7 +1247,7 @@ function CommunicationDetailSlideout({
               {/* Click Heatmap Mock */}
               <div className="mt-4 p-4 bg-white/5 border border-white/10 rounded-lg">
                 <h4 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
-                  <MousePointerClick className="w-4 h-4 text-green-400" />
+                  <MousePointerClick className="w-4 h-4 text-[var(--hg-cyan-text)]" />
                   Click Heatmap
                 </h4>
                 <div className="space-y-2">
@@ -1258,11 +1258,11 @@ function CommunicationDetailSlideout({
                       <div key={i}>
                         <div className="flex items-center justify-between text-xs mb-1">
                           <span className="text-gray-400">{item}</span>
-                          <span className="text-green-400 font-semibold">{clicks} clicks</span>
+                          <span className="text-[var(--hg-cyan-text)] font-semibold">{clicks} clicks</span>
                         </div>
                         <div className="h-2 bg-white/5 rounded-full overflow-hidden">
                           <div
-                            className="h-full bg-gradient-to-r from-green-500 to-emerald-400 rounded-full transition-all"
+                            className="h-full bg-emerald-500 rounded-full transition-all"
                             style={{ width: `${percent}%` }}
                           />
                         </div>
@@ -1606,7 +1606,7 @@ export default function CommunicationsHubPage() {
                   onClick={() => setIsAutoPilot(!isAutoPilot)}
                   className={`px-3 py-1.5 rounded-lg text-sm font-medium flex items-center gap-1.5 transition-all ${
                     isAutoPilot
-                      ? 'bg-green-500/20 text-green-400 border border-green-500/30'
+                      ? 'bg-green-500/20 text-[var(--hg-cyan-text)] border border-green-500/30'
                       : 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 hover:bg-cyan-500/30'
                   }`}
                 >

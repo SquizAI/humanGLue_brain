@@ -1,0 +1,68 @@
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+
+# Testing
+coverage
+.nyc_output
+
+# Next.js
+.next
+out
+
+# Production
+build
+
+# Misc
+.DS_Store
+*.pem
+.env*
+!.env.example
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+
+# Git
+.git
+.gitignore
+
+# Documentation
+*.md
+docs/
+
+# Test files
+tests/
+__tests__/
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+
+# Config files not needed in container
+.eslintrc*
+.prettierrc*
+tsconfig.tsbuildinfo
+
+# Services (built separately)
+services/
+
+# K8s (not needed in app image)
+k8s/
+
+# MCP servers
+mcp-*/

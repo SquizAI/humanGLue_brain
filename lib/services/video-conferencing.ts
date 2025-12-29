@@ -71,7 +71,7 @@ class ZoomService {
 
   private async getAccessToken(): Promise<string> {
     if (this.accessToken && this.tokenExpiry && this.tokenExpiry > new Date()) {
-      return this.accessToken
+      return this.accessToken!
     }
 
     const credentials = Buffer.from(`${this.clientId}:${this.clientSecret}`).toString('base64')
@@ -96,7 +96,7 @@ class ZoomService {
     this.accessToken = data.access_token
     this.tokenExpiry = new Date(Date.now() + (data.expires_in - 60) * 1000)
 
-    return this.accessToken
+    return this.accessToken!!
   }
 
   async createMeeting(params: CreateMeetingParams): Promise<MeetingDetails> {
@@ -369,7 +369,7 @@ class MicrosoftTeamsService {
 
   private async getAccessToken(): Promise<string> {
     if (this.accessToken && this.tokenExpiry && this.tokenExpiry > new Date()) {
-      return this.accessToken
+      return this.accessToken!
     }
 
     const response = await fetch(`https://login.microsoftonline.com/${this.tenantId}/oauth2/v2.0/token`, {
@@ -393,7 +393,7 @@ class MicrosoftTeamsService {
     this.accessToken = data.access_token
     this.tokenExpiry = new Date(Date.now() + (data.expires_in - 60) * 1000)
 
-    return this.accessToken
+    return this.accessToken!
   }
 
   async createMeeting(params: CreateMeetingParams, userId: string): Promise<MeetingDetails> {

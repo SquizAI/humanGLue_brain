@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: humanglue
+
+resources:
+  - ../../base
+
+# Production-specific patches
+patchesStrategicMerge:
+  - discord-bot-patch.yaml
+  - web-patch.yaml
+
+# Image tags for production
+images:
+  - name: registry.digitalocean.com/humanglue/discord-bot
+    newTag: latest
+  - name: registry.digitalocean.com/humanglue/web
+    newTag: latest

@@ -39,42 +39,6 @@ COMMENT ON TABLE public.users IS 'Core user profiles extending Supabase Auth';
 COMMENT ON COLUMN public.users.metadata IS 'Flexible JSONB field for user preferences, settings, etc.';
 
 -- ============================================================
--- USER ROLES TABLE (RBAC)
--- ============================================================
-
-CREATE TABLE public.user_roles (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
-  role TEXT NOT NULL CHECK (role IN ('admin', 'instructor', 'expert', 'client', 'user')),
-
-  -- Optional organization context (for client role)
-  organization_id UUID REFERENCES public.organizations(id) ON DELETE CASCADE,
-
-  -- Role-specific metadata
-  metadata JSONB DEFAULT '{}'::jsonb,
-
-  -- Audit
-  granted_by UUID REFERENCES public.users(id),
-  granted_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-  expires_at TIMESTAMPTZ,
-
-  -- Timestamps
-  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-
-  -- Constraints
-  CONSTRAINT unique_user_role_org UNIQUE (user_id, role, organization_id)
-);
-
--- Add indexes
-CREATE INDEX idx_user_roles_user ON public.user_roles(user_id);
-CREATE INDEX idx_user_roles_role ON public.user_roles(role);
-CREATE INDEX idx_user_roles_org ON public.user_roles(organization_id) WHERE organization_id IS NOT NULL;
-CREATE INDEX idx_user_roles_expires ON public.user_roles(expires_at) WHERE expires_at IS NOT NULL;
-
-COMMENT ON TABLE public.user_roles IS 'Role-based access control for users';
-COMMENT ON CONSTRAINT unique_user_role_org ON public.user_roles IS 'Users can only have one instance of each role per organization';
-
--- ============================================================
 -- ORGANIZATIONS TABLE
 -- ============================================================
 
@@ -110,6 +74,42 @@ CREATE INDEX idx_orgs_status ON public.organizations(subscription_status);
 CREATE INDEX idx_orgs_primary_contact ON public.organizations(primary_contact_id);
 
 COMMENT ON TABLE public.organizations IS 'Client organizations using the platform';
+
+-- ============================================================
+-- USER ROLES TABLE (RBAC)
+-- ============================================================
+
+CREATE TABLE public.user_roles (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
+  role TEXT NOT NULL CHECK (role IN ('admin', 'instructor', 'expert', 'client', 'user')),
+
+  -- Optional organization context (for client role)
+  organization_id UUID REFERENCES public.organizations(id) ON DELETE CASCADE,
+
+  -- Role-specific metadata
+  metadata JSONB DEFAULT '{}'::jsonb,
+
+  -- Audit
+  granted_by UUID REFERENCES public.users(id),
+  granted_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  expires_at TIMESTAMPTZ,
+
+  -- Timestamps
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+
+  -- Constraints
+  CONSTRAINT unique_user_role_org UNIQUE (user_id, role, organization_id)
+);
+
+-- Add indexes
+CREATE INDEX idx_user_roles_user ON public.user_roles(user_id);
+CREATE INDEX idx_user_roles_role ON public.user_roles(role);
+CREATE INDEX idx_user_roles_org ON public.user_roles(organization_id) WHERE organization_id IS NOT NULL;
+CREATE INDEX idx_user_roles_expires ON public.user_roles(expires_at) WHERE expires_at IS NOT NULL;
+
+COMMENT ON TABLE public.user_roles IS 'Role-based access control for users';
+COMMENT ON CONSTRAINT unique_user_role_org ON public.user_roles IS 'Users can only have one instance of each role per organization';
 
 -- ============================================================
 -- TRIGGERS

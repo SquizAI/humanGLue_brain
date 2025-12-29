@@ -11,7 +11,6 @@ import {
   Trash2,
   Edit,
   Eye,
-  UserPlus,
   Download,
   Upload,
   Filter,
@@ -20,6 +19,9 @@ import {
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
 import { useChat } from '@/lib/contexts/ChatContext'
 import { LoadingSpinner } from '@/components/atoms/LoadingSpinner'
+import { Button } from '@/components/atoms/Button'
+import { Card } from '@/components/atoms/Card'
+import { Text, Heading } from '@/components/atoms/Text'
 import { signOut } from '@/lib/auth/hooks'
 
 interface NewsletterList {
@@ -108,7 +110,7 @@ export default function NewslettersPage() {
 
   if (!showContent) {
     return (
-      <div className="min-h-screen bg-black">
+      <div className="min-h-screen" style={{ backgroundColor: 'var(--hg-bg-primary)' }}>
         <DashboardSidebar onLogout={handleLogout} />
         <div className="lg:ml-[var(--sidebar-width,280px)] transition-all duration-300 flex items-center justify-center min-h-screen">
           <LoadingSpinner variant="neural" size="xl" text="Loading newsletters..." />
@@ -118,59 +120,43 @@ export default function NewslettersPage() {
   }
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen" style={{ backgroundColor: 'var(--hg-bg-primary)' }}>
       <DashboardSidebar onLogout={handleLogout} />
 
       <div className="lg:ml-[var(--sidebar-width,280px)] transition-all duration-300 pb-20 lg:pb-0">
         {/* Header */}
-        <div className="bg-black/50 backdrop-blur-xl border-b border-white/10 sticky top-0 z-30">
+        <div className="border-b sticky top-0 z-30 hg-bg-sidebar hg-border">
           <div className="px-8 py-6">
             <div className="flex items-center justify-between">
               <div>
-                <div className="flex items-center gap-3 mb-2">
-                  <h1 className="text-3xl font-bold text-white font-gendy">Newsletter Management</h1>
-                </div>
-                <p className="text-gray-400 font-diatype">Manage email lists and subscribers</p>
+                <Heading as="h1" size="3xl" className="mb-2">Newsletter Management</Heading>
+                <Text variant="muted">Manage email lists and subscribers</Text>
               </div>
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+              <Button
+                variant="primary"
                 onClick={() => setShowCreateModal(true)}
-                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg font-medium shadow-lg shadow-cyan-500/25"
+                icon={<Plus className="w-5 h-5" />}
               >
-                <Plus className="w-5 h-5" />
                 {activeTab === 'lists' ? 'Create List' : 'Add Subscriber'}
-              </motion.button>
+              </Button>
             </div>
 
             {/* Tabs */}
             <div className="flex gap-4 mt-6">
-              <button
+              <Button
+                variant={activeTab === 'lists' ? 'cyan' : 'ghost'}
                 onClick={() => setActiveTab('lists')}
-                className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                  activeTab === 'lists'
-                    ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30'
-                    : 'text-gray-400 hover:text-white hover:bg-white/5'
-                }`}
+                icon={<Mail className="w-4 h-4" />}
               >
-                <span className="flex items-center gap-2">
-                  <Mail className="w-4 h-4" />
-                  Email Lists
-                </span>
-              </button>
-              <button
+                Email Lists
+              </Button>
+              <Button
+                variant={activeTab === 'subscribers' ? 'cyan' : 'ghost'}
                 onClick={() => setActiveTab('subscribers')}
-                className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                  activeTab === 'subscribers'
-                    ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30'
-                    : 'text-gray-400 hover:text-white hover:bg-white/5'
-                }`}
+                icon={<Users className="w-4 h-4" />}
               >
-                <span className="flex items-center gap-2">
-                  <Users className="w-4 h-4" />
-                  Subscribers
-                </span>
-              </button>
+                Subscribers
+              </Button>
             </div>
           </div>
         </div>
@@ -180,28 +166,26 @@ export default function NewslettersPage() {
           {/* Search & Filters */}
           <div className="flex items-center gap-4 mb-6">
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 hg-text-muted" />
               <input
                 type="text"
                 placeholder={activeTab === 'lists' ? 'Search lists...' : 'Search subscribers...'}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+                className="w-full pl-10 pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all font-diatype hg-bg-secondary hg-border hg-text-primary"
+                style={{ '--tw-ring-color': 'var(--hg-cyan-border)' } as React.CSSProperties}
               />
             </div>
-            <button className="flex items-center gap-2 px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-gray-400 hover:text-white hover:bg-white/10 transition-all">
-              <Filter className="w-4 h-4" />
+            <Button variant="secondary" icon={<Filter className="w-4 h-4" />}>
               Filter
-            </button>
-            <button className="flex items-center gap-2 px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-gray-400 hover:text-white hover:bg-white/10 transition-all">
-              <Download className="w-4 h-4" />
+            </Button>
+            <Button variant="secondary" icon={<Download className="w-4 h-4" />}>
               Export
-            </button>
+            </Button>
             {activeTab === 'subscribers' && (
-              <button className="flex items-center gap-2 px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-gray-400 hover:text-white hover:bg-white/10 transition-all">
-                <Upload className="w-4 h-4" />
+              <Button variant="secondary" icon={<Upload className="w-4 h-4" />}>
                 Import
-              </button>
+              </Button>
             )}
           </div>
 
@@ -215,15 +199,12 @@ export default function NewslettersPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {lists.length === 0 ? (
                 <div className="col-span-full text-center py-20">
-                  <Mail className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-                  <h3 className="text-xl font-semibold text-white mb-2">No email lists yet</h3>
-                  <p className="text-gray-400 mb-6">Create your first email list to start collecting subscribers</p>
-                  <button
-                    onClick={() => setShowCreateModal(true)}
-                    className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg font-medium"
-                  >
+                  <Mail className="w-16 h-16 mx-auto mb-4 hg-text-muted" />
+                  <Heading as="h3" size="xl" className="mb-2">No email lists yet</Heading>
+                  <Text variant="muted" className="mb-6">Create your first email list to start collecting subscribers</Text>
+                  <Button variant="primary" size="lg" onClick={() => setShowCreateModal(true)}>
                     Create Your First List
-                  </button>
+                  </Button>
                 </div>
               ) : (
                 lists.map((list) => (
@@ -231,75 +212,78 @@ export default function NewslettersPage() {
                     key={list.id}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl p-6 hover:border-cyan-500/30 transition-all"
                   >
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="p-3 bg-cyan-500/20 rounded-xl">
-                        <Mail className="w-6 h-6 text-cyan-400" />
+                    <Card padding="lg" className="hover:border-[var(--hg-cyan-border)] transition-all h-full">
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="p-3 rounded-xl hg-cyan-bg">
+                          <Mail className="w-6 h-6 hg-cyan-text" />
+                        </div>
+                        <Button variant="ghost" size="sm" icon={<MoreVertical className="w-4 h-4" />} />
                       </div>
-                      <button className="p-2 hover:bg-white/10 rounded-lg transition-all">
-                        <MoreVertical className="w-4 h-4 text-gray-400" />
-                      </button>
-                    </div>
-                    <h3 className="text-lg font-semibold text-white mb-2">{list.name}</h3>
-                    <p className="text-sm text-gray-400 mb-4 line-clamp-2">{list.description}</p>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2 text-sm text-gray-500">
-                        <Users className="w-4 h-4" />
-                        {list.subscriber_count} subscribers
+                      <Heading as="h3" size="lg" className="mb-2">{list.name}</Heading>
+                      <Text variant="muted" size="sm" className="mb-4 line-clamp-2">{list.description}</Text>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <Users className="w-4 h-4 hg-text-muted" />
+                          <Text variant="muted" size="sm">{list.subscriber_count} subscribers</Text>
+                        </div>
+                        <span className={`px-2 py-1 text-xs rounded-full ${
+                          list.status === 'active'
+                            ? 'bg-emerald-500/20 text-emerald-400'
+                            : 'bg-gray-500/20 text-gray-400'
+                        }`}>
+                          {list.status}
+                        </span>
                       </div>
-                      <span className={`px-2 py-1 text-xs rounded-full ${
-                        list.status === 'active'
-                          ? 'bg-green-500/20 text-green-400'
-                          : 'bg-gray-500/20 text-gray-400'
-                      }`}>
-                        {list.status}
-                      </span>
-                    </div>
+                    </Card>
                   </motion.div>
                 ))
               )}
             </div>
           ) : (
             /* Subscribers View */
-            <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden">
+            <Card padding="none" className="overflow-hidden">
               <table className="w-full">
                 <thead>
-                  <tr className="border-b border-white/10">
-                    <th className="px-6 py-4 text-left text-sm font-medium text-gray-400">
-                      <button className="flex items-center gap-2 hover:text-white">
+                  <tr className="border-b hg-border">
+                    <th className="px-6 py-4 text-left text-sm font-medium font-diatype hg-text-muted">
+                      <button className="flex items-center gap-2 hover:hg-text-primary">
                         Email <ArrowUpDown className="w-3 h-3" />
                       </button>
                     </th>
-                    <th className="px-6 py-4 text-left text-sm font-medium text-gray-400">Name</th>
-                    <th className="px-6 py-4 text-left text-sm font-medium text-gray-400">Status</th>
-                    <th className="px-6 py-4 text-left text-sm font-medium text-gray-400">Lists</th>
-                    <th className="px-6 py-4 text-left text-sm font-medium text-gray-400">Subscribed</th>
-                    <th className="px-6 py-4 text-right text-sm font-medium text-gray-400">Actions</th>
+                    <th className="px-6 py-4 text-left text-sm font-medium font-diatype hg-text-muted">Name</th>
+                    <th className="px-6 py-4 text-left text-sm font-medium font-diatype hg-text-muted">Status</th>
+                    <th className="px-6 py-4 text-left text-sm font-medium font-diatype hg-text-muted">Lists</th>
+                    <th className="px-6 py-4 text-left text-sm font-medium font-diatype hg-text-muted">Subscribed</th>
+                    <th className="px-6 py-4 text-right text-sm font-medium font-diatype hg-text-muted">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {subscribers.length === 0 ? (
                     <tr>
                       <td colSpan={6} className="px-6 py-20 text-center">
-                        <Users className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-                        <h3 className="text-xl font-semibold text-white mb-2">No subscribers yet</h3>
-                        <p className="text-gray-400">Add your first subscriber or import a list</p>
+                        <Users className="w-16 h-16 mx-auto mb-4 hg-text-muted" />
+                        <Heading as="h3" size="xl" className="mb-2">No subscribers yet</Heading>
+                        <Text variant="muted">Add your first subscriber or import a list</Text>
                       </td>
                     </tr>
                   ) : (
                     subscribers.map((subscriber) => (
-                      <tr key={subscriber.id} className="border-b border-white/5 hover:bg-white/5">
-                        <td className="px-6 py-4 text-white">{subscriber.email}</td>
-                        <td className="px-6 py-4 text-gray-400">
-                          {subscriber.first_name || subscriber.last_name
-                            ? `${subscriber.first_name || ''} ${subscriber.last_name || ''}`.trim()
-                            : '-'}
+                      <tr key={subscriber.id} className="border-b hg-border hover:hg-bg-secondary">
+                        <td className="px-6 py-4">
+                          <Text>{subscriber.email}</Text>
+                        </td>
+                        <td className="px-6 py-4">
+                          <Text variant="muted">
+                            {subscriber.first_name || subscriber.last_name
+                              ? `${subscriber.first_name || ''} ${subscriber.last_name || ''}`.trim()
+                              : '-'}
+                          </Text>
                         </td>
                         <td className="px-6 py-4">
                           <span className={`px-2 py-1 text-xs rounded-full ${
                             subscriber.status === 'subscribed'
-                              ? 'bg-green-500/20 text-green-400'
+                              ? 'bg-emerald-500/20 text-emerald-400'
                               : subscriber.status === 'unsubscribed'
                               ? 'bg-yellow-500/20 text-yellow-400'
                               : 'bg-red-500/20 text-red-400'
@@ -307,21 +291,17 @@ export default function NewslettersPage() {
                             {subscriber.status}
                           </span>
                         </td>
-                        <td className="px-6 py-4 text-gray-400">{subscriber.lists.length} lists</td>
-                        <td className="px-6 py-4 text-gray-500 text-sm">
-                          {new Date(subscriber.subscribed_at).toLocaleDateString()}
+                        <td className="px-6 py-4">
+                          <Text variant="muted">{subscriber.lists.length} lists</Text>
+                        </td>
+                        <td className="px-6 py-4">
+                          <Text variant="muted" size="sm">{new Date(subscriber.subscribed_at).toLocaleDateString()}</Text>
                         </td>
                         <td className="px-6 py-4 text-right">
                           <div className="flex items-center justify-end gap-2">
-                            <button className="p-2 hover:bg-white/10 rounded-lg transition-all">
-                              <Eye className="w-4 h-4 text-gray-400" />
-                            </button>
-                            <button className="p-2 hover:bg-white/10 rounded-lg transition-all">
-                              <Edit className="w-4 h-4 text-gray-400" />
-                            </button>
-                            <button className="p-2 hover:bg-red-500/20 rounded-lg transition-all">
-                              <Trash2 className="w-4 h-4 text-gray-400 hover:text-red-400" />
-                            </button>
+                            <Button variant="ghost" size="sm" icon={<Eye className="w-4 h-4" />} />
+                            <Button variant="ghost" size="sm" icon={<Edit className="w-4 h-4" />} />
+                            <Button variant="ghost" size="sm" icon={<Trash2 className="w-4 h-4" />} className="hover:text-red-400" />
                           </div>
                         </td>
                       </tr>
@@ -329,7 +309,7 @@ export default function NewslettersPage() {
                   )}
                 </tbody>
               </table>
-            </div>
+            </Card>
           )}
         </div>
       </div>

@@ -6,8 +6,10 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { LogIn, Mail, Lock, ArrowRight, Sparkles, TrendingUp, Users, Zap } from 'lucide-react'
 import Image from 'next/image'
+import { useBranding } from '@/lib/contexts/BrandingContext'
 
 export default function LoginPage() {
+  const { branding } = useBranding()
   const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -144,8 +146,8 @@ export default function LoginPage() {
           {/* Logo */}
           <Link href="/" className="mb-12 inline-block">
             <Image
-              src="/HumnaGlue_logo_white_blue.png"
-              alt="HumanGlue"
+              src={branding?.logo?.url || '/HumnaGlue_logo_white_blue.png'}
+              alt={branding?.company_name || 'HumanGlue'}
               width={200}
               height={50}
               className="h-10 w-auto"
@@ -243,8 +245,8 @@ export default function LoginPage() {
           {/* Mobile Logo */}
           <Link href="/" className="lg:hidden mb-8 inline-block">
             <Image
-              src="/HumnaGlue_logo_white_blue.png"
-              alt="HumanGlue"
+              src={branding?.logo?.url || '/HumnaGlue_logo_white_blue.png'}
+              alt={branding?.company_name || 'HumanGlue'}
               width={180}
               height={50}
               className="h-10 w-auto"
@@ -375,7 +377,7 @@ export default function LoginPage() {
               onClick={() => handleDemoLogin('admin')}
               className="w-full py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-white font-medium transition-all font-diatype text-sm"
             >
-              Try Admin Demo (HumanGlue Platform Admin)
+              Try Admin Demo ({branding?.company_name || 'HumanGlue'} Platform Admin)
             </button>
             <button
               onClick={() => handleDemoLogin('super_admin_full')}

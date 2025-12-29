@@ -13,6 +13,7 @@ export interface IconButtonProps extends Omit<ButtonProps, 'children' | 'icon'> 
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
   ({ icon, label, className, size = 'md', ...props }, ref) => {
     const iconSizes = {
+      xs: 'xs' as const,
       sm: 'xs' as const,
       md: 'sm' as const,
       lg: 'md' as const

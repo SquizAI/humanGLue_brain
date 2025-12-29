@@ -3,7 +3,9 @@
 import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { Button } from '@/components/atoms/Button'
+import { Card } from '@/components/atoms/Card'
+import { Text, Heading } from '@/components/atoms/Text'
 import {
   Upload,
   Search,
@@ -163,7 +165,6 @@ interface UploadFile {
 }
 
 export default function ContentLibrary() {
-  const router = useRouter()
   const { userData, authLoading } = useChat()
   const [showContent, setShowContent] = useState(false)
   const [content, setContent] = useState(initialContent)
@@ -440,7 +441,7 @@ export default function ContentLibrary() {
 
   if (!showContent) {
     return (
-      <div className="min-h-screen bg-black">
+      <div className="min-h-screen" style={{ backgroundColor: 'var(--hg-bg-primary)' }}>
         <DashboardSidebar onLogout={handleLogout} />
         <div className="lg:ml-[var(--sidebar-width,280px)] transition-all duration-300 flex items-center justify-center min-h-screen">
           <LoadingSpinner variant="neural" size="xl" text="Loading content..." />
@@ -450,52 +451,45 @@ export default function ContentLibrary() {
   }
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen" style={{ backgroundColor: 'var(--hg-bg-primary)' }}>
       <DashboardSidebar onLogout={handleLogout} />
 
       <div className="lg:ml-[var(--sidebar-width,280px)] transition-all duration-300 pb-20 lg:pb-0">
         {/* Header */}
-        <div className="bg-black/50 backdrop-blur-xl border-b border-white/10 sticky top-0 z-30">
+        <div className="border-b sticky top-0 z-30 hg-bg-sidebar hg-border">
           <div className="px-8 py-6">
             <div className="flex items-center justify-between">
               <div>
-                <div className="flex items-center gap-3 mb-2">
-                  <Link href="/admin" className="text-gray-400 hover:text-white transition-colors">
-                    <span className="font-diatype">← Back to Dashboard</span>
-                  </Link>
-                </div>
-                <h1 className="text-3xl font-bold text-white mb-2 font-gendy">Content Library</h1>
-                <p className="text-gray-400 font-diatype">
+                <Link href="/admin">
+                  <Text variant="muted" size="sm" className="hover:underline mb-2 inline-block">← Back to Dashboard</Text>
+                </Link>
+                <Heading as="h1" size="3xl" className="mb-2">Content Library</Heading>
+                <Text variant="muted">
                   Manage your platform resources ({filteredContent.length} items)
-                </p>
+                </Text>
               </div>
-              <motion.button
-                onClick={handleOpenUploadModal}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center gap-2 font-diatype"
-              >
-                <Upload className="w-5 h-5" />
+              <Button variant="primary" size="lg" onClick={handleOpenUploadModal} icon={<Upload className="w-5 h-5" />}>
                 Upload Content
-              </motion.button>
+              </Button>
             </div>
           </div>
         </div>
 
         {/* Filters & Search */}
         <div className="p-8">
-          <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 mb-6">
+          <Card padding="lg" className="mb-6">
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
               {/* Search */}
               <div className="lg:col-span-2">
                 <div className="relative">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 hg-text-muted" />
                   <input
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search content..."
-                    className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
+                    className="w-full pl-12 pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all hg-bg-secondary hg-border hg-text-primary"
+                    style={{ '--tw-ring-color': 'var(--hg-cyan-border)' } as React.CSSProperties}
                   />
                 </div>
               </div>
@@ -504,7 +498,8 @@ export default function ContentLibrary() {
               <select
                 value={selectedType}
                 onChange={(e) => setSelectedType(e.target.value)}
-                className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
+                className="px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all hg-bg-secondary hg-border hg-text-primary"
+                style={{ '--tw-ring-color': 'var(--hg-cyan-border)' } as React.CSSProperties}
               >
                 <option value="all">All Types</option>
                 <option value="video">Videos</option>
@@ -517,7 +512,8 @@ export default function ContentLibrary() {
               <select
                 value={selectedAccessLevel}
                 onChange={(e) => setSelectedAccessLevel(e.target.value)}
-                className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
+                className="px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all hg-bg-secondary hg-border hg-text-primary"
+                style={{ '--tw-ring-color': 'var(--hg-cyan-border)' } as React.CSSProperties}
               >
                 <option value="all">All Access Levels</option>
                 {accessLevels.map((level) => (
@@ -530,30 +526,26 @@ export default function ContentLibrary() {
 
             {/* Sort */}
             <div className="flex items-center gap-3 mt-4">
-              <span className="text-sm text-gray-400 font-diatype">Sort by:</span>
+              <Text variant="muted" size="sm">Sort by:</Text>
               <div className="flex gap-2">
                 {(['date', 'name', 'downloads'] as const).map((sort) => (
-                  <button
+                  <Button
                     key={sort}
+                    variant={sortBy === sort ? 'cyan' : 'ghost'}
+                    size="sm"
                     onClick={() => setSortBy(sort)}
-                    className={`px-3 py-1.5 rounded-lg text-sm font-diatype transition-all ${
-                      sortBy === sort
-                        ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'
-                        : 'bg-white/5 text-gray-400 hover:text-white hover:bg-white/10'
-                    }`}
                   >
                     {sort.charAt(0).toUpperCase() + sort.slice(1)}
-                  </button>
+                  </Button>
                 ))}
               </div>
             </div>
-          </div>
+          </Card>
 
           {/* Content Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {filteredContent.map((item, index) => {
               const FileIcon = getFileIcon(item.fileType)
-              const fileColor = getFileColor(item.fileType)
 
               return (
                 <motion.div
@@ -561,17 +553,18 @@ export default function ContentLibrary() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.03 }}
-                  className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:border-cyan-500/30 transition-all group"
+                  className="border rounded-2xl overflow-hidden hover:border-[var(--hg-cyan-border)] transition-all group"
+                  style={{ backgroundColor: 'var(--hg-bg-card)', borderColor: 'var(--hg-border-color)' }}
                 >
                   {/* File Icon */}
-                  <div className={`relative h-32 bg-gradient-to-br from-${fileColor}-900/30 to-${fileColor}-900/10 flex items-center justify-center`}>
-                    <div className={`p-4 bg-${fileColor}-500/20 rounded-2xl`}>
-                      <FileIcon className={`w-12 h-12 text-${fileColor}-400`} />
+                  <div className="relative h-32 flex items-center justify-center" style={{ backgroundColor: 'var(--hg-bg-secondary)' }}>
+                    <div className="p-4 rounded-2xl" style={{ backgroundColor: 'var(--hg-cyan-bg)' }}>
+                      <FileIcon className="w-12 h-12" style={{ color: 'var(--hg-cyan-text)' }} />
                     </div>
 
                     {/* Access Level Badge */}
                     <div className="absolute top-3 right-3">
-                      <div className="px-2 py-1 rounded-lg text-xs font-semibold backdrop-blur-sm bg-white/10 text-white border border-white/20">
+                      <div className="px-2 py-1 rounded-lg text-xs font-semibold border" style={{ backgroundColor: 'var(--hg-bg-secondary)', borderColor: 'var(--hg-border-color)', color: 'var(--hg-text-secondary)' }}>
                         {item.accessLevel}
                       </div>
                     </div>
@@ -579,15 +572,15 @@ export default function ContentLibrary() {
 
                   {/* Content Info */}
                   <div className="p-4">
-                    <h3 className="text-base font-bold text-white mb-1 font-gendy line-clamp-2">
+                    <h3 className="text-base font-bold mb-1 font-gendy line-clamp-2" style={{ color: 'var(--hg-text-primary)' }}>
                       {item.title}
                     </h3>
-                    <p className="text-xs text-gray-400 mb-3 font-diatype line-clamp-2">
+                    <p className="text-xs mb-3 font-diatype line-clamp-2" style={{ color: 'var(--hg-text-muted)' }}>
                       {item.description}
                     </p>
 
                     {/* File Details */}
-                    <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
+                    <div className="flex items-center justify-between text-xs mb-3" style={{ color: 'var(--hg-text-muted)' }}>
                       <span className="font-diatype">{item.fileSize}</span>
                       <span className="font-diatype">{fileTypeConfig[item.fileType as keyof typeof fileTypeConfig]?.label}</span>
                     </div>
@@ -598,13 +591,14 @@ export default function ContentLibrary() {
                         {item.categories.slice(0, 2).map((category) => (
                           <span
                             key={category}
-                            className="px-2 py-0.5 bg-white/5 rounded text-xs text-gray-400 font-diatype"
+                            className="px-2 py-0.5 rounded text-xs font-diatype"
+                            style={{ backgroundColor: 'var(--hg-bg-secondary)', color: 'var(--hg-text-muted)' }}
                           >
                             {category}
                           </span>
                         ))}
                         {item.categories.length > 2 && (
-                          <span className="px-2 py-0.5 bg-white/5 rounded text-xs text-gray-400 font-diatype">
+                          <span className="px-2 py-0.5 rounded text-xs font-diatype" style={{ backgroundColor: 'var(--hg-bg-secondary)', color: 'var(--hg-text-muted)' }}>
                             +{item.categories.length - 2}
                           </span>
                         )}
@@ -612,7 +606,7 @@ export default function ContentLibrary() {
                     )}
 
                     {/* Stats */}
-                    <div className="flex items-center gap-4 text-xs text-gray-500 mb-3">
+                    <div className="flex items-center gap-4 text-xs mb-3" style={{ color: 'var(--hg-text-muted)' }}>
                       <div className="flex items-center gap-1">
                         <Download className="w-3 h-3" />
                         <span className="font-diatype">{item.downloads.toLocaleString()}</span>
@@ -628,7 +622,8 @@ export default function ContentLibrary() {
                       <motion.button
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        className="flex-1 px-3 py-2 bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-cyan-300 rounded-lg transition-all flex items-center justify-center gap-1.5 text-xs font-diatype"
+                        className="flex-1 px-3 py-2 rounded-lg transition-all flex items-center justify-center gap-1.5 text-xs font-diatype border"
+                        style={{ backgroundColor: 'var(--hg-cyan-bg)', borderColor: 'var(--hg-cyan-border)', color: 'var(--hg-cyan-text)' }}
                       >
                         <Eye className="w-3.5 h-3.5" />
                         View
@@ -636,14 +631,16 @@ export default function ContentLibrary() {
                       <motion.button
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        className="px-3 py-2 bg-blue-500/20 hover:bg-blue-500/30 border border-blue-500/30 text-blue-300 rounded-lg transition-all"
+                        className="px-3 py-2 rounded-lg transition-all border"
+                        style={{ backgroundColor: 'var(--hg-bg-secondary)', borderColor: 'var(--hg-border-color)', color: 'var(--hg-cyan-text)' }}
                       >
                         <Download className="w-3.5 h-3.5" />
                       </motion.button>
                       <motion.button
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        className="px-3 py-2 bg-green-500/20 hover:bg-green-500/30 border border-green-500/30 text-green-300 rounded-lg transition-all"
+                        className="px-3 py-2 rounded-lg transition-all border"
+                        style={{ backgroundColor: 'var(--hg-bg-secondary)', borderColor: 'var(--hg-border-color)', color: 'var(--hg-cyan-text)' }}
                       >
                         <Edit className="w-3.5 h-3.5" />
                       </motion.button>
@@ -664,11 +661,11 @@ export default function ContentLibrary() {
 
           {filteredContent.length === 0 && (
             <div className="text-center py-12">
-              <FolderOpen className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-white mb-2 font-gendy">No content found</h3>
-              <p className="text-gray-400 font-diatype">
+              <FolderOpen className="w-16 h-16 mx-auto mb-4 hg-text-muted" />
+              <Heading as="h3" size="xl" className="mb-2">No content found</Heading>
+              <Text variant="muted">
                 Try adjusting your filters or upload new content
-              </p>
+              </Text>
             </div>
           )}
         </div>
@@ -689,26 +686,28 @@ export default function ContentLibrary() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-gray-900 border border-white/10 rounded-2xl w-full max-w-4xl my-8"
+              className="border rounded-2xl w-full max-w-4xl my-8"
+              style={{ backgroundColor: 'var(--hg-bg-card)', borderColor: 'var(--hg-border-color)' }}
             >
               {/* Modal Header */}
-              <div className="flex items-center justify-between p-6 border-b border-white/10">
+              <div className="flex items-center justify-between p-6 border-b" style={{ borderColor: 'var(--hg-border-color)' }}>
                 <div>
-                  <h2 className="text-2xl font-bold text-white mb-1 font-gendy">Upload Content</h2>
-                  <p className="text-sm text-gray-400 font-diatype">
+                  <h2 className="text-2xl font-bold mb-1 font-gendy" style={{ color: 'var(--hg-text-primary)' }}>Upload Content</h2>
+                  <p className="text-sm font-diatype" style={{ color: 'var(--hg-text-muted)' }}>
                     Add new resources to your content library
                   </p>
                 </div>
                 <button
                   onClick={handleCloseUploadModal}
-                  className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                  className="p-2 rounded-lg transition-colors hover:bg-[var(--hg-bg-secondary)]"
+                  style={{ color: 'var(--hg-text-muted)' }}
                 >
-                  <X className="w-6 h-6 text-gray-400" />
+                  <X className="w-6 h-6" />
                 </button>
               </div>
 
               {/* Content Type Tabs */}
-              <div className="flex gap-2 p-6 border-b border-white/10 overflow-x-auto">
+              <div className="flex gap-2 p-6 border-b overflow-x-auto" style={{ borderColor: 'var(--hg-border-color)' }}>
                 {(Object.entries(contentTypes) as [keyof typeof contentTypes, string][]).map(
                   ([key, label]) => (
                     <button
@@ -717,11 +716,12 @@ export default function ContentLibrary() {
                         setActiveTab(key)
                         setFormData((prev) => ({ ...prev, contentType: key }))
                       }}
-                      className={`px-4 py-2 rounded-lg text-sm font-diatype whitespace-nowrap transition-all ${
-                        activeTab === key
-                          ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'
-                          : 'bg-white/5 text-gray-400 hover:text-white hover:bg-white/10'
-                      }`}
+                      className="px-4 py-2 rounded-lg text-sm font-diatype whitespace-nowrap transition-all border"
+                      style={{
+                        backgroundColor: activeTab === key ? 'var(--hg-cyan-bg)' : 'var(--hg-bg-secondary)',
+                        borderColor: activeTab === key ? 'var(--hg-cyan-border)' : 'var(--hg-border-color)',
+                        color: activeTab === key ? 'var(--hg-cyan-text)' : 'var(--hg-text-muted)'
+                      }}
                     >
                       {label}
                     </button>
@@ -733,7 +733,7 @@ export default function ContentLibrary() {
               <div className="p-6 max-h-[60vh] overflow-y-auto">
                 {/* File Upload Zone */}
                 <div className="mb-6">
-                  <label className="block text-sm font-semibold text-white mb-2 font-diatype">
+                  <label className="block text-sm font-semibold mb-2 font-diatype" style={{ color: 'var(--hg-text-primary)' }}>
                     Files <span className="text-red-400">*</span>
                   </label>
                   <div
@@ -741,21 +741,21 @@ export default function ContentLibrary() {
                     onDragOver={handleDragOver}
                     onDragLeave={handleDragLeave}
                     onDrop={handleDrop}
-                    className={`border-2 border-dashed rounded-xl p-8 text-center transition-all ${
-                      isDragging
-                        ? 'border-cyan-500 bg-cyan-500/10'
-                        : 'border-white/10 hover:border-cyan-500/50 bg-white/5'
-                    }`}
+                    className="border-2 border-dashed rounded-xl p-8 text-center transition-all"
+                    style={{
+                      borderColor: isDragging ? 'var(--hg-cyan-border)' : 'var(--hg-border-color)',
+                      backgroundColor: isDragging ? 'var(--hg-cyan-bg)' : 'var(--hg-bg-secondary)'
+                    }}
                   >
-                    <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                    <p className="text-white font-semibold mb-2 font-diatype">
+                    <Upload className="w-12 h-12 mx-auto mb-4" style={{ color: 'var(--hg-text-muted)' }} />
+                    <p className="font-semibold mb-2 font-diatype" style={{ color: 'var(--hg-text-primary)' }}>
                       Drag & drop files here, or click to browse
                     </p>
-                    <p className="text-sm text-gray-400 mb-4 font-diatype">
+                    <p className="text-sm mb-4 font-diatype" style={{ color: 'var(--hg-text-muted)' }}>
                       Supports: Videos (MP4, WebM), Documents (PDF, DOCX, XLSX), Images (JPG, PNG,
                       SVG), Archives (ZIP)
                     </p>
-                    <p className="text-xs text-gray-500 mb-4 font-diatype">
+                    <p className="text-xs mb-4 font-diatype" style={{ color: 'var(--hg-text-muted)' }}>
                       Maximum file size: 500MB
                     </p>
                     <input
@@ -769,7 +769,8 @@ export default function ContentLibrary() {
                       <motion.div
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        className="inline-flex items-center gap-2 px-6 py-3 bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-cyan-300 rounded-xl transition-all cursor-pointer font-diatype"
+                        className="inline-flex items-center gap-2 px-6 py-3 rounded-xl transition-all cursor-pointer font-diatype border"
+                        style={{ backgroundColor: 'var(--hg-cyan-bg)', borderColor: 'var(--hg-cyan-border)', color: 'var(--hg-cyan-text)' }}
                       >
                         <Paperclip className="w-5 h-5" />
                         Browse Files
@@ -786,31 +787,32 @@ export default function ContentLibrary() {
                       {uploadFiles.map((uploadFile) => (
                         <div
                           key={uploadFile.id}
-                          className="flex items-center gap-3 p-3 bg-white/5 rounded-lg"
+                          className="flex items-center gap-3 p-3 rounded-lg"
+                          style={{ backgroundColor: 'var(--hg-bg-secondary)' }}
                         >
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 mb-1">
-                              <p className="text-sm text-white font-diatype truncate">
+                              <p className="text-sm font-diatype truncate" style={{ color: 'var(--hg-text-primary)' }}>
                                 {uploadFile.file.name}
                               </p>
                               {uploadFile.status === 'success' && (
-                                <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
+                                <CheckCircle className="w-4 h-4 text-emerald-400 flex-shrink-0" />
                               )}
                               {uploadFile.status === 'error' && (
                                 <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0" />
                               )}
                               {uploadFile.status === 'uploading' && (
-                                <Loader2 className="w-4 h-4 text-cyan-400 animate-spin flex-shrink-0" />
+                                <Loader2 className="w-4 h-4 animate-spin flex-shrink-0" style={{ color: 'var(--hg-cyan-text)' }} />
                               )}
                             </div>
                             <div className="flex items-center gap-2">
-                              <div className="flex-1 h-1.5 bg-white/10 rounded-full overflow-hidden">
+                              <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--hg-border-color)' }}>
                                 <div
                                   className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 transition-all duration-300"
                                   style={{ width: `${uploadFile.progress}%` }}
                                 />
                               </div>
-                              <span className="text-xs text-gray-400 font-diatype">
+                              <span className="text-xs font-diatype" style={{ color: 'var(--hg-text-muted)' }}>
                                 {uploadFile.progress}%
                               </span>
                             </div>
@@ -823,9 +825,10 @@ export default function ContentLibrary() {
                           {uploadFile.status === 'pending' && (
                             <button
                               onClick={() => removeUploadFile(uploadFile.id)}
-                              className="p-1 hover:bg-white/10 rounded transition-colors"
+                              className="p-1 rounded transition-colors hover:bg-[var(--hg-bg-card)]"
+                              style={{ color: 'var(--hg-text-muted)' }}
                             >
-                              <X className="w-4 h-4 text-gray-400" />
+                              <X className="w-4 h-4" />
                             </button>
                           )}
                         </div>
@@ -837,7 +840,7 @@ export default function ContentLibrary() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Title */}
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-semibold text-white mb-2 font-diatype">
+                    <label className="block text-sm font-semibold mb-2 font-diatype" style={{ color: 'var(--hg-text-primary)' }}>
                       Title <span className="text-red-400">*</span>
                     </label>
                     <input
@@ -847,9 +850,13 @@ export default function ContentLibrary() {
                         setFormData((prev) => ({ ...prev, title: e.target.value }))
                       }
                       placeholder="e.g., AI Transformation Strategy Guide"
-                      className={`w-full px-4 py-3 bg-white/5 border ${
-                        formErrors.title ? 'border-red-500' : 'border-white/10'
-                      } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype`}
+                      className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all font-diatype"
+                      style={{
+                        backgroundColor: 'var(--hg-bg-secondary)',
+                        borderColor: formErrors.title ? 'rgb(239, 68, 68)' : 'var(--hg-border-color)',
+                        color: 'var(--hg-text-primary)',
+                        '--tw-ring-color': 'var(--hg-cyan-border)'
+                      } as React.CSSProperties}
                     />
                     {formErrors.title && (
                       <p className="text-red-400 text-sm mt-1 font-diatype">{formErrors.title}</p>
@@ -858,7 +865,7 @@ export default function ContentLibrary() {
 
                   {/* Description */}
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-semibold text-white mb-2 font-diatype">
+                    <label className="block text-sm font-semibold mb-2 font-diatype" style={{ color: 'var(--hg-text-primary)' }}>
                       Description
                     </label>
                     <textarea
@@ -868,13 +875,19 @@ export default function ContentLibrary() {
                       }
                       placeholder="Provide a detailed description of the content..."
                       rows={3}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype resize-none"
+                      className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all font-diatype resize-none"
+                      style={{
+                        backgroundColor: 'var(--hg-bg-secondary)',
+                        borderColor: 'var(--hg-border-color)',
+                        color: 'var(--hg-text-primary)',
+                        '--tw-ring-color': 'var(--hg-cyan-border)'
+                      } as React.CSSProperties}
                     />
                   </div>
 
                   {/* Access Level */}
                   <div>
-                    <label className="block text-sm font-semibold text-white mb-2 font-diatype">
+                    <label className="block text-sm font-semibold mb-2 font-diatype" style={{ color: 'var(--hg-text-primary)' }}>
                       Access Level
                     </label>
                     <select
@@ -882,7 +895,13 @@ export default function ContentLibrary() {
                       onChange={(e) =>
                         setFormData((prev) => ({ ...prev, accessLevel: e.target.value }))
                       }
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
+                      className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all font-diatype"
+                      style={{
+                        backgroundColor: 'var(--hg-bg-secondary)',
+                        borderColor: 'var(--hg-border-color)',
+                        color: 'var(--hg-text-primary)',
+                        '--tw-ring-color': 'var(--hg-cyan-border)'
+                      } as React.CSSProperties}
                     >
                       {accessLevels.map((level) => (
                         <option key={level} value={level}>
@@ -894,7 +913,7 @@ export default function ContentLibrary() {
 
                   {/* Associated Course */}
                   <div>
-                    <label className="block text-sm font-semibold text-white mb-2 font-diatype">
+                    <label className="block text-sm font-semibold mb-2 font-diatype" style={{ color: 'var(--hg-text-primary)' }}>
                       Associated Course (Optional)
                     </label>
                     <input
@@ -904,13 +923,19 @@ export default function ContentLibrary() {
                         setFormData((prev) => ({ ...prev, associatedCourse: e.target.value }))
                       }
                       placeholder="e.g., AI Transformation for Executives"
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all font-diatype"
+                      className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all font-diatype"
+                      style={{
+                        backgroundColor: 'var(--hg-bg-secondary)',
+                        borderColor: 'var(--hg-border-color)',
+                        color: 'var(--hg-text-primary)',
+                        '--tw-ring-color': 'var(--hg-cyan-border)'
+                      } as React.CSSProperties}
                     />
                   </div>
 
                   {/* Categories */}
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-semibold text-white mb-2 font-diatype">
+                    <label className="block text-sm font-semibold mb-2 font-diatype" style={{ color: 'var(--hg-text-primary)' }}>
                       Categories/Tags
                     </label>
                     <div className="flex flex-wrap gap-2">
@@ -919,11 +944,12 @@ export default function ContentLibrary() {
                           key={category}
                           type="button"
                           onClick={() => toggleCategory(category)}
-                          className={`px-3 py-1.5 rounded-lg text-sm font-diatype transition-all ${
-                            formData.selectedCategories.includes(category)
-                              ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'
-                              : 'bg-white/5 text-gray-400 hover:text-white hover:bg-white/10'
-                          }`}
+                          className="px-3 py-1.5 rounded-lg text-sm font-diatype transition-all border"
+                          style={{
+                            backgroundColor: formData.selectedCategories.includes(category) ? 'var(--hg-cyan-bg)' : 'var(--hg-bg-secondary)',
+                            borderColor: formData.selectedCategories.includes(category) ? 'var(--hg-cyan-border)' : 'var(--hg-border-color)',
+                            color: formData.selectedCategories.includes(category) ? 'var(--hg-cyan-text)' : 'var(--hg-text-muted)'
+                          }}
                         >
                           {category}
                         </button>
@@ -934,21 +960,19 @@ export default function ContentLibrary() {
               </div>
 
               {/* Modal Footer */}
-              <div className="flex gap-3 p-6 border-t border-white/10">
-                <button
-                  onClick={handleCloseUploadModal}
-                  className="flex-1 px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white rounded-xl transition-all font-semibold font-diatype"
-                >
+              <div className="flex gap-3 p-6 border-t hg-border">
+                <Button variant="secondary" fullWidth onClick={handleCloseUploadModal}>
                   Cancel
-                </button>
-                <button
+                </Button>
+                <Button
+                  variant="primary"
+                  fullWidth
                   onClick={handleUpload}
                   disabled={uploadFiles.some((f) => f.status === 'uploading')}
-                  className="flex-1 px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white rounded-xl transition-all font-semibold flex items-center justify-center gap-2 font-diatype disabled:opacity-50 disabled:cursor-not-allowed"
+                  icon={<Upload className="w-5 h-5" />}
                 >
-                  <Upload className="w-5 h-5" />
                   Upload Content
-                </button>
+                </Button>
               </div>
             </motion.div>
           </motion.div>
@@ -970,30 +994,25 @@ export default function ContentLibrary() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-gray-900 border border-white/10 rounded-2xl p-8 max-w-md w-full"
+              className="border rounded-2xl p-8 max-w-md w-full"
+              style={{ backgroundColor: 'var(--hg-bg-card)', borderColor: 'var(--hg-border-color)' }}
             >
               <div className="text-center mb-6">
                 <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Trash2 className="w-8 h-8 text-red-400" />
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-2 font-gendy">Delete Content?</h3>
-                <p className="text-gray-400 font-diatype">
+                <Heading as="h3" size="2xl" className="mb-2">Delete Content?</Heading>
+                <Text variant="muted">
                   Are you sure you want to delete this content? This action cannot be undone.
-                </p>
+                </Text>
               </div>
               <div className="flex gap-3">
-                <button
-                  onClick={() => setShowDeleteConfirm(null)}
-                  className="flex-1 px-4 py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white rounded-xl transition-all font-diatype"
-                >
+                <Button variant="secondary" fullWidth onClick={() => setShowDeleteConfirm(null)}>
                   Cancel
-                </button>
-                <button
-                  onClick={() => handleDeleteContent(showDeleteConfirm)}
-                  className="flex-1 px-4 py-3 bg-red-500 hover:bg-red-600 text-white rounded-xl transition-all font-diatype"
-                >
+                </Button>
+                <Button variant="danger" fullWidth onClick={() => handleDeleteContent(showDeleteConfirm)}>
                   Delete
-                </button>
+                </Button>
               </div>
             </motion.div>
           </motion.div>

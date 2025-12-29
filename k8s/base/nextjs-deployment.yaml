@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: humanglue-web
+  namespace: humanglue
+  labels:
+    app: humanglue-web
+    component: frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: humanglue-web
+  template:
+    metadata:
+      labels:
+        app: humanglue-web
+        component: frontend
+    spec:
+      containers:
+        - name: nextjs
+          image: registry.digitalocean.com/humanglue/web:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+          envFrom:
+            - secretRef:
+                name: humanglue-web-secrets
+            - configMapRef:
+                name: humanglue-web-config
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "200m"
+            limits:
+              memory: "1Gi"
+              cpu: "1000m"
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: 3000
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            timeoutSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: humanglue-web
+  namespace: humanglue
+spec:
+  selector:
+    app: humanglue-web
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: ClusterIP
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: humanglue-web-config
+  namespace: humanglue
+data:
+  NODE_ENV: "production"
+  NEXT_PUBLIC_APP_URL: "https://hmnglue.com"

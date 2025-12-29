@@ -36,9 +36,9 @@ export interface VapiAssessmentAgent {
 }
 
 export const VAPI_CONFIG: VapiConfig = {
-  publicKey: '3ed5bd67-496a-42c8-955c-d7ac483a7d34',
-  privateKey: '0be862d8-7e91-4f40-b559-5a25b33525c0',
-  assistantId: 'bc8faa11-a790-4e06-8cbd-4083edd460d4' // MCP-created assistant
+  publicKey: process.env.NEXT_PUBLIC_VAPI_PUBLIC_KEY || '',
+  privateKey: process.env.VAPI_PRIVATE_KEY || '',
+  assistantId: process.env.VAPI_ASSISTANT_ID || ''
 }
 
 export const ASSESSMENT_VOICE_AGENT: VapiAssessmentAgent = {

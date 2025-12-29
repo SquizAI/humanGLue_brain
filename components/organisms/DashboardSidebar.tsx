@@ -543,7 +543,7 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
                 }}
                 className={cn(
                   'relative group rounded-xl transition-all duration-200 border',
-                  !isActive && 'hover:opacity-80'
+                  !isActive && 'hover:bg-[var(--hg-bg-card-hover)]'
                 )}
                 title={isCollapsed ? item.label : undefined}
               >
@@ -551,12 +551,20 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
                   "relative flex items-center gap-3 py-3",
                   isCollapsed ? "px-2 justify-center" : "px-3"
                 )}>
+                  {/* Icon container - gradient with glow when active, simple bg when inactive */}
                   <div
+                    className={cn(
+                      "flex items-center justify-center w-10 h-10 rounded-lg transition-all",
+                      isActive
+                        ? "bg-gradient-to-br from-cyan-500 to-blue-500 text-white shadow-lg"
+                        : "group-hover:bg-[var(--hg-bg-card-hover)]"
+                    )}
                     style={{
-                      backgroundColor: isActive ? 'var(--hg-cyan-text)' : 'var(--hg-bg-secondary)',
-                      color: isActive ? '#ffffff' : 'var(--hg-text-muted)'
+                      ...(isActive
+                        ? { boxShadow: '0 4px 14px rgba(97, 216, 254, 0.4)' }
+                        : { backgroundColor: 'var(--hg-bg-secondary)', color: 'var(--hg-text-muted)' }
+                      )
                     }}
-                    className="flex items-center justify-center w-10 h-10 rounded-lg transition-all"
                   >
                     <Icon className="w-5 h-5" />
                   </div>
@@ -565,7 +573,7 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
                         <span
-                          style={{ color: isActive ? 'var(--hg-cyan-text)' : 'var(--hg-text-primary)' }}
+                          style={{ color: isActive ? 'var(--hg-cyan-text)' : 'var(--hg-text-secondary)' }}
                           className="text-sm font-medium font-diatype"
                         >
                           {item.label}
@@ -767,9 +775,8 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
                 '/dashboard/profile'
               }
             >
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                className="flex items-center gap-3 p-3 rounded-xl hover:opacity-80 transition-all cursor-pointer"
+              <div
+                className="flex items-center gap-3 p-3 rounded-xl transition-all cursor-pointer hover:bg-[var(--hg-bg-card-hover)]"
               >
                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center text-white font-bold text-sm">
                   {userData?.name ? userData.name.charAt(0).toUpperCase() : 'U'}
@@ -783,7 +790,7 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
                   </p>
                 </div>
                 <Settings style={{ color: 'var(--hg-text-muted)' }} className="w-4 h-4" />
-              </motion.div>
+              </div>
             </Link>
           </div>
         )}
@@ -814,31 +821,26 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
             {/* Upgrade Card */}
             {portalConfig.showUpgrade && !isCollapsed && (
               <div className="px-4 pb-4">
-                <motion.div
-                  whileHover={{ scale: 1.02 }}
-                  style={{
-                    backgroundColor: 'var(--hg-cyan-bg)',
-                    borderColor: 'var(--hg-cyan-border)'
-                  }}
-                  className="relative overflow-hidden rounded-xl border p-4"
+                <div
+                  className="relative overflow-hidden rounded-xl bg-gradient-to-br from-cyan-500/20 to-blue-500/20 backdrop-blur-xl border p-4"
+                  style={{ borderColor: 'var(--hg-cyan-border)' }}
                 >
                   <div className="relative">
                     <div className="flex items-center gap-2 mb-2">
                       <Award style={{ color: 'var(--hg-cyan-text)' }} className="w-5 h-5" />
                       <h3 style={{ color: 'var(--hg-text-primary)' }} className="text-sm font-semibold font-gendy">Upgrade to Pro</h3>
                     </div>
-                    <p style={{ color: 'var(--hg-text-secondary)' }} className="text-xs mb-3 font-diatype">
+                    <p style={{ color: 'var(--hg-text-muted)' }} className="text-xs mb-3 font-diatype">
                       Unlock advanced analytics and unlimited workshops
                     </p>
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="w-full px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white text-sm font-semibold rounded-lg shadow-lg shadow-cyan-500/50 font-diatype"
+                    <button
+                      className="w-full px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white text-sm font-semibold rounded-lg font-diatype"
+                      style={{ boxShadow: '0 4px 14px rgba(97, 216, 254, 0.4)' }}
                     >
                       Upgrade Now
-                    </motion.button>
+                    </button>
                   </div>
-                </motion.div>
+                </div>
               </div>
             )}
           </div>
@@ -850,24 +852,24 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
           <ThemeToggle variant="icon-only" className={cn("w-full flex", isCollapsed ? "justify-center" : "justify-start")} />
 
           {/* Logout */}
-          <motion.button
-            whileHover={{ scale: 1.02, x: isCollapsed ? 0 : 4 }}
-            whileTap={{ scale: 0.98 }}
+          <button
             onClick={onLogout}
-            style={{ color: 'var(--hg-text-muted)' }}
             className={cn(
-              "w-full flex items-center gap-3 px-3 py-3 rounded-xl hover:opacity-80 transition-all group",
+              "w-full flex items-center gap-3 px-3 py-3 rounded-xl transition-all group hover:bg-[var(--hg-bg-card-hover)]",
               isCollapsed && "justify-center px-2"
             )}
             title={isCollapsed ? "Logout" : undefined}
           >
-            <div style={{ backgroundColor: 'var(--hg-bg-secondary)' }} className="flex items-center justify-center w-10 h-10 rounded-lg group-hover:bg-red-500/10 transition-all">
-              <LogOut className="w-5 h-5 group-hover:text-red-400" />
+            <div
+              style={{ backgroundColor: 'var(--hg-bg-secondary)' }}
+              className="flex items-center justify-center w-10 h-10 rounded-lg group-hover:bg-red-500/10 transition-all"
+            >
+              <LogOut style={{ color: 'var(--hg-text-muted)' }} className="w-5 h-5 group-hover:text-red-500 transition-colors" />
             </div>
             {!isCollapsed && (
-              <span style={{ color: 'var(--hg-text-secondary)' }} className="text-sm font-medium font-diatype">Logout</span>
+              <span style={{ color: 'var(--hg-text-secondary)' }} className="text-sm font-medium font-diatype group-hover:text-red-500 transition-colors">Logout</span>
             )}
-          </motion.button>
+          </button>
         </div>
       </div>
 

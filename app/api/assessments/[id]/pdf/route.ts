@@ -1,9 +1,12 @@
 /**
  * PDF Generation API
  * POST /api/assessments/[id]/pdf - Generate PDF report for assessment
+ *
+ * WHITE-LABEL READY: Uses centralized BRAND config for all colors
  */
 
 import { NextRequest, NextResponse } from 'next/server'
+import { BRAND } from '@/lib/email-templates'
 
 /**
  * POST /api/assessments/[id]/pdf
@@ -62,9 +65,9 @@ function generatePDFHTML(assessment: any): string {
       margin: 20mm;
     }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: ${BRAND.fonts.primary};
       line-height: 1.6;
-      color: #1f2937;
+      color: ${BRAND.colors.text};
       max-width: 800px;
       margin: 0 auto;
       padding: 40px;
@@ -72,19 +75,19 @@ function generatePDFHTML(assessment: any): string {
     .header {
       text-align: center;
       margin-bottom: 40px;
-      border-bottom: 3px solid #3b82f6;
+      border-bottom: 3px solid ${BRAND.colors.primary};
       padding-bottom: 20px;
     }
     .logo {
       font-size: 32px;
       font-weight: bold;
-      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+      background: linear-gradient(135deg, ${BRAND.colors.primary} 0%, ${BRAND.colors.accent} 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       margin-bottom: 10px;
     }
     .score-box {
-      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+      background: linear-gradient(135deg, ${BRAND.colors.primary} 0%, ${BRAND.colors.accent} 100%);
       color: white;
       padding: 30px;
       border-radius: 12px;
@@ -103,9 +106,9 @@ function generatePDFHTML(assessment: any): string {
     .section-title {
       font-size: 24px;
       font-weight: 600;
-      color: #111827;
+      color: ${BRAND.colors.text};
       margin-bottom: 15px;
-      border-bottom: 2px solid #e5e7eb;
+      border-bottom: 2px solid ${BRAND.colors.border};
       padding-bottom: 10px;
     }
     .metric-grid {
@@ -115,41 +118,41 @@ function generatePDFHTML(assessment: any): string {
       margin: 20px 0;
     }
     .metric-card {
-      border: 1px solid #e5e7eb;
+      border: 1px solid ${BRAND.colors.border};
       border-radius: 8px;
       padding: 15px;
-      background: #f9fafb;
+      background: ${BRAND.colors.cardBg};
     }
     .metric-label {
       font-size: 14px;
-      color: #6b7280;
+      color: ${BRAND.colors.mutedText};
       margin-bottom: 5px;
     }
     .metric-value {
       font-size: 20px;
       font-weight: bold;
-      color: #111827;
+      color: ${BRAND.colors.text};
     }
     .finding-item {
       margin: 10px 0;
       padding: 12px;
-      background: #f9fafb;
-      border-left: 4px solid #3b82f6;
+      background: ${BRAND.colors.cardBg};
+      border-left: 4px solid ${BRAND.colors.primary};
       border-radius: 4px;
     }
     .action-item {
       margin: 10px 0;
       padding: 12px;
-      background: #f0f9ff;
-      border-left: 4px solid #8b5cf6;
+      background: ${BRAND.colors.lightBg};
+      border-left: 4px solid ${BRAND.colors.accent};
       border-radius: 4px;
     }
     .footer {
       margin-top: 60px;
       padding-top: 20px;
-      border-top: 1px solid #e5e7eb;
+      border-top: 1px solid ${BRAND.colors.border};
       text-align: center;
-      color: #6b7280;
+      color: ${BRAND.colors.mutedText};
       font-size: 12px;
     }
     ul {
@@ -161,7 +164,7 @@ function generatePDFHTML(assessment: any): string {
     }
     li:before {
       content: "✓ ";
-      color: #10b981;
+      color: ${BRAND.colors.success};
       font-weight: bold;
       margin-right: 8px;
     }
@@ -177,10 +180,10 @@ function generatePDFHTML(assessment: any): string {
 </head>
 <body>
   <div class="header">
-    <div class="logo">HumanGlue</div>
+    <div class="logo">${BRAND.company.name}</div>
     <h1>AI Transformation Assessment</h1>
-    <p style="color: #6b7280; font-size: 16px;">${userData.name} | ${userData.company}</p>
-    <p style="color: #9ca3af; font-size: 14px;">Generated on ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+    <p style="color: ${BRAND.colors.mutedText}; font-size: 16px;">\${userData.name} | \${userData.company}</p>
+    <p style="color: ${BRAND.colors.secondaryText}; font-size: 14px;">Generated on \${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
   </div>
 
   <div class="score-box">

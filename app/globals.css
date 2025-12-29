@@ -62,6 +62,37 @@
   --hg-cyan-border: #a5f3fc;
   --hg-shadow: 0 1px 3px rgba(0,0,0,0.1);
   --hg-shadow-lg: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+
+  /* Semantic Colors - WHITE-LABEL READY */
+  /* These can be overridden per-organization via BrandingContext */
+  --hg-success: #10b981;
+  --hg-success-bg: rgba(16, 185, 129, 0.1);
+  --hg-success-border: rgba(16, 185, 129, 0.2);
+  --hg-warning: #f59e0b;
+  --hg-warning-bg: rgba(245, 158, 11, 0.1);
+  --hg-warning-border: rgba(245, 158, 11, 0.2);
+  --hg-danger: #ef4444;
+  --hg-danger-bg: rgba(239, 68, 68, 0.1);
+  --hg-danger-border: rgba(239, 68, 68, 0.2);
+  --hg-info: #3b82f6;
+  --hg-info-bg: rgba(59, 130, 246, 0.1);
+  --hg-info-border: rgba(59, 130, 246, 0.2);
+
+  /* Chart Colors - WHITE-LABEL READY */
+  /* Primary chart palette for data visualization */
+  --hg-chart-primary: #8B5CF6;    /* Purple - main data series */
+  --hg-chart-secondary: #3B82F6;  /* Blue - secondary series */
+  --hg-chart-tertiary: #10B981;   /* Green - positive/growth */
+  --hg-chart-quaternary: #F59E0B; /* Amber - warnings/attention */
+  --hg-chart-quinary: #EF4444;    /* Red - negative/alerts */
+  --hg-chart-cyan: #06B6D4;       /* Cyan - accent/brand */
+
+  /* Chart UI colors */
+  --hg-chart-grid: #e5e7eb;
+  --hg-chart-axis: #6b7280;
+  --hg-chart-tooltip-bg: #ffffff;
+  --hg-chart-tooltip-border: #e5e7eb;
+  --hg-chart-tooltip-text: #111827;
 }
 
 /* Dark Mode */
@@ -103,6 +134,35 @@
   --hg-cyan-border: rgba(97, 216, 254, 0.3);
   --hg-shadow: 0 1px 3px rgba(0,0,0,0.3);
   --hg-shadow-lg: 0 4px 6px -1px rgba(0,0,0,0.3), 0 2px 4px -1px rgba(0,0,0,0.2);
+
+  /* Semantic Colors - Dark Mode */
+  --hg-success: #34d399;
+  --hg-success-bg: rgba(52, 211, 153, 0.1);
+  --hg-success-border: rgba(52, 211, 153, 0.3);
+  --hg-warning: #fbbf24;
+  --hg-warning-bg: rgba(251, 191, 36, 0.1);
+  --hg-warning-border: rgba(251, 191, 36, 0.3);
+  --hg-danger: #f87171;
+  --hg-danger-bg: rgba(248, 113, 113, 0.1);
+  --hg-danger-border: rgba(248, 113, 113, 0.3);
+  --hg-info: #60a5fa;
+  --hg-info-bg: rgba(96, 165, 250, 0.1);
+  --hg-info-border: rgba(96, 165, 250, 0.3);
+
+  /* Chart Colors - Dark Mode */
+  --hg-chart-primary: #A78BFA;    /* Purple - lighter for dark bg */
+  --hg-chart-secondary: #60A5FA;  /* Blue - lighter for dark bg */
+  --hg-chart-tertiary: #34D399;   /* Green - lighter for dark bg */
+  --hg-chart-quaternary: #FBBF24; /* Amber - lighter for dark bg */
+  --hg-chart-quinary: #F87171;    /* Red - lighter for dark bg */
+  --hg-chart-cyan: #22D3EE;       /* Cyan - lighter for dark bg */
+
+  /* Chart UI colors - Dark Mode */
+  --hg-chart-grid: #374151;
+  --hg-chart-axis: #9CA3AF;
+  --hg-chart-tooltip-bg: #1F2937;
+  --hg-chart-tooltip-border: #374151;
+  --hg-chart-tooltip-text: #F3F4F6;
 }
 
 @layer base {
@@ -512,6 +572,76 @@ html:not(.dark) ::-webkit-scrollbar-thumb:hover {
   background-color: var(--hg-cyan-bg);
   color: var(--hg-cyan-text);
   border-color: var(--hg-cyan-border);
+}
+
+/* Semantic Badge Styles - WHITE-LABEL READY */
+.hg-success-badge {
+  background-color: var(--hg-success-bg);
+  color: var(--hg-success);
+  border-color: var(--hg-success-border);
+}
+
+.hg-warning-badge {
+  background-color: var(--hg-warning-bg);
+  color: var(--hg-warning);
+  border-color: var(--hg-warning-border);
+}
+
+.hg-danger-badge {
+  background-color: var(--hg-danger-bg);
+  color: var(--hg-danger);
+  border-color: var(--hg-danger-border);
+}
+
+.hg-info-badge {
+  background-color: var(--hg-info-bg);
+  color: var(--hg-info);
+  border-color: var(--hg-info-border);
+}
+
+/* Button Gradient Styles - WHITE-LABEL READY */
+/* Primary button gradient - uses org-primary colors when set via BrandingContext */
+.hg-btn-primary {
+  background: linear-gradient(to right, var(--hg-cyan-text), var(--hg-cyan-border, var(--hg-cyan-text)));
+  color: white;
+}
+
+.hg-btn-primary:hover {
+  opacity: 0.9;
+  box-shadow: 0 0 20px var(--hg-cyan-bg);
+}
+
+/* Danger button gradient */
+.hg-btn-danger {
+  background: linear-gradient(to right, var(--hg-danger), color-mix(in srgb, var(--hg-danger), black 20%));
+  color: white;
+}
+
+.hg-btn-danger:hover {
+  opacity: 0.9;
+  box-shadow: 0 0 20px var(--hg-danger-bg);
+}
+
+/* Success button gradient */
+.hg-btn-success {
+  background: linear-gradient(to right, var(--hg-success), color-mix(in srgb, var(--hg-success), black 20%));
+  color: white;
+}
+
+.hg-btn-success:hover {
+  opacity: 0.9;
+  box-shadow: 0 0 20px var(--hg-success-bg);
+}
+
+/* Info button gradient */
+.hg-btn-info {
+  background: linear-gradient(to right, var(--hg-info), color-mix(in srgb, var(--hg-info), black 20%));
+  color: white;
+}
+
+.hg-btn-info:hover {
+  opacity: 0.9;
+  box-shadow: 0 0 20px var(--hg-info-bg);
 }
 
 /* Simple Light Mode Overrides for Dashboard */
