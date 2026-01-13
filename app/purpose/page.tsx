@@ -130,7 +130,7 @@ export default function PurposePage() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-5xl md:text-7xl lg:text-[119px] font-normal text-white leading-[1.1] max-w-[1400px] font-gendy"
+            className="text-3xl md:text-5xl lg:text-6xl font-normal text-white leading-[1.1] max-w-[1200px] font-gendy"
           >
             The organizations that thrive won't have the biggest AI budgets. They'll have the most adaptable people—from the C-suite to the front line.
           </motion.h1>
