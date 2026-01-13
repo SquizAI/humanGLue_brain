@@ -13,7 +13,7 @@ export default function InviteUserPage() {
   const [email, setEmail] = useState('')
   const [fullName, setFullName] = useState('')
   const [role, setRole] = useState<'admin' | 'instructor' | 'expert' | 'client'>('client')
-  const [organizationName, setOrganizationName] = useState('HumanGlue')
+  const [organizationName, setOrganizationName] = useState('HMN')
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -218,7 +218,7 @@ export default function InviteUserPage() {
                 </label>
                 <input
                   type="text"
-                  placeholder="HumanGlue"
+                  placeholder="HMN"
                   value={organizationName}
                   onChange={(e) => setOrganizationName(e.target.value)}
                   disabled={loading}
@@ -279,7 +279,7 @@ export default function InviteUserPage() {
                     setEmail('')
                     setFullName('')
                     setRole('client')
-                    setOrganizationName('HumanGlue')
+                    setOrganizationName('HMN')
                     setError(null)
                     setSuccess(false)
                   }}

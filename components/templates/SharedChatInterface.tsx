@@ -308,7 +308,7 @@ ${knowledgeContext}
 Use the above content to provide specific, actionable recommendations. Reference specific courses, workshops, experts, or resources by name when relevant.
 ` : ''}`
 
-        const publicSystemPrompt = `You are a Human Glue AI consultant specializing exclusively in organizational transformation using the Human Glue platform and methodology.
+        const publicSystemPrompt = `You are a HMN AI consultant specializing exclusively in organizational transformation using the HMN platform and methodology.
 
 CONTEXT:
 - User: ${localUserData.current.name || 'Guest'}
@@ -787,7 +787,7 @@ Provide helpful, personalized advice about organizational transformation.`
           </div>
 
           <div className="flex items-center justify-center mt-3 text-xs text-gray-400">
-            <span>Powered by Human Glue AI</span>
+            <span>Powered by HMN AI</span>
           </div>
         </div>
       </div>

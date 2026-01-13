@@ -1,5 +1,5 @@
 /**
- * Vapi Configuration for HumanGlue AI Maturity Assessment
+ * Vapi Configuration for HMN AI Maturity Assessment
  */
 
 import { assessmentDimensions, getDimensionsByCategory } from '../assessment/dimensions'
@@ -32,7 +32,7 @@ export const createAssessmentConfig = () => {
       messages: [
         {
           role: "system",
-          content: `You are HumanGlue's AI Maturity Assessment Assistant conducting a comprehensive voice-based assessment.
+          content: `You are HMN's AI Maturity Assessment Assistant conducting a comprehensive voice-based assessment.
 
 ASSESSMENT OVERVIEW:
 You will guide users through a 23-dimension assessment across 4 categories:
@@ -128,7 +128,7 @@ Start the assessment with a warm, professional welcome.`
       stability: 0.8,
       similarityBoost: 0.8
     },
-    firstMessage: "Hello! I'm your AI Maturity Assessment guide from HumanGlue. I'm here to help you understand your organization's AI readiness and create a personalized transformation roadmap. This comprehensive assessment takes about 15-20 minutes and covers four key areas of AI maturity. Before we begin, could you tell me your name and what company you're with?",
+    firstMessage: "Hello! I'm your AI Maturity Assessment guide from HMN. I'm here to help you understand your organization's AI readiness and create a personalized transformation roadmap. This comprehensive assessment takes about 15-20 minutes and covers four key areas of AI maturity. Before we begin, could you tell me your name and what company you're with?",
     functions: [
       {
         name: "process_assessment_response",

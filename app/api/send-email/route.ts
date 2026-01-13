@@ -25,8 +25,8 @@ function getResendClient(): Resend {
 // Use verified domain from env, or fallback to Resend test domain
 function getFromEmail(): string {
   return process.env.RESEND_FROM_EMAIL
-    ? `HumanGlue <${process.env.RESEND_FROM_EMAIL}>`
-    : 'HumanGlue <onboarding@resend.dev>'
+    ? `HMN <${process.env.RESEND_FROM_EMAIL}>`
+    : 'HMN <onboarding@resend.dev>'
 }
 
 export async function POST(request: NextRequest) {

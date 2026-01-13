@@ -1,5 +1,5 @@
 /**
- * HumanGlue Email Template System
+ * HMN Email Template System
  *
  * WHITE-LABEL READY: All colors and branding can be overridden per organization.
  * Use getOrgBrand(orgBranding) to get organization-specific brand values.
@@ -76,7 +76,7 @@ export const BRAND = {
     linkedin: 'https://linkedin.com/company/humanglue',
   },
   company: {
-    name: 'HumanGlue',
+    name: 'HMN',
     tagline: 'AI-Powered Organizational Transformation',
     address: 'Miami, FL',
     supportEmail: 'support@hmnglue.com',
@@ -121,7 +121,7 @@ export function emailWrapper(content: string, options?: { preheader?: string }):
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>HumanGlue</title>
+  <title>HMN</title>
   <!--[if mso]>
   <noscript>
     <xml>
@@ -185,7 +185,7 @@ export function emailWrapper(content: string, options?: { preheader?: string }):
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
                 <tr>
                   <td>
-                    <img src="${BRAND.urls.logo}" alt="HumanGlue" width="180" style="display: block; max-width: 180px; height: auto;" />
+                    <img src="${BRAND.urls.logo}" alt="HMN" width="180" style="display: block; max-width: 180px; height: auto;" />
                   </td>
                 </tr>
               </table>
@@ -230,7 +230,7 @@ export function emailWrapper(content: string, options?: { preheader?: string }):
           <tr>
             <td align="center" style="padding: 0 20px;">
               <p style="margin: 0; font-size: 11px; color: ${BRAND.colors.lightGray}; line-height: 1.5;">
-                © ${new Date().getFullYear()} HumanGlue. All rights reserved.<br/>
+                © ${new Date().getFullYear()} HMN. All rights reserved.<br/>
                 ${BRAND.company.address}
               </p>
             </td>
@@ -422,7 +422,7 @@ export const emailComponents = {
         <tr>
           <td align="center" style="padding: 16px; background: linear-gradient(135deg, ${BRAND.colors.dark} 0%, #2D3748 100%); border-radius: 8px;">
             <p style="margin: 0; font-size: 12px; color: ${BRAND.colors.cyan}; letter-spacing: 0.5px;">
-              ✨ This email was crafted by AI • Powered by HumanGlue
+              ✨ This email was crafted by AI • Powered by HMN
             </p>
           </td>
         </tr>
@@ -478,7 +478,7 @@ export const emailTemplates = {
         ${c.bulletList(options.discoveredFacts)}
       `, { type: 'info' })}
 
-      ${c.heading('Why HumanGlue Needs You', 2)}
+      ${c.heading('Why HMN Needs You', 2)}
 
       ${c.paragraph(options.whyTheyFit)}
 
@@ -496,7 +496,7 @@ export const emailTemplates = {
     `
 
     return emailWrapper(content, {
-      preheader: `${options.recipientName}, your expertise is exactly what we're building at HumanGlue`
+      preheader: `${options.recipientName}, your expertise is exactly what we're building at HMN`
     })
   },
 
@@ -512,11 +512,11 @@ export const emailTemplates = {
     const c = emailComponents
 
     const content = `
-      ${c.heading(`Welcome to HumanGlue, ${options.recipientName}!`)}
+      ${c.heading(`Welcome to HMN, ${options.recipientName}!`)}
 
-      ${c.paragraph(`<strong>${options.inviterName}</strong> has invited you to join <strong>${options.companyName}</strong> on HumanGlue as a <strong>${options.role}</strong>.`)}
+      ${c.paragraph(`<strong>${options.inviterName}</strong> has invited you to join <strong>${options.companyName}</strong> on HMN as a <strong>${options.role}</strong>.`)}
 
-      ${c.paragraph("HumanGlue is an AI-powered platform that helps organizations measure and improve their AI maturity across People, Process, Technology, and Strategy.")}
+      ${c.paragraph("HMN is an AI-powered platform that helps organizations measure and improve their AI maturity across People, Process, Technology, and Strategy.")}
 
       ${options.tempPassword ? c.highlightBox(`
         <p style="margin: 0 0 8px 0; font-weight: 600;">Your temporary password:</p>
@@ -530,7 +530,7 @@ export const emailTemplates = {
     `
 
     return emailWrapper(content, {
-      preheader: `${options.inviterName} invited you to ${options.companyName} on HumanGlue`
+      preheader: `${options.inviterName} invited you to ${options.companyName} on HMN`
     })
   },
 

@@ -27,7 +27,7 @@ import { LikeButton } from '@/components/molecules/LikeButton'
 import { ShareButton } from '@/components/molecules/ShareButton'
 import { cn } from '@/utils/cn'
 
-// Course categories based on Trivera + HumanGlue focus
+// Course categories based on Trivera + HMN focus
 const categories = [
   { id: 'ai-adoption', name: 'AI Adoption & Strategy', color: 'cyan', icon: '🎯' },
   { id: 'change-management', name: 'Change Management', color: 'blue', icon: '🔄' },

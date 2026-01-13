@@ -77,9 +77,9 @@ export function BrandingInjector() {
   useEffect(() => {
     if (!branding?.company_name) return
 
-    // Only update if title still has "Human Glue"
-    if (document.title.includes('Human Glue')) {
-      document.title = document.title.replace('Human Glue', branding.company_name)
+    // Only update if title still has "HMN"
+    if (document.title.includes('HMN')) {
+      document.title = document.title.replace('HMN', branding.company_name)
     }
 
     console.log('[BrandingInjector] Updated document title with:', branding.company_name)

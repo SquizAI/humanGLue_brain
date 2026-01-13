@@ -4,7 +4,7 @@
  * ============================================================================
  *
  * This module configures Sentry for error tracking and performance monitoring
- * across the HumanGlue platform.
+ * across the HMN platform.
  *
  * Features:
  * - Error tracking and reporting

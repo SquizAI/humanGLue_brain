@@ -1,5 +1,5 @@
 /**
- * HumanGlue Multi-Dimensional Assessment Framework
+ * HMN Multi-Dimensional Assessment Framework
  * 23 dimensions across 4 categories
  */
 

@@ -399,9 +399,9 @@ async function generateRecruitmentEmail(
     messages: [
       {
         role: 'system',
-        content: `You are a skilled business development writer creating personalized outreach emails for HumanGlue.
+        content: `You are a skilled business development writer creating personalized outreach emails for HMN.
 
-About HumanGlue:
+About HMN:
 - AI transformation platform measuring organizational AI maturity (0-10 scale)
 - Four dimensions: People, Process, Technology, Strategy
 - Founded by Alex Schwartz and Matty Squarzoni
@@ -472,7 +472,7 @@ export async function POST(request: NextRequest) {
       email,
       prospectType = 'expert',
       senderName = 'Matty Squarzoni',
-      senderTitle = 'Co-Founder & CTO, HumanGlue',
+      senderTitle = 'Co-Founder & CTO, HMN',
       senderEmail = 'matty@humanglue.ai',
       deepResearch: enableDeepResearch = false,
       storeInGraph = false,

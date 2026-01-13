@@ -262,7 +262,7 @@ export async function POST(request: NextRequest) {
       sendInvites = true,
       defaultRole = 'client',
       organizationId,
-      organizationName = 'HumanGlue'
+      organizationName = 'HMN'
     }: {
       users: ImportUser[]
       sendInvites?: boolean

@@ -106,7 +106,7 @@ export function PWARegister() {
                 </div>
                 <div className="flex-1">
                   <h3 className="text-lg font-semibold text-white mb-1">
-                    Install Human Glue
+                    Install HMN
                   </h3>
                   <p className="text-sm text-gray-400 mb-4">
                     Install our app for a faster, native experience with offline support.
@@ -158,7 +158,7 @@ export function PWARegister() {
                     Update Available
                   </h3>
                   <p className="text-sm text-gray-400 mb-4">
-                    A new version of Human Glue is available with improvements and bug fixes.
+                    A new version of HMN is available with improvements and bug fixes.
                   </p>
                   <div className="flex gap-3">
                     <button

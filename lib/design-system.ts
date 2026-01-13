@@ -1,5 +1,5 @@
 /**
- * HumanGlue Design System
+ * HMN Design System
  * Manifesto-driven color palette, typography, and design tokens
  */
 

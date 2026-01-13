@@ -745,7 +745,7 @@ export default function PricingPage() {
               Start Your AI Transformation Today
             </h2>
             <p className={cn(typography.body.xl, 'text-gray-300 mb-8')}>
-              Join thousands of organizations already transforming with HumanGlue
+              Join thousands of organizations already transforming with HMN
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button

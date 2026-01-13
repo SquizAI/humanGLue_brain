@@ -119,7 +119,7 @@ export default function SignupPage() {
           <Link href="/" className="mb-12 inline-block">
             <Image
               src={branding?.logo?.url || '/hmn_logo.png'}
-              alt={branding?.company_name || 'HumanGlue'}
+              alt={branding?.company_name || 'HMN'}
               width={200}
               height={50}
               className="h-10 w-auto"
@@ -218,7 +218,7 @@ export default function SignupPage() {
           <Link href="/" className="lg:hidden mb-8 inline-block">
             <Image
               src={branding?.logo?.url || '/hmn_logo.png'}
-              alt={branding?.company_name || 'HumanGlue'}
+              alt={branding?.company_name || 'HMN'}
               width={180}
               height={50}
               className="h-10 w-auto"

@@ -152,7 +152,7 @@ export function ROICalculator({ userData, className }: ROICalculatorProps) {
           <h2 className="text-4xl font-bold text-white">ROI Calculator</h2>
         </div>
         <p className="text-xl text-gray-400">
-          See your potential return with Human Glue AI
+          See your potential return with HMN AI
         </p>
       </motion.div>
 

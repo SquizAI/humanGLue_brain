@@ -22,7 +22,7 @@ export function MobileOptimizedPage() {
   const [isTyping, setIsTyping] = useState(false)
 
   const suggestions = [
-    "What's HumanGlue?",
+    "What's HMN?",
     "How can AI help my team?",
     "Show me pricing",
     "Schedule a demo"
@@ -46,7 +46,7 @@ export function MobileOptimizedPage() {
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        content: `Thanks for your message! I'm here to help you understand how HumanGlue can transform your organization. What specific aspect would you like to explore?`,
+        content: `Thanks for your message! I'm here to help you understand how HMN can transform your organization. What specific aspect would you like to explore?`,
         timestamp: new Date()
       }
       setMessages(prev => [...prev, aiMessage])
@@ -61,7 +61,7 @@ export function MobileOptimizedPage() {
         <div className="flex items-center justify-between px-4 py-3">
           <Image
             src="/HumnaGlue_logo_white_blue.png"
-            alt="HumanGlue"
+            alt="HMN"
             width={140}
             height={40}
             className="h-8 w-auto"
@@ -98,7 +98,7 @@ export function MobileOptimizedPage() {
             {/* Welcome Card */}
             <div className="bg-gray-900 rounded-xl p-5 mb-6">
               <p className="text-sm text-gray-300 mb-4">
-                Welcome to HumanGlue. We guide Fortune 1000 companies of tomorrow, today.
+                Welcome to HMN. We guide Fortune 1000 companies of tomorrow, today.
               </p>
               <p className="text-sm text-gray-300 mb-3">
                 Let's start with your first name
@@ -155,7 +155,7 @@ export function MobileOptimizedPage() {
 
         {/* Solutions Section */}
         <section className="px-4 py-6">
-          <h2 className="text-2xl font-bold mb-3">The Human Glue Solution</h2>
+          <h2 className="text-2xl font-bold mb-3">The HMN Solution</h2>
           <p className="text-sm text-gray-300 mb-6">
             Our Adaptation Accelerator blends diagnostic assessments, leadership coaching, AI fluency, and culture design into a powerful new model for future-ready transformation. Your Strategy for the Human + AI Era.
           </p>
@@ -217,7 +217,7 @@ export function MobileOptimizedPage() {
           </div>
 
           <p className="text-center text-gray-900 text-sm max-w-md mx-auto">
-            In a world transformed by AI, Human Glue gives leaders and teams the edge, equipping them to drive progress, not just keep pace.
+            In a world transformed by AI, HMN gives leaders and teams the edge, equipping them to drive progress, not just keep pace.
           </p>
         </section>
 

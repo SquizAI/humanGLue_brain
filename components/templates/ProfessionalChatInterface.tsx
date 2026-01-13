@@ -108,7 +108,7 @@ export function ProfessionalChatInterface({ onStateChange, userData }: Professio
           messages: [
             {
               role: 'system',
-              content: `You are a professional Human Glue AI consultant helping ${userData.name} from ${userData.company}. 
+              content: `You are a professional HMN AI consultant helping ${userData.name} from ${userData.company}. 
                        They are a ${userData.role} dealing with ${userData.challenge}. 
                        Company size: ${userData.size} employees.
                        Provide concise, actionable insights focused on organizational transformation.
@@ -280,7 +280,7 @@ export function ProfessionalChatInterface({ onStateChange, userData }: Professio
           
           {/* Status Bar */}
           <div className="flex items-center justify-center mt-3 text-xs text-gray-400">
-            <span>Powered by Human Glue AI</span>
+            <span>Powered by HMN AI</span>
           </div>
         </div>
       </div>

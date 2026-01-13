@@ -16,10 +16,10 @@ export const dynamicParams = true
 
 export const metadata: Metadata = {
   title: {
-    default: 'Human Glue - AI-Powered Organizational Transformation',
-    template: '%s | Human Glue'
+    default: 'HMN - AI-Powered Organizational Transformation',
+    template: '%s | HMN'
   },
-  description: 'Transform your organization with Human Glue\'s AI-powered assessment tools, strategic workshops, and comprehensive transformation toolbox. Strengthen the human connections that drive performance.',
+  description: 'Transform your organization with HMN\'s AI-powered assessment tools, strategic workshops, and comprehensive transformation toolbox. Strengthen the human connections that drive performance.',
   keywords: [
     'organizational transformation',
     'AI assessment',
@@ -32,9 +32,9 @@ export const metadata: Metadata = {
     'workplace analytics',
     'team performance'
   ],
-  authors: [{ name: 'Human Glue' }],
-  creator: 'Human Glue',
-  publisher: 'Human Glue',
+  authors: [{ name: 'HMN' }],
+  creator: 'HMN',
+  publisher: 'HMN',
   formatDetection: {
     email: false,
     address: false,
@@ -45,16 +45,16 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: 'Human Glue - AI-Powered Organizational Transformation',
+    title: 'HMN - AI-Powered Organizational Transformation',
     description: 'Transform your organization with AI-powered insights. Strengthen the human connections that drive performance, innovation, and resilience.',
     url: 'https://humanglue.netlify.app',
-    siteName: 'Human Glue',
+    siteName: 'HMN',
     images: [
       {
         url: 'https://humanglue.netlify.app/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Human Glue - Transforming Organizations with AI',
+        alt: 'HMN - Transforming Organizations with AI',
       }
     ],
     locale: 'en_US',
@@ -62,7 +62,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Human Glue - AI-Powered Organizational Transformation',
+    title: 'HMN - AI-Powered Organizational Transformation',
     description: 'Transform your organization with AI-powered insights. Strengthen human connections that drive performance.',
     images: ['https://humanglue.netlify.app/twitter-image.png'],
     creator: '@humanglue',
@@ -119,7 +119,7 @@ export default function RootLayout({
             __html: JSON.stringify({
               '@context': 'https://schema.org',
               '@type': 'Organization',
-              name: 'Human Glue',
+              name: 'HMN',
               url: 'https://humanglue.netlify.app',
               logo: 'https://humanglue.netlify.app/logo.png',
               description: 'AI-powered organizational transformation platform',
@@ -144,7 +144,7 @@ export default function RootLayout({
             __html: JSON.stringify({
               '@context': 'https://schema.org',
               '@type': 'WebApplication',
-              name: 'Human Glue AI Assistant',
+              name: 'HMN AI Assistant',
               url: 'https://humanglue.netlify.app',
               applicationCategory: 'BusinessApplication',
               operatingSystem: 'All',
@@ -175,8 +175,8 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="format-detection" content="telephone=no" />
         {/* PWA meta tags */}
-        <meta name="application-name" content="Human Glue" />
-        <meta name="apple-mobile-web-app-title" content="Human Glue" />
+        <meta name="application-name" content="HMN" />
+        <meta name="apple-mobile-web-app-title" content="HMN" />
       </head>
       <body className={`${inter.className} ${anuphan.variable} bg-gray-50 dark:bg-black text-gray-900 dark:text-white antialiased transition-colors duration-300`}>
         <Providers>

@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   return {
-    title: `${talent.name} - ${talent.title} | Human Glue Talent`,
+    title: `${talent.name} - ${talent.title} | HMN Talent`,
     description: talent.tagline,
     keywords: [
       talent.name,

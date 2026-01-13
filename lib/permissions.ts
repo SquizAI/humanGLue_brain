@@ -128,7 +128,7 @@ export async function isAdmin(userId: string): Promise<boolean> {
 }
 
 /**
- * Check if user is a platform admin (HumanGlue admin only)
+ * Check if user is a platform admin (HMN admin only)
  * @param userId - The user's ID
  * @returns Boolean indicating if user is a platform admin
  */
@@ -196,7 +196,7 @@ export function getRoleDisplayName(role: UserRole): string {
     org_admin: 'Organization Admin',
     super_admin_courses: 'Super Admin (Courses)',
     super_admin_full: 'Super Admin (Full Access)',
-    admin: 'HumanGlue Admin',
+    admin: 'HMN Admin',
   }
   return roleNames[role] || role
 }

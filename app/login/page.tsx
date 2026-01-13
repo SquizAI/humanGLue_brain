@@ -147,7 +147,7 @@ export default function LoginPage() {
           <Link href="/" className="mb-12 inline-block">
             <Image
               src={branding?.logo?.url || '/hmn_logo.png'}
-              alt={branding?.company_name || 'HumanGlue'}
+              alt={branding?.company_name || 'HMN'}
               width={200}
               height={50}
               className="h-10 w-auto"
@@ -246,7 +246,7 @@ export default function LoginPage() {
           <Link href="/" className="lg:hidden mb-8 inline-block">
             <Image
               src={branding?.logo?.url || '/hmn_logo.png'}
-              alt={branding?.company_name || 'HumanGlue'}
+              alt={branding?.company_name || 'HMN'}
               width={180}
               height={50}
               className="h-10 w-auto"
@@ -377,7 +377,7 @@ export default function LoginPage() {
               onClick={() => handleDemoLogin('admin')}
               className="w-full py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-white font-medium transition-all font-diatype text-sm"
             >
-              Try Admin Demo ({branding?.company_name || 'HumanGlue'} Platform Admin)
+              Try Admin Demo ({branding?.company_name || 'HMN'} Platform Admin)
             </button>
             <button
               onClick={() => handleDemoLogin('super_admin_full')}

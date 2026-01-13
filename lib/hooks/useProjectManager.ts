@@ -362,7 +362,7 @@ export function useMindReasoner() {
 
 // Default nodes for initial state (when database is empty)
 const defaultMindMapNodes: Omit<MindMapNode, 'created_by' | 'created_at' | 'updated_at'>[] = [
-  { id: 'root', label: 'HumanGlue', x: 400, y: 300, color: '#06B6D4', children: ['platform', 'integrations', 'ai'], expanded: true, status: 'active', description: null, parent_id: null },
+  { id: 'root', label: 'HMN', x: 400, y: 300, color: '#06B6D4', children: ['platform', 'integrations', 'ai'], expanded: true, status: 'active', description: null, parent_id: null },
   { id: 'platform', label: 'Platform', x: 200, y: 150, color: '#8B5CF6', children: ['dashboard', 'auth'], expanded: true, status: 'active', description: null, parent_id: 'root' },
   { id: 'integrations', label: 'Integrations', x: 600, y: 150, color: '#10B981', children: ['discord', 'slack'], expanded: true, status: 'planned', description: null, parent_id: 'root' },
   { id: 'ai', label: 'AI Features', x: 400, y: 500, color: '#F59E0B', children: ['mindmap', 'chat'], expanded: true, status: 'active', description: null, parent_id: 'root' },

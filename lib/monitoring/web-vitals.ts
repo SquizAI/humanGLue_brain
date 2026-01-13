@@ -1,6 +1,6 @@
 /**
  * ============================================================================
- * Web Vitals Tracking for HumanGlue Platform
+ * Web Vitals Tracking for HMN Platform
  * ============================================================================
  * Track Core Web Vitals and send to analytics for performance monitoring.
  *

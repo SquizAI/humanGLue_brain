@@ -63,7 +63,7 @@ export function PageLoadingState() {
             transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
           />
         </div>
-        <p className="text-lg text-gray-400">Loading Human Glue...</p>
+        <p className="text-lg text-gray-400">Loading HMN...</p>
       </motion.div>
     </div>
   )

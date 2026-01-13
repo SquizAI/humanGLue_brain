@@ -41,9 +41,9 @@ export interface SMSMessage {
 
 // Default compliance messages
 export const COMPLIANCE_MESSAGES = {
-  optIn: 'HumanGlue: You opted in to receive SMS notifications. Msg frequency varies, up to 10/month. Reply HELP for help; STOP to opt out. Msg&data rates may apply.',
-  optOut: 'HumanGlue: You have been unsubscribed. No further messages will be sent. Reply START to opt back in. Msg&data rates may apply.',
-  help: 'HumanGlue: For help, email support@hmnglue.com or visit hmnglue.com/sms-terms. Reply STOP to opt out, START to subscribe. Msg&data rates may apply.',
+  optIn: 'HMN: You opted in to receive SMS notifications. Msg frequency varies, up to 10/month. Reply HELP for help; STOP to opt out. Msg&data rates may apply.',
+  optOut: 'HMN: You have been unsubscribed. No further messages will be sent. Reply START to opt back in. Msg&data rates may apply.',
+  help: 'HMN: For help, email support@hmnglue.com or visit hmnglue.com/sms-terms. Reply STOP to opt out, START to subscribe. Msg&data rates may apply.',
 }
 
 class TwilioSMSService {

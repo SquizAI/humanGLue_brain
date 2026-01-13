@@ -182,8 +182,8 @@ export function MindMap({ onNodesChange }: MindMapProps) {
   }
 
   const handleDeleteNode = async (nodeId: string) => {
-    // Find root node by checking for node with no parent or labeled 'HumanGlue'
-    const rootNode = nodes.find(n => n.parent_id === null || n.label === 'HumanGlue')
+    // Find root node by checking for node with no parent or labeled 'HMN'
+    const rootNode = nodes.find(n => n.parent_id === null || n.label === 'HMN')
     if (rootNode && nodeId === rootNode.id) return // Can't delete root
 
     try {
@@ -234,7 +234,7 @@ export function MindMap({ onNodesChange }: MindMapProps) {
   }
 
   // Find root node for delete protection
-  const rootNode = nodes.find(n => n.parent_id === null || n.label === 'HumanGlue')
+  const rootNode = nodes.find(n => n.parent_id === null || n.label === 'HMN')
 
   if (loading && nodes.length === 0) {
     return (

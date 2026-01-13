@@ -182,7 +182,7 @@ export default function ProcessPage() {
             className="text-center mb-16"
           >
             <h2 className="text-4xl font-bold text-white mb-4">
-              The Human Glue Journey
+              The HMN Journey
             </h2>
             <p className="text-lg text-gray-300 max-w-3xl mx-auto">
               From assessment to action, our integrated approach ensures insights translate into sustainable change
@@ -304,7 +304,7 @@ export default function ProcessPage() {
               Why Our Process Works
             </h2>
             <p className="text-lg text-gray-300 max-w-3xl mx-auto">
-              The Human Glue methodology bridges the gap between data insights and practical implementation
+              The HMN methodology bridges the gap between data insights and practical implementation
             </p>
           </motion.div>
 

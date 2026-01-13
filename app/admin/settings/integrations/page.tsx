@@ -978,7 +978,7 @@ export default function IntegrationsSettingsPage() {
                     <div>
                       <h4 className="text-white font-medium">API Documentation</h4>
                       <p className="text-sm text-gray-400">
-                        Learn how to use the HumanGlue API to integrate with your applications
+                        Learn how to use the HMN API to integrate with your applications
                       </p>
                     </div>
                     <Link

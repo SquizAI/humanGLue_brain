@@ -344,7 +344,7 @@ export default function OurWhyPage() {
         </div>
       </section>
 
-      {/* Human Glue Difference Section */}
+      {/* HMN Difference Section */}
       <section className="py-12 md:py-24">
         <div className="container max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-8 md:mb-12 gap-4 md:gap-6">
@@ -354,7 +354,7 @@ export default function OurWhyPage() {
               viewport={{ once: true }}
               className="text-3xl md:text-5xl font-gendy text-white"
             >
-              The Human Glue difference
+              The HMN difference
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -453,7 +453,7 @@ export default function OurWhyPage() {
             <div>
               <img
                 src={IMAGES.logo}
-                alt="HumanGlue"
+                alt="HMN"
                 className="h-10 md:h-11 w-auto"
               />
             </div>

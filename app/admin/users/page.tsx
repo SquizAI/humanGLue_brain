@@ -183,7 +183,7 @@ export default function UsersAdmin() {
           email: inviteEmail,
           fullName: inviteFullName,
           role: inviteRole,
-          organizationName: 'HumanGlue',
+          organizationName: 'HMN',
         }),
       })
 

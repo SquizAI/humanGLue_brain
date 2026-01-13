@@ -63,7 +63,7 @@ export default function ApplicationSuccessPage() {
                 Application Submitted Successfully!
               </h1>
               <p className="text-lg text-gray-600">
-                Thank you for applying to join the HumanGlue expert network.
+                Thank you for applying to join the HMN expert network.
                 We're excited to learn more about you!
               </p>
             </div>

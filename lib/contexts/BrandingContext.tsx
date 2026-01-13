@@ -53,9 +53,9 @@ export interface BrandingContextType {
 
 const BrandingContext = createContext<BrandingContextType | undefined>(undefined)
 
-// Default HumanGlue branding
+// Default HMN branding
 const DEFAULT_BRANDING: OrgBranding = {
-  company_name: 'HumanGlue',
+  company_name: 'HMN',
   tagline: 'Guiding Fortune 1000 companies of tomorrow, today',
   colors: {
     primary: '#3b82f6',
@@ -69,10 +69,10 @@ const DEFAULT_BRANDING: OrgBranding = {
     height: 50
   },
   email: {
-    sender_name: 'HumanGlue',
+    sender_name: 'HMN',
     sender_email: 'onboarding@humanglue.ai',
     support_email: 'support@humanglue.ai',
-    footer_text: `© ${new Date().getFullYear()} HumanGlue. All rights reserved.`
+    footer_text: `© ${new Date().getFullYear()} HMN. All rights reserved.`
   },
   social: {
     website: 'https://humanglue.ai',

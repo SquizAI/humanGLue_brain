@@ -246,7 +246,7 @@ export default function WorkshopsPage() {
         </div>
       </section>
 
-      {/* The Human Glue Toolbox Section */}
+      {/* The HMN Toolbox Section */}
       <section className="px-6 py-16 md:py-20">
         <div className="container max-w-7xl mx-auto">
           {/* Header */}

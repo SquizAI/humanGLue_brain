@@ -702,7 +702,7 @@ export { MindReasonerService }
 // =====================================================
 
 /**
- * Map HumanGlue assessment responses to psychometric dimensions
+ * Map HMN assessment responses to psychometric dimensions
  * This bridges assessment data with Mind Reasoner profiles
  */
 export function mapAssessmentToProfile(

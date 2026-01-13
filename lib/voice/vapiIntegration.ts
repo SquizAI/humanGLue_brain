@@ -43,8 +43,8 @@ export const VAPI_CONFIG: VapiConfig = {
 
 export const ASSESSMENT_VOICE_AGENT: VapiAssessmentAgent = {
   id: 'humanglue-assessment-agent',
-  name: 'HumanGlue AI Maturity Assessment Assistant',
-  systemPrompt: `You are an expert AI transformation consultant conducting an AI maturity assessment for HumanGlue. 
+  name: 'HMN AI Maturity Assessment Assistant',
+  systemPrompt: `You are an expert AI transformation consultant conducting an AI maturity assessment for HMN. 
   
 Your role is to:
 1. Guide users through the assessment in a conversational, friendly manner
@@ -63,7 +63,7 @@ Important guidelines:
 - Use the user's name when you have it
 - Acknowledge their industry/company context in your responses`,
 
-  firstMessage: "Hello! I'm your AI transformation guide from HumanGlue. I'm here to help assess your organization's AI readiness through a quick conversation. This typically takes about 10 to 15 minutes. Before we begin, could you tell me your name and a bit about your organization?",
+  firstMessage: "Hello! I'm your AI transformation guide from HMN. I'm here to help assess your organization's AI readiness through a quick conversation. This typically takes about 10 to 15 minutes. Before we begin, could you tell me your name and a bit about your organization?",
 
   voice: {
     provider: 'elevenlabs',

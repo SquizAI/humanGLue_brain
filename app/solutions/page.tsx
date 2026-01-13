@@ -330,7 +330,7 @@ export default function SolutionsPage() {
                         <div className="flex items-center justify-between">
                           <div>
                             <p className="text-sm text-gray-400 mb-1 font-diatype">Enhanced with</p>
-                            <p className="text-lg font-semibold text-white font-gendy">Human Glue AI</p>
+                            <p className="text-lg font-semibold text-white font-gendy">HMN AI</p>
                           </div>
                           <Brain className="w-8 h-8 text-cyan-400" />
                         </div>
@@ -476,7 +476,7 @@ export default function SolutionsPage() {
 
             <div className="relative z-10 text-center max-w-3xl mx-auto">
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 font-gendy">
-                Experience the Human Glue Difference
+                Experience the HMN Difference
               </h2>
 
               <p className="text-xl text-gray-300 mb-8 font-diatype">

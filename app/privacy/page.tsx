@@ -1,8 +1,8 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy | Human Glue',
-  description: 'Privacy policy for Human Glue AI transformation platform',
+  title: 'Privacy Policy | HMN',
+  description: 'Privacy policy for HMN AI transformation platform',
 }
 
 export default function PrivacyPage() {
@@ -18,7 +18,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-2xl font-semibold mb-4 text-white">1. Introduction</h2>
             <p className="text-gray-300 leading-relaxed">
-              At HumanGlue, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our AI transformation platform and services. Please read this privacy policy carefully. By using our Services, you agree to the collection and use of information in accordance with this policy.
+              At HMN, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our AI transformation platform and services. Please read this privacy policy carefully. By using our Services, you agree to the collection and use of information in accordance with this policy.
             </p>
             <p className="text-gray-300 leading-relaxed mt-4">
               If you do not agree with the terms of this privacy policy, please do not access or use our Services.
@@ -333,7 +333,7 @@ export default function PrivacyPage() {
               If you have questions, concerns, or requests regarding this Privacy Policy or our privacy practices, please contact us:
             </p>
             <div className="mt-4 p-6 bg-black/50 rounded-lg border border-gray-800">
-              <p className="text-gray-300 font-semibold mb-2">HumanGlue Inc.</p>
+              <p className="text-gray-300 font-semibold mb-2">HMN Inc.</p>
               <p className="text-gray-300">Privacy Team</p>
               <p className="text-gray-300">Email: <a href="mailto:privacy@humanglue.ai" className="text-cyan-400 hover:text-cyan-300 transition-colors">privacy@humanglue.ai</a></p>
               <p className="text-gray-300">Data Protection Officer: <a href="mailto:dpo@humanglue.ai" className="text-cyan-400 hover:text-cyan-300 transition-colors">dpo@humanglue.ai</a></p>
@@ -346,7 +346,7 @@ export default function PrivacyPage() {
 
           <section className="border-t border-gray-800 pt-8 mt-8">
             <p className="text-sm text-gray-500 italic">
-              By using HumanGlue's Services, you acknowledge that you have read, understood, and agree to be bound by this Privacy Policy.
+              By using HMN's Services, you acknowledge that you have read, understood, and agree to be bound by this Privacy Policy.
             </p>
           </section>
         </div>

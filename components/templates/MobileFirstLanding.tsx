@@ -104,8 +104,8 @@ export function MobileFirstLanding({ onOpenChat }: MobileFirstLandingProps) {
       <header className="fixed top-0 left-0 right-0 z-50 bg-gray-900/90 backdrop-blur-md border-b border-gray-800">
         <div className="flex items-center justify-between px-4 py-3">
           <Image
-            src="/HumanGlue_nobackground.png"
-            alt="HumanGlue"
+            src="/HMN_nobackground.png"
+            alt="HMN"
             width={100}
             height={40}
             className="h-8 w-auto"

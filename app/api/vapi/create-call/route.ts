@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
         messages: [
           {
             role: "system",
-            content: `You are HumanGlue's AI Maturity Assessment Assistant. Your role is to guide users through a comprehensive AI maturity assessment.
+            content: `You are HMN's AI Maturity Assessment Assistant. Your role is to guide users through a comprehensive AI maturity assessment.
 
 ASSESSMENT STRUCTURE:
 - 23 dimensions across 4 categories: Technical, Human, Business, AI Adoption
@@ -68,8 +68,8 @@ Start with a warm welcome and begin the assessment flow.`
         provider: "playht",
         voiceId: "jennifer"
       },
-      firstMessage: "Hello! I'm your AI Maturity Assessment guide from HumanGlue. I'll help you understand your organization's AI readiness and create a personalized transformation roadmap. This assessment takes about 15-20 minutes and covers four key areas. Let's start with your name - what should I call you?",
-      endCallMessage: "Thank you for completing the HumanGlue AI Maturity Assessment. Your results and personalized roadmap will be sent to you shortly. Have a great day!",
+      firstMessage: "Hello! I'm your AI Maturity Assessment guide from HMN. I'll help you understand your organization's AI readiness and create a personalized transformation roadmap. This assessment takes about 15-20 minutes and covers four key areas. Let's start with your name - what should I call you?",
+      endCallMessage: "Thank you for completing the HMN AI Maturity Assessment. Your results and personalized roadmap will be sent to you shortly. Have a great day!",
       endCallPhrases: ["goodbye", "end assessment", "stop assessment", "that's all"],
       recordingEnabled: true,
       silenceTimeoutSeconds: 30,

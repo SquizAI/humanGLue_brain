@@ -649,11 +649,11 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
             <motion.div
               whileHover={{ scale: 1.05 }}
               className="relative w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center bg-black"
-              title={isCollapsed ? "Human Glue" : undefined}
+              title={isCollapsed ? "HMN" : undefined}
             >
               <Image
                 src="/HG_icon.png"
-                alt="Human Glue"
+                alt="HMN"
                 width={40}
                 height={40}
                 className="w-full h-full object-contain"
@@ -661,7 +661,7 @@ export function DashboardSidebar({ className, onLogout }: DashboardSidebarProps)
             </motion.div>
             {!isCollapsed && (
               <div>
-                <h1 style={{ color: 'var(--hg-text-primary)' }} className="text-lg font-bold font-gendy">Human Glue</h1>
+                <h1 style={{ color: 'var(--hg-text-primary)' }} className="text-lg font-bold font-gendy">HMN</h1>
                 <p style={{ color: 'var(--hg-text-muted)' }} className="text-xs font-diatype">{portalConfig.title}</p>
               </div>
             )}

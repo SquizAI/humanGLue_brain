@@ -137,7 +137,7 @@ export class AIToolHandler {
         pricing: '$15K-50K depending on scope'
       },
       toolbox: {
-        title: 'The Human Glue Toolbox',
+        title: 'The HMN Toolbox',
         description: 'A comprehensive collection of 60+ tools organized into 5 categories, covering every phase of your AI transformation journey.',
         benefits: [
           'Assessment tools (readiness scorecards, culture surveys)',

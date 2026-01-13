@@ -94,7 +94,7 @@ export function ChatInterface({ onStateChange, userData }: ChatInterfaceProps) {
           messages: [
             {
               role: 'system',
-              content: `You are the Human Glue AI assistant helping ${userData.name} from ${userData.company}. 
+              content: `You are the HMN AI assistant helping ${userData.name} from ${userData.company}. 
                        They are a ${userData.role} dealing with ${userData.challenge}. 
                        Company size: ${userData.size} employees.
                        Provide helpful, personalized advice about organizational transformation.`

@@ -1,5 +1,5 @@
 /**
- * HumanGlue API - Unified Exports
+ * HMN API - Unified Exports
  *
  * Central export point for all API utilities.
  * Import everything you need from this single file.

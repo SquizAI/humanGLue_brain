@@ -116,7 +116,7 @@ const mockTemplates: EmailTemplate[] = [
 
   <div style="background: #F1F5F9; padding: 20px; text-align: center;">
     <p style="font-size: 12px; color: #64748B; margin: 0;">
-      © {{current_year}} HumanGlue. All rights reserved.
+      © {{current_year}} HMN. All rights reserved.
     </p>
   </div>
 </div>`,
@@ -187,7 +187,7 @@ const mockTemplates: EmailTemplate[] = [
 
   <div style="background: #F1F5F9; padding: 20px; text-align: center;">
     <p style="font-size: 12px; color: #64748B; margin: 0;">
-      © {{current_year}} HumanGlue. <a href="{{unsubscribe_url}}" style="color: #64748B;">Unsubscribe</a>
+      © {{current_year}} HMN. <a href="{{unsubscribe_url}}" style="color: #64748B;">Unsubscribe</a>
     </p>
   </div>
 </div>`,
@@ -230,7 +230,7 @@ const mockTemplates: EmailTemplate[] = [
     <p style="font-size: 16px; line-height: 1.6; color: #334155;">Hi {{first_name}},</p>
 
     <p style="font-size: 16px; line-height: 1.6; color: #334155;">
-      We're thrilled to announce {{feature_name}}, a game-changing addition to HumanGlue that will {{primary_benefit}}.
+      We're thrilled to announce {{feature_name}}, a game-changing addition to HMN that will {{primary_benefit}}.
     </p>
 
     <div style="background: #F8FAFC; padding: 30px; border-radius: 12px; margin: 30px 0;">
@@ -255,7 +255,7 @@ const mockTemplates: EmailTemplate[] = [
 
   <div style="background: #F1F5F9; padding: 20px; text-align: center;">
     <p style="font-size: 12px; color: #64748B; margin: 0;">
-      © {{current_year}} HumanGlue. All rights reserved.
+      © {{current_year}} HMN. All rights reserved.
     </p>
   </div>
 </div>`,

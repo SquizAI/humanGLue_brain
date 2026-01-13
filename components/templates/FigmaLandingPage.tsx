@@ -69,7 +69,7 @@ export function FigmaLandingPage() {
               className="relative"
             >
               <div className="bg-gray-900/80 backdrop-blur-md rounded-2xl p-8 border border-gray-800">
-                <h3 className="text-xl font-semibold mb-4">Welcome to HumanGlue</h3>
+                <h3 className="text-xl font-semibold mb-4">Welcome to HMN</h3>
                 <p className="text-gray-300 mb-4">
                   Prepare your company for the new world of work. AI is coming. Your team needs to be ready.
                 </p>
@@ -163,7 +163,7 @@ export function FigmaLandingPage() {
         </div>
       </section>
 
-      {/* The Human Glue Solution */}
+      {/* The HMN Solution */}
       <section className="relative py-20 bg-gradient-to-br from-gray-900 via-gray-950 to-blue-950/30">
         <div className="container max-w-7xl mx-auto px-6">
           <motion.div
@@ -172,7 +172,7 @@ export function FigmaLandingPage() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-5xl font-bold mb-4">The Human Glue Solution</h2>
+            <h2 className="text-5xl font-bold mb-4">The HMN Solution</h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
               Our Adaptable Foundation blends diagnostic assessments, hands-on 
               leadership coaching, AI training, and adaptability bootcamps to transform 
@@ -240,7 +240,7 @@ export function FigmaLandingPage() {
               Adapt. Lead. Thrive.
             </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
-              In a world transformed by AI, Human Glue gives leaders 
+              In a world transformed by AI, HMN gives leaders 
               and teams the edge, bridging them to drive progress, 
               not just keep pace.
             </p>

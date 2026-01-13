@@ -1,5 +1,5 @@
 /**
- * HumanGlue Assessment Orchestrator
+ * HMN Assessment Orchestrator
  * Coordinates multi-agent assessment process
  */
 

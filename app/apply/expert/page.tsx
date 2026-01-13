@@ -246,7 +246,7 @@ export default function ExpertApplicationPage() {
             <span className="text-sm font-medium">Join Our Expert Network</span>
           </div>
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            Become a HumanGlue Expert
+            Become a HMN Expert
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Share your AI expertise, help organizations transform, and build your personal brand
@@ -259,7 +259,7 @@ export default function ExpertApplicationPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <CheckCircle2 className="w-5 h-5 text-green-600" />
-              Why Join HumanGlue?
+              Why Join HMN?
             </CardTitle>
           </CardHeader>
           <CardContent className="grid md:grid-cols-2 gap-4">
@@ -483,7 +483,7 @@ export default function ExpertApplicationPage() {
               </div>
 
               <div>
-                <Label htmlFor="whyJoin">Why do you want to join HumanGlue?</Label>
+                <Label htmlFor="whyJoin">Why do you want to join HMN?</Label>
                 <Textarea
                   id="whyJoin"
                   value={formData.whyJoin}

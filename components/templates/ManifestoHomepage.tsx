@@ -283,7 +283,7 @@ export function ManifestoHomepage() {
                   className="text-lg px-8 py-4"
                   icon={<Lightbulb className="w-5 h-5" />}
                 >
-                  Explore The Human Glue Approach
+                  Explore The HMN Approach
                 </Button>
               </Link>
             </motion.div>
@@ -433,7 +433,7 @@ export function ManifestoHomepage() {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-6xl font-extrabold mb-6 text-white">
-              How Human Glue Works
+              How HMN Works
             </h2>
             <p className="text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto">
               Three integrated pillars that transform your workforce from fragile to future-proof
@@ -474,7 +474,7 @@ export function ManifestoHomepage() {
             <PillarCard
               pillar="marketplace"
               icon={<Users className="w-8 h-8" />}
-              headline="The Human Glue Talent Marketplace"
+              headline="The HMN Talent Marketplace"
               description="A curated bench of vetted specialists—not a commodity gig platform."
               features={[
                 "Transformation experts ranked for adaptability impact",
@@ -611,7 +611,7 @@ export function ManifestoHomepage() {
             transition={{ duration: 0.6 }}
           >
             <h2 className="text-4xl md:text-6xl lg:text-7xl font-extrabold mb-6 text-white">
-              That's Human Glue.
+              That's HMN.
             </h2>
             <p className="text-3xl md:text-5xl font-bold mb-12 bg-gradient-to-r from-blue-400 via-cyan-400 to-pink-400 bg-clip-text text-transparent">
               The Bond That Glues the Future Together.

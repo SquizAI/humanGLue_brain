@@ -1,8 +1,8 @@
 import { Workshop } from '@/components/workshops/WorkshopCard'
 
 /**
- * Mock workshop data for the HumanGlue platform
- * Aligned with the Human Glue Manifesto and three-pillar approach
+ * Mock workshop data for the HMN platform
+ * Aligned with the HMN Manifesto and three-pillar approach
  */
 
 export const mockWorkshops: Workshop[] = [
@@ -325,7 +325,7 @@ export const mockWorkshops: Workshop[] = [
     title: 'The Complete AI Transformation Journey',
     description: 'A comprehensive workshop covering all three pillars: adaptability, coaching, and marketplace. Your complete guide to thriving in the AI era.',
     instructor: {
-      name: 'The HumanGlue Team',
+      name: 'The HMN Team',
       title: 'Transformation Specialists',
       avatar: '/instructors/team.jpg',
     },

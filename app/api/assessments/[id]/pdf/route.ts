@@ -35,7 +35,7 @@ export async function POST(
       status: 200,
       headers: {
         'Content-Type': 'text/html',
-        'Content-Disposition': `attachment; filename="HumanGlue_Assessment_${body.userData.company}_${id}.html"`,
+        'Content-Disposition': `attachment; filename="HMN_Assessment_${body.userData.company}_${id}.html"`,
       },
     })
   } catch (error) {
@@ -302,9 +302,9 @@ function generatePDFHTML(assessment: any): string {
   </div>
 
   <div class="footer">
-    <p><strong>HumanGlue</strong> | Guiding Fortune 1000 companies of tomorrow, today</p>
+    <p><strong>HMN</strong> | Guiding Fortune 1000 companies of tomorrow, today</p>
     <p>This assessment is confidential and intended for ${userData.name} at ${userData.company}</p>
-    <p>© ${new Date().getFullYear()} HumanGlue. All rights reserved.</p>
+    <p>© ${new Date().getFullYear()} HMN. All rights reserved.</p>
   </div>
 
   <script>

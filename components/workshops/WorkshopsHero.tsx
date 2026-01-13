@@ -32,7 +32,7 @@ export function WorkshopsHero() {
             <Link href="/" className="flex-shrink-0">
               <Image
                 src="/HumnaGlue_logo_white_blue.png"
-                alt="Human Glue"
+                alt="HMN"
                 width={213}
                 height={45}
                 className="w-[180px] md:w-[213px]"

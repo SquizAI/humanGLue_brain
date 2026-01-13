@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Project Manager | HumanGlue',
+  title: 'Project Manager | HMN',
   description: 'AI-powered project management tool with Kanban, Mind Map, Gantt charts and more',
 }
 

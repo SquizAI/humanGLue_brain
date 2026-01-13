@@ -177,7 +177,7 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
               expertise_areas: application.expertise_areas,
             },
             {
-              reviewer_name: user.email || 'HumanGlue Team',
+              reviewer_name: user.email || 'HMN Team',
               review_notes: reviewNotes || undefined,
             }
           )
@@ -243,7 +243,7 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
               expertise_areas: application.expertise_areas,
             },
             {
-              reviewer_name: user.email || 'HumanGlue Team',
+              reviewer_name: user.email || 'HMN Team',
               review_notes: reviewNotes || undefined,
               rejection_reason: rejectionReason,
             }

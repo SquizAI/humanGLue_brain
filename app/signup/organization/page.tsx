@@ -276,7 +276,7 @@ export default function OrganizationSignupPage() {
           <Link href="/" className="inline-block">
             <Image
               src="/hmn_logo.png"
-              alt="HumanGlue"
+              alt="HMN"
               width={180}
               height={50}
               className="h-10 w-auto"

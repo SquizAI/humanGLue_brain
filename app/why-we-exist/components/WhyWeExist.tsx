@@ -13,7 +13,7 @@ export function WhyWeExist() {
         <div className="prose prose-invert max-w-none font-diatype">
           <p className="text-lg text-gray-400 leading-relaxed">
             Work is evolving faster than humans can keep up. Change management is broken.
-            Employees are unsure if they fit in an AI-driven future. HumanGlue solves the
+            Employees are unsure if they fit in an AI-driven future. HMN solves the
             real problem: helping people adapt, or companies fall behind.
           </p>
         </div>

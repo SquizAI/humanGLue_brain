@@ -242,7 +242,7 @@ export default function InviteAcceptPage() {
           <Link href="/" className="flex justify-center mb-8">
             <Image
               src="/hmn_logo.png"
-              alt="HumanGlue"
+              alt="HMN"
               width={180}
               height={50}
               className="h-10 w-auto"

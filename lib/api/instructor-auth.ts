@@ -49,7 +49,7 @@ export async function requireInstructor(
   const supabase = await createClient()
 
   // Check if user has instructor role in the database
-  // For HumanGlue, instructors are identified by having courses they created
+  // For HMN, instructors are identified by having courses they created
   const { data: instructorData, error } = await supabase
     .from('users')
     .select('id, organization_id, metadata')

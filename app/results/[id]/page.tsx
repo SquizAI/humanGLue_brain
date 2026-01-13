@@ -81,7 +81,7 @@ export default function AssessmentResultsPage() {
         const url = window.URL.createObjectURL(blob)
         const a = document.createElement('a')
         a.href = url
-        a.download = `HumanGlue_Assessment_${assessment.userData.company}_${params.id}.html`
+        a.download = `HMN_Assessment_${assessment.userData.company}_${params.id}.html`
         document.body.appendChild(a)
         a.click()
         window.URL.revokeObjectURL(url)

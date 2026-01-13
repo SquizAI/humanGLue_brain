@@ -3,7 +3,7 @@
  * Application Logger
  * ============================================================================
  *
- * Centralized logging for the HumanGlue platform
+ * Centralized logging for the HMN platform
  *
  * Features:
  * - Structured logging with levels (debug, info, warn, error)

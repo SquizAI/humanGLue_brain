@@ -51,7 +51,7 @@ async function generateTailoredResource(
   const analysis = assessmentData.analysis
 
   // Create a detailed prompt for Claude to generate hyper-tailored content
-  const prompt = `You are an expert AI transformation consultant at HumanGlue. Generate a comprehensive, actionable resource document titled "${resourceType}" for the following organization:
+  const prompt = `You are an expert AI transformation consultant at HMN. Generate a comprehensive, actionable resource document titled "${resourceType}" for the following organization:
 
 Company: ${userData.company}
 Industry: ${userData.industry || 'Technology'}
@@ -91,7 +91,7 @@ Please generate a ${resourceType} that includes:
 7. Industry-Specific Use Cases (relevant to ${userData.industry})
 8. Next Steps & Action Items
 
-Use HumanGlue's methodologies:
+Use HMN's methodologies:
 - AI Maturity Framework (Levels 0-10)
 - Human-Centered Transformation
 - Change Management Integration
@@ -296,7 +296,7 @@ function createResourceDocument(
 </head>
 <body>
   <header>
-    <div class="logo">HumanGlue</div>
+    <div class="logo">HMN</div>
     <h1>${title}</h1>
     <div class="meta">
       Prepared for: <strong>${assessmentData.userData.company}</strong> |
@@ -310,11 +310,11 @@ function createResourceDocument(
   </main>
 
   <footer>
-    <p><strong>HumanGlue - AI-Powered Organizational Transformation</strong></p>
+    <p><strong>HMN - AI-Powered Organizational Transformation</strong></p>
     <p>This document was generated using AI-powered analysis tailored to your organization's specific needs.</p>
     <p>For questions or to schedule a strategy session, contact us at hello@humanglue.ai</p>
     <p style="margin-top: 20px; font-size: 12px; color: #9ca3af;">
-      © ${new Date().getFullYear()} HumanGlue. All rights reserved. | Generated: ${today}
+      © ${new Date().getFullYear()} HMN. All rights reserved. | Generated: ${today}
     </p>
   </footer>
 </body>

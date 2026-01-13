@@ -41,7 +41,7 @@ export default function SettingsAdmin() {
 
   // Settings state
   const [settings, setSettings] = useState({
-    platformName: 'HumanGlue',
+    platformName: 'HMN',
     platformUrl: 'https://humanglue.ai',
     supportEmail: 'support@humanglue.ai',
     emailNotifications: true,

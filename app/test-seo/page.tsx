@@ -46,7 +46,7 @@ export default function TestSEOPage() {
               )}
               <div className="p-4 bg-gray-100 text-gray-900">
                 <div className="text-xs text-gray-500 uppercase">{currentUrl}</div>
-                <h3 className="font-bold text-lg mt-1">Human Glue - AI-Powered Organizational Transformation</h3>
+                <h3 className="font-bold text-lg mt-1">HMN - AI-Powered Organizational Transformation</h3>
                 <p className="text-sm text-gray-600 mt-1">Transform your organization with AI-powered insights. Strengthen the human connections that drive performance, innovation, and resilience.</p>
               </div>
             </div>
@@ -64,7 +64,7 @@ export default function TestSEOPage() {
                 className="w-full h-auto"
               />
               <div className="p-4 bg-gray-100 text-gray-900">
-                <h3 className="font-bold">Human Glue - AI-Powered Organizational Transformation</h3>
+                <h3 className="font-bold">HMN - AI-Powered Organizational Transformation</h3>
                 <p className="text-sm text-gray-600 mt-1">Transform your organization with AI-powered insights. Strengthen human connections that drive performance.</p>
                 <div className="text-xs text-gray-500 mt-2">{currentUrl}</div>
               </div>
@@ -118,7 +118,7 @@ export default function TestSEOPage() {
                 Share on Facebook
               </a>
               <a
-                href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent('Check out Human Glue - AI-Powered Organizational Transformation')}`}
+                href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent('Check out HMN - AI-Powered Organizational Transformation')}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-4 py-2 bg-sky-500 hover:bg-sky-600 rounded-lg transition-colors"

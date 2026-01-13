@@ -203,7 +203,7 @@ const mockCommunications: Communication[] = [
     id: 'email-1',
     type: 'email',
     title: 'Expert Recruitment: Dr. Sarah Chen',
-    subject: 'Invitation to Join HumanGlue\'s Expert Advisory Network',
+    subject: 'Invitation to Join HMN\'s Expert Advisory Network',
     preview: 'Personalized outreach to AI ethics researcher at Stanford, focusing on her recent work on responsible AI...',
     status: 'sent',
     sentAt: new Date('2025-01-22'),

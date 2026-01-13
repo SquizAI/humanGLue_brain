@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   return {
-    title: `Request Engagement - ${talent.name} | Human Glue`,
+    title: `Request Engagement - ${talent.name} | HMN`,
     description: `Submit an engagement request to work with ${talent.name}, ${talent.title}`,
   }
 }

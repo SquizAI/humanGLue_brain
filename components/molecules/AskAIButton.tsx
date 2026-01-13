@@ -144,7 +144,7 @@ export function AskAboutSolution({ solutionId }: { solutionId: 'assessment' | 'w
     },
     toolbox: {
       topic: 'The Toolbox',
-      question: 'What\'s included in the Human Glue Toolbox and how can I use it?'
+      question: 'What\'s included in the HMN Toolbox and how can I use it?'
     }
   }
 

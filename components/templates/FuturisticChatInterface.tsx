@@ -93,7 +93,7 @@ export function FuturisticChatInterface({ onStateChange, userData }: FuturisticC
           messages: [
             {
               role: 'system',
-              content: `You are the Human Glue AI assistant helping ${userData.name} from ${userData.company}. 
+              content: `You are the HMN AI assistant helping ${userData.name} from ${userData.company}. 
                        They are a ${userData.role} dealing with ${userData.challenge}. 
                        Company size: ${userData.size} employees.
                        Provide helpful, personalized advice about organizational transformation.`
@@ -163,7 +163,7 @@ export function FuturisticChatInterface({ onStateChange, userData }: FuturisticC
             </motion.div>
             <div>
               <h2 className="text-2xl font-bold bg-gradient-to-r from-neon-blue to-neon-cyan bg-clip-text text-transparent">
-                Human Glue AI
+                HMN AI
               </h2>
               <div className="flex items-center gap-3 mt-1">
                 <div className="flex items-center gap-1">
@@ -285,7 +285,7 @@ export function FuturisticChatInterface({ onStateChange, userData }: FuturisticC
           </div>
           
           <Text size="xs" className="text-gray-500">
-            Powered by Human Glue AI • July 2025
+            Powered by HMN AI • July 2025
           </Text>
         </motion.div>
       </motion.div>

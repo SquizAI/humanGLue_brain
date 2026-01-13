@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     'digital transformation',
   ],
   openGraph: {
-    title: 'Our Approach | Human Glue',
+    title: 'Our Approach | HMN',
     description:
       'Transformation without truth is just high-priced theater. Discover our proven methodology for closing the gap between AI strategy and organizational reality.',
     url: 'https://humanglue.netlify.app/approach',
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
         url: 'https://humanglue.netlify.app/og-approach.png',
         width: 1200,
         height: 630,
-        alt: 'Human Glue Approach',
+        alt: 'HMN Approach',
       },
     ],
   },

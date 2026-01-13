@@ -35,7 +35,7 @@ export function getPersonalizedGreeting(): PersonalizedGreeting {
   // Returning visitor
   if (hasVisitedBefore) {
     return {
-      greeting: "Welcome back to HumanGlue!",
+      greeting: "Welcome back to HMN!",
       context: "I remember our last conversation. Ready to continue your transformation journey?",
       suggestions: [
         "Continue where we left off",
@@ -62,7 +62,7 @@ export function getPersonalizedGreeting(): PersonalizedGreeting {
   if (referralSource.toLowerCase().includes('blog') || utmMedium.toLowerCase().includes('content')) {
     return {
       greeting: "Great to see you here!",
-      context: "Ready to turn insights into action? Let's explore how HumanGlue can transform your organization.",
+      context: "Ready to turn insights into action? Let's explore how HMN can transform your organization.",
       suggestions: [
         "See real client results",
         "Get personalized roadmap",
@@ -74,7 +74,7 @@ export function getPersonalizedGreeting(): PersonalizedGreeting {
   // Partner or campaign referral
   if (utmCampaign || referralSource) {
     return {
-      greeting: "Welcome to HumanGlue!",
+      greeting: "Welcome to HMN!",
       context: "You're joining leading organizations on their transformation journey. Let me show you what's possible.",
       suggestions: [
         "Explore solutions",

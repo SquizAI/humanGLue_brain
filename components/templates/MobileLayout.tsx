@@ -169,8 +169,8 @@ export function MobileLayout({ children, backgroundState = 'default' }: MobileLa
           <div className="flex items-center justify-between px-4 py-2">
             <Link href="/" className="flex items-center">
               <Image
-                src="/HumanGlue_nobackground.png"
-                alt="Human Glue"
+                src="/HMN_nobackground.png"
+                alt="HMN"
                 width={90}
                 height={36}
                 className="w-20 h-auto"
@@ -334,8 +334,8 @@ export function MobileLayout({ children, backgroundState = 'default' }: MobileLa
         <div className="flex items-center justify-center px-4 py-3">
           <Link href="/">
             <Image
-              src="/HumanGlue_nobackground.png"
-              alt="Human Glue"
+              src="/HMN_nobackground.png"
+              alt="HMN"
               width={100}
               height={40}
               className="w-24 h-auto"

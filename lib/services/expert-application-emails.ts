@@ -37,8 +37,8 @@ function getResendClient(): Resend {
 
 function getFromEmail(): string {
   return process.env.RESEND_FROM_EMAIL
-    ? `HumanGlue <${process.env.RESEND_FROM_EMAIL}>`
-    : 'HumanGlue <onboarding@resend.dev>'
+    ? `HMN <${process.env.RESEND_FROM_EMAIL}>`
+    : 'HMN <onboarding@resend.dev>'
 }
 
 function getSiteUrl(): string {
@@ -104,7 +104,7 @@ export async function sendApplicationConfirmation(application: ApplicationData):
     await resend.emails.send({
       from: getFromEmail(),
       to: [application.email],
-      subject: 'Your Expert Application Has Been Received - HumanGlue',
+      subject: 'Your Expert Application Has Been Received - HMN',
       html,
     })
     console.log(`[Expert Emails] Confirmation sent to ${application.email}`)
@@ -249,7 +249,7 @@ export async function sendApprovalEmail(
     await resend.emails.send({
       from: getFromEmail(),
       to: [application.email],
-      subject: '🎉 Your HumanGlue Expert Application Has Been Approved!',
+      subject: '🎉 Your HMN Expert Application Has Been Approved!',
       html,
     })
     console.log(`[Expert Emails] Approval email sent to ${application.email}`)
@@ -321,7 +321,7 @@ export async function sendRejectionEmail(
     await resend.emails.send({
       from: getFromEmail(),
       to: [application.email],
-      subject: 'Update on Your HumanGlue Expert Application',
+      subject: 'Update on Your HMN Expert Application',
       html,
     })
     console.log(`[Expert Emails] Rejection email sent to ${application.email}`)
@@ -391,7 +391,7 @@ export async function sendRequestInfoEmail(
     await resend.emails.send({
       from: getFromEmail(),
       to: [application.email],
-      subject: 'Additional Information Needed - HumanGlue Expert Application',
+      subject: 'Additional Information Needed - HMN Expert Application',
       html,
     })
     console.log(`[Expert Emails] Request info email sent to ${application.email}`)
@@ -455,7 +455,7 @@ export async function sendTestEmail(to: string, customMessage?: string): Promise
     const result = await resend.emails.send({
       from: getFromEmail(),
       to: [to],
-      subject: '✅ HumanGlue Email System Test',
+      subject: '✅ HMN Email System Test',
       html,
     })
     console.log(`[Expert Emails] Test email sent to ${to}`, result)

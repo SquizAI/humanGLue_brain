@@ -18,8 +18,8 @@ function getResendClient(): Resend {
 
 function getFromEmail(): string {
   return process.env.RESEND_FROM_EMAIL
-    ? `HumanGlue <${process.env.RESEND_FROM_EMAIL}>`
-    : 'HumanGlue <onboarding@resend.dev>'
+    ? `HMN <${process.env.RESEND_FROM_EMAIL}>`
+    : 'HMN <onboarding@resend.dev>'
 }
 
 export async function POST(request: NextRequest) {
@@ -60,14 +60,14 @@ export async function POST(request: NextRequest) {
       recipientName,
       personalizedIntro: personalizedIntro || `We've been following your work and are impressed by what you've accomplished.`,
       discoveredFacts: discoveredFacts || [],
-      whyTheyFit: whyTheyFit || `Your background makes you an ideal fit for what we're building at HumanGlue.`,
+      whyTheyFit: whyTheyFit || `Your background makes you an ideal fit for what we're building at HMN.`,
       opportunity: opportunity || [
         'Shape our AI maturity assessment methodology',
         'Strategic collaboration opportunities',
         'Equity participation as a founding advisor',
       ],
       senderName: senderName || 'Matty Squarzoni',
-      senderTitle: senderTitle || 'Co-Founder & CTO, HumanGlue',
+      senderTitle: senderTitle || 'Co-Founder & CTO, HMN',
       senderEmail: senderEmail || 'matty@humanglue.ai',
       ctaText,
       ctaUrl,

@@ -86,7 +86,7 @@ This month's newsletter brings you cutting-edge insights into AI transformation 
 Stay ahead of the curve with actionable insights tailored to your industry.
 
 Best regards,
-The HumanGlue Team`,
+The HMN Team`,
       },
       email: {
         title: 'AI-Generated Outreach Email',

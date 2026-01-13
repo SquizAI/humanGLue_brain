@@ -914,7 +914,7 @@ export class UnifiedCommunicationsService {
         }
         return this.emailService.sendMessage(
           payload.recipient,
-          payload.metadata?.subject as string || 'Message from HumanGlue',
+          payload.metadata?.subject as string || 'Message from HMN',
           payload.content,
           payload.metadata?.textContent as string
         )
@@ -1036,14 +1036,14 @@ export function createUnifiedCommunicationsService(): UnifiedCommunicationsServi
       provider: 'resend',
       apiKey: process.env.RESEND_API_KEY,
       fromEmail: process.env.EMAIL_FROM || 'noreply@hmnglue.com',
-      fromName: process.env.EMAIL_FROM_NAME || 'HumanGlue',
+      fromName: process.env.EMAIL_FROM_NAME || 'HMN',
     }
   } else if (process.env.SENDGRID_API_KEY) {
     config.email = {
       provider: 'sendgrid',
       apiKey: process.env.SENDGRID_API_KEY,
       fromEmail: process.env.EMAIL_FROM || 'noreply@hmnglue.com',
-      fromName: process.env.EMAIL_FROM_NAME || 'HumanGlue',
+      fromName: process.env.EMAIL_FROM_NAME || 'HMN',
     }
   }
 

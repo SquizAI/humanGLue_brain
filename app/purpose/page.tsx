@@ -398,7 +398,7 @@ export default function PurposePage() {
         </div>
       </section>
 
-      {/* The Human Glue Difference Section */}
+      {/* The HMN Difference Section */}
       <section className="py-20 bg-[#132e37]">
         <div className="container max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-16">

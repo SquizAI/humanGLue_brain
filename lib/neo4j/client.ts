@@ -1,7 +1,7 @@
 /**
  * Neo4j Knowledge Graph Client
  *
- * Manages connections to the Neo4j database for the HumanGlue platform.
+ * Manages connections to the Neo4j database for the HMN platform.
  * Used for modeling complex relationships between organizations, assessments,
  * maturity levels, recommendations, and behavioral patterns.
  */

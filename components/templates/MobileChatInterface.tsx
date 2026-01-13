@@ -243,7 +243,7 @@ export function MobileChatInterface({
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     onKeyDown={handleKeyDown}
-                    placeholder="Message HumanGlue AI..."
+                    placeholder="Message HMN AI..."
                     className="w-full bg-transparent text-white placeholder-gray-500 resize-none outline-none text-sm leading-relaxed"
                     rows={1}
                     style={{ maxHeight: '120px' }}

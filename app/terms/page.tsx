@@ -1,8 +1,8 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Terms of Service | Human Glue',
-  description: 'Terms of service for Human Glue AI transformation platform',
+  title: 'Terms of Service | HMN',
+  description: 'Terms of service for HMN AI transformation platform',
 }
 
 export default function TermsPage() {
@@ -18,7 +18,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-2xl font-semibold mb-4 text-white">1. Acceptance of Terms</h2>
             <p className="text-gray-300 leading-relaxed">
-              Welcome to HumanGlue. By accessing or using our AI transformation platform, services, and related offerings (collectively, the "Services"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, please do not use our Services.
+              Welcome to HMN. By accessing or using our AI transformation platform, services, and related offerings (collectively, the "Services"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, please do not use our Services.
             </p>
             <p className="text-gray-300 leading-relaxed mt-4">
               These Terms apply to all visitors, users, and others who access or use the Services, including but not limited to individual users, team administrators, enterprise clients, instructors, and partners.
@@ -28,7 +28,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-2xl font-semibold mb-4 text-white">2. Description of Services</h2>
             <p className="text-gray-300 leading-relaxed">
-              HumanGlue provides an AI-powered platform for organizational transformation, including:
+              HMN provides an AI-powered platform for organizational transformation, including:
             </p>
             <ul className="list-disc list-inside text-gray-300 space-y-2 mt-4 ml-4">
               <li>AI Maturity Assessments and personalized readiness reports</li>
@@ -119,7 +119,7 @@ export default function TermsPage() {
             <h2 className="text-2xl font-semibold mb-4 text-white">6. Intellectual Property Rights</h2>
             <h3 className="text-xl font-semibold mb-3 text-gray-200">6.1 Our Content</h3>
             <p className="text-gray-300 leading-relaxed">
-              All content, features, and functionality of the Services, including but not limited to text, graphics, logos, icons, images, audio, video, software, and data compilations, are the exclusive property of HumanGlue or its licensors and are protected by copyright, trademark, and other intellectual property laws.
+              All content, features, and functionality of the Services, including but not limited to text, graphics, logos, icons, images, audio, video, software, and data compilations, are the exclusive property of HMN or its licensors and are protected by copyright, trademark, and other intellectual property laws.
             </p>
 
             <h3 className="text-xl font-semibold mb-3 text-gray-200 mt-6">6.2 Your Content</h3>
@@ -146,7 +146,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-2xl font-semibold mb-4 text-white">8. Third-Party Services and Links</h2>
             <p className="text-gray-300 leading-relaxed">
-              Our Services may contain links to third-party websites or services that are not owned or controlled by HumanGlue. We are not responsible for the content, privacy policies, or practices of third-party sites. We encourage you to review the terms and privacy policies of any third-party services you access.
+              Our Services may contain links to third-party websites or services that are not owned or controlled by HMN. We are not responsible for the content, privacy policies, or practices of third-party sites. We encourage you to review the terms and privacy policies of any third-party services you access.
             </p>
           </section>
 
@@ -174,7 +174,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-2xl font-semibold mb-4 text-white">10. Indemnification</h2>
             <p className="text-gray-300 leading-relaxed">
-              You agree to indemnify, defend, and hold harmless HumanGlue and its officers, directors, employees, and agents from any claims, liabilities, damages, losses, and expenses arising from your use of the Services, your violation of these Terms, or your violation of any rights of another party.
+              You agree to indemnify, defend, and hold harmless HMN and its officers, directors, employees, and agents from any claims, liabilities, damages, losses, and expenses arising from your use of the Services, your violation of these Terms, or your violation of any rights of another party.
             </p>
           </section>
 
@@ -223,7 +223,7 @@ export default function TermsPage() {
             <h2 className="text-2xl font-semibold mb-4 text-white">14. General Provisions</h2>
             <h3 className="text-xl font-semibold mb-3 text-gray-200">14.1 Entire Agreement</h3>
             <p className="text-gray-300 leading-relaxed">
-              These Terms constitute the entire agreement between you and HumanGlue regarding the Services and supersede all prior agreements.
+              These Terms constitute the entire agreement between you and HMN regarding the Services and supersede all prior agreements.
             </p>
 
             <h3 className="text-xl font-semibold mb-3 text-gray-200 mt-6">14.2 Severability</h3>
@@ -248,7 +248,7 @@ export default function TermsPage() {
               For questions about these Terms, please contact us at:
             </p>
             <div className="mt-4 p-6 bg-black/50 rounded-lg border border-gray-800">
-              <p className="text-gray-300">HumanGlue Inc.</p>
+              <p className="text-gray-300">HMN Inc.</p>
               <p className="text-gray-300">Email: legal@humanglue.ai</p>
               <p className="text-gray-300">Support: support@humanglue.ai</p>
               <p className="text-gray-300 mt-2">Website: <a href="https://humanglue.ai" className="text-cyan-400 hover:text-cyan-300 transition-colors">https://humanglue.ai</a></p>
@@ -257,7 +257,7 @@ export default function TermsPage() {
 
           <section className="border-t border-gray-800 pt-8 mt-8">
             <p className="text-sm text-gray-500 italic">
-              By using HumanGlue's Services, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service.
+              By using HMN's Services, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service.
             </p>
           </section>
         </div>

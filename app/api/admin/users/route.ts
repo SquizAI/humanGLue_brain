@@ -266,7 +266,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         const loginUrl = `${process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:5040'}/login`
 
         // Get organization name if applicable
-        let organizationName = 'HumanGlue'
+        let organizationName = 'HMN'
         if (effectiveOrgId) {
           const { data: org } = await supabase
             .from('organizations')

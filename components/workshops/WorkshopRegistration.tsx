@@ -415,7 +415,7 @@ export function WorkshopRegistration({ workshop }: WorkshopRegistrationProps) {
                         data-testid="newsletter"
                       />
                       <span className="text-sm text-gray-400">
-                        Send me updates about future workshops and HumanGlue content
+                        Send me updates about future workshops and HMN content
                       </span>
                     </label>
 

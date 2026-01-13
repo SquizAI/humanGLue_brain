@@ -1,4 +1,4 @@
-// Analytics tracking utility for Human Glue
+// Analytics tracking utility for HMN
 
 interface AnalyticsEvent {
   name: string

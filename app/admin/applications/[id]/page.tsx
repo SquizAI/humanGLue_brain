@@ -525,7 +525,7 @@ export default function ApplicationReviewPage({
             {application.why_join && (
               <Card>
                 <CardHeader>
-                  <CardTitle>Why Join HumanGlue?</CardTitle>
+                  <CardTitle>Why Join HMN?</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-gray-700 whitespace-pre-wrap">{application.why_join}</p>

@@ -146,7 +146,7 @@ export function generatePDFContent(glueiqData: GlueIQData): string {
   <!-- Page 1: Executive Summary -->
   <div class="page page-1">
     <div class="header">
-      <div class="logo-placeholder">HumanGlue</div>
+      <div class="logo-placeholder">HMN</div>
       <div class="report-meta">
         <div class="report-title">AI Maturity Assessment</div>
         <div>GlueIQ Executive Summary</div>
@@ -204,7 +204,7 @@ export function generatePDFContent(glueiqData: GlueIQData): string {
     </div>
 
     <div class="footer">
-      <div>Prepared by HumanGlue AI | LVNG.ai Framework</div>
+      <div>Prepared by HMN AI | LVNG.ai Framework</div>
       <div>Page 1 of 3</div>
     </div>
   </div>
@@ -212,7 +212,7 @@ export function generatePDFContent(glueiqData: GlueIQData): string {
   <!-- Page 2: Top 5 Recommendations -->
   <div class="page page-2">
     <div class="header">
-      <div class="logo-placeholder">HumanGlue</div>
+      <div class="logo-placeholder">HMN</div>
       <div class="report-meta">
         <div style="font-weight: 600;">GlueIQ Executive Summary</div>
         <div>${glueiqData.assessmentDate}</div>
@@ -224,7 +224,7 @@ export function generatePDFContent(glueiqData: GlueIQData): string {
     ${recommendationsHtml}
 
     <div class="footer">
-      <div>Prepared by HumanGlue AI | LVNG.ai Framework</div>
+      <div>Prepared by HMN AI | LVNG.ai Framework</div>
       <div>Page 2 of 3</div>
     </div>
   </div>
@@ -232,7 +232,7 @@ export function generatePDFContent(glueiqData: GlueIQData): string {
   <!-- Page 3: Financial Impact -->
   <div class="page page-3">
     <div class="header">
-      <div class="logo-placeholder">HumanGlue</div>
+      <div class="logo-placeholder">HMN</div>
       <div class="report-meta">
         <div style="font-weight: 600;">GlueIQ Executive Summary</div>
         <div>${glueiqData.assessmentDate}</div>
@@ -297,7 +297,7 @@ export function generatePDFContent(glueiqData: GlueIQData): string {
     </div>
 
     <div class="footer">
-      <div>Prepared by HumanGlue AI | LVNG.ai Framework</div>
+      <div>Prepared by HMN AI | LVNG.ai Framework</div>
       <div>Page 3 of 3</div>
     </div>
   </div>

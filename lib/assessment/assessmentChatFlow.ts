@@ -75,7 +75,7 @@ export class AssessmentChatFlow {
 
   private handleGreeting(): AssessmentChatResponse {
     return {
-      message: "👋 Welcome to HumanGlue's AI Maturity Assessment! I'm here to help you understand your organization's AI readiness and create a personalized transformation roadmap. Let's start with your name.",
+      message: "👋 Welcome to HMN's AI Maturity Assessment! I'm here to help you understand your organization's AI readiness and create a personalized transformation roadmap. Let's start with your name.",
       nextState: 'collectingBasicInfo',
       suggestions: ['Get Started', 'Learn More', 'Skip to Assessment']
     }

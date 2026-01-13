@@ -1,5 +1,5 @@
 /**
- * HumanGlue Transcript Analysis Agents
+ * HMN Transcript Analysis Agents
  * Data science sub-agents for parallel analysis of interview transcripts
  *
  * These agents process raw interview transcripts to extract structured insights,

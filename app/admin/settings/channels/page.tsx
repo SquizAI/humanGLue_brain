@@ -185,7 +185,7 @@ export default function ChannelSettingsPage() {
             pages: []
           },
           email: { provider: 'resend', isActive: true, fromEmail: 'hello@humanglue.ai' },
-          newsletter: { isActive: true, name: 'HumanGlue Weekly' },
+          newsletter: { isActive: true, name: 'HMN Weekly' },
           workshop: { isActive: false }
         })
       }
@@ -209,7 +209,7 @@ export default function ChannelSettingsPage() {
           pages: []
         },
         email: { provider: 'resend', isActive: true, fromEmail: 'hello@humanglue.ai' },
-        newsletter: { isActive: true, name: 'HumanGlue Weekly' },
+        newsletter: { isActive: true, name: 'HMN Weekly' },
         workshop: { isActive: false }
       })
     } finally {

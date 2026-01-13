@@ -39,7 +39,7 @@ export default function HelpPage() {
 
   const faqs: FAQItem[] = [
     {
-      question: 'How do I get started with HumanGlue?',
+      question: 'How do I get started with HMN?',
       answer: 'Start by completing your profile in Settings, then take your first AI Maturity Assessment. Based on your results, we\'ll recommend a personalized learning path with courses and workshops tailored to your needs.',
       category: 'getting-started'
     },
@@ -75,7 +75,7 @@ export default function HelpPage() {
     },
     {
       question: 'What browsers are supported?',
-      answer: 'HumanGlue works best on the latest versions of Chrome, Firefox, Safari, and Edge. We recommend keeping your browser up to date for the best experience.',
+      answer: 'HMN works best on the latest versions of Chrome, Firefox, Safari, and Edge. We recommend keeping your browser up to date for the best experience.',
       category: 'technical'
     },
     {
@@ -112,7 +112,7 @@ export default function HelpPage() {
     },
     {
       title: 'Best Practices',
-      description: 'Tips for getting the most out of HumanGlue',
+      description: 'Tips for getting the most out of HMN',
       icon: <Lightbulb className="w-6 h-6" />,
       link: '/best-practices',
     },

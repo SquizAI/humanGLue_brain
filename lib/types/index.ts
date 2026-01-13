@@ -1,5 +1,5 @@
 /**
- * HumanGlue Types - Unified Exports
+ * HMN Types - Unified Exports
  *
  * Central export point for all type definitions.
  */

@@ -134,7 +134,7 @@ export async function POST(
         role: primaryRole,
         temporaryPassword,
         loginUrl,
-        organizationName: 'HumanGlue',
+        organizationName: 'HMN',
       })
       emailSent = true
     } catch (emailError) {

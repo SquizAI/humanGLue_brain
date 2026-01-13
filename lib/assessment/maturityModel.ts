@@ -1,5 +1,5 @@
 /**
- * HumanGlue AI Maturity Model
+ * HMN AI Maturity Model
  * 10-level framework from AI Unaware to Living Intelligence
  */
 

@@ -254,7 +254,7 @@ export function EnhancedHomepage() {
                       />
                       <img
                         src="/optimized/herobackground-desktop.jpg"
-                        alt="HumanGlue Platform Background"
+                        alt="HMN Platform Background"
                         className="absolute inset-0 w-full h-full object-cover"
                       />
                     </picture>
@@ -295,7 +295,7 @@ export function EnhancedHomepage() {
                   />
                   <img
                     src="/optimized/herobackground-desktop.jpg"
-                    alt="HumanGlue Platform Background"
+                    alt="HMN Platform Background"
                     className="absolute inset-0 w-full h-full object-cover"
                   />
                 </picture>

@@ -254,7 +254,7 @@ export default function ManifestoPage() {
               className="inline-block mb-6"
             >
               <span className="px-6 py-3 rounded-full bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border border-blue-500/30 text-blue-300 text-sm font-semibold backdrop-blur-xl">
-                The Human Glue Manifesto
+                The HMN Manifesto
               </span>
             </motion.div>
 
@@ -599,7 +599,7 @@ export default function ManifestoPage() {
             transition={{ duration: 0.6 }}
           >
             <h2 className="text-5xl md:text-7xl lg:text-8xl font-black mb-8 text-white leading-tight">
-              That's Human Glue.
+              That's HMN.
             </h2>
             <p className="text-4xl md:text-6xl font-bold mb-16 bg-gradient-to-r from-blue-400 via-cyan-400 to-pink-400 bg-clip-text text-transparent leading-tight">
               The Bond That Glues<br />the Future Together.
