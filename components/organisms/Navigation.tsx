@@ -143,7 +143,7 @@ export function Navigation({ className }: NavigationProps) {
                   alt="hmn"
                   width={213}
                   height={45}
-                  className="w-[150px] md:w-[180px] lg:w-[213px] cursor-pointer"
+                  className="w-[100px] md:w-[120px] lg:w-[140px] cursor-pointer"
                   priority
                 />
               </motion.div>
