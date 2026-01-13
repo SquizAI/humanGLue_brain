@@ -53,7 +53,7 @@ SECURITY_AUDIT_REPORT.md
 *.zip
 
 # Services folder (contains secrets and node_modules)
-services/
+/services/
 
 # MCP servers with potential secrets
 mcp-servers/
