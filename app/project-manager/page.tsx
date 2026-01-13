@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/utils/cn'
 import {
@@ -14,6 +14,7 @@ import {
   Dashboard,
 } from '@/components/project-manager'
 import { useChat } from '@/lib/contexts/ChatContext'
+import { SearchProvider, useSearchContext } from '@/lib/contexts/SearchContext'
 import { Settings, LogOut, User } from 'lucide-react'
 
 function SettingsView() {
@@ -100,23 +101,45 @@ function SettingsView() {
   )
 }
 
-export default function ProjectManagerPage() {
+// Inner component that uses the search context
+function ProjectManagerContent() {
   const [activeView, setActiveView] = useState<ViewType>('dashboard')
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
+  const [showNewTaskModal, setShowNewTaskModal] = useState(false)
   const { userData } = useChat()
+  const { pendingNavigation, clearNavigation, highlightedItemId, clearHighlight } = useSearchContext()
+
+  // Handle navigation from search results
+  useEffect(() => {
+    if (pendingNavigation) {
+      // View has already been changed by the sidebar
+      // Clear the navigation request
+      clearNavigation()
+
+      // Set a timeout to clear the highlight after the animation
+      setTimeout(() => {
+        clearHighlight()
+      }, 3000)
+    }
+  }, [pendingNavigation, clearNavigation, clearHighlight])
+
+  // Callback for view changes that also handles search navigation
+  const handleViewChange = useCallback((view: ViewType) => {
+    setActiveView(view)
+  }, [])
 
   const renderView = () => {
     switch (activeView) {
       case 'dashboard':
         return <Dashboard />
       case 'kanban':
-        return <KanbanBoard />
+        return <KanbanBoard highlightedItemId={highlightedItemId} />
       case 'mindmap':
         return <MindMap />
       case 'chat':
         return <AIChat />
       case 'roadmap':
-        return <RoadmapTimeline />
+        return <RoadmapTimeline highlightedItemId={highlightedItemId} />
       case 'gantt':
         return <GanttChart />
       case 'settings':
@@ -131,9 +154,13 @@ export default function ProjectManagerPage() {
       {/* Sidebar */}
       <PMSidebar
         activeView={activeView}
-        onViewChange={setActiveView}
+        onViewChange={handleViewChange}
         collapsed={sidebarCollapsed}
         onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
+        onNewTask={() => {
+          setActiveView('kanban')
+          setShowNewTaskModal(true)
+        }}
       />
 
       {/* Main Content */}
@@ -187,5 +214,14 @@ export default function ProjectManagerPage() {
         </div>
       </main>
     </div>
+  )
+}
+
+// Main export wrapped with SearchProvider
+export default function ProjectManagerPage() {
+  return (
+    <SearchProvider>
+      <ProjectManagerContent />
+    </SearchProvider>
   )
 }

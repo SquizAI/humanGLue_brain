@@ -275,7 +275,7 @@ export default function OrganizationSignupPage() {
         <div className="flex items-center justify-between mb-8">
           <Link href="/" className="inline-block">
             <Image
-              src="/HumnaGlue_logo_white_blue.png"
+              src="/hmn_logo.png"
               alt="HumanGlue"
               width={180}
               height={50}

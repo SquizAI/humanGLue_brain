@@ -244,10 +244,12 @@ export default function AssessmentDetailPage() {
                       <span>{assessment.organization.name}</span>
                     </div>
                   )}
-                  <div className="flex items-center gap-2">
-                    <BarChart3 className="w-4 h-4" />
-                    <span className="capitalize">{assessment.assessment_type.replace('_', ' ')}</span>
-                  </div>
+                  {assessment.assessment_type && (
+                    <div className="flex items-center gap-2">
+                      <BarChart3 className="w-4 h-4" />
+                      <span className="capitalize">{assessment.assessment_type.replace('_', ' ')}</span>
+                    </div>
+                  )}
                 </div>
               </div>
               <div className="flex items-center gap-3">

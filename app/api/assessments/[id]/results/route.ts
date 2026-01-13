@@ -115,8 +115,9 @@ export async function GET(
         ),
         responses:assessment_responses(
           id,
-          question_code,
-          dimension,
+          question_id,
+          question_number,
+          response_text,
           metadata
         )
       `)

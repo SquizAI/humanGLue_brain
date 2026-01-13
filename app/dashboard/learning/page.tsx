@@ -40,6 +40,24 @@ const categories = [
 // Masterclass-quality courses
 const courses = [
   {
+    id: 7,
+    title: 'Leading & Upskilling with AI',
+    instructor: 'Alex Behm',
+    category: 'ai-adoption',
+    level: 'Executive',
+    duration: '2 Days (16 hours)',
+    lessons: 8,
+    students: 0,
+    rating: 5.0,
+    reviews: 0,
+    price: 0,
+    image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=500&fit=crop',
+    description: 'A 2-Day Executive Transformation Course. You cannot lead a transformation you haven\'t experienced. Day 1 transforms you; Day 2 teaches you to transform others.',
+    skills: ['AI Strategy', 'Trust Journey', 'Change Leadership', 'GLUE Framework', '90-Day Sprint Planning'],
+    upcoming: '2026-02-15',
+    featured: true,
+  },
+  {
     id: 1,
     title: 'AI Transformation for Executives',
     instructor: 'Sarah Chen',

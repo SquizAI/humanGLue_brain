@@ -15,40 +15,19 @@ import {
   Link,
   X,
   Check,
+  Loader2,
 } from 'lucide-react'
+import { useMindMapNodes, MindMapNode } from '@/lib/hooks/useProjectManager'
 
-export interface MindMapNode {
-  id: string
-  label: string
-  x: number
-  y: number
-  color: string
-  children: string[]
-  expanded: boolean
-  status?: 'active' | 'blocked' | 'done' | 'planned'
-  description?: string
-}
+// Re-export the interface for external use
+export type { MindMapNode }
 
 interface MindMapProps {
-  initialNodes?: MindMapNode[]
   onNodesChange?: (nodes: MindMapNode[]) => void
 }
 
-const defaultNodes: MindMapNode[] = [
-  { id: 'root', label: 'HumanGlue', x: 400, y: 300, color: '#06B6D4', children: ['platform', 'integrations', 'ai'], expanded: true, status: 'active' },
-  { id: 'platform', label: 'Platform', x: 200, y: 150, color: '#8B5CF6', children: ['dashboard', 'auth'], expanded: true, status: 'active' },
-  { id: 'integrations', label: 'Integrations', x: 600, y: 150, color: '#10B981', children: ['discord', 'slack'], expanded: true, status: 'planned' },
-  { id: 'ai', label: 'AI Features', x: 400, y: 500, color: '#F59E0B', children: ['mindmap', 'chat'], expanded: true, status: 'active' },
-  { id: 'dashboard', label: 'Dashboard', x: 100, y: 250, color: '#EC4899', children: [], expanded: false, status: 'done' },
-  { id: 'auth', label: 'Auth', x: 300, y: 250, color: '#EC4899', children: [], expanded: false, status: 'done' },
-  { id: 'discord', label: 'Discord Bot', x: 500, y: 250, color: '#6366F1', children: [], expanded: false, status: 'active' },
-  { id: 'slack', label: 'Slack', x: 700, y: 250, color: '#6366F1', children: [], expanded: false, status: 'blocked' },
-  { id: 'mindmap', label: 'Mind Reasoner', x: 300, y: 600, color: '#EF4444', children: [], expanded: false, status: 'active' },
-  { id: 'chat', label: 'AI Chat', x: 500, y: 600, color: '#EF4444', children: [], expanded: false, status: 'done' },
-]
-
-export function MindMap({ initialNodes = defaultNodes, onNodesChange }: MindMapProps) {
-  const [nodes, setNodes] = useState<MindMapNode[]>(initialNodes)
+export function MindMap({ onNodesChange }: MindMapProps) {
+  const { nodes, loading, error, createNode, updateNode, deleteNode } = useMindMapNodes()
   const [selectedNode, setSelectedNode] = useState<string | null>(null)
   const [editingNode, setEditingNode] = useState<string | null>(null)
   const [editLabel, setEditLabel] = useState('')
@@ -56,15 +35,28 @@ export function MindMap({ initialNodes = defaultNodes, onNodesChange }: MindMapP
   const [pan, setPan] = useState({ x: 0, y: 0 })
   const [isDragging, setIsDragging] = useState(false)
   const [draggedNode, setDraggedNode] = useState<string | null>(null)
+  const [isSaving, setIsSaving] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const svgRef = useRef<SVGSVGElement>(null)
+  const dragStartPos = useRef<{ x: number; y: number } | null>(null)
 
   // Handle node drag
   const handleNodeMouseDown = useCallback((e: React.MouseEvent, nodeId: string) => {
     e.stopPropagation()
     setDraggedNode(nodeId)
     setSelectedNode(nodeId)
-  }, [])
+    const node = nodes.find(n => n.id === nodeId)
+    if (node) {
+      dragStartPos.current = { x: node.x, y: node.y }
+    }
+  }, [nodes])
+
+  // Notify parent of changes
+  useEffect(() => {
+    if (onNodesChange && nodes.length > 0) {
+      onNodesChange(nodes)
+    }
+  }, [nodes, onNodesChange])
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -73,17 +65,30 @@ export function MindMap({ initialNodes = defaultNodes, onNodesChange }: MindMapP
         const x = (e.clientX - rect.left - pan.x) / zoom
         const y = (e.clientY - rect.top - pan.y) / zoom
 
-        setNodes(prev => prev.map(n =>
-          n.id === draggedNode ? { ...n, x, y } : n
-        ))
+        // Optimistic local update for smooth dragging
+        // The actual node state is managed by the hook
       }
     }
 
-    const handleMouseUp = () => {
-      setDraggedNode(null)
-      if (onNodesChange) {
-        onNodesChange(nodes)
+    const handleMouseUp = async () => {
+      if (draggedNode && containerRef.current && dragStartPos.current) {
+        const rect = containerRef.current.getBoundingClientRect()
+        const node = nodes.find(n => n.id === draggedNode)
+
+        // Only save if position actually changed
+        if (node && (node.x !== dragStartPos.current.x || node.y !== dragStartPos.current.y)) {
+          try {
+            setIsSaving(true)
+            await updateNode(draggedNode, { x: node.x, y: node.y })
+          } catch (err) {
+            console.error('Failed to save node position:', err)
+          } finally {
+            setIsSaving(false)
+          }
+        }
       }
+      setDraggedNode(null)
+      dragStartPos.current = null
     }
 
     if (draggedNode) {
@@ -95,14 +100,35 @@ export function MindMap({ initialNodes = defaultNodes, onNodesChange }: MindMapP
       window.removeEventListener('mousemove', handleMouseMove)
       window.removeEventListener('mouseup', handleMouseUp)
     }
-  }, [draggedNode, pan, zoom, nodes, onNodesChange])
+  }, [draggedNode, pan, zoom, nodes, updateNode])
+
+  // Handle real-time position updates during drag
+  useEffect(() => {
+    if (!draggedNode) return
+
+    const handleMouseMove = (e: MouseEvent) => {
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect()
+        const x = (e.clientX - rect.left - pan.x) / zoom
+        const y = (e.clientY - rect.top - pan.y) / zoom
+
+        // Update node position via hook (optimistic update)
+        updateNode(draggedNode, { x, y }).catch(() => {
+          // Errors are handled by the hook
+        })
+      }
+    }
+
+    window.addEventListener('mousemove', handleMouseMove)
+    return () => window.removeEventListener('mousemove', handleMouseMove)
+  }, [draggedNode, pan, zoom, updateNode])
 
   // Draw connections between nodes
   const renderConnections = () => {
     const connections: JSX.Element[] = []
 
     nodes.forEach(node => {
-      node.children.forEach(childId => {
+      node.children?.forEach(childId => {
         const child = nodes.find(n => n.id === childId)
         if (child) {
           connections.push(
@@ -124,50 +150,77 @@ export function MindMap({ initialNodes = defaultNodes, onNodesChange }: MindMapP
     return connections
   }
 
-  const handleAddChild = (parentId: string) => {
+  const handleAddChild = async (parentId: string) => {
     const parent = nodes.find(n => n.id === parentId)
     if (!parent) return
 
-    const newId = `node-${Date.now()}`
-    const newNode: MindMapNode = {
-      id: newId,
-      label: 'New Node',
-      x: parent.x + 100,
-      y: parent.y + 80,
-      color: parent.color,
-      children: [],
-      expanded: false,
-      status: 'planned',
+    try {
+      setIsSaving(true)
+      const newNode = await createNode({
+        label: 'New Node',
+        x: parent.x + 100,
+        y: parent.y + 80,
+        color: parent.color,
+        children: [],
+        expanded: false,
+        status: 'planned',
+        parent_id: parentId,
+      })
+
+      // Update parent's children array
+      await updateNode(parentId, {
+        children: [...(parent.children || []), newNode.id],
+      })
+
+      setEditingNode(newNode.id)
+      setEditLabel('New Node')
+    } catch (err) {
+      console.error('Failed to add child node:', err)
+    } finally {
+      setIsSaving(false)
     }
-
-    setNodes(prev => [
-      ...prev.map(n => n.id === parentId ? { ...n, children: [...n.children, newId] } : n),
-      newNode,
-    ])
-    setEditingNode(newId)
-    setEditLabel('New Node')
   }
 
-  const handleDeleteNode = (nodeId: string) => {
-    if (nodeId === 'root') return // Can't delete root
+  const handleDeleteNode = async (nodeId: string) => {
+    // Find root node by checking for node with no parent or labeled 'HumanGlue'
+    const rootNode = nodes.find(n => n.parent_id === null || n.label === 'HumanGlue')
+    if (rootNode && nodeId === rootNode.id) return // Can't delete root
 
-    setNodes(prev => {
-      // Remove from parent's children
-      const updated = prev.map(n => ({
-        ...n,
-        children: n.children.filter(c => c !== nodeId),
-      }))
-      // Remove the node itself
-      return updated.filter(n => n.id !== nodeId)
-    })
-    setSelectedNode(null)
+    try {
+      setIsSaving(true)
+
+      // Get the node being deleted
+      const nodeToDelete = nodes.find(n => n.id === nodeId)
+
+      // Update parent's children array if parent exists
+      if (nodeToDelete?.parent_id) {
+        const parent = nodes.find(n => n.id === nodeToDelete.parent_id)
+        if (parent) {
+          await updateNode(parent.id, {
+            children: (parent.children || []).filter(c => c !== nodeId),
+          })
+        }
+      }
+
+      await deleteNode(nodeId)
+      setSelectedNode(null)
+    } catch (err) {
+      console.error('Failed to delete node:', err)
+    } finally {
+      setIsSaving(false)
+    }
   }
 
-  const handleSaveEdit = () => {
+  const handleSaveEdit = async () => {
     if (editingNode && editLabel.trim()) {
-      setNodes(prev => prev.map(n =>
-        n.id === editingNode ? { ...n, label: editLabel.trim() } : n
-      ))
+      try {
+        setIsSaving(true)
+        await updateNode(editingNode, { label: editLabel.trim() })
+      } catch (err) {
+        console.error('Failed to save label:', err)
+      } finally {
+        setIsSaving(false)
+      }
     }
     setEditingNode(null)
     setEditLabel('')
@@ -180,12 +233,36 @@ export function MindMap({ initialNodes = defaultNodes, onNodesChange }: MindMapP
     planned: 'ring-2 ring-slate-400',
   }
 
+  // Find root node for delete protection
+  const rootNode = nodes.find(n => n.parent_id === null || n.label === 'HumanGlue')
+
+  if (loading && nodes.length === 0) {
+    return (
+      <div className="h-full flex flex-col items-center justify-center">
+        <Loader2 className="w-8 h-8 text-cyan-400 animate-spin mb-4" />
+        <p className="text-slate-400">Loading mind map...</p>
+      </div>
+    )
+  }
+
+  if (error && nodes.length === 0) {
+    return (
+      <div className="h-full flex flex-col items-center justify-center">
+        <p className="text-red-400 mb-2">Failed to load mind map</p>
+        <p className="text-slate-500 text-sm">{error}</p>
+      </div>
+    )
+  }
+
   return (
     <div className="h-full flex flex-col">
       {/* Toolbar */}
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h2 className="text-xl font-semibold text-white">Mind Map</h2>
+          <h2 className="text-xl font-semibold text-white flex items-center gap-2">
+            Mind Map
+            {isSaving && <Loader2 className="w-4 h-4 text-cyan-400 animate-spin" />}
+          </h2>
           <p className="text-sm text-slate-400">Visualize your project architecture</p>
         </div>
         <div className="flex items-center gap-2">
@@ -297,7 +374,8 @@ export function MindMap({ initialNodes = defaultNodes, onNodesChange }: MindMapP
             >
               <button
                 onClick={() => handleAddChild(selectedNode)}
-                className="flex items-center gap-1 px-3 py-1.5 rounded bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 text-sm"
+                disabled={isSaving}
+                className="flex items-center gap-1 px-3 py-1.5 rounded bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 text-sm disabled:opacity-50"
               >
                 <Plus size={14} /> Add Child
               </button>
@@ -310,10 +388,11 @@ export function MindMap({ initialNodes = defaultNodes, onNodesChange }: MindMapP
               >
                 <Edit2 size={14} /> Edit
               </button>
-              {selectedNode !== 'root' && (
+              {rootNode && selectedNode !== rootNode.id && (
                 <button
                   onClick={() => handleDeleteNode(selectedNode)}
-                  className="flex items-center gap-1 px-3 py-1.5 rounded bg-red-500/20 text-red-400 hover:bg-red-500/30 text-sm"
+                  disabled={isSaving}
+                  className="flex items-center gap-1 px-3 py-1.5 rounded bg-red-500/20 text-red-400 hover:bg-red-500/30 text-sm disabled:opacity-50"
                 >
                   <Trash2 size={14} /> Delete
                 </button>
@@ -343,6 +422,9 @@ export function MindMap({ initialNodes = defaultNodes, onNodesChange }: MindMapP
         <span className="flex items-center gap-1">
           <span className="w-2 h-2 rounded-full bg-red-400" /> Blocked
         </span>
+        {error && (
+          <span className="text-red-400 ml-auto">Sync error: {error}</span>
+        )}
       </div>
     </div>
   )

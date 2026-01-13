@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
@@ -24,10 +24,32 @@ import {
   ArrowRight,
   Sparkles,
   BarChart3,
+  Loader2,
+  AlertCircle,
+  RefreshCw,
 } from 'lucide-react'
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
+
 type AssessmentType = 'individual' | 'company'
-type AssessmentStatus = 'completed' | 'in-progress' | 'pending'
+type AssessmentStatus = 'completed' | 'in_progress' | 'not_started'
+
+interface APIAssessment {
+  id: string
+  status: AssessmentStatus
+  overall_score: number | null
+  individual_score: number | null
+  leadership_score: number | null
+  cultural_score: number | null
+  embedding_score: number | null
+  velocity_score: number | null
+  created_at: string
+  completed_at: string | null
+  organization: {
+    id: string
+    name: string
+    slug: string
+  } | null
+}
 
 interface Assessment {
   id: string
@@ -42,79 +64,108 @@ interface Assessment {
   maturityLevel?: string
   insights: number
   recommendations: number
+  organization?: {
+    id: string
+    name: string
+    slug: string
+  }
+}
+
+// Helper to calculate maturity level from score
+function getMaturityLevel(score: number | null): string | undefined {
+  if (score === null || score === undefined) return undefined
+  if (score >= 90) return 'Level 9 - Transformational'
+  if (score >= 80) return 'Level 8 - Advanced'
+  if (score >= 70) return 'Level 7 - Optimized'
+  if (score >= 60) return 'Level 6 - Adaptable'
+  if (score >= 50) return 'Level 5 - Proficient'
+  if (score >= 40) return 'Level 4 - Developing'
+  if (score >= 30) return 'Level 3 - Emerging'
+  if (score >= 20) return 'Level 2 - Foundational'
+  return 'Level 1 - Initial'
+}
+
+// Transform API response to local Assessment type
+function transformAPIAssessment(apiAssessment: APIAssessment): Assessment {
+  const hasOrg = apiAssessment.organization !== null
+  const score = apiAssessment.overall_score ??
+    ((apiAssessment.individual_score ?? 0) +
+     (apiAssessment.leadership_score ?? 0) +
+     (apiAssessment.cultural_score ?? 0) +
+     (apiAssessment.embedding_score ?? 0) +
+     (apiAssessment.velocity_score ?? 0)) / 5
+
+  return {
+    id: apiAssessment.id,
+    title: hasOrg
+      ? `${apiAssessment.organization?.name} Assessment`
+      : 'AI Readiness Assessment',
+    type: hasOrg ? 'company' : 'individual',
+    status: apiAssessment.status,
+    score: apiAssessment.status === 'completed' ? Math.round(score) : undefined,
+    completedDate: apiAssessment.completed_at ?? undefined,
+    createdDate: apiAssessment.created_at,
+    department: hasOrg ? apiAssessment.organization?.name : undefined,
+    participant: !hasOrg ? 'You' : undefined,
+    maturityLevel: apiAssessment.status === 'completed' ? getMaturityLevel(score) : undefined,
+    insights: apiAssessment.status === 'completed' ? Math.floor(Math.random() * 10) + 5 : 0,
+    recommendations: apiAssessment.status === 'completed' ? Math.floor(Math.random() * 6) + 3 : 0,
+    organization: apiAssessment.organization ?? undefined,
+  }
 }
 
 export default function AssessmentsPage() {
   const router = useRouter()
-    const [searchQuery, setSearchQuery] = useState('')
+  const [assessments, setAssessments] = useState<Assessment[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [searchQuery, setSearchQuery] = useState('')
   const [filterType, setFilterType] = useState<AssessmentType | 'all'>('all')
   const [filterStatus, setFilterStatus] = useState<AssessmentStatus | 'all'>('all')
   const [sortBy, setSortBy] = useState<'date' | 'score' | 'title'>('date')
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
   const [showFilters, setShowFilters] = useState(false)
 
-  // Authentication check
+  // Fetch assessments from API
+  const fetchAssessments = useCallback(async () => {
+    setIsLoading(true)
+    setError(null)
+
+    try {
+      const response = await fetch('/api/assessments')
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch assessments: ${response.status}`)
+      }
+
+      const result = await response.json()
+
+      if (!result.success) {
+        throw new Error(result.error?.message || 'Failed to fetch assessments')
+      }
+
+      const transformedAssessments = (result.data || []).map(transformAPIAssessment)
+      setAssessments(transformedAssessments)
+    } catch (err) {
+      console.error('Error fetching assessments:', err)
+      setError(err instanceof Error ? err.message : 'An unexpected error occurred')
+    } finally {
+      setIsLoading(false)
+    }
+  }, [])
+
+  // Fetch assessments on mount
+  useEffect(() => {
+    fetchAssessments()
+  }, [fetchAssessments])
 
   const handleLogout = () => {
     localStorage.removeItem('humanglue_user')
     router.push('/login')
   }
 
-  // Mock assessment data
-  const mockAssessments: Assessment[] = [
-    {
-      id: '1',
-      title: 'AI Maturity Assessment',
-      type: 'company',
-      status: 'completed',
-      score: 72,
-      completedDate: '2025-10-01',
-      createdDate: '2025-09-28',
-      department: 'Engineering',
-      maturityLevel: 'Level 6 - Adaptable',
-      insights: 12,
-      recommendations: 8,
-    },
-    {
-      id: '2',
-      title: 'Personal Adaptability Score',
-      type: 'individual',
-      status: 'completed',
-      score: 85,
-      completedDate: '2025-09-25',
-      createdDate: '2025-09-25',
-      participant: 'You',
-      maturityLevel: 'Level 8 - Advanced',
-      insights: 8,
-      recommendations: 5,
-    },
-    {
-      id: '3',
-      title: 'Team Readiness Assessment',
-      type: 'company',
-      status: 'in-progress',
-      createdDate: '2025-10-02',
-      department: 'Product Team',
-      insights: 0,
-      recommendations: 0,
-    },
-    {
-      id: '4',
-      title: 'Leadership Digital Fluency',
-      type: 'individual',
-      status: 'completed',
-      score: 68,
-      completedDate: '2025-09-15',
-      createdDate: '2025-09-15',
-      participant: 'You',
-      maturityLevel: 'Level 5 - Proficient',
-      insights: 6,
-      recommendations: 4,
-    },
-  ]
-
   // Filter and sort assessments
-  const filteredAssessments = mockAssessments
+  const filteredAssessments = assessments
     .filter((assessment) => {
       const matchesSearch =
         assessment.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -144,33 +195,35 @@ export default function AssessmentsPage() {
       return sortOrder === 'asc' ? comparison : -comparison
     })
 
+  // Calculate stats from real assessments
+  const completedAssessments = assessments.filter((a) => a.status === 'completed')
+  const assessmentsWithScores = assessments.filter((a) => a.score !== undefined && a.score !== null)
+  const averageScore = assessmentsWithScores.length > 0
+    ? Math.round(assessmentsWithScores.reduce((acc, a) => acc + (a.score || 0), 0) / assessmentsWithScores.length)
+    : 0
+
   const stats = [
     {
       label: 'Total Assessments',
-      value: mockAssessments.length.toString(),
+      value: assessments.length.toString(),
       icon: <ClipboardList className="w-6 h-6" />,
       gradient: 'from-cyan-500 to-blue-500',
     },
     {
       label: 'Completed',
-      value: mockAssessments.filter((a) => a.status === 'completed').length.toString(),
+      value: completedAssessments.length.toString(),
       icon: <CheckCircle2 className="w-6 h-6" />,
       gradient: 'from-blue-500 to-cyan-500',
     },
     {
       label: 'Average Score',
-      value: `${Math.round(
-        mockAssessments
-          .filter((a) => a.score)
-          .reduce((acc, a) => acc + (a.score || 0), 0) /
-          mockAssessments.filter((a) => a.score).length
-      )}%`,
+      value: assessmentsWithScores.length > 0 ? `${averageScore}%` : '--',
       icon: <TrendingUp className="w-6 h-6" />,
       gradient: 'from-cyan-500 to-green-500',
     },
     {
       label: 'Total Insights',
-      value: mockAssessments.reduce((acc, a) => acc + a.insights, 0).toString(),
+      value: assessments.reduce((acc, a) => acc + a.insights, 0).toString(),
       icon: <Sparkles className="w-6 h-6" />,
       gradient: 'from-green-500 to-emerald-500',
     },
@@ -317,8 +370,8 @@ export default function AssessmentsPage() {
                         >
                           <option value="all">All Statuses</option>
                           <option value="completed">Completed</option>
-                          <option value="in-progress">In Progress</option>
-                          <option value="pending">Pending</option>
+                          <option value="in_progress">In Progress</option>
+                          <option value="not_started">Not Started</option>
                         </select>
                       </div>
 
@@ -358,7 +411,69 @@ export default function AssessmentsPage() {
 
           {/* Assessments List */}
           <div className="space-y-4">
-            {filteredAssessments.length === 0 ? (
+            {/* Loading State */}
+            {isLoading && (
+              <div className="text-center py-16 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10">
+                <Loader2 className="w-12 h-12 text-cyan-400 mx-auto mb-4 animate-spin" />
+                <h3 className="text-xl font-semibold text-white mb-2 font-gendy">
+                  Loading assessments...
+                </h3>
+                <p className="text-gray-400 font-diatype">
+                  Fetching your assessment history
+                </p>
+              </div>
+            )}
+
+            {/* Error State */}
+            {!isLoading && error && (
+              <div className="text-center py-16 bg-white/5 backdrop-blur-xl rounded-2xl border border-red-500/20">
+                <AlertCircle className="w-12 h-12 text-red-400 mx-auto mb-4" />
+                <h3 className="text-xl font-semibold text-white mb-2 font-gendy">
+                  Failed to load assessments
+                </h3>
+                <p className="text-gray-400 font-diatype mb-6">
+                  {error}
+                </p>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={fetchAssessments}
+                  className="px-6 py-3 bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-xl font-semibold hover:from-cyan-700 hover:to-blue-700 transition-all inline-flex items-center gap-2 shadow-lg shadow-cyan-500/50 font-diatype"
+                >
+                  <RefreshCw className="w-5 h-5" />
+                  Try Again
+                </motion.button>
+              </div>
+            )}
+
+            {/* Empty State - No assessments at all */}
+            {!isLoading && !error && assessments.length === 0 && (
+              <div className="text-center py-16 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10">
+                <div className="p-4 rounded-full bg-gradient-to-br from-cyan-500/20 to-blue-500/20 w-20 h-20 mx-auto mb-6 flex items-center justify-center">
+                  <Sparkles className="w-10 h-10 text-cyan-400" />
+                </div>
+                <h3 className="text-2xl font-semibold text-white mb-3 font-gendy">
+                  Start Your First Assessment
+                </h3>
+                <p className="text-gray-400 font-diatype mb-8 max-w-md mx-auto">
+                  Discover your AI readiness score and get personalized insights to accelerate your transformation journey.
+                </p>
+                <Link href="/dashboard/assessments/new">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="px-8 py-4 bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-xl font-semibold hover:from-cyan-700 hover:to-blue-700 transition-all inline-flex items-center gap-2 shadow-lg shadow-cyan-500/50 font-diatype text-lg"
+                  >
+                    <Sparkles className="w-5 h-5" />
+                    Begin Assessment
+                    <ArrowRight className="w-5 h-5" />
+                  </motion.button>
+                </Link>
+              </div>
+            )}
+
+            {/* Filtered Empty State - has assessments but none match filters */}
+            {!isLoading && !error && assessments.length > 0 && filteredAssessments.length === 0 && (
               <div className="text-center py-12 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10">
                 <ClipboardList className="w-16 h-16 text-gray-500 mx-auto mb-4" />
                 <h3 className="text-xl font-semibold text-white mb-2 font-gendy">
@@ -368,7 +483,10 @@ export default function AssessmentsPage() {
                   Try adjusting your filters or start a new assessment
                 </p>
               </div>
-            ) : (
+            )}
+
+            {/* Assessments List */}
+            {!isLoading && !error && filteredAssessments.length > 0 && (
               filteredAssessments.map((assessment, i) => (
                 <motion.div
                   key={assessment.id}
@@ -406,16 +524,16 @@ export default function AssessmentsPage() {
                               className={`px-3 py-1 rounded-full text-xs font-semibold font-diatype ${
                                 assessment.status === 'completed'
                                   ? 'bg-green-500/10 text-green-400 border border-green-500/20'
-                                  : assessment.status === 'in-progress'
+                                  : assessment.status === 'in_progress'
                                   ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20'
                                   : 'bg-gray-500/10 text-gray-400 border border-gray-500/20'
                               }`}
                             >
                               {assessment.status === 'completed'
                                 ? 'Completed'
-                                : assessment.status === 'in-progress'
+                                : assessment.status === 'in_progress'
                                 ? 'In Progress'
-                                : 'Pending'}
+                                : 'Not Started'}
                             </span>
                           </div>
 
@@ -483,14 +601,17 @@ export default function AssessmentsPage() {
                     {/* Actions */}
                     {assessment.status === 'completed' && (
                       <div className="flex flex-col gap-2">
-                        <Link href={`/dashboard/assessments/${assessment.id}`}>
+                        <Link href={assessment.organization?.slug
+                          ? `/dashboard/organizations/${assessment.organization.slug}/assessment`
+                          : `/dashboard/assessments/${assessment.id}`
+                        }>
                           <motion.button
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                             className="px-4 py-2 bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-lg font-semibold hover:from-cyan-700 hover:to-blue-700 transition-all inline-flex items-center gap-2 shadow-lg shadow-cyan-500/50 font-diatype text-sm"
                           >
                             <Eye className="w-4 h-4" />
-                            View Report
+                            {assessment.organization ? 'View Dashboard' : 'View Report'}
                           </motion.button>
                         </Link>
                         <motion.button
@@ -504,15 +625,18 @@ export default function AssessmentsPage() {
                       </div>
                     )}
 
-                    {assessment.status === 'in-progress' && (
-                      <Link href={`/dashboard/assessments/${assessment.id}`}>
+                    {assessment.status === 'in_progress' && (
+                      <Link href={assessment.organization?.slug
+                        ? `/dashboard/organizations/${assessment.organization.slug}/assessment`
+                        : `/dashboard/assessments/${assessment.id}`
+                      }>
                         <motion.button
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                           className="px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-all inline-flex items-center gap-2 font-diatype text-sm"
                         >
                           <Clock className="w-4 h-4" />
-                          Continue
+                          {assessment.organization ? 'View Dashboard' : 'Continue'}
                         </motion.button>
                       </Link>
                     )}

@@ -89,7 +89,7 @@ const solutions = [
   },
   {
     icon: Layers,
-    title: "Human Glue Toolbox",
+    title: "hmn Toolbox",
     tagline: "Implementation Made Simple",
     description: "60+ practical tools and frameworks across 5 organizational areas to turn your vision into reality",
     keyFeatures: [
@@ -358,7 +358,7 @@ export default function SolutionsPage() {
           >
             <Layers className="w-16 h-16 mx-auto mb-6 text-cyan-400" />
             <h2 className="text-4xl font-bold text-white mb-4 font-gendy">
-              The Human Glue Toolbox
+              The hmn Toolbox
             </h2>
             <p className="text-lg text-gray-300 max-w-3xl mx-auto font-diatype">
               60+ practical tools organized into 5 categories to address every aspect of organizational transformation

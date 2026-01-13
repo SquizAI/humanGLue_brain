@@ -31,6 +31,145 @@ import Link from 'next/link'
 
 const courses = [
   {
+    id: 7,
+    title: 'Leading & Upskilling with AI',
+    instructor: 'Alex Behm',
+    instructorTitle: 'AI Transformation & Human-Centered Change Expert',
+    instructorImage: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop',
+    category: 'ai-adoption',
+    level: 'Executive',
+    duration: '2 Days (16 hours)',
+    lessons: 8,
+    students: 0,
+    rating: 5.0,
+    reviews: 0,
+    price: 0,
+    image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=500&fit=crop',
+    description: 'A 2-Day Executive Transformation Course. You cannot lead a transformation you haven\'t experienced.',
+    fullDescription: `This isn't about AI adoption. It's about human becoming. Every module asks: What do we want people in our organizations to become? The technology is incidental to the transformation.
+
+Day 1 is about YOUR transformation as a leader. Only after you've changed can you design change for others. Day 2 earns the right to be strategic because Day 1 was personal.
+
+Key research backing this course:
+• 95% of AI programs fail to deliver bottom-line returns (MIT Research 2025)
+• Trust in generative AI dropped 31% in just 3 months (Deloitte TrustID)
+• Employee-centric organizations are 7x more likely to achieve AI maturity (HBR 2025)
+• 47% of leaders rank leadership effectiveness as #1 driver of AI ROI
+
+The course includes the GLUE Framework (Grow, Leverage, Unite, Evolve), the Trust Journey Model, Shadow AI Audit templates, and a 90-Day Sprint planning toolkit.`,
+    skills: ['AI Strategy', 'Trust Journey', 'Change Leadership', 'GLUE Framework', '90-Day Sprint Planning', 'Shadow AI Management'],
+    upcoming: '2026-02-15',
+    syllabus: [
+      {
+        module: 'Pre-Arrival: The Executive Reality Check (30-45 min)',
+        lessons: [
+          'Your Organization\'s AI Reality Assessment',
+          'Your Personal AI Reality Check',
+          'Trust Position Self-Assessment',
+          'Emotional Landscape Mapping',
+          'Pre-Work: Set Up Your AI Toolkit (Claude, Perplexity, NotebookLM, Gamma)',
+        ]
+      },
+      {
+        module: 'Day 1, Module 1: The Reality You\'re Not Seeing (9:00 AM – 10:45 AM)',
+        lessons: [
+          'The Three Reality Gaps: Strategy Delusion, Shadow AI Economy, Trust Crisis',
+          'The 45-Point Executive-Employee Perception Gap',
+          'Trust Collapse: -31% in 3 months (Generative AI), -89% (Agentic AI)',
+          'The Trust Diagnosis: Where are you on the Trust Journey?',
+        ]
+      },
+      {
+        module: 'Day 1, Module 2: Into the Arena (11:00 AM – 12:30 PM)',
+        lessons: [
+          'The Jagged Frontier—Live Demo',
+          'Executive AI Lab I: The Problem You\'ve Been Avoiding',
+          'The 5 Power Prompts: Pre-Mortem, Adversarial, Perspective, Translation, Chain-of-Thought',
+          'The Permission Insight: What your people need',
+        ]
+      },
+      {
+        module: 'Day 1, Module 3: The Architecture of Trust (1:30 PM – 3:15 PM)',
+        lessons: [
+          'The Emotional Dimension: 96% vs 63% vs 33% Gap',
+          'Exercise: Emotional Mapping',
+          'The Trust Journey Model: Skeptical Pragmatists → Confident Operators → Trusted Champions',
+          'The 60/30/10 Reality vs the 30/50/20 Assumption',
+        ]
+      },
+      {
+        module: 'Day 1, Module 4: Leaders Go First (3:30 PM – 5:00 PM)',
+        lessons: [
+          'The SHAPE Self-Assessment (Strategic Agility, Human Centricity, Applied Curiosity, Performance Drive, Ethical Stewardship)',
+          'Executive AI Lab II: "Wow Moment" Exercises',
+          'Personal Commitment Design: Belief, Behavior, Permission, Conversation',
+        ]
+      },
+      {
+        module: 'Day 2, Module 5: Where Your People Actually Are (9:00 AM – 10:45 AM)',
+        lessons: [
+          'The Shadow AI Audit—Deep Dive',
+          '78% bring their own AI tools to work',
+          'The Reframe: Shadow AI as unmet demand signal',
+          'Trust Pulse Diagnostic: Fast survey design',
+        ]
+      },
+      {
+        module: 'Day 2, Module 6: The Journey Architecture (11:00 AM – 12:30 PM)',
+        lessons: [
+          'Phase 1: Build Trust (Months 1-2) - Target Skeptical Pragmatists',
+          'Phase 2: Prove Value (Months 3-4) - Target Confident Operators',
+          'Phase 3: Normalize (Months 5-6) - Target Trusted Champions',
+          'Case Studies: Colgate-Palmolive AI Hub, IKEA Reskilling 8,500 Workers',
+        ]
+      },
+      {
+        module: 'Day 2, Module 7: From Training to Transformation (1:30 PM – 3:15 PM)',
+        lessons: [
+          'The Engagement Crisis: 31% US engagement (10-year low), $8.9T annual cost',
+          'What Builds Trust: 144% higher trust with hands-on training, 72% more trust when workers help build AI',
+          'The GLUE Framework: Grow (Weeks 1-4), Leverage (5-8), Unite (9-12), Evolve (13+)',
+          'Weekly Check-In Structure for 60% trust boost',
+        ]
+      },
+      {
+        module: 'Day 2, Module 8: The 90-Day Sprint (3:30 PM – 5:00 PM)',
+        lessons: [
+          'Days 1-7: Leader Modeling',
+          'Days 8-30: GROW Phase - Foundation & Champions',
+          'Days 31-60: LEVERAGE Phase - 3-5x Productivity Gains',
+          'Days 61-90: UNITE Phase - Champions Become Teachers',
+          'The Questions That Move Leadership',
+        ]
+      },
+    ],
+    outcomes: [
+      'Experience personal AI transformation before leading others through it',
+      'Master the Trust Journey Model (Skeptical Pragmatist → Confident Operator → Trusted Champion)',
+      'Conduct Shadow AI Audits to discover unmet innovation demand',
+      'Apply the GLUE Framework for sustained organizational transformation',
+      'Design 90-Day Sprints with specific milestones and accountability',
+      'Build psychological safety for AI experimentation',
+      'Reduce AI adoption resistance by 60%+ using evidence-based interventions',
+      'Become a "Shaper" - the leadership capability that 47% identify as #1 for AI ROI',
+    ],
+    requirements: [
+      'Executive or senior leadership role',
+      'Authority to influence organizational AI strategy',
+      'Willingness to engage in hands-on AI exercises',
+      'Pre-work completion (2-3 hours before Day 1)',
+    ],
+    testimonials: [
+      {
+        name: 'Course Preview',
+        title: 'New Course - 2026',
+        avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop',
+        rating: 5,
+        comment: 'This comprehensive 2-day executive transformation program combines cutting-edge AI research with hands-on practice. Based on HBR, MIT, Deloitte, and Gallup research from 2025.',
+      },
+    ],
+  },
+  {
     id: 1,
     title: 'AI Transformation for Executives',
     instructor: 'Sarah Chen',

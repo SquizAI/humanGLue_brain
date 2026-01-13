@@ -106,14 +106,15 @@ export async function POST(
     }
 
     // Insert or update answers
-    const answerRecords = answers.map(answer => ({
+    const answerRecords = answers.map((answer, index) => ({
       assessment_id: assessmentId,
-      question_code: answer.questionId,
-      dimension: answer.dimension,
+      question_id: answer.questionId,
+      question_number: index + 1,
+      response_text: answer.answerText,
       metadata: {
+        dimension: answer.dimension,
         answer_type: answer.answerType,
         answer_value: answer.answerValue,
-        answer_text: answer.answerText,
         question_weight: answer.questionWeight,
       },
     }))
@@ -121,7 +122,7 @@ export async function POST(
     const { error: answersError } = await supabase
       .from('assessment_responses')
       .upsert(answerRecords, {
-        onConflict: 'assessment_id,question_code',
+        onConflict: 'assessment_id,question_id',
       })
 
     if (answersError) throw answersError
@@ -129,13 +130,17 @@ export async function POST(
     // Get all answers for this assessment
     const { data: allAnswers, error: allAnswersError } = await supabase
       .from('assessment_responses')
-      .select('dimension, metadata')
+      .select('metadata')
       .eq('assessment_id', assessmentId)
 
     if (allAnswersError) throw allAnswersError
 
-    // Calculate dimension scores
-    const dimensionScores = calculateDimensionScores(allAnswers)
+    // Calculate dimension scores - dimension is now in metadata
+    const answersWithDimension = allAnswers.map(a => ({
+      dimension: a.metadata?.dimension || 'individual',
+      metadata: a.metadata
+    }))
+    const dimensionScores = calculateDimensionScores(answersWithDimension)
 
     // Update assessment with new scores
     const { data: updatedAssessment, error: updateError } = await supabase
@@ -154,8 +159,9 @@ export async function POST(
         ),
         responses:assessment_responses(
           id,
-          question_code,
-          dimension,
+          question_id,
+          question_number,
+          response_text,
           metadata
         )
       `)

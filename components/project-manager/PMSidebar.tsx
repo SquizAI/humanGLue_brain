@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import { useTheme } from 'next-themes'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/utils/cn'
 import {
@@ -18,7 +19,12 @@ import {
   Bell,
   Moon,
   Sun,
+  X,
+  Loader2,
 } from 'lucide-react'
+import { useGlobalSearch, SearchResult } from '@/lib/hooks/useProjectManager'
+import { SearchResults } from './SearchResults'
+import { useSearchContext } from '@/lib/contexts/SearchContext'
 
 export type ViewType = 'dashboard' | 'kanban' | 'mindmap' | 'chat' | 'roadmap' | 'gantt' | 'settings'
 
@@ -27,6 +33,7 @@ interface PMSidebarProps {
   onViewChange: (view: ViewType) => void
   collapsed?: boolean
   onToggleCollapse?: () => void
+  onNewTask?: () => void
 }
 
 const navItems = [
@@ -38,8 +45,76 @@ const navItems = [
   { id: 'gantt' as ViewType, label: 'Gantt Chart', icon: BarChart3 },
 ]
 
-export function PMSidebar({ activeView, onViewChange, collapsed = false, onToggleCollapse }: PMSidebarProps) {
-  const [isDark, setIsDark] = useState(true)
+export function PMSidebar({ activeView, onViewChange, collapsed = false, onToggleCollapse, onNewTask }: PMSidebarProps) {
+  const { theme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+  const searchInputRef = useRef<HTMLInputElement>(null)
+  const searchContainerRef = useRef<HTMLDivElement>(null)
+
+  // Global search hook
+  const {
+    query,
+    setQuery,
+    results,
+    loading: searchLoading,
+    error: searchError,
+    isOpen: searchIsOpen,
+    setIsOpen: setSearchIsOpen,
+    clearSearch,
+  } = useGlobalSearch()
+
+  // Search context for navigation
+  const { requestNavigation } = useSearchContext()
+
+  // Prevent hydration mismatch
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const isDark = mounted ? theme === 'dark' : true
+
+  const toggleTheme = () => {
+    setTheme(isDark ? 'light' : 'dark')
+  }
+
+  // Handle search result selection
+  const handleSelectResult = (result: SearchResult) => {
+    // Determine which view to navigate to
+    const targetView = result.type === 'task' ? 'kanban' : 'roadmap'
+
+    // Request navigation through context
+    requestNavigation(targetView, result.id)
+
+    // Change to the appropriate view
+    onViewChange(targetView)
+
+    // Clear the search
+    clearSearch()
+  }
+
+  // Handle search input changes
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value)
+  }
+
+  // Handle clearing search
+  const handleClearSearch = () => {
+    clearSearch()
+    searchInputRef.current?.focus()
+  }
+
+  // Keyboard shortcut for search (Cmd/Ctrl + K)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault()
+        searchInputRef.current?.focus()
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [])
 
   return (
     <motion.aside
@@ -78,16 +153,54 @@ export function PMSidebar({ activeView, onViewChange, collapsed = false, onToggl
       {/* Quick Actions */}
       {!collapsed && (
         <div className="p-4 space-y-2">
-          <button className="w-full flex items-center gap-2 px-3 py-2 rounded-lg bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20 transition-colors">
+          <button
+            onClick={onNewTask}
+            className="w-full flex items-center gap-2 px-3 py-2 rounded-lg bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20 transition-colors"
+          >
             <Plus size={18} />
             <span className="text-sm">New Task</span>
           </button>
-          <div className="relative">
-            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
-            <input
-              type="text"
-              placeholder="Search..."
-              className="w-full pl-9 pr-3 py-2 rounded-lg bg-slate-800/50 border border-slate-700 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500/50"
+
+          {/* Search Input with Dropdown */}
+          <div className="relative" ref={searchContainerRef}>
+            <div className="relative">
+              {searchLoading ? (
+                <Loader2 size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-cyan-400 animate-spin" />
+              ) : (
+                <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+              )}
+              <input
+                ref={searchInputRef}
+                type="text"
+                value={query}
+                onChange={handleSearchChange}
+                placeholder="Search... (Cmd+K)"
+                className={cn(
+                  'w-full pl-9 pr-8 py-2 rounded-lg bg-slate-800/50 border text-sm text-white placeholder-slate-500',
+                  'focus:outline-none focus:border-cyan-500/50 transition-colors',
+                  searchIsOpen ? 'border-cyan-500/50' : 'border-slate-700'
+                )}
+                data-testid="global-search-input"
+              />
+              {query && (
+                <button
+                  onClick={handleClearSearch}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors"
+                >
+                  <X size={14} />
+                </button>
+              )}
+            </div>
+
+            {/* Search Results Dropdown */}
+            <SearchResults
+              results={results}
+              loading={searchLoading}
+              error={searchError}
+              isOpen={searchIsOpen}
+              onClose={() => setSearchIsOpen(false)}
+              onSelectResult={handleSelectResult}
+              query={query}
             />
           </div>
         </div>
@@ -133,14 +246,17 @@ export function PMSidebar({ activeView, onViewChange, collapsed = false, onToggl
       <div className="p-4 border-t border-slate-700/50 space-y-2">
         {/* Theme Toggle */}
         <button
-          onClick={() => setIsDark(!isDark)}
+          onClick={toggleTheme}
           className={cn(
             'w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors',
-            'text-slate-400 hover:text-white hover:bg-slate-800/50'
+            isDark
+              ? 'text-slate-400 hover:text-white hover:bg-slate-800/50'
+              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/50'
           )}
+          title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
         >
-          {isDark ? <Moon size={18} /> : <Sun size={18} />}
-          {!collapsed && <span className="text-sm">Theme</span>}
+          {isDark ? <Moon size={18} /> : <Sun size={18} className="text-yellow-500" />}
+          {!collapsed && <span className="text-sm">{isDark ? 'Dark Mode' : 'Light Mode'}</span>}
         </button>
 
         {/* Notifications */}

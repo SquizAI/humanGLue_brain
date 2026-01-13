@@ -18,7 +18,7 @@ import { getOrgByDomain } from '@/services/branding'
 // Define route access rules
 const ROUTE_RULES = {
   // Public routes (no auth required)
-  public: ['/', '/login', '/signup', '/reset-password', '/about', '/pricing', '/contact', '/solutions', '/purpose', '/results', '/privacy', '/terms', '/workshops', '/talent', '/apply'],
+  public: ['/', '/login', '/signup', '/reset-password', '/about', '/pricing', '/contact', '/solutions', '/purpose', '/approach', '/results', '/privacy', '/terms', '/workshops', '/talent', '/apply'],
 
   // Auth routes (redirect to dashboard if already logged in)
   authPages: ['/login', '/signup'],
@@ -40,7 +40,7 @@ export async function proxy(request: NextRequest) {
     pathname.startsWith('/_next') ||
     pathname.startsWith('/api') ||
     pathname.startsWith('/fonts') ||
-    pathname.match(/\.(svg|png|jpg|jpeg|gif|webp|ico|css|js|otf|ttf|woff|woff2|json)$/)
+    pathname.match(/\.(svg|png|jpg|jpeg|gif|webp|ico|css|js|otf|ttf|woff|woff2|json|mp4|webm|ogg|mov)$/)
   ) {
     return NextResponse.next()
   }
@@ -228,6 +228,6 @@ export const config = {
      * - fonts
      * - static assets
      */
-    '/((?!api|_next/static|_next/image|favicon.ico|fonts|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|css|js|otf|ttf|woff|woff2|json)$).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico|fonts|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|css|js|otf|ttf|woff|woff2|json|mp4|webm|ogg|mov)$).*)',
   ],
 }

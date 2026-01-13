@@ -1,0 +1,284 @@
+{
+  "organizationId": "glueiq-001",
+  "organizationName": "GlueIQ",
+  "timestamp": "2024-12-29T00:00:00.000Z",
+  "profiles": [
+    {
+      "name": "Gaston Legorburu",
+      "title": "CEO & Founder",
+      "aiSkillLevel": "expert",
+      "toolsUsed": ["ChatGPT", "Perplexity", "Copilot", "Motion", "Claude", "Beautiful AI", "Gamma", "MidJourney", "N8N", "Fixer AI"],
+      "frequency": "daily",
+      "mentionedBy": ["self", "Joey Wilson", "Matt Kujawa", "Noel Artiles", "Boris Stojanovic"],
+      "evidence": [
+        "Uses AI as sounding board and co-pilot daily",
+        "40% more productive with AI",
+        "Most advanced user among partners",
+        "Exploring agentic workflows and AI employees"
+      ],
+      "isChampion": true,
+      "growthPotential": "medium"
+    },
+    {
+      "name": "Matt Kujawa",
+      "title": "Partner",
+      "aiSkillLevel": "expert",
+      "toolsUsed": ["Claude", "ChatGPT", "Builder.io", "Figma", "Pencil", "MidJourney", "Stripe"],
+      "frequency": "daily",
+      "mentionedBy": ["self", "Gaston Legorburu", "Joey Wilson", "Noel Artiles"],
+      "evidence": [
+        "Uses Claude Projects for design-to-dev workflow",
+        "Implements AI in Figma to production pipeline",
+        "Most technical partner for AI implementation",
+        "Experimenting with agentic automations"
+      ],
+      "isChampion": true,
+      "growthPotential": "medium"
+    },
+    {
+      "name": "Casey Woods",
+      "title": "Creative Director",
+      "aiSkillLevel": "expert",
+      "toolsUsed": ["MidJourney", "Runway", "ChatGPT", "Video AI tools"],
+      "frequency": "daily",
+      "mentionedBy": ["Gaston Legorburu", "Noel Artiles", "Matt Kujawa"],
+      "evidence": [
+        "Leading AI adoption in video and motion graphics",
+        "Produces AI-enhanced creative work",
+        "Top AI user in creative team"
+      ],
+      "isChampion": true,
+      "growthPotential": "medium"
+    },
+    {
+      "name": "Noel Artiles",
+      "title": "Chief Creative Officer",
+      "aiSkillLevel": "advanced",
+      "toolsUsed": ["MidJourney", "ChatGPT", "Gemini", "DALL-E"],
+      "frequency": "daily",
+      "mentionedBy": ["self", "Gaston Legorburu"],
+      "evidence": [
+        "75% of creative team AI fluent under his leadership",
+        "Uses generative AI for concepting and ideation",
+        "Believes in human fingerprints on AI work"
+      ],
+      "isChampion": true,
+      "growthPotential": "medium"
+    },
+    {
+      "name": "Joey Wilson",
+      "title": "Partner",
+      "aiSkillLevel": "advanced",
+      "toolsUsed": ["ChatGPT", "Atlas", "Custom GPTs"],
+      "frequency": "daily",
+      "mentionedBy": ["self", "Gaston Legorburu"],
+      "evidence": [
+        "Using Atlas (agentic browser) for research",
+        "Creating custom GPTs for CRO process automation",
+        "Strategic thinker about agentic commerce"
+      ],
+      "isChampion": true,
+      "growthPotential": "high"
+    },
+    {
+      "name": "Juan (Wally)",
+      "title": "Designer",
+      "aiSkillLevel": "advanced",
+      "toolsUsed": ["MidJourney", "Figma AI", "ChatGPT"],
+      "frequency": "daily",
+      "mentionedBy": ["Gaston Legorburu", "Matt Kujawa"],
+      "evidence": [
+        "Pixel-perfect designer using AI augmentation",
+        "Strong design fundamentals + AI skills"
+      ],
+      "isChampion": false,
+      "growthPotential": "high"
+    },
+    {
+      "name": "Angie",
+      "title": "Team Member",
+      "aiSkillLevel": "advanced",
+      "toolsUsed": ["ChatGPT", "Teaching tools"],
+      "frequency": "daily",
+      "mentionedBy": ["Gaston Legorburu"],
+      "evidence": [
+        "New hire with AI instructor background",
+        "Could lead internal AI training"
+      ],
+      "isChampion": false,
+      "growthPotential": "high"
+    },
+    {
+      "name": "Dave Serrano",
+      "title": "Partner",
+      "aiSkillLevel": "intermediate",
+      "toolsUsed": ["ChatGPT", "Beautiful AI"],
+      "frequency": "weekly",
+      "mentionedBy": ["self"],
+      "evidence": [
+        "Uses AI for feedback and coaching",
+        "70% faster scope writing with AI",
+        "Adoption requires time and practice"
+      ],
+      "isChampion": false,
+      "growthPotential": "high"
+    },
+    {
+      "name": "Maggy Conde",
+      "title": "Partner",
+      "aiSkillLevel": "intermediate",
+      "toolsUsed": ["ChatGPT", "Beautiful AI", "Productive"],
+      "frequency": "weekly",
+      "mentionedBy": ["self", "Gaston Legorburu"],
+      "evidence": [
+        "Leads agency services team",
+        "Focus on workflow and process improvement",
+        "Old school in some ways of working"
+      ],
+      "isChampion": false,
+      "growthPotential": "medium"
+    },
+    {
+      "name": "Boris Stojanovic",
+      "title": "Partner",
+      "aiSkillLevel": "intermediate",
+      "toolsUsed": ["ChatGPT", "Claude"],
+      "frequency": "occasionally",
+      "mentionedBy": ["self"],
+      "evidence": [
+        "Sells AI transformation but admits not doing it internally",
+        "Aware of gap between reputation and capability",
+        "Wants to learn agentic workflows"
+      ],
+      "isChampion": false,
+      "growthPotential": "high"
+    },
+    {
+      "name": "Chiny Chewing",
+      "title": "Partner",
+      "aiSkillLevel": "intermediate",
+      "toolsUsed": ["ChatGPT", "Research tools"],
+      "frequency": "weekly",
+      "mentionedBy": ["self"],
+      "evidence": [
+        "Philosophical about AI as creative partner",
+        "Concerns about ethics and plagiarism",
+        "Values human judgment in AI work"
+      ],
+      "isChampion": false,
+      "growthPotential": "medium"
+    },
+    {
+      "name": "Michele Conigliaro",
+      "title": "Head of People",
+      "aiSkillLevel": "intermediate",
+      "toolsUsed": ["ChatGPT"],
+      "frequency": "weekly",
+      "mentionedBy": ["self"],
+      "evidence": [
+        "40-60% of org AI capable",
+        "Focus on adoption and communication",
+        "HR perspective on AI change management"
+      ],
+      "isChampion": false,
+      "growthPotential": "medium"
+    }
+  ],
+  "champions": [
+    {
+      "name": "Gaston Legorburu",
+      "title": "CEO & Founder",
+      "aiSkillLevel": "expert",
+      "reason": "Most advanced AI user, daily usage across 10+ tools, thought leader"
+    },
+    {
+      "name": "Matt Kujawa",
+      "title": "Partner",
+      "aiSkillLevel": "expert",
+      "reason": "Technical implementation leader, design-to-dev AI workflow expert"
+    },
+    {
+      "name": "Casey Woods",
+      "title": "Creative Director",
+      "aiSkillLevel": "expert",
+      "reason": "Leading AI in video/motion, creative innovation driver"
+    },
+    {
+      "name": "Noel Artiles",
+      "title": "Chief Creative Officer",
+      "aiSkillLevel": "advanced",
+      "reason": "75% creative team fluency under leadership, generative AI for concepting"
+    },
+    {
+      "name": "Joey Wilson",
+      "title": "Partner",
+      "aiSkillLevel": "advanced",
+      "reason": "Strategic AI thinker, agentic commerce visionary, custom GPT builder"
+    }
+  ],
+  "skillDistribution": {
+    "expert": 3,
+    "advanced": 4,
+    "intermediate": 5,
+    "beginner": 0,
+    "none": 0
+  },
+  "departmentBreakdown": {
+    "Creative": {
+      "fluencyRate": 0.75,
+      "topUsers": ["Casey Woods", "Juan (Wally)"],
+      "adoptionStatus": "Leading"
+    },
+    "Technology": {
+      "fluencyRate": 0.85,
+      "topUsers": ["Matt Kujawa"],
+      "adoptionStatus": "Leading"
+    },
+    "Executive": {
+      "fluencyRate": 0.90,
+      "topUsers": ["Gaston Legorburu"],
+      "adoptionStatus": "Leading"
+    },
+    "Strategy": {
+      "fluencyRate": 0.55,
+      "topUsers": ["Joey Wilson"],
+      "adoptionStatus": "Emerging"
+    },
+    "Account/PM": {
+      "fluencyRate": 0.25,
+      "topUsers": [],
+      "adoptionStatus": "Lagging"
+    },
+    "HR": {
+      "fluencyRate": 0.40,
+      "topUsers": ["Michele Conigliaro"],
+      "adoptionStatus": "Emerging"
+    }
+  },
+  "recommendedTrainingCohorts": [
+    {
+      "name": "AI Champions Circle",
+      "description": "Advanced training for identified AI leaders to drive transformation",
+      "members": ["Gaston Legorburu", "Matt Kujawa", "Casey Woods", "Noel Artiles", "Joey Wilson"],
+      "focus": ["Agentic workflows", "AI strategy leadership", "Change management", "Tool evaluation"],
+      "duration": "Ongoing monthly sessions",
+      "objective": "Enable champions to lead organization-wide transformation"
+    },
+    {
+      "name": "Partner AI Bootcamp",
+      "description": "Intensive upskilling for partners to close leadership gaps",
+      "members": ["Boris Stojanovic", "Maggy Conde", "Chiny Chewing", "Dave Serrano", "Michele Conigliaro"],
+      "focus": ["Hands-on tool training", "Workflow integration", "Best practices", "ROI measurement"],
+      "duration": "8-week intensive",
+      "objective": "Bring all partners to advanced level"
+    },
+    {
+      "name": "Account Team AI Foundations",
+      "description": "Introduction and basic training for lagging departments",
+      "members": ["Account managers", "Project managers", "Client services team"],
+      "focus": ["AI basics", "ChatGPT fundamentals", "Beautiful AI mastery", "Prompt engineering"],
+      "duration": "4-week program",
+      "objective": "Achieve baseline AI competency across all teams"
+    }
+  ]
+}

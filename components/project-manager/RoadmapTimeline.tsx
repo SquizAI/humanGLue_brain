@@ -55,10 +55,13 @@ interface RoadmapCardProps {
   item: RoadmapItem
   onUpdate: (id: string, updates: Partial<RoadmapItem>) => Promise<any>
   onDelete: (id: string) => Promise<void>
+  onOpenEditModal: (item: RoadmapItem) => void
+  isHighlighted?: boolean
 }
 
-function RoadmapCard({ item, onUpdate, onDelete }: RoadmapCardProps) {
+function RoadmapCard({ item, onUpdate, onDelete, onOpenEditModal, isHighlighted = false }: RoadmapCardProps) {
   const [showMenu, setShowMenu] = useState(false)
+
   const StatusIcon = statusIcons[item.status] || Circle
   const colors = categoryColors[item.category] || categoryColors.other
 
@@ -66,13 +69,16 @@ function RoadmapCard({ item, onUpdate, onDelete }: RoadmapCardProps) {
     <motion.div
       layout
       initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
+      animate={isHighlighted ? { opacity: 1, y: 0, scale: [1, 1.03, 1] } : { opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.9 }}
+      transition={isHighlighted ? { duration: 0.5, scale: { repeat: 2, repeatType: 'reverse' } } : undefined}
       className={cn(
         'bg-slate-800/80 rounded-xl p-4 border',
         colors.border,
-        'hover:border-opacity-60 transition-all group'
+        'hover:border-opacity-60 transition-all group',
+        isHighlighted && 'ring-2 ring-cyan-500 ring-offset-2 ring-offset-slate-900 border-cyan-500 shadow-lg shadow-cyan-500/20'
       )}
+      data-testid={`roadmap-card-${item.id}`}
     >
       <div className="flex items-start justify-between gap-2">
         <div className="flex items-start gap-3">
@@ -100,6 +106,12 @@ function RoadmapCard({ item, onUpdate, onDelete }: RoadmapCardProps) {
                 exit={{ opacity: 0, scale: 0.9 }}
                 className="absolute right-0 top-6 bg-slate-800 border border-slate-700 rounded-lg shadow-xl z-10 py-1 min-w-[120px]"
               >
+                <button
+                  onClick={() => { onOpenEditModal(item); setShowMenu(false) }}
+                  className="w-full flex items-center gap-2 px-3 py-1.5 text-sm text-slate-300 hover:bg-slate-700"
+                >
+                  <Edit2 size={12} /> Edit
+                </button>
                 <button
                   onClick={() => { onDelete(item.id); setShowMenu(false) }}
                   className="w-full flex items-center gap-2 px-3 py-1.5 text-sm text-red-400 hover:bg-slate-700"
@@ -178,6 +190,8 @@ function NewItemModal({ isOpen, onClose, onCreate }: NewItemModalProps) {
   const [description, setDescription] = useState('')
   const [category, setCategory] = useState<RoadmapItem['category']>('feature')
   const [priority, setPriority] = useState<'low' | 'medium' | 'high' | 'critical'>('medium')
+  const [startDate, setStartDate] = useState('')
+  const [endDate, setEndDate] = useState('')
   const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -193,11 +207,15 @@ function NewItemModal({ isOpen, onClose, onCreate }: NewItemModalProps) {
         priority,
         status: 'planned',
         progress: 0,
+        start_date: startDate || null,
+        end_date: endDate || null,
       })
       setTitle('')
       setDescription('')
       setCategory('feature')
       setPriority('medium')
+      setStartDate('')
+      setEndDate('')
       onClose()
     } finally {
       setLoading(false)
@@ -278,6 +296,26 @@ function NewItemModal({ isOpen, onClose, onCreate }: NewItemModalProps) {
               </select>
             </div>
           </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm text-slate-400 mb-1">Start Date</label>
+              <input
+                type="date"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-cyan-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm text-slate-400 mb-1">End Date</label>
+              <input
+                type="date"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+                className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-cyan-500"
+              />
+            </div>
+          </div>
           <div className="flex gap-3 pt-2">
             <button
               type="button"
@@ -300,10 +338,250 @@ function NewItemModal({ isOpen, onClose, onCreate }: NewItemModalProps) {
   )
 }
 
-export function RoadmapTimeline() {
+interface EditItemModalProps {
+  item: RoadmapItem
+  isOpen: boolean
+  onClose: () => void
+  onUpdate: (id: string, updates: Partial<RoadmapItem>) => Promise<any>
+}
+
+function EditItemModal({ item, isOpen, onClose, onUpdate }: EditItemModalProps) {
+  const [title, setTitle] = useState(item.title)
+  const [description, setDescription] = useState(item.description || '')
+  const [category, setCategory] = useState<RoadmapItem['category']>(item.category)
+  const [priority, setPriority] = useState<'low' | 'medium' | 'high' | 'critical'>(item.priority)
+  const [status, setStatus] = useState<RoadmapItem['status']>(item.status)
+  const [progress, setProgress] = useState(item.progress)
+  const [startDate, setStartDate] = useState(item.start_date?.split('T')[0] || '')
+  const [endDate, setEndDate] = useState(item.end_date?.split('T')[0] || '')
+  const [assignee, setAssignee] = useState(item.assignee || '')
+  const [tagsInput, setTagsInput] = useState((item.tags || []).join(', '))
+  const [loading, setLoading] = useState(false)
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!title.trim()) return
+
+    setLoading(true)
+    try {
+      // Parse tags from comma-separated input
+      const tags = tagsInput
+        .split(',')
+        .map(tag => tag.trim())
+        .filter(tag => tag.length > 0)
+
+      await onUpdate(item.id, {
+        title: title.trim(),
+        description: description.trim() || null,
+        category,
+        priority,
+        status,
+        progress,
+        start_date: startDate || null,
+        end_date: endDate || null,
+        assignee: assignee.trim() || null,
+        tags: tags.length > 0 ? tags : null,
+      })
+      onClose()
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  if (!isOpen) return null
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.9, opacity: 0 }}
+        onClick={(e) => e.stopPropagation()}
+        className="bg-slate-800 rounded-xl p-6 w-full max-w-lg border border-slate-700 max-h-[90vh] overflow-y-auto"
+      >
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-semibold text-white">Edit Roadmap Item</h3>
+          <button onClick={onClose} className="p-1 text-slate-400 hover:text-white">
+            <X size={18} />
+          </button>
+        </div>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Title */}
+          <div>
+            <label className="block text-sm text-slate-400 mb-1">Title</label>
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-cyan-500"
+              placeholder="Enter item title..."
+              autoFocus
+            />
+          </div>
+
+          {/* Description */}
+          <div>
+            <label className="block text-sm text-slate-400 mb-1">Description</label>
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-cyan-500 resize-none"
+              placeholder="Enter description..."
+              rows={3}
+            />
+          </div>
+
+          {/* Category & Priority */}
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm text-slate-400 mb-1">Category</label>
+              <select
+                value={category}
+                onChange={(e) => setCategory(e.target.value as RoadmapItem['category'])}
+                className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-cyan-500"
+              >
+                <option value="feature">Feature</option>
+                <option value="integration">Integration</option>
+                <option value="infrastructure">Infrastructure</option>
+                <option value="design">Design</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm text-slate-400 mb-1">Priority</label>
+              <select
+                value={priority}
+                onChange={(e) => setPriority(e.target.value as 'low' | 'medium' | 'high' | 'critical')}
+                className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-cyan-500"
+              >
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+                <option value="critical">Critical</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Status */}
+          <div>
+            <label className="block text-sm text-slate-400 mb-1">Status</label>
+            <select
+              value={status}
+              onChange={(e) => setStatus(e.target.value as RoadmapItem['status'])}
+              className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-cyan-500"
+            >
+              <option value="planned">Planned</option>
+              <option value="in_progress">In Progress</option>
+              <option value="review">Review</option>
+              <option value="completed">Completed</option>
+              <option value="blocked">Blocked</option>
+            </select>
+          </div>
+
+          {/* Progress Slider */}
+          <div>
+            <label className="block text-sm text-slate-400 mb-1">
+              Progress: {progress}%
+            </label>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value={progress}
+              onChange={(e) => setProgress(parseInt(e.target.value))}
+              className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-500"
+            />
+            <div className="flex justify-between text-xs text-slate-500 mt-1">
+              <span>0%</span>
+              <span>50%</span>
+              <span>100%</span>
+            </div>
+          </div>
+
+          {/* Dates */}
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm text-slate-400 mb-1">Start Date</label>
+              <input
+                type="date"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-cyan-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm text-slate-400 mb-1">End Date</label>
+              <input
+                type="date"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+                className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-cyan-500"
+              />
+            </div>
+          </div>
+
+          {/* Assignee */}
+          <div>
+            <label className="block text-sm text-slate-400 mb-1">Assignee</label>
+            <input
+              type="text"
+              value={assignee}
+              onChange={(e) => setAssignee(e.target.value)}
+              className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-cyan-500"
+              placeholder="Enter assignee name..."
+            />
+          </div>
+
+          {/* Tags */}
+          <div>
+            <label className="block text-sm text-slate-400 mb-1">Tags (comma-separated)</label>
+            <input
+              type="text"
+              value={tagsInput}
+              onChange={(e) => setTagsInput(e.target.value)}
+              className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-cyan-500"
+              placeholder="e.g., frontend, urgent, Q1"
+            />
+          </div>
+
+          {/* Actions */}
+          <div className="flex gap-3 pt-2">
+            <button
+              type="button"
+              onClick={onClose}
+              className="flex-1 px-4 py-2 rounded-lg border border-slate-600 text-slate-300 hover:bg-slate-700 transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={loading || !title.trim()}
+              className="flex-1 px-4 py-2 rounded-lg bg-cyan-500 text-white hover:bg-cyan-600 disabled:opacity-50 transition-colors"
+            >
+              {loading ? 'Saving...' : 'Save Changes'}
+            </button>
+          </div>
+        </form>
+      </motion.div>
+    </motion.div>
+  )
+}
+
+interface RoadmapTimelineProps {
+  highlightedItemId?: string | null
+}
+
+export function RoadmapTimeline({ highlightedItemId }: RoadmapTimelineProps = {}) {
   const { items, loading, error, createItem, updateItem, deleteItem } = useRoadmapItems()
   const [filter, setFilter] = useState<string>('all')
   const [showNewModal, setShowNewModal] = useState(false)
+  const [editingItem, setEditingItem] = useState<RoadmapItem | null>(null)
 
   const filteredItems = useMemo(() => {
     if (filter === 'all') return items
@@ -395,6 +673,8 @@ export function RoadmapTimeline() {
                       item={item}
                       onUpdate={updateItem}
                       onDelete={deleteItem}
+                      onOpenEditModal={setEditingItem}
+                      isHighlighted={highlightedItemId === item.id}
                     />
                   ))}
                 </AnimatePresence>
@@ -424,6 +704,19 @@ export function RoadmapTimeline() {
             isOpen={true}
             onClose={() => setShowNewModal(false)}
             onCreate={createItem}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Edit Item Modal */}
+      <AnimatePresence>
+        {editingItem && (
+          <EditItemModal
+            key={editingItem.id}
+            item={editingItem}
+            isOpen={true}
+            onClose={() => setEditingItem(null)}
+            onUpdate={updateItem}
           />
         )}
       </AnimatePresence>

@@ -1,21 +1,19 @@
 'use client'
 
-import { useState, useMemo, useRef } from 'react'
+import { useState, useMemo, useRef, useCallback, memo, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { cn } from '@/utils/cn'
 import { RoadmapItem, useRoadmapItems } from '@/lib/hooks/useProjectManager'
 import {
   ChevronLeft,
   ChevronRight,
-  ZoomIn,
-  ZoomOut,
   Calendar,
   AlertCircle,
 } from 'lucide-react'
 
 type ViewMode = 'day' | 'week' | 'month'
 
-const statusColors = {
+const statusColors: Record<string, string> = {
   planned: 'bg-slate-500',
   in_progress: 'bg-blue-500',
   progress: 'bg-blue-500',
@@ -26,7 +24,7 @@ const statusColors = {
   review: 'bg-yellow-500',
 }
 
-const categoryColors = {
+const categoryColors: Record<string, string> = {
   feature: 'from-cyan-500 to-blue-500',
   integration: 'from-purple-500 to-pink-500',
   infrastructure: 'from-orange-500 to-red-500',
@@ -34,25 +32,77 @@ const categoryColors = {
   other: 'from-slate-500 to-slate-600',
 }
 
+// Constants for virtualization
+const ITEM_HEIGHT = 40
+const OVERSCAN_COUNT = 5
+
 interface GanttBarProps {
   item: RoadmapItem
-  startDate: Date
-  endDate: Date
   dayWidth: number
   chartStartDate: Date
 }
 
-function GanttBar({ item, startDate, endDate, dayWidth, chartStartDate }: GanttBarProps) {
-  const itemStart = item.start_date ? new Date(item.start_date) : new Date()
-  const itemEnd = item.end_date ? new Date(item.end_date) : new Date(itemStart.getTime() + 7 * 24 * 60 * 60 * 1000)
+/**
+ * Memoized GanttBar component to prevent unnecessary re-renders.
+ * Only re-renders when item data, dayWidth, or chartStartDate changes.
+ */
+const GanttBar = memo(function GanttBar({
+  item,
+  dayWidth,
+  chartStartDate
+}: GanttBarProps) {
+  // Normalize dates to midnight UTC to avoid timezone issues
+  const normalizeToMidnight = useCallback((date: Date): Date => {
+    const normalized = new Date(date)
+    normalized.setHours(0, 0, 0, 0)
+    return normalized
+  }, [])
 
-  const startOffset = Math.max(0, Math.floor((itemStart.getTime() - chartStartDate.getTime()) / (24 * 60 * 60 * 1000)))
-  const duration = Math.max(1, Math.ceil((itemEnd.getTime() - itemStart.getTime()) / (24 * 60 * 60 * 1000)))
+  const itemStart = useMemo(() => {
+    return normalizeToMidnight(item.start_date ? new Date(item.start_date) : new Date())
+  }, [item.start_date, normalizeToMidnight])
 
-  const left = startOffset * dayWidth
-  const width = duration * dayWidth
+  const itemEnd = useMemo(() => {
+    return normalizeToMidnight(
+      item.end_date
+        ? new Date(item.end_date)
+        : new Date(itemStart.getTime() + 7 * 24 * 60 * 60 * 1000)
+    )
+  }, [item.end_date, itemStart, normalizeToMidnight])
+
+  const { left, width } = useMemo(() => {
+    const normalizedChartStart = normalizeToMidnight(chartStartDate)
+    const startOffset = Math.max(
+      0,
+      Math.floor((itemStart.getTime() - normalizedChartStart.getTime()) / (24 * 60 * 60 * 1000))
+    )
+    const duration = Math.max(
+      1,
+      Math.ceil((itemEnd.getTime() - itemStart.getTime()) / (24 * 60 * 60 * 1000))
+    )
+    return {
+      left: startOffset * dayWidth,
+      width: duration * dayWidth,
+    }
+  }, [itemStart, itemEnd, chartStartDate, dayWidth, normalizeToMidnight])
 
   const colors = categoryColors[item.category] || categoryColors.other
+
+  // Memoize tooltip content to prevent recalculation
+  const tooltipContent = useMemo(() => (
+    <div className="bg-slate-900 border border-slate-700 rounded-lg p-3 shadow-xl min-w-[200px]">
+      <h4 className="font-medium text-white text-sm">{item.title}</h4>
+      {item.description && (
+        <p className="text-xs text-slate-400 mt-1 line-clamp-2">{item.description}</p>
+      )}
+      <div className="flex items-center gap-3 mt-2 text-xs text-slate-500">
+        <span>{item.progress}% complete</span>
+        <span className={cn('px-1.5 py-0.5 rounded', statusColors[item.status], 'text-white')}>
+          {item.status.replace('_', ' ')}
+        </span>
+      </div>
+    </div>
+  ), [item.title, item.description, item.progress, item.status])
 
   return (
     <motion.div
@@ -86,43 +136,187 @@ function GanttBar({ item, startDate, endDate, dayWidth, chartStartDate }: GanttB
 
       {/* Tooltip */}
       <div className="absolute bottom-full left-0 mb-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20">
-        <div className="bg-slate-900 border border-slate-700 rounded-lg p-3 shadow-xl min-w-[200px]">
-          <h4 className="font-medium text-white text-sm">{item.title}</h4>
-          {item.description && (
-            <p className="text-xs text-slate-400 mt-1 line-clamp-2">{item.description}</p>
-          )}
-          <div className="flex items-center gap-3 mt-2 text-xs text-slate-500">
-            <span>{item.progress}% complete</span>
-            <span className={cn('px-1.5 py-0.5 rounded', statusColors[item.status], 'text-white')}>
-              {item.status.replace('_', ' ')}
-            </span>
-          </div>
-        </div>
+        {tooltipContent}
       </div>
     </motion.div>
   )
+})
+
+/**
+ * Debounce hook for preventing rapid function calls
+ */
+function useDebounce<T extends (...args: Parameters<T>) => void>(
+  callback: T,
+  delay: number
+): T {
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
+
+  const debouncedCallback = useCallback(
+    (...args: Parameters<T>) => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current)
+      }
+      timeoutRef.current = setTimeout(() => {
+        callback(...args)
+      }, delay)
+    },
+    [callback, delay]
+  ) as T
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current)
+      }
+    }
+  }, [])
+
+  return debouncedCallback
+}
+
+/**
+ * Custom hook for simple list virtualization
+ */
+function useVirtualization(
+  containerRef: React.RefObject<HTMLDivElement | null>,
+  itemCount: number,
+  itemHeight: number,
+  overscan: number = OVERSCAN_COUNT
+) {
+  const [scrollTop, setScrollTop] = useState(0)
+  const [containerHeight, setContainerHeight] = useState(0)
+
+  useEffect(() => {
+    const container = containerRef.current
+    if (!container) return
+
+    const handleScroll = () => {
+      setScrollTop(container.scrollTop)
+    }
+
+    const handleResize = () => {
+      setContainerHeight(container.clientHeight)
+    }
+
+    // Initial measurement
+    handleResize()
+
+    container.addEventListener('scroll', handleScroll, { passive: true })
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      container.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [containerRef])
+
+  const virtualItems = useMemo(() => {
+    if (containerHeight === 0) {
+      // Return all items if container hasn't been measured yet
+      return {
+        startIndex: 0,
+        endIndex: itemCount,
+        offsetTop: 0,
+        visibleItems: Array.from({ length: itemCount }, (_, i) => i),
+      }
+    }
+
+    const startIndex = Math.max(0, Math.floor(scrollTop / itemHeight) - overscan)
+    const visibleCount = Math.ceil(containerHeight / itemHeight)
+    const endIndex = Math.min(itemCount, startIndex + visibleCount + overscan * 2)
+
+    return {
+      startIndex,
+      endIndex,
+      offsetTop: startIndex * itemHeight,
+      visibleItems: Array.from(
+        { length: endIndex - startIndex },
+        (_, i) => startIndex + i
+      ),
+    }
+  }, [scrollTop, containerHeight, itemCount, itemHeight, overscan])
+
+  const totalHeight = itemCount * itemHeight
+
+  return { virtualItems, totalHeight }
+}
+
+/**
+ * Normalize a date to midnight to avoid timezone inconsistencies
+ */
+function normalizeDate(date: Date): Date {
+  const normalized = new Date(date)
+  normalized.setHours(0, 0, 0, 0)
+  return normalized
 }
 
 export function GanttChart() {
   const { items, loading, error } = useRoadmapItems()
   const [viewMode, setViewMode] = useState<ViewMode>('week')
-  const [currentDate, setCurrentDate] = useState(new Date())
+  const [currentDate, setCurrentDate] = useState(() => normalizeDate(new Date()))
   const containerRef = useRef<HTMLDivElement>(null)
+  const leftPanelRef = useRef<HTMLDivElement>(null)
+  const rightPanelRef = useRef<HTMLDivElement>(null)
 
-  // Calculate date range
-  const { startDate, endDate, days, dayWidth } = useMemo(() => {
-    const today = new Date(currentDate)
+  // Use virtualization for the items list
+  const { virtualItems, totalHeight } = useVirtualization(
+    leftPanelRef,
+    items.length,
+    ITEM_HEIGHT
+  )
+
+  // Sync scroll between left and right panels
+  useEffect(() => {
+    const leftPanel = leftPanelRef.current
+    const rightPanel = rightPanelRef.current
+    if (!leftPanel || !rightPanel) return
+
+    let isSyncing = false
+
+    const syncLeftToRight = () => {
+      if (isSyncing) return
+      isSyncing = true
+      rightPanel.scrollTop = leftPanel.scrollTop
+      requestAnimationFrame(() => {
+        isSyncing = false
+      })
+    }
+
+    const syncRightToLeft = () => {
+      if (isSyncing) return
+      isSyncing = true
+      leftPanel.scrollTop = rightPanel.scrollTop
+      requestAnimationFrame(() => {
+        isSyncing = false
+      })
+    }
+
+    leftPanel.addEventListener('scroll', syncLeftToRight, { passive: true })
+    rightPanel.addEventListener('scroll', syncRightToLeft, { passive: true })
+
+    return () => {
+      leftPanel.removeEventListener('scroll', syncLeftToRight)
+      rightPanel.removeEventListener('scroll', syncRightToLeft)
+    }
+  }, [])
+
+  // Calculate date range with stable date references
+  const { startDate, days, dayWidth } = useMemo(() => {
+    const today = normalizeDate(currentDate)
     let start: Date
     let end: Date
     let width: number
 
     if (viewMode === 'day') {
-      start = new Date(today.setDate(today.getDate() - 3))
+      start = new Date(today)
+      start.setDate(start.getDate() - 3)
       end = new Date(start.getTime() + 14 * 24 * 60 * 60 * 1000)
       width = 80
     } else if (viewMode === 'week') {
       const dayOfWeek = today.getDay()
-      start = new Date(today.setDate(today.getDate() - dayOfWeek - 7))
+      start = new Date(today)
+      start.setDate(start.getDate() - dayOfWeek - 7)
       end = new Date(start.getTime() + 42 * 24 * 60 * 60 * 1000)
       width = 40
     } else {
@@ -131,15 +325,26 @@ export function GanttChart() {
       width = 15
     }
 
+    // Normalize start date
+    start = normalizeDate(start)
+
     const dayCount = Math.ceil((end.getTime() - start.getTime()) / (24 * 60 * 60 * 1000))
+
+    // Create days array with normalized dates
     const daysArray = Array.from({ length: dayCount }, (_, i) => {
       const d = new Date(start)
       d.setDate(d.getDate() + i)
-      return d
+      return normalizeDate(d)
     })
 
     return { startDate: start, endDate: end, days: daysArray, dayWidth: width }
   }, [currentDate, viewMode])
+
+  // Memoize today's index calculation - single computation instead of multiple findIndex calls
+  const todayIndex = useMemo(() => {
+    const today = normalizeDate(new Date()).toDateString()
+    return days.findIndex(d => d.toDateString() === today)
+  }, [days])
 
   // Generate week markers
   const weekMarkers = useMemo(() => {
@@ -152,26 +357,37 @@ export function GanttChart() {
     return markers
   }, [days, dayWidth])
 
-  // Navigation
-  const navigatePrev = () => {
-    const newDate = new Date(currentDate)
-    if (viewMode === 'day') newDate.setDate(newDate.getDate() - 7)
-    else if (viewMode === 'week') newDate.setDate(newDate.getDate() - 14)
-    else newDate.setMonth(newDate.getMonth() - 1)
-    setCurrentDate(newDate)
-  }
+  // Debounced navigation handlers to prevent rapid clicking issues
+  const navigatePrevRaw = useCallback(() => {
+    setCurrentDate(prev => {
+      const newDate = normalizeDate(prev)
+      if (viewMode === 'day') newDate.setDate(newDate.getDate() - 7)
+      else if (viewMode === 'week') newDate.setDate(newDate.getDate() - 14)
+      else newDate.setMonth(newDate.getMonth() - 1)
+      return newDate
+    })
+  }, [viewMode])
 
-  const navigateNext = () => {
-    const newDate = new Date(currentDate)
-    if (viewMode === 'day') newDate.setDate(newDate.getDate() + 7)
-    else if (viewMode === 'week') newDate.setDate(newDate.getDate() + 14)
-    else newDate.setMonth(newDate.getMonth() + 1)
-    setCurrentDate(newDate)
-  }
+  const navigateNextRaw = useCallback(() => {
+    setCurrentDate(prev => {
+      const newDate = normalizeDate(prev)
+      if (viewMode === 'day') newDate.setDate(newDate.getDate() + 7)
+      else if (viewMode === 'week') newDate.setDate(newDate.getDate() + 14)
+      else newDate.setMonth(newDate.getMonth() + 1)
+      return newDate
+    })
+  }, [viewMode])
 
-  const goToToday = () => {
-    setCurrentDate(new Date())
-  }
+  // Apply debounce to navigation (150ms delay)
+  const navigatePrev = useDebounce(navigatePrevRaw, 150)
+  const navigateNext = useDebounce(navigateNextRaw, 150)
+
+  const goToToday = useCallback(() => {
+    setCurrentDate(normalizeDate(new Date()))
+  }, [])
+
+  // Memoize the chart width calculation
+  const chartWidth = useMemo(() => days.length * dayWidth, [days.length, dayWidth])
 
   if (loading) {
     return (
@@ -213,6 +429,7 @@ export function GanttChart() {
             <button
               onClick={navigatePrev}
               className="p-2 rounded-lg bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700 transition-colors"
+              aria-label="Navigate to previous period"
             >
               <ChevronLeft size={18} />
             </button>
@@ -225,6 +442,7 @@ export function GanttChart() {
             <button
               onClick={navigateNext}
               className="p-2 rounded-lg bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700 transition-colors"
+              aria-label="Navigate to next period"
             >
               <ChevronRight size={18} />
             </button>
@@ -242,22 +460,33 @@ export function GanttChart() {
       {/* Chart */}
       <div className="flex-1 bg-slate-900/50 rounded-xl border border-slate-700/50 overflow-hidden">
         <div className="flex h-full">
-          {/* Left Panel - Item Labels */}
+          {/* Left Panel - Item Labels (Virtualized) */}
           <div className="w-64 flex-shrink-0 border-r border-slate-700/50">
             {/* Header */}
             <div className="h-12 border-b border-slate-700/50 flex items-center px-4">
               <span className="text-sm font-medium text-slate-400">Task</span>
             </div>
-            {/* Items */}
-            <div className="overflow-y-auto" style={{ height: 'calc(100% - 48px)' }}>
-              {items.map((item) => (
-                <div
-                  key={item.id}
-                  className="h-10 border-b border-slate-700/30 flex items-center px-4 hover:bg-slate-800/50"
-                >
-                  <span className="text-sm text-white truncate">{item.title}</span>
-                </div>
-              ))}
+            {/* Virtualized Items */}
+            <div
+              ref={leftPanelRef}
+              className="overflow-y-auto"
+              style={{ height: 'calc(100% - 48px)' }}
+            >
+              <div style={{ height: totalHeight, position: 'relative' }}>
+                {virtualItems.visibleItems.map((index) => {
+                  const item = items[index]
+                  if (!item) return null
+                  return (
+                    <div
+                      key={item.id}
+                      className="absolute w-full h-10 border-b border-slate-700/30 flex items-center px-4 hover:bg-slate-800/50"
+                      style={{ top: index * ITEM_HEIGHT }}
+                    >
+                      <span className="text-sm text-white truncate">{item.title}</span>
+                    </div>
+                  )
+                })}
+              </div>
             </div>
           </div>
 
@@ -265,7 +494,7 @@ export function GanttChart() {
           <div className="flex-1 overflow-x-auto" ref={containerRef}>
             {/* Timeline Header */}
             <div className="h-12 border-b border-slate-700/50 sticky top-0 bg-slate-900/90 backdrop-blur">
-              <div className="relative h-full" style={{ width: days.length * dayWidth }}>
+              <div className="relative h-full" style={{ width: chartWidth }}>
                 {/* Month/Week Labels */}
                 {weekMarkers.map(({ date, x }, i) => (
                   <div
@@ -279,57 +508,61 @@ export function GanttChart() {
                   </div>
                 ))}
 
-                {/* Today Marker */}
-                {days.findIndex(d => d.toDateString() === new Date().toDateString()) >= 0 && (
+                {/* Today Marker - uses memoized todayIndex */}
+                {todayIndex >= 0 && (
                   <div
                     className="absolute top-0 h-full w-0.5 bg-cyan-500"
-                    style={{
-                      left: days.findIndex(d => d.toDateString() === new Date().toDateString()) * dayWidth,
-                    }}
+                    style={{ left: todayIndex * dayWidth }}
                   />
                 )}
               </div>
             </div>
 
-            {/* Timeline Body */}
-            <div className="overflow-y-auto" style={{ height: 'calc(100% - 48px)' }}>
-              <div className="relative" style={{ width: days.length * dayWidth }}>
+            {/* Timeline Body (Virtualized) */}
+            <div
+              ref={rightPanelRef}
+              className="overflow-y-auto"
+              style={{ height: 'calc(100% - 48px)' }}
+            >
+              <div className="relative" style={{ width: chartWidth, height: totalHeight }}>
                 {/* Grid Lines */}
                 {weekMarkers.map(({ x }, i) => (
                   <div
                     key={i}
                     className="absolute top-0 bottom-0 border-l border-slate-700/30"
-                    style={{ left: x, height: items.length * 40 }}
+                    style={{ left: x, height: totalHeight }}
                   />
                 ))}
 
-                {/* Today Line */}
-                {days.findIndex(d => d.toDateString() === new Date().toDateString()) >= 0 && (
+                {/* Today Line - uses memoized todayIndex */}
+                {todayIndex >= 0 && (
                   <div
                     className="absolute top-0 w-0.5 bg-cyan-500/30"
                     style={{
-                      left: days.findIndex(d => d.toDateString() === new Date().toDateString()) * dayWidth,
-                      height: items.length * 40,
+                      left: todayIndex * dayWidth,
+                      height: totalHeight,
                     }}
                   />
                 )}
 
-                {/* Gantt Bars */}
-                {items.map((item, index) => (
-                  <div
-                    key={item.id}
-                    className="h-10 relative border-b border-slate-700/30"
-                    style={{ top: 0 }}
-                  >
-                    <GanttBar
-                      item={item}
-                      startDate={startDate}
-                      endDate={endDate}
-                      dayWidth={dayWidth}
-                      chartStartDate={startDate}
-                    />
-                  </div>
-                ))}
+                {/* Virtualized Gantt Bars */}
+                {virtualItems.visibleItems.map((index) => {
+                  const item = items[index]
+                  if (!item) return null
+                  return (
+                    <div
+                      key={item.id}
+                      className="absolute w-full h-10 border-b border-slate-700/30"
+                      style={{ top: index * ITEM_HEIGHT }}
+                    >
+                      <GanttBar
+                        item={item}
+                        dayWidth={dayWidth}
+                        chartStartDate={startDate}
+                      />
+                    </div>
+                  )
+                })}
               </div>
             </div>
           </div>

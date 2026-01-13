@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlueIQ AI Maturity Assessment Report</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #0f3460;
+            --highlight: #e94560;
+            --success: #00d9ff;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --light: #f8f9fa;
+            --text: #e4e4e4;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+            border-bottom: 2px solid var(--accent);
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--success);
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            color: var(--highlight);
+            margin: 30px 0 20px;
+            border-left: 4px solid var(--highlight);
+            padding-left: 15px;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            color: var(--success);
+            margin: 20px 0 15px;
+        }
+
+        .subtitle {
+            color: #888;
+            font-size: 1.1rem;
+        }
+
+        .score-banner {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .score-card {
+            background: var(--accent);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            min-width: 200px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .score-value {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--highlight);
+        }
+
+        .score-label {
+            color: #888;
+            margin-top: 10px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .card {
+            background: rgba(15, 52, 96, 0.5);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .dimension-row {
+            display: flex;
+            align-items: center;
+            margin: 12px 0;
+            padding: 10px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+        }
+
+        .dimension-name {
+            flex: 1;
+            font-weight: 500;
+        }
+
+        .dimension-bar-container {
+            flex: 2;
+            height: 24px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 0 15px;
+            position: relative;
+        }
+
+        .dimension-bar {
+            height: 100%;
+            border-radius: 12px;
+            transition: width 0.5s ease;
+        }
+
+        .dimension-bar.negative {
+            background: linear-gradient(90deg, var(--danger) 0%, #ff6b6b 100%);
+        }
+
+        .dimension-bar.low {
+            background: linear-gradient(90deg, var(--warning) 0%, #ffda44 100%);
+        }
+
+        .dimension-bar.medium {
+            background: linear-gradient(90deg, var(--success) 0%, #00ff88 100%);
+        }
+
+        .dimension-bar.high {
+            background: linear-gradient(90deg, #00ff88 0%, #00ff00 100%);
+        }
+
+        .dimension-score {
+            min-width: 60px;
+            text-align: right;
+            font-weight: bold;
+        }
+
+        .category-avg {
+            text-align: center;
+            padding: 15px;
+            margin-top: 20px;
+            background: rgba(233, 69, 96, 0.2);
+            border-radius: 10px;
+            font-size: 1.2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        th {
+            background: var(--accent);
+            color: var(--success);
+        }
+
+        tr:hover {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .chart-container {
+            background: rgba(0,0,0,0.2);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .level-indicator {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .level-negative { background: var(--danger); color: white; }
+        .level-0 { background: #666; color: white; }
+        .level-1 { background: var(--warning); color: black; }
+        .level-2 { background: #00d9ff; color: black; }
+
+        .recommendations {
+            background: linear-gradient(135deg, var(--accent) 0%, rgba(233,69,96,0.2) 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+
+        .rec-item {
+            display: flex;
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+        }
+
+        .rec-number {
+            width: 40px;
+            height: 40px;
+            background: var(--highlight);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .quote {
+            font-style: italic;
+            color: #888;
+            border-left: 3px solid var(--highlight);
+            padding-left: 15px;
+            margin: 10px 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid var(--accent);
+            margin-top: 40px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>GlueIQ AI Maturity Assessment</h1>
+            <p class="subtitle">Comprehensive Analysis Based on 9 C-Suite Interviews</p>
+            <p class="subtitle">Framework: LVNG.ai AI Maturity Model | Scale: -2 to 10</p>
+        </header>
+
+        <div class="score-banner">
+            <div class="score-card">
+                <div class="score-value">0.65</div>
+                <div class="score-label">Overall Maturity Score (out of 10)</div>
+            </div>
+            <div class="score-card">
+                <div class="score-value" style="color: var(--warning);">Level 0</div>
+                <div class="score-label">AI Unaware</div>
+            </div>
+            <div class="score-card">
+                <div class="score-value" style="color: var(--success);">9</div>
+                <div class="score-label">Interviews Analyzed</div>
+            </div>
+            <div class="score-card">
+                <div class="score-value" style="color: var(--danger);">0</div>
+                <div class="score-label">AI Champions Identified</div>
+            </div>
+        </div>
+
+        <h2>All 23 Dimensions by Category</h2>
+
+        <div class="grid">
+            <!-- Strategy & Leadership -->
+            <div class="card">
+                <h3>Strategy & Leadership</h3>
+
+                <div class="dimension-row">
+                    <span class="dimension-name">Leadership Vision</span>
+                    <div class="dimension-bar-container">
+                        <div class="dimension-bar low" style="width: 33%;"></div>
+                    </div>
+                    <span class="dimension-score">2.0/10</span>
+                </div>
+
+                <div class="dimension-row">
+                    <span class="dimension-name">Strategy Alignment</span>
+                    <div class="dimension-bar-container">
+                        <div class="dimension-bar low" style="width: 25%;"></div>
+                    </div>
+                    <span class="dimension-score">1.0/10</span>
+                </div>
+
+                <div class="dimension-row">
+                    <span class="dimension-name">Change Management</span>
+                    <div class="dimension-bar-container">
+                        <div class="dimension-bar low" style="width: 21%;"></div>
+                    </div>
+                    <span class="dimension-score">0.5/10</span>
+                </div>
+
+                <div class="dimension-row">
+                    <span class="dimension-name">Competitive Positioning</span>
+                    <div class="dimension-bar-container">
+                        <div class="dimension-bar low" style="width: 21%;"></div>
+                    </div>
+                    <span class="dimension-score">0.5/10</span>
+                </div>
+
+                <div class="dimension-row">
+                    <span class="dimension-name">Innovation Capacity</span>
+                    <div class="dimension-bar-container">
+                        <div class="dimension-bar low" style="width: 21%;"></div>
+                    </div>
+                    <span class="dimension-score">0.5/10</span>
+                </div>
+
+                <div class="category-avg">Category Average: 0.9/10</div>
+            </div>
+
+            <!-- People & Culture -->
+            <div class="card">
+                <h3>People & Culture</h3>
+
+                <div class="dimension-row">
+                    <span class="dimension-name">Skills & Talent</span>
+                    <div class="dimension-bar-container">
+                        <div class="dimension-bar negative" style="width: 8%;"></div>
+                    </div>
+                    <span class="dimension-score" style="color: var(--danger);">-1.0/10</span>
+                </div>
+
+                <div class="dimension-row">
+                    <span class="dimension-name">Cultural Readiness</span>
+                    <div class="dimension-bar-container">
+                        <div class="dimension-bar low" style="width: 21%;"></div>
+                    </div>
+                    <span class="dimension-score">0.5/10</span>
+                </div>
+
+                <div class="dimension-row">
+                    <span class="dimension-name">Learning & Development</span>
+                    <div class="dimension-bar-container">
+                        <div class="dimension-bar low" style="width: 29%;"></div>
+                    </div>
+                    <span class="dimension-score">1.5/10</span>
+                </div>
+
+                <div class="dimension-row">
+                    <span class="dimension-name">Psychological Safety</span>
+                    <div class="dimension-bar-container">
+                        <div class="dimension-bar negative" style="width: 8%;"></div>
+                    </div>
+                    <span class="dimension-score" style="color: var(--danger);">-1.0/10</span>
+                </div>
+
+                <div class="dimension-row">
+                    <span class="dimension-name">Champion Network</span>
+                    <div class="dimension-bar-container">
+                        <div class="dimension-bar low" style="width: 21%;"></div>
+                    </div>
+                    <span class="dimension-score">0.5/10</span>
+                </div>
+
+                <div class="category-avg" style="background: rgba(220, 53, 69, 0.3);">Category Average: 0.1/10 - CRITICAL</div>
+            </div>
+
+            <!-- Technology & Data -->
+            <div class="card">
+                <h3>Technology & Data</h3>
+
+                <div class="dimension-row">
+                    <span class="dimension-name">Data Infrastructure</span>
+                    <div class="dimension-bar-container">
+                        <div class="dimension-bar low" style="width: 21%;"></div>
+                    </div>
+                    <span class="dimension-score">0.5/10</span>
+                </div>
+
+                <div class="dimension-row">
+                    <span class="dimension-name">Technology Stack</span>
+                    <div class="dimension-bar-container">
+                        <div class="dimension-bar low" style="width: 21%;"></div>
+                    </div>
+                    <span class="dimension-score">0.5/10</span>
+                </div>
+
+                <div class="dimension-row">
+                    <span class="dimension-name">Integration Capability</span>
+                    <div class="dimension-bar-container">
+                        <div class="dimension-bar low" style="width: 21%;"></div>
+                    </div>
+                    <span class="dimension-score">0.5/10</span>
+                </div>
+
+                <div class="dimension-row">
+                    <span class="dimension-name">Security & Compliance</span>
+                    <div class="dimension-bar-container">
+                        <div class="dimension-bar low" style="width: 21%;"></div>
+                    </div>
+                    <span class="dimension-score">0.5/10</span>
+                </div>
+
+                <div class="dimension-row">
+                    <span class="dimension-name">Vendor Ecosystem</span>
+                    <div class="dimension-bar-container">
+                        <div class="dimension-bar low" style="width: 21%;"></div>
+                    </div>
+                    <span class="dimension-score">0.5/10</span>
+                </div>
+
+                <div class="category-avg">Category Average: 0.5/10</div>
+            </div>
+
+            <!-- Operations & Processes -->
+            <div class="card">
+                <h3>Operations & Processes</h3>
+
+                <div class="dimension-row">
+                    <span class="dimension-name">AI Use Cases</span>
+                    <div class="dimension-bar-container">
+                        <div class="dimension-bar low" style="width: 29%;"></div>
+                    </div>
+                    <span class="dimension-score">1.5/10</span>
+                </div>
+
+                <div class="dimension-row">
+                    <span class="dimension-name">Process Automation</span>
+                    <div class="dimension-bar-container">
+                        <div class="dimension-bar low" style="width: 29%;"></div>
+                    </div>
+                    <span class="dimension-score">1.5/10</span>
+                </div>
+
+                <div class="dimension-row">
+                    <span class="dimension-name">Operational Excellence</span>
+                    <div class="dimension-bar-container">
+                        <div class="dimension-bar low" style="width: 21%;"></div>
+                    </div>
+                    <span class="dimension-score">0.5/10</span>
+                </div>
+
+                <div class="dimension-row">
+                    <span class="dimension-name">Customer Experience</span>
+                    <div class="dimension-bar-container">
+                        <div class="dimension-bar low" style="width: 21%;"></div>
+                    </div>
+                    <span class="dimension-score">0.5/10</span>
+                </div>
+
+                <div class="category-avg">Category Average: 1.0/10</div>
+            </div>
+
+            <!-- Governance & Risk -->
+            <div class="card">
+                <h3>Governance & Risk</h3>
+
+                <div class="dimension-row">
+                    <span class="dimension-name">AI Governance</span>
+                    <div class="dimension-bar-container">
+                        <div class="dimension-bar low" style="width: 25%;"></div>
+                    </div>
+                    <span class="dimension-score">1.0/10</span>
+                </div>
+
+                <div class="dimension-row">
+                    <span class="dimension-name">Ethics & Responsibility</span>
+                    <div class="dimension-bar-container">
+                        <div class="dimension-bar low" style="width: 29%;"></div>
+                    </div>
+                    <span class="dimension-score">1.5/10</span>
+                </div>
+
+                <div class="dimension-row">
+                    <span class="dimension-name">Risk Management</span>
+                    <div class="dimension-bar-container">
+                        <div class="dimension-bar low" style="width: 21%;"></div>
+                    </div>
+                    <span class="dimension-score">0.5/10</span>
+                </div>
+
+                <div class="dimension-row">
+                    <span class="dimension-name">ROI Measurement</span>
+                    <div class="dimension-bar-container">
+                        <div class="dimension-bar low" style="width: 21%;"></div>
+                    </div>
+                    <span class="dimension-score">0.5/10</span>
+                </div>
+
+                <div class="category-avg">Category Average: 0.875/10</div>
+            </div>
+        </div>
+
+        <h2>Individual Skill Profiles by Department</h2>
+
+        <div class="card">
+            <h3>Executive Leadership</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Title</th>
+                        <th>AI Skill Level</th>
+                        <th>Score</th>
+                        <th>Tools Used</th>
+                        <th>Growth Potential</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Gaston Legorburu</td>
+                        <td>CEO & Founder</td>
+                        <td><span class="level-indicator level-0">AI Unaware</span></td>
+                        <td>0/10</td>
+                        <td>ChatGPT, Claude, Perplexity, Motion, Copilot, MidJourney, Beautiful AI, Gamma</td>
+                        <td>HIGH</td>
+                    </tr>
+                    <tr>
+                        <td>Noel Artiles</td>
+                        <td>CCO</td>
+                        <td><span class="level-indicator level-0">AI Unaware</span></td>
+                        <td>0/10</td>
+                        <td>Gemini</td>
+                        <td>HIGH</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h3>Partners</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>AI Skill Level</th>
+                        <th>Score</th>
+                        <th>Tools Used</th>
+                        <th>Growth Potential</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Matt Kujawa</td>
+                        <td><span class="level-indicator level-1">AI Curious</span></td>
+                        <td>1/10</td>
+                        <td>Perplexity, Claude Projects</td>
+                        <td>MEDIUM</td>
+                    </tr>
+                    <tr>
+                        <td>Joey Wilson</td>
+                        <td><span class="level-indicator level-0">AI Unaware</span></td>
+                        <td>0/10</td>
+                        <td>Atlas, Motion, Productive</td>
+                        <td>HIGH</td>
+                    </tr>
+                    <tr>
+                        <td>Boris Stojanovic</td>
+                        <td><span class="level-indicator level-0">AI Unaware</span></td>
+                        <td>0/10</td>
+                        <td>Claude, Perplexity, N8N</td>
+                        <td>HIGH</td>
+                    </tr>
+                    <tr>
+                        <td>Maggy Conde</td>
+                        <td><span class="level-indicator level-0">AI Unaware</span></td>
+                        <td>0/10</td>
+                        <td>Beautiful AI, Productive</td>
+                        <td>HIGH</td>
+                    </tr>
+                    <tr>
+                        <td>Chiny Chewing</td>
+                        <td><span class="level-indicator level-0">AI Unaware</span></td>
+                        <td>0/10</td>
+                        <td>ChatGPT (basic)</td>
+                        <td>HIGH</td>
+                    </tr>
+                    <tr>
+                        <td>Dave Serrano</td>
+                        <td><span class="level-indicator level-0">AI Unaware</span></td>
+                        <td>0/10</td>
+                        <td>Gamma, Beautiful AI</td>
+                        <td>HIGH</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h3>People Operations</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Title</th>
+                        <th>AI Skill Level</th>
+                        <th>Score</th>
+                        <th>Tools Used</th>
+                        <th>Growth Potential</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Michele Conigliaro</td>
+                        <td>Head of People</td>
+                        <td><span class="level-indicator level-0">AI Unaware</span></td>
+                        <td>0/10</td>
+                        <td>Otter, ChatGPT</td>
+                        <td>HIGH</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2>Category Comparison</h2>
+        <div class="chart-container" style="height: 400px;">
+            <canvas id="categoryChart"></canvas>
+        </div>
+
+        <h2>Key Quotes from Interviews</h2>
+        <div class="card">
+            <p class="quote">"We have no AI plan, no investment from a structured standpoint."</p>
+            <p class="quote">"These kids coming right out of school have no AI ethics."</p>
+            <p class="quote">"I think I use that pretty deeply, and I have a pretty good sense of prompt engineering, and I geek out on that stuff."</p>
+            <p class="quote">"Whether they're approved or not, it's good because we want them experimenting."</p>
+            <p class="quote">"So people are resistant."</p>
+            <p class="quote">"We don't track or trace how much people actually produce and the quality of what they produce."</p>
+        </div>
+
+        <h2>Recommendations</h2>
+        <div class="recommendations">
+            <h3>Immediate (0-30 Days)</h3>
+            <div class="rec-item">
+                <div class="rec-number">1</div>
+                <div>
+                    <strong>Identify AI Champions</strong><br>
+                    No champions currently exist. Need 2-3 people to lead adoption. Consider Matt Kujawa as first champion given his Level 1 status.
+                </div>
+            </div>
+            <div class="rec-item">
+                <div class="rec-number">2</div>
+                <div>
+                    <strong>Establish Baseline Training</strong><br>
+                    Move all staff from Level 0 to Level 1 minimum. Focus on proper ChatGPT/Claude usage beyond "standard stuff."
+                </div>
+            </div>
+            <div class="rec-item">
+                <div class="rec-number">3</div>
+                <div>
+                    <strong>Create Psychological Safety</strong><br>
+                    Formalize "no judgment" experimentation policy. Address the "people are resistant" sentiment.
+                </div>
+            </div>
+
+            <h3>Short-Term (30-90 Days)</h3>
+            <div class="rec-item">
+                <div class="rec-number">4</div>
+                <div>
+                    <strong>Develop AI Strategy Document</strong><br>
+                    Address the "no AI plan" gap. Align AI initiatives with business objectives.
+                </div>
+            </div>
+            <div class="rec-item">
+                <div class="rec-number">5</div>
+                <div>
+                    <strong>Implement Governance Framework</strong><br>
+                    Address ethics concerns raised. Establish clear policies for AI usage.
+                </div>
+            </div>
+            <div class="rec-item">
+                <div class="rec-number">6</div>
+                <div>
+                    <strong>Standardize Tool Stack</strong><br>
+                    Reduce tool sprawl (currently 15+ tools mentioned). Ensure enterprise licenses are fully utilized.
+                </div>
+            </div>
+
+            <h3>Medium-Term (90-180 Days)</h3>
+            <div class="rec-item">
+                <div class="rec-number">7</div>
+                <div>
+                    <strong>Process Automation Pilots</strong><br>
+                    Start with identified repetitive tasks: deck creation, meeting transcription, scope of work generation.
+                </div>
+            </div>
+            <div class="rec-item">
+                <div class="rec-number">8</div>
+                <div>
+                    <strong>ROI Measurement System</strong><br>
+                    Begin tracking AI productivity gains. Address "we don't track" gap.
+                </div>
+            </div>
+        </div>
+
+        <h2>Dimension Radar Chart</h2>
+        <div class="chart-container" style="height: 500px;">
+            <canvas id="radarChart"></canvas>
+        </div>
+
+        <footer>
+            <p>Report generated by HumanGlue AI Assessment Platform</p>
+            <p>Framework: LVNG.ai AI Maturity Model | Confidence Level: 100%</p>
+            <p>Assessment Date: December 29, 2025</p>
+        </footer>
+    </div>
+
+    <script>
+        // Category Chart
+        const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+        new Chart(categoryCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Strategy & Leadership', 'People & Culture', 'Technology & Data', 'Operations & Processes', 'Governance & Risk'],
+                datasets: [{
+                    label: 'Category Average Score',
+                    data: [0.9, 0.1, 0.5, 1.0, 0.875],
+                    backgroundColor: [
+                        'rgba(0, 217, 255, 0.7)',
+                        'rgba(220, 53, 69, 0.7)',
+                        'rgba(255, 193, 7, 0.7)',
+                        'rgba(0, 217, 255, 0.7)',
+                        'rgba(255, 193, 7, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(0, 217, 255, 1)',
+                        'rgba(220, 53, 69, 1)',
+                        'rgba(255, 193, 7, 1)',
+                        'rgba(0, 217, 255, 1)',
+                        'rgba(255, 193, 7, 1)'
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 10,
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        },
+                        ticks: {
+                            color: '#888'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        },
+                        ticks: {
+                            color: '#888'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#e4e4e4'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Radar Chart
+        const radarCtx = document.getElementById('radarChart').getContext('2d');
+        new Chart(radarCtx, {
+            type: 'radar',
+            data: {
+                labels: [
+                    'Leadership Vision',
+                    'Strategy Alignment',
+                    'Change Management',
+                    'Competitive Positioning',
+                    'Innovation Capacity',
+                    'Skills & Talent',
+                    'Cultural Readiness',
+                    'Learning & Development',
+                    'Psychological Safety',
+                    'Champion Network',
+                    'Data Infrastructure',
+                    'Technology Stack',
+                    'Integration Capability',
+                    'Security & Compliance',
+                    'Vendor Ecosystem',
+                    'AI Use Cases',
+                    'Process Automation',
+                    'Operational Excellence',
+                    'Customer Experience',
+                    'AI Governance',
+                    'Ethics & Responsibility',
+                    'Risk Management',
+                    'ROI Measurement'
+                ],
+                datasets: [{
+                    label: 'Current Score',
+                    data: [2.0, 1.0, 0.5, 0.5, 0.5, -1.0, 0.5, 1.5, -1.0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 1.5, 1.5, 0.5, 0.5, 1.0, 1.5, 0.5, 0.5],
+                    fill: true,
+                    backgroundColor: 'rgba(233, 69, 96, 0.2)',
+                    borderColor: 'rgba(233, 69, 96, 1)',
+                    pointBackgroundColor: 'rgba(233, 69, 96, 1)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(233, 69, 96, 1)'
+                }, {
+                    label: 'Target (12 months)',
+                    data: [4, 4, 3, 3, 3, 3, 3, 4, 3, 3, 3, 4, 3, 4, 3, 5, 5, 4, 4, 4, 4, 4, 4],
+                    fill: true,
+                    backgroundColor: 'rgba(0, 217, 255, 0.1)',
+                    borderColor: 'rgba(0, 217, 255, 0.5)',
+                    pointBackgroundColor: 'rgba(0, 217, 255, 0.5)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(0, 217, 255, 1)'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        min: -2,
+                        max: 10,
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        },
+                        angleLines: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        },
+                        pointLabels: {
+                            color: '#888',
+                            font: {
+                                size: 10
+                            }
+                        },
+                        ticks: {
+                            color: '#888',
+                            backdropColor: 'transparent'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#e4e4e4'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -12,6 +12,7 @@ const config: Config = {
       fontFamily: {
         'gendy': ['Gendy', 'sans-serif'],
         'diatype': ['ABCDiatype', 'sans-serif'],
+        'anuphan': ['var(--font-anuphan)', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",

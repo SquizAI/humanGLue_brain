@@ -1,0 +1,185 @@
+{
+  "organizationId": "glueiq-001",
+  "organizationName": "GlueIQ",
+  "overallMaturity": 3.8,
+  "confidenceLevel": 0.85,
+  "assessmentDate": "2024-12-29",
+  "dataSource": "C-suite Interview Analysis (9 interviews)",
+  "dimensionScores": {
+    "skills_talent": {
+      "dimension": "skills_talent",
+      "score": 3.2,
+      "evidence": [
+        "About 20-30% genuinely AI capable",
+        "No formal AI training program",
+        "Creative team at 75% fluency",
+        "Account/PM teams significantly lagging",
+        "Senior professionals resistant to change"
+      ],
+      "confidence": 0.9,
+      "levelMatches": 8
+    },
+    "ai_use_cases": {
+      "dimension": "ai_use_cases",
+      "score": 4.1,
+      "evidence": [
+        "ChatGPT, MidJourney, Beautiful AI widely used",
+        "Pockets of excellence in creative production",
+        "No systematized use cases",
+        "Reputation exceeds actual capability",
+        "Experimenting but not transforming"
+      ],
+      "confidence": 0.88,
+      "levelMatches": 12
+    },
+    "strategy_alignment": {
+      "dimension": "strategy_alignment",
+      "score": 2.5,
+      "evidence": [
+        "No formal AI transformation plan",
+        "No AI roadmap",
+        "Partners aligned on importance but no execution plan",
+        "AI discussed but not prioritized",
+        "No dedicated AI budget or resources"
+      ],
+      "confidence": 0.92,
+      "levelMatches": 9
+    },
+    "process_optimization": {
+      "dimension": "process_optimization",
+      "score": 2.8,
+      "evidence": [
+        "Old school ways of working persist",
+        "No workflow automation",
+        "Repetitive tasks not systematized",
+        "No process documentation",
+        "Beautiful AI partially adopted but not embedded"
+      ],
+      "confidence": 0.87,
+      "levelMatches": 7
+    },
+    "ai_governance": {
+      "dimension": "ai_governance",
+      "score": 1.5,
+      "evidence": [
+        "No AI ethics policy",
+        "No one accountable for AI governance",
+        "No data privacy protocols for AI",
+        "No bias monitoring",
+        "No approval process for AI tools"
+      ],
+      "confidence": 0.95,
+      "levelMatches": 11
+    },
+    "leadership_vision": {
+      "dimension": "leadership_vision",
+      "score": 6.5,
+      "evidence": [
+        "All partners believe AI is critical",
+        "CEO personally uses AI extensively",
+        "Top-down support for transformation",
+        "Vision exists but execution lacking",
+        "Willing to invest but no formal commitment"
+      ],
+      "confidence": 0.91,
+      "levelMatches": 14
+    },
+    "culture_change": {
+      "dimension": "culture_change",
+      "score": 4.2,
+      "evidence": [
+        "Willing but hesitant culture",
+        "Psychological safety concerns mentioned",
+        "Draconian approach to tool adoption works",
+        "Senior employees resistant",
+        "Junior employees more adaptable"
+      ],
+      "confidence": 0.84,
+      "levelMatches": 10
+    },
+    "integration_capability": {
+      "dimension": "integration_capability",
+      "score": 3.5,
+      "evidence": [
+        "Tool fragmentation across teams",
+        "No standardized AI stack",
+        "Multiple disconnected tools",
+        "Need for workflow integration",
+        "Some API usage (N8N mentioned)"
+      ],
+      "confidence": 0.82,
+      "levelMatches": 6
+    }
+  },
+  "categoryScores": {
+    "technical": 3.0,
+    "human": 4.6,
+    "business": 3.4,
+    "ai_adoption": 2.8
+  },
+  "maturityProfile": {
+    "strengths": [
+      "Leadership Vision - Partners fully aligned on AI importance",
+      "Creative Team Excellence - 75% AI fluency in creative department"
+    ],
+    "weaknesses": [
+      "AI Governance - No ethics, policies, or accountability",
+      "Strategy Alignment - No formal plan or roadmap",
+      "Process Optimization - Old school workflows persist"
+    ],
+    "opportunities": [
+      "Skills & Talent - Training program could unlock potential",
+      "Culture Change - Willingness exists, needs structure",
+      "AI Use Cases - Expand from pockets to enterprise-wide"
+    ]
+  },
+  "gapPrioritization": [
+    {
+      "dimension": "ai_governance",
+      "currentScore": 1.5,
+      "targetScore": 5.0,
+      "priority": "critical",
+      "effort": "medium",
+      "recommendation": "Establish AI ethics owner and basic governance framework within 30 days"
+    },
+    {
+      "dimension": "strategy_alignment",
+      "currentScore": 2.5,
+      "targetScore": 5.5,
+      "priority": "critical",
+      "effort": "medium",
+      "recommendation": "Document formal AI strategy and roadmap with partner sign-off"
+    },
+    {
+      "dimension": "process_optimization",
+      "currentScore": 2.8,
+      "targetScore": 5.5,
+      "priority": "high",
+      "effort": "high",
+      "recommendation": "Identify top 5 repetitive workflows and create automation plan"
+    },
+    {
+      "dimension": "skills_talent",
+      "currentScore": 3.2,
+      "targetScore": 6.0,
+      "priority": "high",
+      "effort": "medium",
+      "recommendation": "Launch tiered AI training program for all employees"
+    },
+    {
+      "dimension": "integration_capability",
+      "currentScore": 3.5,
+      "targetScore": 5.5,
+      "priority": "medium",
+      "effort": "high",
+      "recommendation": "Standardize AI tool stack and create integration guidelines"
+    }
+  ],
+  "benchmarkComparison": {
+    "industryAverage": 4.2,
+    "percentile": 38,
+    "rank": "Below Average",
+    "topPerformerScore": 7.5,
+    "gapToTop": 3.7
+  }
+}

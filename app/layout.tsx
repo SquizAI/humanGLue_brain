@@ -1,9 +1,14 @@
 import './globals.css'
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Inter, Anuphan } from 'next/font/google'
 import { Providers } from '../components/Providers'
 
 const inter = Inter({ subsets: ['latin'] })
+const anuphan = Anuphan({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-anuphan',
+})
 
 // Force dynamic rendering for all pages to support React Context
 export const dynamic = 'force-dynamic'
@@ -173,7 +178,7 @@ export default function RootLayout({
         <meta name="application-name" content="Human Glue" />
         <meta name="apple-mobile-web-app-title" content="Human Glue" />
       </head>
-      <body className={`${inter.className} bg-gray-50 dark:bg-black text-gray-900 dark:text-white antialiased transition-colors duration-300`}>
+      <body className={`${inter.className} ${anuphan.variable} bg-gray-50 dark:bg-black text-gray-900 dark:text-white antialiased transition-colors duration-300`}>
         <Providers>
           {children}
         </Providers>

@@ -1,8 +1,19 @@
 'use client'
 
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Sparkles, Send, Brain, X, Minimize2, Maximize2, Mic, MessageSquare, RotateCcw, ArrowDown, ChevronDown, ChevronUp } from 'lucide-react'
+
+// Counter for generating unique IDs within the same millisecond
+let messageIdCounter = 0
+
+/**
+ * Generate a unique message ID that won't collide even if called rapidly
+ */
+function generateMessageId(prefix = 'msg'): string {
+  messageIdCounter = (messageIdCounter + 1) % 10000
+  return `${prefix}-${Date.now()}-${messageIdCounter}-${Math.random().toString(36).substr(2, 5)}`
+}
 import { Text } from '../atoms'
 import { Card, QuickResponse } from '../molecules'
 import { ChatMessage, VoiceAssessment } from '../organisms'
@@ -114,7 +125,7 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
 
     // Add a message about completing voice assessment
     const completionMessage: Message = {
-      id: Date.now().toString(),
+      id: generateMessageId('voice-complete'),
       role: 'assistant',
       content: 'Thank you for completing the voice assessment! I\'m now analyzing your responses to provide personalized recommendations.',
       timestamp: new Date()
@@ -358,7 +369,7 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
     if (action === 'email') {
       // Add a message asking for email
       const emailMessage: Message = {
-        id: Date.now().toString(),
+        id: generateMessageId('email-request'),
         role: 'assistant',
         content: "I'd be happy to send you a link to continue this conversation later. What's your email address?",
         timestamp: new Date()
@@ -377,7 +388,7 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
     if (!messageText.trim()) return
 
     const userMessage: Message = {
-      id: Date.now().toString(),
+      id: generateMessageId('user'),
       role: 'user',
       content: messageText,
       timestamp: new Date()
@@ -425,7 +436,7 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
 
       setTimeout(async () => {
         const assistantMessage: Message = {
-          id: (Date.now() + 1).toString(),
+          id: generateMessageId('assistant'),
           role: 'assistant',
           content: finalMessage,
           timestamp: new Date()
@@ -447,7 +458,7 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
               // Add enrichment confirmation message
               setTimeout(() => {
                 const enrichmentMessage: Message = {
-                  id: (Date.now() + 2).toString(),
+                  id: generateMessageId('enrichment'),
                   role: 'assistant',
                   content: `I found that you're with **${enrichmentResult.company}**${enrichmentResult.industry ? ` in the ${enrichmentResult.industry} industry` : ''}${enrichmentResult.size ? ` (${enrichmentResult.size})` : ''}. Is that correct?`,
                   timestamp: new Date()
@@ -482,7 +493,7 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
               console.log('[Enrichment] No data found for domain, asking manually')
               setTimeout(() => {
                 const fallbackMessage: Message = {
-                  id: (Date.now() + 2).toString(),
+                  id: generateMessageId('fallback'),
                   role: 'assistant',
                   content: "I couldn't automatically find your company information. What's the name of your company?",
                   timestamp: new Date()
@@ -497,7 +508,7 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
             // Enrichment error - ask for company name manually
             setTimeout(() => {
               const errorFallbackMessage: Message = {
-                id: (Date.now() + 2).toString(),
+                id: generateMessageId('error-fallback'),
                 role: 'assistant',
                 content: "What's the name of your company?",
                 timestamp: new Date()
@@ -540,7 +551,7 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
 
                 setTimeout(() => {
                   const analysisMessage: Message = {
-                    id: (Date.now() + 2).toString(),
+                    id: generateMessageId('analysis'),
                     role: 'assistant',
                     content: analysisResponse.message,
                     timestamp: new Date()

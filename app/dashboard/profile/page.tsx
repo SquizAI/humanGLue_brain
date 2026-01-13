@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
@@ -16,19 +16,45 @@ import {
   Lock,
   CreditCard,
   Save,
+  Loader2,
 } from 'lucide-react'
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
+import { useAuth } from '@/lib/auth/hooks'
+
 export default function ProfilePage() {
   const router = useRouter()
   const [activeTab, setActiveTab] = useState('profile')
-
-  // User data - in production, this would come from auth context or API
-  const userData = {
+  const { user, profile, loading } = useAuth()
+  const [formData, setFormData] = useState({
     name: '',
     email: '',
     company: '',
-    location: '',
+    jobTitle: '',
     phone: '',
+    location: ''
+  })
+
+  // Initialize form data when auth loads
+  useEffect(() => {
+    if (user && profile) {
+      setFormData({
+        name: profile.full_name || user.user_metadata?.full_name || '',
+        email: user.email || '',
+        company: user.user_metadata?.company || '',
+        jobTitle: user.user_metadata?.job_title || '',
+        phone: user.user_metadata?.phone || '',
+        location: user.user_metadata?.location || ''
+      })
+    }
+  }, [user, profile])
+
+  // User data from auth context
+  const userData = {
+    name: formData.name,
+    email: formData.email,
+    company: formData.company,
+    location: formData.location,
+    phone: formData.phone,
     website: ''
   }
 
@@ -76,6 +102,12 @@ export default function ProfilePage() {
         </header>
 
         <main className="p-8">
+          {loading ? (
+            <div className="flex items-center justify-center h-64">
+              <Loader2 className="w-8 h-8 animate-spin text-cyan-500" />
+              <span className="ml-3 text-gray-400 font-diatype">Loading profile...</span>
+            </div>
+          ) : (
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
             <div className="lg:col-span-1">
               <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-6 space-y-2">
@@ -121,7 +153,9 @@ export default function ProfilePage() {
                         <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                         <input
                           type="text"
-                          defaultValue={userData.name || ''}
+                          value={formData.name}
+                          onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                          placeholder="Enter your full name"
                           className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-cyan-500/50 transition-colors font-diatype"
                         />
                       </div>
@@ -133,10 +167,12 @@ export default function ProfilePage() {
                         <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                         <input
                           type="email"
-                          defaultValue={userData.email || ''}
-                          className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-cyan-500/50 transition-colors font-diatype"
+                          value={formData.email}
+                          disabled
+                          className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white/60 placeholder-gray-400 focus:outline-none focus:border-cyan-500/50 transition-colors font-diatype cursor-not-allowed"
                         />
                       </div>
+                      <p className="text-xs text-gray-500 mt-1 font-diatype">Email cannot be changed</p>
                     </div>
 
                     <div>
@@ -145,7 +181,9 @@ export default function ProfilePage() {
                         <Building className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                         <input
                           type="text"
-                          defaultValue={userData.company || ''}
+                          value={formData.company}
+                          onChange={(e) => setFormData(prev => ({ ...prev, company: e.target.value }))}
+                          placeholder="Your company name"
                           className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-cyan-500/50 transition-colors font-diatype"
                         />
                       </div>
@@ -157,6 +195,8 @@ export default function ProfilePage() {
                         <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                         <input
                           type="text"
+                          value={formData.jobTitle}
+                          onChange={(e) => setFormData(prev => ({ ...prev, jobTitle: e.target.value }))}
                           placeholder="e.g. Chief Technology Officer"
                           className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-cyan-500/50 transition-colors font-diatype"
                         />
@@ -169,6 +209,8 @@ export default function ProfilePage() {
                         <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                         <input
                           type="tel"
+                          value={formData.phone}
+                          onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
                           placeholder="+1 (555) 123-4567"
                           className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-cyan-500/50 transition-colors font-diatype"
                         />
@@ -181,6 +223,8 @@ export default function ProfilePage() {
                         <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                         <input
                           type="text"
+                          value={formData.location}
+                          onChange={(e) => setFormData(prev => ({ ...prev, location: e.target.value }))}
                           placeholder="e.g. San Francisco, CA"
                           className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-cyan-500/50 transition-colors font-diatype"
                         />
@@ -291,6 +335,7 @@ export default function ProfilePage() {
               )}
             </div>
           </div>
+          )}
         </main>
       </div>
     </div>

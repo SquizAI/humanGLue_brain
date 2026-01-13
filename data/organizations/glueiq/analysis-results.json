@@ -1,0 +1,1314 @@
+{
+  "transcriptCount": 9,
+  "analysisTimestamp": "2025-12-29T17:18:50.504Z",
+  "entities": [
+    {
+      "type": "tool",
+      "value": "ChatGPT",
+      "context": "AI/Technology tool",
+      "frequency": 3,
+      "sourceQuotes": [
+        "I'm I'm I'm\n\nSo AI tools that I use, you know, I use obviously ChatGPT, Perplexity, CoPilot, I use Motion, I use, well, I'm playing with Claude, I use Beautiful AI, Gamma, Midjourney, I use something else called Fixer AI.",
+        "So if I go in and I'm like, all right, well, Sally, I'm making hope we don't have Sally, but like the last time Sally, you know, used ChatGPT was October 17th and we're on the 29th.",
+        "And, you know, and ChatGPT tells you, you can do all these things, but you're going to pay something."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Claude",
+      "context": "AI/Technology tool",
+      "frequency": 3,
+      "sourceQuotes": [
+        "I'm I'm I'm\n\nSo AI tools that I use, you know, I use obviously ChatGPT, Perplexity, CoPilot, I use Motion, I use, well, I'm playing with Claude, I use Beautiful AI, Gamma, Midjourney, I use something else called Fixer AI.",
+        "As you know, I've tried to do sort of Claude code, but that's not going very well.",
+        "55) \\- **Alex Schwartz (GlueIQ)**\n\nAnd we're seeing all this stuff with AI work slop, where you're just getting these people are getting so fatigued because they're getting, you know, 20 page responses from Claude or GPT."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Perplexity",
+      "context": "AI/Technology tool",
+      "frequency": 1,
+      "sourceQuotes": [
+        "I'm I'm I'm\n\nSo AI tools that I use, you know, I use obviously ChatGPT, Perplexity, CoPilot, I use Motion, I use, well, I'm playing with Claude, I use Beautiful AI, Gamma, Midjourney, I use something else called Fixer AI."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Copilot",
+      "context": "AI/Technology tool",
+      "frequency": 2,
+      "sourceQuotes": [
+        "I'm I'm I'm\n\nSo AI tools that I use, you know, I use obviously ChatGPT, Perplexity, CoPilot, I use Motion, I use, well, I'm playing with Claude, I use Beautiful AI, Gamma, Midjourney, I use something else called Fixer AI.",
+        "So we have, you know, an enterprise open AI license, and we have Copilot and Microsoft and, you know, some of the basic stuff for augmentation."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "MidJourney",
+      "context": "AI/Technology tool",
+      "frequency": 1,
+      "sourceQuotes": [
+        "I'm I'm I'm\n\nSo AI tools that I use, you know, I use obviously ChatGPT, Perplexity, CoPilot, I use Motion, I use, well, I'm playing with Claude, I use Beautiful AI, Gamma, Midjourney, I use something else called Fixer AI."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Beautiful AI",
+      "context": "AI/Technology tool",
+      "frequency": 2,
+      "sourceQuotes": [
+        "I'm I'm I'm\n\nSo AI tools that I use, you know, I use obviously ChatGPT, Perplexity, CoPilot, I use Motion, I use, well, I'm playing with Claude, I use Beautiful AI, Gamma, Midjourney, I use something else called Fixer AI.",
+        "One of the tools, which is a beautiful AI for like deck creation and all that stuff, that when I was telling you earlier about kind of burning the boats, is."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Gamma",
+      "context": "AI/Technology tool",
+      "frequency": 1,
+      "sourceQuotes": [
+        "I'm I'm I'm\n\nSo AI tools that I use, you know, I use obviously ChatGPT, Perplexity, CoPilot, I use Motion, I use, well, I'm playing with Claude, I use Beautiful AI, Gamma, Midjourney, I use something else called Fixer AI."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Motion",
+      "context": "AI/Technology tool",
+      "frequency": 3,
+      "sourceQuotes": [
+        "I'm I'm I'm\n\nSo AI tools that I use, you know, I use obviously ChatGPT, Perplexity, CoPilot, I use Motion, I use, well, I'm playing with Claude, I use Beautiful AI, Gamma, Midjourney, I use something else called Fixer AI.",
+        "So he's been playing with generative AI and specifically around kind of video motion edit, you know, like that kind of stuff.",
+        "I like the motion one versus Fathom because when it creates all of the follow-ups, all the tasks and the do, I mean, this is like a feature somebody fixes it, but basically I can create tasks directly from it."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Atlas",
+      "context": "AI/Technology tool",
+      "frequency": 5,
+      "sourceQuotes": [
+        "261) \\- **Gaston Legorburu (GlueIQ)**\n\nWell, I'm really excited about the Atlas browser, like really excited about the Atlas browser.",
+        "And I fired up Atlas and told Atlas to find me tires for this thing that were all-terrain and da-da-da.",
+        "That's why I'm so freaking out by that Atlas Browser thing."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "N8N",
+      "context": "AI/Technology tool",
+      "frequency": 1,
+      "sourceQuotes": [
+        "And then some N8N, a bunch of other stuff."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Fixer AI",
+      "context": "AI/Technology tool",
+      "frequency": 1,
+      "sourceQuotes": [
+        "I'm I'm I'm\n\nSo AI tools that I use, you know, I use obviously ChatGPT, Perplexity, CoPilot, I use Motion, I use, well, I'm playing with Claude, I use Beautiful AI, Gamma, Midjourney, I use something else called Fixer AI."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Productive",
+      "context": "AI/Technology tool",
+      "frequency": 3,
+      "sourceQuotes": [
+        "521) \\- **Alex Schwartz (GlueIQ)**\n\nAnd if you had to put a thumb in the air percentage on it, how much more productive would you say you are with AI tools?",
+        "So if we make people more productive, more effective, it's very easy to measure.",
+        "It's like if I'm listening to my radio station in my brain and I'm talking to you, this is not a productive conversation, right?"
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Slack",
+      "context": "AI/Technology tool",
+      "frequency": 2,
+      "sourceQuotes": [
+        "And, you know, like, can I need to look at old Slack messages because we don't use Slack anymore?"
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Notion",
+      "context": "AI/Technology tool",
+      "frequency": 4,
+      "sourceQuotes": [
+        "Like, I know you like Notion for project management, and you create these Notion pages with emojis and all that .",
+        "So think about like Notion for Project Man, whatever.",
+        "So I do think design sense and taste is something that's kind of like what we were talking about, those notion documents, right?"
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Fathom",
+      "context": "AI/Technology tool",
+      "frequency": 113,
+      "sourceQuotes": [
+        "**HG+GlueIQ Pilot: Interview Gaston \\- October 29**\n\n[**VIEW RECORDING \\- 122 mins (No highlights)**](https://fathom.",
+        "video/share/KVf1DzTzYUyiKqrk9yzYxxM3LFatFyca)\n\n[@0:15](https://fathom.",
+        "68) \\- **Alex Schwartz (GlueIQ)**\n\nSo we were just talking about Fathom."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Pencil",
+      "context": "AI/Technology tool",
+      "frequency": 10,
+      "sourceQuotes": [
+        "Have you ever heard of Pencil?",
+        "So there's a platform called Pencil that was like the big thing.",
+        "But Pencil was like the platform that got the most traction."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "ChatGPT",
+      "context": "AI/Technology tool",
+      "frequency": 18,
+      "sourceQuotes": [
+        "I'm kind of using ChatGPT and Atlas to tell me what they value and then how they would go about optimizing for this.",
+        "And even if it was just one engine, mean, eventually we have to learn what ChatGPT likes versus what Claude likes versus what Grok likes, you know.",
+        "0) \\- **JW (GlueIQ)**\n\nFor this, I'd probably pick ChatGPT because I think Atlas is going to be pretty far ahead."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Claude",
+      "context": "AI/Technology tool",
+      "frequency": 4,
+      "sourceQuotes": [
+        "And even if it was just one engine, mean, eventually we have to learn what ChatGPT likes versus what Claude likes versus what Grok likes, you know.",
+        "So, of course, I'd just jump into Claude.",
+        "And even if it was just one engine, mean, eventually we have to learn what ChatGPT likes versus what Claude likes versus what Grok likes, you know."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Gemini",
+      "context": "AI/Technology tool",
+      "frequency": 2,
+      "sourceQuotes": [
+        "I know Gemini is getting ahead on the shopping part a little bit, but I think Google is going to be very low to disrupt their paid ad platform so much right now.",
+        "I know Gemini is getting ahead on the shopping part a little bit, but I think Google is going to be very low to disrupt their paid ad platform so much right now."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Perplexity",
+      "context": "AI/Technology tool",
+      "frequency": 2,
+      "sourceQuotes": [
+        "01) \\- **JW (GlueIQ)**\n\nOn the client-facing side, it would be the agentic commerce, and it would be like the thing that, you never heard this, but the thing that Stripe is about to do, where they're going to announce a partnership with Perplexity and ChatGPT and one other.",
+        "01) \\- **JW (GlueIQ)**\n\nOn the client-facing side, it would be the agentic commerce, and it would be like the thing that, you never heard this, but the thing that Stripe is about to do, where they're going to announce a partnership with Perplexity and ChatGPT and one other."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Beautiful AI",
+      "context": "AI/Technology tool",
+      "frequency": 8,
+      "sourceQuotes": [
+        "Look, we've got everybody pretty in, you know, it's become pretty endemic and beautiful AI that that's the way we're creating our decks so that we can minimize the amount of like sloppiness around slideware, things of that nature.",
+        "I'm creating a template in beautiful AI so I can connect these things and so I can basically have it driven from there to here.",
+        "I think we believe that the investment in beautiful AI has made it faster and more effective for us to produce decks and executive summaries and repetitive things, but I don't know that we've measured that."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Figma",
+      "context": "AI/Technology tool",
+      "frequency": 2,
+      "sourceQuotes": [
+        "So he's really getting into where is Figma going, and how are they thinking about this, and where is Builder going, and how are they thinking about this.",
+        "So he's really getting into where is Figma going, and how are they thinking about this, and where is Builder going, and how are they thinking about this."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Motion",
+      "context": "AI/Technology tool",
+      "frequency": 4,
+      "sourceQuotes": [
+        "Um, we don't have, we have some tool sets, you know, we use motion and we use, you know, things like that, but there's no, there's no structured process.",
+        "I also think we have a tool called Motion that we're supposed to be using for creative variation and for testing and things like that.",
+        "Um, we don't have, we have some tool sets, you know, we use motion and we use, you know, things like that, but there's no, there's no structured process."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Atlas",
+      "context": "AI/Technology tool",
+      "frequency": 26,
+      "sourceQuotes": [
+        "So I've been really heavy in Atlas because I'm using agents to help me, or at least I have been working on using agents to help me short-circuit research and to bring back ideas.",
+        "So one place where I've been using Atlas heavily is to do some comparison shopping.",
+        "so, so I'm using, I'm using Atlas agents to tell me things like, you know, like you create scripts and you go say, look, I want to buy this and I want to use that as an avenue for showing the discount client how $2 billion of their commerce won't get disrupted."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Productive",
+      "context": "AI/Technology tool",
+      "frequency": 4,
+      "sourceQuotes": [
+        "That, I'm trying to, blanking on the system that we used before we moved to Productive.",
+        "Before we moved to Productive, we had another agency management software that I just don't, I think we've had a couple of instances between that, and I'm going to remember the name of it, and like HubSpot, where I'm sitting here renewing all of our HubSpot licenses in use right now.",
+        "That, I'm trying to, blanking on the system that we used before we moved to Productive."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "HubSpot",
+      "context": "AI/Technology tool",
+      "frequency": 6,
+      "sourceQuotes": [
+        "Before we moved to Productive, we had another agency management software that I just don't, I think we've had a couple of instances between that, and I'm going to remember the name of it, and like HubSpot, where I'm sitting here renewing all of our HubSpot licenses in use right now.",
+        "So if we decide to abandon HubSpot, because it's not doing what we want from a contact tracking, from a BD perspective, etc.",
+        "Before we moved to Productive, we had another agency management software that I just don't, I think we've had a couple of instances between that, and I'm going to remember the name of it, and like HubSpot, where I'm sitting here renewing all of our HubSpot licenses in use right now."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Fathom",
+      "context": "AI/Technology tool",
+      "frequency": 222,
+      "sourceQuotes": [
+        "# **Joey Wilson Interview Part 1 \\- December 11**\n\n[**VIEW RECORDING \\- 69 mins (No highlights)**](https://fathom.",
+        "video/share/HoXSwNfpwu_Zp3cLutmzVTXUpzNhPA-h)\n\n[@0:00](https://fathom.",
+        "[@0:04](https://fathom."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "ChatGPT",
+      "context": "AI/Technology tool",
+      "frequency": 2,
+      "sourceQuotes": [
+        "12) - Boris Stojanovic (GlueIQ)\n\nExcept ChatGPT, which we have enterprise license.",
+        "28) - Boris Stojanovic (GlueIQ)\n\nI think we're just starting with ChatGPT, where we are localizing some of those things, but we haven't started doing that the right way."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Claude",
+      "context": "AI/Technology tool",
+      "frequency": 2,
+      "sourceQuotes": [
+        "ChadGPT, Claude, and I didn't use Perplexity.",
+        "com)\n\nClaude, the regular version?"
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Perplexity",
+      "context": "AI/Technology tool",
+      "frequency": 1,
+      "sourceQuotes": [
+        "ChadGPT, Claude, and I didn't use Perplexity."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "N8N",
+      "context": "AI/Technology tool",
+      "frequency": 1,
+      "sourceQuotes": [
+        "08) - Boris Stojanovic (GlueIQ)\n\nI played with N8N, and I was able to connect a couple of different."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Productive",
+      "context": "AI/Technology tool",
+      "frequency": 1,
+      "sourceQuotes": [
+        "0) - Boris Stojanovic (GlueIQ)\n\nWe moved to a new time tracking, invoices, and everything platform called Productive."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Fathom",
+      "context": "AI/Technology tool",
+      "frequency": 124,
+      "sourceQuotes": [
+        "**# Boris Stojanovic Interview - December 18\n\n[VIEW RECORDING - 34 mins (No highlights)](https://fathom.",
+        "video/share/XstLG-zH4H89KsAi7yxmiQHNzyiViXrX)\n\n[@0:00](https://fathom.",
+        "[@0:06](https://fathom."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "ChatGPT",
+      "context": "AI/Technology tool",
+      "frequency": 2,
+      "sourceQuotes": [
+        "Now we have ChatGPT.",
+        "I mean, it's still only three years since ChatGPT launched, right?"
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Claude",
+      "context": "AI/Technology tool",
+      "frequency": 2,
+      "sourceQuotes": [
+        "But then like, you know, built in privacy and safety and lineage and, you know, collaboration and sharing, like the only way that I can get, and I'm starting to see some of that in Claude.",
+        "com)**\n\nBut if I'm chasing like, Claude and figuring out how to do this here."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Perplexity",
+      "context": "AI/Technology tool",
+      "frequency": 2,
+      "sourceQuotes": [
+        "I use Perplexity a lot, specifically Perplexity Labs or Deep Research."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "MidJourney",
+      "context": "AI/Technology tool",
+      "frequency": 1,
+      "sourceQuotes": [
+        "My guess would be, you know, predominantly is, like, chat and, like, MidJourney or, like, some of the other, like, image gen stuff, like Adobe."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Beautiful AI",
+      "context": "AI/Technology tool",
+      "frequency": 1,
+      "sourceQuotes": [
+        "We, unfortunately, are using beautiful AI now, but just some common tooling and some fundamentals, just like I was talking about Productive, where it's like, at the floor, what are those foundations?"
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Builder.io",
+      "context": "AI/Technology tool",
+      "frequency": 1,
+      "sourceQuotes": [
+        "is ridiculously flawed, and it always has been, and so that's an area of passion for me for decades, and so I'm testing a bunch of stuff there, but primarily using a product by Builder.io called Fusion."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Figma",
+      "context": "AI/Technology tool",
+      "frequency": 1,
+      "sourceQuotes": [
+        "The full workflow is Figma, a design system automation platform called Supernova, Fusion, which is where the heaviest AI is, and then VS Code, GitHub, and Vercel or Netlify, that whole tool suite is literally turning work that."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Productive",
+      "context": "AI/Technology tool",
+      "frequency": 5,
+      "sourceQuotes": [
+        "Recently, like we put in productive and I would say that's a successful launch because for all the opposite reasons, don't like I think we got lucky with this one because it.",
+        "I was like on some partner meeting and someone's like, yeah, we're in the second phase of productive.",
+        "I'm like, what the  is productive?"
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Fathom",
+      "context": "AI/Technology tool",
+      "frequency": 128,
+      "sourceQuotes": [
+        "# HG+GlueIQ Pilot: Interview Matt - November 03\n\n[**VIEW RECORDING - 85 mins (No highlights)**](https://fathom.",
+        "video/share/mVr7LvJQBLK_nE2xszxiupfj5SugSABz)\n\n[@0:00](https://fathom.",
+        "[@0:03](https://fathom."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "OpenAI",
+      "context": "AI/Technology tool",
+      "frequency": 1,
+      "sourceQuotes": [
+        "4) - **Matt Kujawa (GlueIQ)**\n\nOr when, like, you know, I'll just, like, if we decide, for example, like, hey, let's go primarily focus as a group on OpenAI and their platform and their API and their tooling."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "ChatGPT",
+      "context": "AI/Technology tool",
+      "frequency": 3,
+      "sourceQuotes": [
+        "Is it, you know, mid-journey, is it ChatGPT, is it nano-bananas, is it Gemini, any Probably all of the above, you know what I mean?",
+        "Because ultimately, when you're using Claude or ChatGPT, I mean, you're basically on somebody else's rails, right?",
+        "So I would go into Gemini, Claude or ChatGPT."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Claude",
+      "context": "AI/Technology tool",
+      "frequency": 7,
+      "sourceQuotes": [
+        "Because ultimately, when you're using Claude or ChatGPT, I mean, you're basically on somebody else's rails, right?",
+        "So I would go into Gemini, Claude or ChatGPT.",
+        "Please write, generate a prompt for me that I can put into Claude and Perplexity because I would use two LLMs."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Gemini",
+      "context": "AI/Technology tool",
+      "frequency": 2,
+      "sourceQuotes": [
+        "Is it, you know, mid-journey, is it ChatGPT, is it nano-bananas, is it Gemini, any Probably all of the above, you know what I mean?",
+        "So I would go into Gemini, Claude or ChatGPT."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Perplexity",
+      "context": "AI/Technology tool",
+      "frequency": 5,
+      "sourceQuotes": [
+        "Please write, generate a prompt for me that I can put into Claude and Perplexity because I would use two LLMs.",
+        "Please generate a prompt for me that I can put in a Claude and Perplexity that will help me uncover who are my most three AI-enabled competitors and what are they doing differently.",
+        "And then I would copy and paste the output and I would put it into Claude and I would put it into Perplexity and I would get those answers."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Beautiful AI",
+      "context": "AI/Technology tool",
+      "frequency": 3,
+      "sourceQuotes": [
+        "26) \\- **Marguerite Conde (Nikolas Fernandez)**\n\nI mean, I use like the ChatGVT and the Beautiful AI, like just like to me, like the standard, I guess, you know, like I, yeah, the standard stuff like ChatGVT, Beautiful AI.",
+        "And maybe like, you know, the one that's been actually the one that's been more maybe adapted has been like the beautiful AI stuff."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Productive",
+      "context": "AI/Technology tool",
+      "frequency": 2,
+      "sourceQuotes": [
+        "We're good with like, oh my God, we have this tool, let's say productive, or let's say whatever.",
+        "99) \\- **Marguerite Conde (Nikolas Fernandez)**\n\neven like, you know, it's not, it's not, I mean, I don't consider an AI tool, but like any tool that we've used, you know, like, like even productive or anything, it's just like, okay, go, there's a tool go."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Notion",
+      "context": "AI/Technology tool",
+      "frequency": 1,
+      "sourceQuotes": [
+        "Back to the notion of competitors and what others are doing in the space and your answer may be related to media, which you said before."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Fathom",
+      "context": "AI/Technology tool",
+      "frequency": 166,
+      "sourceQuotes": [
+        "# **GlueIQ Pilot Interview: Maggy Conde \\- November 10**\n\n[**VIEW RECORDING \\- 65 mins (No highlights)**](https://fathom.",
+        "video/share/gSZaV5EKGibjjB9N8W7ZjzRGeQFXpj7M)\n\n[@0:00](https://fathom.",
+        "[@0:02](https://fathom."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Gemini",
+      "context": "AI/Technology tool",
+      "frequency": 10,
+      "sourceQuotes": [
+        "artiles (GlueIQ)**\n\nFrom Gemini to MidJourney, GPT pretty much is a staple.",
+        "artiles (GlueIQ)**\n\nGemini has been pretty good, man.",
+        "At first, it was a little wonky, but some of the stuff that's been coming out of the Gemini Pro, we were working on some rips to get some work sold, and what the team was able to do in a day was pretty incredible."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "MidJourney",
+      "context": "AI/Technology tool",
+      "frequency": 2,
+      "sourceQuotes": [
+        "artiles (GlueIQ)**\n\nFrom Gemini to MidJourney, GPT pretty much is a staple.",
+        "Like, there's still gaps, like, with MidJourney and stuff like that and, you know, Gemini and other things that are, like, up and coming."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Beautiful AI",
+      "context": "AI/Technology tool",
+      "frequency": 1,
+      "sourceQuotes": [
+        "to give us access to, like, Glue, you know, ChatGBT and stuff like that, and, you know, that beautiful AI, which is kind of like a presentation AI service or whatever."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Fathom",
+      "context": "AI/Technology tool",
+      "frequency": 155,
+      "sourceQuotes": [
+        "# **Noel Artiles Interview \\- December 10**\n\n[**VIEW RECORDING \\- 64 mins (No highlights)**](https://fathom.",
+        "video/share/dKPyNsNK_iLBfx8yXZ-B7DdtsZ8or9VE)\n\n[@0:00](https://fathom.",
+        "[@0:05](https://fathom."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Gemini",
+      "context": "AI/Technology tool",
+      "frequency": 3,
+      "sourceQuotes": [
+        "*You should review Gemini's notes to make sure they're accurate.",
+        "[Get tips and learn how Gemini takes notes](https://support.",
+        "com/meet/answer/14754931)*\n\n*Please provide feedback about using Gemini to take notes in a [short survey."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Notion",
+      "context": "AI/Technology tool",
+      "frequency": 4,
+      "sourceQuotes": [
+        "**Michele Conigliaro-Lenahan:** Like I've I've downloaded notion, but I haven't used notion.",
+        "I think people use Notion because I've received notion recaps before and they're not part of the  \n**Alex Schwartz:** Yeah."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Otter",
+      "context": "AI/Technology tool",
+      "frequency": 3,
+      "sourceQuotes": [
+        "**Michele Conigliaro-Lenahan:** I only use chat QPT and I use Otter for my  \n**Alex Schwartz:** Okay.",
+        "And what would you say whether it's with chat GBT or Otter,  \n**Michele Conigliaro-Lenahan:** meetings.",
+        "Um, I mean, I know people use Otter and I forget what the other one's called, but I don't think that's like a glue approved item."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Productive",
+      "context": "AI/Technology tool",
+      "frequency": 1,
+      "sourceQuotes": [
+        "But I do think that they rolled out this project management platform called Productive that I feel like has gotten a lot of adoption faster than any other sort of tool that we've kind of grinded through adopting."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Fathom",
+      "context": "AI/Technology tool",
+      "frequency": 172,
+      "sourceQuotes": [
+        "# **Chiny Chewing Interview \\- November 12**\n\n[**VIEW RECORDING \\- 67 mins (No highlights)**](https://fathom.",
+        "video/share/5rjVviRqvvT1sHEDT8JJM7rwUpou8zrz)\n\n[@0:00](https://fathom.",
+        "[@1:21](https://fathom."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Gemini",
+      "context": "AI/Technology tool",
+      "frequency": 1,
+      "sourceQuotes": [
+        "So that would include anything related to Gemini or Nano Bananas or anything at all within Google's AI suite?"
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Beautiful AI",
+      "context": "AI/Technology tool",
+      "frequency": 9,
+      "sourceQuotes": [
+        "But actually, in context of AI, I would say Beautiful AI is probably the first tool that we've rolled out that people seem really open to.",
+        "But Beautiful AI is probably the only one that cuts across disciplines.",
+        "And then I'll use beautiful AI probably like once a week because I often have presentations that I'm working on."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Gamma",
+      "context": "AI/Technology tool",
+      "frequency": 2,
+      "sourceQuotes": [
+        "com)**\n\nI've been using Gamma myself, and I've been doing, I started doing this AI bootcamp for Florida Atlantic University, and I'm working with two folks who are pretty proficient with AI, and I built a few presentations with Gamma, and I got very frustrated because I couldn't do it in my brand style and choose my images, the format wasn't great, it wasn't taking my new fonts."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Slack",
+      "context": "AI/Technology tool",
+      "frequency": 1,
+      "sourceQuotes": [
+        "You have, you know, Notion or Asana or Slack or whatever equivalent, and it can literally take the notes."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Notion",
+      "context": "AI/Technology tool",
+      "frequency": 1,
+      "sourceQuotes": [
+        "You have, you know, Notion or Asana or Slack or whatever equivalent, and it can literally take the notes."
+      ],
+      "sentiment": "neutral"
+    },
+    {
+      "type": "tool",
+      "value": "Fathom",
+      "context": "AI/Technology tool",
+      "frequency": 188,
+      "sourceQuotes": [
+        "# **Dave Serrano Interview \\- November 11**\n\n[**VIEW RECORDING \\- 54 mins (No highlights)**](https://fathom.",
+        "video/share/m3Z5QaiYU9i6bPusDPQETgy1-UApHguR)\n\n[@0:04](https://fathom.",
+        "[@0:06](https://fathom."
+      ],
+      "sentiment": "neutral"
+    }
+  ],
+  "themes": [
+    {
+      "id": "creative_team_leads",
+      "name": "Creative Team Leads",
+      "description": "Theme identified from 231 keyword matches",
+      "keywords": [
+        "creative",
+        "design",
+        "art",
+        "video",
+        "visual",
+        "ahead"
+      ],
+      "frequency": 2591,
+      "sentiment": 1,
+      "sourceInterviews": [
+        "Gaston Legorburu",
+        "Joey Wilson",
+        "Boris Stojanovic",
+        "Matt Kujawa",
+        "Maggy Conde",
+        "Noel Artiles",
+        "Michele Conigliaro",
+        "Chiny Chewing",
+        "Dave Serrano"
+      ],
+      "representativeQuotes": [
+        " So I think Casey, who's like a creative director, has real, he's very talented as it relates to film.",
+        " He's kind of like a senior associate or manager level person that does a lot of, like, the creative.",
+        "\n\nAnd what I really value about him is he's kind of like a pixel-perfect designer, sort of like a Cobb-type person, but they do a ton of grunt work, and I think he's got sort of an engineering mindset."
+      ],
+      "dimensions": [
+        "skills_talent"
+      ]
+    },
+    {
+      "id": "process_automation_need",
+      "name": "Process Automation Need",
+      "description": "Theme identified from 11 keyword matches",
+      "keywords": [
+        "automate",
+        "manual",
+        "repetitive",
+        "workflow",
+        "efficiency"
+      ],
+      "frequency": 55,
+      "sentiment": 0,
+      "sourceInterviews": [
+        "Gaston Legorburu",
+        "Joey Wilson",
+        "Boris Stojanovic",
+        "Matt Kujawa",
+        "Maggy Conde",
+        "Noel Artiles",
+        "Michele Conigliaro"
+      ],
+      "representativeQuotes": [
+        " So how do you deal with the entitled superstars that don't think they need to do anything different in a world where that tip of the spear is really valuable because all of the long-tail stuff are the things that are getting automated and commoditized.",
+        " And if a lot of what you accomplish through email and meetings and video calls and all of that stuff can be structured and automated, and your time is spent.",
+        "\n\nSo he's more around, like, how, you know, how you get to a point where the majority of your code is written by AI and is being checked by AI and workflows related to that."
+      ],
+      "dimensions": [
+        "process_optimization"
+      ]
+    },
+    {
+      "id": "leadership_aligned",
+      "name": "Leadership Aligned",
+      "description": "Theme identified from 4 keyword matches",
+      "keywords": [
+        "leadership",
+        "partners aligned",
+        "top down",
+        "c-suite"
+      ],
+      "frequency": 55,
+      "sentiment": 0,
+      "sourceInterviews": [
+        "Gaston Legorburu",
+        "Joey Wilson",
+        "Boris Stojanovic",
+        "Matt Kujawa",
+        "Maggy Conde",
+        "Noel Artiles",
+        "Michele Conigliaro",
+        "Chiny Chewing",
+        "Dave Serrano"
+      ],
+      "representativeQuotes": [
+        " The focus here is going through four question segments that unlock through our Glue framework, G for growth, individual skill building and confidence development, leverage, how we leverage AI tool mastery and value creation, unite social learning, cultural and organizational change, and how do we evolve ongoing organizational development and thought leadership.",
+        " This is about strategic vision and thought leadership.",
+        "71) \\- **Alex Schwartz (GlueIQ)**\n\nLike that's what the one of the key things that this needs to deliver when we roll it out is that you go across the LT, you go across the C-suite."
+      ],
+      "dimensions": [
+        "leadership_vision"
+      ]
+    },
+    {
+      "id": "psychological_safety",
+      "name": "Psychological Safety",
+      "description": "Theme identified from 4 keyword matches",
+      "keywords": [
+        "safe",
+        "afraid",
+        "fear",
+        "comfortable",
+        "permission",
+        "judgment"
+      ],
+      "frequency": 26,
+      "sentiment": 0,
+      "sourceInterviews": [
+        "Joey Wilson",
+        "Matt Kujawa",
+        "Maggy Conde",
+        "Noel Artiles",
+        "Michele Conigliaro",
+        "Chiny Chewing"
+      ],
+      "representativeQuotes": [
+        "44) \\- **JW (GlueIQ)**\n\nI mean, I understand why, but I'm also not afraid of.",
+        "44) \\- **JW (GlueIQ)**\n\nI mean, I understand why, but I'm also not afraid of.",
+        " And there's no judgment."
+      ],
+      "dimensions": [
+        "culture_change"
+      ]
+    }
+  ],
+  "skillProfiles": [
+    {
+      "name": "Matt Kujawa",
+      "title": "Partner",
+      "aiSkillLevel": "AI Curious",
+      "aiSkillScore": 1,
+      "toolsUsed": [
+        "Perplexity"
+      ],
+      "frequency": "weekly",
+      "mentionedBy": [
+        "self"
+      ],
+      "evidence": [
+        "Um, and so, um, I use a bunch in, in, sort of, for personal productivity.",
+        "Uh, one is I use a little.",
+        "I use Google LM a lot for very specific context, although more recently, last week and this week, I've been, I've been using clawed projects and skills as a, as a bit more, um, yeah."
+      ],
+      "isChampion": false,
+      "growthPotential": "medium"
+    },
+    {
+      "name": "Gaston Legorburu",
+      "title": "CEO & Founder",
+      "aiSkillLevel": "AI Unaware",
+      "aiSkillScore": 0,
+      "toolsUsed": [
+        "Motion",
+        "ChatGPT",
+        "Claude",
+        "Perplexity",
+        "Copilot",
+        "MidJourney",
+        "Beautiful AI",
+        "Gamma",
+        "Fixer AI"
+      ],
+      "frequency": "occasionally",
+      "mentionedBy": [
+        "self"
+      ],
+      "evidence": [
+        "I'm I'm I'm\n\nSo AI tools that I use, you know, I use obviously ChatGPT, Perplexity, CoPilot, I use Motion, I use, well, I'm playing with Claude, I use Beautiful AI, Gamma, Midjourney, I use something ",
+        "I think I use that pretty deeply, and I have a pretty good sense of prompt engineering, and I geek out on that stuff, and I'm learning a lot more about that.",
+        "So I use it all the time from that perspective."
+      ],
+      "isChampion": false,
+      "growthPotential": "high"
+    },
+    {
+      "name": "Joey Wilson",
+      "title": "Partner",
+      "aiSkillLevel": "AI Unaware",
+      "aiSkillScore": 0,
+      "toolsUsed": [
+        "Atlas",
+        "Motion",
+        "Productive"
+      ],
+      "frequency": "occasionally",
+      "mentionedBy": [
+        "self"
+      ],
+      "evidence": [
+        "Limited AI usage evidence in interview"
+      ],
+      "isChampion": false,
+      "growthPotential": "high"
+    },
+    {
+      "name": "Boris Stojanovic",
+      "title": "Partner",
+      "aiSkillLevel": "AI Unaware",
+      "aiSkillScore": 0,
+      "toolsUsed": [
+        "Claude",
+        "Perplexity"
+      ],
+      "frequency": "occasionally",
+      "mentionedBy": [
+        "self"
+      ],
+      "evidence": [
+        "4) - Boris Stojanovic (GlueIQ)\n\nI use."
+      ],
+      "isChampion": false,
+      "growthPotential": "high"
+    },
+    {
+      "name": "Maggy Conde",
+      "title": "Partner",
+      "aiSkillLevel": "AI Unaware",
+      "aiSkillScore": 0,
+      "toolsUsed": [
+        "Beautiful AI",
+        "Productive"
+      ],
+      "frequency": "occasionally",
+      "mentionedBy": [
+        "self"
+      ],
+      "evidence": [
+        "26) \\- **Marguerite Conde (Nikolas Fernandez)**\n\nI mean, I use like the ChatGVT and the Beautiful AI, like just like to me, like the standard, I guess, you know, like I, yeah, the standard stuff like ",
+        "What do I use?",
+        "And then the third piece is, how do I use the tools in a human way so that my human essence and the client service that we deliver from a\n\nValues and delivery perspective don't get lost in the AI, in "
+      ],
+      "isChampion": false,
+      "growthPotential": "high"
+    },
+    {
+      "name": "Noel Artiles",
+      "title": "CCO",
+      "aiSkillLevel": "AI Unaware",
+      "aiSkillScore": 0,
+      "toolsUsed": [
+        "Gemini"
+      ],
+      "frequency": "occasionally",
+      "mentionedBy": [
+        "self"
+      ],
+      "evidence": [
+        "I used to work with Gaston at Sapient."
+      ],
+      "isChampion": false,
+      "growthPotential": "high"
+    },
+    {
+      "name": "Michele Conigliaro",
+      "title": "Head of People",
+      "aiSkillLevel": "AI Unaware",
+      "aiSkillScore": 0,
+      "toolsUsed": [
+        "Otter"
+      ],
+      "frequency": "occasionally",
+      "mentionedBy": [
+        "self"
+      ],
+      "evidence": [
+        "**Michele Conigliaro-Lenahan:** I only use chat QPT and I use Otter for my  \n**Alex Schwartz:** Okay.",
+        "Like I use it every day, multiple times a day, but I have not expanded on the tools.",
+        "**Michele Conigliaro-Lenahan:** I guess I would show them as I was saying earlier, what I all I can say is based on what I use it for  \n**Alex Schwartz:** Mhm."
+      ],
+      "isChampion": false,
+      "growthPotential": "high"
+    },
+    {
+      "name": "Chiny Chewing",
+      "title": "Partner",
+      "aiSkillLevel": "AI Unaware",
+      "aiSkillScore": 0,
+      "toolsUsed": [
+        "ChatGPT (basic)"
+      ],
+      "frequency": "occasionally",
+      "mentionedBy": [
+        "self"
+      ],
+      "evidence": [
+        "I think for what I use it for, I feel like I am ahead."
+      ],
+      "isChampion": false,
+      "growthPotential": "high"
+    },
+    {
+      "name": "Dave Serrano",
+      "title": "Partner",
+      "aiSkillLevel": "AI Unaware",
+      "aiSkillScore": 0,
+      "toolsUsed": [
+        "Gamma",
+        "Beautiful AI"
+      ],
+      "frequency": "occasionally",
+      "mentionedBy": [
+        "self"
+      ],
+      "evidence": [
+        "22) \\- **David Serrano (GlueIQ)**\n\nI use chat, our enterprise version.",
+        "I pretty much use it probably every day, and I use it for everything from articulating feedback to transcribing meetings to, like, I need three sentences to add to a scope of work.",
+        "com)**\n\nLike, I use it for basically."
+      ],
+      "isChampion": false,
+      "growthPotential": "high"
+    }
+  ],
+  "champions": [],
+  "dimensionScores": {
+    "leadership_vision": {
+      "dimension": "leadership_vision",
+      "score": 2,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability.",
+        " You'll have maybe 25% of the people that are maybe a little skeptical, but are starting to come around and are starting to actively use it.",
+        " So it's like an understanding or some kind of, in that case, it was just being aware that this was a thing, right?"
+      ],
+      "confidence": 1
+    },
+    "strategy_alignment": {
+      "dimension": "strategy_alignment",
+      "score": 1,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability.",
+        "71) - **Matt Kujawa (GlueIQ)**\n\nI think much like I'm thinking about the design to dev to production, that's great, except it's something we do ad hoc.",
+        "\n\nSo we've been actively discussing, we have one of two people, Angie being one of them."
+      ],
+      "confidence": 1
+    },
+    "change_management": {
+      "dimension": "change_management",
+      "score": 0.5,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability."
+      ],
+      "confidence": 1
+    },
+    "competitive_positioning": {
+      "dimension": "competitive_positioning",
+      "score": 0.5,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability."
+      ],
+      "confidence": 1
+    },
+    "innovation_capacity": {
+      "dimension": "innovation_capacity",
+      "score": 0.5,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability."
+      ],
+      "confidence": 1
+    },
+    "skills_talent": {
+      "dimension": "skills_talent",
+      "score": -1,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability.",
+        " So people are resistant.",
+        "44) \\- **JW (GlueIQ)**\n\nI mean, I understand why, but I'm also not afraid of."
+      ],
+      "confidence": 1
+    },
+    "cultural_readiness": {
+      "dimension": "cultural_readiness",
+      "score": 0.5,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability."
+      ],
+      "confidence": 1
+    },
+    "learning_development": {
+      "dimension": "learning_development",
+      "score": 1.5,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability.",
+        " If we lose an agency account, Maggie's got to figure it out financially.",
+        "\n\nAnd I'm particularly interested in your candid responses on what's working, what's not, and where you see the gaps."
+      ],
+      "confidence": 1
+    },
+    "psychological_safety": {
+      "dimension": "psychological_safety",
+      "score": -1,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability.",
+        " And there's no judgment.",
+        " And there's no judgment."
+      ],
+      "confidence": 1
+    },
+    "champion_network": {
+      "dimension": "champion_network",
+      "score": 0.5,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability."
+      ],
+      "confidence": 1
+    },
+    "data_infrastructure": {
+      "dimension": "data_infrastructure",
+      "score": 0.5,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability."
+      ],
+      "confidence": 1
+    },
+    "technology_stack": {
+      "dimension": "technology_stack",
+      "score": 0.5,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability.",
+        " But we're also trying to build a legacy and a franchise."
+      ],
+      "confidence": 1
+    },
+    "integration_capability": {
+      "dimension": "integration_capability",
+      "score": 0.5,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability."
+      ],
+      "confidence": 1
+    },
+    "security_compliance": {
+      "dimension": "security_compliance",
+      "score": 0.5,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability.",
+        " The purpose of this is to evaluate your AI and adaptability strategy and assess the gaps across the LT."
+      ],
+      "confidence": 1
+    },
+    "vendor_ecosystem": {
+      "dimension": "vendor_ecosystem",
+      "score": 0.5,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability."
+      ],
+      "confidence": 1
+    },
+    "ai_use_cases": {
+      "dimension": "ai_use_cases",
+      "score": 1.5,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability.",
+        " And so no, we have no AI plan, no investment from a structured standpoint.",
+        "\n\nWhether they're approved or not, it's good because we want them experimenting."
+      ],
+      "confidence": 1
+    },
+    "process_automation": {
+      "dimension": "process_automation",
+      "score": 1.5,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability.",
+        " And client wants, you know, a weekly optimization plan, you know, client wants, so I want five or six, the five or six things we do repetitively in strategy.",
+        "\n\nAnd I'm particularly interested in your candid responses on what's working, what's not, and where you see the gaps."
+      ],
+      "confidence": 1
+    },
+    "operational_excellence": {
+      "dimension": "operational_excellence",
+      "score": 0.5,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability."
+      ],
+      "confidence": 1
+    },
+    "customer_experience": {
+      "dimension": "customer_experience",
+      "score": 0.5,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability."
+      ],
+      "confidence": 1
+    },
+    "ai_governance": {
+      "dimension": "ai_governance",
+      "score": 1,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability.",
+        "\n\n* **Short-Term AI Transformation Focus** Alex Schwartz asked what single thing, if not addressed in the next 90 days, could derail Glue IQ's AI transformation.",
+        "\n\nSo we've been actively discussing, we have one of two people, Angie being one of them."
+      ],
+      "confidence": 1
+    },
+    "ethics_responsibility": {
+      "dimension": "ethics_responsibility",
+      "score": 1.5,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability.",
+        " These kids coming right out of school have no AI ethics.",
+        " So, I mean, I think that would be the thing to maybe be concerned about."
+      ],
+      "confidence": 1
+    },
+    "risk_management": {
+      "dimension": "risk_management",
+      "score": 0.5,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability."
+      ],
+      "confidence": 1
+    },
+    "roi_measurement": {
+      "dimension": "roi_measurement",
+      "score": 0.5,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability.",
+        "\n\nAnd an example of that would be, we don't track or trace how much people actually produce and the quality of what they produce."
+      ],
+      "confidence": 1
+    }
+  },
+  "overallMaturity": 0.6521739130434783,
+  "confidence": 1,
+  "executiveSummary": "Based on analysis of 9 C-suite interviews, GlueIQ demonstrates emerging AI adoption with significant gaps between leadership aspiration and operational reality. Overall AI maturity score: 0.7/10. Key themes include: creative team leads, process automation need, leadership aligned. Strongest dimension: leadership vision (2/10). Weakest dimension: skills talent (-1/10). Identified AI champions () can serve as change agents. Immediate priorities: formalize AI strategy, establish governance, and targeted upskilling."
+}

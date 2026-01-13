@@ -13,8 +13,7 @@ import { AnimatedWave } from '../organisms/AnimatedWave'
 import { Footer } from '../organisms/Footer'
 import { ExitIntentModal } from '../organisms/ExitIntentModal'
 import {
-  ArrowRight,
-  Play
+  ArrowRight
 } from 'lucide-react'
 import { cn } from '../../utils/cn'
 import { useChat } from '../../lib/contexts/ChatContext'
@@ -304,26 +303,7 @@ export function EnhancedHomepage() {
             )}
           </div>
 
-          {/* Large HumanGlue Logo Branding */}
-          <div className="absolute inset-0 flex items-start justify-center pt-24 pointer-events-none z-[5]">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1, delay: 0.2 }}
-              className="w-full"
-            >
-              <Image
-                src="/HumnaGlue_logo_hero.png"
-                alt="HumanGlue"
-                width={2400}
-                height={500}
-                className="w-full h-auto"
-                priority
-              />
-            </motion.div>
-          </div>
-
-          <div className="relative z-10 container max-w-7xl mx-auto px-4 sm:px-6 pt-24 sm:pt-32 md:pt-40 lg:pt-48 pb-20 lg:pb-20 pb-32">
+          <div className="relative z-10 container max-w-7xl mx-auto px-4 sm:px-6 pt-20 sm:pt-24 md:pt-32 lg:pt-36 pb-20 lg:pb-20 pb-32">
             <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
               {/* Left Content - Takes all available space */}
               <motion.div
@@ -334,10 +314,7 @@ export function EnhancedHomepage() {
               >
               <div className="space-y-2">
                 <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight font-gendy">
-                  Disruption is here.
-                </h2>
-                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight font-gendy">
-                  What you do next matters.
+                  Your competitor is moving 40% faster because their people know how to work with AI
                 </h2>
               </div>
 
@@ -348,7 +325,7 @@ export function EnhancedHomepage() {
                 transition={{ duration: 0.8, delay: 0.4 }}
                 className="mt-8 sm:mt-10 space-y-6"
               >
-                {/* Primary & Secondary CTAs */}
+                {/* Primary CTA */}
                 <div className="flex flex-col sm:flex-row gap-4">
                   {/* Primary CTA - Start Assessment */}
                   <motion.button
@@ -368,23 +345,6 @@ export function EnhancedHomepage() {
                     Start Free Assessment
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </motion.button>
-
-                  {/* Secondary CTA - Watch Demo */}
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className={cn(
-                      'group px-8 py-4 rounded-full font-semibold',
-                      'border-2 border-white/30 backdrop-blur-sm bg-white/5',
-                      'text-white hover:bg-white/10 hover:border-white/50',
-                      'transition-all duration-300',
-                      'flex items-center justify-center gap-2',
-                      'font-diatype text-lg'
-                    )}
-                  >
-                    <Play className="w-5 h-5" />
-                    Watch Demo
-                  </motion.button>
                 </div>
 
                 {/* Value Proposition */}
@@ -394,7 +354,7 @@ export function EnhancedHomepage() {
                   transition={{ delay: 0.6 }}
                   className="text-base sm:text-lg text-white/80 font-diatype max-w-xl leading-relaxed"
                 >
-                  We're the always-on copilot for AI transformation—continuously learning your organization and keeping the human side on track.
+                  We're the force multiplier for AI transformation. Your company moves faster. Your people don't get left behind.
                 </motion.p>
               </motion.div>
               </motion.div>
@@ -579,7 +539,7 @@ export function EnhancedHomepage() {
               viewport={{ once: true }}
               className="text-center text-brand-cyan text-sm font-gendy"
             >
-              Pro tip: It's not just a productivity crisis. It's a purpose crisis.
+              <strong>Pro tip: It's not just a productivity crisis. It's a purpose crisis.</strong>
             </motion.p>
           </div>
         </section>
@@ -604,7 +564,7 @@ export function EnhancedHomepage() {
               className="text-center mb-12"
             >
               <h2 className="text-4xl font-bold text-gray-900 mb-6 font-gendy">
-                The Human Glue Solution
+                The HMN Solution
               </h2>
               <p className="text-lg text-gray-700 max-w-3xl mx-auto leading-relaxed font-gendy">
                 Our Adaptation Accelerator blends diagnostic assessments, leadership coaching, AI fluency, and culture design into a powerful new model for future-ready transformation. Your Strategy for the Human + AI Era.
@@ -614,19 +574,16 @@ export function EnhancedHomepage() {
             <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
               {[
                 {
-                  title: "Human Intellect\n+ AI Dynamics",
-                  description: "Accelerate adoption while elevating human value. We help people embrace tech without losing what makes them irreplaceable.",
-                  cta: "Learn More →"
+                  title: "Human Intellect\n+ AI Skills",
+                  description: "Accelerate adoption while elevating human value. We help people embrace tech without losing what makes them irreplaceable."
                 },
                 {
-                  title: "Performance\n+ Belonging",
-                  description: "Engagement, retention, and generational trust aren't perks, they're performance drivers. We measure what matters most.",
-                  cta: "Learn More →"
+                  title: "Performance\n+ Purpose",
+                  description: "Engagement, retention, and generational trust aren't perks, they're performance drivers. We measure what matters most."
                 },
                 {
                   title: "Future-Proof\nRoadmaps",
-                  description: "We align your goals with fast-evolving realities like AI, Agents, new work models, so your team is ready for what's next.",
-                  cta: "Learn More →"
+                  description: "We align your goals with fast-evolving realities like AI, Agents, new work models, so your team is ready for what's next."
                 }
               ].map((solution, index) => (
                 <motion.div
@@ -640,9 +597,6 @@ export function EnhancedHomepage() {
                   <div className="relative bg-gray-900 rounded-3xl p-8 border border-gray-800 hover:border-gray-700 transition-all h-full flex flex-col">
                     <h3 className="text-2xl font-bold text-white mb-4 whitespace-pre-line leading-tight font-gendy">{solution.title}</h3>
                     <p className="text-gray-300 text-sm mb-6 flex-grow leading-relaxed font-gendy">{solution.description}</p>
-                    <button className="text-brand-cyan font-semibold hover:text-brand-cyan/80 transition-colors text-sm font-gendy">
-                      {solution.cta}
-                    </button>
                   </div>
                 </motion.div>
               ))}
@@ -763,7 +717,7 @@ export function EnhancedHomepage() {
                 viewport={{ once: true }}
                 className="text-center text-gray-900 text-lg max-w-2xl mx-auto leading-relaxed font-gendy"
               >
-                In a world transformed by AI, Human Glue gives leaders and teams the edge, equipping them to drive progress, not just keep pace.
+                In a world transformed by AI, HMN gives leaders and teams the edge, equipping them to drive progress, not just keep pace.
               </motion.p>
             </div>
           </div>

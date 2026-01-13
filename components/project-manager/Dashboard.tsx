@@ -10,22 +10,18 @@ import {
   AlertCircle,
   TrendingUp,
   Target,
-  Users,
   Calendar,
   Zap,
-  ArrowUpRight,
-  ArrowDownRight,
 } from 'lucide-react'
 
 interface StatCardProps {
   title: string
   value: number | string
-  change?: number
   icon: React.ElementType
   color: string
 }
 
-function StatCard({ title, value, change, icon: Icon, color }: StatCardProps) {
+function StatCard({ title, value, icon: Icon, color }: StatCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -36,15 +32,6 @@ function StatCard({ title, value, change, icon: Icon, color }: StatCardProps) {
         <div>
           <p className="text-sm text-slate-400">{title}</p>
           <p className="text-2xl font-bold text-white mt-1">{value}</p>
-          {change !== undefined && (
-            <div className={cn(
-              'flex items-center gap-1 text-xs mt-2',
-              change >= 0 ? 'text-green-400' : 'text-red-400'
-            )}>
-              {change >= 0 ? <ArrowUpRight size={12} /> : <ArrowDownRight size={12} />}
-              <span>{Math.abs(change)}% from last week</span>
-            </div>
-          )}
         </div>
         <div className={cn('p-3 rounded-xl', color)}>
           <Icon size={20} className="text-white" />
@@ -155,6 +142,18 @@ export function Dashboard() {
       ? Math.round(roadmapItems.reduce((sum, item) => sum + item.progress, 0) / roadmapItems.length)
       : 0
 
+    // Calculate notes created this week (last 7 days)
+    const oneWeekAgo = new Date()
+    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7)
+    const thisWeekCount = notes.filter(n => new Date(n.created_at) >= oneWeekAgo).length
+
+    // Calculate velocity: completed tasks in the last 7 days
+    const completedThisWeek = notes.filter(n => {
+      const isCompleted = n.status === 'done' || n.status === 'completed'
+      const updatedRecently = new Date(n.updated_at) >= oneWeekAgo
+      return isCompleted && updatedRecently
+    }).length
+
     return {
       completed,
       inProgress,
@@ -162,6 +161,8 @@ export function Dashboard() {
       total,
       completionRate: total > 0 ? Math.round((completed / total) * 100) : 0,
       avgProgress,
+      thisWeekCount,
+      velocity: completedThisWeek,
     }
   }, [notes, roadmapItems])
 
@@ -206,7 +207,6 @@ export function Dashboard() {
         <StatCard
           title="Completed"
           value={stats.completed}
-          change={12}
           icon={CheckCircle}
           color="bg-green-500/20"
         />
@@ -219,7 +219,6 @@ export function Dashboard() {
         <StatCard
           title="Blocked"
           value={stats.blocked}
-          change={-5}
           icon={AlertCircle}
           color="bg-red-500/20"
         />
@@ -268,7 +267,7 @@ export function Dashboard() {
       </div>
 
       {/* Quick Stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
         <div className="bg-slate-800/50 rounded-xl p-4 border border-slate-700/50">
           <div className="flex items-center gap-2 text-slate-400 mb-2">
             <Calendar size={16} />
@@ -279,24 +278,18 @@ export function Dashboard() {
         <div className="bg-slate-800/50 rounded-xl p-4 border border-slate-700/50">
           <div className="flex items-center gap-2 text-slate-400 mb-2">
             <TrendingUp size={16} />
-            <span className="text-xs">This Week</span>
+            <span className="text-xs">Created This Week</span>
           </div>
-          <p className="text-2xl font-bold text-white">+{Math.min(5, stats.completed)}</p>
-        </div>
-        <div className="bg-slate-800/50 rounded-xl p-4 border border-slate-700/50">
-          <div className="flex items-center gap-2 text-slate-400 mb-2">
-            <Users size={16} />
-            <span className="text-xs">Team Members</span>
-          </div>
-          <p className="text-2xl font-bold text-white">4</p>
+          <p className="text-2xl font-bold text-white">{stats.thisWeekCount}</p>
+          <p className="text-xs text-slate-500">new tasks</p>
         </div>
         <div className="bg-slate-800/50 rounded-xl p-4 border border-slate-700/50">
           <div className="flex items-center gap-2 text-slate-400 mb-2">
             <Zap size={16} />
-            <span className="text-xs">Velocity</span>
+            <span className="text-xs">Weekly Velocity</span>
           </div>
-          <p className="text-2xl font-bold text-white">12</p>
-          <p className="text-xs text-slate-500">pts/sprint</p>
+          <p className="text-2xl font-bold text-white">{stats.velocity}</p>
+          <p className="text-xs text-slate-500">completed this week</p>
         </div>
       </div>
     </div>

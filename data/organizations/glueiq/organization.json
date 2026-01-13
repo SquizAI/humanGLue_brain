@@ -1,0 +1,98 @@
+{
+  "id": "glueiq-001",
+  "name": "GlueIQ",
+  "slug": "glueiq",
+  "industry": "Marketing & Advertising",
+  "subIndustry": "Hybrid Agency/Consulting",
+  "size": "50-100",
+  "region": "North America",
+  "headquarters": "Miami, FL",
+  "founded": 2017,
+  "description": "Hybrid marketing agency and consulting firm specializing in brand transformation, customer experience, and digital innovation",
+  "website": "https://glueiq.com",
+  "businessLines": [
+    {
+      "name": "Agency Services",
+      "lead": "Maggy Conde",
+      "description": "Full-service creative and media agency"
+    },
+    {
+      "name": "Advisory Services",
+      "lead": "Boris Stojanovic",
+      "description": "Strategic consulting and transformation advisory"
+    }
+  ],
+  "partners": [
+    {
+      "name": "Gaston Legorburu",
+      "title": "CEO & Founder",
+      "department": "Executive",
+      "aiSkillLevel": "expert",
+      "isChampion": true
+    },
+    {
+      "name": "Joey Wilson",
+      "title": "Partner",
+      "department": "Strategy",
+      "aiSkillLevel": "advanced",
+      "isChampion": true
+    },
+    {
+      "name": "Boris Stojanovic",
+      "title": "Partner",
+      "department": "Advisory Services",
+      "aiSkillLevel": "intermediate",
+      "isChampion": false
+    },
+    {
+      "name": "Matt Kujawa",
+      "title": "Partner",
+      "department": "Technology",
+      "aiSkillLevel": "expert",
+      "isChampion": true
+    },
+    {
+      "name": "Maggy Conde",
+      "title": "Partner",
+      "department": "Agency Services",
+      "aiSkillLevel": "intermediate",
+      "isChampion": false
+    },
+    {
+      "name": "Noel Artiles",
+      "title": "Chief Creative Officer",
+      "department": "Creative",
+      "aiSkillLevel": "advanced",
+      "isChampion": true
+    },
+    {
+      "name": "Michele Conigliaro",
+      "title": "Head of People",
+      "department": "HR",
+      "aiSkillLevel": "intermediate",
+      "isChampion": false
+    },
+    {
+      "name": "Chiny Chewing",
+      "title": "Partner",
+      "department": "Strategy",
+      "aiSkillLevel": "intermediate",
+      "isChampion": false
+    },
+    {
+      "name": "Dave Serrano",
+      "title": "Partner",
+      "department": "Client Services",
+      "aiSkillLevel": "intermediate",
+      "isChampion": false
+    }
+  ],
+  "assessmentMetadata": {
+    "assessmentDate": "2024-12-29",
+    "assessmentType": "C-suite Interview Analysis",
+    "transcriptCount": 9,
+    "totalInterviewDuration": 624,
+    "analysisMethod": "Multi-Agent Transcript Analysis",
+    "dataQuality": "high"
+  }
+}

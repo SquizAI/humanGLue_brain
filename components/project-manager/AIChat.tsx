@@ -1,9 +1,9 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/utils/cn'
-import { useMindReasoner } from '@/lib/hooks/useProjectManager'
+import { useMindReasoner, useProjectNotes, useRoadmapItems, ProjectNote, RoadmapItem } from '@/lib/hooks/useProjectManager'
 import {
   Send,
   Bot,
@@ -16,6 +16,7 @@ import {
   Brain,
   Lightbulb,
   AlertCircle,
+  Database,
 } from 'lucide-react'
 
 interface Message {
@@ -41,12 +42,116 @@ const suggestedPrompts = [
   'What dependencies should we address first?',
 ]
 
+// Helper function to build project context summary for AI
+function buildProjectContext(notes: ProjectNote[], roadmapItems: RoadmapItem[]): string {
+  // Task statistics
+  const totalTasks = notes.length
+  const completedTasks = notes.filter(n => n.status === 'done' || n.status === 'completed').length
+  const blockedTasks = notes.filter(n => n.status === 'blocked').length
+  const inProgressTasks = notes.filter(n => n.status === 'in_progress' || n.status === 'progress' || n.status === 'active').length
+  const todoTasks = notes.filter(n => n.status === 'todo' || n.status === 'backlog').length
+  const reviewTasks = notes.filter(n => n.status === 'review').length
+
+  // Priority breakdown
+  const criticalTasks = notes.filter(n => n.priority === 'critical')
+  const highPriorityTasks = notes.filter(n => n.priority === 'high')
+
+  // Current sprint priorities (high/critical tasks that are in progress or todo)
+  const sprintPriorities = notes.filter(n =>
+    (n.priority === 'critical' || n.priority === 'high') &&
+    (n.status === 'in_progress' || n.status === 'progress' || n.status === 'todo' || n.status === 'active')
+  )
+
+  // Roadmap statistics
+  const totalRoadmapItems = roadmapItems.length
+  const roadmapInProgress = roadmapItems.filter(r => r.status === 'in_progress' || r.status === 'progress' || r.status === 'active').length
+  const roadmapCompleted = roadmapItems.filter(r => r.status === 'completed' || r.status === 'done').length
+  const roadmapBlocked = roadmapItems.filter(r => r.status === 'blocked').length
+
+  // Upcoming deadlines (next 7 days)
+  const now = new Date()
+  const nextWeek = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000)
+  const upcomingDeadlines = roadmapItems.filter(r => {
+    if (!r.end_date) return false
+    const endDate = new Date(r.end_date)
+    return endDate >= now && endDate <= nextWeek
+  })
+
+  // Recent activity (last 24 hours)
+  const last24Hours = new Date(now.getTime() - 24 * 60 * 60 * 1000)
+  const recentNotes = notes.filter(n => new Date(n.updated_at) >= last24Hours).length
+  const recentRoadmap = roadmapItems.filter(r => new Date(r.updated_at) >= last24Hours).length
+
+  // Build context string
+  let context = `=== PROJECT CONTEXT ===\n\n`
+
+  context += `TASK OVERVIEW:\n`
+  context += `- Total Tasks: ${totalTasks}\n`
+  context += `- Completed: ${completedTasks} (${totalTasks > 0 ? Math.round(completedTasks / totalTasks * 100) : 0}%)\n`
+  context += `- In Progress: ${inProgressTasks}\n`
+  context += `- To Do: ${todoTasks}\n`
+  context += `- In Review: ${reviewTasks}\n`
+  context += `- Blocked: ${blockedTasks}\n\n`
+
+  context += `PRIORITY BREAKDOWN:\n`
+  context += `- Critical: ${criticalTasks.length}\n`
+  context += `- High: ${highPriorityTasks.length}\n`
+  context += `- Medium: ${notes.filter(n => n.priority === 'medium').length}\n`
+  context += `- Low: ${notes.filter(n => n.priority === 'low').length}\n\n`
+
+  if (sprintPriorities.length > 0) {
+    context += `CURRENT SPRINT PRIORITIES (High/Critical, Active/Todo):\n`
+    sprintPriorities.slice(0, 5).forEach(task => {
+      context += `- [${task.priority.toUpperCase()}] ${task.title} (${task.status})\n`
+    })
+    if (sprintPriorities.length > 5) {
+      context += `  ... and ${sprintPriorities.length - 5} more\n`
+    }
+    context += '\n'
+  }
+
+  if (blockedTasks > 0) {
+    const blockedList = notes.filter(n => n.status === 'blocked')
+    context += `BLOCKED TASKS:\n`
+    blockedList.slice(0, 3).forEach(task => {
+      context += `- ${task.title}${task.content ? `: ${task.content.substring(0, 100)}...` : ''}\n`
+    })
+    if (blockedList.length > 3) {
+      context += `  ... and ${blockedList.length - 3} more blocked\n`
+    }
+    context += '\n'
+  }
+
+  context += `ROADMAP STATUS:\n`
+  context += `- Total Items: ${totalRoadmapItems}\n`
+  context += `- In Progress: ${roadmapInProgress}\n`
+  context += `- Completed: ${roadmapCompleted}\n`
+  context += `- Blocked: ${roadmapBlocked}\n\n`
+
+  if (upcomingDeadlines.length > 0) {
+    context += `UPCOMING DEADLINES (Next 7 Days):\n`
+    upcomingDeadlines.forEach(item => {
+      const endDate = new Date(item.end_date!)
+      context += `- ${item.title}: ${endDate.toLocaleDateString()} (${item.progress}% complete)\n`
+    })
+    context += '\n'
+  }
+
+  context += `RECENT ACTIVITY (Last 24 Hours):\n`
+  context += `- Tasks Updated: ${recentNotes}\n`
+  context += `- Roadmap Items Updated: ${recentRoadmap}\n`
+
+  context += `\n=== END CONTEXT ===\n`
+
+  return context
+}
+
 export function AIChat({ mindId = 'default' }: AIChatProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
       role: 'assistant',
-      content: "Hello! I'm your AI project assistant powered by Mind Reasoner. I can help you analyze tasks, suggest priorities, and provide insights about your project. What would you like to know?",
+      content: "Hello! I'm your AI project assistant powered by Mind Reasoner. I have access to your project context including tasks, roadmap items, and deadlines. I can help you analyze tasks, suggest priorities, and provide insights about your project. What would you like to know?",
       timestamp: new Date(),
     },
   ])
@@ -57,6 +162,22 @@ export function AIChat({ mindId = 'default' }: AIChatProps) {
   const inputRef = useRef<HTMLTextAreaElement>(null)
 
   const { simulate, loading, error } = useMindReasoner()
+  const { notes, loading: notesLoading } = useProjectNotes()
+  const { items: roadmapItems, loading: roadmapLoading } = useRoadmapItems()
+
+  // Memoize context summary to avoid recalculating on every render
+  const contextSummary = useMemo(() => {
+    if (notesLoading || roadmapLoading) return null
+    return buildProjectContext(notes, roadmapItems)
+  }, [notes, roadmapItems, notesLoading, roadmapLoading])
+
+  // Context indicator stats
+  const contextStats = useMemo(() => ({
+    tasksCount: notes.length,
+    roadmapCount: roadmapItems.length,
+    blockedCount: notes.filter(n => n.status === 'blocked').length,
+    isLoading: notesLoading || roadmapLoading
+  }), [notes, roadmapItems, notesLoading, roadmapLoading])
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -80,7 +201,14 @@ export function AIChat({ mindId = 'default' }: AIChatProps) {
     setInput('')
 
     try {
-      const response = await simulate(mindId, input.trim())
+      // Build full message with project context
+      let fullMessage = input.trim()
+
+      if (contextSummary) {
+        fullMessage = `${contextSummary}\n\nUser Question: ${input.trim()}`
+      }
+
+      const response = await simulate(mindId, fullMessage)
 
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
@@ -137,18 +265,42 @@ export function AIChat({ mindId = 'default' }: AIChatProps) {
             <p className="text-sm text-slate-400">Powered by Mind Reasoner</p>
           </div>
         </div>
-        <button
-          onClick={() => setShowInsights(!showInsights)}
-          className={cn(
-            'flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm transition-colors',
-            showInsights
-              ? 'bg-cyan-500/20 text-cyan-400'
-              : 'bg-slate-800 text-slate-400 hover:text-white'
-          )}
-        >
-          <Lightbulb size={16} />
-          Show Insights
-        </button>
+        <div className="flex items-center gap-2">
+          {/* Context Indicator */}
+          <div
+            className={cn(
+              'flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs',
+              contextStats.isLoading
+                ? 'bg-slate-800 text-slate-500'
+                : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+            )}
+            title={contextStats.isLoading ? 'Loading project context...' : `AI has context of ${contextStats.tasksCount} tasks, ${contextStats.roadmapCount} roadmap items`}
+          >
+            <Database size={14} className={contextStats.isLoading ? 'animate-pulse' : ''} />
+            {contextStats.isLoading ? (
+              <span>Loading context...</span>
+            ) : (
+              <span>
+                {contextStats.tasksCount} tasks, {contextStats.roadmapCount} roadmap
+                {contextStats.blockedCount > 0 && (
+                  <span className="text-amber-400 ml-1">({contextStats.blockedCount} blocked)</span>
+                )}
+              </span>
+            )}
+          </div>
+          <button
+            onClick={() => setShowInsights(!showInsights)}
+            className={cn(
+              'flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm transition-colors',
+              showInsights
+                ? 'bg-cyan-500/20 text-cyan-400'
+                : 'bg-slate-800 text-slate-400 hover:text-white'
+            )}
+          >
+            <Lightbulb size={16} />
+            Show Insights
+          </button>
+        </div>
       </div>
 
       {/* Messages */}

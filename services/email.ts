@@ -324,5 +324,104 @@ export const emailService = {
       subject: `Welcome to ${invitation.organizationName || 'HumanGlue'} - Your ${invitation.role} account is ready`,
       html,
     })
+  },
+
+  /**
+   * Send password reset email with new temporary password
+   */
+  async sendPasswordReset(
+    to: string,
+    options: {
+      userName: string
+      temporaryPassword: string
+      loginUrl: string
+      adminName: string
+    }
+  ): Promise<{ success: boolean; message: string }> {
+    const html = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Password Reset - HumanGlue</title>
+        </head>
+        <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f5f5f5;">
+          <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f5f5f5; padding: 40px 20px;">
+            <tr>
+              <td align="center">
+                <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+
+                  <!-- Header -->
+                  <tr>
+                    <td style="padding: 40px 40px 30px; text-align: center; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); border-radius: 8px 8px 0 0;">
+                      <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: 600;">Password Reset</h1>
+                    </td>
+                  </tr>
+
+                  <!-- Content -->
+                  <tr>
+                    <td style="padding: 40px;">
+                      <p style="margin: 0 0 20px; font-size: 16px; line-height: 1.6; color: #333333;">
+                        Hello ${options.userName},
+                      </p>
+
+                      <p style="margin: 0 0 30px; font-size: 16px; line-height: 1.6; color: #333333;">
+                        Your password has been reset by ${options.adminName}. Please use the temporary password below to log in and then change it to something secure.
+                      </p>
+
+                      <!-- Credentials Box -->
+                      <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #fef3c7; border-left: 4px solid #f59e0b; border-radius: 4px; margin-bottom: 30px;">
+                        <tr>
+                          <td style="padding: 20px;">
+                            <p style="margin: 0 0 10px; font-size: 14px; font-weight: 600; color: #92400e;">Your New Temporary Password</p>
+                            <p style="margin: 0; font-size: 18px; color: #78350f;">
+                              <code style="background-color: #ffffff; padding: 8px 16px; border-radius: 4px; font-family: 'Courier New', monospace; color: #d97706; font-weight: 600; display: inline-block;">${options.temporaryPassword}</code>
+                            </p>
+                            <p style="margin: 15px 0 0; font-size: 12px; color: #92400e; font-style: italic;">
+                              ⚠️ Please change this password immediately after logging in
+                            </p>
+                          </td>
+                        </tr>
+                      </table>
+
+                      <!-- CTA Button -->
+                      <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 30px;">
+                        <tr>
+                          <td align="center">
+                            <a href="${options.loginUrl}" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 16px;">
+                              Log In Now
+                            </a>
+                          </td>
+                        </tr>
+                      </table>
+
+                      <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #666666;">
+                        If you did not request this password reset, please contact your administrator immediately.
+                      </p>
+                    </td>
+                  </tr>
+
+                  <!-- Footer -->
+                  <tr>
+                    <td style="padding: 30px 40px; text-align: center; background-color: #f8f9fa; border-radius: 0 0 8px 8px;">
+                      <p style="margin: 0; font-size: 12px; color: #999999;">
+                        This password reset was initiated by HumanGlue
+                      </p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </body>
+      </html>
+    `
+
+    return this.sendEmail({
+      to,
+      subject: `Password Reset - HumanGlue`,
+      html,
+    })
   }
 } 

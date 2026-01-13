@@ -14,11 +14,15 @@ interface ChatResponse {
 
 class ChatFlow {
   getGreeting(): string {
-    return "Welcome. I'm your AI transformation advisor.\n\nI can help you:\n• Calculate your potential ROI\n• Get a custom implementation timeline\n• Book a strategy session with our experts\n\nLet's start with your first name:"
+    return "Welcome to hmn. For leaders who don't have 6 months and a million-dollar budget to figure out AI. I can help you:\n\n• Take a 3 min AI maturity check\n• Determine what YOU need to get AI upskilled\n• Calculate ROI for AI initiatives\n\nLet's start with your name."
   }
 
   getGreetingSuggestions() {
-    return []
+    return [
+      { text: "AI Maturity Check", icon: null },
+      { text: "Assess My Skills", icon: null },
+      { text: "AI ROI Calculator", icon: null }
+    ]
   }
 
   processResponse(currentState: ChatState, input: string, userData: any): ChatResponse {
@@ -90,7 +94,7 @@ Please provide your email address:`,
         }
         // Otherwise use AI for general questions
         return {
-          message: "Thank you for completing the assessment! Feel free to ask me any questions about Human Glue's solutions, or start a new assessment.",
+          message: "Thank you for completing the assessment! Feel free to ask me any questions about hmn's solutions, or start a new assessment.",
           suggestions: [
             { text: "Start a new conversation", icon: Zap },
             { text: "Tell me about your solutions", icon: Brain },
@@ -227,7 +231,7 @@ Please provide your email address:`,
         input
       
       return {
-        message: `As ${role}, you have a unique vantage point on organizational dynamics.\n\n**Key insight:** ${role}s who implement Human Glue report 35% improvement in strategic decision-making.\n\nWhat's the primary challenge you're looking to address?`,
+        message: `As ${role}, you have a unique vantage point on organizational dynamics.\n\n**Key insight:** ${role}s who implement hmn report 35% improvement in strategic decision-making.\n\nWhat's the primary challenge you're looking to address?`,
         data: { role },
         suggestions: [
           { text: "AI adoption & integration", icon: Brain },
@@ -334,7 +338,7 @@ Please provide your email address:`,
       }
     } else if (input.toLowerCase().includes('case') || input.toLowerCase().includes('roi')) {
       return {
-        message: `**Human Glue Results for ${userData.companyType || 'Enterprise'} Organizations:**\n\n📈 **Performance Metrics:**\n• 40% improvement in decision-making speed\n• 35% increase in employee engagement\n• 60% faster AI adoption vs. industry average\n• 3.2x ROI within 18 months\n\n💡 **Example:** A ${userData.size} ${userData.companyType || 'company'} addressing ${userData.challenge} achieved:\n• $2.3M in productivity gains (Year 1)\n• 47% reduction in transformation timeline\n• 89% leadership buy-in rate\n\nWould you like to see your projected outcomes?`,
+        message: `**hmn Results for ${userData.companyType || 'Enterprise'} Organizations:**\n\n📈 **Performance Metrics:**\n• 40% improvement in decision-making speed\n• 35% increase in employee engagement\n• 60% faster AI adoption vs. industry average\n• 3.2x ROI within 18 months\n\n💡 **Example:** A ${userData.size} ${userData.companyType || 'company'} addressing ${userData.challenge} achieved:\n• $2.3M in productivity gains (Year 1)\n• 47% reduction in transformation timeline\n• 89% leadership buy-in rate\n\nWould you like to see your projected outcomes?`,
         suggestions: [
           { text: "Yes, calculate my ROI", icon: BarChart3 },
           { text: "Schedule executive briefing", icon: Target },
@@ -352,7 +356,7 @@ Please provide your email address:`,
       }
     } else {
       return {
-        message: `I understand you need more information about Human Glue's approach to ${userData.challenge}.\n\n**Our Unique Value:**\n• Only platform combining AI assessment + human expertise\n• Proven methodology across 500+ transformations\n• Industry-specific frameworks for ${userData.companyType || 'your sector'}\n• Guaranteed ROI or continued support at no cost\n\nWhat specific aspect would help you make a decision?`,
+        message: `I understand you need more information about hmn's approach to ${userData.challenge}.\n\n**Our Unique Value:**\n• Only platform combining AI assessment + human expertise\n• Proven methodology across 500+ transformations\n• Industry-specific frameworks for ${userData.companyType || 'your sector'}\n• Guaranteed ROI or continued support at no cost\n\nWhat specific aspect would help you make a decision?`,
         suggestions: [
           { text: "Pricing & packages", icon: BarChart3 },
           { text: "Security & compliance", icon: Target },
@@ -404,7 +408,7 @@ Please provide your email address:`,
       }
     } else if (input.toLowerCase().includes('process') || input.toLowerCase().includes('included')) {
       return {
-        message: `**Executive Briefing Details:**\n\n**Duration:** 30 minutes via video call\n\n**Participants:**\n• You and up to 3 team members\n• Human Glue transformation specialist\n• Industry expert (when applicable)\n\n**What We'll Cover:**\n✓ Your personalized assessment results\n✓ Industry benchmarks & best practices\n✓ Custom transformation roadmap\n✓ Implementation timeline & milestones\n✓ Investment options & ROI projections\n✓ Q&A session\n\n**What You'll Receive:**\n• Executive summary document\n• Detailed transformation plan\n• ROI calculator access\n• 90-day quick wins guide\n\nNo preparation needed - just bring your questions!`,
+        message: `**Executive Briefing Details:**\n\n**Duration:** 30 minutes via video call\n\n**Participants:**\n• You and up to 3 team members\n• hmn transformation specialist\n• Industry expert (when applicable)\n\n**What We'll Cover:**\n✓ Your personalized assessment results\n✓ Industry benchmarks & best practices\n✓ Custom transformation roadmap\n✓ Implementation timeline & milestones\n✓ Investment options & ROI projections\n✓ Q&A session\n\n**What You'll Receive:**\n• Executive summary document\n• Detailed transformation plan\n• ROI calculator access\n• 90-day quick wins guide\n\nNo preparation needed - just bring your questions!`,
         suggestions: [
           { text: "Schedule the briefing", icon: Briefcase },
           { text: "Invite my team", icon: Users },
@@ -414,7 +418,7 @@ Please provide your email address:`,
     } else {
       // Time slot selected
       return {
-        message: `Perfect! I've scheduled your executive briefing for ${input}.\n\n✅ **Confirmation sent to:** ${userData.email}\n📧 **Calendar invite:** Check your inbox\n🔗 **Video link:** Included in the invite\n\n**Before our call:**\n• Review the assessment summary I've emailed\n• Invite relevant team members\n• Prepare any specific questions\n\n**Your Human Glue specialist:** Sarah Chen, VP of Enterprise Transformation\n\nLooking forward to discussing ${userData.company}'s transformation journey!\n\nIs there anything specific you'd like us to focus on during the briefing?`,
+        message: `Perfect! I've scheduled your executive briefing for ${input}.\n\n✅ **Confirmation sent to:** ${userData.email}\n📧 **Calendar invite:** Check your inbox\n🔗 **Video link:** Included in the invite\n\n**Before our call:**\n• Review the assessment summary I've emailed\n• Invite relevant team members\n• Prepare any specific questions\n\n**Your hmn specialist:** Sarah Chen, VP of Enterprise Transformation\n\nLooking forward to discussing ${userData.company}'s transformation journey!\n\nIs there anything specific you'd like us to focus on during the briefing?`,
         suggestions: [
           { text: "Focus on quick wins", icon: Zap },
           { text: "Discuss change management", icon: Users },
@@ -452,7 +456,7 @@ Please provide your email address:`,
 • Invite key stakeholders who should attend
 • Prepare any specific questions
 
-Looking forward to showing you how Human Glue can transform ${userData.company || 'your organization'}!
+Looking forward to showing you how hmn can transform ${userData.company || 'your organization'}!
 
 Is there anything specific you'd like us to focus on during the demo?`,
       nextState: 'booking',

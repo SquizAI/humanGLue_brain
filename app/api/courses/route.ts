@@ -41,16 +41,13 @@ export async function GET(request: NextRequest) {
     const filters = validation.data
     const supabase = await createClient()
 
-    // Build query
+    // Build query - using actual database schema
+    // Note: courses table uses instructor_name (text) not instructor_id (FK)
+    // and is_published (boolean) instead of status (enum)
     let query = supabase
       .from('courses')
       .select(`
         *,
-        instructor:users!courses_instructor_id_fkey(
-          id,
-          full_name,
-          avatar_url
-        ),
         enrollments:course_enrollments(count)
       `, { count: 'exact' })
 
@@ -60,16 +57,17 @@ export async function GET(request: NextRequest) {
     }
 
     if (filters.difficulty) {
-      query = query.eq('difficulty', filters.difficulty)
+      query = query.eq('level', filters.difficulty)
     }
 
     if (filters.status && filters.status !== 'all') {
-      query = query.eq('status', filters.status)
+      // Map status to is_published boolean
+      query = query.eq('is_published', filters.status === 'published')
     } else if (!filters.status) {
       // Default to published courses only for non-admin requests
-      query = query.eq('status', 'published')
+      query = query.eq('is_published', true)
     }
-    // If status=all, don't filter by status (admin view)
+    // If status=all, don't filter by is_published (admin view)
 
     if (filters.tags) {
       const tags = filters.tags.split(',').map(t => t.trim())
@@ -136,33 +134,32 @@ export async function POST(request: NextRequest) {
     const courseData = validation.data
     const supabase = await createClient()
 
-    // Create course
+    // Create course - using actual database schema
+    // Note: instructor_name is text field, not foreign key
+    const { data: userData } = await supabase
+      .from('users')
+      .select('full_name')
+      .eq('id', user.id)
+      .single()
+
     const { data, error } = await supabase
       .from('courses')
       .insert({
         title: courseData.title,
         description: courseData.description,
-        instructor_id: user.id,
+        instructor_name: userData?.full_name || 'Unknown',
         pillar: courseData.pillar,
-        difficulty: courseData.difficulty,
-        duration: courseData.duration,
-        price_amount: courseData.price.amount,
-        price_currency: courseData.price.currency,
+        level: courseData.difficulty || 'beginner',
+        duration_hours: courseData.duration ? parseInt(courseData.duration) : null,
+        price_amount: courseData.price?.amount || 0,
+        currency: courseData.price?.currency || 'USD',
         learning_outcomes: courseData.learningOutcomes,
-        syllabus: courseData.syllabus,
-        tags: courseData.tags,
         prerequisites: courseData.prerequisites,
         thumbnail_url: courseData.thumbnailUrl,
-        status: 'draft', // Always start as draft
+        is_published: false, // Always start as unpublished
+        metadata: { syllabus: courseData.syllabus, tags: courseData.tags }
       })
-      .select(`
-        *,
-        instructor:users!courses_instructor_id_fkey(
-          id,
-          full_name,
-          avatar_url
-        )
-      `)
+      .select('*')
       .single()
 
     if (error) throw error

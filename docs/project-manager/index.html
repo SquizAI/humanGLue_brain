@@ -13,7 +13,7 @@
     <meta property="og:image" content="https://hmnglue.com/HumnaGlue_logo_white_blue.png">
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/panzoom@9.4.3/dist/panzoom.min.js"></script>
     <!-- Supabase for multi-user collaboration -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -4062,7 +4062,7 @@
         const SUPABASE_ANON_KEY = '__SUPABASE_ANON_KEY__';
 
         // Initialize Supabase client
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // State
         let panzoomInstance = null;
@@ -5273,7 +5273,7 @@ Try clicking on any diagram node for context-aware help!`
         // Load notes from Supabase
         async function loadNotesFromSupabase() {
             try {
-                const { data, error } = await supabase
+                const { data, error } = await supabaseClient
                     .from('project_notes')
                     .select('*')
                     .order('created_at', { ascending: false });
@@ -5291,7 +5291,7 @@ Try clicking on any diagram node for context-aware help!`
 
         // Setup realtime subscription for collaborative updates
         function setupRealtimeSubscription() {
-            realtimeSubscription = supabase
+            realtimeSubscription = supabaseClient
                 .channel('project_notes_changes')
                 .on('postgres_changes',
                     { event: '*', schema: 'public', table: 'project_notes' },
@@ -5720,7 +5720,7 @@ Try clicking on any diagram node for context-aware help!`
             try {
                 if (editingNoteId) {
                     // Update existing note
-                    const { error } = await supabase
+                    const { error } = await supabaseClient
                         .from('project_notes')
                         .update(noteData)
                         .eq('id', editingNoteId);
@@ -5728,7 +5728,7 @@ Try clicking on any diagram node for context-aware help!`
                     if (error) throw error;
                 } else {
                     // Create new note
-                    const { error } = await supabase
+                    const { error } = await supabaseClient
                         .from('project_notes')
                         .insert([noteData]);
 
@@ -5750,7 +5750,7 @@ Try clicking on any diagram node for context-aware help!`
         async function deleteCurrentNote() {
             if (editingNoteId && confirm('Delete this task?')) {
                 try {
-                    const { error } = await supabase
+                    const { error } = await supabaseClient
                         .from('project_notes')
                         .delete()
                         .eq('id', editingNoteId);
@@ -6744,13 +6744,13 @@ ${createActionCard(
 
             try {
                 if (editingRoadmapId) {
-                    const { error } = await supabase
+                    const { error } = await supabaseClient
                         .from('roadmap_items')
                         .update(itemData)
                         .eq('id', editingRoadmapId);
                     if (error) throw error;
                 } else {
-                    const { error } = await supabase
+                    const { error } = await supabaseClient
                         .from('roadmap_items')
                         .insert([itemData]);
                     if (error) throw error;
@@ -6784,7 +6784,7 @@ ${createActionCard(
             if (!editingRoadmapId || !confirm('Delete this timeline item?')) return;
 
             try {
-                const { error } = await supabase
+                const { error } = await supabaseClient
                     .from('roadmap_items')
                     .delete()
                     .eq('id', editingRoadmapId);
@@ -6805,7 +6805,7 @@ ${createActionCard(
 
         async function loadRoadmapItems() {
             try {
-                const { data, error } = await supabase
+                const { data, error } = await supabaseClient
                     .from('roadmap_items')
                     .select('*')
                     .order('start_date', { ascending: true });

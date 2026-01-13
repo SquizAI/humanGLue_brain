@@ -1,0 +1,192 @@
+{
+  "organizationId": "glueiq-001",
+  "profiles": [
+    {
+      "name": "Matt Kujawa",
+      "title": "Partner",
+      "aiSkillLevel": "AI Curious",
+      "aiSkillScore": 1,
+      "toolsUsed": [
+        "Perplexity"
+      ],
+      "frequency": "weekly",
+      "mentionedBy": [
+        "self"
+      ],
+      "evidence": [
+        "Um, and so, um, I use a bunch in, in, sort of, for personal productivity.",
+        "Uh, one is I use a little.",
+        "I use Google LM a lot for very specific context, although more recently, last week and this week, I've been, I've been using clawed projects and skills as a, as a bit more, um, yeah."
+      ],
+      "isChampion": false,
+      "growthPotential": "medium"
+    },
+    {
+      "name": "Gaston Legorburu",
+      "title": "CEO & Founder",
+      "aiSkillLevel": "AI Unaware",
+      "aiSkillScore": 0,
+      "toolsUsed": [
+        "Motion",
+        "ChatGPT",
+        "Claude",
+        "Perplexity",
+        "Copilot",
+        "MidJourney",
+        "Beautiful AI",
+        "Gamma",
+        "Fixer AI"
+      ],
+      "frequency": "occasionally",
+      "mentionedBy": [
+        "self"
+      ],
+      "evidence": [
+        "I'm I'm I'm\n\nSo AI tools that I use, you know, I use obviously ChatGPT, Perplexity, CoPilot, I use Motion, I use, well, I'm playing with Claude, I use Beautiful AI, Gamma, Midjourney, I use something ",
+        "I think I use that pretty deeply, and I have a pretty good sense of prompt engineering, and I geek out on that stuff, and I'm learning a lot more about that.",
+        "So I use it all the time from that perspective."
+      ],
+      "isChampion": false,
+      "growthPotential": "high"
+    },
+    {
+      "name": "Joey Wilson",
+      "title": "Partner",
+      "aiSkillLevel": "AI Unaware",
+      "aiSkillScore": 0,
+      "toolsUsed": [
+        "Atlas",
+        "Motion",
+        "Productive"
+      ],
+      "frequency": "occasionally",
+      "mentionedBy": [
+        "self"
+      ],
+      "evidence": [
+        "Limited AI usage evidence in interview"
+      ],
+      "isChampion": false,
+      "growthPotential": "high"
+    },
+    {
+      "name": "Boris Stojanovic",
+      "title": "Partner",
+      "aiSkillLevel": "AI Unaware",
+      "aiSkillScore": 0,
+      "toolsUsed": [
+        "Claude",
+        "Perplexity"
+      ],
+      "frequency": "occasionally",
+      "mentionedBy": [
+        "self"
+      ],
+      "evidence": [
+        "4) - Boris Stojanovic (GlueIQ)\n\nI use."
+      ],
+      "isChampion": false,
+      "growthPotential": "high"
+    },
+    {
+      "name": "Maggy Conde",
+      "title": "Partner",
+      "aiSkillLevel": "AI Unaware",
+      "aiSkillScore": 0,
+      "toolsUsed": [
+        "Beautiful AI",
+        "Productive"
+      ],
+      "frequency": "occasionally",
+      "mentionedBy": [
+        "self"
+      ],
+      "evidence": [
+        "26) \\- **Marguerite Conde (Nikolas Fernandez)**\n\nI mean, I use like the ChatGVT and the Beautiful AI, like just like to me, like the standard, I guess, you know, like I, yeah, the standard stuff like ",
+        "What do I use?",
+        "And then the third piece is, how do I use the tools in a human way so that my human essence and the client service that we deliver from a\n\nValues and delivery perspective don't get lost in the AI, in "
+      ],
+      "isChampion": false,
+      "growthPotential": "high"
+    },
+    {
+      "name": "Noel Artiles",
+      "title": "CCO",
+      "aiSkillLevel": "AI Unaware",
+      "aiSkillScore": 0,
+      "toolsUsed": [
+        "Gemini"
+      ],
+      "frequency": "occasionally",
+      "mentionedBy": [
+        "self"
+      ],
+      "evidence": [
+        "I used to work with Gaston at Sapient."
+      ],
+      "isChampion": false,
+      "growthPotential": "high"
+    },
+    {
+      "name": "Michele Conigliaro",
+      "title": "Head of People",
+      "aiSkillLevel": "AI Unaware",
+      "aiSkillScore": 0,
+      "toolsUsed": [
+        "Otter"
+      ],
+      "frequency": "occasionally",
+      "mentionedBy": [
+        "self"
+      ],
+      "evidence": [
+        "**Michele Conigliaro-Lenahan:** I only use chat QPT and I use Otter for my  \n**Alex Schwartz:** Okay.",
+        "Like I use it every day, multiple times a day, but I have not expanded on the tools.",
+        "**Michele Conigliaro-Lenahan:** I guess I would show them as I was saying earlier, what I all I can say is based on what I use it for  \n**Alex Schwartz:** Mhm."
+      ],
+      "isChampion": false,
+      "growthPotential": "high"
+    },
+    {
+      "name": "Chiny Chewing",
+      "title": "Partner",
+      "aiSkillLevel": "AI Unaware",
+      "aiSkillScore": 0,
+      "toolsUsed": [
+        "ChatGPT (basic)"
+      ],
+      "frequency": "occasionally",
+      "mentionedBy": [
+        "self"
+      ],
+      "evidence": [
+        "I think for what I use it for, I feel like I am ahead."
+      ],
+      "isChampion": false,
+      "growthPotential": "high"
+    },
+    {
+      "name": "Dave Serrano",
+      "title": "Partner",
+      "aiSkillLevel": "AI Unaware",
+      "aiSkillScore": 0,
+      "toolsUsed": [
+        "Gamma",
+        "Beautiful AI"
+      ],
+      "frequency": "occasionally",
+      "mentionedBy": [
+        "self"
+      ],
+      "evidence": [
+        "22) \\- **David Serrano (GlueIQ)**\n\nI use chat, our enterprise version.",
+        "I pretty much use it probably every day, and I use it for everything from articulating feedback to transcribing meetings to, like, I need three sentences to add to a scope of work.",
+        "com)**\n\nLike, I use it for basically."
+      ],
+      "isChampion": false,
+      "growthPotential": "high"
+    }
+  ],
+  "champions": [],
+  "timestamp": "2025-12-29T17:18:50.507Z"
+}

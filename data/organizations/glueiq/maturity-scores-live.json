@@ -1,0 +1,260 @@
+{
+  "organizationId": "glueiq-001",
+  "organizationName": "GlueIQ",
+  "overallMaturity": 0.6521739130434783,
+  "confidenceLevel": 1,
+  "dimensionScores": {
+    "leadership_vision": {
+      "dimension": "leadership_vision",
+      "score": 2,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability.",
+        " You'll have maybe 25% of the people that are maybe a little skeptical, but are starting to come around and are starting to actively use it.",
+        " So it's like an understanding or some kind of, in that case, it was just being aware that this was a thing, right?"
+      ],
+      "confidence": 1
+    },
+    "strategy_alignment": {
+      "dimension": "strategy_alignment",
+      "score": 1,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability.",
+        "71) - **Matt Kujawa (GlueIQ)**\n\nI think much like I'm thinking about the design to dev to production, that's great, except it's something we do ad hoc.",
+        "\n\nSo we've been actively discussing, we have one of two people, Angie being one of them."
+      ],
+      "confidence": 1
+    },
+    "change_management": {
+      "dimension": "change_management",
+      "score": 0.5,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability."
+      ],
+      "confidence": 1
+    },
+    "competitive_positioning": {
+      "dimension": "competitive_positioning",
+      "score": 0.5,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability."
+      ],
+      "confidence": 1
+    },
+    "innovation_capacity": {
+      "dimension": "innovation_capacity",
+      "score": 0.5,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability."
+      ],
+      "confidence": 1
+    },
+    "skills_talent": {
+      "dimension": "skills_talent",
+      "score": -1,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability.",
+        " So people are resistant.",
+        "44) \\- **JW (GlueIQ)**\n\nI mean, I understand why, but I'm also not afraid of."
+      ],
+      "confidence": 1
+    },
+    "cultural_readiness": {
+      "dimension": "cultural_readiness",
+      "score": 0.5,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability."
+      ],
+      "confidence": 1
+    },
+    "learning_development": {
+      "dimension": "learning_development",
+      "score": 1.5,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability.",
+        " If we lose an agency account, Maggie's got to figure it out financially.",
+        "\n\nAnd I'm particularly interested in your candid responses on what's working, what's not, and where you see the gaps."
+      ],
+      "confidence": 1
+    },
+    "psychological_safety": {
+      "dimension": "psychological_safety",
+      "score": -1,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability.",
+        " And there's no judgment.",
+        " And there's no judgment."
+      ],
+      "confidence": 1
+    },
+    "champion_network": {
+      "dimension": "champion_network",
+      "score": 0.5,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability."
+      ],
+      "confidence": 1
+    },
+    "data_infrastructure": {
+      "dimension": "data_infrastructure",
+      "score": 0.5,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability."
+      ],
+      "confidence": 1
+    },
+    "technology_stack": {
+      "dimension": "technology_stack",
+      "score": 0.5,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability.",
+        " But we're also trying to build a legacy and a franchise."
+      ],
+      "confidence": 1
+    },
+    "integration_capability": {
+      "dimension": "integration_capability",
+      "score": 0.5,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability."
+      ],
+      "confidence": 1
+    },
+    "security_compliance": {
+      "dimension": "security_compliance",
+      "score": 0.5,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability.",
+        " The purpose of this is to evaluate your AI and adaptability strategy and assess the gaps across the LT."
+      ],
+      "confidence": 1
+    },
+    "vendor_ecosystem": {
+      "dimension": "vendor_ecosystem",
+      "score": 0.5,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability."
+      ],
+      "confidence": 1
+    },
+    "ai_use_cases": {
+      "dimension": "ai_use_cases",
+      "score": 1.5,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability.",
+        " And so no, we have no AI plan, no investment from a structured standpoint.",
+        "\n\nWhether they're approved or not, it's good because we want them experimenting."
+      ],
+      "confidence": 1
+    },
+    "process_automation": {
+      "dimension": "process_automation",
+      "score": 1.5,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability.",
+        " And client wants, you know, a weekly optimization plan, you know, client wants, so I want five or six, the five or six things we do repetitively in strategy.",
+        "\n\nAnd I'm particularly interested in your candid responses on what's working, what's not, and where you see the gaps."
+      ],
+      "confidence": 1
+    },
+    "operational_excellence": {
+      "dimension": "operational_excellence",
+      "score": 0.5,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability."
+      ],
+      "confidence": 1
+    },
+    "customer_experience": {
+      "dimension": "customer_experience",
+      "score": 0.5,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability."
+      ],
+      "confidence": 1
+    },
+    "ai_governance": {
+      "dimension": "ai_governance",
+      "score": 1,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability.",
+        "\n\n* **Short-Term AI Transformation Focus** Alex Schwartz asked what single thing, if not addressed in the next 90 days, could derail Glue IQ's AI transformation.",
+        "\n\nSo we've been actively discussing, we have one of two people, Angie being one of them."
+      ],
+      "confidence": 1
+    },
+    "ethics_responsibility": {
+      "dimension": "ethics_responsibility",
+      "score": 1.5,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability.",
+        " These kids coming right out of school have no AI ethics.",
+        " So, I mean, I think that would be the thing to maybe be concerned about."
+      ],
+      "confidence": 1
+    },
+    "risk_management": {
+      "dimension": "risk_management",
+      "score": 0.5,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability."
+      ],
+      "confidence": 1
+    },
+    "roi_measurement": {
+      "dimension": "roi_measurement",
+      "score": 0.5,
+      "evidence": [
+        "And so no, we have no AI plan, no investment from a structured standpoint.",
+        "These kids coming right out of school have no AI ethics.",
+        "And sometimes your reputation exceeds your capability.",
+        "\n\nAnd an example of that would be, we don't track or trace how much people actually produce and the quality of what they produce."
+      ],
+      "confidence": 1
+    }
+  },
+  "timestamp": "2025-12-29T17:18:50.506Z"
+}

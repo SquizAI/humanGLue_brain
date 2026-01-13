@@ -118,7 +118,7 @@ export default function SignupPage() {
           {/* Logo */}
           <Link href="/" className="mb-12 inline-block">
             <Image
-              src={branding?.logo?.url || '/HumnaGlue_logo_white_blue.png'}
+              src={branding?.logo?.url || '/hmn_logo.png'}
               alt={branding?.company_name || 'HumanGlue'}
               width={200}
               height={50}
@@ -217,7 +217,7 @@ export default function SignupPage() {
           {/* Mobile Logo */}
           <Link href="/" className="lg:hidden mb-8 inline-block">
             <Image
-              src={branding?.logo?.url || '/HumnaGlue_logo_white_blue.png'}
+              src={branding?.logo?.url || '/hmn_logo.png'}
               alt={branding?.company_name || 'HumanGlue'}
               width={180}
               height={50}

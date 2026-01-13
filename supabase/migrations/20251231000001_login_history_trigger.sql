@@ -1,0 +1,90 @@
+-- Migration: Login History Tracking
+-- Creates login_history table and trigger to automatically log successful logins
+-- NOTE: This migration has been applied to production
+
+-- ============================================================================
+-- 1. Create login_history table (already exists with this schema)
+-- ============================================================================
+-- Table schema:
+--   id UUID PRIMARY KEY
+--   user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE
+--   login_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+--   ip_address INET
+--   user_agent TEXT
+--   success BOOLEAN
+--   failure_reason TEXT
+--   location JSONB (contains: country, city)
+--   device_info JSONB (contains: device_type, browser, os)
+
+-- ============================================================================
+-- 2. Row Level Security (applied)
+-- ============================================================================
+-- Policies:
+-- - "Users can view own login history" - SELECT where auth.uid() = user_id
+-- - "Admins can view all login history" - SELECT for admin role
+-- - "System can insert login history" - INSERT with check true
+
+-- ============================================================================
+-- 3. Function to log user login (applied)
+-- ============================================================================
+-- CREATE OR REPLACE FUNCTION log_user_login()
+-- RETURNS TRIGGER AS $$
+-- BEGIN
+--   IF OLD.last_sign_in_at IS DISTINCT FROM NEW.last_sign_in_at THEN
+--     INSERT INTO public.login_history (user_id, login_at)
+--     VALUES (NEW.id, COALESCE(NEW.last_sign_in_at, NOW()));
+--
+--     UPDATE public.users
+--     SET last_login_at = COALESCE(NEW.last_sign_in_at, NOW()),
+--         updated_at = NOW()
+--     WHERE id = NEW.id;
+--   END IF;
+--   RETURN NEW;
+-- END;
+-- $$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- ============================================================================
+-- 4. Trigger on auth.users (applied)
+-- ============================================================================
+-- CREATE TRIGGER on_user_login
+--   AFTER UPDATE OF last_sign_in_at ON auth.users
+--   FOR EACH ROW
+--   WHEN (OLD.last_sign_in_at IS DISTINCT FROM NEW.last_sign_in_at)
+--   EXECUTE FUNCTION log_user_login();
+
+-- ============================================================================
+-- 5. Helper function to get user login stats (applied)
+-- ============================================================================
+-- CREATE OR REPLACE FUNCTION get_user_login_stats(p_user_id UUID)
+-- RETURNS TABLE(
+--   total_logins BIGINT,
+--   first_login TIMESTAMPTZ,
+--   last_login TIMESTAMPTZ,
+--   logins_last_30_days BIGINT,
+--   logins_last_7_days BIGINT
+-- ) AS $$
+-- BEGIN
+--   RETURN QUERY
+--   SELECT
+--     COUNT(*)::BIGINT AS total_logins,
+--     MIN(lh.login_at) AS first_login,
+--     MAX(lh.login_at) AS last_login,
+--     COUNT(*) FILTER (WHERE lh.login_at > NOW() - INTERVAL '30 days')::BIGINT,
+--     COUNT(*) FILTER (WHERE lh.login_at > NOW() - INTERVAL '7 days')::BIGINT
+--   FROM login_history lh
+--   WHERE lh.user_id = p_user_id;
+-- END;
+-- $$ LANGUAGE plpgsql SECURITY DEFINER;
+--
+-- GRANT EXECUTE ON FUNCTION get_user_login_stats(UUID) TO authenticated;
+
+-- ============================================================================
+-- Rollback script (for reference)
+-- ============================================================================
+-- DROP TRIGGER IF EXISTS on_user_login ON auth.users;
+-- DROP FUNCTION IF EXISTS log_user_login();
+-- DROP FUNCTION IF EXISTS get_user_login_stats(UUID);
+-- DROP POLICY IF EXISTS "Users can view own login history" ON login_history;
+-- DROP POLICY IF EXISTS "Admins can view all login history" ON login_history;
+-- DROP POLICY IF EXISTS "System can insert login history" ON login_history;
+-- DROP TABLE IF EXISTS login_history;

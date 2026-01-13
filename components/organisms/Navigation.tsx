@@ -15,12 +15,9 @@ export interface NavigationProps {
 }
 
 const navItems = [
-  { href: '/solutions', label: 'Solutions' },
   { href: '/purpose', label: 'Purpose' },
-  { href: '/results', label: 'Results' },
-  { href: '/workshops', label: 'Workshops' },
-  { href: '/talent', label: 'Talent' },
-  { href: '/pricing', label: 'Pricing' }
+  { href: '/approach', label: 'Approach' },
+  { href: '/workshops', label: 'Workshops' }
 ]
 
 export function Navigation({ className }: NavigationProps) {
@@ -118,8 +115,8 @@ export function Navigation({ className }: NavigationProps) {
     setMobileMenuOpen(false)
   }, [pathname])
 
-  // Get the height of the navigation for proper spacing
-  const navHeight = 'h-14 md:h-16'
+  // Get the height of the navigation for proper spacing (120px like Purpose page)
+  const navHeight = 'h-16 md:h-[120px]'
 
   return (
     <>
@@ -142,11 +139,11 @@ export function Navigation({ className }: NavigationProps) {
                 className="relative"
               >
                 <Image
-                  src="/HumnaGlue_logo_white_blue.png"
-                  alt="Human Glue"
-                  width={160}
-                  height={42}
-                  className="w-28 sm:w-32 cursor-pointer"
+                  src="/hmn_logo.png"
+                  alt="hmn"
+                  width={213}
+                  height={45}
+                  className="w-[150px] md:w-[180px] lg:w-[213px] cursor-pointer"
                   priority
                 />
               </motion.div>
@@ -154,29 +151,25 @@ export function Navigation({ className }: NavigationProps) {
 
             {/* Desktop Navigation - Centered */}
             <motion.div
-              className="hidden md:flex items-center gap-6 lg:gap-8 absolute left-1/2 -translate-x-1/2"
+              className="hidden md:flex items-center gap-4 absolute left-1/2 -translate-x-1/2"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3 }}
             >
               {navItems.map((item) => (
                 <Link key={item.href} href={item.href}>
-                  <motion.span
+                  <motion.div
                     className={cn(
-                      "text-sm font-medium transition-all relative group cursor-pointer inline-block font-gendy",
+                      "backdrop-blur-md rounded-full px-6 py-3 text-white text-sm font-semibold transition-all cursor-pointer",
                       pathname === item.href
-                        ? "text-white"
-                        : "text-white/80 hover:text-white"
+                        ? "bg-white/20 border border-white"
+                        : "bg-white/20 hover:bg-white/30"
                     )}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
                     {item.label}
-                    <span className={cn(
-                      "absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-brand-cyan to-brand-cyan transition-transform origin-left",
-                      pathname === item.href ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
-                    )} />
-                  </motion.span>
+                  </motion.div>
                 </Link>
               ))}
             </motion.div>
@@ -194,33 +187,22 @@ export function Navigation({ className }: NavigationProps) {
                     Welcome, <span className="text-white font-medium">{userData.name || userData.email}</span>
                   </div>
                   <Link href="/dashboard">
-                    <Button
-                      variant="gradient"
-                      size="sm"
-                      className="shadow-lg"
-                    >
+                    <div className="backdrop-blur-md bg-[#61d8fe] rounded-full px-6 py-3 text-black text-sm font-semibold hover:bg-[#61d8fe]/90 transition-all">
                       Dashboard
-                    </Button>
+                    </div>
                   </Link>
                 </>
               ) : (
                 <>
                   <Link href="/login">
-                    <Button
-                      variant="secondary"
-                      size="sm"
-                    >
+                    <div className="backdrop-blur-md bg-white/20 rounded-full px-6 py-3 text-white text-sm font-semibold hover:bg-white/30 transition-all">
                       Login
-                    </Button>
+                    </div>
                   </Link>
                   <Link href="/signup">
-                    <Button
-                      variant="gradient"
-                      size="sm"
-                      className="shadow-lg"
-                    >
+                    <div className="backdrop-blur-md bg-[#61d8fe] rounded-full px-6 py-3 text-black text-sm font-semibold hover:bg-[#61d8fe]/90 transition-all">
                       Sign Up
-                    </Button>
+                    </div>
                   </Link>
                 </>
               )}
@@ -253,16 +235,16 @@ export function Navigation({ className }: NavigationProps) {
           style={{ display: mobileMenuOpen ? 'block' : 'none' }}
         >
           <div className="container mx-auto px-6 py-8">
-            <div className="space-y-6">
+            <div className="space-y-4">
               {navItems.map((item) => (
                 <Link key={item.href} href={item.href}>
                   <motion.div
                     whileTap={{ scale: 0.95 }}
                     className={cn(
-                      "block py-3 text-lg font-medium transition-colors",
+                      "backdrop-blur-md rounded-full px-6 py-4 text-white text-lg font-semibold transition-all text-center",
                       pathname === item.href
-                        ? "text-white"
-                        : "text-gray-400 hover:text-white"
+                        ? "bg-white/20 border border-white"
+                        : "bg-white/10 hover:bg-white/20"
                     )}
                   >
                     {item.label}
@@ -274,38 +256,26 @@ export function Navigation({ className }: NavigationProps) {
               <div className="pt-6 border-t border-white/10 space-y-3">
                 {userData?.authenticated ? (
                   <>
-                    <div className="text-sm text-white/80 font-diatype mb-4">
+                    <div className="text-sm text-white/80 font-diatype mb-4 text-center">
                       Welcome, <span className="text-white font-medium">{userData.name || userData.email}</span>
                     </div>
                     <Link href="/dashboard">
-                      <Button
-                        variant="gradient"
-                        size="md"
-                        className="w-full"
-                      >
+                      <div className="backdrop-blur-md bg-[#61d8fe] rounded-full px-6 py-4 text-black text-lg font-semibold text-center">
                         Dashboard
-                      </Button>
+                      </div>
                     </Link>
                   </>
                 ) : (
                   <>
                     <Link href="/login">
-                      <Button
-                        variant="secondary"
-                        size="md"
-                        className="w-full"
-                      >
+                      <div className="backdrop-blur-md bg-white/20 rounded-full px-6 py-4 text-white text-lg font-semibold text-center">
                         Login
-                      </Button>
+                      </div>
                     </Link>
                     <Link href="/signup">
-                      <Button
-                        variant="gradient"
-                        size="md"
-                        className="w-full"
-                      >
+                      <div className="backdrop-blur-md bg-[#61d8fe] rounded-full px-6 py-4 text-black text-lg font-semibold text-center">
                         Sign Up
-                      </Button>
+                      </div>
                     </Link>
                   </>
                 )}

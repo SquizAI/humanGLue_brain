@@ -39,9 +39,13 @@ export async function GET(
         ),
         responses:assessment_responses(
           id,
-          question_code,
-          dimension,
+          question_id,
+          question_number,
+          response_text,
+          ai_sentiment_score,
+          ai_confidence_score,
           metadata,
+          answered_at,
           created_at
         ),
         sessions:assessment_sessions(

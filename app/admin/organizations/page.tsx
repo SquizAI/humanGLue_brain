@@ -11,6 +11,7 @@ import {
   Settings,
   Eye,
   Crown,
+  BarChart3,
 } from 'lucide-react'
 import { DashboardSidebar } from '@/components/organisms/DashboardSidebar'
 import { useChat } from '@/lib/contexts/ChatContext'
@@ -22,7 +23,7 @@ import { Text, Heading } from '@/components/atoms/Text'
 import { signOut } from '@/lib/auth/hooks'
 
 interface Organization {
-  id: number
+  id: string
   name: string
   members: number
   activeUsers: number
@@ -30,11 +31,23 @@ interface Organization {
   mrr: number
   status: 'active' | 'trial' | 'suspended'
   joinedDate: string
+  hasAssessment?: boolean
 }
 
 const initialOrgs: Organization[] = [
   {
-    id: 1,
+    id: '550e8400-e29b-41d4-a716-446655440001',
+    name: 'GlueIQ',
+    members: 9,
+    activeUsers: 9,
+    subscription: 'enterprise',
+    mrr: 0,
+    status: 'active',
+    joinedDate: '2025-12-29',
+    hasAssessment: true,
+  },
+  {
+    id: '1',
     name: 'TechCorp Industries',
     members: 250,
     activeUsers: 187,
@@ -44,7 +57,7 @@ const initialOrgs: Organization[] = [
     joinedDate: '2025-06-15',
   },
   {
-    id: 2,
+    id: '2',
     name: 'Innovation Labs',
     members: 45,
     activeUsers: 32,
@@ -244,9 +257,16 @@ export default function OrganizationsAdmin() {
                 </div>
 
                 <div className="flex gap-2">
-                  <Link href={`/admin/organizations/${org.id}/branding`} className="flex-1">
-                    <Button variant="cyan" className="w-full" icon={<Eye className="w-4 h-4" />}>
-                      View Details
+                  {org.hasAssessment && (
+                    <Link href={`/dashboard/organizations/${org.id}`} className="flex-1">
+                      <Button variant="primary" className="w-full" icon={<BarChart3 className="w-4 h-4" />}>
+                        Assessment
+                      </Button>
+                    </Link>
+                  )}
+                  <Link href={`/admin/organizations/${org.id}/branding`} className={org.hasAssessment ? '' : 'flex-1'}>
+                    <Button variant="cyan" className={org.hasAssessment ? '' : 'w-full'} icon={<Eye className="w-4 h-4" />}>
+                      {org.hasAssessment ? '' : 'View Details'}
                     </Button>
                   </Link>
                   <Link href={`/admin/organizations/${org.id}/members`}>
