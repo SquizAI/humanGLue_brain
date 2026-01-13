@@ -2,416 +2,442 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import {
-  Heart,
-  Target,
-  Compass,
-  Users,
-  Lightbulb,
-  ArrowRight,
-  CheckCircle2,
-  Brain,
-  Zap,
-  TrendingUp,
-  Shield,
-  Rocket,
-  Award,
-  Globe,
-} from 'lucide-react'
-import { Navigation } from '@/components/organisms/Navigation'
+import Image from 'next/image'
 import { Footer } from '@/components/organisms/Footer'
-import { Button } from '@/components/atoms'
-import { AskAIButton } from '@/components/molecules'
+
+// Circular Progress Component
+function CircularProgress({
+  percentage,
+  label
+}: {
+  percentage: number
+  label: string
+}) {
+  const radius = 70
+  const circumference = 2 * Math.PI * radius
+  const strokeDashoffset = circumference - (percentage / 100) * circumference
+
+  return (
+    <div className="flex flex-col items-center">
+      <div className="relative w-[180px] h-[180px]">
+        {/* Background circle */}
+        <svg className="w-full h-full transform -rotate-90">
+          <circle
+            cx="90"
+            cy="90"
+            r={radius}
+            stroke="rgba(97, 216, 254, 0.2)"
+            strokeWidth="8"
+            fill="transparent"
+          />
+          {/* Progress circle */}
+          <motion.circle
+            cx="90"
+            cy="90"
+            r={radius}
+            stroke="#61d8fe"
+            strokeWidth="8"
+            fill="transparent"
+            strokeLinecap="round"
+            strokeDasharray={circumference}
+            initial={{ strokeDashoffset: circumference }}
+            whileInView={{ strokeDashoffset }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.5, ease: "easeOut" }}
+          />
+        </svg>
+        {/* Percentage text */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <span className="text-5xl font-normal text-[#61d8fe] font-anuphan">
+            {percentage}%
+          </span>
+        </div>
+      </div>
+      <p className="mt-4 text-center text-[#bdbdbd] text-lg leading-relaxed max-w-[260px] font-anuphan">
+        {label}
+      </p>
+    </div>
+  )
+}
 
 export default function PurposePage() {
   return (
-    <div className="min-h-screen bg-black">
-      <Navigation />
-
-      {/* Hero Section */}
-      <section className="relative pt-32 pb-20 overflow-hidden">
-        {/* Background Effects */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(139,92,246,0.15),transparent_50%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_60%,rgba(59,130,246,0.1),transparent_50%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:4rem_4rem]" />
-
-        {/* Animated Orbs */}
-        <motion.div
-          className="absolute top-20 left-10 w-96 h-96 bg-cyan-500/20 rounded-full blur-[120px]"
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.3, 0.5, 0.3],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-        <motion.div
-          className="absolute bottom-20 right-10 w-96 h-96 bg-blue-500/20 rounded-full blur-[120px]"
-          animate={{
-            scale: [1.2, 1, 1.2],
-            opacity: [0.3, 0.5, 0.3],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 1,
-          }}
-        />
-
-        <div className="container max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="max-w-4xl mx-auto text-center"
+    <div className="min-h-screen bg-[#1d212a]">
+      {/* Hero Section with Video Background */}
+      <section className="relative h-[937px] overflow-hidden">
+        {/* Video Background */}
+        <div className="absolute inset-0">
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            poster="/gradient-bg.png"
+            className="absolute inset-0 w-full h-full object-cover"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 backdrop-blur-sm border border-cyan-500/20 mb-6">
-              <Heart className="w-4 h-4 text-cyan-400" />
-              <span className="text-sm text-cyan-300 font-diatype">Our Why</span>
+            <source src="/purpose.mp4" type="video/mp4" />
+          </video>
+          <div className="absolute inset-0 bg-black/40" />
+        </div>
+
+        {/* Navigation */}
+        <div className="relative z-20">
+          <nav className="container max-w-7xl mx-auto px-6 h-[120px] flex items-center justify-between">
+            {/* Logo */}
+            <Link href="/" className="flex-shrink-0">
+              <Image
+                src="/hmn_logo.png"
+                alt="hmn"
+                width={213}
+                height={45}
+                className="w-[180px] md:w-[213px]"
+                priority
+              />
+            </Link>
+
+            {/* Nav Items */}
+            <div className="hidden md:flex items-center gap-4">
+              <Link href="/purpose">
+                <div className="backdrop-blur-md bg-white/20 border border-white rounded-full px-6 py-3 text-white text-sm font-semibold">
+                  Purpose
+                </div>
+              </Link>
+              <Link href="/approach">
+                <div className="backdrop-blur-md bg-white/20 rounded-full px-6 py-3 text-white text-sm font-semibold">
+                  Approach
+                </div>
+              </Link>
+              <Link href="/workshops">
+                <div className="backdrop-blur-md bg-white/20 rounded-full px-6 py-3 text-white text-sm font-semibold">
+                  Workshops
+                </div>
+              </Link>
             </div>
 
-            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 font-gendy leading-tight">
-              We Exist to
-              <span className="block bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent">
-                Unlock Human Potential
-              </span>
-            </h1>
+            {/* CTA */}
+            <Link href="/?chat=true" className="hidden md:block">
+              <div className="backdrop-blur-md bg-[#61d8fe] rounded-full px-6 py-3 text-black text-sm font-semibold">
+                Schedule a Call
+              </div>
+            </Link>
+          </nav>
+        </div>
 
-            <p className="text-xl md:text-2xl text-gray-300 mb-8 font-diatype max-w-3xl mx-auto leading-relaxed">
-              In the age of AI, the organizations that thrive will not just adopt technology—they will build cultures where humans and AI amplify each other to achieve the impossible.
-            </p>
-          </motion.div>
+        {/* Hero Content */}
+        <div className="relative z-10 container max-w-7xl mx-auto px-6 pt-32 md:pt-48">
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-5xl md:text-7xl lg:text-[119px] font-normal text-white leading-[1.1] max-w-[1400px] font-gendy"
+          >
+            The organizations that thrive won't have the biggest AI budgets. They'll have the most adaptable people—from the C-suite to the front line.
+          </motion.h1>
         </div>
       </section>
 
-      {/* Mission & Vision */}
-      <section className="py-20">
-        <div className="container max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="grid md:grid-cols-2 gap-12">
-            {/* Mission */}
+      {/* Mission & Vision Section */}
+      <section className="py-20 px-6">
+        <div className="container max-w-7xl mx-auto">
+          {/* Different width cards: Mission ~38%, Vision ~62% */}
+          <div className="flex flex-col lg:flex-row gap-8">
+            {/* Mission Card - Narrower */}
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="bg-gradient-to-br from-cyan-900/30 to-blue-900/30 backdrop-blur-xl rounded-2xl border border-white/10 p-8 hover:border-cyan-500/30 transition-all duration-300 hover:shadow-[0_0_40px_rgba(168,85,247,0.15)]"
+              className="backdrop-blur-2xl bg-white/[0.03] border border-[#3e4658] rounded-[40px] lg:rounded-[60px] p-8 lg:p-10 lg:w-[38%]"
             >
-              <div className="inline-flex p-4 rounded-xl bg-gradient-to-br from-cyan-500/20 to-blue-500/20 mb-6">
-                <Target className="w-8 h-8 text-cyan-400" />
+              {/* Pill-shaped Image Container */}
+              <div className="w-full h-[170px] rounded-[85px] overflow-hidden mb-8">
+                <Image
+                  src="/purpose/photo-1590649681928-4b179f773bd5 1.png"
+                  alt="Mission - Team collaboration"
+                  width={424}
+                  height={170}
+                  className="w-full h-full object-cover"
+                />
               </div>
 
-              <h2 className="text-3xl font-bold text-white mb-4 font-gendy">Our Mission</h2>
-
-              <p className="text-lg text-gray-300 leading-relaxed font-diatype">
-                To be the glue that binds AI capabilities with human adaptability, enabling organizations to thrive in constant transformation by embedding behavioral change at every level—from the boardroom to the frontline.
+              <h3 className="text-[#61d8fe] text-[28px] lg:text-[34px] font-normal leading-[1.2] font-gendy mb-3">
+                Our Mission
+              </h3>
+              <p className="text-[#cecece] text-[18px] lg:text-[22px] leading-[1.5] lg:leading-[34px] font-medium font-anuphan">
+                Make people and organizations unstoppable with AI by embedding adaptability at every level.
               </p>
             </motion.div>
 
-            {/* Vision */}
+            {/* Vision Card - Wider */}
             <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="bg-gradient-to-br from-blue-900/30 to-cyan-900/30 backdrop-blur-xl rounded-2xl border border-white/10 p-8 hover:border-blue-500/30 transition-all duration-300 hover:shadow-[0_0_40px_rgba(59,130,246,0.15)]"
+              className="backdrop-blur-2xl bg-white/[0.03] border border-[#3e4658] rounded-[40px] lg:rounded-[60px] p-8 lg:p-10 lg:w-[62%]"
             >
-              <div className="inline-flex p-4 rounded-xl bg-gradient-to-br from-blue-500/20 to-cyan-500/20 mb-6">
-                <Compass className="w-8 h-8 text-blue-400" />
+              {/* Pill-shaped Image Container */}
+              <div className="w-full h-[164px] rounded-[82px] overflow-hidden mb-8">
+                <Image
+                  src="/purpose/Frame 2511.png"
+                  alt="Vision - AI transformation"
+                  width={757}
+                  height={164}
+                  className="w-full h-full object-cover"
+                />
               </div>
 
-              <h2 className="text-3xl font-bold text-white mb-4 font-gendy">Our Vision</h2>
-
-              <p className="text-lg text-gray-300 leading-relaxed font-diatype">
-                A world where every organization has the adaptability to turn AI readiness into lasting competitive advantage—where technology empowers people, not replaces them, and where change is embraced as the ultimate growth opportunity.
+              <h3 className="text-[#61d8fe] text-[28px] lg:text-[34px] font-normal leading-[1.2] font-gendy mb-3">
+                Our Vision
+              </h3>
+              <p className="text-[#cecece] text-[18px] lg:text-[22px] leading-[1.5] lg:leading-[34px] font-medium font-anuphan">
+                Build the adaptive economy: Where organizations win through human-AI synergy, not human-AI competition.
               </p>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* The Problem */}
-      <section className="py-20 relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-950/10 to-transparent" />
+      {/* Statistics Section */}
+      <section className="py-20 px-6">
+        <div className="container max-w-7xl mx-auto">
+          {/* Section with glass card */}
+          <div className="backdrop-blur-3xl bg-white/[0.03] border border-[#3e4658] rounded-[60px] p-12 md:p-16">
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-white text-4xl md:text-[48px] font-normal leading-[50px] mb-16 max-w-[729px] font-gendy"
+            >
+              Most organizations will fail to adapt. Here&apos;s why
+            </motion.h2>
 
-        <div className="container max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="max-w-4xl mx-auto text-center mb-12"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 font-gendy">
-              The AI Transformation Gap
-            </h2>
-            <p className="text-xl text-gray-400 font-diatype leading-relaxed">
-              Companies are spending billions on AI technology, but 70% of transformations fail—not because of technology, but because people are not ready to change how they work.
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                stat: '70%',
-                title: 'Transformations Fail',
-                description: 'Most AI initiatives fail to deliver ROI due to cultural resistance and lack of organizational readiness',
-                icon: <TrendingUp className="w-6 h-6" />,
-              },
-              {
-                stat: '$100B+',
-                title: 'Wasted Annually',
-                description: 'Organizations waste billions on AI tools that employees will not adopt because change management was an afterthought',
-                icon: <Zap className="w-6 h-6" />,
-              },
-              {
-                stat: '18-36mo',
-                title: 'Time to Value',
-                description: 'Traditional change management takes too long in fast-moving markets where AI moves at the speed of innovation',
-                icon: <Shield className="w-6 h-6" />,
-              },
-            ].map((stat, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="bg-white/5 backdrop-blur-xl rounded-xl border border-white/10 p-8 text-center hover:border-red-500/30 transition-all duration-300 hover:shadow-[0_0_40px_rgba(239,68,68,0.15)]"
-              >
-                <div className="inline-flex p-3 rounded-lg bg-red-500/10 text-red-400 mb-4">
-                  {stat.icon}
-                </div>
-
-                <div className="text-5xl font-bold text-white mb-2 font-gendy">{stat.stat}</div>
-                <h3 className="text-xl font-semibold text-white mb-2 font-gendy">{stat.title}</h3>
-                <p className="text-gray-400 font-diatype leading-relaxed">{stat.description}</p>
-              </motion.div>
-            ))}
+            {/* Circular Stats */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+              <CircularProgress
+                percentage={95}
+                label="95% of AI pilots fail—not because the technology doesn't work, but because people aren't ready"
+              />
+              <CircularProgress
+                percentage={35}
+                label="75% of companies have adopted AI, but only 35% of employees know how to use it"
+              />
+              <CircularProgress
+                percentage={67}
+                label="67% of your best people are already building AI solutions you don't know about"
+              />
+              <CircularProgress
+                percentage={1}
+                label="Only 1% of companies have reached AI maturity—everyone else is still experimenting"
+              />
+            </div>
           </div>
-
-          {/* Ask AI about the problem */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="mt-12 text-center"
-          >
-            <AskAIButton
-              topic="AI Transformation Challenges"
-              question="Why do 70% of AI transformations fail and how does HumanGlue solve this?"
-              context={{ page: 'purpose', data: { section: 'transformation-gap' } }}
-              variant="floating"
-              label="Ask AI Why Most Transformations Fail"
-            />
-          </motion.div>
         </div>
       </section>
 
-      {/* Our Beliefs */}
-      <section className="py-20">
-        <div className="container max-w-7xl mx-auto px-4 sm:px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 font-gendy">
-              What We Believe
-            </h2>
-            <p className="text-xl text-gray-400 font-diatype max-w-3xl mx-auto">
-              Our core principles guide everything we do and how we help organizations transform
-            </p>
-          </motion.div>
+      {/* Gap Section */}
+      <section className="py-20 px-6">
+        <div className="container max-w-7xl mx-auto">
+          <div className="backdrop-blur-3xl bg-white/[0.03] border border-[#3e4658] rounded-[60px] p-12 md:p-16">
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-white text-4xl md:text-[48px] font-normal leading-[50px] mb-12 font-gendy"
+            >
+              The gap between your AI roadmap and your people&apos;s reality isn&apos;t a challenge. It&apos;s a death sentence
+            </motion.h2>
 
-          <div className="grid md:grid-cols-2 gap-8">
-            {[
-              {
-                icon: <Brain className="w-8 h-8" />,
-                title: 'Human-AI Synergy is the Future',
-                description: 'AI is most powerful when it amplifies human capability rather than replacing it. Organizations that master this synergy will dominate their markets and create unprecedented value.',
-              },
-              {
-                icon: <Users className="w-8 h-8" />,
-                title: 'Culture Eats Strategy for Breakfast',
-                description: 'No technology can succeed in a culture resistant to change. Lasting transformation requires embedding new behaviors at every organizational level, from executives to frontline teams.',
-              },
-              {
-                icon: <Lightbulb className="w-8 h-8" />,
-                title: 'Adaptability is the Only Constant',
-                description: 'In a world of exponential change, the ability to continuously learn, unlearn, and relearn is more valuable than any specific skill or knowledge you possess today.',
-              },
-              {
-                icon: <Heart className="w-8 h-8" />,
-                title: 'People Before Technology',
-                description: 'Technology is only as valuable as the humans who adopt it. We start with people, culture, and readiness—then build the technical solutions that accelerate transformation.',
-              },
-            ].map((belief, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                whileHover={{ y: -4 }}
-                className="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl rounded-2xl border border-white/10 p-8 transition-all duration-300 hover:border-cyan-500/30 hover:shadow-[0_0_40px_rgba(168,85,247,0.15)]"
-              >
-                <div className="inline-flex p-4 rounded-xl bg-gradient-to-br from-cyan-500/20 to-blue-500/20 mb-6">
-                  {belief.icon}
-                </div>
-
-                <h3 className="text-2xl font-bold text-white mb-3 font-gendy">
-                  {belief.title}
+            <div className="grid md:grid-cols-2 gap-12">
+              {/* Left Column */}
+              <div>
+                <h3 className="text-white text-[30px] leading-[40px] mb-6 font-anuphan">
+                  The gap is widening and you&apos;ve tried everything:
                 </h3>
+                <ul className="text-[#bdbdbd] text-[22px] leading-[34px] space-y-4 font-medium font-anuphan list-disc pl-8">
+                  <li>Training programs with 92% completion rates that change nothing</li>
+                  <li>Pilots that work in one team but never scale</li>
+                  <li>Consulting strategies that sit on shelves</li>
+                </ul>
+              </div>
 
-                <p className="text-gray-300 leading-relaxed font-diatype">
-                  {belief.description}
+              {/* Right Column */}
+              <div>
+                <h3 className="text-white text-[30px] leading-[40px] mb-6 font-anuphan">
+                  Meanwhile, Your best employees are updating LinkedIn, drawn to companies where AI makes them feel powerful, not obsolete.
+                </h3>
+                <p className="text-[#bdbdbd] text-[22px] leading-[34px] font-medium font-anuphan">
+                  The organizations that win won&apos;t have the most AI tools. They&apos;ll have people who adapt faster, think differently with AI, and combine technological fluency with irreplaceable human judgment.
                 </p>
-              </motion.div>
-            ))}
+              </div>
+            </div>
           </div>
-
-          {/* Ask AI about beliefs */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-            className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4"
-          >
-            <AskAIButton
-              topic="HumanGlue Philosophy"
-              question="What makes your approach to AI transformation different from other consultants?"
-              context={{ page: 'purpose', data: { section: 'beliefs' } }}
-              variant="default"
-              label="Learn About Our Approach"
-            />
-            <AskAIButton
-              topic="Culture Change"
-              question="How do you embed behavioral change in organizations?"
-              context={{ page: 'purpose', data: { section: 'beliefs' } }}
-              variant="inline"
-              label="Ask about culture transformation"
-            />
-          </motion.div>
         </div>
       </section>
 
-      {/* Our Approach */}
-      <section className="py-20 relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-cyan-950/10 via-transparent to-cyan-950/10" />
-
-        <div className="container max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 font-gendy">
-              The Human Glue Difference
-            </h2>
-            <p className="text-xl text-gray-400 font-diatype max-w-3xl mx-auto leading-relaxed">
-              We do not just consult—we embed ourselves in your transformation journey, becoming the connective tissue between your vision and execution
+      {/* What We Believe Section */}
+      <section className="py-20 bg-[#1b184f]">
+        <div className="container max-w-7xl mx-auto px-6">
+          <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-16">
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-white text-4xl md:text-[48px] font-normal leading-[50px] font-gendy"
+            >
+              What we believe
+            </motion.h2>
+            <p className="text-white text-[22px] leading-[34px] max-w-[460px] mt-6 md:mt-0 font-medium font-anuphan">
+              Our core principles guide everything we do and how we help organizations transform.
             </p>
-          </motion.div>
-
-          <div className="max-w-4xl mx-auto space-y-6">
-            {[
-              {
-                title: 'AI-Powered Insights',
-                description: 'We use advanced AI to reveal patterns and gaps humans might miss, giving you an objective, data-driven view of your organizational readiness and transformation opportunities.',
-              },
-              {
-                title: 'Human-Centered Design',
-                description: 'Every solution is designed with the end user in mind, ensuring adoption and sustainable behavior change that sticks long after we leave your organization.',
-              },
-              {
-                title: 'Behavior Embedding Focus',
-                description: 'We do not just train—we embed new capabilities through deliberate practice, reinforcement, and cultural integration that becomes part of your organizational DNA.',
-              },
-              {
-                title: 'Continuous Evolution',
-                description: 'Transformation is not a one-time event. We build systems and capabilities that adapt as your organization evolves, ensuring you stay ahead of the curve.',
-              },
-            ].map((item, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="flex gap-4 bg-white/5 backdrop-blur-xl rounded-xl border border-white/10 p-6 hover:border-cyan-500/30 transition-all duration-300 hover:shadow-[0_0_40px_rgba(168,85,247,0.15)]"
-              >
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-cyan-400 to-blue-400 flex items-center justify-center mt-1">
-                  <CheckCircle2 className="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-white mb-2 font-gendy">{item.title}</h3>
-                  <p className="text-gray-300 font-diatype leading-relaxed">{item.description}</p>
-                </div>
-              </motion.div>
-            ))}
           </div>
 
-          {/* Ask AI about the approach */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-            className="mt-12 text-center"
-          >
-            <AskAIButton
-              topic="Human Glue Methodology"
-              question="Can you explain how the Human Glue Difference works in practice with real examples?"
-              context={{ page: 'purpose', data: { section: 'approach' } }}
-              variant="default"
-              label="See How We Work"
-              size="lg"
-            />
-          </motion.div>
+          {/* Belief Cards Grid */}
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Card 1 */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="bg-[#544ae8] rounded-[60px] p-10 h-[470px]"
+            >
+              <div className="w-full h-[95px] bg-[#2d2d2d] rounded-[50px] overflow-hidden mb-8">
+                <Image
+                  src="/purpose/photo-1531297484001-80022131f5a1 1.png"
+                  alt="Human-AI Synergy"
+                  width={617}
+                  height={95}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <h3 className="text-white text-[34px] leading-[40px] font-normal font-gendy mb-6">
+                Human-AI Synergy Is The Future
+              </h3>
+              <p className="text-white/80 text-[22px] leading-[34px] font-medium font-anuphan">
+                AI is most powerful when it amplifies human capability. Organizations mastering this synergy will crush those who debate it.
+              </p>
+            </motion.div>
+
+            {/* Card 2 */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="bg-[#544ae8] rounded-[60px] p-10 h-[470px]"
+            >
+              <div className="w-full h-[95px] bg-[#2d2d2d] rounded-[50px] overflow-hidden mb-8">
+                <Image
+                  src="/purpose/photo-1581090700227-1e37b190418e 2.png"
+                  alt="Culture"
+                  width={621}
+                  height={95}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <h3 className="text-white text-[34px] leading-[40px] font-normal font-gendy mb-6">
+                Culture Eats Strategy for Breakfast
+              </h3>
+              <p className="text-white/80 text-[22px] leading-[34px] font-medium font-anuphan">
+                Your million-dollar AI strategy means nothing if your culture kills it. Transformation lives or dies at the water cooler and on Slack, not the boardroom.
+              </p>
+            </motion.div>
+
+            {/* Card 3 */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="bg-[#544ae8] rounded-[60px] p-10 h-[470px]"
+            >
+              <div className="w-full h-[95px] bg-[#2d2d2d] rounded-[50px] overflow-hidden mb-8">
+                <Image
+                  src="/purpose/image 9.png"
+                  alt="Adaptability"
+                  width={617}
+                  height={95}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <h3 className="text-white text-[34px] leading-[40px] font-normal font-gendy mb-6">
+                Adaptability is the Only Constant
+              </h3>
+              <p className="text-white/80 text-[22px] leading-[34px] font-medium font-anuphan">
+                In a world of exponential change, the ability to continuously learn, and unlearn, matters more than skills or degrees.
+              </p>
+            </motion.div>
+
+            {/* Card 4 */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="bg-[#544ae8] rounded-[60px] p-10 h-[470px]"
+            >
+              <div className="w-full h-[95px] bg-[#2d2d2d] rounded-[50px] overflow-hidden mb-8">
+                <Image
+                  src="/purpose/image 10.png"
+                  alt="Tech Stack"
+                  width={621}
+                  height={95}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <h3 className="text-white text-[34px] leading-[40px] font-normal font-gendy mb-6">
+                Your Tech Stack is Worthless Unless People Get It
+              </h3>
+              <p className="text-white/80 text-[22px] leading-[34px] font-medium font-anuphan">
+                Technology is only as powerful as the humans who wield it. We bet on people first. Everything else follows.
+              </p>
+            </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* Why Now */}
-      <section className="py-20">
-        <div className="container max-w-7xl mx-auto px-4 sm:px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 font-gendy">
-              Why This Matters Now
-            </h2>
-            <p className="text-xl text-gray-400 font-diatype max-w-3xl mx-auto">
-              The AI revolution is not coming—it is already here. The question is: will your organization lead or follow?
+      {/* The Human Glue Difference Section */}
+      <section className="py-20 bg-[#132e37]">
+        <div className="container max-w-7xl mx-auto px-6">
+          <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-16">
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-white text-4xl md:text-[48px] font-normal leading-[50px] font-gendy"
+            >
+              The hmn difference
+            </motion.h2>
+            <p className="text-white text-[22px] leading-[34px] max-w-[308px] mt-6 md:mt-0 font-medium font-anuphan">
+              We don&apos;t deliver PowerPoints. We deliver transformation.
             </p>
-          </motion.div>
+          </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          {/* Difference Cards */}
+          <div className="space-y-6">
             {[
               {
-                icon: <Rocket className="w-8 h-8" />,
-                title: 'Speed of Change',
-                description: 'AI capabilities are doubling every 6 months. Organizations that cannot adapt quickly will be left behind by more agile competitors.',
+                title: "We Start With Truth, Not High-Priced Theater",
+                description: "We reveal what's actually happening in your organization through behavioral evidence. No sugar-coating. No politics. Just the reality that everyone knows but no one says out loud."
               },
               {
-                icon: <Award className="w-8 h-8" />,
-                title: 'Competitive Advantage',
-                description: 'Early adopters who successfully integrate AI are seeing 3-5x productivity gains and capturing market share from slower competitors.',
+                title: "We Find Your Hidden Champions",
+                description: "Your transformation is already happening. We just know where to look. While consultants bring \"best practices,\" we scale the innovations your own people already built."
               },
               {
-                icon: <Globe className="w-8 h-8" />,
-                title: 'Talent Expectations',
-                description: 'Top talent expects to work with cutting-edge technology. Organizations stuck in old ways of working are losing their best people.',
+                title: "We Measure What Matters",
+                description: "Forget satisfaction scores and completion rates. We track whether your people can actually work differently. Adaptability Index scores don't lie—behavior change does."
               },
+              {
+                title: "We Make It Stick or We Don't Stop",
+                description: "23 touch-points per week. AI nudges. Human coaching. Peer networks. We embed new behaviors until using AI isn't an initiative anymore—it's just Tuesday."
+              },
+              {
+                title: "We Bet on Your People, Not What Worked at Google",
+                description: "Every organization's transformation is different because every organization's people are different. We amplify what's already working instead of forcing what worked somewhere else."
+              }
             ].map((item, i) => (
               <motion.div
                 key={i}
@@ -419,13 +445,14 @@ export default function PurposePage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl rounded-2xl border border-white/10 p-8 text-center hover:border-cyan-500/30 transition-all duration-300 hover:shadow-[0_0_40px_rgba(6,182,212,0.15)]"
+                className="bg-[#61d8fe] border border-[#475065] rounded-[60px] p-10 md:p-12"
               >
-                <div className="inline-flex p-4 rounded-xl bg-gradient-to-br from-cyan-500/20 to-blue-500/20 mb-6">
-                  {item.icon}
-                </div>
-                <h3 className="text-xl font-bold text-white mb-3 font-gendy">{item.title}</h3>
-                <p className="text-gray-300 leading-relaxed font-diatype">{item.description}</p>
+                <h3 className="text-[#1d212a] text-[34px] leading-[40px] font-normal font-gendy mb-4">
+                  {item.title}
+                </h3>
+                <p className="text-[#1d212a] text-[22px] leading-[34px] font-medium font-anuphan max-w-[958px]">
+                  {item.description}
+                </p>
               </motion.div>
             ))}
           </div>
@@ -433,55 +460,55 @@ export default function PurposePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20">
-        <div className="container max-w-7xl mx-auto px-4 sm:px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="relative bg-gradient-to-br from-cyan-900/30 to-blue-900/30 backdrop-blur-xl rounded-3xl border border-white/10 p-12 md:p-16 overflow-hidden"
-          >
-            {/* Background Pattern */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(168,85,247,0.1),transparent_70%)]" />
+      <section className="relative py-20 overflow-hidden">
+        {/* Background Image - Gradient */}
+        <div className="absolute inset-0">
+          <Image
+            src="/purpose/image 6.png"
+            alt="Background"
+            fill
+            className="object-cover"
+          />
+        </div>
 
-            <div className="relative z-10 text-center max-w-3xl mx-auto">
-              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 font-gendy">
-                Ready to Transform Your Organization?
+        <div className="container max-w-7xl mx-auto px-6 relative z-10">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            {/* Left Content */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <h2 className="text-[#1b1b1b] text-5xl md:text-[110px] font-normal leading-[1] font-gendy mb-8">
+                Most organizations will fail. Yours doesn&apos;t have to.
               </h2>
+            </motion.div>
 
-              <p className="text-xl text-gray-300 mb-8 font-diatype leading-relaxed">
-                Partner with us to build an AI-ready culture where people and technology thrive together. Start with our free assessment to understand where you stand and what is possible.
+            {/* Right Content */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <p className="text-[#1b1b1b] text-[22px] leading-[34px] font-medium font-anuphan mb-8">
+                What if you could see your organization as it really is, not as you think it is? What if you could find the innovations already working and scale them? What if transformation felt like evolution, not revolution?
               </p>
-
-              {/* Ask AI option */}
-              <div className="mb-6">
-                <AskAIButton
-                  topic="Getting Started"
-                  question="I'm interested in HumanGlue - what are my options to get started and what should I expect?"
-                  context={{ page: 'purpose', data: { section: 'cta' } }}
-                  variant="inline"
-                  label="Not sure? Ask AI for guidance"
-                />
-              </div>
-
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <Link href="/?chat=true">
-                  <Button variant="gradient" size="lg" className="shadow-lg">
-                    Start Free Assessment
-                    <ArrowRight className="w-5 h-5 ml-2" />
-                  </Button>
-                </Link>
-                <Link href="/signup">
-                  <Button variant="secondary" size="lg">
-                    Start Free Trial
-                  </Button>
-                </Link>
-              </div>
-            </div>
-          </motion.div>
+              <p className="text-[#1b1b1b] text-[22px] leading-[34px] font-medium font-anuphan mb-8">
+                Inquire about our Reality Gap Assessment, Adaptability Index or GLUE framework for transformation and book a discovery call today.
+              </p>
+              <Link href="/?chat=true">
+                <div className="inline-flex backdrop-blur-md bg-[#1d212a] rounded-full px-6 py-3 text-white text-sm font-semibold">
+                  Schedule a Call
+                </div>
+              </Link>
+            </motion.div>
+          </div>
         </div>
       </section>
 
+      {/* Footer */}
       <Footer />
     </div>
   )
