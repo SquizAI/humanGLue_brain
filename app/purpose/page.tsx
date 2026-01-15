@@ -91,7 +91,7 @@ export default function PurposePage() {
                 alt="hmn"
                 width={213}
                 height={45}
-                className="w-[180px] md:w-[213px]"
+                className="w-[100px] md:w-[120px] lg:w-[140px]"
                 priority
               />
             </Link>
@@ -130,10 +130,18 @@ export default function PurposePage() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-3xl md:text-5xl lg:text-6xl font-normal text-white leading-[1.1] max-w-[1200px] font-gendy"
+            className="text-3xl md:text-5xl lg:text-6xl font-normal text-white leading-[1.1] max-w-[1200px] font-gendy mb-6"
           >
-            The organizations that thrive won't have the biggest AI budgets. They'll have the most adaptable people—from the C-suite to the front line.
+            The AI edge isn't budget. It's adaptability.
           </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-xl md:text-2xl lg:text-3xl font-normal text-white/90 leading-[1.3] max-w-[1000px] font-anuphan"
+          >
+            The winners build AI-capable people — from the C-suite to the front line.
+          </motion.p>
         </div>
       </section>
 
@@ -233,6 +241,20 @@ export default function PurposePage() {
               />
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Transition Copy */}
+      <section className="py-12 px-6">
+        <div className="container max-w-7xl mx-auto">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-white/80 text-xl md:text-2xl leading-relaxed text-center font-anuphan italic"
+          >
+            We've seen this pattern across leaders, operators, and teams navigating real AI adoption — not just strategy decks.
+          </motion.p>
         </div>
       </section>
 
@@ -402,16 +424,24 @@ export default function PurposePage() {
       <section className="py-20 bg-[#132e37]">
         <div className="container max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-16">
-            <motion.h2
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-white text-4xl md:text-[48px] font-normal leading-[50px] font-gendy"
+              className="flex items-center gap-4"
             >
-              The hmn difference
-            </motion.h2>
+              <span className="text-white text-4xl md:text-[48px] font-normal leading-[50px] font-gendy">The</span>
+              <Image
+                src="/hmn_logo.png"
+                alt="hmn"
+                width={120}
+                height={35}
+                className="h-12 w-auto"
+              />
+              <span className="text-white text-4xl md:text-[48px] font-normal leading-[50px] font-gendy">difference</span>
+            </motion.div>
             <p className="text-white text-[22px] leading-[34px] max-w-[308px] mt-6 md:mt-0 font-medium font-anuphan">
-              We don&apos;t deliver PowerPoints. We deliver transformation.
+              Our strategies don&apos;t sit on shelves.
             </p>
           </div>
 

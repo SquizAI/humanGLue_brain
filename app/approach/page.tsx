@@ -110,7 +110,7 @@ export default function ApproachPage() {
                 alt="hmn"
                 width={213}
                 height={45}
-                className="w-[180px] md:w-[213px]"
+                className="w-[100px] md:w-[120px] lg:w-[140px]"
                 priority
               />
             </Link>
@@ -257,7 +257,7 @@ export default function ApproachPage() {
               viewport={{ once: true }}
               className="text-white text-3xl md:text-[48px] font-normal leading-[50px] font-gendy mb-12"
             >
-              Our methodology
+              How we drive business outcomes
             </motion.h2>
 
             {/* Methodology Buttons */}
@@ -344,6 +344,9 @@ export default function ApproachPage() {
                 <h3 className="text-white text-2xl md:text-[28px] font-normal font-gendy mb-2">
                   Reality Gap Assessment<span className="text-[14px]">™</span>
                 </h3>
+                <p className="text-white/90 text-sm md:text-base font-medium font-anuphan mb-2 italic">
+                  Uncover the disconnects between leadership intent and organizational execution (so you stop investing in initiatives that won't scale).
+                </p>
                 <p className="text-white text-base md:text-lg font-medium font-anuphan mb-4">
                   The Truth About Your AI Readiness
                 </p>
@@ -387,6 +390,9 @@ export default function ApproachPage() {
                 <h3 className="text-white text-2xl md:text-[28px] font-normal font-gendy mb-2">
                   Adaptability Index<span className="text-[14px]">™</span>
                 </h3>
+                <p className="text-white/90 text-sm md:text-base font-medium font-anuphan mb-2 italic">
+                  Measure actual workforce readiness and capability — not self-reported comfort — so you know who will drive your transformation.
+                </p>
                 <p className="text-white text-base md:text-lg font-medium font-anuphan mb-4">
                   The organizations that measure and manage human adaptability win. Period.
                 </p>
@@ -439,6 +445,9 @@ export default function ApproachPage() {
                 <h3 className="text-white text-2xl md:text-[28px] font-normal font-gendy mb-2">
                   GLUE Transformation System<span className="text-[14px]">™</span>
                 </h3>
+                <p className="text-white/90 text-sm md:text-base font-medium font-anuphan mb-2 italic">
+                  A staged execution model that turns gaps into capability and delivers ongoing change, not just a "done for now" report.
+                </p>
                 <p className="text-white text-base md:text-lg font-medium font-anuphan mb-4">
                   From Diagnosis to Market Domination
                 </p>

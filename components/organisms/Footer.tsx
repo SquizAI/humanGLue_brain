@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import {
   Mail,
   MapPin,
@@ -39,7 +40,13 @@ export function Footer() {
           {/* Company Info */}
           <div className="lg:col-span-2">
             <div className="mb-4">
-              <span className="text-2xl font-bold text-white font-gendy">{branding?.company_name || 'HMN'}</span>
+              <Image
+                src="/hmn_logo.png"
+                alt="hmn"
+                width={100}
+                height={30}
+                className="h-8 w-auto"
+              />
             </div>
             <p className="text-gray-300 mb-6 max-w-sm font-diatype leading-relaxed">
               The glue that binds AI capabilities with human adaptability. We help organizations embed behavioral change at every level to thrive in continuous transformation.

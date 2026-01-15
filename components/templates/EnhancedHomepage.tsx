@@ -312,10 +312,16 @@ export function EnhancedHomepage() {
                 transition={{ duration: 0.8 }}
                 className="flex-1 max-w-2xl"
               >
-              <div className="space-y-2">
+              <div className="space-y-4">
                 <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight font-gendy">
-                  Your competitor is moving 40% faster because their people know how to work with AI
+                  Your AI strategy is only as fast as your people.
                 </h2>
+                <p className="text-xl sm:text-2xl text-white/90 font-diatype max-w-xl leading-relaxed">
+                  We upskill leaders and teams to become unstoppable with AI — so execution actually sticks.
+                </p>
+                <p className="text-base sm:text-lg text-brand-cyan font-semibold font-diatype">
+                  Most organizations will fail. Yours doesn't have to.
+                </p>
               </div>
 
               {/* Hero CTAs - Above the fold */}
@@ -342,20 +348,10 @@ export function EnhancedHomepage() {
                       'font-diatype text-lg'
                     )}
                   >
-                    Start Free Assessment
+                    Start Your AI Capability Score — 10 Minutes
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </motion.button>
                 </div>
-
-                {/* Value Proposition */}
-                <motion.p
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.6 }}
-                  className="text-base sm:text-lg text-white/80 font-diatype max-w-xl leading-relaxed"
-                >
-                  We're the force multiplier for AI transformation. Your company moves faster. Your people don't get left behind.
-                </motion.p>
               </motion.div>
               </motion.div>
 
@@ -474,31 +470,36 @@ export function EnhancedHomepage() {
                   percentage: "75%",
                   stat: "54% of companies can't connect innovation to impact.",
                   detail: "Only 6% of execs are satisfied with their innovation performance.",
-                  width: 75
+                  width: 75,
+                  image: "/team/professional-leader.jpg"
                 },
                 {
                   percentage: "6%",
                   stat: "54% of companies can't connect innovation to impact.",
                   detail: "Only 6% of execs are satisfied with their innovation performance.",
-                  width: 6
+                  width: 6,
+                  image: "/team/business-executive.jpg"
                 },
                 {
                   percentage: "82%",
                   stat: "Two-thirds of leaders feel found in 62% of managers struggle to lead across generations.",
                   detail: "",
-                  width: 82
+                  width: 82,
+                  image: "/team/innovation-leader.jpg"
                 },
                 {
                   percentage: "56%",
                   stat: "More than half of employees feel due to lack of development.",
                   detail: "Belonging boosts job performance by 56%, tenure turnover falls by 50%.",
-                  width: 56
+                  width: 56,
+                  image: "/team/strategic-advisor.jpg"
                 },
                 {
                   percentage: "25%",
                   stat: "90% of leaders admit disengagement is a threat.",
                   detail: "Only 25% have a plan to fix it.",
-                  width: 25
+                  width: 25,
+                  image: "/team/professional-leader.jpg"
                 }
               ].map((item, index) => (
                 <motion.div
@@ -510,8 +511,8 @@ export function EnhancedHomepage() {
                   className="space-y-3"
                 >
                   <div className="flex items-center gap-3 mb-2">
-                    <div className="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center flex-shrink-0">
-                      <div className="w-5 h-5 rounded-full bg-gradient-to-br from-brand-cyan to-brand-cyan" />
+                    <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 border-2 border-brand-cyan">
+                      <img src={item.image} alt="Team member" className="w-full h-full object-cover" />
                     </div>
                     <div className="text-3xl font-bold text-brand-cyan font-gendy">{item.percentage}</div>
                   </div>
@@ -563,9 +564,17 @@ export function EnhancedHomepage() {
               viewport={{ once: true }}
               className="text-center mb-12"
             >
-              <h2 className="text-4xl font-bold text-gray-900 mb-6 font-gendy">
-                The HMN Solution
-              </h2>
+              <div className="flex items-center justify-center gap-3 mb-6">
+                <span className="text-4xl font-bold text-gray-900 font-gendy">The</span>
+                <Image
+                  src="/hmn_logo.png"
+                  alt="hmn"
+                  width={100}
+                  height={30}
+                  className="h-10 w-auto"
+                />
+                <span className="text-4xl font-bold text-gray-900 font-gendy">Solution</span>
+              </div>
               <p className="text-lg text-gray-700 max-w-3xl mx-auto leading-relaxed font-gendy">
                 Our Adaptation Accelerator blends diagnostic assessments, leadership coaching, AI fluency, and culture design into a powerful new model for future-ready transformation. Your Strategy for the Human + AI Era.
               </p>

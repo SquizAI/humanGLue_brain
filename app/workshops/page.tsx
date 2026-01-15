@@ -127,7 +127,7 @@ export default function WorkshopsPage() {
                 alt="hmn"
                 width={213}
                 height={45}
-                className="w-[180px] md:w-[213px]"
+                className="w-[100px] md:w-[120px] lg:w-[140px]"
                 priority
               />
             </Link>
@@ -168,7 +168,7 @@ export default function WorkshopsPage() {
             transition={{ duration: 0.8 }}
             className="text-4xl md:text-6xl lg:text-[119px] font-normal text-white leading-[1] max-w-[1400px] font-gendy"
           >
-            From AI-curious to AI-confident in one day.
+            The shortest path from AI-curious to AI-confident
           </motion.h1>
         </div>
       </section>
@@ -251,14 +251,22 @@ export default function WorkshopsPage() {
         <div className="container max-w-7xl mx-auto">
           {/* Header */}
           <div className="grid md:grid-cols-2 gap-8 mb-12">
-            <motion.h2
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-white text-3xl md:text-[48px] font-normal leading-tight md:leading-[50px] font-gendy"
+              className="flex items-center gap-4"
             >
-              The hmn Toolbox
-            </motion.h2>
+              <span className="text-white text-3xl md:text-[48px] font-normal leading-tight md:leading-[50px] font-gendy">The</span>
+              <Image
+                src="/hmn_logo.png"
+                alt="hmn"
+                width={100}
+                height={30}
+                className="h-10 md:h-12 w-auto"
+              />
+              <span className="text-white text-3xl md:text-[48px] font-normal leading-tight md:leading-[50px] font-gendy">Toolbox</span>
+            </motion.div>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
