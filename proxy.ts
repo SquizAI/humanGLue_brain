@@ -35,10 +35,11 @@ const ROUTE_RULES = {
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  // Skip proxy for static files, API routes, and public assets
+  // Skip proxy for static files, API routes, Netlify functions, and public assets
   if (
     pathname.startsWith('/_next') ||
     pathname.startsWith('/api') ||
+    pathname.startsWith('/.netlify/functions') ||
     pathname.startsWith('/fonts') ||
     pathname.match(/\.(svg|png|jpg|jpeg|gif|webp|ico|css|js|otf|ttf|woff|woff2|json|mp4|webm|ogg|mov)$/)
   ) {
