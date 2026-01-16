@@ -130,7 +130,7 @@ export default function PurposePage() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-3xl md:text-5xl lg:text-6xl font-normal text-white leading-[1.1] max-w-[1200px] font-gendy mb-6"
+            className="text-4xl md:text-6xl lg:text-[119px] font-normal text-white leading-[1] max-w-[1400px] font-gendy"
           >
             The AI edge isn't budget. It's adaptability.
           </motion.h1>
@@ -138,7 +138,7 @@ export default function PurposePage() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl md:text-2xl lg:text-3xl font-normal text-white/90 leading-[1.3] max-w-[1000px] font-anuphan"
+            className="text-xl md:text-2xl lg:text-[32px] font-normal text-white/90 leading-[1.3] max-w-[1200px] font-anuphan mt-6"
           >
             The winners build AI-capable people — from the C-suite to the front line.
           </motion.p>
