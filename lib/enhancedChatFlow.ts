@@ -31,20 +31,57 @@ export class EnhancedChatFlow {
   }
 
   /**
+   * Detect if the input is a greeting (hi, hello, hey) that should re-prompt for name
+   */
+  private isGreeting(input: string): boolean {
+    const lower = input.toLowerCase().trim()
+    const greetings = ['hi', 'hello', 'hey', 'yo', 'sup', 'howdy', 'hola', 'greetings', 'good morning', 'good afternoon', 'good evening', 'whats up', "what's up", 'wassup']
+    return greetings.some(g => lower === g || lower.startsWith(g + ' ') || lower.startsWith(g + '!') || lower.startsWith(g + ','))
+  }
+
+  /**
+   * Detect if the question is about hmn/HumanGlue or AI transformation (allowed topics)
+   */
+  private isHmnRelatedQuestion(input: string): boolean {
+    const lower = input.toLowerCase()
+    const hmnKeywords = [
+      'hmn', 'humanglue', 'human glue', 'your', 'you', 'this',
+      'ai', 'artificial intelligence', 'transformation', 'assessment',
+      'maturity', 'readiness', 'workshop', 'toolbox', 'solution',
+      'pricing', 'cost', 'roi', 'demo', 'schedule', 'consultation',
+      'company', 'organization', 'team', 'employee', 'leader', 'culture',
+      'change', 'adoption', 'implementation', 'strategy', 'roadmap',
+      'help', 'service', 'offer', 'provide', 'work', 'process'
+    ]
+    return hmnKeywords.some(keyword => lower.includes(keyword))
+  }
+
+  /**
    * Detect if the input is a question/general query vs a direct answer to assessment
+   * ONLY allows questions about hmn/AI transformation topics
    */
   private isGeneralQuestion(input: string, currentState: ChatState): boolean {
     const lower = input.toLowerCase().trim()
 
-    // Always treat question marks as questions
-    if (input.includes('?')) {
-      return true
+    // During name collection, greetings should NOT be treated as questions
+    // They should trigger re-prompt for name
+    if ((currentState === 'initial' || currentState === 'greeting') && this.isGreeting(input)) {
+      return false
     }
 
-    // Question starters - these indicate informational queries
+    // Check if it looks like a question
+    const hasQuestionMark = input.includes('?')
     const questionStarters = ['what', 'how', 'why', 'when', 'where', 'who', 'can', 'could', 'would', 'should', 'tell me', 'explain', 'show me', 'describe', 'is there', 'are there', 'do you', 'does']
-    if (questionStarters.some(start => lower.startsWith(start))) {
-      return true
+    const startsWithQuestion = questionStarters.some(start => lower.startsWith(start))
+
+    // If it looks like a question, check if it's hmn-related
+    if (hasQuestionMark || startsWithQuestion) {
+      // Only allow hmn-related questions to go to AI
+      if (this.isHmnRelatedQuestion(input)) {
+        return true
+      }
+      // Non-hmn questions should be redirected back to the assessment flow
+      return false
     }
 
     // Check for assessment-specific response patterns
@@ -66,24 +103,21 @@ export class EnhancedChatFlow {
     // Short responses (< 4 words) during assessment are likely answers, not questions
     const wordCount = input.split(/\s+/).length
     if (wordCount <= 3 && currentState !== 'initial' && currentState !== 'greeting') {
-      // However, check if it looks like a question anyway
-      if (!questionStarters.some(start => lower.startsWith(start))) {
+      if (!startsWithQuestion) {
         return false // Likely an answer
       }
     }
 
     // During initial/greeting, most inputs are names (answers)
     if ((currentState === 'initial' || currentState === 'greeting') && wordCount <= 3) {
-      // Unless they're explicitly asking a question
-      if (!questionStarters.some(start => lower.startsWith(start))) {
+      if (!startsWithQuestion) {
         return false
       }
     }
 
-    // Long conversational responses (> 15 words) that don't match assessment patterns
-    // are likely questions or discussions
+    // Long conversational responses (> 15 words) - only treat as questions if hmn-related
     if (wordCount > 15) {
-      return true
+      return this.isHmnRelatedQuestion(input)
     }
 
     return false
@@ -93,6 +127,26 @@ export class EnhancedChatFlow {
     // Update profile builder with any existing data
     if (userData) {
       this.profileBuilder = new UserProfileBuilder(userData)
+    }
+
+    // Check if this is a non-hmn question that should be politely redirected
+    const lower = input.toLowerCase().trim()
+    const questionStarters = ['what', 'how', 'why', 'when', 'where', 'who', 'can', 'could', 'would', 'should', 'tell me', 'explain', 'show me', 'describe', 'is there', 'are there', 'do you', 'does']
+    const looksLikeQuestion = input.includes('?') || questionStarters.some(start => lower.startsWith(start))
+
+    // If it looks like a question but is NOT about hmn, politely redirect
+    if (looksLikeQuestion && !this.isHmnRelatedQuestion(input) && !this.isGreeting(input)) {
+      return {
+        message: `I'm here specifically to help with AI transformation and organizational readiness. Let me help you assess where your organization stands.\n\nLet's continue with your assessment - it'll give you valuable insights into your AI readiness.`,
+        data: userData,
+        suggestions: currentState === 'initial' || currentState === 'greeting'
+          ? []
+          : [
+              { text: "Continue assessment" },
+              { text: "Tell me about hmn" },
+              { text: "What can you help with?" }
+            ]
+      }
     }
 
     // Detect if this is a general question vs an assessment answer
@@ -154,13 +208,38 @@ export class EnhancedChatFlow {
     }
   }
   
-  private collectName(firstName: string): ChatResponse {
-    this.profileBuilder.collectBasicInfo({ name: firstName.trim() })
+  private collectName(input: string): ChatResponse {
+    const trimmedInput = input.trim()
+
+    // Check if this is a greeting instead of a name
+    if (this.isGreeting(trimmedInput)) {
+      return {
+        message: `Hello! I'd love to help you explore AI transformation opportunities.\n\nTo personalize your experience, what's your first name?`,
+        data: {},
+        suggestions: []
+      }
+    }
+
+    // Check if this is a non-hmn question - redirect back to name collection
+    const lower = trimmedInput.toLowerCase()
+    const questionStarters = ['what', 'how', 'why', 'when', 'where', 'who', 'can', 'could', 'would', 'should', 'tell me', 'explain', 'show me', 'describe', 'is there', 'are there', 'do you', 'does']
+    const looksLikeQuestion = trimmedInput.includes('?') || questionStarters.some(start => lower.startsWith(start))
+
+    if (looksLikeQuestion && !this.isHmnRelatedQuestion(trimmedInput)) {
+      return {
+        message: `I'm here to help you with AI transformation for your organization. Let's start with a quick introduction.\n\nWhat's your first name?`,
+        data: {},
+        suggestions: []
+      }
+    }
+
+    // Valid name - proceed with the flow
+    this.profileBuilder.collectBasicInfo({ name: trimmedInput })
 
     return {
-      message: `${firstName} - that's a crucial role for organizational adaptation.\n\nWhich department do you primarily work with?`,
+      message: `Nice to meet you, ${trimmedInput}!\n\nWhich department do you primarily work with?`,
       nextState: 'collectingBasicInfo',
-      data: { name: firstName.trim(), stage: 'department' },
+      data: { name: trimmedInput, stage: 'department' },
       suggestions: [
         { text: "Executive Leadership" },
         { text: "Human Resources" },
