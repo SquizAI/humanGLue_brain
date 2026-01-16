@@ -240,8 +240,8 @@ export function FigmaLandingPage() {
               Adapt. Lead. Thrive.
             </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
-              In a world transformed by AI, HMN gives leaders 
-              and teams the edge, bridging them to drive progress, 
+              In a world transformed by AI, <span className="text-cyan-400">hmn</span> gives leaders
+              and teams the edge, bridging them to drive progress,
               not just keep pace.
             </p>
             <button className="px-8 py-4 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-full font-semibold hover:shadow-xl transition-all">

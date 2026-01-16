@@ -217,7 +217,7 @@ export function MobileOptimizedPage() {
           </div>
 
           <p className="text-center text-gray-900 text-sm max-w-md mx-auto">
-            In a world transformed by AI, HMN gives leaders and teams the edge, equipping them to drive progress, not just keep pace.
+            In a world transformed by AI, <span className="text-brand-cyan">hmn</span> gives leaders and teams the edge, equipping them to drive progress, not just keep pace.
           </p>
         </section>
 

@@ -726,7 +726,7 @@ export function EnhancedHomepage() {
                 viewport={{ once: true }}
                 className="text-center text-gray-900 text-lg max-w-2xl mx-auto leading-relaxed font-gendy"
               >
-                In a world transformed by AI, HMN gives leaders and teams the edge, equipping them to drive progress, not just keep pace.
+                In a world transformed by AI, <span className="text-brand-cyan">hmn</span> gives leaders and teams the edge, equipping them to drive progress, not just keep pace.
               </motion.p>
             </div>
           </div>
