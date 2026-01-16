@@ -125,7 +125,7 @@ export default function PurposePage() {
         </div>
 
         {/* Hero Content */}
-        <div className="relative z-10 container max-w-7xl mx-auto px-6 pt-32 md:pt-48">
+        <div className="relative z-10 container max-w-7xl mx-auto px-6 pt-40 md:pt-56">
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -140,7 +140,7 @@ export default function PurposePage() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-xl md:text-2xl lg:text-[32px] font-normal text-white/90 leading-[1.3] max-w-[1200px] font-anuphan mt-6"
           >
-            The winners build AI-capable people — from the C-suite to the front line.
+            Winners build AI-capable people — from the C-suite to the front line.
           </motion.p>
         </div>
       </section>
