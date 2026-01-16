@@ -1182,6 +1182,7 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
           >
             <div className="flex items-center gap-2">
               <input
+                id="chat-input"
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}

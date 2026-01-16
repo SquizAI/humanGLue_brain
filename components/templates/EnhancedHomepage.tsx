@@ -177,6 +177,13 @@ export function EnhancedHomepage() {
     setChatState('greeting')
     setIsChatOpen(true)
     closeExitIntent() // Close exit intent modal if open
+    // Focus the chat input after a short delay to allow chat to open
+    setTimeout(() => {
+      const chatInput = document.getElementById('chat-input')
+      if (chatInput) {
+        chatInput.focus()
+      }
+    }, 300)
   }
 
   return (
