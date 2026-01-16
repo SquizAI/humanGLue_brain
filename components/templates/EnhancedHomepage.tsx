@@ -172,6 +172,22 @@ export function EnhancedHomepage() {
     }
   }, [])
 
+  // Check for ?chat=true query param and auto-open chat with focus
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    if (params.get('chat') === 'true') {
+      setChatState('greeting')
+      setIsChatOpen(true)
+      // Focus the chat input after a short delay
+      setTimeout(() => {
+        const chatInput = document.getElementById('chat-input')
+        if (chatInput) {
+          chatInput.focus()
+        }
+      }, 500)
+    }
+  }, [setChatState, setIsChatOpen])
+
   // Handler to start assessment (open chat and set to greeting state)
   const handleStartAssessment = () => {
     setChatState('greeting')
