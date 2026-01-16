@@ -263,7 +263,7 @@ export default function WorkshopsPage() {
                 alt="hmn"
                 width={100}
                 height={30}
-                className="h-10 md:h-12 w-auto translate-y-[10px] md:translate-y-[12px]"
+                className="h-10 md:h-12 w-auto translate-y-[16px] md:translate-y-[20px]"
               />
               <span className="text-white text-3xl md:text-[48px] font-normal leading-tight md:leading-[50px] font-gendy">Toolbox</span>
             </motion.div>
