@@ -2,7 +2,8 @@
 
 import { useParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { ResponsiveLayout } from '@/components/templates/ResponsiveLayout'
+import { Navigation } from '@/components/organisms/Navigation'
+import { Footer } from '@/components/organisms/Footer'
 import { motion } from 'framer-motion'
 import {
   Download,
@@ -133,7 +134,8 @@ export default function AssessmentResultsPage() {
 
   if (loading) {
     return (
-      <ResponsiveLayout backgroundState="analyzing">
+      <div className="min-h-screen bg-black">
+        <Navigation />
         <div className="min-h-screen flex items-center justify-center">
           <motion.div
             animate={{ rotate: 360 }}
@@ -141,7 +143,7 @@ export default function AssessmentResultsPage() {
             className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full"
           />
         </div>
-      </ResponsiveLayout>
+      </div>
     )
   }
 
@@ -150,8 +152,10 @@ export default function AssessmentResultsPage() {
   const { userData, analysis } = assessment
 
   return (
-    <ResponsiveLayout backgroundState="presenting">
-      <div className="min-h-screen py-20 px-6">
+    <div className="min-h-screen bg-black">
+      <Navigation />
+
+      <div className="pt-32 pb-20 px-6">
         <div className="container max-w-6xl mx-auto">
           {/* Header */}
           <motion.div
@@ -166,13 +170,13 @@ export default function AssessmentResultsPage() {
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/10 border border-green-500/20 mb-6"
             >
               <CheckCircle className="w-5 h-5 text-green-400" />
-              <span className="text-sm text-green-300">Assessment Complete</span>
+              <span className="text-sm text-green-300 font-diatype">Assessment Complete</span>
             </motion.div>
 
-            <h1 className="text-5xl lg:text-7xl font-bold text-white mb-4">
+            <h1 className="text-5xl lg:text-7xl font-bold text-white mb-4 font-gendy">
               Your AI Transformation Assessment
             </h1>
-            <p className="text-xl text-gray-300 mb-8">
+            <p className="text-xl text-gray-300 mb-8 font-diatype">
               {userData.name} at {userData.company}
             </p>
 
@@ -183,7 +187,7 @@ export default function AssessmentResultsPage() {
                 whileTap={{ scale: 0.95 }}
                 onClick={handleDownloadPDF}
                 disabled={downloading}
-                className="px-6 py-3 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-xl font-semibold inline-flex items-center gap-2 disabled:opacity-50"
+                className="px-6 py-3 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-xl font-semibold inline-flex items-center gap-2 disabled:opacity-50 font-diatype"
               >
                 <Download className="w-5 h-5" />
                 {downloading ? 'Generating...' : 'Download PDF'}
@@ -193,7 +197,7 @@ export default function AssessmentResultsPage() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleScheduleCall}
-                className="px-6 py-3 bg-white/10 border border-white/20 text-white rounded-xl font-semibold inline-flex items-center gap-2 hover:bg-white/20"
+                className="px-6 py-3 bg-white/10 border border-white/20 text-white rounded-xl font-semibold inline-flex items-center gap-2 hover:bg-white/20 font-diatype"
               >
                 <Calendar className="w-5 h-5" />
                 Schedule Strategy Call
@@ -211,8 +215,8 @@ export default function AssessmentResultsPage() {
             <div className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-2xl p-8 border border-white/10">
               <div className="text-center">
                 <Award className="w-12 h-12 text-blue-400 mx-auto mb-4" />
-                <h2 className="text-2xl font-semibold text-white mb-2">AI Transformation Score</h2>
-                <div className="text-7xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent mb-4">
+                <h2 className="text-2xl font-semibold text-white mb-2 font-gendy">AI Transformation Score</h2>
+                <div className="text-7xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent mb-4 font-gendy">
                   {analysis.scoring.fitScore}
                   <span className="text-3xl">/100</span>
                 </div>
@@ -227,8 +231,8 @@ export default function AssessmentResultsPage() {
                   ].map((metric, i) => (
                     <div key={i} className="bg-white/5 rounded-xl p-4">
                       <metric.icon className="w-6 h-6 text-blue-400 mx-auto mb-2" />
-                      <div className="text-2xl font-bold text-white">{metric.value}</div>
-                      <div className="text-sm text-gray-400">{metric.label}</div>
+                      <div className="text-2xl font-bold text-white font-gendy">{metric.value}</div>
+                      <div className="text-sm text-gray-400 font-diatype">{metric.label}</div>
                     </div>
                   ))}
                 </div>
@@ -243,7 +247,7 @@ export default function AssessmentResultsPage() {
             transition={{ delay: 0.3 }}
             className="mb-12"
           >
-            <h2 className="text-3xl font-bold text-white mb-6 flex items-center gap-3">
+            <h2 className="text-3xl font-bold text-white mb-6 flex items-center gap-3 font-gendy">
               <Building2 className="w-8 h-8 text-blue-400" />
               Company Profile
             </h2>
@@ -260,8 +264,8 @@ export default function AssessmentResultsPage() {
                   <div className="flex items-center gap-3">
                     <item.icon className="w-5 h-5 text-blue-400" />
                     <div>
-                      <div className="text-sm text-gray-400">{item.label}</div>
-                      <div className="text-white font-medium">{item.value}</div>
+                      <div className="text-sm text-gray-400 font-diatype">{item.label}</div>
+                      <div className="text-white font-medium font-diatype">{item.value}</div>
                     </div>
                   </div>
                 </div>
@@ -276,7 +280,7 @@ export default function AssessmentResultsPage() {
             transition={{ delay: 0.4 }}
             className="mb-12"
           >
-            <h2 className="text-3xl font-bold text-white mb-6 flex items-center gap-3">
+            <h2 className="text-3xl font-bold text-white mb-6 flex items-center gap-3 font-gendy">
               <Lightbulb className="w-8 h-8 text-amber-400" />
               Key Findings
             </h2>
@@ -290,7 +294,7 @@ export default function AssessmentResultsPage() {
                   className="bg-white/5 rounded-xl p-4 border border-white/10 flex items-start gap-3"
                 >
                   <CheckCircle className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
-                  <p className="text-gray-200">{finding}</p>
+                  <p className="text-gray-200 font-diatype">{finding}</p>
                 </motion.div>
               ))}
             </div>
@@ -303,7 +307,7 @@ export default function AssessmentResultsPage() {
             transition={{ delay: 0.5 }}
             className="mb-12"
           >
-            <h2 className="text-3xl font-bold text-white mb-6 flex items-center gap-3">
+            <h2 className="text-3xl font-bold text-white mb-6 flex items-center gap-3 font-gendy">
               <ArrowRight className="w-8 h-8 text-blue-400" />
               Recommended Next Steps
             </h2>
@@ -318,9 +322,9 @@ export default function AssessmentResultsPage() {
                   className="bg-gradient-to-r from-blue-500/10 to-cyan-500/10 rounded-xl p-4 border border-blue-500/20 flex items-start gap-3 cursor-pointer group"
                 >
                   <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center flex-shrink-0">
-                    <span className="text-blue-400 font-bold">{i + 1}</span>
+                    <span className="text-blue-400 font-bold font-gendy">{i + 1}</span>
                   </div>
-                  <p className="text-gray-200 flex-1">{action}</p>
+                  <p className="text-gray-200 flex-1 font-diatype">{action}</p>
                   <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-blue-400 transition-colors" />
                 </motion.div>
               ))}
@@ -334,7 +338,7 @@ export default function AssessmentResultsPage() {
             transition={{ delay: 0.6 }}
             className="mb-12"
           >
-            <h2 className="text-3xl font-bold text-white mb-6 flex items-center gap-3">
+            <h2 className="text-3xl font-bold text-white mb-6 flex items-center gap-3 font-gendy">
               <TrendingUp className="w-8 h-8 text-green-400" />
               Predicted Outcomes
             </h2>
@@ -365,10 +369,10 @@ export default function AssessmentResultsPage() {
                   className="bg-gradient-to-br from-white/10 to-white/5 rounded-2xl p-6 border border-white/10"
                 >
                   <metric.icon className={`w-10 h-10 text-${metric.color}-400 mb-4`} />
-                  <div className={`text-3xl font-bold text-${metric.color}-400 mb-2`}>
+                  <div className={`text-3xl font-bold text-${metric.color}-400 mb-2 font-gendy`}>
                     {metric.value}
                   </div>
-                  <div className="text-gray-400">{metric.label}</div>
+                  <div className="text-gray-400 font-diatype">{metric.label}</div>
                 </motion.div>
               ))}
             </div>
@@ -382,11 +386,11 @@ export default function AssessmentResultsPage() {
             className="mb-12"
           >
             <div className="mb-6">
-              <h2 className="text-3xl font-bold text-white mb-2 flex items-center gap-3">
+              <h2 className="text-3xl font-bold text-white mb-2 flex items-center gap-3 font-gendy">
                 <Sparkles className="w-8 h-8 text-cyan-400" />
                 Your Personalized Resources
               </h2>
-              <p className="text-gray-400 text-lg">
+              <p className="text-gray-400 text-lg font-diatype">
                 AI-generated resources tailored specifically for {assessment.userData.company} using our proven methodologies
               </p>
             </div>
@@ -405,10 +409,10 @@ export default function AssessmentResultsPage() {
                   <div className="relative z-10">
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex-1">
-                        <h3 className="text-lg font-bold text-white mb-2 pr-4">
+                        <h3 className="text-lg font-bold text-white mb-2 pr-4 font-gendy">
                           {content}
                         </h3>
-                        <p className="text-sm text-gray-400">
+                        <p className="text-sm text-gray-400 font-diatype">
                           Customized for your organization's size, industry, and challenges
                         </p>
                       </div>
@@ -428,7 +432,7 @@ export default function AssessmentResultsPage() {
                     </div>
 
                     {/* Download CTA */}
-                    <div className="flex items-center gap-2 text-sm font-medium text-cyan-400 group-hover:text-cyan-300 transition-colors">
+                    <div className="flex items-center gap-2 text-sm font-medium text-cyan-400 group-hover:text-cyan-300 transition-colors font-diatype">
                       <span>Click to generate & download</span>
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </div>
@@ -452,7 +456,7 @@ export default function AssessmentResultsPage() {
               <div className="flex items-start gap-3">
                 <Lightbulb className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-sm text-blue-100">
+                  <p className="text-sm text-blue-100 font-diatype">
                     <strong>Pro Tip:</strong> Each resource is AI-generated in real-time using your assessment data,
                     company profile, and our proprietary transformation methodologies. Resources include actionable
                     insights, ROI calculations, and implementation roadmaps tailored to your specific context.
@@ -469,17 +473,17 @@ export default function AssessmentResultsPage() {
             transition={{ delay: 0.8 }}
             className="text-center bg-gradient-to-r from-blue-500/10 to-cyan-500/10 rounded-2xl p-12 border border-white/10"
           >
-            <h2 className="text-4xl font-bold text-white mb-4">
+            <h2 className="text-4xl font-bold text-white mb-4 font-gendy">
               Ready to Transform Your Organization?
             </h2>
-            <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto font-diatype">
               Schedule a 30-minute strategy session with our transformation specialists to discuss your personalized roadmap
             </p>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={handleScheduleCall}
-              className="px-8 py-4 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-xl font-semibold inline-flex items-center gap-3 text-lg"
+              className="px-8 py-4 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-xl font-semibold inline-flex items-center gap-3 text-lg font-diatype"
             >
               <Calendar className="w-6 h-6" />
               Schedule Your Strategy Session
@@ -488,6 +492,8 @@ export default function AssessmentResultsPage() {
           </motion.div>
         </div>
       </div>
-    </ResponsiveLayout>
+
+      <Footer />
+    </div>
   )
 }
