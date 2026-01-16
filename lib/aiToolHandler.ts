@@ -87,7 +87,7 @@ export class AIToolHandler {
       }
     }
     // Fallback to opening Calendly
-    window.open('https://calendly.com/humanglue/demo', '_blank')
+    window.open('https://calendly.com/alex-behmn/discovery-call', '_blank')
     return {
       success: true,
       action: 'schedule_demo',

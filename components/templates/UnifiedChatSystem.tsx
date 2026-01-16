@@ -77,7 +77,7 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
     },
     onScheduleDemo: () => {
       console.log('Schedule Demo')
-      window.open('https://calendly.com/humanglue/demo', '_blank')
+      window.open('https://calendly.com/alex-behmn/discovery-call', '_blank')
     },
     onStartAssessment: () => {
       console.log('Start Assessment')

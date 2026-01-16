@@ -7,7 +7,7 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 )
 
-// Assessment dimensions for HumanGlue (5 core dimensions)
+// Assessment dimensions for HMN (5 core dimensions)
 const DIMENSIONS = {
   individual: 'Individual Adaptability',
   leadership: 'Leadership Alignment',
@@ -147,7 +147,7 @@ export const handler: Handler = async (event, context) => {
 
 /**
  * Calculate maturity level from overall score
- * HumanGlue 0-100 scale mapped to maturity levels
+ * HMN 0-100 scale mapped to maturity levels
  */
 function calculateMaturityLevel(overallScore: number): string {
   if (overallScore >= 85) return 'leading' // Industry leader in adaptability

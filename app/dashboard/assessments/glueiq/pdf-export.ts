@@ -291,7 +291,7 @@ export function generatePDFContent(glueiqData: GlueIQData): string {
     <div class="cta-section">
       <h3>Ready to Start Your AI Transformation?</h3>
       <p>Schedule a strategy session to discuss your personalized roadmap from Level 0 to Level 3+</p>
-      <a href="https://calendly.com/humanglue/strategy-session" class="cta-button" target="_blank">
+      <a href="https://calendly.com/alex-behmn/discovery-call" class="cta-button" target="_blank">
         Schedule Strategy Session
       </a>
     </div>

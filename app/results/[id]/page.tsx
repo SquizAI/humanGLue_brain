@@ -95,7 +95,7 @@ export default function AssessmentResultsPage() {
   }
 
   const handleScheduleCall = () => {
-    window.open('https://calendly.com/humanglue/strategy-session', '_blank')
+    window.open('https://calendly.com/alex-behmn/discovery-call', '_blank')
   }
 
   const handleGenerateResource = async (resourceName: string, index: number) => {

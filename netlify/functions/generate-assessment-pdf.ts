@@ -16,7 +16,7 @@ interface OrgBranding {
 
 /**
  * Fetch organization branding configuration
- * Falls back to HumanGlue defaults if not configured
+ * Falls back to HMN defaults if not configured
  */
 async function getOrgBranding(orgId: string): Promise<OrgBranding> {
   const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY)
@@ -30,13 +30,13 @@ async function getOrgBranding(orgId: string): Promise<OrgBranding> {
   const branding = data?.settings?.branding || {}
 
   return {
-    company_name: branding.company_name || 'HumanGlue',
+    company_name: branding.company_name || 'HMN',
     tagline: branding.tagline || 'Guiding Fortune 1000 companies of tomorrow, today',
     primary_color: branding.colors?.primary || '#3b82f6',
     secondary_color: branding.colors?.secondary || '#8b5cf6',
     logo_url: data?.logo_url || branding.logo?.url || '/HumnaGlue_logo_white_blue.png',
     website: branding.social?.website || 'https://humanglue.ai',
-    footer_text: branding.email?.footer_text || `© ${new Date().getFullYear()} HumanGlue. All rights reserved.`
+    footer_text: branding.email?.footer_text || `© ${new Date().getFullYear()} HMN. All rights reserved.`
   }
 }
 

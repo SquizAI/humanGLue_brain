@@ -29,7 +29,7 @@ async function sendWorkshopConfirmationEmail(registration: any) {
   // TODO: Integrate with Resend, SendGrid, or other email service
   // Example:
   // await resend.emails.send({
-  //   from: 'HumanGlue <noreply@humanglue.ai>',
+  //   from: 'HMN <noreply@humanglue.ai>',
   //   to: registration.user.email,
   //   subject: `Workshop Registration Confirmed: ${registration.workshop.title}`,
   //   html: confirmationEmailTemplate(registration),

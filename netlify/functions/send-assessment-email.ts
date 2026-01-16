@@ -30,7 +30,7 @@ interface OrgBranding {
 
 /**
  * Fetch organization branding configuration
- * Falls back to HumanGlue defaults if not configured
+ * Falls back to HMN defaults if not configured
  */
 async function getOrgBranding(orgId: string): Promise<OrgBranding> {
   const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY)
@@ -44,14 +44,14 @@ async function getOrgBranding(orgId: string): Promise<OrgBranding> {
   const branding = data?.settings?.branding || {}
 
   return {
-    company_name: branding.company_name || 'HumanGlue',
+    company_name: branding.company_name || 'HMN',
     primary_color: branding.colors?.primary || '#3b82f6',
     secondary_color: branding.colors?.secondary || '#8b5cf6',
     logo_url: data?.logo_url || branding.logo?.url || '/HumnaGlue_logo_white_blue.png',
-    sender_name: branding.email?.sender_name || 'HumanGlue',
+    sender_name: branding.email?.sender_name || 'HMN',
     sender_email: branding.email?.sender_email || 'onboarding@humanglue.ai',
     support_email: branding.email?.support_email || 'support@humanglue.ai',
-    footer_text: branding.email?.footer_text || '© 2025 HumanGlue. All rights reserved.',
+    footer_text: branding.email?.footer_text || '© 2025 HMN. All rights reserved.',
     website: branding.social?.website || 'https://humanglue.ai'
   }
 }

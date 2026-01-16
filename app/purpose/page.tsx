@@ -436,7 +436,7 @@ export default function PurposePage() {
                 alt="hmn"
                 width={120}
                 height={35}
-                className="h-12 w-auto translate-y-[20px]"
+                className="h-12 w-auto translate-y-[28px]"
               />
               <span className="text-white text-4xl md:text-[48px] font-normal leading-[50px] font-gendy">difference</span>
             </motion.div>
