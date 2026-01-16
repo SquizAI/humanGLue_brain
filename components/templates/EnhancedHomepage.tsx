@@ -571,7 +571,7 @@ export function EnhancedHomepage() {
                   alt="hmn"
                   width={100}
                   height={30}
-                  className="h-10 w-auto translate-y-1"
+                  className="h-10 w-auto translate-y-3"
                 />
                 <span className="text-4xl font-bold text-gray-900 font-gendy">Solution</span>
               </div>
