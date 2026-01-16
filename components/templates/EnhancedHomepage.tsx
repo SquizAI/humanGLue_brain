@@ -319,7 +319,7 @@ export function EnhancedHomepage() {
                 <p className="text-xl sm:text-2xl text-white/90 font-diatype max-w-xl leading-relaxed">
                   We upskill leaders and teams to become unstoppable with AI — so execution actually sticks.
                 </p>
-                <p className="text-base sm:text-lg text-blue-400 font-semibold font-diatype">
+                <p className="text-lg sm:text-xl text-cyan-500 font-semibold font-diatype">
                   Most organizations will fail. Yours doesn't have to.
                 </p>
               </div>
@@ -726,7 +726,7 @@ export function EnhancedHomepage() {
                 viewport={{ once: true }}
                 className="text-center text-gray-900 text-lg max-w-2xl mx-auto leading-relaxed font-gendy"
               >
-                In a world transformed by AI, <span className="text-brand-cyan">hmn</span> gives leaders and teams the edge, equipping them to drive progress, not just keep pace.
+                In a world transformed by AI, <span className="text-white font-semibold">hmn</span> gives leaders and teams the edge, equipping them to drive progress, not just keep pace.
               </motion.p>
             </div>
           </div>
