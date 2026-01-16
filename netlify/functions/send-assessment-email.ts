@@ -1,59 +1,29 @@
 import type { Handler, HandlerEvent } from '@netlify/functions'
-import { createClient } from '@supabase/supabase-js'
 
-// Email service - using Resend for Netlify compatibility
+// Email service - using Resend
 const RESEND_API_KEY = process.env.RESEND_API_KEY
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!
+const RESEND_FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'hello@hmnglue.com'
 
 interface AssessmentEmailData {
   to: string
   name: string
-  company: string
-  organizationId: string // NEW: Required for branding lookup
+  company?: string
   assessmentId: string
   score: number
   resultsUrl: string
 }
 
-interface OrgBranding {
-  company_name: string
-  primary_color: string
-  secondary_color: string
-  logo_url: string
-  sender_name: string
-  sender_email: string
-  support_email: string
-  footer_text: string
-  website: string
-}
-
-/**
- * Fetch organization branding configuration
- * Falls back to HMN defaults if not configured
- */
-async function getOrgBranding(orgId: string): Promise<OrgBranding> {
-  const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY)
-
-  const { data } = await supabase
-    .from('organizations')
-    .select('settings, logo_url')
-    .eq('id', orgId)
-    .single()
-
-  const branding = data?.settings?.branding || {}
-
-  return {
-    company_name: branding.company_name || 'HMN',
-    primary_color: branding.colors?.primary || '#3b82f6',
-    secondary_color: branding.colors?.secondary || '#8b5cf6',
-    logo_url: data?.logo_url || branding.logo?.url || '/HumnaGlue_logo_white_blue.png',
-    sender_name: branding.email?.sender_name || 'HMN',
-    sender_email: branding.email?.sender_email || 'onboarding@humanglue.ai',
-    support_email: branding.email?.support_email || 'support@humanglue.ai',
-    footer_text: branding.email?.footer_text || '© 2025 HMN. All rights reserved.',
-    website: branding.social?.website || 'https://humanglue.ai'
-  }
+// Default HMN branding
+const DEFAULT_BRANDING = {
+  company_name: 'HMN',
+  primary_color: '#3b82f6',
+  secondary_color: '#8b5cf6',
+  logo_url: 'https://hmnglue.com/HumnaGlue_logo_white_blue.png',
+  sender_name: 'HMN',
+  sender_email: RESEND_FROM_EMAIL,
+  support_email: 'support@hmnglue.com',
+  footer_text: '© 2025 HMN. All rights reserved.',
+  website: 'https://hmnglue.com'
 }
 
 export const handler: Handler = async (event: HandlerEvent) => {
@@ -68,15 +38,12 @@ export const handler: Handler = async (event: HandlerEvent) => {
   try {
     const data: AssessmentEmailData = JSON.parse(event.body || '{}')
 
-    if (!data.to || !data.name || !data.assessmentId || !data.organizationId) {
+    if (!data.to || !data.name || !data.assessmentId) {
       return {
         statusCode: 400,
-        body: JSON.stringify({ error: 'Missing required fields (to, name, assessmentId, organizationId)' })
+        body: JSON.stringify({ error: 'Missing required fields (to, name, assessmentId)' })
       }
     }
-
-    // Fetch organization branding
-    const branding = await getOrgBranding(data.organizationId)
 
     // Check if Resend API key is configured
     if (!RESEND_API_KEY) {
@@ -84,13 +51,16 @@ export const handler: Handler = async (event: HandlerEvent) => {
       return {
         statusCode: 200,
         body: JSON.stringify({
-          success: true,
-          message: 'Email service not configured - results saved locally'
+          success: false,
+          message: 'Email service not configured - RESEND_API_KEY missing'
         })
       }
     }
 
-    // Send email using Resend API with org-specific branding
+    // Use default HMN branding
+    const branding = DEFAULT_BRANDING
+
+    // Send email using Resend API
     const emailResponse = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
@@ -100,7 +70,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
       body: JSON.stringify({
         from: `${branding.sender_name} <${branding.sender_email}>`,
         to: [data.to],
-        subject: `Your AI Transformation Assessment Results - ${data.company}`,
+        subject: `Your AI Transformation Assessment Results${data.company ? ` - ${data.company}` : ''}`,
         html: generateEmailHTML(data, branding)
       })
     })
@@ -108,10 +78,19 @@ export const handler: Handler = async (event: HandlerEvent) => {
     if (!emailResponse.ok) {
       const error = await emailResponse.text()
       console.error('Resend API error:', error)
-      throw new Error('Failed to send email')
+      return {
+        statusCode: 500,
+        body: JSON.stringify({
+          success: false,
+          error: 'Failed to send email',
+          details: error
+        })
+      }
     }
 
     const result = await emailResponse.json()
+
+    console.log('Email sent successfully:', { to: data.to, emailId: result.id })
 
     return {
       statusCode: 200,
@@ -134,7 +113,10 @@ export const handler: Handler = async (event: HandlerEvent) => {
   }
 }
 
-function generateEmailHTML(data: AssessmentEmailData, branding: OrgBranding): string {
+function generateEmailHTML(data: AssessmentEmailData, branding: typeof DEFAULT_BRANDING): string {
+  const scoreColor = data.score >= 70 ? '#22c55e' : data.score >= 50 ? '#eab308' : '#ef4444'
+  const scoreLabel = data.score >= 70 ? 'High Readiness' : data.score >= 50 ? 'Moderate Readiness' : 'Early Stage'
+
   return `
 <!DOCTYPE html>
 <html>
@@ -163,22 +145,34 @@ function generateEmailHTML(data: AssessmentEmailData, branding: OrgBranding): st
       margin-bottom: 30px;
     }
     .logo {
-      font-size: 28px;
+      font-size: 32px;
       font-weight: bold;
       background: linear-gradient(135deg, ${branding.primary_color} 0%, ${branding.secondary_color} 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      background-clip: text;
       margin-bottom: 10px;
+    }
+    .score-container {
+      text-align: center;
+      margin: 30px 0;
     }
     .score-badge {
       display: inline-block;
       background: linear-gradient(135deg, ${branding.primary_color} 0%, ${branding.secondary_color} 100%);
       color: white;
-      padding: 12px 24px;
+      padding: 16px 32px;
       border-radius: 50px;
-      font-size: 24px;
+      font-size: 28px;
       font-weight: bold;
-      margin: 20px 0;
+      margin: 10px 0;
+    }
+    .score-label {
+      display: block;
+      font-size: 14px;
+      color: ${scoreColor};
+      font-weight: 600;
+      margin-top: 8px;
     }
     .section {
       margin: 25px 0;
@@ -196,11 +190,32 @@ function generateEmailHTML(data: AssessmentEmailData, branding: OrgBranding): st
       background: linear-gradient(135deg, ${branding.primary_color} 0%, ${branding.secondary_color} 100%);
       color: white;
       text-decoration: none;
-      padding: 14px 32px;
+      padding: 16px 40px;
       border-radius: 8px;
       font-weight: 600;
+      font-size: 16px;
       margin: 20px 0;
       text-align: center;
+    }
+    .cta-button:hover {
+      opacity: 0.9;
+    }
+    .checklist {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .checklist li {
+      padding: 8px 0;
+      padding-left: 28px;
+      position: relative;
+    }
+    .checklist li:before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: ${branding.primary_color};
+      font-weight: bold;
     }
     .footer {
       text-align: center;
@@ -210,33 +225,38 @@ function generateEmailHTML(data: AssessmentEmailData, branding: OrgBranding): st
       color: #6b7280;
       font-size: 14px;
     }
+    .footer a {
+      color: ${branding.primary_color};
+      text-decoration: none;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
       <div class="logo">${branding.company_name}</div>
-      <h1 style="color: #111827; margin: 0;">Your AI Transformation Assessment</h1>
+      <h1 style="color: #111827; margin: 0; font-size: 24px;">Your AI Transformation Assessment</h1>
     </div>
 
     <p>Hi ${data.name},</p>
 
-    <p>Thank you for completing your AI transformation assessment. We've analyzed ${data.company}'s readiness for AI adoption and created a personalized transformation roadmap.</p>
+    <p>Thank you for completing your AI transformation assessment${data.company ? ` for <strong>${data.company}</strong>` : ''}. We've analyzed your organization's readiness for AI adoption and created a personalized transformation roadmap.</p>
 
-    <div style="text-align: center;">
+    <div class="score-container">
       <div class="score-badge">
-        Your Score: ${data.score}/100
+        ${data.score}/100
       </div>
+      <span class="score-label">${scoreLabel}</span>
     </div>
 
     <div class="section">
       <div class="section-title">What's Inside Your Report</div>
-      <ul style="line-height: 2;">
-        <li>📊 Comprehensive AI readiness analysis</li>
-        <li>💡 Key findings and opportunities</li>
-        <li>🎯 Personalized recommendations</li>
-        <li>💰 ROI projections and timeline estimates</li>
-        <li>📈 Industry benchmarks and comparisons</li>
+      <ul class="checklist">
+        <li>Comprehensive AI readiness analysis across 5 dimensions</li>
+        <li>Key findings and transformation opportunities</li>
+        <li>Personalized recommendations for your organization</li>
+        <li>ROI projections and timeline estimates</li>
+        <li>Industry benchmarks and comparisons</li>
       </ul>
     </div>
 
@@ -247,25 +267,26 @@ function generateEmailHTML(data: AssessmentEmailData, branding: OrgBranding): st
     </div>
 
     <div class="section">
-      <div class="section-title">Next Steps</div>
+      <div class="section-title">Ready to Transform?</div>
       <p>Our transformation specialists are ready to help you:</p>
-      <ul>
+      <ul class="checklist">
         <li>Deep-dive into your assessment results</li>
         <li>Create a customized 90-day implementation roadmap</li>
         <li>Identify quick wins and long-term strategic initiatives</li>
-        <li>Answer any questions about AI transformation</li>
+        <li>Calculate precise ROI for your AI investments</li>
       </ul>
-      <p><strong>Schedule a complimentary 30-minute strategy session to get started.</strong></p>
+      <p style="margin-top: 16px;"><strong>Schedule a complimentary 30-minute strategy session to accelerate your AI transformation.</strong></p>
     </div>
 
     <div class="footer">
       <p>
         <strong>${branding.company_name}</strong><br>
-        ${branding.footer_text}
+        The Human Element in AI Transformation
       </p>
+      <p>${branding.footer_text}</p>
       <p style="font-size: 12px; color: #9ca3af;">
-        This email was sent to ${data.to} because you completed an assessment.<br>
-        For support, contact <a href="mailto:${branding.support_email}" style="color: ${branding.primary_color};">${branding.support_email}</a>
+        This email was sent to ${data.to} because you completed an AI transformation assessment.<br>
+        For support, contact <a href="mailto:${branding.support_email}">${branding.support_email}</a>
       </p>
     </div>
   </div>
