@@ -59,7 +59,7 @@ export function UnifiedChatSystem({ isHeroVisible, className, onShowROI, onShowR
   // Initialize with proper assessment greeting to avoid hydration mismatch
   const [personalizedGreeting, setPersonalizedGreeting] = useState<PersonalizedGreeting>({
     greeting: "Welcome. I'm your AI transformation advisor. I can help you:",
-    context: "• Calculate ROI for AI initiatives\n• Get timeline for implementation\n• Book a strategy session\n\nLet's start with your first name:",
+    context: "• Assess your AI Capability\n• Determine Your AI Upskilling Needs\n• Calculate ROI for AI initiatives\n\nLet's start with your first name:",
     suggestions: [] as string[]
   })
   const [showRecoveryPrompt, setShowRecoveryPrompt] = useState(false)

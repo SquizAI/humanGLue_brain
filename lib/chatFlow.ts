@@ -14,7 +14,7 @@ interface ChatResponse {
 
 class ChatFlow {
   getGreeting(): string {
-    return "Welcome to hmn. For leaders who don't have 6 months and a million-dollar budget to figure out AI. I can help you:\n\n• Take a 3 min AI maturity check\n• Determine what YOU need to get AI upskilled\n• Calculate ROI for AI initiatives\n\nLet's start with your name."
+    return "Welcome. I'm your AI transformation advisor. I can help you:\n\n• Assess your AI Capability\n• Determine Your AI Upskilling Needs\n• Calculate ROI for AI initiatives\n\nLet's start with your first name:"
   }
 
   getGreetingSuggestions() {
