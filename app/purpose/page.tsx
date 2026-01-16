@@ -125,7 +125,7 @@ export default function PurposePage() {
         </div>
 
         {/* Hero Content */}
-        <div className="relative z-10 container max-w-7xl mx-auto px-6 pt-40 md:pt-56">
+        <div className="relative z-10 container max-w-7xl mx-auto px-6 pt-28 md:pt-36">
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
