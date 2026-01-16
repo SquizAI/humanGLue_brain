@@ -538,7 +538,7 @@ export function EnhancedHomepage() {
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              className="text-center text-brand-cyan text-sm font-gendy"
+              className="text-center text-brand-cyan text-lg font-gendy"
             >
               <strong>Pro tip: It's not just a productivity crisis. It's a purpose crisis.</strong>
             </motion.p>
@@ -571,7 +571,7 @@ export function EnhancedHomepage() {
                   alt="hmn"
                   width={100}
                   height={30}
-                  className="h-10 w-auto translate-y-3"
+                  className="h-10 w-auto translate-y-[10px]"
                 />
                 <span className="text-4xl font-bold text-gray-900 font-gendy">Solution</span>
               </div>
