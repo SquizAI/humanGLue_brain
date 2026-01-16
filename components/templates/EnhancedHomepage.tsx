@@ -589,7 +589,7 @@ export function EnhancedHomepage() {
             >
               <div className="flex items-end justify-center gap-3 mb-6 flex-nowrap">
                 <span className="text-4xl font-bold text-gray-900 font-gendy leading-none pb-1">The</span>
-                <span className="text-4xl font-bold text-gray-900 font-gendy leading-none pb-1">hmn</span>
+                <span className="text-4xl font-bold text-white font-gendy leading-none pb-1">hmn</span>
                 <span className="text-4xl font-bold text-gray-900 font-gendy leading-none pb-1">Solution</span>
               </div>
               <p className="text-lg text-gray-700 max-w-3xl mx-auto leading-relaxed font-gendy">
