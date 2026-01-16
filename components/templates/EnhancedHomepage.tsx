@@ -564,14 +564,14 @@ export function EnhancedHomepage() {
               viewport={{ once: true }}
               className="text-center mb-12"
             >
-              <div className="flex items-end justify-center gap-3 mb-6">
+              <div className="flex items-baseline justify-center gap-3 mb-6">
                 <span className="text-4xl font-bold text-gray-900 font-gendy">The</span>
                 <Image
                   src="/hmn_logo.png"
                   alt="hmn"
                   width={100}
                   height={30}
-                  className="h-10 w-auto"
+                  className="h-10 w-auto translate-y-1"
                 />
                 <span className="text-4xl font-bold text-gray-900 font-gendy">Solution</span>
               </div>

@@ -428,7 +428,7 @@ export default function PurposePage() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="flex items-end gap-4"
+              className="flex items-baseline gap-4"
             >
               <span className="text-white text-4xl md:text-[48px] font-normal leading-[50px] font-gendy">The</span>
               <Image
@@ -436,7 +436,7 @@ export default function PurposePage() {
                 alt="hmn"
                 width={120}
                 height={35}
-                className="h-12 w-auto"
+                className="h-12 w-auto translate-y-1"
               />
               <span className="text-white text-4xl md:text-[48px] font-normal leading-[50px] font-gendy">difference</span>
             </motion.div>

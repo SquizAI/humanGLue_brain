@@ -255,7 +255,7 @@ export default function WorkshopsPage() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="flex items-end gap-4"
+              className="flex items-baseline gap-4"
             >
               <span className="text-white text-3xl md:text-[48px] font-normal leading-tight md:leading-[50px] font-gendy">The</span>
               <Image
@@ -263,7 +263,7 @@ export default function WorkshopsPage() {
                 alt="hmn"
                 width={100}
                 height={30}
-                className="h-10 md:h-12 w-auto"
+                className="h-10 md:h-12 w-auto translate-y-1"
               />
               <span className="text-white text-3xl md:text-[48px] font-normal leading-tight md:leading-[50px] font-gendy">Toolbox</span>
             </motion.div>
