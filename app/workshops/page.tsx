@@ -255,17 +255,17 @@ export default function WorkshopsPage() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="flex items-baseline gap-4"
+              className="flex items-end gap-4 flex-nowrap"
             >
-              <span className="text-white text-3xl md:text-[48px] font-normal leading-tight md:leading-[50px] font-gendy">The</span>
+              <span className="text-white text-3xl md:text-[48px] font-normal leading-none font-gendy pb-1">The</span>
               <Image
                 src="/hmn_logo.png"
                 alt="hmn"
                 width={100}
                 height={30}
-                className="h-10 md:h-12 w-auto translate-y-[36px] md:translate-y-[50px]"
+                className="h-10 md:h-12 w-auto flex-shrink-0"
               />
-              <span className="text-white text-3xl md:text-[48px] font-normal leading-tight md:leading-[50px] font-gendy">Toolbox</span>
+              <span className="text-white text-3xl md:text-[48px] font-normal leading-none font-gendy pb-1">Toolbox</span>
             </motion.div>
             <motion.p
               initial={{ opacity: 0, y: 20 }}

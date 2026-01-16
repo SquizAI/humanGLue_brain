@@ -587,16 +587,16 @@ export function EnhancedHomepage() {
               viewport={{ once: true }}
               className="text-center mb-12"
             >
-              <div className="flex items-baseline justify-center gap-3 mb-6">
-                <span className="text-4xl font-bold text-gray-900 font-gendy">The</span>
+              <div className="flex items-end justify-center gap-3 mb-6 flex-nowrap">
+                <span className="text-4xl font-bold text-gray-900 font-gendy leading-none pb-1">The</span>
                 <Image
                   src="/hmn_logo.png"
                   alt="hmn"
                   width={100}
                   height={30}
-                  className="h-10 w-auto translate-y-[42px]"
+                  className="h-10 w-auto flex-shrink-0"
                 />
-                <span className="text-4xl font-bold text-gray-900 font-gendy">Solution</span>
+                <span className="text-4xl font-bold text-gray-900 font-gendy leading-none pb-1">Solution</span>
               </div>
               <p className="text-lg text-gray-700 max-w-3xl mx-auto leading-relaxed font-gendy">
                 Our Adaptation Accelerator blends diagnostic assessments, leadership coaching, AI fluency, and culture design into a powerful new model for future-ready transformation. Your Strategy for the Human + AI Era.
