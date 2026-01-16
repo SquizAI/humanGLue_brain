@@ -319,7 +319,7 @@ export function EnhancedHomepage() {
                 <p className="text-xl sm:text-2xl text-white/90 font-diatype max-w-xl leading-relaxed">
                   We upskill leaders and teams to become unstoppable with AI — so execution actually sticks.
                 </p>
-                <p className="text-lg sm:text-xl text-cyan-500 font-semibold font-diatype">
+                <p className="text-lg sm:text-xl text-brand-cyan font-semibold font-diatype">
                   Most organizations will fail. Yours doesn't have to.
                 </p>
               </div>
