@@ -4,9 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import {
   Mail,
-  MapPin,
-  Linkedin,
-  Twitter
+  MapPin
 } from 'lucide-react'
 import { useBranding } from '../../lib/contexts/BrandingContext'
 
@@ -117,14 +115,6 @@ export function Footer() {
               <Link href="/terms" className="text-gray-400 hover:text-cyan-400 text-sm transition-colors font-diatype">
                 Terms of Service
               </Link>
-              <div className="flex items-center gap-4">
-                <span className="text-gray-500 cursor-not-allowed opacity-50" aria-label="LinkedIn (coming soon)">
-                  <Linkedin className="w-5 h-5" />
-                </span>
-                <span className="text-gray-500 cursor-not-allowed opacity-50" aria-label="Twitter (coming soon)">
-                  <Twitter className="w-5 h-5" />
-                </span>
-              </div>
             </div>
           </div>
         </div>
