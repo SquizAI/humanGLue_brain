@@ -255,7 +255,7 @@ export default function WorkshopsPage() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="flex items-center gap-4"
+              className="flex items-end gap-4"
             >
               <span className="text-white text-3xl md:text-[48px] font-normal leading-tight md:leading-[50px] font-gendy">The</span>
               <Image

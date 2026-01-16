@@ -564,7 +564,7 @@ export function EnhancedHomepage() {
               viewport={{ once: true }}
               className="text-center mb-12"
             >
-              <div className="flex items-center justify-center gap-3 mb-6">
+              <div className="flex items-end justify-center gap-3 mb-6">
                 <span className="text-4xl font-bold text-gray-900 font-gendy">The</span>
                 <Image
                   src="/hmn_logo.png"
