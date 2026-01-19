@@ -40,18 +40,18 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://humanglue.netlify.app'),
+  metadataBase: new URL('https://behmn.com'),
   alternates: {
     canonical: '/',
   },
   openGraph: {
     title: 'HMN - AI-Powered Organizational Transformation',
     description: 'Transform your organization with AI-powered insights. Strengthen the human connections that drive performance, innovation, and resilience.',
-    url: 'https://humanglue.netlify.app',
+    url: 'https://behmn.com',
     siteName: 'HMN',
     images: [
       {
-        url: 'https://humanglue.netlify.app/og-image.png',
+        url: 'https://behmn.com/og-image.png',
         width: 1200,
         height: 630,
         alt: 'HMN - Transforming Organizations with AI',
@@ -64,8 +64,8 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'HMN - AI-Powered Organizational Transformation',
     description: 'Transform your organization with AI-powered insights. Strengthen human connections that drive performance.',
-    images: ['https://humanglue.netlify.app/twitter-image.png'],
-    creator: '@humanglue',
+    images: ['https://behmn.com/twitter-image.png'],
+    creator: '@behmn',
   },
   robots: {
     index: true,
@@ -120,12 +120,12 @@ export default function RootLayout({
               '@context': 'https://schema.org',
               '@type': 'Organization',
               name: 'HMN',
-              url: 'https://humanglue.netlify.app',
-              logo: 'https://humanglue.netlify.app/logo.png',
+              url: 'https://behmn.com',
+              logo: 'https://behmn.com/hmn_logo.png',
               description: 'AI-powered organizational transformation platform',
               sameAs: [
-                'https://twitter.com/humanglue',
-                'https://linkedin.com/company/humanglue',
+                'https://twitter.com/behmn',
+                'https://linkedin.com/company/behmn',
               ],
               contactPoint: {
                 '@type': 'ContactPoint',
@@ -145,7 +145,7 @@ export default function RootLayout({
               '@context': 'https://schema.org',
               '@type': 'WebApplication',
               name: 'HMN AI Assistant',
-              url: 'https://humanglue.netlify.app',
+              url: 'https://behmn.com',
               applicationCategory: 'BusinessApplication',
               operatingSystem: 'All',
               offers: {

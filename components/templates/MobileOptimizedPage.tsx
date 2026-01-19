@@ -224,11 +224,11 @@ export function MobileOptimizedPage() {
         {/* Footer */}
         <section className="px-4 py-8 bg-black">
           <div className="text-center space-y-4">
-            <p className="text-sm font-semibold text-gray-400">humanglue</p>
+            <p className="text-sm font-semibold text-gray-400">hmn</p>
             <div className="text-gray-400">
               <p className="text-sm font-semibold mb-2">Made in Miami</p>
               <p className="text-sm">+1 (937) 922-3928</p>
-              <p className="text-sm">info@humanglue.com</p>
+              <p className="text-sm">hello@behmn.com</p>
             </div>
           </div>
         </section>

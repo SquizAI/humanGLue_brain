@@ -273,15 +273,13 @@ export function FigmaLandingPage() {
           <div className="flex flex-col md:flex-row justify-between items-start gap-8">
             <div>
               <h3 className="text-2xl font-bold mb-2">
-                <span className="text-white">human</span>
-                <span className="text-blue-400">glue</span>
+                <span className="text-white">hmn</span>
               </h3>
             </div>
             <div className="text-gray-400">
-              <p>94 Merrick Way Suite</p>
-              <p>200, Miami, FL 33134</p>
-              <p className="mt-4">+1 (877) 322-1029</p>
-              <p>hello@humanglue.com</p>
+              <p>Miami, FL</p>
+              <p className="mt-4">+1 (937) 922-3928</p>
+              <p>hello@behmn.com</p>
             </div>
           </div>
         </div>
