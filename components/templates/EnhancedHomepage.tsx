@@ -339,11 +339,8 @@ export function EnhancedHomepage() {
                 <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight font-gendy">
                   Your AI strategy is only as fast as your people.
                 </h2>
-                <p className="text-xl sm:text-2xl text-white/90 font-diatype max-w-xl leading-relaxed">
-                  We upskill leaders and teams to become unstoppable with AI — so execution actually sticks.
-                </p>
                 <p className="text-lg sm:text-xl text-brand-cyan font-semibold font-diatype">
-                  Most organizations will fail. Yours doesn't have to.
+                  Driving the next leap in human-AI performance — from upskilling and strategy to implementation and adoption.
                 </p>
               </div>
 
