@@ -135,11 +135,11 @@ export default function ApproachPage() {
             </div>
 
             {/* CTA */}
-            <Link href="/?chat=true" className="hidden md:block">
+            <a href="https://calendly.com/alex-behmn/discovery-call" target="_blank" rel="noopener noreferrer" className="hidden md:block">
               <div className="backdrop-blur-[11.9px] bg-[#61d8fe] rounded-full px-[23px] py-[18px] text-black text-sm font-semibold">
                 Schedule a Call
               </div>
-            </Link>
+            </a>
           </nav>
         </div>
 
@@ -686,11 +686,11 @@ export default function ApproachPage() {
             <p className="text-[#1b1b1b] text-[22px] leading-[34px] font-medium font-anuphan mb-8">
               Let&apos;s get started!
             </p>
-            <Link href="/?chat=true">
+            <a href="https://calendly.com/alex-behmn/discovery-call" target="_blank" rel="noopener noreferrer">
               <button className="backdrop-blur-[11.9px] bg-[#1d212a] text-white rounded-full px-[23px] py-[18px] text-sm font-semibold hover:bg-[#1d212a]/90 transition-colors">
                 Schedule a Call
               </button>
-            </Link>
+            </a>
           </div>
         </motion.div>
       </section>

@@ -116,11 +116,11 @@ export default function PurposePage() {
             </div>
 
             {/* CTA */}
-            <Link href="/?chat=true" className="hidden md:block">
+            <a href="https://calendly.com/alex-behmn/discovery-call" target="_blank" rel="noopener noreferrer" className="hidden md:block">
               <div className="backdrop-blur-md bg-[#61d8fe] rounded-full px-6 py-3 text-black text-sm font-semibold">
                 Schedule a Call
               </div>
-            </Link>
+            </a>
           </nav>
         </div>
 
@@ -528,11 +528,11 @@ export default function PurposePage() {
               <p className="text-[#1b1b1b] text-[22px] leading-[34px] font-medium font-anuphan mb-8">
                 Inquire about our Reality Gap Assessment, Adaptability Index or GLUE framework for transformation and book a discovery call today.
               </p>
-              <Link href="/?chat=true">
+              <a href="https://calendly.com/alex-behmn/discovery-call" target="_blank" rel="noopener noreferrer">
                 <div className="inline-flex backdrop-blur-md bg-[#1d212a] rounded-full px-6 py-3 text-white text-sm font-semibold">
                   Schedule a Call
                 </div>
-              </Link>
+              </a>
             </motion.div>
           </div>
         </div>

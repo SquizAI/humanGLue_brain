@@ -152,11 +152,11 @@ export default function WorkshopsPage() {
             </div>
 
             {/* CTA */}
-            <Link href="/?chat=true" className="hidden md:block">
+            <a href="https://calendly.com/alex-behmn/discovery-call" target="_blank" rel="noopener noreferrer" className="hidden md:block">
               <div className="backdrop-blur-[12px] bg-[#61d8fe] rounded-full px-6 py-3 text-black text-sm font-semibold">
                 Schedule a Call
               </div>
-            </Link>
+            </a>
           </nav>
         </div>
 
