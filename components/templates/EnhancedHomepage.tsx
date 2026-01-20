@@ -368,7 +368,7 @@ export function EnhancedHomepage() {
                       'font-diatype text-lg'
                     )}
                   >
-                    Start Your AI Capability Score — 10 Minutes
+                    Check your AI readiness
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </motion.button>
                 </div>
