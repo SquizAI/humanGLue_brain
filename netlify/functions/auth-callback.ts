@@ -96,12 +96,14 @@ export const handler: Handler = async (event) => {
 
   // Handle Google OAuth callback
   if (path.includes('/auth/google/callback')) {
-    return handleGoogleCallback(query)
+    const result = await handleGoogleCallback(query)
+    return result as { statusCode: number; headers: { 'Content-Type': string }; body: string }
   }
 
   // Handle Microsoft OAuth callback
   if (path.includes('/auth/microsoft/callback')) {
-    return handleMicrosoftCallback(query)
+    const result = await handleMicrosoftCallback(query)
+    return result as { statusCode: number; headers: { 'Content-Type': string }; body: string }
   }
 
   // Unknown callback path
