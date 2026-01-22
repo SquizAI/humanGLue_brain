@@ -252,6 +252,18 @@
 # Note: API routes are handled by @netlify/plugin-nextjs automatically
 # Do not redirect /api/* as it will conflict with Next.js routing
 
+# OAuth Callbacks for Discord Bot Calendar Integration
+# These route to the auth-callback Netlify function which redirects to the bot
+[[redirects]]
+  from = "/auth/google/callback"
+  to = "/.netlify/functions/auth-callback"
+  status = 200
+
+[[redirects]]
+  from = "/auth/microsoft/callback"
+  to = "/.netlify/functions/auth-callback"
+  status = 200
+
 # Legacy route redirects (examples - adjust as needed)
 [[redirects]]
   from = "/old-workshops"
